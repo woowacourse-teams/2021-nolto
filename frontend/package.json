@@ -1,0 +1,46 @@
+{
+  "name": "nolto",
+  "version": "1.0.0",
+  "repository": "https://github.com/woowacourse-teams/2021-nolto",
+  "author": "zig & mickey",
+  "license": "MIT",
+  "contributors": [
+    {
+      "name": "zigsong",
+      "email": "wldms5764@gmail.com",
+      "url": "https://zigsong.github.io/"
+    },
+    {
+      "name": "0307kwon",
+      "email": "0307kwon@gmail.com",
+      "url": "https://0307kwon.github.io/"
+    }
+  ],
+  "scripts": {
+    "start": "webpack serve",
+    "build": "webpack"
+  },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
+    "@babel/preset-react": "^7.14.5",
+    "@babel/preset-typescript": "^7.14.5",
+    "@typescript-eslint/eslint-plugin": "^4.28.2",
+    "@typescript-eslint/parser": "^4.28.2",
+    "babel-loader": "^8.2.2",
+    "eslint": "^7.30.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react": "^7.24.0",
+    "html-webpack-plugin": "^5.3.2",
+    "prettier": "^2.3.2",
+    "typescript": "^4.3.5",
+    "webpack": "^5.42.1",
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-server": "^3.11.2"
+  }
+}
