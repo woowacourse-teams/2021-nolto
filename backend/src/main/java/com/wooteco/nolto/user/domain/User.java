@@ -1,5 +1,7 @@
-package com.wooteco.nolto.domain;
+package com.wooteco.nolto.user.domain;
 
+import com.wooteco.nolto.feed.domain.Feed;
+import com.wooteco.nolto.feed.domain.Like;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
