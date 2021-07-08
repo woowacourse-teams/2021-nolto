@@ -35,6 +35,10 @@ public class User {
     @NotBlank
     private String nickName;
 
+    @Column(nullable = false)
+    @NotBlank
+    private String imageUrl;
+
     @OneToMany(mappedBy = "author")
     private List<Feed> feeds = new ArrayList<>();
 
