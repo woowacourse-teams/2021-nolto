@@ -2,6 +2,7 @@ package com.wooteco.nolto.user.domain;
 
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.Like;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class User {
 
@@ -38,4 +40,10 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Like> likes = new ArrayList<>();
+
+    public void checkPassword(String password) {
+        if (!this.password.equals(password)) {
+            throw new IllegalArgumentException("로그인에 실패하였습니다.");
+        }
+    }
 }
