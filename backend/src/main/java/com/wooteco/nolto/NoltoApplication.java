@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class NoltoApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(NoltoApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(NoltoApplication.class, args);
+    }
 
 }
