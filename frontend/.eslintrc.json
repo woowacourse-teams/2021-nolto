@@ -1,25 +1,20 @@
 {
-	"env": {
-		"browser": true,
-		"es2021": true
-	},
-	"extends": [
-    "plugin:prettier/recommended",
-    "plugin:@typescript-eslint/recommended"
-	],
-	"parserOptions": {
-		"ecmaFeatures": {
-			"jsx": true
-		},
-		"ecmaVersion": 12,
-		"sourceType": "module"
-	},
-	"plugins": [
-		"react",
-		"prettier"
-	],
-	"rules": {
-    "max-depth": ["error", 2]
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": ["plugin:prettier/recommended", "plugin:@typescript-eslint/recommended"],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": ["react", "prettier"],
+  "rules": {
+    "max-depth": ["error", 2],
+    "@typescript-eslint/explicit-module-boundary-types": "off"
   },
   "ignorePatterns": ["*.config.js"]
 }
