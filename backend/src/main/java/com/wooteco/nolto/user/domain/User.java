@@ -45,6 +45,13 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Like> likes = new ArrayList<>();
 
+    public User(Long id, @Email @NotBlank String email, @NotBlank String password, @NotBlank String nickName) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.nickName = nickName;
+    }
+
     public void checkPassword(String password) {
         if (!this.password.equals(password)) {
             throw new IllegalArgumentException("로그인에 실패하였습니다.");

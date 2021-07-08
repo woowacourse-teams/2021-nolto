@@ -1,4 +1,4 @@
-package com.wooteco.nolto.user.application;
+package com.wooteco.nolto;
 
 public class NotFoundException extends RuntimeException {
     public NotFoundException(String message) {

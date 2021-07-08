@@ -14,12 +14,12 @@ public class UserTest {
     private static String PASSWORD = "password";
     private static String NICKNAME = "nickname";
 
-    public static User USER = new User(null, EMAIL, PASSWORD, NICKNAME, new ArrayList<>(), new ArrayList<>());
+    public static User USER = new User(null, EMAIL, PASSWORD, NICKNAME);
 
     @Test
     void checkPassword() {
         // given
-        User user = new User(null, EMAIL, PASSWORD, NICKNAME, Collections.emptyList(), Collections.emptyList());
+        User user = new User(null, EMAIL, PASSWORD, NICKNAME);
 
         // when then
         assertDoesNotThrow(() -> user.checkPassword(PASSWORD));
@@ -29,7 +29,7 @@ public class UserTest {
     @Test
     void invalidPassword() {
         // given
-        User user = new User(null, EMAIL, "passWORD", NICKNAME, Collections.emptyList(), Collections.emptyList());
+        User user = new User(null, EMAIL, "passWORD", NICKNAME);
 
         // when then
         assertThatThrownBy(() -> user.checkPassword(PASSWORD))

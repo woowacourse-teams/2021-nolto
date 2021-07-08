@@ -1,5 +1,6 @@
 package com.wooteco.nolto.user.application;
 
+import com.wooteco.nolto.NotFoundException;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.domain.UserRepository;
 import com.wooteco.nolto.user.infrastructure.JwtTokenProvider;
