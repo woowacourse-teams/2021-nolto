@@ -9,7 +9,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @NoArgsConstructor
@@ -51,4 +53,39 @@ public class Feed {
 
     @OneToMany(mappedBy = "feed")
     private List<Like> likes = new ArrayList<>();
+
+    public Feed(List<Tech> techs, String title, String content, Step step, boolean isSos, String storageUrl,
+                String deployedUrl, String thumbnailUrl) {
+        this(null, techs, title, content, step, isSos, storageUrl, deployedUrl, thumbnailUrl, 0, null,
+                Collections.emptyList());
+    }
+
+    public Feed(Long id, List<Tech> techs, String title, String content, Step step, boolean isSos, String storageUrl,
+                String deployedUrl, String thumbnailUrl, int views, User author, List<Like> likes) {
+        validateStep(step, deployedUrl);
+        this.id = id;
+        this.techs = techs;
+        this.title = title;
+        this.content = content;
+        this.step = step;
+        this.isSos = isSos;
+        this.storageUrl = storageUrl;
+        this.deployedUrl = deployedUrl;
+        this.thumbnailUrl = thumbnailUrl;
+        this.views = views;
+        this.author = author;
+        this.likes = likes;
+    }
+
+    public Feed writtenBy(User author) {
+        this.author = author;
+        author.getFeeds().add(this);
+        return this;
+    }
+
+    public void validateStep(Step step, String deployedUrl) {
+        if (step.equals(Step.COMPLETE) && Objects.isNull(deployedUrl)) {
+            throw new IllegalStateException("전시중 Step은 배포 URL이 필수입니다.");
+        }
+    }
 }
