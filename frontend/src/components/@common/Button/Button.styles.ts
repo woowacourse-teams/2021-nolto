@@ -9,15 +9,15 @@ interface RootProps {
 }
 
 const solid = (color: string, reverse: boolean) => css`
-  background-color: ${reverse ? PALETTE.WHITE_300 : color};
+  background-color: ${reverse ? PALETTE.WHITE_400 : color};
   border: none;
-  color: ${reverse ? color : PALETTE.WHITE_300};
+  color: ${reverse ? color : PALETTE.WHITE_400};
 `;
 
 const outline = (color: string, reverse: boolean) => css`
   background-color: transparent;
-  border: 2px solid ${reverse ? PALETTE.WHITE_300 : color};
-  color: ${reverse ? PALETTE.WHITE_300 : color};
+  border: 2px solid ${reverse ? PALETTE.WHITE_400 : color};
+  color: ${reverse ? PALETTE.WHITE_400 : color};
 `;
 
 const styleMap = {

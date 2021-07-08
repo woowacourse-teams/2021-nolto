@@ -8,3 +8,12 @@ export interface User {
   nickname: string;
   imageUrl: string;
 }
+
+export interface Feed {
+  id: number;
+  user: User;
+  title: string;
+  content: string;
+  thumbnailUrl: string;
+  sos: boolean;
+}

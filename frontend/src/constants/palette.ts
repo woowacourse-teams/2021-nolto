@@ -1,5 +1,5 @@
 export const PALETTE = {
-  WHITE_300: '#ffffff',
+  WHITE_400: '#ffffff',
 
   BLACK_300: '#444444',
   BLACK_400: '#333333',
