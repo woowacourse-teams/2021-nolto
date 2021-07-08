@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class AuthService {
 
-    private UserRepository userRepository;
-    private JwtTokenProvider jwtTokenProvider;
+    private final UserRepository userRepository;
+    private final JwtTokenProvider jwtTokenProvider;
 
     public TokenResponse login(TokenRequest tokenRequest) {
         User findUser = getFindUser(tokenRequest.getEmail());

@@ -15,7 +15,7 @@ import java.net.URI;
 
 @AllArgsConstructor
 @RestController("/feeds")
-public final class FeedController {
+public class FeedController {
 
     private final FeedService feedService;
 
