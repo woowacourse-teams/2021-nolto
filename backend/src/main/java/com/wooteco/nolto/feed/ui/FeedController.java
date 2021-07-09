@@ -1,6 +1,7 @@
 package com.wooteco.nolto.feed.ui;
 
 import com.wooteco.nolto.feed.application.FeedService;
+import com.wooteco.nolto.feed.application.LikeService;
 import com.wooteco.nolto.feed.ui.dto.FeedDetailResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
@@ -19,6 +20,7 @@ import java.net.URI;
 public class FeedController {
 
     private final FeedService feedService;
+    private final LikeService likeService;
 
     @PostMapping
     public ResponseEntity<Void> create(@AuthenticationPrincipal User user, @RequestBody FeedRequest request) {
@@ -30,5 +32,11 @@ public class FeedController {
     public ResponseEntity<FeedResponse> findById(@AuthenticationPrincipal User user, @PathVariable Long feedId) {
         FeedResponse response = feedService.findById(user, feedId);
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/{feedId}/like")
+    public ResponseEntity<Void> addLike(@AuthenticationPrincipal User user, @PathVariable Long feedId) {
+        likeService.addLike(user, feedId);
+        return ResponseEntity.ok().build();
     }
 }

@@ -36,7 +36,7 @@ public class DataLoader implements ApplicationRunner {
         userRepository.saveAll(users);
 
         Feed feed1 = new Feed(new ArrayList<>(), "title1", "content1", Step.PROGRESS, true, "", "", "").writtenBy(mickey);
-        Feed feed2 = new Feed(new ArrayList<>(), "title2", "content2", Step.COMPLETE, false, "", "http://www.jofilm.com", "").writtenBy(mickey);
+        Feed feed2 = new Feed(new ArrayList<>(), "title2", "content2", Step.COMPLETE, false, "", "http://woowa.jofilm.com", "").writtenBy(mickey);
         feedRepository.save(feed1);
         feedRepository.save(feed2);
     }
