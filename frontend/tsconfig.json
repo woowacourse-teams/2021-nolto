@@ -10,5 +10,5 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": "src"
   },
-  "includes": ["src"]
+  "includes": ["src", "custom.d.ts"]
 }

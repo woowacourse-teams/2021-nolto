@@ -1,4 +1,6 @@
-import { configure } from '@storybook/react';
+import { configure, addDecorator } from '@storybook/react';
+
+import GlobalStyle from '../src/Global.styles';
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
@@ -9,5 +11,12 @@ export const parameters = {
     },
   },
 };
+
+addDecorator((story) => (
+  <>
+    <GlobalStyle />
+    {story()}
+  </>
+));
 
 configure(require.context('../src', true, /\.stories\.js?$/), module);

@@ -18,11 +18,11 @@ const Button = ({ buttonStyle, reverse = false, children, className }: Props) =>
   );
 };
 
-const Regular = styled(Button)<{ buttonStyle: ButtonStyle }>`
+const Regular = styled(Button)`
   border-radius: 8px;
 `;
 
-const Rounded = styled(Button)<{ buttonStyle: ButtonStyle }>`
+const Rounded = styled(Button)`
   border-radius: 25px;
 `;
 
