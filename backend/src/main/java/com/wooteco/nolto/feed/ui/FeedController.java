@@ -39,4 +39,10 @@ public class FeedController {
         likeService.addLike(user, feedId);
         return ResponseEntity.ok().build();
     }
+
+    @DeleteMapping("/{feedId}/like")
+    public ResponseEntity<Void> deleteLike(@AuthenticationPrincipal User user, @PathVariable Long feedId) {
+        likeService.deleteLike(user, feedId);
+        return ResponseEntity.ok().build();
+    }
 }
