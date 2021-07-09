@@ -35,11 +35,22 @@ public class User {
     @NotBlank
     private String nickName;
 
+    @Column(nullable = false)
+    @NotBlank
+    private String imageUrl;
+
     @OneToMany(mappedBy = "author")
     private List<Feed> feeds = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<Like> likes = new ArrayList<>();
+
+    public User(Long id, @Email @NotBlank String email, @NotBlank String password, @NotBlank String nickName) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.nickName = nickName;
+    }
 
     public void checkPassword(String password) {
         if (!this.password.equals(password)) {

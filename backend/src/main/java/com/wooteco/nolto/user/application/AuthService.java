@@ -1,5 +1,6 @@
 package com.wooteco.nolto.user.application;
 
+import com.wooteco.nolto.NotFoundException;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.domain.UserRepository;
 import com.wooteco.nolto.user.infrastructure.JwtTokenProvider;
@@ -12,8 +13,8 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class AuthService {
 
-    private UserRepository userRepository;
-    private JwtTokenProvider jwtTokenProvider;
+    private final UserRepository userRepository;
+    private final JwtTokenProvider jwtTokenProvider;
 
     public TokenResponse login(TokenRequest tokenRequest) {
         User findUser = getFindUser(tokenRequest.getEmail());

@@ -1,5 +1,6 @@
 package com.wooteco.nolto.feed.domain;
 
+import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.domain.UserTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -29,5 +30,29 @@ class FeedTest {
 
         // then
         assertThat(feed.getAuthor()).isEqualTo(UserTest.USER);
+    }
+
+    @DisplayName("해당 피드에 사용자가 좋아요를 눌렀는지 검증할 수 있다.")
+    @Test
+    void likedByUser() {
+        Feed feed = feed1.writtenBy(UserTest.USER);
+
+        User likedUser = new User(1L, "EMAIL", "PASSWORD", "JOEL");
+        feed.getLikes().add(new Like(likedUser, feed));
+
+        assertThat(feed.isLikedByUser(likedUser)).isTrue();
+    }
+
+
+    @DisplayName("해당 피드에 사용자가 좋아요를 누르지 않았는지 검증할 수 있다.")
+    @Test
+    void notLikedByUser() {
+        Feed feed = feed1.writtenBy(UserTest.USER);
+
+        User likedUser = new User(1L, "EMAIL", "PASSWORD", "JOEL");
+        feed.getLikes().add(new Like(likedUser, feed));
+
+        User notLikedUser = new User(2L, "EMAIL", "PASSWORD", "POMO");
+        assertThat(feed.isLikedByUser(notLikedUser)).isFalse();
     }
 }

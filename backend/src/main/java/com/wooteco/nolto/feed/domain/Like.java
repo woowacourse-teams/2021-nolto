@@ -23,4 +23,9 @@ public class Like {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_likes_to_feed"), nullable = false)
     private Feed feed;
+
+    public Like(User user, Feed feed) {
+        this.user = user;
+        this.feed = feed;
+    }
 }

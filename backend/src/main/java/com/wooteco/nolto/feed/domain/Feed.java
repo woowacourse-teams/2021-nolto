@@ -57,7 +57,7 @@ public class Feed {
     public Feed(List<Tech> techs, String title, String content, Step step, boolean isSos, String storageUrl,
                 String deployedUrl, String thumbnailUrl) {
         this(null, techs, title, content, step, isSos, storageUrl, deployedUrl, thumbnailUrl, 0, null,
-                Collections.emptyList());
+                new ArrayList<>());
     }
 
     public Feed(Long id, List<Tech> techs, String title, String content, Step step, boolean isSos, String storageUrl,
@@ -87,5 +87,14 @@ public class Feed {
         if (step.equals(Step.COMPLETE) && Objects.isNull(deployedUrl)) {
             throw new IllegalStateException("전시중 Step은 배포 URL이 필수입니다.");
         }
+    }
+
+    public boolean isLikedByUser(User user) {
+        for (Like like : likes) {
+            if (like.getUser().getId().equals(user.getId())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

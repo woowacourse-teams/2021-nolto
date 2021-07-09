@@ -1,16 +1,19 @@
 package com.wooteco.nolto.feed.ui.dto;
 
 import com.wooteco.nolto.feed.domain.Feed;
+import com.wooteco.nolto.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Getter
 @AllArgsConstructor
+@Getter
 public class FeedResponse {
+    private final FeedAuthorResponse author;
+    private final FeedDetailResponse feed;
+    private final boolean liked;
 
-    private final Long id;
-
-    public static FeedResponse of(Feed feed) {
-        return new FeedResponse(feed.getId());
+    public static FeedResponse of(User author, Feed feed, boolean liked) {
+        return new FeedResponse(FeedAuthorResponse.of(author), FeedDetailResponse.of(feed), liked);
     }
 }

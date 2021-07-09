@@ -3,14 +3,8 @@ package com.wooteco.nolto.feed.domain;
 import java.util.Arrays;
 
 public enum Step {
-    PROGRESS(false),
-    COMPLETE(true);
-
-    boolean hasDeployedUrl;
-
-    Step(boolean hasDeployedUrl) {
-        this.hasDeployedUrl = hasDeployedUrl;
-    }
+    PROGRESS,
+    COMPLETE;
 
     public static Step of(String value) {
         return Arrays.stream(values())
