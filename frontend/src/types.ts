@@ -3,6 +3,11 @@ export enum ButtonStyle {
   OUTLINE = 'OUTLINE',
 }
 
+export enum FeedStatus {
+  PROGRESS = 'PROGRESS',
+  COMPLETE = 'COMPLETE',
+}
+
 export interface User {
   id: number;
   nickname: string;

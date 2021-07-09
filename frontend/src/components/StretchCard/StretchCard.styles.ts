@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Card } from 'commonStyles';
 
 const Root = styled(Card)`
+  position: relative;
   width: 754px;
   height: 136px;
   padding: 24px;
@@ -16,14 +17,26 @@ const Thumbnail = styled.img`
   border-radius: 16px;
 `;
 
+const ChipWrapper = styled.div`
+  position: absolute;
+  top: 16px;
+  right: 16px;
+`;
+
 const ContentArea = styled.div`
   margin: 8px 0;
+`;
+
+const TitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
 `;
 
 const Title = styled.h3`
   font-size: 20px;
   color: inherit;
-  margin-bottom: 16px;
 `;
 
 const Content = styled.p`
@@ -31,4 +44,4 @@ const Content = styled.p`
   color: inherit;
 `;
 
-export default { Root, Thumbnail, ContentArea, Title, Content };
+export default { Root, Thumbnail, ChipWrapper, ContentArea, TitleWrapper, Title, Content };

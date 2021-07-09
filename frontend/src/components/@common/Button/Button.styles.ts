@@ -8,16 +8,16 @@ interface RootProps {
   reverse: boolean;
 }
 
-const solid = (color: string, reverse: boolean) => css`
-  background-color: ${reverse ? PALETTE.WHITE_400 : color};
+const solid = (reverse: boolean) => css`
+  background-color: ${reverse ? PALETTE.WHITE_400 : PALETTE.PRIMARY_400};
   border: none;
-  color: ${reverse ? color : PALETTE.WHITE_400};
+  color: ${reverse ? PALETTE.PRIMARY_400 : PALETTE.WHITE_400};
 `;
 
-const outline = (color: string, reverse: boolean) => css`
+const outline = (reverse: boolean) => css`
   background-color: transparent;
-  border: 2px solid ${reverse ? PALETTE.WHITE_400 : color};
-  color: ${reverse ? PALETTE.WHITE_400 : color};
+  border: 2px solid ${reverse ? PALETTE.WHITE_400 : PALETTE.PRIMARY_400};
+  color: ${reverse ? PALETTE.WHITE_400 : PALETTE.PRIMARY_400};
 `;
 
 const styleMap = {
@@ -26,7 +26,7 @@ const styleMap = {
 };
 
 const Root = styled.button<RootProps>`
-  ${({ buttonStyle, reverse }) => styleMap[buttonStyle](PALETTE.PRIMARY_400, reverse)}
+  ${({ buttonStyle, reverse }) => styleMap[buttonStyle](reverse)}
 
   &::after {
     content: '';
