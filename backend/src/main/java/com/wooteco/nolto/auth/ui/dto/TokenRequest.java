@@ -1,4 +1,4 @@
-package com.wooteco.nolto.user.ui.dto;
+package com.wooteco.nolto.auth.ui.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +14,8 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 public class TokenRequest {
 
-    @Email @NotBlank
+    @Email
+    @NotBlank
     private String email;
     @NotBlank
     private String password;

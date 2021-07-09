@@ -1,4 +1,4 @@
-package com.wooteco.nolto.user.ui.dto;
+package com.wooteco.nolto.auth.ui.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -23,11 +23,14 @@ public class FeedService {
     }
 
     public FeedResponse findById(User user, Long feedId) {
-        Feed feed = feedRepository.findById(feedId)
-                .orElseThrow(() -> new NotFoundException("피드를 찾을 수 없습니다."));
-
+        Feed feed = findEntityById(feedId);
         User author = feed.getAuthor();
-        boolean liked = feed.isLikedByUser(user);
+        boolean liked = user.isLiked(feed);
         return FeedResponse.of(author, feed, liked);
+    }
+
+    public Feed findEntityById(Long feedId) {
+        return feedRepository.findById(feedId)
+                .orElseThrow(() -> new NotFoundException("피드를 찾을 수 없습니다."));
     }
 }

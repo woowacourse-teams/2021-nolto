@@ -1,7 +1,6 @@
-package com.wooteco.nolto.user.infrastructure;
+package com.wooteco.nolto.auth.infrastructure;
 
 import io.jsonwebtoken.*;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 

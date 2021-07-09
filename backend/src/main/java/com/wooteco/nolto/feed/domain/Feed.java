@@ -9,7 +9,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -89,12 +88,16 @@ public class Feed {
         }
     }
 
-    public boolean isLikedByUser(User user) {
-        for (Like like : likes) {
-            if (like.getUser().getId().equals(user.getId())) {
-                return true;
-            }
-        }
-        return false;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Feed feed = (Feed) o;
+        return Objects.equals(id, feed.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

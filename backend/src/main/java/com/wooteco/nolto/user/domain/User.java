@@ -17,6 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 public class User {
+    public static final GuestUser GUEST_USER = new GuestUser();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,10 +41,10 @@ public class User {
     private String imageUrl;
 
     @OneToMany(mappedBy = "author")
-    private List<Feed> feeds = new ArrayList<>();
+    private final List<Feed> feeds = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
-    private List<Like> likes = new ArrayList<>();
+    private final List<Like> likes = new ArrayList<>();
 
     public User(Long id, @Email @NotBlank String email, @NotBlank String password, @NotBlank String nickName) {
         this.id = id;
@@ -55,6 +56,18 @@ public class User {
     public void checkPassword(String password) {
         if (!this.password.equals(password)) {
             throw new IllegalArgumentException("로그인에 실패하였습니다.");
+        }
+    }
+
+    public boolean isLiked(Feed feed) {
+        return likes.stream()
+                .anyMatch(like -> like.hasFeed(feed));
+    }
+
+    private static class GuestUser extends User {
+        @Override
+        public boolean isLiked(Feed feed) {
+            return false;
         }
     }
 }
