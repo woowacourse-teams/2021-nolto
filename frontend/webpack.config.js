@@ -21,10 +21,15 @@ module.exports = {
         ],
         exclude: /node_modules/,
       },
+      {
+        test: /\.svg$/,
+        use: ['@svgr/webpack'],
+      },
     ],
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
+    modules: [path.resolve(__dirname, 'src'), 'node_modules'],
   },
   plugins: [
     new HtmlWebPackPlugin({
