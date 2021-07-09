@@ -28,4 +28,8 @@ public class Like {
         this.user = user;
         this.feed = feed;
     }
+
+    public boolean hasFeed(Feed feed) {
+        return this.feed.equals(feed);
+    }
 }

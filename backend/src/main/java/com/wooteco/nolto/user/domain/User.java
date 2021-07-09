@@ -59,6 +59,15 @@ public class User {
         }
     }
 
+    public boolean isLiked(Feed feed) {
+        return likes.stream()
+                .anyMatch(like -> like.hasFeed(feed));
+    }
+
     private static class GuestUser extends User {
+        @Override
+        public boolean isLiked(Feed feed) {
+            return false;
+        }
     }
 }

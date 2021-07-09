@@ -24,9 +24,8 @@ public class FeedService {
 
     public FeedResponse findById(User user, Long feedId) {
         Feed feed = findEntityById(feedId);
-
         User author = feed.getAuthor();
-        boolean liked = feed.isLikedByUser(user);
+        boolean liked = user.isLiked(feed);
         return FeedResponse.of(author, feed, liked);
     }
 

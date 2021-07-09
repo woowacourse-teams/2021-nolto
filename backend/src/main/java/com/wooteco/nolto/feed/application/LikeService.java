@@ -16,9 +16,10 @@ public class LikeService {
 
     public void addLike(User user, Long feedId) {
         Feed findFeed = feedService.findEntityById(feedId);
-        if (findFeed.isLikedByUser(user)) {
+        if (user.isLiked(findFeed)) {
             throw new IllegalStateException("해당 유저가 이미 좋아요를 눌렀습니다");
         }
+
         likeRepository.save(new Like(user, findFeed));
     }
 
