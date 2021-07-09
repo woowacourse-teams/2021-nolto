@@ -2,10 +2,8 @@ package com.wooteco.nolto.feed.ui.dto;
 
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.tech.ui.dto.TechResponse;
-import com.wooteco.nolto.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 

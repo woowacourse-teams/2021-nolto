@@ -1,4 +1,4 @@
-package com.wooteco.nolto.user.domain;
+package com.wooteco.nolto.auth;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

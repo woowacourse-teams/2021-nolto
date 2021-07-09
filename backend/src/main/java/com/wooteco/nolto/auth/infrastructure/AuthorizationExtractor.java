@@ -1,4 +1,4 @@
-package com.wooteco.nolto.user.infrastructure;
+package com.wooteco.nolto.auth.infrastructure;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;

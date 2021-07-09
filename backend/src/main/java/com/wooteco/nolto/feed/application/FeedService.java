@@ -1,12 +1,12 @@
 package com.wooteco.nolto.feed.application;
 
+import com.wooteco.nolto.NotFoundException;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.FeedRepository;
 import com.wooteco.nolto.feed.ui.dto.FeedDetailResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
 import com.wooteco.nolto.user.domain.User;
-import com.wooteco.nolto.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ public class FeedService {
         return FeedDetailResponse.of(savedFeed);
     }
 
-    public FeedResponse findById(User user, Long feedId){
+    public FeedResponse findById(User user, Long feedId) {
         Feed feed = findEntityById(feedId);
 
         User author = feed.getAuthor();

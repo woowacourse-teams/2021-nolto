@@ -1,11 +1,11 @@
-package com.wooteco.nolto.user.application;
+package com.wooteco.nolto.auth.application;
 
 import com.wooteco.nolto.NotFoundException;
+import com.wooteco.nolto.auth.infrastructure.JwtTokenProvider;
+import com.wooteco.nolto.auth.ui.dto.TokenRequest;
+import com.wooteco.nolto.auth.ui.dto.TokenResponse;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.domain.UserRepository;
-import com.wooteco.nolto.user.infrastructure.JwtTokenProvider;
-import com.wooteco.nolto.user.ui.dto.TokenRequest;
-import com.wooteco.nolto.user.ui.dto.TokenResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

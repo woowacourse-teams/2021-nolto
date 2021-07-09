@@ -1,9 +1,9 @@
-package com.wooteco.nolto.user.ui;
+package com.wooteco.nolto.auth.ui;
 
-import com.wooteco.nolto.user.application.AuthService;
-import com.wooteco.nolto.user.domain.AuthenticationPrincipal;
+import com.wooteco.nolto.auth.AuthenticationPrincipal;
+import com.wooteco.nolto.auth.application.AuthService;
+import com.wooteco.nolto.auth.infrastructure.AuthorizationExtractor;
 import com.wooteco.nolto.user.domain.User;
-import com.wooteco.nolto.user.infrastructure.AuthorizationExtractor;
 import lombok.AllArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -17,7 +17,7 @@ import java.util.Objects;
 @AllArgsConstructor
 public class AuthenticationPrincipalArgumentResolver implements HandlerMethodArgumentResolver {
 
-    private AuthService authService;
+    private final AuthService authService;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {

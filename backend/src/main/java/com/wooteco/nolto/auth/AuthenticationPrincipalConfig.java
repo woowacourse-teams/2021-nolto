@@ -1,7 +1,7 @@
-package com.wooteco.nolto.user;
+package com.wooteco.nolto.auth;
 
-import com.wooteco.nolto.user.application.AuthService;
-import com.wooteco.nolto.user.ui.AuthenticationPrincipalArgumentResolver;
+import com.wooteco.nolto.auth.application.AuthService;
+import com.wooteco.nolto.auth.ui.AuthenticationPrincipalArgumentResolver;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

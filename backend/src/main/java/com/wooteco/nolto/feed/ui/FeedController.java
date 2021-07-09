@@ -1,11 +1,11 @@
 package com.wooteco.nolto.feed.ui;
 
+import com.wooteco.nolto.auth.AuthenticationPrincipal;
 import com.wooteco.nolto.feed.application.FeedService;
 import com.wooteco.nolto.feed.application.LikeService;
 import com.wooteco.nolto.feed.ui.dto.FeedDetailResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
-import com.wooteco.nolto.user.domain.AuthenticationPrincipal;
 import com.wooteco.nolto.user.domain.User;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;

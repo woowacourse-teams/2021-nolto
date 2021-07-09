@@ -40,10 +40,10 @@ public class User {
     private String imageUrl;
 
     @OneToMany(mappedBy = "author")
-    private List<Feed> feeds = new ArrayList<>();
+    private final List<Feed> feeds = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
-    private List<Like> likes = new ArrayList<>();
+    private final List<Like> likes = new ArrayList<>();
 
     public User(Long id, @Email @NotBlank String email, @NotBlank String password, @NotBlank String nickName) {
         this.id = id;

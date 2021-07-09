@@ -19,8 +19,8 @@ import java.util.List;
 @AllArgsConstructor
 public class DataLoader implements ApplicationRunner {
 
-    private UserRepository userRepository;
-    private FeedRepository feedRepository;
+    private final UserRepository userRepository;
+    private final FeedRepository feedRepository;
 
     @Override
     public void run(ApplicationArguments args) {

@@ -1,8 +1,8 @@
-package com.wooteco.nolto.user.ui;
+package com.wooteco.nolto.auth.ui;
 
-import com.wooteco.nolto.user.application.AuthService;
-import com.wooteco.nolto.user.ui.dto.TokenRequest;
-import com.wooteco.nolto.user.ui.dto.TokenResponse;
+import com.wooteco.nolto.auth.application.AuthService;
+import com.wooteco.nolto.auth.ui.dto.TokenRequest;
+import com.wooteco.nolto.auth.ui.dto.TokenResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

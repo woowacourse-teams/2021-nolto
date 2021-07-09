@@ -4,7 +4,6 @@ import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @Getter
