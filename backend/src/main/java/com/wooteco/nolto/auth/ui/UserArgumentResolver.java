@@ -1,6 +1,6 @@
 package com.wooteco.nolto.auth.ui;
 
-import com.wooteco.nolto.auth.AuthenticationPrincipal;
+import com.wooteco.nolto.auth.UserAuthenticationPrincipal;
 import com.wooteco.nolto.auth.application.AuthService;
 import com.wooteco.nolto.auth.infrastructure.AuthorizationExtractor;
 import com.wooteco.nolto.user.domain.User;
@@ -15,19 +15,21 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
 @AllArgsConstructor
-public class AuthenticationPrincipalArgumentResolver implements HandlerMethodArgumentResolver {
-
+public class UserArgumentResolver implements HandlerMethodArgumentResolver {
     private final AuthService authService;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.hasParameterAnnotation(AuthenticationPrincipal.class);
+        return parameter.hasParameterAnnotation(UserAuthenticationPrincipal.class);
     }
 
     @Override
-    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+    public User resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         String credentials = AuthorizationExtractor.extract(Objects.requireNonNull(webRequest.getNativeRequest(HttpServletRequest.class)));
-        User findUser = authService.findUserByToken(credentials);
-        return findUser;
+        if(Objects.isNull(credentials)) {
+            return User.GUEST_USER;
+        }
+        User findMember = authService.findUserByToken(credentials);
+        return findMember;
     }
 }

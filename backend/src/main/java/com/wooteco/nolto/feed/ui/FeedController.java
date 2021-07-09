@@ -1,6 +1,7 @@
 package com.wooteco.nolto.feed.ui;
 
-import com.wooteco.nolto.auth.AuthenticationPrincipal;
+import com.wooteco.nolto.auth.MemberAuthenticationPrincipal;
+import com.wooteco.nolto.auth.UserAuthenticationPrincipal;
 import com.wooteco.nolto.feed.application.FeedService;
 import com.wooteco.nolto.feed.application.LikeService;
 import com.wooteco.nolto.feed.ui.dto.FeedDetailResponse;
@@ -23,25 +24,25 @@ public class FeedController {
     private final LikeService likeService;
 
     @PostMapping
-    public ResponseEntity<Void> create(@AuthenticationPrincipal User user, @RequestBody FeedRequest request) {
+    public ResponseEntity<Void> create(@MemberAuthenticationPrincipal User user, @RequestBody FeedRequest request) {
         FeedDetailResponse response = feedService.create(user, request);
         return ResponseEntity.created(URI.create("/feeds/" + response.getId())).build();
     }
 
     @GetMapping(value = "/{feedId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<FeedResponse> findById(@AuthenticationPrincipal User user, @PathVariable Long feedId) {
+    public ResponseEntity<FeedResponse> findById(@UserAuthenticationPrincipal User user, @PathVariable Long feedId) {
         FeedResponse response = feedService.findById(user, feedId);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/{feedId}/like")
-    public ResponseEntity<Void> addLike(@AuthenticationPrincipal User user, @PathVariable Long feedId) {
+    public ResponseEntity<Void> addLike(@MemberAuthenticationPrincipal User user, @PathVariable Long feedId) {
         likeService.addLike(user, feedId);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{feedId}/like")
-    public ResponseEntity<Void> deleteLike(@AuthenticationPrincipal User user, @PathVariable Long feedId) {
+    public ResponseEntity<Void> deleteLike(@MemberAuthenticationPrincipal User user, @PathVariable Long feedId) {
         likeService.deleteLike(user, feedId);
         return ResponseEntity.ok().build();
     }

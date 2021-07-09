@@ -17,6 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 public class User {
+    public static final GuestUser GUEST_USER = new GuestUser();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,5 +57,8 @@ public class User {
         if (!this.password.equals(password)) {
             throw new IllegalArgumentException("로그인에 실패하였습니다.");
         }
+    }
+
+    private static class GuestUser extends User {
     }
 }
