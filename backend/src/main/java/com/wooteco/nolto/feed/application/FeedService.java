@@ -3,12 +3,17 @@ package com.wooteco.nolto.feed.application;
 import com.wooteco.nolto.NotFoundException;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.FeedRepository;
+import com.wooteco.nolto.feed.domain.Filter;
+import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedDetailResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
 import com.wooteco.nolto.user.domain.User;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @AllArgsConstructor
 @Service
@@ -32,5 +37,11 @@ public class FeedService {
     public Feed findEntityById(Long feedId) {
         return feedRepository.findById(feedId)
                 .orElseThrow(() -> new NotFoundException("피드를 찾을 수 없습니다."));
+    }
+
+    public List<FeedCardResponse> findAll(String filter) {
+        Filter findFilter = Filter.of(filter);
+        List<Feed> feeds = feedRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+        return FeedCardResponse.toList(findFilter.execute(feeds));
     }
 }

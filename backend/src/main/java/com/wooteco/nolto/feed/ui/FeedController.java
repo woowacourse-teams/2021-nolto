@@ -4,6 +4,7 @@ import com.wooteco.nolto.auth.MemberAuthenticationPrincipal;
 import com.wooteco.nolto.auth.UserAuthenticationPrincipal;
 import com.wooteco.nolto.feed.application.FeedService;
 import com.wooteco.nolto.feed.application.LikeService;
+import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedDetailResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -45,5 +47,11 @@ public class FeedController {
     public ResponseEntity<Void> deleteLike(@MemberAuthenticationPrincipal User user, @PathVariable Long feedId) {
         likeService.deleteLike(user, feedId);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/recent")
+    public ResponseEntity<List<FeedCardResponse>> recentResponse(@RequestParam(required = false, defaultValue = "all") String filter) {
+        List<FeedCardResponse> feeds = feedService.findAll(filter);
+        return ResponseEntity.ok(feeds);
     }
 }
