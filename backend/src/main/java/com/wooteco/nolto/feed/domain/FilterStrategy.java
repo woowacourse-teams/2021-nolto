@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public enum Filter {
+public enum FilterStrategy {
     ALL(feed -> true),
     SOS(Feed::isSos),
     PROGRESS(feed -> feed.getStep().equals(Step.PROGRESS)),
@@ -13,13 +13,13 @@ public enum Filter {
 
     private Function<Feed, Boolean> function;
 
-    Filter(Function<Feed, Boolean> function) {
+    FilterStrategy(Function<Feed, Boolean> function) {
         this.function = function;
     }
 
-    public static Filter of(String value) {
-        return Arrays.stream(Filter.values())
-                .filter(filter -> filter.name().equalsIgnoreCase(value))
+    public static FilterStrategy of(String value) {
+        return Arrays.stream(FilterStrategy.values())
+                .filter(filterStrategy -> filterStrategy.name().equalsIgnoreCase(value))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("잘못된 필터링 값입니다."));
     }

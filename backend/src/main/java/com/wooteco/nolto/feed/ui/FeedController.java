@@ -54,4 +54,10 @@ public class FeedController {
         List<FeedCardResponse> feeds = feedService.findAll(filter);
         return ResponseEntity.ok(feeds);
     }
+
+    @GetMapping("/hot")
+    public ResponseEntity<List<FeedCardResponse>> hotResponse() {
+        List<FeedCardResponse> feeds = feedService.findHotFeeds();
+        return ResponseEntity.ok(feeds);
+    }
 }

@@ -88,6 +88,10 @@ public class Feed {
         }
     }
 
+    public int likesCount() {
+        return likes.size();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
