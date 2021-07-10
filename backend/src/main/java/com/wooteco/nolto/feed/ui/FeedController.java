@@ -4,7 +4,10 @@ import com.wooteco.nolto.auth.MemberAuthenticationPrincipal;
 import com.wooteco.nolto.auth.UserAuthenticationPrincipal;
 import com.wooteco.nolto.feed.application.FeedService;
 import com.wooteco.nolto.feed.application.LikeService;
-import com.wooteco.nolto.feed.ui.dto.*;
+import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
+import com.wooteco.nolto.feed.ui.dto.FeedDetailResponse;
+import com.wooteco.nolto.feed.ui.dto.FeedRequest;
+import com.wooteco.nolto.feed.ui.dto.FeedResponse;
 import com.wooteco.nolto.user.domain.User;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
@@ -47,8 +50,8 @@ public class FeedController {
     }
 
     @GetMapping("/recent")
-    public ResponseEntity<List<FeedCardResponse>> recentResponse() {
-        List<FeedCardResponse> feeds = feedService.findAll();
+    public ResponseEntity<List<FeedCardResponse>> recentResponse(@RequestParam(required = false, defaultValue = "all") String filter) {
+        List<FeedCardResponse> feeds = feedService.findAll(filter);
         return ResponseEntity.ok(feeds);
     }
 }
