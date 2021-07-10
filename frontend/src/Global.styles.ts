@@ -23,6 +23,10 @@ const GlobalStyle = createGlobalStyle`
   button {
     cursor: pointer;
   }
+
+  input, textarea {
+    outline: none;
+  }
 `;
 
 export default GlobalStyle;
