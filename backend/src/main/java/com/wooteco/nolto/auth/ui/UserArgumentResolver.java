@@ -26,7 +26,7 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
     @Override
     public User resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         String credentials = AuthorizationExtractor.extract(Objects.requireNonNull(webRequest.getNativeRequest(HttpServletRequest.class)));
-        if(Objects.isNull(credentials)) {
+        if (Objects.isNull(credentials)) {
             return User.GUEST_USER;
         }
         User findMember = authService.findUserByToken(credentials);

@@ -3,7 +3,8 @@ package com.wooteco.nolto.feed.application;
 import com.wooteco.nolto.NotFoundException;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.FeedRepository;
-import com.wooteco.nolto.feed.domain.Filter;
+import com.wooteco.nolto.feed.domain.Feeds;
+import com.wooteco.nolto.feed.domain.FilterStrategy;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedDetailResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
@@ -39,9 +40,14 @@ public class FeedService {
                 .orElseThrow(() -> new NotFoundException("피드를 찾을 수 없습니다."));
     }
 
+    public List<FeedCardResponse> findHotFeeds() {
+        Feeds feeds = new Feeds(feedRepository.findAll(Sort.by(Sort.Direction.DESC, "id")));
+        return FeedCardResponse.toList(feeds.sortedByLikeCount(10));
+    }
+
     public List<FeedCardResponse> findAll(String filter) {
-        Filter findFilter = Filter.of(filter);
-        List<Feed> feeds = feedRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
-        return FeedCardResponse.toList(findFilter.execute(feeds));
+        FilterStrategy strategy = FilterStrategy.of(filter);
+        Feeds feeds = new Feeds(feedRepository.findAll(Sort.by(Sort.Direction.DESC, "id", "")));
+        return FeedCardResponse.toList(feeds.filter(strategy));
     }
 }
