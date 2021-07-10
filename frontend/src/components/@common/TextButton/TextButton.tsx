@@ -2,7 +2,7 @@ import React, { ButtonHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
 import { ButtonStyle } from 'types';
-import Styled from './Button.styles';
+import Styled from './TextButton.styles';
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   buttonStyle: ButtonStyle;
@@ -10,7 +10,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
 }
 
-const Button = ({ buttonStyle, reverse = false, children, className }: Props) => {
+const TextButton = ({ buttonStyle, reverse = false, children, className }: Props) => {
   return (
     <Styled.Root buttonStyle={buttonStyle} reverse={reverse} className={className}>
       {children}
@@ -18,11 +18,11 @@ const Button = ({ buttonStyle, reverse = false, children, className }: Props) =>
   );
 };
 
-const Regular = styled(Button)`
+const Regular = styled(TextButton)`
   border-radius: 8px;
 `;
 
-const Rounded = styled(Button)`
+const Rounded = styled(TextButton)`
   border-radius: 25px;
 `;
 
