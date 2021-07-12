@@ -1,4 +1,5 @@
 import { configure, addDecorator } from '@storybook/react';
+import { MemoryRouter } from 'react-router-dom';
 
 import GlobalStyle from '../src/Global.styles';
 
@@ -14,8 +15,10 @@ export const parameters = {
 
 addDecorator((story) => (
   <>
-    <GlobalStyle />
-    {story()}
+    <MemoryRouter initialEntries={['/']}>
+      <GlobalStyle />
+      {story()}
+    </MemoryRouter>
   </>
 ));
 
