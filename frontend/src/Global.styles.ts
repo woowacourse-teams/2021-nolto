@@ -24,6 +24,7 @@ const GlobalStyle = createGlobalStyle`
 
   button {
     cursor: pointer;
+    outline: none;
   }
 
   input, textarea {
