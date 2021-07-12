@@ -1,7 +1,9 @@
 import React from 'react';
 
+import CroppedEllipse from 'components/CroppedEllipse/CroppedEllipse';
+
 const App = () => {
-  return <div>안녕하세요!</div>;
+  return <CroppedEllipse />;
 };
 
 export default App;
