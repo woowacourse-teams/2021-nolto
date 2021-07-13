@@ -5,7 +5,7 @@ import TextButton from 'components/@common/TextButton/TextButton';
 import IconButton from 'components/@common/IconButton/IconButton';
 
 const Root = styled.header`
-  position: fixed;
+  position: sticky;
   top: 0;
   height: 108px;
   width: 100%;
