@@ -13,7 +13,7 @@ const Root = styled.span<{ fontSize: string }>`
     display: block;
     bottom: 0;
     left: 0;
-    background-color: ${PALETTE.PRIMARY_300};
+    background-color: ${PALETTE.HIGHLIGHT};
     opacity: 0.7;
     z-index: -1;
     width: 100%;

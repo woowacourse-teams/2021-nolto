@@ -7,7 +7,9 @@ export const PALETTE = {
 
   PRIMARY_200: '#f6d365',
   PRIMARY_300: '#FFCB91',
-  PRIMARY_400: '#FFAE54',
+  PRIMARY_400: '#FDA085',
+
+  HIGHLIGHT: '#FFBB33',
 
   RED_400: '#FF0000',
 };

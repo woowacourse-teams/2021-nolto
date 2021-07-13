@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import { PALETTE } from 'constants/palette';
 
 const Root = styled.button`
-  width: 52px;
-  height: 52px;
   display: flex;
   justify-content: center;
   align-items: center;
