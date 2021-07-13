@@ -1,6 +1,13 @@
 import { PALETTE } from 'constants/palette';
 import styled from 'styled-components';
 
+const RootContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+`;
+
 const Label = styled.label`
   display: flex;
   align-items: center;
@@ -28,4 +35,4 @@ const FileNameText = styled.span`
   font-size: 1.5rem;
 `;
 
-export default { Label, FileNameText };
+export default { RootContainer, Label, FileNameText };
