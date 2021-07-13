@@ -15,14 +15,12 @@
   "rules": {
     "max-depth": ["error", 2],
     "@typescript-eslint/explicit-module-boundary-types": "off",
-    "rules": {
-      "prettier/prettier": [
-        "error",
-        {
-          "endOfLine": "auto"
-        }
-      ]
-    }
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ]
   },
   "ignorePatterns": ["*.config.js"]
 }
