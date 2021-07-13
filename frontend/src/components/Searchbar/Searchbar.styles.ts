@@ -6,8 +6,8 @@ const Root = styled.form`
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 0 16px 0 24px;
-  width: 100%;
+  padding: 0 8px 0 24px;
+
   background-color: ${PALETTE.WHITE_400};
   border-radius: 25px;
   filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.25));
@@ -23,6 +23,8 @@ const Input = styled.input`
 const Button = styled.button`
   border: none;
   background-color: transparent;
+  width: 1.75em;
+  height: 1.75em;
 `;
 
 export default { Root, Input, Button };

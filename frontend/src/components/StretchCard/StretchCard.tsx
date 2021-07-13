@@ -19,7 +19,7 @@ const StretchCard = ({ feed }: Props) => {
       <Styled.ContentArea>
         <Styled.TitleWrapper>
           <Styled.Title>{feed.title}</Styled.Title>
-          <SOSFlag />
+          <SOSFlag width="56" />
         </Styled.TitleWrapper>
         <Styled.Content>{feed.content}</Styled.Content>
       </Styled.ContentArea>

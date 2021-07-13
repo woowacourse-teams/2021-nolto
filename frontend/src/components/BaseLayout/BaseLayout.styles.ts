@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
-const Root = styled.section``;
+const Root = styled.div``;
 
-export default { Root };
+const Content = styled.main``;
+
+export default { Root, Content };

@@ -2,11 +2,14 @@ import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import BaseLayout from 'components/BaseLayout/BaseLayout';
+import Home from 'pages/Home/Home';
 
 const App = () => {
   return (
     <Router>
-      <BaseLayout>놀토 페이지</BaseLayout>
+      <BaseLayout>
+        <Home />
+      </BaseLayout>
     </Router>
   );
 };

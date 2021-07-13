@@ -4,8 +4,10 @@ import { PALETTE } from 'constants/palette';
 
 const Root = styled.span<{ fontSize: string }>`
   position: relative;
+  display: inline-block;
   padding: 0 4px;
   font-size: ${({ fontSize }) => fontSize};
+  font-weight: 700;
 
   &::after {
     content: '';

@@ -34,10 +34,10 @@ const SOS = ({ path = '/', selected = false }: Props) => {
   );
 };
 
-const LevelButton = {
+const LevelLinkButton = {
   Progress,
   Complete,
   SOS,
 };
 
-export default LevelButton;
+export default LevelLinkButton;
