@@ -10,9 +10,9 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
 }
 
-const TextButton = ({ buttonStyle, reverse = false, children, className }: Props) => {
+const TextButton = ({ buttonStyle, reverse = false, children, className, ...options }: Props) => {
   return (
-    <Styled.Root buttonStyle={buttonStyle} reverse={reverse} className={className}>
+    <Styled.Root buttonStyle={buttonStyle} reverse={reverse} className={className} {...options}>
       {children}
     </Styled.Root>
   );
