@@ -2,6 +2,7 @@ import { configure, addDecorator } from '@storybook/react';
 import { MemoryRouter } from 'react-router-dom';
 
 import GlobalStyle from '../src/Global.styles';
+import BaseLayout from 'components/BaseLayout/BaseLayout';
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
@@ -17,7 +18,7 @@ addDecorator((story) => (
   <>
     <MemoryRouter initialEntries={['/']}>
       <GlobalStyle />
-      {story()}
+      <BaseLayout>{story()}</BaseLayout>
     </MemoryRouter>
   </>
 ));
