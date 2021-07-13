@@ -8,12 +8,14 @@ import com.wooteco.nolto.user.domain.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Profile("!prod")
 @Component
 @AllArgsConstructor
 public class DataLoader implements ApplicationRunner {
