@@ -2,26 +2,32 @@ import styled from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
 import TextButton from 'components/@common/TextButton/TextButton';
+import IconButton from 'components/@common/IconButton/IconButton';
 
-const SvgRoot = styled.svg`
-  position: absolute;
+const Root = styled.header`
+  position: fixed;
   top: 0;
+  height: 108px;
+  width: 100%;
   z-index: 10;
 `;
 
 const HeaderContent = styled.div`
-  position: fixed;
+  position: absolute;
   top: 0;
   display: flex;
   width: 100%;
+  height: 100%;
   justify-content: flex-end;
   align-items: center;
-  padding: 36px 60px;
-  z-index: 20;
+  padding: 0 30px;
 `;
 
 const LogoWrapper = styled.div`
-  flex: 1;
+  width: 208px;
+  height: auto;
+  margin-right: auto;
+  cursor: pointer;
 `;
 
 const NavContainer = styled.ul`
@@ -51,18 +57,23 @@ const ButtonsContainer = styled.div`
 `;
 
 const SignInButton = styled(TextButton.Rounded)`
-  width: 160px;
-  height: 48px;
-  padding: 12px 44px;
+  padding: 8px 32px;
   font-size: 24px;
   line-height: 24px;
 `;
 
+const SearchButton = styled(IconButton)`
+  width: 48px;
+  height: 48px;
+  padding: 6px;
+`;
+
 export default {
-  SvgRoot,
+  Root,
   HeaderContent,
   LogoWrapper,
   NavContainer,
   ButtonsContainer,
   SignInButton,
+  SearchButton,
 };

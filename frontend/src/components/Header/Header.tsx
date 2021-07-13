@@ -3,10 +3,9 @@ import { NavLink } from 'react-router-dom';
 
 import Logo from 'assets/logo.svg';
 import Search from 'assets/search.svg';
-import Styled from './Header.styles';
 import { PALETTE } from 'constants/palette';
-import IconButton from 'components/@common/IconButton/IconButton';
 import { ButtonStyle } from 'types';
+import Styled from './Header.styles';
 
 const Header = () => {
   const navLinkActiveStyle = {
@@ -14,8 +13,8 @@ const Header = () => {
   };
 
   return (
-    <header>
-      <Styled.SvgRoot height="168px" width="100vw">
+    <Styled.Root>
+      <svg height="100%" width="100vw">
         <defs>
           <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor={PALETTE.PRIMARY_200} stopOpacity="1" />
@@ -23,7 +22,7 @@ const Header = () => {
           </linearGradient>
         </defs>
         <rect x="-30vw" y="0" width="160vw" height="100%" fill="url(#grad1)" />
-      </Styled.SvgRoot>
+      </svg>
 
       <Styled.HeaderContent>
         <Styled.LogoWrapper>
@@ -54,15 +53,15 @@ const Header = () => {
           </Styled.NavContainer>
         </nav>
         <Styled.ButtonsContainer>
-          <IconButton>
+          <Styled.SearchButton>
             <Search />
-          </IconButton>
+          </Styled.SearchButton>
           <Styled.SignInButton buttonStyle={ButtonStyle.OUTLINE} reverse={true}>
             Sign In
           </Styled.SignInButton>
         </Styled.ButtonsContainer>
       </Styled.HeaderContent>
-    </header>
+    </Styled.Root>
   );
 };
 
