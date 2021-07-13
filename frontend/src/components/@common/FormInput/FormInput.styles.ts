@@ -4,12 +4,14 @@ import { PALETTE } from 'constants/palette';
 
 const Root = styled.input`
   font-size: 24px;
-  border: none;
-  border-bottom: 1px solid ${PALETTE.PRIMARY_400};
-  padding: 4px 8px;
+  width: 100%;
+  height: 3.25rem;
+  padding: 4px 12px;
+  border: 1px solid ${PALETTE.PRIMARY_400};
+  border-radius: 8px;
 
   &:focus {
-    border-bottom: 2px solid ${PALETTE.PRIMARY_400};
+    border: 2px solid ${PALETTE.PRIMARY_400};
   }
 `;
 

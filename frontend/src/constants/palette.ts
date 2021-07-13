@@ -1,6 +1,7 @@
 export const PALETTE = {
   WHITE_400: '#ffffff',
 
+  BLACK_200: '#999999',
   BLACK_300: '#444444',
   BLACK_400: '#333333',
   BLACK_500: '#222222',
