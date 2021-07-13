@@ -3,12 +3,16 @@ import React from 'react';
 import SearchIcon from 'assets/search.svg';
 import Styled from './Searchbar.styles';
 
-const Searchbar = () => {
+interface Props {
+  className?: string;
+}
+
+const Searchbar = ({ className }: Props) => {
   return (
-    <Styled.Root>
+    <Styled.Root className={className}>
       <Styled.Input />
       <Styled.Button>
-        <SearchIcon />
+        <SearchIcon width="32" />
       </Styled.Button>
     </Styled.Root>
   );

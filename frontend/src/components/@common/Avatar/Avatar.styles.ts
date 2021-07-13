@@ -8,13 +8,13 @@ const Root = styled.div`
 `;
 
 const Image = styled.img`
-  width: 48px;
-  height: 48px;
+  width: 2rem;
+  height: 2rem;
   border-radius: 50%;
 `;
 
 const Nickname = styled.span`
-  font-size: 24px;
+  font-size: 1.25rem;
 `;
 
 export default { Root, Image, Nickname };

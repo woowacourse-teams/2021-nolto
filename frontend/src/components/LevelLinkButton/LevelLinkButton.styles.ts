@@ -7,14 +7,15 @@ const Root = styled(Link)`
   display: flex;
   flex-direction: column;
   align-items: center;
+  cursor: pointer;
 `;
 
 const Button = styled.div<{ selected: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 138px;
-  height: 138px;
+  width: 124px;
+  height: 124px;
   border-radius: 50%;
   font-size: 64px;
   box-shadow: ${({ selected }) => selected && 'inset'} 4px 4px 8px rgba(85, 85, 85, 0.25);

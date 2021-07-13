@@ -57,15 +57,15 @@ const ButtonsContainer = styled.div`
 `;
 
 const SignInButton = styled(TextButton.Rounded)`
-  padding: 8px 32px;
-  font-size: 24px;
-  line-height: 24px;
+  padding: 0.5rem 2rem;
+  font-size: 1.5rem;
+  line-height: 1.5rem;
 `;
 
 const SearchButton = styled(IconButton)`
-  width: 48px;
-  height: 48px;
-  padding: 6px;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0.5rem;
 `;
 
 export default {

@@ -9,10 +9,10 @@ interface Props {
 
 const BaseLayout = ({ children }: Props) => {
   return (
-    <section>
+    <Styled.Root>
       <Header />
-      {children}
-    </section>
+      <Styled.Content>{children}</Styled.Content>
+    </Styled.Root>
   );
 };
 
