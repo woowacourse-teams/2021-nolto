@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import ModalProvider, { useModal } from './ModalProvider';
 
@@ -10,10 +10,15 @@ export default {
 
 const Page = () => {
   const modal = useModal();
+  const TestModal = <div>모달입니당</div>;
+
+  useEffect(() => {
+    modal.openModal(TestModal);
+  }, []);
 
   return (
     <div>
-      <button onClick={() => modal.openModal(<div>모달입니당</div>)}>모달 열기</button>
+      <button onClick={() => modal.openModal(TestModal)}>모달 열기</button>
     </div>
   );
 };

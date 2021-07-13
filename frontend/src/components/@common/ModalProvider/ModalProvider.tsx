@@ -1,9 +1,7 @@
 import React, { ReactNode, useContext, useState } from 'react';
 
-import Styled from './ModalProvider.styles';
 import CrossMark from 'assets/crossMark.svg';
-import IconButton from '../IconButton/IconButton';
-import styled from 'styled-components';
+import Styled from './ModalProvider.styles';
 
 interface Props {
   children: ReactNode;
