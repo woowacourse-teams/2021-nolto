@@ -1,0 +1,67 @@
+spring:
+  profiles:
+    active: dev
+    group:
+      prod: realdb
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:nolto
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  jpa:
+    properties:
+      hibernate:
+        ddl-auto: create # 한번 실행 후 추후 변경
+        dialect: MariaDBDialect
+
+---
+security:
+  jwt:
+    token:
+      secret-key: my_secret_is_secret
+      expire-length: 3600000
+spring:
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        ddl-auto: create
+        dialect=org:
+          hibernate:
+            dialect: H2Dialect
+    show-sql: true
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+
