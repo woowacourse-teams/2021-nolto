@@ -1,17 +1,14 @@
-import styled from 'styled-components';
-
 import { PALETTE } from 'constants/palette';
+import styled from 'styled-components';
 
 const Root = styled.input`
   font-size: 24px;
-  width: 100%;
-  height: 52px;
-  padding: 4px 12px;
-  border: 1px solid ${PALETTE.PRIMARY_400};
-  border-radius: 8px;
+  border: none;
+  border-bottom: 1px solid ${PALETTE.PRIMARY_400};
+  padding: 4px 8px;
 
   &:focus {
-    border: 2px solid ${PALETTE.PRIMARY_400};
+    border-bottom: 2px solid ${PALETTE.PRIMARY_400};
   }
 `;
 
