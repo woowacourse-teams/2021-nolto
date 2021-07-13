@@ -47,7 +47,7 @@ public class FeedService {
 
     public List<FeedCardResponse> findAll(String filter) {
         FilterStrategy strategy = FilterStrategy.of(filter);
-        Feeds feeds = new Feeds(feedRepository.findAll(Sort.by(Sort.Direction.DESC, "id", "")));
+        Feeds feeds = new Feeds(feedRepository.findAll(Sort.by(Sort.Direction.DESC, "id")));
         return FeedCardResponse.toList(feeds.filter(strategy));
     }
 }
