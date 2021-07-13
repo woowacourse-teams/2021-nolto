@@ -29,170 +29,14 @@ spring:
   h2:
     console:
       enabled: true
-  "application.yml" 68L, 1145C                                                                                                                     1,1           Top
-spring:
-  profiles:
-    active: dev
-    group:
-      prod: realdb
----
-spring:
-  config:
-    activate:
-      on-profile: dev
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:nolto
-    username: sa
-    password:
-  h2:
-    console:
-      enabled: true
----
-spring:
-  config:
-    activate:
-      on-profile: test
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:testdb
-    username: sa
-    password:
-  h2:
-    console:
-      enabled: true
----
-spring:
-  config:
-  config:
-    activate:
-      on-profile: test
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:testdb
-    username: sa
-    password:
-  h2:
-    console:
-      enabled: true
 ---
 spring:
   config:
     activate:
       on-profile: prod
-  jpa:
-spring:
-  profiles:
-    active: dev
-    group:
-      prod: realdb
----
-spring:
-  config:
-    activate:
-      on-profile: dev
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:nolto
-    username: sa
-    password:
-  h2:
-    console:
-      enabled: true
----
-spring:
-  config:
-    activate:
-      on-profile: test
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:testdb
-    username: sa
-    password:
-  h2:
-    console:
-      enabled: true
----
-spring:
-  config:
-    activate:
-      on-profile: prod
-  jpa:
-  [WAS][08:08:11][ubuntu@ip-192-168-1-12 ~/2021-nolto]
-  $ ls
-spring:
-  profiles:
-    active: dev
-    group:
-      prod: realdb
----
-spring:
-  config:
-    activate:
-      on-profile: dev
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:nolto
-    username: sa
-    password:
-  h2:
-    console:
-      enabled: true
----
-spring:
-  config:
-    activate:
-      on-profile: test
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:testdb
-    username: sa
-    password:
-  h2:
-    console:
-      enabled: true
-  "application.yml" 68L, 1145C                                                                                                                     1,1           Top
-spring:
-  profiles:
-    active: dev
-    group:
-      prod: realdb
----
-spring:
-  config:
-    activate:
-      on-profile: dev
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:nolto
-    username: sa
-    password:
-  h2:
-    console:
-      enabled: true
----
-spring:
-  config:
-    activate:
-      on-profile: test
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:testdb
-    username: sa
-    password:
-  h2:
-    console:
-      enabled: true
----
-spring:
-  config:
-    activate:
-      on-profile: prod
-  jpa:
-    on-profile: prod
   jpa:
     hibernate:
-      ddl-auto: create # 한번 실행 후 추후 변경
+      ddl-auto: validate
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
@@ -221,3 +65,4 @@ logging:
           descriptor:
             sql:
               BasicBinder: TRACE
+
