@@ -11,10 +11,22 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class FeedCardResponse {
     private final FeedAuthorResponse author;
-    private final FeedSimpleResponse feed;
+    private final Long id;
+    private final String title;
+    private final String content;
+    private final String step;
+    private final boolean sos;
+    private final String thumbnailUrl;
 
     public static FeedCardResponse of(Feed feed) {
-        return new FeedCardResponse(FeedAuthorResponse.of(feed.getAuthor()), FeedSimpleResponse.of(feed));
+        return new FeedCardResponse(
+                FeedAuthorResponse.of(feed.getAuthor()),
+                feed.getId(),
+                feed.getTitle(),
+                feed.getContent(),
+                feed.getStep().name(),
+                feed.isSos(),
+                feed.getThumbnailUrl());
     }
 
     public static List<FeedCardResponse> toList(List<Feed> feed) {
