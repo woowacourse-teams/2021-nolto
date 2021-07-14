@@ -46,11 +46,19 @@ public class User {
     @OneToMany(mappedBy = "user")
     private final List<Like> likes = new ArrayList<>();
 
-    public User(Long id, @Email @NotBlank String email, @NotBlank String password, @NotBlank String nickName) {
-        this.id = id;
+    public User(String email, String password, String nickName, String imageUrl) {
+        this(null, email, password, nickName, imageUrl);
+    }
+
+    public User(Long id, String email, String password, String nickName) {
+        this(id, email, password, nickName, null);
+    }
+
+    public void update(String email, String password, String nickName, String imageUrl) {
         this.email = email;
         this.password = password;
         this.nickName = nickName;
+        this.imageUrl = imageUrl;
     }
 
     public void checkPassword(String password) {
