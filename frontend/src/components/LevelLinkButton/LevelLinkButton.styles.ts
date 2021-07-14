@@ -14,8 +14,8 @@ const Button = styled.div<{ selected: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 124px;
-  height: 124px;
+  width: 7.75rem;
+  height: 7.75rem;
   border-radius: 50%;
   font-size: 64px;
   box-shadow: ${({ selected }) => selected && 'inset'} 4px 4px 8px rgba(85, 85, 85, 0.25);
