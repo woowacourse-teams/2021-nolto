@@ -5,7 +5,6 @@ import com.wooteco.nolto.auth.UserAuthenticationPrincipal;
 import com.wooteco.nolto.feed.application.FeedService;
 import com.wooteco.nolto.feed.application.LikeService;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
-import com.wooteco.nolto.feed.ui.dto.FeedDetailResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
 import com.wooteco.nolto.user.domain.User;
@@ -27,8 +26,8 @@ public class FeedController {
 
     @PostMapping
     public ResponseEntity<Void> create(@MemberAuthenticationPrincipal User user, @RequestBody FeedRequest request) {
-        FeedDetailResponse response = feedService.create(user, request);
-        return ResponseEntity.created(URI.create("/feeds/" + response.getId())).build();
+        Long feedId = feedService.create(user, request);
+        return ResponseEntity.created(URI.create("/feeds/" + feedId)).build();
     }
 
     @GetMapping(value = "/{feedId}", produces = MediaType.APPLICATION_JSON_VALUE)

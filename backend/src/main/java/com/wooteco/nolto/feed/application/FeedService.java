@@ -6,7 +6,6 @@ import com.wooteco.nolto.feed.domain.FeedRepository;
 import com.wooteco.nolto.feed.domain.Feeds;
 import com.wooteco.nolto.feed.domain.FilterStrategy;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
-import com.wooteco.nolto.feed.ui.dto.FeedDetailResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
 import com.wooteco.nolto.user.domain.User;
@@ -22,10 +21,10 @@ public class FeedService {
 
     private final FeedRepository feedRepository;
 
-    public FeedDetailResponse create(User user, FeedRequest request) {
+    public Long create(User user, FeedRequest request) {
         Feed feed = request.toEntity().writtenBy(user);
         Feed savedFeed = feedRepository.save(feed);
-        return FeedDetailResponse.of(savedFeed);
+        return savedFeed.getId();
     }
 
     public FeedResponse findById(User user, Long feedId) {
