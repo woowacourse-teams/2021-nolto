@@ -4,6 +4,7 @@ import CroppedEllipse from 'components/CroppedEllipse/CroppedEllipse';
 import RegularCard from 'components/RegularCard/RegularCard';
 import StretchCard from 'components/StretchCard/StretchCard';
 import LevelLinkButton from 'components/LevelLinkButton/LevelLinkButton';
+import Header from 'components/Header/Header';
 import MoreArrow from 'assets/moreArrow.svg';
 import { ButtonStyle } from 'types';
 import Styled from './Home.styles';
@@ -31,58 +32,61 @@ const tags = ['JavaScript', 'Java', 'React.js', 'Spring'];
 
 const Home = () => {
   return (
-    <Styled.Root>
-      <Styled.EllipseWrapper>
-        <CroppedEllipse />
-      </Styled.EllipseWrapper>
-      <Styled.SearchContainer>
-        <Styled.SearchTitle>Search for Ideas?</Styled.SearchTitle>
-        <Styled.MainSearchbar />
-        <Styled.TagsContainer>
-          {tags.map((tag) => (
-            <Styled.TagButton buttonStyle={ButtonStyle.SOLID} reverse={true}>
-              {tag}
-            </Styled.TagButton>
-          ))}
-        </Styled.TagsContainer>
-      </Styled.SearchContainer>
+    <>
+      <Header isFolded={true} />
+      <Styled.Root>
+        <Styled.EllipseWrapper>
+          <CroppedEllipse />
+        </Styled.EllipseWrapper>
+        <Styled.SearchContainer>
+          <Styled.SearchTitle>Search for Ideas?</Styled.SearchTitle>
+          <Styled.MainSearchbar />
+          <Styled.TagsContainer>
+            {tags.map((tag) => (
+              <Styled.TagButton buttonStyle={ButtonStyle.SOLID} reverse={true}>
+                {tag}
+              </Styled.TagButton>
+            ))}
+          </Styled.TagsContainer>
+        </Styled.SearchContainer>
 
-      <Styled.ContentArea>
-        <Styled.SectionTitle fontSize="32px">Hot Toys</Styled.SectionTitle>
-        <Styled.HotToysContainer>
-          <Styled.CarouselLeft width="24" />
-          <Styled.HotToyCardsContainer>
-            {Array.from({ length: 3 }, () => (
-              <li>
-                <Styled.VerticalAvatar user={mockUser} />
-                <RegularCard feed={mockFeed} />
-              </li>
-            ))}
-          </Styled.HotToyCardsContainer>
-          <Styled.CarouselRight width="24" />
-        </Styled.HotToysContainer>
-        <Styled.SectionTitle fontSize="32px">Recent Toys</Styled.SectionTitle>
-        <Styled.RecentToysContainer>
-          <Styled.LevelButtonsContainer>
-            <LevelLinkButton.Progress />
-            <LevelLinkButton.Complete />
-            <LevelLinkButton.SOS />
-          </Styled.LevelButtonsContainer>
-          <Styled.RecentToyCardsContainer>
-            {Array.from({ length: 4 }, () => (
-              <li>
-                <Styled.VerticalAvatar user={mockUser} />
-                <StretchCard feed={mockFeed} />
-              </li>
-            ))}
-          </Styled.RecentToyCardsContainer>
-          <Styled.MoreButton>
-            MORE&nbsp;
-            <MoreArrow width="10" />
-          </Styled.MoreButton>
-        </Styled.RecentToysContainer>
-      </Styled.ContentArea>
-    </Styled.Root>
+        <Styled.ContentArea>
+          <Styled.SectionTitle fontSize="32px">Hot Toys</Styled.SectionTitle>
+          <Styled.HotToysContainer>
+            <Styled.CarouselLeft width="24" />
+            <Styled.HotToyCardsContainer>
+              {Array.from({ length: 3 }, () => (
+                <li>
+                  <Styled.VerticalAvatar user={mockUser} />
+                  <RegularCard feed={mockFeed} />
+                </li>
+              ))}
+            </Styled.HotToyCardsContainer>
+            <Styled.CarouselRight width="24" />
+          </Styled.HotToysContainer>
+          <Styled.SectionTitle fontSize="32px">Recent Toys</Styled.SectionTitle>
+          <Styled.RecentToysContainer>
+            <Styled.LevelButtonsContainer>
+              <LevelLinkButton.Progress />
+              <LevelLinkButton.Complete />
+              <LevelLinkButton.SOS />
+            </Styled.LevelButtonsContainer>
+            <Styled.RecentToyCardsContainer>
+              {Array.from({ length: 4 }, () => (
+                <li>
+                  <Styled.VerticalAvatar user={mockUser} />
+                  <StretchCard feed={mockFeed} />
+                </li>
+              ))}
+            </Styled.RecentToyCardsContainer>
+            <Styled.MoreButton>
+              MORE&nbsp;
+              <MoreArrow width="10" />
+            </Styled.MoreButton>
+          </Styled.RecentToysContainer>
+        </Styled.ContentArea>
+      </Styled.Root>
+    </>
   );
 };
 

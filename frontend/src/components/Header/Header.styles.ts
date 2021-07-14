@@ -4,12 +4,13 @@ import { PALETTE } from 'constants/palette';
 import TextButton from 'components/@common/TextButton/TextButton';
 import IconButton from 'components/@common/IconButton/IconButton';
 
-const Root = styled.header`
+const Root = styled.header<{ isFolded: boolean }>`
   position: sticky;
   top: 0;
-  height: 108px;
+  height: 92px;
   width: 100%;
   z-index: 10;
+  box-shadow: ${({ isFolded }) => !isFolded && '0px 4px 4px rgba(0, 0, 0, 0.25)'};
 `;
 
 const HeaderContent = styled.div`
@@ -35,7 +36,7 @@ const NavContainer = styled.ul`
   gap: 36px;
 
   & a {
-    font-size: 24px;
+    font-size: 20px;
     color: ${PALETTE.WHITE_400};
     display: inline;
 
@@ -57,15 +58,15 @@ const ButtonsContainer = styled.div`
 `;
 
 const SignInButton = styled(TextButton.Rounded)`
-  padding: 0.5rem 2rem;
-  font-size: 1.5rem;
-  line-height: 1.5rem;
+  padding: 8px 32px;
+  font-size: 20px;
+  line-height: 20px;
 `;
 
 const SearchButton = styled(IconButton)`
-  width: 2.75rem;
-  height: 2.75rem;
-  padding: 0.5rem;
+  width: 40px;
+  height: 40px;
+  padding: 6px;
 `;
 
 export default {

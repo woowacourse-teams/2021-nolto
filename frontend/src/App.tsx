@@ -1,15 +1,14 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import BaseLayout from 'components/BaseLayout/BaseLayout';
 import Home from 'pages/Home/Home';
 
 const App = () => {
   return (
     <Router>
-      <BaseLayout>
+      <main>
         <Home />
-      </BaseLayout>
+      </main>
     </Router>
   );
 };
