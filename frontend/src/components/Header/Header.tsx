@@ -7,13 +7,17 @@ import { PALETTE } from 'constants/palette';
 import { ButtonStyle } from 'types';
 import Styled from './Header.styles';
 
-const Header = () => {
+interface Props {
+  isFolded?: boolean;
+}
+
+const Header = ({ isFolded = false }: Props) => {
   const navLinkActiveStyle = {
     borderBottom: `2px solid ${PALETTE.WHITE_400}`,
   };
 
   return (
-    <Styled.Root>
+    <Styled.Root isFolded={isFolded}>
       <svg height="100%" width="100vw">
         <defs>
           <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -26,7 +30,7 @@ const Header = () => {
 
       <Styled.HeaderContent>
         <Styled.LogoWrapper>
-          <Logo />
+          <Logo width="200px" />
         </Styled.LogoWrapper>
         <nav>
           <Styled.NavContainer>
@@ -54,7 +58,7 @@ const Header = () => {
         </nav>
         <Styled.ButtonsContainer>
           <Styled.SearchButton>
-            <Search />
+            <Search width="32px" />
           </Styled.SearchButton>
           <Styled.SignInButton buttonStyle={ButtonStyle.OUTLINE} reverse={true}>
             Sign In
