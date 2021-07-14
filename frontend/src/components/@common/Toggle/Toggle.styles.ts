@@ -11,6 +11,7 @@ const Label = styled.label`
 const Text = styled.span`
   font-size: 24px;
   line-height: 24px;
+  user-select: none;
 `;
 
 const Input = styled.input`
@@ -44,6 +45,7 @@ const Toggle = styled.span<{ checked: boolean }>`
   display: flex;
   align-items: center;
   border: 2px solid ${PALETTE.PRIMARY_400};
+  cursor: pointer;
 
   &::after {
     content: '';

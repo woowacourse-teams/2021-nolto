@@ -1,11 +1,9 @@
 import React from 'react';
 
-import TextButton from 'components/@common/TextButton/TextButton';
-import TextInput from 'components/@common/TextInput/TextInput';
-import { ButtonStyle } from 'types';
-import Styled, { LoginInput, OAuthButton } from './LoginModal.styles';
 import GithubLogo from 'assets/githubLogo.svg';
 import GoogleLogo from 'assets/googleLogo.svg';
+import { ButtonStyle } from 'types';
+import Styled, { LoginInput, OAuthButton } from './LoginModal.styles';
 
 const LoginModal = () => {
   return (
