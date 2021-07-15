@@ -81,5 +81,5 @@ application:
   bucket:
     name: 2021-nolto
   cloudfront:
-    url: dksykemwl00pf.cloudfront.net
+    url: https://dksykemwl00pf.cloudfront.net
 
