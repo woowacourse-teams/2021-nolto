@@ -36,27 +36,27 @@ class TechRepositoryTest {
     @Test
     void findByFirstNameContains() {
         // when
-        List<Tech> findTechs = techRepository.findByNameContainsIgnoreCase("j");
+        List<Tech> findTechs = techRepository.findByNameStartsWithIgnoreCase("j");
 
         // then
         assertThat(findTechs).containsExactly(TECH_JAVA, TECH_JAVASCRIPT);
     }
 
-    @DisplayName("스택 이름의 중간 단어를 검색한다.")
+    @DisplayName("스택 이름의 중간 단어를 검색 안 한다.")
     @Test
     void findByMiddleNameContains() {
         // when
-        List<Tech> findTechs = techRepository.findByNameContainsIgnoreCase("va");
+        List<Tech> findTechs = techRepository.findByNameStartsWithIgnoreCase("va");
 
         // then
         assertThat(findTechs).containsExactly(TECH_JAVA, TECH_JAVASCRIPT);
     }
 
-    @DisplayName("스택 이름의 마지막 단어를 검색한다.")
+    @DisplayName("스택 이름의 마지막 단어를 검색 안 한다.")
     @Test
     void findByLastNameContains() {
         // when
-        List<Tech> findTechs = techRepository.findByNameContainsIgnoreCase("ing");
+        List<Tech> findTechs = techRepository.findByNameStartsWithIgnoreCase("ing");
 
         // then
         assertThat(findTechs).containsExactly(TECH_SPRING);

@@ -17,7 +17,7 @@ public class TechService {
     private final TechRepository techRepository;
 
     public List<TechResponse> findByTechsContains(String searchWord) {
-        List<Tech> findTechs = techRepository.findByNameContainsIgnoreCase(searchWord);
+        List<Tech> findTechs = techRepository.findByNameStartsWithIgnoreCase(searchWord);
         return TechResponse.toList(findTechs);
     }
 }
