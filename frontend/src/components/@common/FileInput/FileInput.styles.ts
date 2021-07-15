@@ -1,7 +1,7 @@
 import { PALETTE } from 'constants/palette';
 import styled from 'styled-components';
 
-const RootContainer = styled.div`
+const Root = styled.div`
   display: flex;
   align-items: center;
   gap: 1.5rem;
@@ -29,10 +29,12 @@ const Label = styled.label`
     background-color: ${PALETTE.PRIMARY_400};
     border-radius: 4px;
   }
+
+  cursor: pointer;
 `;
 
 const FileNameText = styled.span`
   font-size: 1.5rem;
 `;
 
-export default { RootContainer, Label, FileNameText };
+export default { Root, Label, FileNameText };

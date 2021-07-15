@@ -1,21 +1,19 @@
-import React from 'react';
+import React, { InputHTMLAttributes } from 'react';
 
 import Styled from './Toggle.styles';
 
-export interface Props {
+export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   labelText?: string;
-  checked?: boolean;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Toggle = ({ labelText = '', checked = false, onChange }: Props) => {
+const Toggle = React.forwardRef<HTMLInputElement, Props>(({ labelText = '', ...options }, ref) => {
   return (
     <Styled.Label>
       <Styled.Text>{labelText}</Styled.Text>
-      <Styled.Input type="checkbox" onChange={onChange} />
-      <Styled.Toggle checked={checked}></Styled.Toggle>
+      <Styled.Input type="checkbox" ref={ref} {...options} />
+      <Styled.ToggleMark></Styled.ToggleMark>
     </Styled.Label>
   );
-};
+});
 
 export default Toggle;

@@ -16,13 +16,14 @@ public class UserTest {
     private static String EMAIL = "email@email.com";
     private static String PASSWORD = "password";
     private static String NICKNAME = "nickname";
+    private static String IMAGE = "sample-image.png";
 
-    public static User USER = new User(null, EMAIL, PASSWORD, NICKNAME);
+    public static User USER = new User(EMAIL, PASSWORD, NICKNAME, IMAGE);
 
     @Test
     void checkPassword() {
         // given
-        User user = new User(null, EMAIL, PASSWORD, NICKNAME);
+        User user = new User(null, EMAIL, PASSWORD, NICKNAME, IMAGE);
 
         // when then
         assertDoesNotThrow(() -> user.checkPassword(PASSWORD));
@@ -32,7 +33,7 @@ public class UserTest {
     @Test
     void invalidPassword() {
         // given
-        User user = new User(null, EMAIL, "passWORD", NICKNAME);
+        User user = new User(null, EMAIL, "passWORD", NICKNAME, IMAGE);
 
         // when then
         assertThatThrownBy(() -> user.checkPassword(PASSWORD))
@@ -43,7 +44,7 @@ public class UserTest {
     @DisplayName("멤버가 해당 피드에 좋아요를 눌렀는지 검증한다.")
     @Test
     void isLiked() {
-        User user = new User(null, EMAIL, "passWORD", NICKNAME);
+        User user = new User(null, EMAIL, "passWORD", NICKNAME, IMAGE);
         Feed feed = new Feed(new ArrayList<>(), "title", "content", Step.PROGRESS, true, "", "", "");
         feed.writtenBy(user);
 
@@ -55,8 +56,8 @@ public class UserTest {
     @DisplayName("멤버가 해당 피드에 좋아요를 안 눌렀는지 검증한다.")
     @Test
     void isNotLiked() {
-        User user1 = new User(null, EMAIL, "passWORD", NICKNAME);
-        User user2 = new User(null, "woowa@email.com", "passWORD", "amazzi");
+        User user1 = new User(null, EMAIL, "passWORD", NICKNAME, IMAGE);
+        User user2 = new User(null, "woowa@email.com", "passWORD", "amazzi", IMAGE);
         Feed feed = new Feed(new ArrayList<>(), "title", "content", Step.PROGRESS, true, "", "", "");
         feed.writtenBy(user1);
 

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
 import TextButton from 'components/@common/TextButton/TextButton';
-import IconButton from 'components/@common/IconButton/IconButton';
+import IconButtonComponent from 'components/@common/IconButton/IconButton';
 
 const Root = styled.header<{ isFolded: boolean }>`
   position: sticky;
@@ -54,7 +54,7 @@ const ButtonsContainer = styled.div`
   display: flex;
   align-items: center;
   margin-left: 40px;
-  gap: 28px;
+  gap: 1rem;
 `;
 
 const SignInButton = styled(TextButton.Rounded)`
@@ -63,7 +63,7 @@ const SignInButton = styled(TextButton.Rounded)`
   line-height: 20px;
 `;
 
-const SearchButton = styled(IconButton)`
+export const IconButton = styled(IconButtonComponent)`
   width: 40px;
   height: 40px;
   padding: 6px;
@@ -76,5 +76,4 @@ export default {
   NavContainer,
   ButtonsContainer,
   SignInButton,
-  SearchButton,
 };
