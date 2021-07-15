@@ -1,6 +1,5 @@
 package com.wooteco.nolto.feed.application;
 
-import com.wooteco.nolto.NoltoApplication;
 import com.wooteco.nolto.NotFoundException;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.Step;
@@ -15,11 +14,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,7 +31,6 @@ import static org.mockito.BDDMockito.given;
 
 @ActiveProfiles("test")
 @SpringBootTest
-@AutoConfigureMockMvc
 @Transactional
 class FeedServiceTest {
     private FeedRequest FEED_REQUEST1 = new FeedRequest("title1", new ArrayList<>(), "content", "PROGRESS", true,
@@ -126,7 +122,6 @@ class FeedServiceTest {
                 .isInstanceOf(NotFoundException.class)
                 .hasMessage("피드를 찾을 수 없습니다.");
     }
-
 
     @DisplayName("좋아요 개수가 높은 인기 Feed들을 가져온다.")
     @Test
