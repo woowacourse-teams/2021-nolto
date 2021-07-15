@@ -8,6 +8,7 @@ import com.wooteco.nolto.feed.domain.FilterStrategy;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
+import com.wooteco.nolto.image.application.ImageService;
 import com.wooteco.nolto.user.domain.User;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -19,10 +20,12 @@ import java.util.List;
 @Service
 public class FeedService {
 
+    private final ImageService imageService;
     private final FeedRepository feedRepository;
 
     public Long create(User user, FeedRequest request) {
-        Feed feed = request.toEntity().writtenBy(user);
+        String thumbnailUrl = imageService.upload(request.getThumbnailImage());
+        Feed feed = request.toEntityWithThumbnailUrl(thumbnailUrl).writtenBy(user);
         Feed savedFeed = feedRepository.save(feed);
         return savedFeed.getId();
     }

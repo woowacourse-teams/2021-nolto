@@ -25,7 +25,7 @@ public class FeedController {
     private final LikeService likeService;
 
     @PostMapping
-    public ResponseEntity<Void> create(@MemberAuthenticationPrincipal User user, @RequestBody FeedRequest request) {
+    public ResponseEntity<Void> create(@MemberAuthenticationPrincipal User user, @ModelAttribute FeedRequest request) {
         Long feedId = feedService.create(user, request);
         return ResponseEntity.created(URI.create("/feeds/" + feedId)).build();
     }

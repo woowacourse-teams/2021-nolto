@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -33,11 +34,9 @@ public class FeedRequest {
 
     private String storageUrl;
     private String deployedUrl;
-    private String thumbnailUrl;
+    private MultipartFile thumbnailImage;
 
-    public Feed toEntity() {
-        return new Feed(
-                this.tech, this.title, this.content, Step.of(step), this.sos, this.storageUrl, this.deployedUrl, this.thumbnailUrl
-        );
+    public Feed toEntityWithThumbnailUrl(String thumbnailUrl) {
+        return new Feed(this.tech, this.title, this.content, Step.of(step), this.sos, this.storageUrl, this.deployedUrl, thumbnailUrl);
     }
 }
