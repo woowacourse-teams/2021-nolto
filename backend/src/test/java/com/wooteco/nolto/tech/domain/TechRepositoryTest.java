@@ -49,7 +49,7 @@ class TechRepositoryTest {
         List<Tech> findTechs = techRepository.findByNameStartsWithIgnoreCase("va");
 
         // then
-        assertThat(findTechs).containsExactly(TECH_JAVA, TECH_JAVASCRIPT);
+        assertThat(findTechs).doesNotContain(TECH_JAVA, TECH_JAVASCRIPT);
     }
 
     @DisplayName("스택 이름의 마지막 단어를 검색 안 한다.")
@@ -59,6 +59,6 @@ class TechRepositoryTest {
         List<Tech> findTechs = techRepository.findByNameStartsWithIgnoreCase("ing");
 
         // then
-        assertThat(findTechs).containsExactly(TECH_SPRING);
+        assertThat(findTechs).doesNotContain(TECH_SPRING);
     }
 }
