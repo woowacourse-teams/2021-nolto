@@ -21,6 +21,10 @@ public class Tech {
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(foreignKey = @ForeignKey(name = "fk_tech_to_feed"), nullable = false)
+    @JoinColumn(foreignKey = @ForeignKey(name = "fk_tech_to_feed"))
     private Feed feed;
+
+    public Tech(String name) {
+        this.name = name;
+    }
 }
