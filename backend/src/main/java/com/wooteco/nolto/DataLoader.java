@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Profile("!prod")
+@Profile("dev")
 @Component
 @AllArgsConstructor
 public class DataLoader implements ApplicationRunner {

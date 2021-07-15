@@ -14,8 +14,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
+@Transactional
 @AllArgsConstructor
 @Service
 public class FeedService {
@@ -34,6 +36,7 @@ public class FeedService {
         Feed feed = findEntityById(feedId);
         User author = feed.getAuthor();
         boolean liked = user.isLiked(feed);
+        feed.increaseView();
         return FeedResponse.of(author, feed, liked);
     }
 

@@ -26,7 +26,7 @@ public class FeedResponse {
     private final boolean liked;
 
     public static FeedResponse of(User author, Feed feed, boolean liked) {
-        return new FeedResponse(FeedAuthorResponse.of(author), feed.getId(), feed.getTitle(), TechResponse.of(feed.getTechs()),
+        return new FeedResponse(FeedAuthorResponse.of(author), feed.getId(), feed.getTitle(), TechResponse.toList(feed.getTechs()),
                 feed.getContent(), feed.getStep().name(), feed.isSos(), feed.getStorageUrl(), feed.getDeployedUrl(),
                 feed.getThumbnailUrl(), feed.getLikes().size(), feed.getViews(), liked);
     }
