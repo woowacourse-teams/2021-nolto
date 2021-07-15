@@ -1,11 +1,13 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 
 import Logo from 'assets/logo.svg';
 import Search from 'assets/search.svg';
+import Pencil from 'assets/pencil.svg';
 import { PALETTE } from 'constants/palette';
+import ROUTE from 'constants/routes';
 import { ButtonStyle } from 'types';
-import Styled from './Header.styles';
+import Styled, { IconButton } from './Header.styles';
 
 interface Props {
   isFolded?: boolean;
@@ -30,7 +32,9 @@ const Header = ({ isFolded = false }: Props) => {
 
       <Styled.HeaderContent>
         <Styled.LogoWrapper>
-          <Logo width="200px" />
+          <Link to={ROUTE.HOME}>
+            <Logo width="200px" />
+          </Link>
         </Styled.LogoWrapper>
         <nav>
           <Styled.NavContainer>
@@ -57,9 +61,15 @@ const Header = ({ isFolded = false }: Props) => {
           </Styled.NavContainer>
         </nav>
         <Styled.ButtonsContainer>
-          <Styled.SearchButton>
+          <IconButton>
             <Search width="32px" />
-          </Styled.SearchButton>
+          </IconButton>
+          <Link to={ROUTE.UPLOAD}>
+            <IconButton>
+              <Pencil width="22px" />
+            </IconButton>
+          </Link>
+
           <Styled.SignInButton buttonStyle={ButtonStyle.OUTLINE} reverse={true}>
             Sign In
           </Styled.SignInButton>

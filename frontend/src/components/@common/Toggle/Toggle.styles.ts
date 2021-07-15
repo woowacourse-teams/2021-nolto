@@ -14,8 +14,27 @@ const Text = styled.span`
   user-select: none;
 `;
 
-const Input = styled.input`
-  display: none;
+const ToggleMark = styled.span`
+  position: relative;
+  width: 60px;
+  height: 32px;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  border: 2px solid ${PALETTE.PRIMARY_400};
+  cursor: pointer;
+
+  &::after {
+    content: '';
+    position: absolute;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+
+    transition: transform 0.5s ease, backgroud-color 0.5s ease;
+  }
 `;
 
 const switchOn = css`
@@ -37,29 +56,18 @@ const switchOff = css`
   }
 `;
 
-const Toggle = styled.span<{ checked: boolean }>`
-  position: relative;
-  width: 60px;
-  height: 32px;
-  border-radius: 25px;
-  display: flex;
-  align-items: center;
-  border: 2px solid ${PALETTE.PRIMARY_400};
-  cursor: pointer;
+const Input = styled.input`
+  display: none;
 
-  &::after {
-    content: '';
-    position: absolute;
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
-
-    transition: transform 0.5s ease, backgroud-color 0.5s ease;
+  & ~ ${ToggleMark} {
+    ${switchOff}
   }
 
-  ${({ checked }) => (checked ? switchOn : switchOff)};
+  &:checked {
+    & ~ ${ToggleMark} {
+      ${switchOn}
+    }
+  }
 `;
 
-export default { Label, Text, Input, Toggle };
+export default { Label, Text, Input, ToggleMark };
