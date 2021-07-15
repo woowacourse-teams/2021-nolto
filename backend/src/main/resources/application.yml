@@ -48,6 +48,12 @@ security:
       secret-key: my_secret_is_secret
       expire-length: 3600000
 spring:
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2MB
+      max-file-size: 5MB
+      max-request-size: 10MB
   jpa:
     properties:
       hibernate:
@@ -65,4 +71,15 @@ logging:
           descriptor:
             sql:
               BasicBinder: TRACE
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+application:
+  bucket:
+    name: 2021-nolto
+  cloudfront:
+    url: dksykemwl00pf.cloudfront.net
 

@@ -35,6 +35,9 @@ dependencies {
 
 	// Maria DB
 	implementation("org.mariadb.jdbc:mariadb-java-client:2.1.2")
+
+	// AWS S3
+	implementation group: 'org.springframework.cloud', name: 'spring-cloud-aws-core', version: '2.2.6.RELEASE'
 }
 
 test {
