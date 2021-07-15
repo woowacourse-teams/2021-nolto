@@ -49,13 +49,12 @@ security:
       expire-length: 3600000
 spring:
   jpa:
+    hibernate:
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
-        ddl-auto: create
-        dialect=org:
-          hibernate:
-            dialect: H2Dialect
+        dialect: org.hibernate.dialect.H2Dialect
     show-sql: true
 logging:
   level:
