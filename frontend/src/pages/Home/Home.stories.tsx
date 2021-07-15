@@ -1,4 +1,3 @@
-import BaseLayout from 'components/BaseLayout/BaseLayout';
 import React from 'react';
 
 import Home from './Home';
@@ -9,8 +8,4 @@ export default {
   argTypes: {},
 };
 
-export const Default = () => (
-  <BaseLayout>
-    <Home />
-  </BaseLayout>
-);
+export const Default = () => <Home />;

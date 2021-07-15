@@ -5,32 +5,18 @@ import RegularCard from 'components/RegularCard/RegularCard';
 import StretchCard from 'components/StretchCard/StretchCard';
 import LevelLinkButton from 'components/LevelLinkButton/LevelLinkButton';
 import Header from 'components/Header/Header';
+import useHotFeeds from 'hooks/useHotFeeds';
+import useRecentFeeds from 'hooks/useRecentFeeds';
+import Styled from './Home.styles';
 import MoreArrow from 'assets/moreArrow.svg';
 import { ButtonStyle } from 'types';
-import Styled from './Home.styles';
-
-const mockFeed = {
-  id: 1,
-  user: {
-    id: 1,
-    nickname: 'zigsong',
-    imageUrl: 'https://avatars.githubusercontent.com/u/48755175?v=4',
-  },
-  title: 'Good Toy',
-  content: 'Good Nice Perfect Gorgeous Wonderful!',
-  thumbnailUrl: 'https://i.pinimg.com/236x/f5/45/6e/f5456e14993cac65828e289048a89f3e.jpg',
-  sos: false,
-};
-
-const mockUser = {
-  id: 1,
-  nickname: 'zigsong',
-  imageUrl: 'https://avatars.githubusercontent.com/u/48755175?v=4',
-};
 
 const tags = ['JavaScript', 'Java', 'React.js', 'Spring'];
 
 const Home = () => {
+  const { data: hotFeeds } = useHotFeeds();
+  const { data: recentFeeds } = useRecentFeeds();
+
   return (
     <>
       <Header isFolded={true} />
@@ -43,7 +29,7 @@ const Home = () => {
           <Styled.MainSearchbar />
           <Styled.TagsContainer>
             {tags.map((tag) => (
-              <Styled.TagButton buttonStyle={ButtonStyle.SOLID} reverse={true}>
+              <Styled.TagButton buttonStyle={ButtonStyle.SOLID} reverse={true} key={tag}>
                 {tag}
               </Styled.TagButton>
             ))}
@@ -55,12 +41,13 @@ const Home = () => {
           <Styled.HotToysContainer>
             <Styled.CarouselLeft width="24" />
             <Styled.HotToyCardsContainer>
-              {Array.from({ length: 3 }, () => (
-                <li>
-                  <Styled.VerticalAvatar user={mockUser} />
-                  <RegularCard feed={mockFeed} />
-                </li>
-              ))}
+              {hotFeeds &&
+                hotFeeds.map((feed) => (
+                  <li key={feed.id}>
+                    <Styled.VerticalAvatar user={feed.author} />
+                    <RegularCard feed={feed} />
+                  </li>
+                ))}
             </Styled.HotToyCardsContainer>
             <Styled.CarouselRight width="24" />
           </Styled.HotToysContainer>
@@ -72,12 +59,13 @@ const Home = () => {
               <LevelLinkButton.SOS />
             </Styled.LevelButtonsContainer>
             <Styled.RecentToyCardsContainer>
-              {Array.from({ length: 4 }, () => (
-                <li>
-                  <Styled.VerticalAvatar user={mockUser} />
-                  <StretchCard feed={mockFeed} />
-                </li>
-              ))}
+              {recentFeeds &&
+                recentFeeds.map((feed) => (
+                  <li key={feed.id}>
+                    <Styled.VerticalAvatar user={feed.author} />
+                    <StretchCard feed={feed} />
+                  </li>
+                ))}
             </Styled.RecentToyCardsContainer>
             <Styled.MoreButton>
               MORE&nbsp;
