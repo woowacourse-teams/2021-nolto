@@ -31,6 +31,7 @@ public class FeedService {
         Feed feed = findEntityById(feedId);
         User author = feed.getAuthor();
         boolean liked = user.isLiked(feed);
+        feed.increaseView();
         return FeedResponse.of(author, feed, liked);
     }
 

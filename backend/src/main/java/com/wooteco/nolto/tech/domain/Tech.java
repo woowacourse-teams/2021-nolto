@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -20,9 +21,8 @@ public class Tech {
     @NotBlank
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(foreignKey = @ForeignKey(name = "fk_tech_to_feed"))
-    private Feed feed;
+    @OneToMany
+    private List<Feed> feeds;
 
     public Tech(String name) {
         this.name = name;

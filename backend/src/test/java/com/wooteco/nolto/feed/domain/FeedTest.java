@@ -1,6 +1,5 @@
 package com.wooteco.nolto.feed.domain;
 
-import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.domain.UserTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -30,5 +29,15 @@ class FeedTest {
 
         // then
         assertThat(feed.getAuthor()).isEqualTo(UserTest.USER);
+    }
+
+    @Test
+    void increaseView() {
+        // when
+        int beforeView = feed1.getViews();
+        feed1.increaseView();
+
+        // then
+        assertThat(feed1.getViews()).isEqualTo(beforeView + 1);
     }
 }

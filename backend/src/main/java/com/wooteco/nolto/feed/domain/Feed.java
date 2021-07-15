@@ -21,7 +21,7 @@ public class Feed {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "feed")
+    @OneToMany
     private List<Tech> techs = new ArrayList<>();
 
     @Column(nullable = false)
@@ -103,5 +103,9 @@ public class Feed {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public void increaseView() {
+        this.views++;
     }
 }
