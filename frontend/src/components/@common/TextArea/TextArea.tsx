@@ -4,8 +4,8 @@ import Styled from './TextArea.styles';
 
 type Props = TextareaHTMLAttributes<HTMLTextAreaElement>;
 
-const TextArea = ({ ...options }: Props) => {
-  return <Styled.Root {...options}></Styled.Root>;
-};
+const TextArea = React.forwardRef<HTMLTextAreaElement, Props>(({ ...options }, ref) => {
+  return <Styled.Root ref={ref} {...options}></Styled.Root>;
+});
 
 export default TextArea;
