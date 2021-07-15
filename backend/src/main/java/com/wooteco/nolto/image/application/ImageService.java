@@ -16,7 +16,10 @@ public class ImageService {
     @Value("${application.bucket.name}")
     private String bucketName;
 
-    private AmazonS3 amazonS3Client;
+    @Value("${application.cloudfront.url}")
+    private String cloudfrontUrl;
+
+    private final AmazonS3 amazonS3Client;
 
     public ImageService(AmazonS3 amazonS3Client) {
         this.amazonS3Client = amazonS3Client;
@@ -27,7 +30,7 @@ public class ImageService {
         String fileName = System.currentTimeMillis() + Base64.encodeAsString(multipartFile.getName().getBytes()) + multipartFile.getContentType();
         amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, file));
         file.delete();
-        return fileName;
+        return cloudfrontUrl + "/" + fileName;
     }
 
     private File convertToFile(MultipartFile multipartFile) {
@@ -40,3 +43,4 @@ public class ImageService {
         return convertedFile;
     }
 }
+
