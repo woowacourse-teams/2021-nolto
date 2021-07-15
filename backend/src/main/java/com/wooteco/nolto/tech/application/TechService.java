@@ -6,8 +6,10 @@ import com.wooteco.nolto.tech.ui.dto.TechResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
+@Transactional
 @Service
 @AllArgsConstructor
 public class TechService {

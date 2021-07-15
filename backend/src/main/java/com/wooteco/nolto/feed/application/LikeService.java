@@ -8,6 +8,9 @@ import com.wooteco.nolto.user.domain.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
+@Transactional
 @AllArgsConstructor
 @Service
 public class LikeService {
@@ -20,8 +23,7 @@ public class LikeService {
             throw new IllegalStateException("해당 유저가 이미 좋아요를 눌렀습니다");
         }
 
-        Like savedLiked = likeRepository.save(new Like(user, findFeed));
-        findFeed.getLikes().add(savedLiked);
+        likeRepository.save(new Like(user, findFeed));
     }
 
     public void deleteLike(User user, Long feedId) {
@@ -29,6 +31,5 @@ public class LikeService {
         Like findLike = likeRepository.findByUserAndFeed(user, findFeed)
                 .orElseThrow(() -> new NotFoundException("해당 유저가 좋아요를 누르지 않았습니다"));
         likeRepository.delete(findLike);
-        findFeed.getLikes().remove(findLike);
     }
 }

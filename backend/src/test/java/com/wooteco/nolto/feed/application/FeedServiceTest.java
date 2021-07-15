@@ -1,11 +1,13 @@
 package com.wooteco.nolto.feed.application;
 
+import com.wooteco.nolto.NoltoApplication;
 import com.wooteco.nolto.NotFoundException;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
+import com.wooteco.nolto.image.application.ImageService;
 import com.wooteco.nolto.tech.ui.dto.TechResponse;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.domain.UserRepository;
@@ -13,26 +15,34 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 
 @ActiveProfiles("test")
 @SpringBootTest
+@AutoConfigureMockMvc
 @Transactional
 class FeedServiceTest {
     private FeedRequest FEED_REQUEST1 = new FeedRequest("title1", new ArrayList<>(), "content", "PROGRESS", true,
-            "storageUrl", "deployUrl", "feed_thumbnail.jpg");
+            "storageUrl", "deployUrl", null);
     private FeedRequest FEED_REQUEST2 = new FeedRequest("title2", new ArrayList<>(), "content", "PROGRESS", true,
-            "storageUrl", "deployUrl", "feed_thumbnail.jpg");
+            "storageUrl", "deployUrl", null);
     private FeedRequest FEED_REQUEST3 = new FeedRequest("title3", new ArrayList<>(), "content", "PROGRESS", true,
-            "storageUrl", "deployUrl", "feed_thumbnail.jpg");
+            "storageUrl", "deployUrl", null);
 
     private User user1 = new User(null, "email@email.com", "password", "user1", "mickey.jpg");
     private User user2 = new User(null, "email2@email.com", "password", "user2", "mickey.jpg");
@@ -43,11 +53,18 @@ class FeedServiceTest {
     @Autowired
     private LikeService likeService;
 
+    @MockBean
+    private ImageService imageService;
+
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private EntityManager em;
+
     @BeforeEach
     void setUp() {
+        given(imageService.upload(any(MultipartFile.class))).willReturn("image.jpg");
         userRepository.save(user1);
         userRepository.save(user2);
     }
@@ -70,7 +87,7 @@ class FeedServiceTest {
 
         // when
         FeedResponse feedResponse = feedService.findById(user1, feedId);
-        FEED_REQUEST1.toEntity();
+        FEED_REQUEST1.toEntityWithThumbnailUrl(null);
 
         // then
         assertThat(feedResponse.getId()).isEqualTo(feedId);
@@ -121,12 +138,12 @@ class FeedServiceTest {
 
         likeService.addLike(user2, secondFeedId);
         likeService.addLike(user2, thirdFeedId);
-        likeService.addLike(this.user1, secondFeedId);
+        likeService.addLike(user1, secondFeedId);
+        em.flush();
+        em.clear();
 
         // when
         List<FeedCardResponse> hotFeeds = feedService.findHotFeeds();
-        Feed feed = feedService.findEntityById(secondFeedId);
-        System.out.println(feed.getLikes().size());
 
         // then
         assertThat(hotFeeds).hasSize(3);
@@ -225,7 +242,6 @@ class FeedServiceTest {
         assertThat(request.isSos()).isEqualTo(feed.isSos());
         assertThat(request.getStorageUrl()).isEqualTo(feed.getStorageUrl());
         assertThat(request.getDeployedUrl()).isEqualTo(feed.getDeployedUrl());
-        assertThat(request.getThumbnailUrl()).isEqualTo(feed.getThumbnailUrl());
     }
 
     private void 피드_정보가_같은지_조회(FeedRequest request, FeedResponse response) {
@@ -238,7 +254,6 @@ class FeedServiceTest {
         assertThat(request.isSos()).isEqualTo(response.isSos());
         assertThat(request.getStorageUrl()).isEqualTo(response.getStorageUrl());
         assertThat(request.getDeployedUrl()).isEqualTo(response.getDeployedUrl());
-        assertThat(request.getThumbnailUrl()).isEqualTo(response.getThumbnailUrl());
     }
 
     private void 피드_정보가_같은지_조회(FeedRequest request, FeedCardResponse response) {
@@ -246,6 +261,5 @@ class FeedServiceTest {
         assertThat(request.getContent()).isEqualTo(response.getContent());
         assertThat(request.getStep()).isEqualTo(response.getStep());
         assertThat(request.isSos()).isEqualTo(response.isSos());
-        assertThat(request.getThumbnailUrl()).isEqualTo(response.getThumbnailUrl());
     }
 }
