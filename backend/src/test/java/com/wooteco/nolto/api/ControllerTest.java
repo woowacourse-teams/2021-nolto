@@ -32,7 +32,7 @@ public class ControllerTest {
     public ObjectMapper objectMapper;
 
     @MockBean
-    private AuthService authService;
+    public AuthService authService;
 
     public MockMvc mockMvc;
 
