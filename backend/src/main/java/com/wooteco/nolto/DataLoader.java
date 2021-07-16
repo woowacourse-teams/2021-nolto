@@ -1,8 +1,8 @@
 package com.wooteco.nolto;
 
-import com.wooteco.nolto.feed.domain.Feed;
-import com.wooteco.nolto.feed.domain.FeedRepository;
-import com.wooteco.nolto.feed.domain.Step;
+import com.wooteco.nolto.feed.domain.*;
+import com.wooteco.nolto.tech.domain.Tech;
+import com.wooteco.nolto.tech.domain.TechRepository;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.domain.UserRepository;
 import lombok.AllArgsConstructor;
@@ -11,7 +11,6 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,6 +21,8 @@ public class DataLoader implements ApplicationRunner {
 
     private final UserRepository userRepository;
     private final FeedRepository feedRepository;
+    private final TechRepository techRepository;
+    private final FeedTechRepository feedTechRepository;
 
     @Override
     public void run(ApplicationArguments args) {
@@ -36,9 +37,19 @@ public class DataLoader implements ApplicationRunner {
         );
         userRepository.saveAll(users);
 
-        Feed feed1 = new Feed(new ArrayList<>(), "title1", "content1", Step.PROGRESS, true, "", "", "").writtenBy(mickey);
-        Feed feed2 = new Feed(new ArrayList<>(), "title2", "content2", Step.COMPLETE, false, "", "http://woowa.jofilm.com", "").writtenBy(mickey);
-        feedRepository.save(feed1);
-        feedRepository.save(feed2);
+        Tech tech1 = new Tech("Apollo Client");
+        Tech tech2 = new Tech("WebGL");
+        Tech saveTech1 = techRepository.save(tech1);
+        Tech saveTech2 = techRepository.save(tech2);
+
+        Feed feed1 = new Feed("title1", "content1", Step.PROGRESS, true, "", "", "").writtenBy(mickey);
+        Feed feed2 = new Feed("title2", "content2", Step.COMPLETE, false, "", "http://woowa.jofilm.com", "").writtenBy(mickey);
+        Feed saveFeed1 = feedRepository.save(feed1);
+        Feed saveFeed2 = feedRepository.save(feed2);
+
+        feedTechRepository.save(new FeedTech(saveFeed1, saveTech1));
+        feedTechRepository.save(new FeedTech(saveFeed1, saveTech2));
+        feedTechRepository.save(new FeedTech(saveFeed2, saveTech1));
+        feedTechRepository.save(new FeedTech(saveFeed2, saveTech2));
     }
 }

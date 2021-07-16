@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor
@@ -20,9 +21,6 @@ public class Feed {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @OneToMany
-    private List<Tech> techs = new ArrayList<>();
 
     @Column(nullable = false)
     @NotBlank
@@ -53,17 +51,19 @@ public class Feed {
     @OneToMany(mappedBy = "feed")
     private List<Like> likes = new ArrayList<>();
 
-    public Feed(List<Tech> techs, String title, String content, Step step, boolean isSos, String storageUrl,
+    @OneToMany(mappedBy = "feed")
+    private List<FeedTech> feedTechs = new ArrayList<>();
+
+    public Feed(String title, String content, Step step, boolean isSos, String storageUrl,
                 String deployedUrl, String thumbnailUrl) {
-        this(null, techs, title, content, step, isSos, storageUrl, deployedUrl, thumbnailUrl, 0, null,
+        this(null, title, content, step, isSos, storageUrl, deployedUrl, thumbnailUrl, 0, null,
                 new ArrayList<>());
     }
 
-    public Feed(Long id, List<Tech> techs, String title, String content, Step step, boolean isSos, String storageUrl,
+    public Feed(Long id, String title, String content, Step step, boolean isSos, String storageUrl,
                 String deployedUrl, String thumbnailUrl, int views, User author, List<Like> likes) {
         validateStep(step, deployedUrl);
         this.id = id;
-        this.techs = techs;
         this.title = title;
         this.content = content;
         this.step = step;
@@ -78,7 +78,7 @@ public class Feed {
 
     public Feed writtenBy(User author) {
         this.author = author;
-        author.getFeeds().add(this);
+        author.addFeed(this);
         return this;
     }
 
@@ -107,5 +107,11 @@ public class Feed {
 
     public void increaseView() {
         this.views++;
+    }
+
+    public List<Tech> getTechs() {
+        return feedTechs.stream()
+                .map(FeedTech::getTech)
+                .collect(Collectors.toList());
     }
 }

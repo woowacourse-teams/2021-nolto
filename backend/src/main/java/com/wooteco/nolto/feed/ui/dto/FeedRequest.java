@@ -2,7 +2,6 @@ package com.wooteco.nolto.feed.ui.dto;
 
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.Step;
-import com.wooteco.nolto.tech.domain.Tech;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +20,7 @@ public class FeedRequest {
     @NotBlank(message = "제목은 빈 값일 수 없습니다.")
     private String title;
 
-    private List<Tech> tech;
+    private List<Long> tech;
 
     @NotBlank(message = "내용은 빈 값일 수 없습니다.")
     private String content;
@@ -37,6 +36,6 @@ public class FeedRequest {
     private MultipartFile thumbnailImage;
 
     public Feed toEntityWithThumbnailUrl(String thumbnailUrl) {
-        return new Feed(this.tech, this.title, this.content, Step.of(step), this.sos, this.storageUrl, this.deployedUrl, thumbnailUrl);
+        return new Feed(this.title, this.content, Step.of(step), this.sos, this.storageUrl, this.deployedUrl, thumbnailUrl);
     }
 }

@@ -30,7 +30,7 @@ const CrossMarkButton = styled(IconButton)`
   right: -8px;
   width: 2rem;
   height: 2rem;
-  background-color: ${PALETTE.PRIMARY_200};
+  background-color: ${PALETTE.PRIMARY_400};
   padding: 5px;
 `;
 
