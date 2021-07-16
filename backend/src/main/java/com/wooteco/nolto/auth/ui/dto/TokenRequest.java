@@ -14,10 +14,11 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 public class TokenRequest {
 
-    @Email
-    @NotBlank
+    @Email(message = "올바른 Email 양식이 아닙니다.")
+    @NotBlank(message = "Email은 빈 값일 수 없습니다.")
     private String email;
-    @NotBlank
+
+    @NotBlank(message = "password는 빈 값일 수 없습니다.")
     private String password;
 
 }
