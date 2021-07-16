@@ -105,12 +105,12 @@ const DetailsValue = styled.span`
   gap: 0.5rem;
 `;
 
-const Tag = styled(TextButton.Rounded)`
+export const Tag = styled(TextButton.Rounded)`
   width: 5.5rem;
   height: 1.5rem;
 `;
 
-const StacksMoreButton = styled(StacksMoreIcon)`
+export const StacksMoreButton = styled(StacksMoreIcon)`
   cursor: pointer;
 `;
 
@@ -145,8 +145,6 @@ export default {
   DetailsPair,
   DetailsKey,
   DetailsValue,
-  Tag,
-  StacksMoreButton,
   DotsDivider,
   Description,
 };
