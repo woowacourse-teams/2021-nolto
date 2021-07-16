@@ -1,6 +1,8 @@
 package com.wooteco.nolto;
 
-import com.wooteco.nolto.feed.domain.*;
+import com.wooteco.nolto.feed.domain.Feed;
+import com.wooteco.nolto.feed.domain.FeedTech;
+import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.feed.domain.repository.FeedTechRepository;
 import com.wooteco.nolto.tech.domain.Tech;
