@@ -80,8 +80,8 @@ class FeedServiceTest {
         Tech savedTech2 = techRepository.save(tech2);
         Tech savedTech3 = techRepository.save(tech3);
 
-        FEED_REQUEST2.setTech(Arrays.asList(savedTech1.getId(), savedTech2.getId()));
-        FEED_REQUEST3.setTech(Collections.singletonList(savedTech3.getId()));
+        FEED_REQUEST2.setTechs(Arrays.asList(savedTech1.getId(), savedTech2.getId()));
+        FEED_REQUEST3.setTechs(Collections.singletonList(savedTech3.getId()));
     }
 
     @DisplayName("유저가 feed를 작성한다.")
@@ -283,7 +283,7 @@ class FeedServiceTest {
                 .collect(Collectors.toList());
 
         assertThat(request.getTitle()).isEqualTo(feed.getTitle());
-        assertThat(request.getTech()).containsExactlyElementsOf(techIds);
+        assertThat(request.getTechs()).containsExactlyElementsOf(techIds);
         assertThat(request.getContent()).isEqualTo(feed.getContent());
         assertThat(request.getStep()).isEqualTo(feed.getStep().name());
         assertThat(request.isSos()).isEqualTo(feed.isSos());
@@ -297,7 +297,7 @@ class FeedServiceTest {
                 .collect(Collectors.toList());
 
         assertThat(request.getTitle()).isEqualTo(response.getTitle());
-        assertThat(request.getTech()).containsExactlyElementsOf(techIds);
+        assertThat(request.getTechs()).containsExactlyElementsOf(techIds);
         assertThat(request.getContent()).isEqualTo(response.getContent());
         assertThat(request.getStep()).isEqualTo(response.getStep());
         assertThat(request.isSos()).isEqualTo(response.isSos());
