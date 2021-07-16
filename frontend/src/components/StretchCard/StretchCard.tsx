@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Feed } from 'types';
 import Chip from 'components/@common/Chip/Chip';
+import { STEP_CONVERTER } from 'constants/common';
 import SOSFlag from 'assets/sosFlag.svg';
 import Styled from './StretchCard.styles';
 
@@ -14,12 +15,12 @@ const StretchCard = ({ feed }: Props) => {
     <Styled.Root>
       <Styled.Thumbnail src={feed.thumbnailUrl} />
       <Styled.ChipWrapper>
-        <Chip.Solid>전시중</Chip.Solid>
+        <Chip.Solid>{STEP_CONVERTER[feed.step]}</Chip.Solid>
       </Styled.ChipWrapper>
       <Styled.ContentArea>
         <Styled.TitleWrapper>
           <Styled.Title>{feed.title}</Styled.Title>
-          <SOSFlag width="56" />
+          {feed.sos && <SOSFlag width="56" />}
         </Styled.TitleWrapper>
         <Styled.Content>{feed.content}</Styled.Content>
       </Styled.ContentArea>

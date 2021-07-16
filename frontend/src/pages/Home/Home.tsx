@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import CroppedEllipse from 'components/CroppedEllipse/CroppedEllipse';
 import RegularCard from 'components/RegularCard/RegularCard';
@@ -7,6 +8,7 @@ import LevelLinkButton from 'components/LevelLinkButton/LevelLinkButton';
 import Header from 'components/Header/Header';
 import useHotFeeds from 'hooks/queries/useHotFeeds';
 import useRecentFeeds from 'hooks/queries/useRecentFeeds';
+import ROUTE from 'constants/routes';
 import Styled from './Home.styles';
 import MoreArrow from 'assets/moreArrow.svg';
 import { ButtonStyle } from 'types';
@@ -44,13 +46,16 @@ const Home = () => {
               {hotFeeds &&
                 hotFeeds.map((feed) => (
                   <li key={feed.id}>
-                    <Styled.VerticalAvatar user={feed.author} />
-                    <RegularCard feed={feed} />
+                    <Link to={`${ROUTE.FEEDS}/${feed.id}`}>
+                      <Styled.VerticalAvatar user={feed.author} />
+                      <RegularCard feed={feed} />
+                    </Link>
                   </li>
                 ))}
             </Styled.HotToyCardsContainer>
             <Styled.CarouselRight width="24" />
           </Styled.HotToysContainer>
+
           <Styled.SectionTitle fontSize="32px">Recent Toys</Styled.SectionTitle>
           <Styled.RecentToysContainer>
             <Styled.LevelButtonsContainer>
@@ -62,8 +67,10 @@ const Home = () => {
               {recentFeeds &&
                 recentFeeds.map((feed) => (
                   <li key={feed.id}>
-                    <Styled.VerticalAvatar user={feed.author} />
-                    <StretchCard feed={feed} />
+                    <Link to={`${ROUTE.FEEDS}/${feed.id}`}>
+                      <Styled.VerticalAvatar user={feed.author} />
+                      <StretchCard feed={feed} />
+                    </Link>
                   </li>
                 ))}
             </Styled.RecentToyCardsContainer>
