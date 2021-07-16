@@ -2,9 +2,9 @@ package com.wooteco.nolto.feed.application;
 
 import com.wooteco.nolto.NotFoundException;
 import com.wooteco.nolto.feed.domain.Feed;
-import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.feed.domain.Feeds;
 import com.wooteco.nolto.feed.domain.FilterStrategy;
+import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
