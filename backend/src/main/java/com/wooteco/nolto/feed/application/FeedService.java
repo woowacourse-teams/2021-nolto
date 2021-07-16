@@ -30,7 +30,7 @@ public class FeedService {
         String thumbnailUrl = imageService.upload(request.getThumbnailImage());
         Feed feed = request.toEntityWithThumbnailUrl(thumbnailUrl).writtenBy(user);
         Feed savedFeed = feedRepository.save(feed);
-        feedTechService.save(savedFeed, request.getTech());
+        feedTechService.save(savedFeed, request.getTechs());
         return savedFeed.getId();
     }
 
