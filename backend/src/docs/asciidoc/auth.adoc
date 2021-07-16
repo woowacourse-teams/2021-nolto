@@ -1,0 +1,12 @@
+== Auth (인증)
+
+=== 로그인 성공
+
+==== Request
+include::{snippets}/auth-login/http-request.adoc[]
+==== Request Fields
+include::{snippets}/auth-login/request-fields.adoc[]
+==== Response
+include::{snippets}/auth-login/http-response.adoc[]
+==== Response Fields
+include::{snippets}/auth-login/response-fields.adoc[]
