@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext, useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 
 import CrossMark from 'assets/crossMark.svg';
 import Styled from './ModalProvider.styles';
@@ -12,7 +12,7 @@ interface ModalContext {
   closeModal: () => void;
 }
 
-const Modal = React.createContext<ModalContext | null>(null);
+export const Modal = React.createContext<ModalContext | null>(null);
 
 const ModalProvider = ({ children }: Props) => {
   const [modal, setModal] = useState<ReactNode | null>(null);
@@ -34,7 +34,7 @@ const ModalProvider = ({ children }: Props) => {
         <Styled.ModalContainer>
           <Styled.ModalInner>
             <Styled.CrossMarkButton onClick={() => closeModal()}>
-              <CrossMark />
+              <CrossMark width="16px" />
             </Styled.CrossMarkButton>
             {modal && modal}
           </Styled.ModalInner>
@@ -45,13 +45,3 @@ const ModalProvider = ({ children }: Props) => {
 };
 
 export default ModalProvider;
-
-export const useModal = () => {
-  const context = useContext(Modal);
-
-  if (!context) {
-    throw new Error('ModalProvider 내부에서만 useModal hook을 사용할 수 있습니다.');
-  }
-
-  return context;
-};

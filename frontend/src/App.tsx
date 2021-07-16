@@ -5,6 +5,7 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 
 import Home from 'pages/Home/Home';
 import Upload from 'pages/Upload/Upload';
+import ModalProvider from 'components/@common/ModalProvider/ModalProvider';
 import ROUTE from 'constants/routes';
 import GlobalStyle from './Global.styles';
 
@@ -17,14 +18,16 @@ const App = () => {
       <Router>
         <Switch>
           <>
-            <main>
-              <Route exact path={ROUTE.HOME}>
-                <Home />
-              </Route>
-              <Route path={ROUTE.UPLOAD}>
-                <Upload />
-              </Route>
-            </main>
+            <ModalProvider>
+              <main>
+                <Route exact path={ROUTE.HOME}>
+                  <Home />
+                </Route>
+                <Route path={ROUTE.UPLOAD}>
+                  <Upload />
+                </Route>
+              </main>
+            </ModalProvider>
           </>
         </Switch>
       </Router>
