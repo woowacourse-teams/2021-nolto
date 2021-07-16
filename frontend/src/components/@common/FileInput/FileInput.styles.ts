@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const Root = styled.div`
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1rem;
   width: 100%;
 `;
 
@@ -24,8 +24,8 @@ const Label = styled.label`
     justify-content: center;
     align-items: center;
     color: ${PALETTE.WHITE_400};
-    width: 8rem;
-    height: 2.75rem;
+    width: 6rem;
+    height: 2rem;
     background-color: ${PALETTE.PRIMARY_400};
     border-radius: 4px;
   }
@@ -34,7 +34,7 @@ const Label = styled.label`
 `;
 
 const FileNameText = styled.span`
-  font-size: 1.5rem;
+  font-size: 1rem;
 `;
 
 export default { Root, Label, FileNameText };

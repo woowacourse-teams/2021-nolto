@@ -9,15 +9,15 @@ const Label = styled.label`
 `;
 
 const Text = styled.span`
-  font-size: 24px;
-  line-height: 24px;
+  font-size: 1rem;
+  line-height: 1rem;
   user-select: none;
 `;
 
 const ToggleMark = styled.span`
   position: relative;
-  width: 60px;
-  height: 32px;
+  width: 2.5rem;
+  height: 1.5rem;
   border-radius: 25px;
   display: flex;
   align-items: center;
@@ -28,8 +28,8 @@ const ToggleMark = styled.span`
     content: '';
     position: absolute;
     display: inline-block;
-    width: 24px;
-    height: 24px;
+    width: 1rem;
+    height: 1rem;
     border-radius: 50%;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
 
@@ -43,7 +43,7 @@ const switchOn = css`
 
   &::after {
     background-color: ${PALETTE.WHITE_400};
-    transform: translateX(32px);
+    transform: translateX(1.25rem);
   }
 `;
 
