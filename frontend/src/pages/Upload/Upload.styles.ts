@@ -7,10 +7,14 @@ const Root = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 46rem;
+  width: 30rem;
   margin-right: auto;
   margin-left: auto;
   padding-top: 7.75rem;
+
+  & > form {
+    width: 100%;
+  }
 `;
 
 const TitleWrapper = styled.h2`
@@ -20,10 +24,9 @@ const TitleWrapper = styled.h2`
 const VerticalWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
   border-bottom: 2rem;
   width: 100%;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 `;
 
 export const ContentTextArea = styled(TextArea)`
@@ -35,11 +38,6 @@ const InputsContainer = styled.div`
   align-items: center;
   width: 100%;
   margin-bottom: 1rem;
-
-  & > div:first-child {
-    width: 90%;
-    margin-bottom: 0;
-  }
 `;
 
 const StretchWrapper = styled.div`
@@ -52,7 +50,7 @@ const StretchWrapper = styled.div`
   margin-bottom: 1rem;
 
   & > .stretch-label {
-    width: 15rem;
+    width: 10rem;
   }
 `;
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import FormInput from 'components/@common/FormInput/FormInput';
@@ -8,15 +8,17 @@ import FileInput from 'components/@common/FileInput/FileInput';
 import Toggle from 'components/@common/Toggle/Toggle';
 import RadioButton from 'components/@common/RadioButton/RadioButton';
 import Header from 'components/Header/Header';
+import TechInput from 'components/TechInput/TechInput';
+import useUploadFeeds from 'hooks/queries/useUploadFeed';
 import { FlexContainer } from 'commonStyles';
 import Styled, { ContentTextArea, StyledButton } from './Upload.styles';
-import { ButtonStyle, FeedStatus, FeedToUpload } from 'types';
-import useUploadFeeds from 'hooks/queries/useUploadFeed';
+import { ButtonStyle, FeedStatus, Tech, FeedToUpload } from 'types';
 
 const Upload = () => {
-  const { register, handleSubmit, setValue, watch } = useForm<FeedToUpload>();
+  const { register, handleSubmit, setValue, watch } = useForm<FeedToUpload>(); //TODO: techs Omit해야함
+  const [techs, setTechs] = useState<Tech[]>([]);
   const watchThumbnailImage = watch('thumbnailImage');
-  const mutation = useUploadFeeds();
+  const uploadFeeds = useUploadFeeds();
 
   const uploadFeed = (data: FeedToUpload) => {
     const formData = new FormData();
@@ -29,7 +31,11 @@ const Upload = () => {
       }
     });
 
-    mutation.mutate(formData);
+    techs.forEach((tech) => {
+      formData.append('techs', String(tech.id));
+    });
+
+    uploadFeeds.mutate(formData);
   };
 
   return (
@@ -37,7 +43,7 @@ const Upload = () => {
       <Header />
       <Styled.Root>
         <Styled.TitleWrapper>
-          <HighLightedText fontSize="2.25rem">🦄 Upload Your Toy</HighLightedText>
+          <HighLightedText fontSize="1.75rem">🦄 Upload Your Toy</HighLightedText>
         </Styled.TitleWrapper>
 
         <form onSubmit={handleSubmit(uploadFeed)}>
@@ -47,8 +53,8 @@ const Upload = () => {
           </Styled.VerticalWrapper>
 
           <Styled.VerticalWrapper>
-            <Label text="사용 스택" required={true} />
-            <FormInput {...register('techs')} />
+            <Label text="사용 스택" />
+            <TechInput onUpdateTechs={(techs: Tech[]) => setTechs(techs)} />
           </Styled.VerticalWrapper>
 
           <Styled.VerticalWrapper>
@@ -62,21 +68,20 @@ const Upload = () => {
               <FlexContainer width="100%">
                 <RadioButton
                   name="step"
-                  labelText="조립중"
+                  labelText="🧩 조립중"
                   value={FeedStatus.PROGRESS}
                   {...register('step', { required: true })}
                 />
                 <RadioButton
                   name="step"
-                  labelText="전시중"
+                  labelText="🦄 전시중"
                   value={FeedStatus.COMPLETE}
                   {...register('step', { required: true })}
                 />
               </FlexContainer>
             </Styled.StretchWrapper>
-            <FlexContainer>
-              <Toggle labelText="SOS" {...register('sos')} />
-            </FlexContainer>
+
+            <Toggle labelText="🚨 SOS" {...register('sos')} />
           </Styled.InputsContainer>
 
           <Styled.StretchWrapper>

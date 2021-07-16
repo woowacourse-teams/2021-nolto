@@ -1,4 +1,5 @@
 import React, { ReactNode, useState } from 'react';
+import ReactDOM from 'react-dom';
 
 import CrossMark from 'assets/crossMark.svg';
 import Styled from './ModalProvider.styles';
@@ -13,6 +14,7 @@ interface ModalContext {
 }
 
 export const Modal = React.createContext<ModalContext | null>(null);
+const modalRoot = document.getElementById('modal-root');
 
 const ModalProvider = ({ children }: Props) => {
   const [modal, setModal] = useState<ReactNode | null>(null);
@@ -27,19 +29,21 @@ const ModalProvider = ({ children }: Props) => {
     setIsOpen(false);
   };
 
+  const modalElement: React.ReactNode = (
+    <Styled.ModalContainer>
+      <Styled.ModalInner>
+        <Styled.CrossMarkButton onClick={closeModal}>
+          <CrossMark width="16px" />
+        </Styled.CrossMarkButton>
+        {modal && modal}
+      </Styled.ModalInner>
+    </Styled.ModalContainer>
+  );
+
   return (
     <Modal.Provider value={{ openModal, closeModal }}>
       {children}
-      {isOpen && (
-        <Styled.ModalContainer>
-          <Styled.ModalInner>
-            <Styled.CrossMarkButton onClick={() => closeModal()}>
-              <CrossMark width="16px" />
-            </Styled.CrossMarkButton>
-            {modal && modal}
-          </Styled.ModalInner>
-        </Styled.ModalContainer>
-      )}
+      {isOpen && ReactDOM.createPortal(modalElement, modalRoot)}
     </Modal.Provider>
   );
 };

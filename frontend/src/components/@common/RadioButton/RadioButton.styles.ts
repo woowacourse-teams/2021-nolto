@@ -6,8 +6,8 @@ const RadioMark = styled.span`
   position: relative;
   top: 0;
   left: 0;
-  height: 28px;
-  width: 28px;
+  height: 1.25rem;
+  width: 1.25rem;
   background-color: #ffffff;
   border: 2px solid ${PALETTE.PRIMARY_400};
   border-radius: 50%;
@@ -17,10 +17,10 @@ const RadioMark = styled.span`
     content: '';
     position: absolute;
     display: none;
-    left: 7px;
+    left: 5px;
     top: 3px;
-    width: 6px;
-    height: 12px;
+    width: 20%;
+    height: 40%;
     border: solid white;
     border-width: 0 3px 3px 0;
     transform: rotate(45deg);
@@ -43,8 +43,8 @@ const Label = styled.label`
 const Text = styled.span`
   padding-left: 7px;
   margin-right: 8px;
-  font-size: 24px;
-  line-height: 24px;
+  font-size: 1rem;
+  line-height: 1rem;
 `;
 
 const RadioButton = styled.input`
