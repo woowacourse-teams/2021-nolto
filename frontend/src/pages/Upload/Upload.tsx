@@ -11,7 +11,7 @@ import Header from 'components/Header/Header';
 import { FlexContainer } from 'commonStyles';
 import Styled, { ContentTextArea, StyledButton } from './Upload.styles';
 import { ButtonStyle, FeedStatus, FeedToUpload } from 'types';
-import useUploadFeeds from 'hooks/useUploadFeed';
+import useUploadFeeds from 'hooks/queries/useUploadFeed';
 
 const Upload = () => {
   const { register, handleSubmit, setValue, watch } = useForm<FeedToUpload>();

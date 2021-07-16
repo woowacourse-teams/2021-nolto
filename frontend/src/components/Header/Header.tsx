@@ -6,6 +6,8 @@ import Search from 'assets/search.svg';
 import Pencil from 'assets/pencil.svg';
 import { PALETTE } from 'constants/palette';
 import ROUTE from 'constants/routes';
+import useModal from 'hooks/@common/useModal';
+import LoginModal from 'components/LoginModal/LoginModal';
 import { ButtonStyle } from 'types';
 import Styled, { IconButton } from './Header.styles';
 
@@ -14,8 +16,14 @@ interface Props {
 }
 
 const Header = ({ isFolded = false }: Props) => {
+  const modal = useModal();
+
   const navLinkActiveStyle = {
     borderBottom: `2px solid ${PALETTE.WHITE_400}`,
+  };
+
+  const openLoginModal = () => {
+    modal.openModal(<LoginModal />);
   };
 
   return (
@@ -70,7 +78,11 @@ const Header = ({ isFolded = false }: Props) => {
             </IconButton>
           </Link>
 
-          <Styled.SignInButton buttonStyle={ButtonStyle.OUTLINE} reverse={true}>
+          <Styled.SignInButton
+            buttonStyle={ButtonStyle.OUTLINE}
+            reverse={true}
+            onClick={openLoginModal}
+          >
             Sign In
           </Styled.SignInButton>
         </Styled.ButtonsContainer>
