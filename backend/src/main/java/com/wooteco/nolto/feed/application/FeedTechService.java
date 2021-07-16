@@ -2,7 +2,7 @@ package com.wooteco.nolto.feed.application;
 
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.FeedTech;
-import com.wooteco.nolto.feed.domain.FeedTechRepository;
+import com.wooteco.nolto.feed.domain.repository.FeedTechRepository;
 import com.wooteco.nolto.tech.domain.Tech;
 import com.wooteco.nolto.tech.domain.TechRepository;
 import lombok.AllArgsConstructor;
