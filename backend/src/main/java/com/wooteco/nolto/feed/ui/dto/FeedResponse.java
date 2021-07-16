@@ -5,6 +5,7 @@ import com.wooteco.nolto.tech.ui.dto.TechResponse;
 import com.wooteco.nolto.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 

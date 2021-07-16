@@ -61,6 +61,12 @@ public class Feed {
     }
 
     public Feed(Long id, String title, String content, Step step, boolean isSos, String storageUrl,
+                String deployedUrl, String thumbnailUrl) {
+        this(id, title, content, step, isSos, storageUrl, deployedUrl, thumbnailUrl, 0, null,
+                new ArrayList<>());
+    }
+
+    public Feed(Long id, String title, String content, Step step, boolean isSos, String storageUrl,
                 String deployedUrl, String thumbnailUrl, int views, User author, List<Like> likes) {
         validateStep(step, deployedUrl);
         this.id = id;

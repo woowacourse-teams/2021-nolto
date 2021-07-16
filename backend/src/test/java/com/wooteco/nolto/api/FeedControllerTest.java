@@ -5,22 +5,28 @@ import com.wooteco.nolto.feed.application.LikeService;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.ui.FeedController;
+import com.wooteco.nolto.feed.ui.dto.FeedAuthorResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
 import com.wooteco.nolto.user.domain.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.restdocs.payload.FieldDescriptor;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = FeedController.class)
 public class FeedControllerTest extends ControllerTest {
@@ -36,9 +42,15 @@ public class FeedControllerTest extends ControllerTest {
     private static final long FEED_ID = 1L;
 
     private static final Feed FEED =
-            new Feed("title1", "content1", Step.PROGRESS, true, "www.surl.com", "www.durl.com", "www.turl.com").writtenBy(LOGIN_USER);
+            new Feed(1L, "title1", "content1", Step.PROGRESS, true, "www.surl.com", "www.durl.com", "www.turl.com").writtenBy(LOGIN_USER);
 
-    private static final FeedResponse FEED_RESPONSE = FeedResponse.of(LOGIN_USER, FEED, true);
+    private static final FeedResponse FEED_RESPONSE = new FeedResponse(FeedAuthorResponse.of(LOGIN_USER), FEED.getId(), FEED.getTitle(), TechControllerTest.TECH_RESPONSES,
+            FEED.getContent(), FEED.getStep().name(), FEED.isSos(), FEED.getStorageUrl(), FEED.getDeployedUrl(),
+                FEED.getThumbnailUrl(), FEED.getLikes().size(), FEED.getViews(), true);
+
+    private static final FieldDescriptor[] TECH = new FieldDescriptor[]{
+            fieldWithPath("id").type(JsonFieldType.NUMBER).description("ID"),
+            fieldWithPath("text").type(JsonFieldType.STRING).description("기술 스택명")};
 
     @MockBean
     private FeedService feedService;
@@ -52,7 +64,7 @@ public class FeedControllerTest extends ControllerTest {
         given(authService.findUserByToken(TOKEN_PAYLOAD)).willReturn(LOGIN_USER);
         given(feedService.create(any(), any())).willReturn(FEED_ID);
 
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.multipart("/feeds")
+        MockHttpServletRequestBuilder request = multipart("/feeds")
                 .file("thumbnailImage", MOCK_MULTIPART_FILE.getBytes())
                 .param("title", "hello-title")
                 .param("techs", "1")
@@ -88,6 +100,38 @@ public class FeedControllerTest extends ControllerTest {
     @Test
     void findById() throws Exception {
         given(authService.findUserByToken(TOKEN_PAYLOAD)).willReturn(LOGIN_USER);
-        given(feedService.findById(LOGIN_USER, FEED_ID)).willReturn(FEED_RESPONSE);
+        given(feedService.findById(any(), any())).willReturn(FEED_RESPONSE);
+
+        mockMvc.perform(
+                get("/feeds/{feedId}", FEED_ID)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer optional"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(FEED_RESPONSE)))
+                .andDo(document("feed-findById",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("feedId").description("피드 아이디")
+                        ),
+                        responseFields(
+                                fieldWithPath("author.id").type(JsonFieldType.NUMBER).description("작성자 고유 식별자"),
+                                fieldWithPath("author.nickname").type(JsonFieldType.STRING).description("작성자 닉네임"),
+                                fieldWithPath("author.imageUrl").type(JsonFieldType.STRING).description("작성자 프로필 사진"),
+                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("피드 고유 식별자"),
+                                fieldWithPath("title").type(JsonFieldType.STRING).description("제목"),
+                                fieldWithPath("techs").type(JsonFieldType.ARRAY).description("기술 스택 목록"),
+                                fieldWithPath("content").type(JsonFieldType.STRING).description("내용"),
+                                fieldWithPath("step").type(JsonFieldType.STRING).description("프로젝트 단계"),
+                                fieldWithPath("sos").type(JsonFieldType.BOOLEAN).description("SOS 여부"),
+                                fieldWithPath("storageUrl").type(JsonFieldType.STRING).description("저장소 URL"),
+                                fieldWithPath("deployedUrl").type(JsonFieldType.STRING).description("배포 URL"),
+                                fieldWithPath("thumbnailUrl").type(JsonFieldType.STRING).description("썸네일 URL"),
+                                fieldWithPath("likes").type(JsonFieldType.NUMBER).description("좋아요 개수"),
+                                fieldWithPath("views").type(JsonFieldType.NUMBER).description("조회수"),
+                                fieldWithPath("liked").type(JsonFieldType.BOOLEAN).description("현재 로그인한 유저의 현재 글 좋아요 여부")
+                        ).andWithPrefix("techs.[].", TECH)
+                ));
     }
 }
