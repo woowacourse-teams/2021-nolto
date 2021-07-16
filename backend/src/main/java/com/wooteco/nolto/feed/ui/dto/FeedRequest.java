@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -20,7 +21,7 @@ public class FeedRequest {
     @NotBlank(message = "제목은 빈 값일 수 없습니다.")
     private String title;
 
-    private List<Long> tech;
+    private List<Long> techs = new ArrayList<>();
 
     @NotBlank(message = "내용은 빈 값일 수 없습니다.")
     private String content;

@@ -1,5 +1,7 @@
-package com.wooteco.nolto.feed.domain;
+package com.wooteco.nolto.feed.domain.repository;
 
+import com.wooteco.nolto.feed.domain.Feed;
+import com.wooteco.nolto.feed.domain.Like;
 import com.wooteco.nolto.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 

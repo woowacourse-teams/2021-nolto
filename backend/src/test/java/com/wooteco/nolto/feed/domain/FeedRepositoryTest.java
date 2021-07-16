@@ -1,7 +1,6 @@
 package com.wooteco.nolto.feed.domain;
 
-import com.wooteco.nolto.tech.domain.Tech;
-import com.wooteco.nolto.tech.domain.TechRepository;
+import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.domain.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,9 +8,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
-import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

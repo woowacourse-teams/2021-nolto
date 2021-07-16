@@ -3,7 +3,7 @@ package com.wooteco.nolto.feed.application;
 import com.wooteco.nolto.NotFoundException;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.Like;
-import com.wooteco.nolto.feed.domain.LikeRepository;
+import com.wooteco.nolto.feed.domain.repository.LikeRepository;
 import com.wooteco.nolto.user.domain.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
