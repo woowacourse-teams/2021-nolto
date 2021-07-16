@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 
 import Logo from 'assets/logo.svg';
@@ -9,7 +9,7 @@ import ROUTE from 'constants/routes';
 import useModal from 'hooks/@common/useModal';
 import LoginModal from 'components/LoginModal/LoginModal';
 import { ButtonStyle } from 'types';
-import Styled, { IconButton } from './Header.styles';
+import Styled, { IconButton, Searchbar } from './Header.styles';
 
 interface Props {
   isFolded?: boolean;
@@ -17,6 +17,7 @@ interface Props {
 
 const Header = ({ isFolded = false }: Props) => {
   const modal = useModal();
+  const [isSearchbarOpened, setSearchbarOpened] = useState(false);
 
   const navLinkActiveStyle = {
     borderBottom: `2px solid ${PALETTE.WHITE_400}`,
@@ -24,6 +25,16 @@ const Header = ({ isFolded = false }: Props) => {
 
   const openLoginModal = () => {
     modal.openModal(<LoginModal />);
+  };
+
+  const openSearchbar = () => {
+    setSearchbarOpened(true);
+  };
+
+  const closeSearchbar = (event: React.MouseEvent<HTMLElement>) => {
+    if (event.target === event.currentTarget) {
+      setSearchbarOpened(false);
+    }
   };
 
   return (
@@ -38,7 +49,7 @@ const Header = ({ isFolded = false }: Props) => {
         <rect x="-30vw" y="0" width="160vw" height="100%" fill="url(#grad1)" />
       </svg>
 
-      <Styled.HeaderContent>
+      <Styled.HeaderContent onClick={closeSearchbar}>
         <Styled.LogoWrapper>
           <Link to={ROUTE.HOME}>
             <Logo width="200px" />
@@ -69,9 +80,18 @@ const Header = ({ isFolded = false }: Props) => {
           </Styled.NavContainer>
         </nav>
         <Styled.ButtonsContainer>
-          <IconButton>
-            <Search width="32px" />
-          </IconButton>
+          {isSearchbarOpened ? (
+            <>
+              <IconButton onClick={openSearchbar} style={{ opacity: 0 }}>
+                <Search width="32px" />
+              </IconButton>
+              <Searchbar />
+            </>
+          ) : (
+            <IconButton onClick={openSearchbar}>
+              <Search width="32px" />
+            </IconButton>
+          )}
           <Link to={ROUTE.UPLOAD}>
             <IconButton>
               <Pencil width="22px" />

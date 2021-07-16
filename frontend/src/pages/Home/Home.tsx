@@ -10,7 +10,7 @@ import useHotFeeds from 'hooks/queries/useHotFeeds';
 import useOnScreen from 'hooks/@common/useOnScreen';
 import useRecentFeeds from 'hooks/queries/useRecentFeeds';
 import ROUTE from 'constants/routes';
-import Styled, { CarouselArrowButton, ScrollUpButton } from './Home.styles';
+import Styled, { CarouselArrowButton, ScrollUpButton, Searchbar } from './Home.styles';
 import MoreArrow from 'assets/moreArrow.svg';
 import { ButtonStyle } from 'types';
 
@@ -55,7 +55,7 @@ const Home = () => {
         </Styled.EllipseWrapper>
         <Styled.SearchContainer>
           <Styled.SearchTitle>Search for Ideas?</Styled.SearchTitle>
-          <Styled.MainSearchBar />
+          <Searchbar />
           <Styled.TagsContainer>
             {tags.map((tag) => (
               <Styled.TagButton buttonStyle={ButtonStyle.SOLID} reverse={true} key={tag}>
