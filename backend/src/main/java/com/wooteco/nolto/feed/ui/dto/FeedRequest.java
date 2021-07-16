@@ -18,18 +18,18 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FeedRequest {
-    @NotBlank
+    @NotBlank(message = "제목은 빈 값일 수 없습니다.")
     private String title;
 
     private List<Tech> tech;
 
-    @NotBlank
+    @NotBlank(message = "내용은 빈 값일 수 없습니다.")
     private String content;
 
-    @NotBlank
+    @NotBlank(message = "스텝은 빈 값일 수 없습니다.")
     private String step;
 
-    @NotNull
+    @NotNull(message = "SOS는 빈 값일 수 없습니다.")
     private boolean sos;
 
     private String storageUrl;
