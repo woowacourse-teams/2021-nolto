@@ -195,7 +195,32 @@ class FeedServiceTest {
         피드_정보가_같은지_조회(FEED_REQUEST1, hotFeeds.get(2));
     }
 
-    @DisplayName("모든 피드를 조회한다. (최신 등록된 id 순)")
+    @DisplayName("좋아요 개수가 같은 경우 최신 Feed를 가져온다.(피드1: 좋아요0개, 피드2: 좋아요2개, 피드3: 좋아요2개)")
+    @Test
+    void findHotFeedsBySameDate() {
+        // given
+        Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
+        Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
+        Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
+
+        likeService.addLike(user2, secondFeedId);
+        likeService.addLike(user2, thirdFeedId);
+        likeService.addLike(user1, secondFeedId);
+        likeService.addLike(user1, thirdFeedId);
+        em.flush();
+        em.clear();
+
+        // when
+        List<FeedCardResponse> hotFeeds = feedService.findHotFeeds();
+
+        // then
+        assertThat(hotFeeds).hasSize(3);
+        피드_정보가_같은지_조회(FEED_REQUEST3, hotFeeds.get(0));
+        피드_정보가_같은지_조회(FEED_REQUEST2, hotFeeds.get(1));
+        피드_정보가_같은지_조회(FEED_REQUEST1, hotFeeds.get(2));
+    }
+
+    @DisplayName("모든 피드를 조회한다. (최신 등록된 날짜 순)")
     @Test
     void findAllWithAllFilter() {
         // given
@@ -214,7 +239,7 @@ class FeedServiceTest {
         피드_정보가_같은지_조회(FEED_REQUEST3, allFeeds.get(0));
     }
 
-    @DisplayName("SOS 피드를 조회한다. (최신 등록된 id 순)")
+    @DisplayName("SOS 피드를 조회한다. (최신 등록된 날짜 순)")
     @Test
     void findAllWithFilterSOS() {
         // given
@@ -236,7 +261,7 @@ class FeedServiceTest {
         피드_정보가_같은지_조회(FEED_REQUEST3, allFeeds.get(0));
     }
 
-    @DisplayName("PROGRESS 피드를 조회한다. (최신 등록된 id 순)")
+    @DisplayName("PROGRESS 피드를 조회한다. (최신 등록된 날짜 순)")
     @Test
     void findAllWithFilterProgress() {
         // given
@@ -257,7 +282,7 @@ class FeedServiceTest {
         피드_정보가_같은지_조회(FEED_REQUEST2, allFeeds.get(1));
     }
 
-    @DisplayName("COMPLETE 피드를 조회한다. (최신 등록된 id 순)")
+    @DisplayName("COMPLETE 피드를 조회한다. (최신 등록된 날짜 순)")
     @Test
     void findAllWithFilterComplete() {
         // given

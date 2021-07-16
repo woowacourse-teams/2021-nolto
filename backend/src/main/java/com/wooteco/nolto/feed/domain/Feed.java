@@ -1,5 +1,6 @@
 package com.wooteco.nolto.feed.domain;
 
+import com.wooteco.nolto.BaseEntity;
 import com.wooteco.nolto.tech.domain.Tech;
 import com.wooteco.nolto.user.domain.User;
 import lombok.Getter;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Feed {
+public class Feed extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

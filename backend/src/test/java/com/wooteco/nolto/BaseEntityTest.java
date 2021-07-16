@@ -1,5 +1,8 @@
-package com.wooteco.nolto.feed.domain;
+package com.wooteco.nolto;
 
+import com.wooteco.nolto.feed.application.LikeService;
+import com.wooteco.nolto.feed.domain.Feed;
+import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.domain.UserRepository;
@@ -9,13 +12,21 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import javax.persistence.EntityManager;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
-class FeedRepositoryTest {
+class BaseEntityTest {
+
+    @Autowired
+    private EntityManager entityManager;
     @Autowired
     private FeedRepository feedRepository;
-
     @Autowired
     private UserRepository userRepository;
 
@@ -40,41 +51,42 @@ class FeedRepositoryTest {
                 "", "deployUrl", "http://thumbnailUrl.pnggg");
         feed3 = new Feed("title3", "content3", Step.COMPLETE, false,
                 "storageUrl", "deployUrl", "http://thumbnailUrl.ddd");
-    }
 
-    @DisplayName("토이 프로젝트 글을 의미하는 Feed를 저장한다.")
-    @Test
-    void save() {
-        // given
         feed1.writtenBy(user1);
         feed2.writtenBy(user2);
         feed3.writtenBy(user2);
+    }
 
+    @DisplayName("피드 저장 시 생성 날짜가 저장된다.")
+    @Test
+    void save() {
         // when
         Feed savedFeed1 = feedRepository.save(feed1);
         Feed savedFeed2 = feedRepository.save(feed2);
         Feed savedFeed3 = feedRepository.save(feed3);
+        entityManager.flush();
 
         // then
-        assertThat(savedFeed1.getId()).isNotNull();
-        checkSame(feed1, savedFeed1);
-
-        assertThat(savedFeed2.getId()).isNotNull();
-        checkSame(feed2, savedFeed2);
-
-        assertThat(savedFeed3.getId()).isNotNull();
-        checkSame(feed3, savedFeed3);
+        assertThat(savedFeed1.getCreatedDate()).isNotNull();
+        assertThat(savedFeed1.getModifiedDate()).isNotNull();
     }
 
-    private void checkSame(Feed feed1, Feed feed2) {
-        assertThat(feed1.getTitle()).isEqualTo(feed2.getTitle());
-        assertThat(feed1.getContent()).isEqualTo(feed2.getContent());
-        assertThat(feed1.getStep()).isEqualTo(feed2.getStep());
-        assertThat(feed1.isSos()).isEqualTo(feed2.isSos());
-        assertThat(feed1.getStorageUrl()).isEqualTo(feed2.getStorageUrl());
-        assertThat(feed1.getDeployedUrl()).isEqualTo(feed2.getDeployedUrl());
-        assertThat(feed1.getThumbnailUrl()).isEqualTo(feed2.getThumbnailUrl());
-        assertThat(feed1.getViews()).isEqualTo(feed2.getViews());
-        assertThat(feed1.getLikes()).isEqualTo(feed2.getLikes());
+    @DisplayName("데이터 변경 시 lastModifiedDate가 수정된다")
+    @Test
+    void update() {
+        // given
+        Feed savedFeed2 = feedRepository.save(feed2);
+        LocalDateTime modifiedDate = savedFeed2.getModifiedDate(); // 생성 시점
+
+        // when
+        savedFeed2.writtenBy(user1);
+        entityManager.flush();
+        entityManager.clear();
+
+        // then
+        Feed findFeed = feedRepository.findById(savedFeed2.getId()).get();
+        LocalDateTime changedUpdatedAt = findFeed.getModifiedDate();
+        assertThat(modifiedDate).isNotEqualTo(changedUpdatedAt);
     }
+
 }
