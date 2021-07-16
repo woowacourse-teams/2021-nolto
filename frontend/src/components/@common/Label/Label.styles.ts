@@ -12,7 +12,7 @@ const asterisk = css`
 `;
 
 const Root = styled.label<{ required: boolean }>`
-  font-size: 24px;
+  font-size: 1rem;
 
   ${({ required }) => required && asterisk}
 `;
