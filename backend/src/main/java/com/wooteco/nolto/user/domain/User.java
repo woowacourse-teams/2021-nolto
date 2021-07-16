@@ -72,6 +72,10 @@ public class User {
                 .anyMatch(like -> like.hasFeed(feed));
     }
 
+    public void addFeed(Feed feed) {
+        this.feeds.add(feed);
+    }
+
     private static class GuestUser extends User {
         @Override
         public boolean isLiked(Feed feed) {

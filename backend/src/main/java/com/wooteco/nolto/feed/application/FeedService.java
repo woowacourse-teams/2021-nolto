@@ -24,11 +24,13 @@ public class FeedService {
 
     private final ImageService imageService;
     private final FeedRepository feedRepository;
+    private final FeedTechService feedTechService;
 
     public Long create(User user, FeedRequest request) {
         String thumbnailUrl = imageService.upload(request.getThumbnailImage());
         Feed feed = request.toEntityWithThumbnailUrl(thumbnailUrl).writtenBy(user);
         Feed savedFeed = feedRepository.save(feed);
+        feedTechService.save(savedFeed, request.getTech());
         return savedFeed.getId();
     }
 

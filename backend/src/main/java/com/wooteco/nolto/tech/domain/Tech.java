@@ -1,12 +1,14 @@
 package com.wooteco.nolto.tech.domain;
 
-import com.wooteco.nolto.feed.domain.Feed;
+import com.wooteco.nolto.feed.domain.FeedTech;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @NoArgsConstructor
@@ -21,10 +23,23 @@ public class Tech {
     @NotBlank
     private String name;
 
-    @OneToMany
-    private List<Feed> feeds;
+    @OneToMany(mappedBy = "tech")
+    private List<FeedTech> feeds = new ArrayList<>();
 
     public Tech(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tech tech = (Tech) o;
+        return Objects.equals(id, tech.id) && Objects.equals(name, tech.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }

@@ -6,8 +6,6 @@ import com.wooteco.nolto.feed.domain.Step;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -45,7 +43,7 @@ public class UserTest {
     @Test
     void isLiked() {
         User user = new User(null, EMAIL, "passWORD", NICKNAME, IMAGE);
-        Feed feed = new Feed(new ArrayList<>(), "title", "content", Step.PROGRESS, true, "", "", "");
+        Feed feed = new Feed("title", "content", Step.PROGRESS, true, "", "", "");
         feed.writtenBy(user);
 
         user.getLikes().add(new Like(user, feed));
@@ -58,7 +56,7 @@ public class UserTest {
     void isNotLiked() {
         User user1 = new User(null, EMAIL, "passWORD", NICKNAME, IMAGE);
         User user2 = new User(null, "woowa@email.com", "passWORD", "amazzi", IMAGE);
-        Feed feed = new Feed(new ArrayList<>(), "title", "content", Step.PROGRESS, true, "", "", "");
+        Feed feed = new Feed("title", "content", Step.PROGRESS, true, "", "", "");
         feed.writtenBy(user1);
 
         user1.getLikes().add(new Like(user1, feed));
@@ -69,7 +67,7 @@ public class UserTest {
     @DisplayName("게스트가 해당 피드에 좋아요를 눌렀는지 검증하면 무조건 false이다.")
     @Test
     void isLikedWithGuest() {
-        Feed feed = new Feed(new ArrayList<>(), "title", "content", Step.PROGRESS, true, "", "", "");
+        Feed feed = new Feed("title", "content", Step.PROGRESS, true, "", "", "");
 
         User guestUser = User.GUEST_USER;
 
