@@ -30,6 +30,10 @@ const GlobalStyle = createGlobalStyle`
   input, textarea {
     outline: none;
   }
+
+  .query-dev-tools * {
+    color: #ffffff
+  }
 `;
 
 export default GlobalStyle;
