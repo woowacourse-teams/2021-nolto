@@ -1,6 +1,8 @@
 package com.wooteco.nolto;
 
 import com.wooteco.nolto.feed.domain.*;
+import com.wooteco.nolto.feed.domain.repository.FeedRepository;
+import com.wooteco.nolto.feed.domain.repository.FeedTechRepository;
 import com.wooteco.nolto.tech.domain.Tech;
 import com.wooteco.nolto.tech.domain.TechRepository;
 import com.wooteco.nolto.user.domain.User;
@@ -14,7 +16,7 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.List;
 
-@Profile("!test")
+@Profile("dev")
 @Component
 @AllArgsConstructor
 public class DataLoader implements ApplicationRunner {
