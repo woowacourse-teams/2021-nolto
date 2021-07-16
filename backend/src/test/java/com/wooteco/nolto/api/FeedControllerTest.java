@@ -19,6 +19,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -89,5 +91,39 @@ public class FeedControllerTest extends ControllerTest {
     void findById() throws Exception {
         given(authService.findUserByToken(TOKEN_PAYLOAD)).willReturn(LOGIN_USER);
         given(feedService.findById(LOGIN_USER, FEED_ID)).willReturn(FEED_RESPONSE);
+    }
+
+    @DisplayName("피드에 좋아요를 누른다.")
+    @Test
+    void addLike() throws Exception {
+        given(authService.findUserByToken(TOKEN_PAYLOAD)).willReturn(LOGIN_USER);
+
+        MockHttpServletRequestBuilder request = post("/feeds/{feedId}/like", FEED_ID);
+
+        mockMvc.perform(request
+                .header("Authorization", "Bearer dXNlcjpzZWNyZXQ=")
+                .characterEncoding("UTF-8"))
+                .andExpect(status().isOk())
+                .andDo(document("feed-addLike",
+                        getDocumentRequest(),
+                        getDocumentResponse()));
+    }
+
+
+    @DisplayName("피드의 좋아요를 취소한다.")
+    @Test
+    void deleteLike() throws Exception {
+        given(authService.findUserByToken(TOKEN_PAYLOAD)).willReturn(LOGIN_USER);
+
+        MockHttpServletRequestBuilder request = delete("/feeds/{feedId}/like", FEED_ID);
+
+        mockMvc.perform(request
+                .header("Authorization", "Bearer dXNlcjpzZWNyZXQ=")
+                .characterEncoding("UTF-8"))
+                .andExpect(status().isOk())
+                .andDo(document("feed-addLike",
+                        getDocumentRequest(),
+                        getDocumentResponse()));
+
     }
 }
