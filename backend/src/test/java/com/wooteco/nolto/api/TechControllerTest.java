@@ -17,6 +17,8 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -46,6 +48,9 @@ class TechControllerTest extends ControllerTest {
                 .andDo(document("tech-findByTechsContains",
                         getDocumentRequest(),
                         getDocumentResponse(),
+                        requestParameters(
+                                parameterWithName("auto_complete").description("기술 키워드")
+                        ),
                         responseFields(
                                 fieldWithPath("[]").type(JsonFieldType.ARRAY).description("기술 스택 목록"))
                                 .andWithPrefix("[].", TECH)));
