@@ -26,14 +26,15 @@ export interface Feed {
   content: string;
   step: string;
   sos: boolean;
-  thumbnailImage: File;
+  thumbnailUrl?: string;
 }
 
-export interface FeedToUpload extends Omit<Feed, 'id' | 'author'> {
+export interface FeedToUpload extends Omit<Feed, 'id' | 'author' | 'thumbnailUrl'> {
   [index: string]: string | Tech[] | number | boolean | File;
   techs: Tech[];
   storageUrl?: string;
   deployedUrl?: string;
+  thumbnailImage: File;
 }
 
 export interface FeedDetail extends Feed {
