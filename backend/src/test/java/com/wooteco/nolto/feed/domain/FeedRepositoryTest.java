@@ -50,11 +50,10 @@ class FeedRepositoryTest {
         feed2.writtenBy(user2);
         feed3.writtenBy(user2);
 
-        // then
+        // when
         Feed savedFeed1 = feedRepository.save(feed1);
         Feed savedFeed2 = feedRepository.save(feed2);
         Feed savedFeed3 = feedRepository.save(feed3);
-
 
         // then
         assertThat(savedFeed1.getId()).isNotNull();
