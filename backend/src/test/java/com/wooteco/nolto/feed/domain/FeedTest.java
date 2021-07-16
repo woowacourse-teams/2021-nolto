@@ -10,14 +10,11 @@ import java.util.ArrayList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class FeedTest {
-
-    public static Feed FEED = new Feed(new ArrayList<>(), "title", "content", Step.PROGRESS, true, "", "", "");
-
     private Feed feed1;
 
     @BeforeEach
     void setUp() {
-        feed1 = new Feed(new ArrayList<>(), "title", "content", Step.PROGRESS, true,
+        feed1 = new Feed("title", "content", Step.PROGRESS, true,
                 "", "", "");
     }
 

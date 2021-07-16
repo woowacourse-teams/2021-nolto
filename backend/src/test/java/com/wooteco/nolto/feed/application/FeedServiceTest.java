@@ -7,6 +7,8 @@ import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
 import com.wooteco.nolto.image.application.ImageService;
+import com.wooteco.nolto.tech.domain.Tech;
+import com.wooteco.nolto.tech.domain.TechRepository;
 import com.wooteco.nolto.tech.ui.dto.TechResponse;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.domain.UserRepository;
@@ -22,7 +24,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -43,6 +48,10 @@ class FeedServiceTest {
     private User user1 = new User(null, "email@email.com", "password", "user1", "mickey.jpg");
     private User user2 = new User(null, "email2@email.com", "password", "user2", "mickey.jpg");
 
+    private Tech tech1 = new Tech("Spring");
+    private Tech tech2 = new Tech("Java");
+    private Tech tech3 = new Tech("React");
+
     @Autowired
     private FeedService feedService;
 
@@ -56,6 +65,9 @@ class FeedServiceTest {
     private UserRepository userRepository;
 
     @Autowired
+    private TechRepository techRepository;
+
+    @Autowired
     private EntityManager em;
 
     @BeforeEach
@@ -63,32 +75,68 @@ class FeedServiceTest {
         given(imageService.upload(any(MultipartFile.class))).willReturn("image.jpg");
         userRepository.save(user1);
         userRepository.save(user2);
+
+        Tech savedTech1 = techRepository.save(tech1);
+        Tech savedTech2 = techRepository.save(tech2);
+        Tech savedTech3 = techRepository.save(tech3);
+
+        FEED_REQUEST2.setTech(Arrays.asList(savedTech1.getId(), savedTech2.getId()));
+        FEED_REQUEST3.setTech(Collections.singletonList(savedTech3.getId()));
     }
 
     @DisplayName("유저가 feed를 작성한다.")
     @Test
     void create() {
         // when
-        Long feedId = feedService.create(user1, FEED_REQUEST1);
+        Long feedId1 = feedService.create(user1, FEED_REQUEST1);
+        Long feedId2 = feedService.create(user1, FEED_REQUEST2);
+        Long feedId3 = feedService.create(user2, FEED_REQUEST3);
+
+        em.flush();
+        em.clear();
+
+        Feed savedFeed1 = feedService.findEntityById(feedId1);
+        Feed savedFeed2 = feedService.findEntityById(feedId2);
+        Feed savedFeed3 = feedService.findEntityById(feedId3);
 
         // then
-        assertThat(feedId).isNotNull();
+        assertThat(feedId1).isNotNull();
+        assertThat(feedId2).isNotNull();
+        assertThat(feedId3).isNotNull();
+        피드_정보가_같은지_조회(FEED_REQUEST1, savedFeed1);
+        피드_정보가_같은지_조회(FEED_REQUEST2, savedFeed2);
+        피드_정보가_같은지_조회(FEED_REQUEST3, savedFeed3);
     }
 
-    @DisplayName("Feed를 Id로 조회하고 조회수를 1 증가시킨다.")
+    @DisplayName("Feed를 Id로 단일 조회하고 조회수를 1 증가시킨다.")
     @Test
     void findById() {
         // given
-        Long feedId = feedService.create(user1, FEED_REQUEST1);
+        Long feedId1 = feedService.create(user1, FEED_REQUEST1);
+        Long feedId2 = feedService.create(user2, FEED_REQUEST2);
+        Long feedId3 = feedService.create(user2, FEED_REQUEST3);
+
+        em.flush();
+        em.clear();
 
         // when
-        FeedResponse feedResponse = feedService.findById(user1, feedId);
+        FeedResponse feedResponse1 = feedService.findById(user1, feedId1);
+        FeedResponse feedResponse2 = feedService.findById(user2, feedId2);
+        FeedResponse feedResponse3 = feedService.findById(user2, feedId3);
         FEED_REQUEST1.toEntityWithThumbnailUrl(null);
 
         // then
-        assertThat(feedResponse.getId()).isEqualTo(feedId);
-        피드_정보가_같은지_조회(FEED_REQUEST1, feedResponse);
-        assertThat(feedResponse.getViews()).isEqualTo(1);
+        assertThat(feedResponse1.getId()).isEqualTo(feedId1);
+        피드_정보가_같은지_조회(FEED_REQUEST1, feedResponse1);
+        assertThat(feedResponse1.getViews()).isEqualTo(1);
+
+        assertThat(feedResponse2.getId()).isEqualTo(feedId2);
+        피드_정보가_같은지_조회(FEED_REQUEST2, feedResponse2);
+        assertThat(feedResponse2.getViews()).isEqualTo(1);
+
+        assertThat(feedResponse3.getId()).isEqualTo(feedId3);
+        피드_정보가_같은지_조회(FEED_REQUEST3, feedResponse3);
+        assertThat(feedResponse3.getViews()).isEqualTo(1);
     }
 
     @DisplayName("존재하지 않는 Feed Id로 조회하면 예외가 발생한다.")
@@ -230,8 +278,12 @@ class FeedServiceTest {
     }
 
     private void 피드_정보가_같은지_조회(FeedRequest request, Feed feed) {
+        List<Long> techIds = feed.getTechs().stream()
+                .map(Tech::getId)
+                .collect(Collectors.toList());
+
         assertThat(request.getTitle()).isEqualTo(feed.getTitle());
-        assertThat(request.getTech()).containsExactlyElementsOf(feed.getTechs());
+        assertThat(request.getTech()).containsExactlyElementsOf(techIds);
         assertThat(request.getContent()).isEqualTo(feed.getContent());
         assertThat(request.getStep()).isEqualTo(feed.getStep().name());
         assertThat(request.isSos()).isEqualTo(feed.isSos());
@@ -240,10 +292,12 @@ class FeedServiceTest {
     }
 
     private void 피드_정보가_같은지_조회(FeedRequest request, FeedResponse response) {
-        List<TechResponse> fromRequestTechs = TechResponse.toList(request.getTech());
+        List<Long> techIds = response.getTechs().stream()
+                .map(TechResponse::getId)
+                .collect(Collectors.toList());
 
         assertThat(request.getTitle()).isEqualTo(response.getTitle());
-        assertThat(fromRequestTechs).containsExactlyElementsOf(response.getTechs());
+        assertThat(request.getTech()).containsExactlyElementsOf(techIds);
         assertThat(request.getContent()).isEqualTo(response.getContent());
         assertThat(request.getStep()).isEqualTo(response.getStep());
         assertThat(request.isSos()).isEqualTo(response.isSos());
