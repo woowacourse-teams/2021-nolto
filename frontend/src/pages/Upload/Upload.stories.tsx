@@ -1,6 +1,5 @@
 import React from 'react';
 
-import BaseLayout from 'components/BaseLayout/BaseLayout';
 import Upload from './Upload';
 
 export default {
@@ -9,8 +8,4 @@ export default {
   argTypes: {},
 };
 
-export const Default = () => (
-  <BaseLayout>
-    <Upload />
-  </BaseLayout>
-);
+export const Default = () => <Upload />;

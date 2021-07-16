@@ -3,6 +3,20 @@ spring:
     active: dev
     group:
       prod: realdb
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2MB
+      max-file-size: 5MB
+      max-request-size: 10MB
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+    show-sql: true
 ---
 spring:
   config:
@@ -40,29 +54,12 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-
 ---
 security:
   jwt:
     token:
       secret-key: my_secret_is_secret
       expire-length: 3600000
-spring:
-  servlet:
-    multipart:
-      enabled: true
-      file-size-threshold: 2MB
-      max-file-size: 5MB
-      max-request-size: 10MB
-  jpa:
-    properties:
-      hibernate:
-        format_sql: true
-        ddl-auto: create
-        dialect=org:
-          hibernate:
-            dialect: H2Dialect
-    show-sql: true
 logging:
   level:
     org:

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
 
-const CheckMark = styled.span`
+const RadioMark = styled.span`
   position: relative;
   top: 0;
   left: 0;
@@ -35,7 +35,7 @@ const Label = styled.label`
   user-select: none;
   align-items: center;
 
-  &:hover ${CheckMark} {
+  &:hover ${RadioMark} {
     background-color: #e1f5f4;
   }
 `;
@@ -47,7 +47,7 @@ const Text = styled.span`
   line-height: 24px;
 `;
 
-const Checkbox = styled.input`
+const RadioButton = styled.input`
   position: absolute;
   opacity: 0;
   cursor: pointer;
@@ -55,11 +55,11 @@ const Checkbox = styled.input`
   width: 0;
 
   &:checked {
-    & ~ ${CheckMark} {
+    & ~ ${RadioMark} {
       background-color: ${PALETTE.PRIMARY_400};
     }
 
-    & ~ ${CheckMark}:after {
+    & ~ ${RadioMark}:after {
       display: block;
     }
   }
@@ -68,6 +68,6 @@ const Checkbox = styled.input`
 export default {
   Label,
   Text,
-  Checkbox,
-  CheckMark,
+  RadioButton,
+  RadioMark,
 };

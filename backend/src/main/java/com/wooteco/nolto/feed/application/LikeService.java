@@ -8,6 +8,9 @@ import com.wooteco.nolto.user.domain.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
+@Transactional
 @AllArgsConstructor
 @Service
 public class LikeService {

@@ -10,6 +10,9 @@ import com.wooteco.nolto.user.domain.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
+@Transactional
 @Service
 @AllArgsConstructor
 public class AuthService {

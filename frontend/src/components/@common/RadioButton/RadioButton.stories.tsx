@@ -1,14 +1,14 @@
 import React from 'react';
 
-import Checkbox, { Props } from './Checkbox';
+import RadioButton, { Props } from './RadioButton';
 
 export default {
-  title: 'components/common/Checkbox',
-  component: Checkbox,
+  title: 'components/common/RadioButton',
+  component: RadioButton,
   parameters: { actions: { argTypesRegex: '^on.*' } },
 };
 
-const Template = (args: Props) => <Checkbox {...args} />;
+const Template = (args: Props) => <RadioButton {...args} />;
 
 export const Default = Template.bind({});
 
