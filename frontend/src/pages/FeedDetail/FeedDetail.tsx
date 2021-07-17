@@ -25,15 +25,15 @@ const FeedDetail = () => {
               <div>
                 <Styled.ThumbnailContainer>
                   <Styled.Thumbnail src={feedDetail.thumbnailUrl} />
-                  {feedDetail.sos && <Styled.SOSFlagIcon width="56" />}
+                  {feedDetail.sos && <Styled.SOSFlagIcon width="56px" />}
                 </Styled.ThumbnailContainer>
                 <Styled.IconsContainer>
                   <Styled.IconWrapper>
-                    <LikeHeartIcon width="30" />
+                    <LikeHeartIcon width="24px" />
                     <span>{feedDetail.likes}</span>
                   </Styled.IconWrapper>
                   <Styled.IconWrapper>
-                    <ViewCountIcon width="28" />
+                    <ViewCountIcon width="22px" />
                     <span>{feedDetail.views}</span>
                   </Styled.IconWrapper>
                 </Styled.IconsContainer>
@@ -78,14 +78,14 @@ const FeedDetail = () => {
                           <Tag buttonStyle={ButtonStyle.SOLID}>{tech.text}</Tag>
                         </li>
                       ))}
-                      <StacksMoreButton width="28" />
+                      <StacksMoreButton width="24px" />
                     </Styled.DetailsValue>
                   </Styled.DetailsPair>
                 </Styled.DetailsContent>
               </Styled.DetailsContainer>
             </Styled.IntroContainer>
 
-            <Styled.DotsDivider width="60" />
+            <Styled.DotsDivider width="52px" />
 
             <Styled.Description>{feedDetail.content}</Styled.Description>
           </>
