@@ -14,6 +14,8 @@ import { FlexContainer } from 'commonStyles';
 import Styled, { ContentTextArea, Form, StyledButton } from './Upload.styles';
 import { ButtonStyle, FeedStatus, Tech, FeedToUpload } from 'types';
 import ErrorMessage from 'components/@common/ErrorMessage/ErrorMessage';
+import { useHistory } from 'react-router-dom';
+import ROUTE from 'constants/routes';
 
 type FeedToUploadPartial = Omit<FeedToUpload, 'techs'>;
 
@@ -31,6 +33,7 @@ const Upload = () => {
   const watchThumbnailImage = watch('thumbnailImage');
   const watchStep = watch('step');
   const uploadMutation = useUploadFeed();
+  const history = useHistory();
 
   const uploadFeed = (data: FeedToUploadPartial) => {
     const formData = new FormData();
@@ -51,7 +54,20 @@ const Upload = () => {
       formData.append('techs', String(tech.id));
     });
 
-    uploadMutation.mutate(formData);
+    uploadMutation.mutate(formData, {
+      onSuccess: () => {
+        alert('🎉 토이 프로젝트 등록에 성공했습니다!');
+        history.push(ROUTE.HOME);
+      },
+    });
+  };
+
+  const handleCancelUpload = () => {
+    if (!confirm('정말로 페이지를 떠나시겠습니까? 작성 중인 정보는 사라집니다.')) {
+      return;
+    }
+
+    history.goBack();
   };
 
   return (
@@ -155,7 +171,11 @@ const Upload = () => {
 
           <Styled.ButtonsWrapper>
             <StyledButton buttonStyle={ButtonStyle.SOLID}>등록</StyledButton>
-            <StyledButton type="button" buttonStyle={ButtonStyle.OUTLINE}>
+            <StyledButton
+              onClick={handleCancelUpload}
+              type="button"
+              buttonStyle={ButtonStyle.OUTLINE}
+            >
               취소
             </StyledButton>
           </Styled.ButtonsWrapper>
