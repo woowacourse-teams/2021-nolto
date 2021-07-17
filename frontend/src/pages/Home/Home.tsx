@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import CroppedEllipse from 'components/CroppedEllipse/CroppedEllipse';
@@ -9,7 +9,7 @@ import Header from 'components/Header/Header';
 import useHotFeeds from 'hooks/queries/useHotFeeds';
 import useRecentFeeds from 'hooks/queries/useRecentFeeds';
 import ROUTE from 'constants/routes';
-import Styled from './Home.styles';
+import Styled, { CarouselArrowButton } from './Home.styles';
 import MoreArrow from 'assets/moreArrow.svg';
 import { ButtonStyle } from 'types';
 
@@ -18,6 +18,15 @@ const tags = ['JavaScript', 'Java', 'React.js', 'Spring'];
 const Home = () => {
   const { data: hotFeeds } = useHotFeeds();
   const { data: recentFeeds } = useRecentFeeds();
+  const [hotToyCardIdx, setHotToyCardIdx] = useState(3);
+
+  const showPreviousCards = () => {
+    if (hotToyCardIdx > 1) setHotToyCardIdx(hotToyCardIdx - 1);
+  };
+
+  const showFollowingCards = () => {
+    if (hotToyCardIdx < hotFeeds?.length) setHotToyCardIdx(hotToyCardIdx + 1);
+  };
 
   return (
     <>
@@ -41,19 +50,23 @@ const Home = () => {
         <Styled.ContentArea>
           <Styled.SectionTitle fontSize="1.75rem">Hot Toys</Styled.SectionTitle>
           <Styled.HotToysContainer>
-            <Styled.CarouselLeft width="24" />
-            <Styled.HotToyCardsContainer>
+            <CarouselArrowButton onClick={showPreviousCards}>
+              <Styled.CarouselLeft width="32px" />
+            </CarouselArrowButton>
+            <Styled.HotToyCardsContainer position={hotToyCardIdx}>
               {hotFeeds &&
-                hotFeeds.map((feed) => (
-                  <li key={feed.id}>
+                hotFeeds.map((feed, idx) => (
+                  <Styled.HotToyCardWrapper key={feed.id} offset={idx + 1}>
                     <Link to={`${ROUTE.FEEDS}/${feed.id}`}>
                       <Styled.VerticalAvatar user={feed.author} />
                       <RegularCard feed={feed} />
                     </Link>
-                  </li>
+                  </Styled.HotToyCardWrapper>
                 ))}
             </Styled.HotToyCardsContainer>
-            <Styled.CarouselRight width="24" />
+            <CarouselArrowButton onClick={showFollowingCards}>
+              <Styled.CarouselRight width="32px" />
+            </CarouselArrowButton>
           </Styled.HotToysContainer>
 
           <Styled.SectionTitle fontSize="1.75rem">Recent Toys</Styled.SectionTitle>

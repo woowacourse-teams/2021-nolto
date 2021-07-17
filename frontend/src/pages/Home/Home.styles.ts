@@ -5,6 +5,7 @@ import Searchbar from 'components/Searchbar/Searchbar';
 import HighLightedText from 'components/@common/HighlightedText/HighlightedText';
 import TextButton from 'components/@common/TextButton/TextButton';
 import Avatar from 'components/@common/Avatar/Avatar';
+import IconButtonComponent from 'components/@common/IconButton/IconButton';
 import CarouselArrow from 'assets/carouselArrow.svg';
 
 const Root = styled.div`
@@ -74,20 +75,46 @@ const HotToysContainer = styled.div`
   margin-bottom: 128px;
 `;
 
-const HotToyCardsContainer = styled.ul`
+const HotToyCardsContainer = styled.ul<{ position: number }>`
+  grid-row: 1 / 2;
+  grid-column: 1 / 8;
+  width: 100%;
+  height: 25rem;
+  padding: 0 1rem;
+
   display: flex;
-  gap: 5rem;
+  align-items: center;
   justify-content: center;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  perspective: 600px;
+  --items: 5;
+  --middle: 3;
+  --position: ${({ position }) => position};
+`;
+
+const HotToyCardWrapper = styled.li<{ offset: number }>`
+  position: absolute;
+  --r: calc(var(--position) - var(--offset));
+  --abs: max(calc(var(--r) * -1), var(--r));
+  transition: all 0.25s linear;
+  transform: rotateY(calc(-10deg * var(--r))) translateX(calc(-300px * var(--r)));
+  z-index: calc((var(--position) - var(--abs)));
+  --offset: ${({ offset }) => offset};
+  cursor: pointer;
+`;
+
+export const CarouselArrowButton = styled(IconButtonComponent)`
+  width: 1.85rem;
+  height: 1.85rem;
+  padding: 0.55rem;
 `;
 
 const CarouselLeft = styled(CarouselArrow)`
-  cursor: pointer;
+  transform: rotate(180deg);
 `;
 
-const CarouselRight = styled(CarouselArrow)`
-  transform: rotate(180deg);
-  cursor: pointer;
-`;
+const CarouselRight = styled(CarouselArrow)``;
 
 const RecentToysContainer = styled.div`
   display: flex;
@@ -134,6 +161,7 @@ export default {
   MainSearchBar,
   HotToysContainer,
   HotToyCardsContainer,
+  HotToyCardWrapper,
   CarouselLeft,
   CarouselRight,
   RecentToysContainer,
