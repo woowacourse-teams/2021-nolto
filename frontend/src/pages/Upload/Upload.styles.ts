@@ -55,15 +55,17 @@ const StretchWrapper = styled.div`
 `;
 
 export const StyledButton = styled(TextButton.Regular)`
-  width: 19.5rem;
-  height: 4.25rem;
-  font-size: 1.75rem;
+  width: 5rem;
+  height: 2rem;
+  font-size: 1rem;
+  border-radius: 7px;
 `;
 
 const ButtonsWrapper = styled.div`
   display: flex;
-  gap: 2.75rem;
-  margin: 10.25rem 0 5.5rem;
+  gap: 1.5rem;
+  margin: 2rem 0 5.5rem;
+  justify-content: flex-end;
 `;
 
 export default {
