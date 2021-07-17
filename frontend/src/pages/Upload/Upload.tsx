@@ -20,6 +20,9 @@ import { ALERT_MSG, CONFIRM_MSG, UPLOAD_VALIDATION_MSG } from 'constants/message
 
 type FeedToUploadPartial = Omit<FeedToUpload, 'techs'>;
 
+const URL_REGEX =
+  /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
+
 const Upload = () => {
   const {
     register,
@@ -40,9 +43,7 @@ const Upload = () => {
     const formData = new FormData();
 
     Object.keys(data).forEach((key: keyof typeof data) => {
-      if (!data[key]) {
-        return;
-      }
+      if (!data[key]) return;
 
       if (key === 'thumbnailImage') {
         formData.append(key, data[key]);
@@ -64,9 +65,7 @@ const Upload = () => {
   };
 
   const handleCancelUpload = () => {
-    if (!confirm(CONFIRM_MSG.LEAVE_UPLOAD_PAGE)) {
-      return;
-    }
+    if (!confirm(CONFIRM_MSG.LEAVE_UPLOAD_PAGE)) return;
 
     history.goBack();
   };
@@ -136,8 +135,7 @@ const Upload = () => {
                   {...register('deployedUrl', {
                     required: UPLOAD_VALIDATION_MSG.DEPLOY_URL_REQUIRED,
                     pattern: {
-                      value:
-                        /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
+                      value: URL_REGEX,
                       message: UPLOAD_VALIDATION_MSG.INVALID_URL,
                     },
                   })}
@@ -152,8 +150,7 @@ const Upload = () => {
               <FormInput
                 {...register('storageUrl', {
                   pattern: {
-                    value:
-                      /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
+                    value: URL_REGEX,
                     message: UPLOAD_VALIDATION_MSG.INVALID_URL,
                   },
                 })}

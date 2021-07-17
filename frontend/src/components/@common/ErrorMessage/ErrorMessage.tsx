@@ -2,7 +2,6 @@ import React from 'react';
 import { FieldError } from 'react-hook-form';
 
 import Styled from './ErrorMessage.styles';
-import { PALETTE } from 'constants/palette';
 
 interface Props {
   targetError: FieldError;
@@ -21,7 +20,7 @@ const ErrorMessage = ({ targetError, className }: Props) => {
       </Styled.ArrowUpWrapper>
       <Styled.Message>
         <Styled.Background></Styled.Background>
-        <span>{`${targetError.message}`}</span>
+        <span>{targetError.message}</span>
       </Styled.Message>
     </Styled.Root>
   );
