@@ -30,7 +30,7 @@ const SearchContainer = styled.div`
 `;
 
 const SearchTitle = styled.div`
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-weight: 500;
   color: ${PALETTE.WHITE_400};
   margin-bottom: 18px;
@@ -97,7 +97,7 @@ const HotToyCardWrapper = styled.li<{ offset: number }>`
   position: absolute;
   --r: calc(var(--position) - var(--offset));
   --abs: max(calc(var(--r) * -1), var(--r));
-  transition: all 0.25s linear;
+  transition: all 0.5s ease;
   transform: rotateY(calc(-10deg * var(--r))) translateX(calc(-300px * var(--r)));
   z-index: calc((var(--position) - var(--abs)));
   --offset: ${({ offset }) => offset};
@@ -144,7 +144,7 @@ const MoreButton = styled.button`
   display: inline;
   border: none;
   background: transparent;
-  font-size: 1.125rem;
+  font-size: 1rem;
   margin-top: 36px;
   margin-left: auto;
 `;

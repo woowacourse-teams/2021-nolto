@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import CroppedEllipse from 'components/CroppedEllipse/CroppedEllipse';
@@ -7,6 +7,7 @@ import StretchCard from 'components/StretchCard/StretchCard';
 import LevelLinkButton from 'components/LevelLinkButton/LevelLinkButton';
 import Header from 'components/Header/Header';
 import useHotFeeds from 'hooks/queries/useHotFeeds';
+import useOnScreen from 'hooks/@common/useOnScreen';
 import useRecentFeeds from 'hooks/queries/useRecentFeeds';
 import ROUTE from 'constants/routes';
 import Styled, { CarouselArrowButton } from './Home.styles';
@@ -18,7 +19,20 @@ const tags = ['JavaScript', 'Java', 'React.js', 'Spring'];
 const Home = () => {
   const { data: hotFeeds } = useHotFeeds();
   const { data: recentFeeds } = useRecentFeeds();
+
+  const [isHeaderFolded, setHeaderFolded] = useState(true);
   const [hotToyCardIdx, setHotToyCardIdx] = useState(3);
+
+  const ellipseRef = useRef();
+  const isEllipseVisible = useOnScreen(ellipseRef);
+
+  useEffect(() => {
+    if (isEllipseVisible) {
+      setHeaderFolded(true);
+    } else {
+      setHeaderFolded(false);
+    }
+  }, [isEllipseVisible]);
 
   const showPreviousCards = () => {
     if (hotToyCardIdx > 1) setHotToyCardIdx(hotToyCardIdx - 1);
@@ -30,9 +44,9 @@ const Home = () => {
 
   return (
     <>
-      <Header isFolded={true} />
+      <Header isFolded={isHeaderFolded} />
       <Styled.Root>
-        <Styled.EllipseWrapper>
+        <Styled.EllipseWrapper ref={ellipseRef}>
           <CroppedEllipse />
         </Styled.EllipseWrapper>
         <Styled.SearchContainer>
@@ -78,7 +92,7 @@ const Home = () => {
             </Styled.LevelButtonsContainer>
             <Styled.RecentToyCardsContainer>
               {recentFeeds &&
-                recentFeeds.map((feed) => (
+                recentFeeds.slice(0, 4).map((feed) => (
                   <li key={feed.id}>
                     <Link to={`${ROUTE.FEEDS}/${feed.id}`}>
                       <Styled.VerticalAvatar user={feed.author} />
