@@ -26,11 +26,10 @@ public class FeedResponse {
     private final int views;
     private final boolean liked;
     private final LocalDateTime createdDate;
-    private final LocalDateTime modifiedDate;
 
     public static FeedResponse of(User author, Feed feed, boolean liked) {
         return new FeedResponse(FeedAuthorResponse.of(author), feed.getId(), feed.getTitle(), TechResponse.toList(feed.getTechs()),
                 feed.getContent(), feed.getStep().name(), feed.isSos(), feed.getStorageUrl(), feed.getDeployedUrl(),
-                feed.getThumbnailUrl(), feed.getLikes().size(), feed.getViews(), liked, feed.getCreatedDate(), feed.getModifiedDate());
+                feed.getThumbnailUrl(), feed.getLikes().size(), feed.getViews(), liked, feed.getCreatedDate());
     }
 }
