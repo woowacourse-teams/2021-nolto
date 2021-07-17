@@ -21,12 +21,18 @@ const TitleWrapper = styled.h2`
   margin-bottom: 3rem;
 `;
 
+export const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 5rem;
+`;
+
 const VerticalWrapper = styled.div`
   display: flex;
   flex-direction: column;
   border-bottom: 2rem;
   width: 100%;
-  margin-bottom: 0.75rem;
 `;
 
 export const ContentTextArea = styled(TextArea)`
@@ -37,21 +43,24 @@ const InputsContainer = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  margin-bottom: 1rem;
+  justify-content: space-between;
 `;
 
 const StretchWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 1.5rem;
   border-bottom: 2rem;
   width: 100%;
-  margin-bottom: 1rem;
 
   & > .stretch-label {
-    width: 10rem;
+    min-width: 7rem;
   }
+`;
+
+const levelWrapper = styled(StretchWrapper)`
+  margin-bottom: 0;
+  width: auto;
 `;
 
 export const StyledButton = styled(TextButton.Regular)`
@@ -64,7 +73,6 @@ export const StyledButton = styled(TextButton.Regular)`
 const ButtonsWrapper = styled.div`
   display: flex;
   gap: 1.5rem;
-  margin: 2rem 0 5.5rem;
   justify-content: flex-end;
 `;
 
@@ -74,5 +82,6 @@ export default {
   VerticalWrapper,
   InputsContainer,
   StretchWrapper,
+  levelWrapper,
   ButtonsWrapper,
 };

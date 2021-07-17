@@ -17,6 +17,7 @@ const Text = styled.span`
 const ToggleMark = styled.span`
   position: relative;
   width: 2.5rem;
+  min-width: 2.5rem;
   height: 1.5rem;
   border-radius: 25px;
   display: flex;

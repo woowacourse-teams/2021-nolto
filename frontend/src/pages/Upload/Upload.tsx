@@ -11,15 +11,25 @@ import Header from 'components/Header/Header';
 import TechInput from 'components/TechInput/TechInput';
 import useUploadFeed from 'hooks/queries/useUploadFeed';
 import { FlexContainer } from 'commonStyles';
-import Styled, { ContentTextArea, StyledButton } from './Upload.styles';
+import Styled, { ContentTextArea, Form, StyledButton } from './Upload.styles';
 import { ButtonStyle, FeedStatus, Tech, FeedToUpload } from 'types';
+import ErrorMessage from 'components/@common/ErrorMessage/ErrorMessage';
 
 type FeedToUploadPartial = Omit<FeedToUpload, 'techs'>;
 
 const Upload = () => {
-  const { register, handleSubmit, setValue, watch } = useForm<FeedToUploadPartial>();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm<FeedToUploadPartial>({
+    shouldUnregister: true,
+  });
   const [techs, setTechs] = useState<Tech[]>([]);
   const watchThumbnailImage = watch('thumbnailImage');
+  const watchStep = watch('step');
   const uploadMutation = useUploadFeed();
 
   const uploadFeed = (data: FeedToUploadPartial) => {
@@ -52,10 +62,15 @@ const Upload = () => {
           <HighLightedText fontSize="1.75rem">🦄 Upload Your Toy</HighLightedText>
         </Styled.TitleWrapper>
 
-        <form onSubmit={handleSubmit(uploadFeed)}>
+        <Form onSubmit={handleSubmit(uploadFeed)}>
           <Styled.VerticalWrapper>
             <Label text="제목" required={true} />
-            <FormInput {...register('title', { required: true })} />
+            <FormInput
+              {...register('title', {
+                required: '😭 프로젝트 이름을 알려주세요!',
+              })}
+            />
+            <ErrorMessage targetError={errors.title} />
           </Styled.VerticalWrapper>
 
           <Styled.VerticalWrapper>
@@ -65,40 +80,70 @@ const Upload = () => {
 
           <Styled.VerticalWrapper>
             <Label text="내용" required={true} />
-            <ContentTextArea {...register('content', { required: true })} />
+            <ContentTextArea
+              {...register('content', { required: '😁 프로젝트를 소개해주세요!' })}
+            />
+            <ErrorMessage targetError={errors.content} />
           </Styled.VerticalWrapper>
 
-          <Styled.InputsContainer>
+          <div>
+            <Styled.InputsContainer>
+              <Styled.levelWrapper>
+                <Label className="stretch-label" text="레벨" required={true} />
+                <FlexContainer>
+                  <RadioButton
+                    name="step"
+                    labelText="🧩 조립중"
+                    value={FeedStatus.PROGRESS}
+                    {...register('step', { required: '🙋‍♂️ 프로젝트의 완성도는 어느 정도인가요?' })}
+                  />
+                  <RadioButton
+                    name="step"
+                    labelText="🦄 전시중"
+                    value={FeedStatus.COMPLETE}
+                    {...register('step')}
+                  />
+                </FlexContainer>
+              </Styled.levelWrapper>
+
+              <Toggle labelText="🚨 SOS" {...register('sos')} />
+            </Styled.InputsContainer>
+            <ErrorMessage targetError={errors.step} />
+          </div>
+
+          {watchStep === FeedStatus.COMPLETE && (
+            <div>
+              <Styled.StretchWrapper>
+                <Label className="stretch-label" text="배포 URL" required={true} />
+                <FormInput
+                  {...register('deployedUrl', {
+                    required: '😎 전시중 프로젝트는 배포 URL이 필수예요!',
+                    pattern: {
+                      value:
+                        /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
+                      message: '🧡 올바른 url 형식을 사용해주세요!',
+                    },
+                  })}
+                />
+              </Styled.StretchWrapper>
+              <ErrorMessage targetError={errors.deployedUrl} />
+            </div>
+          )}
+          <div>
             <Styled.StretchWrapper>
-              <Label className="stretch-label" text="레벨" required={true} />
-              <FlexContainer width="100%">
-                <RadioButton
-                  name="step"
-                  labelText="🧩 조립중"
-                  value={FeedStatus.PROGRESS}
-                  {...register('step', { required: true })}
-                />
-                <RadioButton
-                  name="step"
-                  labelText="🦄 전시중"
-                  value={FeedStatus.COMPLETE}
-                  {...register('step', { required: true })}
-                />
-              </FlexContainer>
+              <Label className="stretch-label" text="github URL" />
+              <FormInput
+                {...register('storageUrl', {
+                  pattern: {
+                    value:
+                      /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
+                    message: '🧡 올바른 url 형식을 사용해주세요!',
+                  },
+                })}
+              />
             </Styled.StretchWrapper>
-
-            <Toggle labelText="🚨 SOS" {...register('sos')} />
-          </Styled.InputsContainer>
-
-          <Styled.StretchWrapper>
-            <Label className="stretch-label" text="github" required={true} />
-            <FormInput {...register('storageUrl', { required: true })} />
-          </Styled.StretchWrapper>
-
-          <Styled.StretchWrapper>
-            <Label className="stretch-label" text="배포 URL" required={true} />
-            <FormInput {...register('deployedUrl', { required: true })} />
-          </Styled.StretchWrapper>
+            <ErrorMessage targetError={errors.storageUrl} />
+          </div>
 
           <Styled.StretchWrapper>
             <Label className="stretch-label" text="대표 이미지" />
@@ -114,7 +159,7 @@ const Upload = () => {
               취소
             </StyledButton>
           </Styled.ButtonsWrapper>
-        </form>
+        </Form>
       </Styled.Root>
     </>
   );
