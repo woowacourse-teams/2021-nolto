@@ -9,25 +9,27 @@ import Toggle from 'components/@common/Toggle/Toggle';
 import RadioButton from 'components/@common/RadioButton/RadioButton';
 import Header from 'components/Header/Header';
 import TechInput from 'components/TechInput/TechInput';
-import useUploadFeeds from 'hooks/queries/useUploadFeed';
+import useUploadFeed from 'hooks/queries/useUploadFeed';
 import { FlexContainer } from 'commonStyles';
 import Styled, { ContentTextArea, StyledButton } from './Upload.styles';
 import { ButtonStyle, FeedStatus, Tech, FeedToUpload } from 'types';
 
+type FeedToUploadPartial = Omit<FeedToUpload, 'techs'>;
+
 const Upload = () => {
-  const { register, handleSubmit, setValue, watch } = useForm<FeedToUpload>(); //TODO: techs Omit해야함
+  const { register, handleSubmit, setValue, watch } = useForm<FeedToUploadPartial>();
   const [techs, setTechs] = useState<Tech[]>([]);
   const watchThumbnailImage = watch('thumbnailImage');
-  const uploadFeeds = useUploadFeeds();
+  const mutation = useUploadFeed();
 
-  const uploadFeed = (data: FeedToUpload) => {
+  const uploadFeed = (data: FeedToUploadPartial) => {
     const formData = new FormData();
 
     Object.keys(data).forEach((key) => {
       if (key === 'thumbnailImage') {
         formData.append(key, data[key]);
       } else {
-        formData.append(key, String(data[key]));
+        formData.append(key, String(data[key as keyof typeof data]));
       }
     });
 
@@ -35,7 +37,7 @@ const Upload = () => {
       formData.append('techs', String(tech.id));
     });
 
-    uploadFeeds.mutate(formData);
+    mutation.mutate(formData);
   };
 
   return (

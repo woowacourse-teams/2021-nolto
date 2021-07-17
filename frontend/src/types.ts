@@ -30,7 +30,6 @@ export interface Feed {
 }
 
 export interface FeedToUpload extends Omit<Feed, 'id' | 'author' | 'thumbnailUrl'> {
-  [index: string]: string | Tech[] | number | boolean | File;
   techs: Tech[];
   storageUrl?: string;
   deployedUrl?: string;
