@@ -5,10 +5,11 @@ import { PALETTE } from 'constants/palette';
 
 const Root = styled(Card)`
   position: relative;
-  width: 42.375rem;
-  height: 7.625rem;
-  padding: 1.5rem;
+  width: 34rem;
+  height: 6rem;
+  padding: 0.75rem 1rem;
   display: flex;
+  align-items: center;
   gap: 1rem;
   cursor: pointer;
   overflow: hidden;
@@ -27,30 +28,26 @@ const Root = styled(Card)`
 `;
 
 const Thumbnail = styled.img`
-  width: 5rem;
-  height: 5rem;
-  border-radius: 16px;
+  width: 4.25rem;
+  height: 4.25rem;
+  border-radius: 0.5rem;
 `;
 
 const ChipWrapper = styled.div`
   position: absolute;
-  top: 16px;
-  right: 16px;
-`;
-
-const ContentArea = styled.div`
-  margin: 0.5rem 0;
+  top: 0.75rem;
+  right: 0.75rem;
 `;
 
 const TitleWrapper = styled.div`
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 1rem;
   margin-bottom: 1rem;
 `;
 
 const Title = styled.h3`
-  font-size: 1.25rem;
+  font-size: 1rem;
   color: inherit;
 `;
 
@@ -59,4 +56,4 @@ const Content = styled.p`
   color: inherit;
 `;
 
-export default { Root, Thumbnail, ChipWrapper, ContentArea, TitleWrapper, Title, Content };
+export default { Root, Thumbnail, ChipWrapper, TitleWrapper, Title, Content };

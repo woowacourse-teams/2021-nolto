@@ -17,13 +17,13 @@ const StretchCard = ({ feed }: Props) => {
       <Styled.ChipWrapper>
         <Chip.Solid>{STEP_CONVERTER[feed.step]}</Chip.Solid>
       </Styled.ChipWrapper>
-      <Styled.ContentArea>
+      <div>
         <Styled.TitleWrapper>
           <Styled.Title>{feed.title}</Styled.Title>
-          {feed.sos && <SOSFlag width="56" />}
+          {feed.sos && <SOSFlag width="40px" />}
         </Styled.TitleWrapper>
         <Styled.Content>{feed.content}</Styled.Content>
-      </Styled.ContentArea>
+      </div>
     </Styled.Root>
   );
 };
