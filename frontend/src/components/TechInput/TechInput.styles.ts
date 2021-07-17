@@ -41,7 +41,7 @@ const TechOption = styled.li<{ focused?: boolean }>`
 `;
 
 const TechButtonsContainer = styled.div`
-  margin-bottom: 0.25rem;
+  margin: 0.25rem 0;
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -51,7 +51,7 @@ export const TechButton = styled(TextButton.Rounded)`
   width: fit-content;
   height: 1.5rem;
   padding: 0 0.5rem;
-  margin-right: 0.25rem;
+  margin: 0.125rem 0.125rem;
 `;
 
 export default { Root, Dropdown, TechOption, TechButtonsContainer };
