@@ -25,11 +25,15 @@ const Upload = () => {
   const uploadFeed = (data: FeedToUploadPartial) => {
     const formData = new FormData();
 
-    Object.keys(data).forEach((key) => {
+    Object.keys(data).forEach((key: keyof typeof data) => {
+      if (!data[key]) {
+        return;
+      }
+
       if (key === 'thumbnailImage') {
         formData.append(key, data[key]);
       } else {
-        formData.append(key, String(data[key as keyof typeof data]));
+        formData.append(key, String(data[key]));
       }
     });
 
