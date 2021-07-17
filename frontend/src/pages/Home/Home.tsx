@@ -39,7 +39,7 @@ const Home = () => {
         </Styled.SearchContainer>
 
         <Styled.ContentArea>
-          <Styled.SectionTitle fontSize="32px">Hot Toys</Styled.SectionTitle>
+          <Styled.SectionTitle fontSize="1.75rem">Hot Toys</Styled.SectionTitle>
           <Styled.HotToysContainer>
             <Styled.CarouselLeft width="24" />
             <Styled.HotToyCardsContainer>
@@ -56,7 +56,7 @@ const Home = () => {
             <Styled.CarouselRight width="24" />
           </Styled.HotToysContainer>
 
-          <Styled.SectionTitle fontSize="32px">Recent Toys</Styled.SectionTitle>
+          <Styled.SectionTitle fontSize="1.75rem">Recent Toys</Styled.SectionTitle>
           <Styled.RecentToysContainer>
             <Styled.LevelButtonsContainer>
               <LevelLinkButton.Progress />
