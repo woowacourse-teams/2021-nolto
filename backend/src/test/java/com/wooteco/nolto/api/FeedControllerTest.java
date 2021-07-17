@@ -58,7 +58,7 @@ public class FeedControllerTest extends ControllerTest {
 
     private static final FeedResponse FEED_RESPONSE = new FeedResponse(FeedAuthorResponse.of(LOGIN_USER), FEED1.getId(), FEED1.getTitle(), TechControllerTest.TECH_RESPONSES,
             FEED1.getContent(), FEED1.getStep().name(), FEED1.isSos(), FEED1.getStorageUrl(), FEED1.getDeployedUrl(),
-            FEED1.getThumbnailUrl(), FEED1.getLikes().size(), FEED1.getViews(), true, LocalDateTime.now(), LocalDateTime.now());
+            FEED1.getThumbnailUrl(), FEED1.getLikes().size(), FEED1.getViews(), true, LocalDateTime.now());
 
     private static final FieldDescriptor[] TECH = new FieldDescriptor[]{
             fieldWithPath("id").type(JsonFieldType.NUMBER).description("기술 ID"),
@@ -156,7 +156,6 @@ public class FeedControllerTest extends ControllerTest {
                                 fieldWithPath("thumbnailUrl").type(JsonFieldType.STRING).description("썸네일 URL"),
                                 fieldWithPath("likes").type(JsonFieldType.NUMBER).description("좋아요 개수"),
                                 fieldWithPath("createdDate").type(JsonFieldType.STRING).description("작성 날짜"),
-                                fieldWithPath("modifiedDate").type(JsonFieldType.STRING).description("수정 날짜"),
                                 fieldWithPath("views").type(JsonFieldType.NUMBER).description("조회수"),
                                 fieldWithPath("liked").type(JsonFieldType.BOOLEAN).description("현재 로그인한 유저의 현재 글 좋아요 여부")
                         ).andWithPrefix("techs.[].", TECH)
