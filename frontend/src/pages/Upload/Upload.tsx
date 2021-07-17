@@ -16,6 +16,7 @@ import { ButtonStyle, FeedStatus, Tech, FeedToUpload } from 'types';
 import ErrorMessage from 'components/@common/ErrorMessage/ErrorMessage';
 import { useHistory } from 'react-router-dom';
 import ROUTE from 'constants/routes';
+import { ALERT_MSG, CONFIRM_MSG, UPLOAD_VALIDATION_MSG } from 'constants/message';
 
 type FeedToUploadPartial = Omit<FeedToUpload, 'techs'>;
 
@@ -56,14 +57,14 @@ const Upload = () => {
 
     uploadMutation.mutate(formData, {
       onSuccess: () => {
-        alert('🎉 토이 프로젝트 등록에 성공했습니다!');
+        alert(ALERT_MSG.SUCCESS_UPLOAD_FEED);
         history.push(ROUTE.HOME);
       },
     });
   };
 
   const handleCancelUpload = () => {
-    if (!confirm('정말로 페이지를 떠나시겠습니까? 작성 중인 정보는 사라집니다.')) {
+    if (!confirm(CONFIRM_MSG.LEAVE_UPLOAD_PAGE)) {
       return;
     }
 
@@ -83,7 +84,7 @@ const Upload = () => {
             <Label text="제목" required={true} />
             <FormInput
               {...register('title', {
-                required: '😭 프로젝트 이름을 알려주세요!',
+                required: UPLOAD_VALIDATION_MSG.TITLE_REQUIRED,
               })}
             />
             <ErrorMessage targetError={errors.title} />
@@ -97,7 +98,7 @@ const Upload = () => {
           <Styled.VerticalWrapper>
             <Label text="내용" required={true} />
             <ContentTextArea
-              {...register('content', { required: '😁 프로젝트를 소개해주세요!' })}
+              {...register('content', { required: UPLOAD_VALIDATION_MSG.CONTENT_REQUIRED })}
             />
             <ErrorMessage targetError={errors.content} />
           </Styled.VerticalWrapper>
@@ -111,7 +112,7 @@ const Upload = () => {
                     name="step"
                     labelText="🧩 조립중"
                     value={FeedStatus.PROGRESS}
-                    {...register('step', { required: '🙋‍♂️ 프로젝트의 완성도는 어느 정도인가요?' })}
+                    {...register('step', { required: UPLOAD_VALIDATION_MSG.STEP_REQUIRED })}
                   />
                   <RadioButton
                     name="step"
@@ -133,11 +134,11 @@ const Upload = () => {
                 <Label className="stretch-label" text="배포 URL" required={true} />
                 <FormInput
                   {...register('deployedUrl', {
-                    required: '😎 전시중 프로젝트는 배포 URL이 필수예요!',
+                    required: UPLOAD_VALIDATION_MSG.DEPLOY_URL_REQUIRED,
                     pattern: {
                       value:
                         /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
-                      message: '🧡 올바른 url 형식을 사용해주세요!',
+                      message: UPLOAD_VALIDATION_MSG.INVALID_URL,
                     },
                   })}
                 />
@@ -153,7 +154,7 @@ const Upload = () => {
                   pattern: {
                     value:
                       /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
-                    message: '🧡 올바른 url 형식을 사용해주세요!',
+                    message: UPLOAD_VALIDATION_MSG.INVALID_URL,
                   },
                 })}
               />
