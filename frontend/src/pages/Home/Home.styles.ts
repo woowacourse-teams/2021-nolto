@@ -35,7 +35,7 @@ const SearchTitle = styled.div`
   margin-bottom: 18px;
 `;
 
-const MainSearchbar = styled(Searchbar)`
+const MainSearchBar = styled(Searchbar)`
   position: relative;
   width: 30rem;
   height: 2.25rem;
@@ -131,7 +131,7 @@ export default {
   TagButton,
   ContentArea,
   SectionTitle,
-  MainSearchbar,
+  MainSearchBar,
   HotToysContainer,
   HotToyCardsContainer,
   CarouselLeft,

@@ -28,7 +28,7 @@ const Home = () => {
         </Styled.EllipseWrapper>
         <Styled.SearchContainer>
           <Styled.SearchTitle>Search for Ideas?</Styled.SearchTitle>
-          <Styled.MainSearchbar />
+          <Styled.MainSearchBar />
           <Styled.TagsContainer>
             {tags.map((tag) => (
               <Styled.TagButton buttonStyle={ButtonStyle.SOLID} reverse={true} key={tag}>

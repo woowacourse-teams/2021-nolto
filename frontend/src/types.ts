@@ -24,7 +24,7 @@ export interface Feed {
   author: User;
   title: string;
   content: string;
-  step: string;
+  step: FeedStatus;
   sos: boolean;
   thumbnailUrl?: string;
 }
