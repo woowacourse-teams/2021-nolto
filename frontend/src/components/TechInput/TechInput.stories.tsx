@@ -8,4 +8,10 @@ export default {
   argTypes: {},
 };
 
-export const Default = () => <TechInput placeholder="테크 인풋" />;
+export const Default = () => (
+  <TechInput
+    onUpdateTechs={() => {
+      console.log('새로운 태그 입력됨');
+    }}
+  />
+);

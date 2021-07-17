@@ -20,7 +20,7 @@ const Upload = () => {
   const { register, handleSubmit, setValue, watch } = useForm<FeedToUploadPartial>();
   const [techs, setTechs] = useState<Tech[]>([]);
   const watchThumbnailImage = watch('thumbnailImage');
-  const mutation = useUploadFeed();
+  const uploadMutation = useUploadFeed();
 
   const uploadFeed = (data: FeedToUploadPartial) => {
     const formData = new FormData();
@@ -37,7 +37,7 @@ const Upload = () => {
       formData.append('techs', String(tech.id));
     });
 
-    mutation.mutate(formData);
+    uploadMutation.mutate(formData);
   };
 
   return (

@@ -3,6 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import GlobalStyle from '../src/Global.styles';
+import ModalProvider from '../src/components/@common/ModalProvider/ModalProvider';
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
@@ -21,7 +22,7 @@ addDecorator((story) => (
     <QueryClientProvider client={queryClient}>
       <MemoryRouter initialEntries={['/']}>
         <GlobalStyle />
-        {story()}
+        <ModalProvider>{story()}</ModalProvider>
       </MemoryRouter>
     </QueryClientProvider>
   </>

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
-import ModalProvider, { useModal } from 'components/@common/ModalProvider/ModalProvider';
 import LoginModal from './LoginModal';
+import useModal from 'hooks/@common/useModal';
 
 export default {
   title: 'components/LoginModal',
@@ -25,9 +25,5 @@ const Page = () => {
 };
 
 export const Default = () => {
-  return (
-    <ModalProvider>
-      <Page />
-    </ModalProvider>
-  );
+  return <Page />;
 };
