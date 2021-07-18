@@ -7,7 +7,7 @@ import SOSFlag from 'assets/sosFlag.svg';
 import StacksMoreIcon from 'assets/stacksMore.svg';
 
 const Root = styled.div`
-  padding: 6rem 13rem;
+  padding: 8rem 16rem;
 `;
 
 const IntroContainer = styled.div`
@@ -36,9 +36,9 @@ const ThumbnailContainer = styled.div`
 `;
 
 const Thumbnail = styled.img`
-  width: 15rem;
-  height: 15rem;
-  border-radius: 1rem;
+  width: 14rem;
+  height: 14rem;
+  border-radius: 0.5rem;
 `;
 
 const SOSFlagIcon = styled(SOSFlag)`
@@ -70,12 +70,12 @@ const UserWrapper = styled.div`
 `;
 
 const UserName = styled.span`
-  font-size: 1.5rem;
+  font-size: 1rem;
 `;
 
 const UserImage = styled.img`
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2rem;
+  height: 2rem;
   border-radius: 50%;
   margin: 0.75rem;
 `;
@@ -90,24 +90,31 @@ const DetailsContent = styled.div`
 const DetailsPair = styled.div`
   display: flex;
   align-items: center;
-  gap: 2.25rem;
+  gap: 1.75rem;
 `;
 
 const DetailsKey = styled(HighlightedText)`
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-weight: 400;
 `;
 
 const DetailsValue = styled.span`
   display: flex;
-  font-size: 1.25rem;
+  font-size: 1rem;
   align-items: center;
   gap: 0.5rem;
+
+  & > a {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 `;
 
 export const Tag = styled(TextButton.Rounded)`
-  width: 5.5rem;
+  width: fit-content;
   height: 1.5rem;
+  padding: 0 0.75rem;
 `;
 
 export const StacksMoreButton = styled(StacksMoreIcon)`
@@ -121,9 +128,9 @@ const DotsDivider = styled(DotsIcon)`
 
 const Description = styled.p`
   margin: 5rem auto 0 auto;
-  width: 60rem;
-  font-size: 1.5rem;
-  line-height: 2rem;
+  width: 52rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
   text-align: justify;
 `;
 
