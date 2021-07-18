@@ -1,7 +1,7 @@
 import { PALETTE } from 'constants/palette';
 import styled from 'styled-components';
 
-import Searchbar from 'components/Searchbar/Searchbar';
+import SearchbarComponent from 'components/Searchbar/Searchbar';
 import HighLightedText from 'components/@common/HighlightedText/HighlightedText';
 import TextButton from 'components/@common/TextButton/TextButton';
 import Avatar from 'components/@common/Avatar/Avatar';
@@ -36,10 +36,10 @@ const SearchTitle = styled.div`
   margin-bottom: 18px;
 `;
 
-const MainSearchBar = styled(Searchbar)`
+export const Searchbar = styled(SearchbarComponent)`
   position: relative;
   width: 30rem;
-  height: 2.25rem;
+  height: 2.5rem;
   margin-bottom: 18px;
 `;
 
@@ -171,7 +171,6 @@ export default {
   TagButton,
   ContentArea,
   SectionTitle,
-  MainSearchBar,
   HotToysContainer,
   HotToyCardsContainer,
   HotToyCardWrapper,

@@ -12,7 +12,7 @@ const Searchbar = ({ className }: Props) => {
     <Styled.Root className={className}>
       <Styled.Input />
       <Styled.Button>
-        <SearchIcon width="32" />
+        <SearchIcon width="32px" />
       </Styled.Button>
     </Styled.Root>
   );

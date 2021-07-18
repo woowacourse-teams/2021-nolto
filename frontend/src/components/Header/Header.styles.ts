@@ -1,8 +1,9 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
 import TextButton from 'components/@common/TextButton/TextButton';
 import IconButtonComponent from 'components/@common/IconButton/IconButton';
+import SearchbarComponent from 'components/Searchbar/Searchbar';
 
 const Root = styled.header<{ isFolded: boolean }>`
   position: sticky;
@@ -53,6 +54,7 @@ const NavContainer = styled.ul`
 const ButtonsContainer = styled.div`
   display: flex;
   align-items: center;
+  position: relative;
   margin-left: 40px;
   gap: 1rem;
 `;
@@ -67,6 +69,35 @@ export const IconButton = styled(IconButtonComponent)`
   width: 40px;
   height: 40px;
   padding: 6px;
+`;
+
+const stretch = keyframes`
+  from {
+    width: 2.5rem;
+  }
+  to {
+    width: 32rem;
+  }
+`;
+
+const fadeIn = keyframes`
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+`;
+
+export const Searchbar = styled(SearchbarComponent)`
+  position: absolute;
+  transform: translateX(calc(-100% + 2.5rem));
+  height: 2.5rem;
+  animation: ${stretch} 0.5s ease 0s 1 normal forwards;
+
+  > input {
+    animation: ${fadeIn} 0.5s ease 0s 1 normal forwards;
+  }
 `;
 
 export default {
