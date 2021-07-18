@@ -1,6 +1,7 @@
-import { PALETTE } from 'constants/palette';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
+import { PALETTE } from 'constants/palette';
 import SearchbarComponent from 'components/Searchbar/Searchbar';
 import HighLightedText from 'components/@common/HighlightedText/HighlightedText';
 import TextButton from 'components/@common/TextButton/TextButton';
@@ -140,7 +141,7 @@ const LevelButtonsContainer = styled.div`
   margin-bottom: 3.5rem;
 `;
 
-const MoreButton = styled.button`
+export const MoreButton = styled(Link)`
   display: inline;
   border: none;
   background: transparent;
@@ -180,6 +181,5 @@ export default {
   RecentToyCardsContainer,
   VerticalAvatar,
   LevelButtonsContainer,
-  MoreButton,
   ArrowUp,
 };

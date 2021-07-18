@@ -6,6 +6,7 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import Home from 'pages/Home/Home';
 import Upload from 'pages/Upload/Upload';
 import FeedDetail from 'pages/FeedDetail/FeedDetail';
+import RecentFeeds from 'pages/RecentFeeds/RecentFeeds';
 import ModalProvider from 'components/@common/ModalProvider/ModalProvider';
 import ROUTE from 'constants/routes';
 import GlobalStyle from './Global.styles';
@@ -26,6 +27,9 @@ const App = () => {
                 </Route>
                 <Route path={ROUTE.UPLOAD}>
                   <Upload />
+                </Route>
+                <Route exact path={ROUTE.FEEDS}>
+                  <RecentFeeds />
                 </Route>
                 <Route path={`${ROUTE.FEEDS}/:id`}>
                   <FeedDetail />
