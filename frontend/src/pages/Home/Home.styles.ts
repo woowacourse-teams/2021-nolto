@@ -6,7 +6,7 @@ import HighLightedText from 'components/@common/HighlightedText/HighlightedText'
 import TextButton from 'components/@common/TextButton/TextButton';
 import Avatar from 'components/@common/Avatar/Avatar';
 import IconButtonComponent from 'components/@common/IconButton/IconButton';
-import CarouselArrow from 'assets/carouselArrow.svg';
+import ArrowIcon from 'assets/carouselArrow.svg';
 
 const Root = styled.div`
   position: relative;
@@ -110,11 +110,11 @@ export const CarouselArrowButton = styled(IconButtonComponent)`
   padding: 0.55rem;
 `;
 
-const CarouselLeft = styled(CarouselArrow)`
+const CarouselLeft = styled(ArrowIcon)`
   transform: rotate(180deg);
 `;
 
-const CarouselRight = styled(CarouselArrow)``;
+const CarouselRight = styled(ArrowIcon)``;
 
 const RecentToysContainer = styled.div`
   display: flex;
@@ -149,6 +149,19 @@ const MoreButton = styled.button`
   margin-left: auto;
 `;
 
+const ArrowUp = styled(ArrowIcon)`
+  transform: rotate(-90deg);
+`;
+
+export const ScrollUpButton = styled(IconButtonComponent)`
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0.55rem;
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+`;
+
 export default {
   Root,
   SearchContainer,
@@ -169,4 +182,5 @@ export default {
   VerticalAvatar,
   LevelButtonsContainer,
   MoreButton,
+  ArrowUp,
 };

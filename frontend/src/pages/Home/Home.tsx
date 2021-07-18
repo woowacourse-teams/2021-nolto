@@ -10,7 +10,7 @@ import useHotFeeds from 'hooks/queries/useHotFeeds';
 import useOnScreen from 'hooks/@common/useOnScreen';
 import useRecentFeeds from 'hooks/queries/useRecentFeeds';
 import ROUTE from 'constants/routes';
-import Styled, { CarouselArrowButton } from './Home.styles';
+import Styled, { CarouselArrowButton, ScrollUpButton } from './Home.styles';
 import MoreArrow from 'assets/moreArrow.svg';
 import { ButtonStyle } from 'types';
 
@@ -33,6 +33,10 @@ const Home = () => {
       setHeaderFolded(false);
     }
   }, [isEllipseVisible]);
+
+  const scrollTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const showPreviousCards = () => {
     if (hotToyCardIdx > 1) setHotToyCardIdx(hotToyCardIdx - 1);
@@ -103,10 +107,13 @@ const Home = () => {
             </Styled.RecentToyCardsContainer>
             <Styled.MoreButton>
               MORE&nbsp;
-              <MoreArrow width="10" />
+              <MoreArrow width="10px" />
             </Styled.MoreButton>
           </Styled.RecentToysContainer>
         </Styled.ContentArea>
+        <ScrollUpButton onClick={scrollTop}>
+          <Styled.ArrowUp width="10px" />
+        </ScrollUpButton>
       </Styled.Root>
     </>
   );
