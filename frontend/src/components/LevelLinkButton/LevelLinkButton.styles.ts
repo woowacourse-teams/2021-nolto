@@ -14,10 +14,10 @@ const Button = styled.div<{ selected: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 7.75rem;
-  height: 7.75rem;
+  width: 6rem;
+  height: 6rem;
   border-radius: 50%;
-  font-size: 64px;
+  font-size: 3rem;
   box-shadow: ${({ selected }) => selected && 'inset'} 4px 4px 8px rgba(85, 85, 85, 0.25);
   cursor: pointer;
 `;
@@ -35,9 +35,8 @@ const SOS = styled(Button)`
 `;
 
 const Text = styled.span`
-  font-size: 18px;
   color: ${PALETTE.PRIMARY_400};
-  margin-top: 20px;
+  margin-top: 1rem;
 `;
 
 export default { Root, Progress, Complete, SOS, Text };

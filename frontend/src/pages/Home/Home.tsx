@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import CroppedEllipse from 'components/CroppedEllipse/CroppedEllipse';
@@ -7,9 +7,10 @@ import StretchCard from 'components/StretchCard/StretchCard';
 import LevelLinkButton from 'components/LevelLinkButton/LevelLinkButton';
 import Header from 'components/Header/Header';
 import useHotFeeds from 'hooks/queries/useHotFeeds';
+import useOnScreen from 'hooks/@common/useOnScreen';
 import useRecentFeeds from 'hooks/queries/useRecentFeeds';
 import ROUTE from 'constants/routes';
-import Styled from './Home.styles';
+import Styled, { CarouselArrowButton, ScrollUpButton } from './Home.styles';
 import MoreArrow from 'assets/moreArrow.svg';
 import { ButtonStyle } from 'types';
 
@@ -19,11 +20,37 @@ const Home = () => {
   const { data: hotFeeds } = useHotFeeds();
   const { data: recentFeeds } = useRecentFeeds();
 
+  const [isHeaderFolded, setHeaderFolded] = useState(true);
+  const [hotToyCardIdx, setHotToyCardIdx] = useState(3);
+
+  const ellipseRef = useRef();
+  const isEllipseVisible = useOnScreen(ellipseRef);
+
+  useEffect(() => {
+    if (isEllipseVisible) {
+      setHeaderFolded(true);
+    } else {
+      setHeaderFolded(false);
+    }
+  }, [isEllipseVisible]);
+
+  const scrollTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const showPreviousCards = () => {
+    if (hotToyCardIdx > 1) setHotToyCardIdx(hotToyCardIdx - 1);
+  };
+
+  const showFollowingCards = () => {
+    if (hotToyCardIdx < hotFeeds?.length) setHotToyCardIdx(hotToyCardIdx + 1);
+  };
+
   return (
     <>
-      <Header isFolded={true} />
+      <Header isFolded={isHeaderFolded} />
       <Styled.Root>
-        <Styled.EllipseWrapper>
+        <Styled.EllipseWrapper ref={ellipseRef}>
           <CroppedEllipse />
         </Styled.EllipseWrapper>
         <Styled.SearchContainer>
@@ -41,19 +68,23 @@ const Home = () => {
         <Styled.ContentArea>
           <Styled.SectionTitle fontSize="1.75rem">Hot Toys</Styled.SectionTitle>
           <Styled.HotToysContainer>
-            <Styled.CarouselLeft width="24" />
-            <Styled.HotToyCardsContainer>
+            <CarouselArrowButton onClick={showPreviousCards}>
+              <Styled.CarouselLeft width="32px" />
+            </CarouselArrowButton>
+            <Styled.HotToyCardsContainer position={hotToyCardIdx}>
               {hotFeeds &&
-                hotFeeds.map((feed) => (
-                  <li key={feed.id}>
+                hotFeeds.map((feed, idx) => (
+                  <Styled.HotToyCardWrapper key={feed.id} offset={idx + 1}>
                     <Link to={`${ROUTE.FEEDS}/${feed.id}`}>
                       <Styled.VerticalAvatar user={feed.author} />
                       <RegularCard feed={feed} />
                     </Link>
-                  </li>
+                  </Styled.HotToyCardWrapper>
                 ))}
             </Styled.HotToyCardsContainer>
-            <Styled.CarouselRight width="24" />
+            <CarouselArrowButton onClick={showFollowingCards}>
+              <Styled.CarouselRight width="32px" />
+            </CarouselArrowButton>
           </Styled.HotToysContainer>
 
           <Styled.SectionTitle fontSize="1.75rem">Recent Toys</Styled.SectionTitle>
@@ -65,7 +96,7 @@ const Home = () => {
             </Styled.LevelButtonsContainer>
             <Styled.RecentToyCardsContainer>
               {recentFeeds &&
-                recentFeeds.map((feed) => (
+                recentFeeds.slice(0, 4).map((feed) => (
                   <li key={feed.id}>
                     <Link to={`${ROUTE.FEEDS}/${feed.id}`}>
                       <Styled.VerticalAvatar user={feed.author} />
@@ -76,10 +107,13 @@ const Home = () => {
             </Styled.RecentToyCardsContainer>
             <Styled.MoreButton>
               MORE&nbsp;
-              <MoreArrow width="10" />
+              <MoreArrow width="10px" />
             </Styled.MoreButton>
           </Styled.RecentToysContainer>
         </Styled.ContentArea>
+        <ScrollUpButton onClick={scrollTop}>
+          <Styled.ArrowUp width="10px" />
+        </ScrollUpButton>
       </Styled.Root>
     </>
   );
