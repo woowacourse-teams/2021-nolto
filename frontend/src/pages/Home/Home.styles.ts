@@ -136,8 +136,8 @@ const VerticalAvatar = styled(Avatar)`
 const LevelButtonsContainer = styled.div`
   display: flex;
   justify-content: center;
-  gap: 48px;
-  margin-bottom: 60px;
+  gap: 2rem;
+  margin-bottom: 3.5rem;
 `;
 
 const MoreButton = styled.button`
