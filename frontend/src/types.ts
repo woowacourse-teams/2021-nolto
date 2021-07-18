@@ -44,3 +44,12 @@ export interface FeedDetail extends Feed {
   views: number;
   liked: boolean;
 }
+
+export interface LoginInfo {
+  email: string;
+  password: string;
+}
+
+export interface UserInfo {
+  email: string;
+}

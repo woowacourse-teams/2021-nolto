@@ -10,6 +10,7 @@ import useModal from 'hooks/@common/useModal';
 import LoginModal from 'components/LoginModal/LoginModal';
 import { ButtonStyle } from 'types';
 import Styled, { IconButton, Searchbar } from './Header.styles';
+import useUserInfo from 'hooks/@common/useUserInfo';
 
 interface Props {
   isFolded?: boolean;
@@ -17,6 +18,7 @@ interface Props {
 
 const Header = ({ isFolded = false }: Props) => {
   const modal = useModal();
+  const userInfo = useUserInfo();
   const [isSearchbarOpened, setSearchbarOpened] = useState(false);
 
   const navLinkActiveStyle = {
@@ -35,6 +37,11 @@ const Header = ({ isFolded = false }: Props) => {
     if (event.target === event.currentTarget) {
       setSearchbarOpened(false);
     }
+  };
+
+  const logout = () => {
+    localStorage.removeItem('accessToken');
+    userInfo.removeUserInfo();
   };
 
   return (
@@ -98,13 +105,19 @@ const Header = ({ isFolded = false }: Props) => {
             </IconButton>
           </Link>
 
-          <Styled.SignInButton
-            buttonStyle={ButtonStyle.OUTLINE}
-            reverse={true}
-            onClick={openLoginModal}
-          >
-            Sign In
-          </Styled.SignInButton>
+          {userInfo.userInfo ? (
+            <Styled.AuthButton buttonStyle={ButtonStyle.OUTLINE} reverse={true} onClick={logout}>
+              Logout
+            </Styled.AuthButton>
+          ) : (
+            <Styled.AuthButton
+              buttonStyle={ButtonStyle.OUTLINE}
+              reverse={true}
+              onClick={openLoginModal}
+            >
+              Sign In
+            </Styled.AuthButton>
+          )}
         </Styled.ButtonsContainer>
       </Styled.HeaderContent>
     </Styled.Root>
