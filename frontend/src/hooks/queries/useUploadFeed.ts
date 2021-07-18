@@ -4,6 +4,6 @@ import api from 'constants/api';
 
 const postFeed = (formData: FormData) => api.post('/feeds', formData);
 
-export default function useUploadFeeds() {
+export default function useUploadFeed() {
   return useMutation(postFeed);
 }

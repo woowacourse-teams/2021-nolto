@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { Feed } from 'types';
-import Chip from 'components/@common/Chip/Chip';
-import { STEP_CONVERTER } from 'constants/common';
 import SOSFlag from 'assets/sosFlag.svg';
+import TechChip from 'components/TechChip/TechChip';
+import { Feed } from 'types';
 import Styled from './StretchCard.styles';
 
 interface Props {
@@ -15,7 +14,7 @@ const StretchCard = ({ feed }: Props) => {
     <Styled.Root>
       <Styled.Thumbnail src={feed.thumbnailUrl} />
       <Styled.ChipWrapper>
-        <Chip.Solid>{STEP_CONVERTER[feed.step]}</Chip.Solid>
+        <TechChip step={feed.step} />
       </Styled.ChipWrapper>
       <div>
         <Styled.TitleWrapper>

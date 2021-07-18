@@ -24,13 +24,12 @@ export interface Feed {
   author: User;
   title: string;
   content: string;
-  step: string;
+  step: FeedStatus;
   sos: boolean;
   thumbnailUrl?: string;
 }
 
 export interface FeedToUpload extends Omit<Feed, 'id' | 'author' | 'thumbnailUrl'> {
-  [index: string]: string | Tech[] | number | boolean | File;
   techs: Tech[];
   storageUrl?: string;
   deployedUrl?: string;
