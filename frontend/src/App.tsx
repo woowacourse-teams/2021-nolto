@@ -8,6 +8,7 @@ import Upload from 'pages/Upload/Upload';
 import FeedDetail from 'pages/FeedDetail/FeedDetail';
 import RecentFeeds from 'pages/RecentFeeds/RecentFeeds';
 import ModalProvider from 'components/@common/ModalProvider/ModalProvider';
+import UserInfoProvider from 'storage/user/UserInfoProvider';
 import ROUTE from 'constants/routes';
 import GlobalStyle from './Global.styles';
 
@@ -20,22 +21,24 @@ const App = () => {
       <Router>
         <Switch>
           <>
-            <ModalProvider>
-              <main>
-                <Route exact path={ROUTE.HOME}>
-                  <Home />
-                </Route>
-                <Route path={ROUTE.UPLOAD}>
-                  <Upload />
-                </Route>
-                <Route exact path={ROUTE.FEEDS}>
-                  <RecentFeeds />
-                </Route>
-                <Route path={`${ROUTE.FEEDS}/:id`}>
-                  <FeedDetail />
-                </Route>
-              </main>
-            </ModalProvider>
+            <UserInfoProvider>
+              <ModalProvider>
+                <main>
+                  <Route exact path={ROUTE.HOME}>
+                    <Home />
+                  </Route>
+                  <Route path={ROUTE.UPLOAD}>
+                    <Upload />
+                  </Route>
+                  <Route exact path={ROUTE.FEEDS}>
+                    <RecentFeeds />
+                  </Route>
+                  <Route path={`${ROUTE.FEEDS}/:id`}>
+                    <FeedDetail />
+                  </Route>
+                </main>
+              </ModalProvider>
+            </UserInfoProvider>
           </>
         </Switch>
       </Router>

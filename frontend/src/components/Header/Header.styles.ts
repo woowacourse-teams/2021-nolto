@@ -59,7 +59,7 @@ const ButtonsContainer = styled.div`
   gap: 1rem;
 `;
 
-const SignInButton = styled(TextButton.Rounded)`
+const AuthButton = styled(TextButton.Rounded)`
   padding: 8px 32px;
   font-size: 20px;
   line-height: 20px;
@@ -106,5 +106,5 @@ export default {
   LogoWrapper,
   NavContainer,
   ButtonsContainer,
-  SignInButton,
+  AuthButton,
 };

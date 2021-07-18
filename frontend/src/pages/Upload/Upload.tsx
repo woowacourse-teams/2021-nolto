@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
 
 import FormInput from 'components/@common/FormInput/FormInput';
 import HighLightedText from 'components/@common/HighlightedText/HighlightedText';
@@ -9,19 +10,16 @@ import Toggle from 'components/@common/Toggle/Toggle';
 import RadioButton from 'components/@common/RadioButton/RadioButton';
 import Header from 'components/Header/Header';
 import TechInput from 'components/TechInput/TechInput';
+import ErrorMessage from 'components/@common/ErrorMessage/ErrorMessage';
 import useUploadFeed from 'hooks/queries/useUploadFeed';
 import { FlexContainer } from 'commonStyles';
+import ROUTE from 'constants/routes';
+import REGEX from 'constants/regex';
+import { ALERT_MSG, CONFIRM_MSG, UPLOAD_VALIDATION_MSG } from 'constants/message';
 import Styled, { ContentTextArea, Form, StyledButton } from './Upload.styles';
 import { ButtonStyle, FeedStatus, Tech, FeedToUpload } from 'types';
-import ErrorMessage from 'components/@common/ErrorMessage/ErrorMessage';
-import { useHistory } from 'react-router-dom';
-import ROUTE from 'constants/routes';
-import { ALERT_MSG, CONFIRM_MSG, UPLOAD_VALIDATION_MSG } from 'constants/message';
 
 type FeedToUploadPartial = Omit<FeedToUpload, 'techs'>;
-
-const URL_REGEX =
-  /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
 
 const Upload = () => {
   const {
@@ -135,7 +133,7 @@ const Upload = () => {
                   {...register('deployedUrl', {
                     required: UPLOAD_VALIDATION_MSG.DEPLOY_URL_REQUIRED,
                     pattern: {
-                      value: URL_REGEX,
+                      value: REGEX.URL,
                       message: UPLOAD_VALIDATION_MSG.INVALID_URL,
                     },
                   })}
@@ -150,7 +148,7 @@ const Upload = () => {
               <FormInput
                 {...register('storageUrl', {
                   pattern: {
-                    value: URL_REGEX,
+                    value: REGEX.URL,
                     message: UPLOAD_VALIDATION_MSG.INVALID_URL,
                   },
                 })}

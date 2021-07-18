@@ -13,7 +13,7 @@ interface ModalContext {
   closeModal: () => void;
 }
 
-export const Modal = React.createContext<ModalContext | null>(null);
+export const Context = React.createContext<ModalContext | null>(null);
 const modalRoot = document.getElementById('modal-root');
 
 const ModalProvider = ({ children }: Props) => {
@@ -29,8 +29,14 @@ const ModalProvider = ({ children }: Props) => {
     setIsOpen(false);
   };
 
+  const handleClickDimmed = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (event.target === event.currentTarget) {
+      closeModal();
+    }
+  };
+
   const modalElement: React.ReactNode = (
-    <Styled.ModalContainer>
+    <Styled.ModalContainer onMouseDown={handleClickDimmed}>
       <Styled.ModalInner>
         <Styled.CrossMarkButton onClick={closeModal}>
           <CrossMark width="16px" />
@@ -41,10 +47,10 @@ const ModalProvider = ({ children }: Props) => {
   );
 
   return (
-    <Modal.Provider value={{ openModal, closeModal }}>
+    <Context.Provider value={{ openModal, closeModal }}>
       {children}
       {isOpen && ReactDOM.createPortal(modalElement, modalRoot)}
-    </Modal.Provider>
+    </Context.Provider>
   );
 };
 

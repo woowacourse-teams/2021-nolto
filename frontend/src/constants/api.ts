@@ -2,10 +2,19 @@ import axios from 'axios';
 
 const api = axios.create({
   baseURL: 'https://nolto.kro.kr',
-  headers: {
-    Authorization:
-      'bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMUBlbWFpbC5jb20iLCJpYXQiOjE2MjY1ODUwOTUsImV4cCI6MTYyNjU4ODY5NX0.BXDH0gqE5AqeZGcbDgIQl4z9_qlgPyAX7vzFgGBZRLI',
-  },
 });
+
+api.interceptors.request.use(
+  (config) => {
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+      config.headers['Authorization'] = 'Bearer ' + accessToken;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
 
 export default api;
