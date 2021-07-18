@@ -21,6 +21,7 @@ const Label = styled.label`
 
   & > span {
     display: flex;
+    position: relative;
     justify-content: center;
     align-items: center;
     color: ${PALETTE.WHITE_400};
@@ -28,6 +29,17 @@ const Label = styled.label`
     height: 2rem;
     background-color: ${PALETTE.PRIMARY_400};
     border-radius: 4px;
+    overflow: hidden;
+
+    &:hover::after {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: ${PALETTE.BLACK_400};
+      opacity: 0.1;
+    }
   }
 
   cursor: pointer;

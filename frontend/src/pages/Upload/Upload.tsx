@@ -11,25 +11,44 @@ import Header from 'components/Header/Header';
 import TechInput from 'components/TechInput/TechInput';
 import useUploadFeed from 'hooks/queries/useUploadFeed';
 import { FlexContainer } from 'commonStyles';
-import Styled, { ContentTextArea, StyledButton } from './Upload.styles';
+import Styled, { ContentTextArea, Form, StyledButton } from './Upload.styles';
 import { ButtonStyle, FeedStatus, Tech, FeedToUpload } from 'types';
+import ErrorMessage from 'components/@common/ErrorMessage/ErrorMessage';
+import { useHistory } from 'react-router-dom';
+import ROUTE from 'constants/routes';
+import { ALERT_MSG, CONFIRM_MSG, UPLOAD_VALIDATION_MSG } from 'constants/message';
 
 type FeedToUploadPartial = Omit<FeedToUpload, 'techs'>;
 
+const URL_REGEX =
+  /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
+
 const Upload = () => {
-  const { register, handleSubmit, setValue, watch } = useForm<FeedToUploadPartial>();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm<FeedToUploadPartial>({
+    shouldUnregister: true,
+  });
   const [techs, setTechs] = useState<Tech[]>([]);
   const watchThumbnailImage = watch('thumbnailImage');
+  const watchStep = watch('step');
   const uploadMutation = useUploadFeed();
+  const history = useHistory();
 
   const uploadFeed = (data: FeedToUploadPartial) => {
     const formData = new FormData();
 
-    Object.keys(data).forEach((key) => {
+    Object.keys(data).forEach((key: keyof typeof data) => {
+      if (!data[key]) return;
+
       if (key === 'thumbnailImage') {
         formData.append(key, data[key]);
       } else {
-        formData.append(key, String(data[key as keyof typeof data]));
+        formData.append(key, String(data[key]));
       }
     });
 
@@ -37,7 +56,18 @@ const Upload = () => {
       formData.append('techs', String(tech.id));
     });
 
-    uploadMutation.mutate(formData);
+    uploadMutation.mutate(formData, {
+      onSuccess: () => {
+        alert(ALERT_MSG.SUCCESS_UPLOAD_FEED);
+        history.push(ROUTE.HOME);
+      },
+    });
+  };
+
+  const handleCancelUpload = () => {
+    if (!confirm(CONFIRM_MSG.LEAVE_UPLOAD_PAGE)) return;
+
+    history.goBack();
   };
 
   return (
@@ -48,10 +78,15 @@ const Upload = () => {
           <HighLightedText fontSize="1.75rem">🦄 Upload Your Toy</HighLightedText>
         </Styled.TitleWrapper>
 
-        <form onSubmit={handleSubmit(uploadFeed)}>
+        <Form onSubmit={handleSubmit(uploadFeed)}>
           <Styled.VerticalWrapper>
             <Label text="제목" required={true} />
-            <FormInput {...register('title', { required: true })} />
+            <FormInput
+              {...register('title', {
+                required: UPLOAD_VALIDATION_MSG.TITLE_REQUIRED,
+              })}
+            />
+            <ErrorMessage targetError={errors.title} />
           </Styled.VerticalWrapper>
 
           <Styled.VerticalWrapper>
@@ -61,40 +96,68 @@ const Upload = () => {
 
           <Styled.VerticalWrapper>
             <Label text="내용" required={true} />
-            <ContentTextArea {...register('content', { required: true })} />
+            <ContentTextArea
+              {...register('content', { required: UPLOAD_VALIDATION_MSG.CONTENT_REQUIRED })}
+            />
+            <ErrorMessage targetError={errors.content} />
           </Styled.VerticalWrapper>
 
-          <Styled.InputsContainer>
+          <div>
+            <Styled.InputsContainer>
+              <Styled.levelWrapper>
+                <Label className="stretch-label" text="레벨" required={true} />
+                <FlexContainer>
+                  <RadioButton
+                    name="step"
+                    labelText="🧩 조립중"
+                    value={FeedStatus.PROGRESS}
+                    {...register('step', { required: UPLOAD_VALIDATION_MSG.STEP_REQUIRED })}
+                  />
+                  <RadioButton
+                    name="step"
+                    labelText="🦄 전시중"
+                    value={FeedStatus.COMPLETE}
+                    {...register('step')}
+                  />
+                </FlexContainer>
+              </Styled.levelWrapper>
+
+              <Toggle labelText="🚨 SOS" {...register('sos')} />
+            </Styled.InputsContainer>
+            <ErrorMessage targetError={errors.step} />
+          </div>
+
+          {watchStep === FeedStatus.COMPLETE && (
+            <div>
+              <Styled.StretchWrapper>
+                <Label className="stretch-label" text="배포 URL" required={true} />
+                <FormInput
+                  {...register('deployedUrl', {
+                    required: UPLOAD_VALIDATION_MSG.DEPLOY_URL_REQUIRED,
+                    pattern: {
+                      value: URL_REGEX,
+                      message: UPLOAD_VALIDATION_MSG.INVALID_URL,
+                    },
+                  })}
+                />
+              </Styled.StretchWrapper>
+              <ErrorMessage targetError={errors.deployedUrl} />
+            </div>
+          )}
+          <div>
             <Styled.StretchWrapper>
-              <Label className="stretch-label" text="레벨" required={true} />
-              <FlexContainer width="100%">
-                <RadioButton
-                  name="step"
-                  labelText="🧩 조립중"
-                  value={FeedStatus.PROGRESS}
-                  {...register('step', { required: true })}
-                />
-                <RadioButton
-                  name="step"
-                  labelText="🦄 전시중"
-                  value={FeedStatus.COMPLETE}
-                  {...register('step', { required: true })}
-                />
-              </FlexContainer>
+              <Label className="stretch-label" text="github URL" />
+              <FormInput
+                {...register('storageUrl', {
+                  pattern: {
+                    value: URL_REGEX,
+                    message: UPLOAD_VALIDATION_MSG.INVALID_URL,
+                  },
+                })}
+              />
             </Styled.StretchWrapper>
-
-            <Toggle labelText="🚨 SOS" {...register('sos')} />
-          </Styled.InputsContainer>
-
-          <Styled.StretchWrapper>
-            <Label className="stretch-label" text="github" required={true} />
-            <FormInput {...register('storageUrl', { required: true })} />
-          </Styled.StretchWrapper>
-
-          <Styled.StretchWrapper>
-            <Label className="stretch-label" text="배포 URL" required={true} />
-            <FormInput {...register('deployedUrl', { required: true })} />
-          </Styled.StretchWrapper>
+            <ErrorMessage targetError={errors.storageUrl} />
+          </div>
 
           <Styled.StretchWrapper>
             <Label className="stretch-label" text="대표 이미지" />
@@ -106,11 +169,15 @@ const Upload = () => {
 
           <Styled.ButtonsWrapper>
             <StyledButton buttonStyle={ButtonStyle.SOLID}>등록</StyledButton>
-            <StyledButton type="button" buttonStyle={ButtonStyle.OUTLINE}>
+            <StyledButton
+              onClick={handleCancelUpload}
+              type="button"
+              buttonStyle={ButtonStyle.OUTLINE}
+            >
               취소
             </StyledButton>
           </Styled.ButtonsWrapper>
-        </form>
+        </Form>
       </Styled.Root>
     </>
   );
