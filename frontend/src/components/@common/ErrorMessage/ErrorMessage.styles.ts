@@ -4,7 +4,9 @@ import ArrowUpSvg from 'assets/arrowUp.svg';
 
 const Root = styled.div`
   display: inline-block;
+  position: relative;
   width: 100%;
+  padding-top: 1rem;
 `;
 
 const BACKGROUND_COLOR = PALETTE.BLACK_300;
@@ -42,13 +44,15 @@ const Message = styled.div`
 
   & > span {
     z-index: 1;
+    font-size: 0.75rem;
     color: ${PALETTE.WHITE_400};
   }
 `;
 
 const ArrowUpWrapper = styled.div`
-  height: 0.85rem;
+  position: absolute;
   padding-left: 0.5rem;
+  top: 0;
 
   & > svg {
     fill: ${BACKGROUND_COLOR};
