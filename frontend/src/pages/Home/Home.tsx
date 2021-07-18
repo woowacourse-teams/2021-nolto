@@ -10,7 +10,7 @@ import useHotFeeds from 'hooks/queries/useHotFeeds';
 import useOnScreen from 'hooks/@common/useOnScreen';
 import useRecentFeeds from 'hooks/queries/useRecentFeeds';
 import ROUTE from 'constants/routes';
-import Styled, { CarouselArrowButton, ScrollUpButton, Searchbar } from './Home.styles';
+import Styled, { CarouselArrowButton, ScrollUpButton, Searchbar, MoreButton } from './Home.styles';
 import MoreArrow from 'assets/moreArrow.svg';
 import { ButtonStyle } from 'types';
 
@@ -105,10 +105,10 @@ const Home = () => {
                   </li>
                 ))}
             </Styled.RecentToyCardsContainer>
-            <Styled.MoreButton>
+            <MoreButton to={ROUTE.FEEDS}>
               MORE&nbsp;
               <MoreArrow width="10px" />
-            </Styled.MoreButton>
+            </MoreButton>
           </Styled.RecentToysContainer>
         </Styled.ContentArea>
         <ScrollUpButton onClick={scrollTop}>
