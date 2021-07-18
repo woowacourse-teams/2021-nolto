@@ -35,7 +35,6 @@ const ContentArea = styled.div`
   color: ${PALETTE.WHITE_400};
   background: rgba(51, 51, 51, 0.25);
   backdrop-filter: blur(2px);
-  border-radius: 0px 0px 20px 20px;
 `;
 
 const Title = styled.h3`

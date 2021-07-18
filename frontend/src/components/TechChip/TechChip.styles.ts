@@ -8,7 +8,7 @@ const progress = css`
   background: ${PALETTE.PRIMARY_200};
 
   &::before {
-    content: '🧩';
+    content: '🧩 ';
   }
 `;
 
@@ -16,7 +16,7 @@ const complete = css`
   background: ${PALETTE.PRIMARY_300};
 
   &::before {
-    content: '🦄';
+    content: '🦄 ';
   }
 `;
 
