@@ -39,7 +39,7 @@ const FeedDetail = () => {
                 </Styled.IconsContainer>
               </div>
 
-              <Styled.DetailsContainer>
+              <div>
                 <Styled.TitleContainer>
                   <Styled.TitleWrapper>
                     <h2>{feedDetail.title}</h2>
@@ -82,7 +82,7 @@ const FeedDetail = () => {
                     </Styled.DetailsValue>
                   </Styled.DetailsPair>
                 </Styled.DetailsContent>
-              </Styled.DetailsContainer>
+              </div>
             </Styled.IntroContainer>
 
             <Styled.DotsDivider width="52px" />
