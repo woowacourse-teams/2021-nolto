@@ -113,10 +113,10 @@ public class FeedControllerTest extends ControllerTest {
                                 parameterWithName("title").description("제목"),
                                 parameterWithName("techs").description("기술 스택 목록").optional(),
                                 parameterWithName("content").description("내용"),
-                                parameterWithName("step").description("단계"),
+                                parameterWithName("step").description("프로젝트 단계(조립중, 전시중)"),
                                 parameterWithName("sos").description("sos 여부"),
                                 parameterWithName("storageUrl").description("저장소 URL").optional(),
-                                parameterWithName("deployedUrl").description("배포 URL")
+                                parameterWithName("deployedUrl").description("배포 URL(전시중일 경우만 필수)").optional()
                         )
                 ));
     }
@@ -149,10 +149,10 @@ public class FeedControllerTest extends ControllerTest {
                                 fieldWithPath("title").type(JsonFieldType.STRING).description("피드 제목"),
                                 fieldWithPath("techs").type(JsonFieldType.ARRAY).description("기술 스택 목록"),
                                 fieldWithPath("content").type(JsonFieldType.STRING).description("피드 내용"),
-                                fieldWithPath("step").type(JsonFieldType.STRING).description("프로젝트 단계"),
+                                fieldWithPath("step").type(JsonFieldType.STRING).description("프로젝트 단계(조립중, 전시중)"),
                                 fieldWithPath("sos").type(JsonFieldType.BOOLEAN).description("SOS 여부"),
                                 fieldWithPath("storageUrl").type(JsonFieldType.STRING).description("저장소 URL"),
-                                fieldWithPath("deployedUrl").type(JsonFieldType.STRING).description("배포 URL"),
+                                fieldWithPath("deployedUrl").type(JsonFieldType.STRING).description("배포 URL(전시중일 경우만 필수)").optional(),
                                 fieldWithPath("thumbnailUrl").type(JsonFieldType.STRING).description("썸네일 URL"),
                                 fieldWithPath("likes").type(JsonFieldType.NUMBER).description("좋아요 개수"),
                                 fieldWithPath("createdDate").type(JsonFieldType.STRING).description("작성 날짜"),
