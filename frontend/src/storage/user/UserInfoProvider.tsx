@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { UserInfo } from 'types';
 
@@ -20,6 +20,16 @@ const UserInfoProvider = ({ children }: Props) => {
   const removeUserInfo = () => {
     setUserInfo(null);
   };
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken');
+
+    if (accessToken) {
+      setUserInfo({
+        email: 'dummy1@email.com',
+      });
+    }
+  }, []);
 
   return (
     <Context.Provider value={{ userInfo, setUserInfo, removeUserInfo }}>
