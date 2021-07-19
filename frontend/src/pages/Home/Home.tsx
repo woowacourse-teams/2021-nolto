@@ -17,6 +17,8 @@ import { ButtonStyle } from 'types';
 const tags = ['JavaScript', 'Java', 'React.js', 'Spring'];
 
 const Home = () => {
+  console.log('이거 머지하지마세요');
+
   const { data: hotFeeds } = useHotFeeds();
   const { data: recentFeeds } = useRecentFeeds();
 
