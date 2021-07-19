@@ -70,9 +70,9 @@ const AuthButton = styled(TextButton.Rounded)`
 `;
 
 export const IconButton = styled(IconButtonComponent)`
-  width: 40px;
-  height: 40px;
-  padding: 6px;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0.5rem;
 `;
 
 const stretch = keyframes`

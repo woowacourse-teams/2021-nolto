@@ -10,7 +10,6 @@ const Root = styled(Card)<{ imageUrl: string }>`
   background-image: url(${({ imageUrl }) => imageUrl});
   background-size: cover;
   cursor: pointer;
-  overflow: hidden;
 
   &:hover::after {
     content: '';
@@ -47,6 +46,9 @@ const Content = styled.p`
   font-size: 0.75rem;
   color: inherit;
   font-weight: 200;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 export default { Root, ContentArea, Title, Content };
