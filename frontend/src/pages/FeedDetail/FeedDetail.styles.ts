@@ -7,13 +7,17 @@ import SOSFlag from 'assets/sosFlag.svg';
 import StacksMoreIcon from 'assets/stacksMore.svg';
 
 const Root = styled.div`
-  padding: 8rem 16rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8rem 0rem;
 `;
 
 const IntroContainer = styled.div`
   display: flex;
   gap: 4.25rem;
   margin-bottom: 2.5rem;
+  width: 52rem;
 `;
 
 const IconsContainer = styled.div`
@@ -45,10 +49,6 @@ const SOSFlagIcon = styled(SOSFlag)`
   position: absolute;
   top: -40%;
   right: -10%;
-`;
-
-const DetailsContainer = styled.div`
-  width: 100%;
 `;
 
 const TitleContainer = styled.div`
@@ -142,7 +142,6 @@ export default {
   ThumbnailContainer,
   Thumbnail,
   SOSFlagIcon,
-  DetailsContainer,
   TitleContainer,
   TitleWrapper,
   UserWrapper,
