@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 import { PALETTE } from 'constants/palette';
-import SearchbarComponent from 'components/Searchbar/Searchbar';
+import SearchBarComponent from 'components/SearchBar/SearchBar';
 import HighLightedText from 'components/@common/HighlightedText/HighlightedText';
 import TextButton from 'components/@common/TextButton/TextButton';
 import Avatar from 'components/@common/Avatar/Avatar';
@@ -37,7 +37,7 @@ const SearchTitle = styled.div`
   margin-bottom: 18px;
 `;
 
-export const Searchbar = styled(SearchbarComponent)`
+export const SearchBar = styled(SearchBarComponent)`
   position: relative;
   width: 30rem;
   height: 2.5rem;
@@ -72,14 +72,14 @@ const HotToysContainer = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   margin-bottom: 128px;
 `;
 
 const HotToyCardsContainer = styled.ul<{ position: number }>`
   grid-row: 1 / 2;
   grid-column: 1 / 8;
-  width: 100%;
+  width: 75rem;
   height: 25rem;
   padding: 0 1rem;
 
@@ -94,7 +94,7 @@ const HotToyCardsContainer = styled.ul<{ position: number }>`
   --position: ${({ position }) => position};
 `;
 
-const HotToyCardWrapper = styled.li<{ offset: number }>`
+const HotToyCardWrapper = styled.li<{ offset: number; position: number }>`
   position: absolute;
   --r: calc(var(--position) - var(--offset));
   --abs: max(calc(var(--r) * -1), var(--r));
@@ -103,6 +103,10 @@ const HotToyCardWrapper = styled.li<{ offset: number }>`
   z-index: calc((var(--position) - var(--abs)));
   --offset: ${({ offset }) => offset};
   cursor: pointer;
+
+  & .card-content {
+    backdrop-filter: ${({ offset, position }) => offset === position && 'blur(2px)'};
+  }
 `;
 
 export const CarouselArrowButton = styled(IconButtonComponent)`

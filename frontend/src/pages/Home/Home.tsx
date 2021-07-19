@@ -10,7 +10,7 @@ import useHotFeeds from 'hooks/queries/useHotFeeds';
 import useOnScreen from 'hooks/@common/useOnScreen';
 import useRecentFeeds from 'hooks/queries/useRecentFeeds';
 import ROUTE from 'constants/routes';
-import Styled, { CarouselArrowButton, ScrollUpButton, Searchbar, MoreButton } from './Home.styles';
+import Styled, { CarouselArrowButton, ScrollUpButton, SearchBar, MoreButton } from './Home.styles';
 import MoreArrow from 'assets/moreArrow.svg';
 import { ButtonStyle } from 'types';
 
@@ -55,7 +55,7 @@ const Home = () => {
         </Styled.EllipseWrapper>
         <Styled.SearchContainer>
           <Styled.SearchTitle>Search for Ideas?</Styled.SearchTitle>
-          <Searchbar />
+          <SearchBar />
           <Styled.TagsContainer>
             {tags.map((tag) => (
               <Styled.TagButton buttonStyle={ButtonStyle.SOLID} reverse={true} key={tag}>
@@ -74,7 +74,7 @@ const Home = () => {
             <Styled.HotToyCardsContainer position={hotToyCardIdx}>
               {hotFeeds &&
                 hotFeeds.map((feed, idx) => (
-                  <Styled.HotToyCardWrapper key={feed.id} offset={idx + 1}>
+                  <Styled.HotToyCardWrapper key={feed.id} offset={idx + 1} position={hotToyCardIdx}>
                     <Link to={`${ROUTE.FEEDS}/${feed.id}`}>
                       <Styled.VerticalAvatar user={feed.author} />
                       <RegularCard feed={feed} />

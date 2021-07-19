@@ -1,10 +1,13 @@
-import { PALETTE } from 'constants/palette';
 import styled, { keyframes } from 'styled-components';
-import ArrowUpSvg from 'assets/arrowUp.svg';
+
+import { PALETTE } from 'constants/palette';
+import ArrowUp from 'assets/arrowUp.svg';
 
 const Root = styled.div`
   display: inline-block;
+  position: relative;
   width: 100%;
+  padding-top: 0.25rem;
 `;
 
 const BACKGROUND_COLOR = PALETTE.BLACK_300;
@@ -20,43 +23,31 @@ const opacityAnimation = keyframes`
   }
 `;
 
-const Background = styled.div`
-  position: absolute;
-  display: inline-block;
-  top: 0;
-  left: 0;
+const Message = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
   width: 100%;
-  height: 100%;
+  height: 1.75rem;
   background-color: ${BACKGROUND_COLOR};
   border-radius: 5px;
 
   animation: ${opacityAnimation} ${OPACITY_ANIMATION_TIME} ease;
-`;
-
-const Message = styled.div`
-  position: relative;
-  display: flex;
-  height: 2rem;
-  align-items: center;
   padding-left: 0.5rem;
 
   & > span {
     z-index: 1;
+    font-size: 0.75rem;
     color: ${PALETTE.WHITE_400};
   }
 `;
 
-const ArrowUpWrapper = styled.div`
-  height: 0.85rem;
+const ArrowUpIcon = styled(ArrowUp)`
   padding-left: 0.5rem;
-
-  & > svg {
-    fill: ${BACKGROUND_COLOR};
-  }
+  fill: ${BACKGROUND_COLOR};
+  display: block;
 
   animation: ${opacityAnimation} ${OPACITY_ANIMATION_TIME} ease;
 `;
 
-const ArrowUp = styled(ArrowUpSvg)``;
-
-export default { Root, Message, Background, ArrowUpWrapper, ArrowUp };
+export default { Root, Message, ArrowUpIcon };

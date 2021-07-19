@@ -126,7 +126,7 @@ const DotsDivider = styled(DotsIcon)`
   margin: auto;
 `;
 
-const Description = styled.p`
+const Description = styled.pre`
   margin: 5rem auto 0 auto;
   width: 52rem;
   font-size: 1rem;

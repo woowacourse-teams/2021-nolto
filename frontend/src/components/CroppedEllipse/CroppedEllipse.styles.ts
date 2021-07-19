@@ -15,8 +15,9 @@ const SvgRoot = styled.svg`
 const Horse = styled(HorseIcon)`
   height: auto;
   position: absolute;
-  right: 0;
-  transform: translate(-16rem, -8rem) rotate(-12deg);
+  right: 20%;
+  bottom: 10%;
+  transform: rotate(-12deg);
 `;
 
 export default { Root, SvgRoot, Horse };

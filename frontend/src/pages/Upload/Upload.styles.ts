@@ -33,6 +33,11 @@ const VerticalWrapper = styled.div`
   flex-direction: column;
   border-bottom: 2rem;
   width: 100%;
+
+  & input,
+  textarea {
+    box-shadow: 2px 2px 2px 0 rgba(253, 161, 133, 0.5);
+  }
 `;
 
 export const ContentTextArea = styled(TextArea)`
@@ -56,6 +61,10 @@ const StretchWrapper = styled.div`
   & > .stretch-label {
     min-width: 7rem;
   }
+
+  & input {
+    box-shadow: 2px 2px 2px 0 rgba(253, 161, 133, 0.5);
+  }
 `;
 
 const levelWrapper = styled(StretchWrapper)`
@@ -64,16 +73,17 @@ const levelWrapper = styled(StretchWrapper)`
 `;
 
 export const StyledButton = styled(TextButton.Regular)`
-  width: 5rem;
-  height: 2rem;
+  width: 12rem;
+  height: 2.25rem;
   font-size: 1rem;
   border-radius: 7px;
+  margin-top: 1rem;
 `;
 
 const ButtonsWrapper = styled.div`
   display: flex;
   gap: 1.5rem;
-  justify-content: flex-end;
+  justify-content: center;
 `;
 
 export default {

@@ -15,11 +15,8 @@ const ErrorMessage = ({ targetError, className }: Props) => {
 
   return (
     <Styled.Root className={className}>
-      <Styled.ArrowUpWrapper>
-        <Styled.ArrowUp width="0.75rem" />
-      </Styled.ArrowUpWrapper>
+      <Styled.ArrowUpIcon width="1rem" />
       <Styled.Message>
-        <Styled.Background></Styled.Background>
         <span>{targetError.message}</span>
       </Styled.Message>
     </Styled.Root>
