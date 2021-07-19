@@ -1,13 +1,13 @@
 import React from 'react';
 
 import SearchIcon from 'assets/search.svg';
-import Styled from './Searchbar.styles';
+import Styled from './SearchBar.styles';
 
 interface Props {
   className?: string;
 }
 
-const Searchbar = ({ className }: Props) => {
+const SearchBar = ({ className }: Props) => {
   return (
     <Styled.Root className={className}>
       <Styled.Input />
@@ -18,4 +18,4 @@ const Searchbar = ({ className }: Props) => {
   );
 };
 
-export default Searchbar;
+export default SearchBar;

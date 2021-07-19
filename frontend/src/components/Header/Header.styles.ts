@@ -3,7 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import { PALETTE } from 'constants/palette';
 import TextButton from 'components/@common/TextButton/TextButton';
 import IconButtonComponent from 'components/@common/IconButton/IconButton';
-import SearchbarComponent from 'components/Searchbar/Searchbar';
+import SearchBarComponent from 'components/SearchBar/SearchBar';
 
 const Root = styled.header<{ isFolded: boolean }>`
   position: sticky;
@@ -12,6 +12,10 @@ const Root = styled.header<{ isFolded: boolean }>`
   width: 100%;
   z-index: 10;
   box-shadow: ${({ isFolded }) => !isFolded && '0px 4px 4px rgba(0, 0, 0, 0.25)'};
+
+  & svg {
+    width: 100%;
+  }
 `;
 
 const HeaderContent = styled.div`
@@ -76,7 +80,7 @@ const stretch = keyframes`
     width: 2.5rem;
   }
   to {
-    width: 32rem;
+    width: 35rem;
   }
 `;
 
@@ -89,7 +93,7 @@ const fadeIn = keyframes`
   }
 `;
 
-export const Searchbar = styled(SearchbarComponent)`
+export const SearchBar = styled(SearchBarComponent)`
   position: absolute;
   transform: translateX(calc(-100% + 2.5rem));
   height: 2.5rem;

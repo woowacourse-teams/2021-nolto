@@ -6,7 +6,7 @@ import Styled from './CroppedEllipse.styles';
 const CroppedEllipse = () => {
   return (
     <Styled.Root>
-      <Styled.SvgRoot height="400px" width="100vw">
+      <Styled.SvgRoot height="400px" width="100%">
         <defs>
           <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor={PALETTE.PRIMARY_200} stopOpacity="1" />

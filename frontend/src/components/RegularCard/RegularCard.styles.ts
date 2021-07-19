@@ -29,16 +29,16 @@ const ContentArea = styled.div`
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 6.75rem;
+  height: 7rem;
   padding: 0.75rem 1rem;
   text-align: left;
   color: ${PALETTE.WHITE_400};
   background: rgba(51, 51, 51, 0.25);
-  backdrop-filter: blur(2px);
+  border-radius: 0px 0px 0.75rem 0.75rem;
 `;
 
 const Title = styled.h3`
-  font-size: 1.625rem;
+  font-size: 1.5rem;
   color: inherit;
   margin-bottom: 8px;
 `;
