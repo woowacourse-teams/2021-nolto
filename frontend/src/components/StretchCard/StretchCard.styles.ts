@@ -39,6 +39,16 @@ const ChipWrapper = styled.div`
   right: 0.75rem;
 `;
 
+const ContentArea = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`;
+
 const TitleWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -51,9 +61,9 @@ const Title = styled.h3`
   color: inherit;
 `;
 
-const Content = styled.p`
+const Content = styled.div`
   font-size: 0.75rem;
   color: inherit;
 `;
 
-export default { Root, Thumbnail, ChipWrapper, TitleWrapper, Title, Content };
+export default { Root, Thumbnail, ChipWrapper, ContentArea, TitleWrapper, Title, Content };
