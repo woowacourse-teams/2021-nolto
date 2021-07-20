@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.List;
 
-@Profile({"dev","local"})
+@Profile("local")
 @Component
 @AllArgsConstructor
 public class DataLoader implements ApplicationRunner {
