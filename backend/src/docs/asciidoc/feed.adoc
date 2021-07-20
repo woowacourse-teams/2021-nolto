@@ -3,65 +3,93 @@
 === 피드 좋아요 추가
 
 ==== Request
+
 include::{snippets}/feed-addLike/http-request.adoc[]
+
 ==== Request Fields
+
 include::{snippets}/auth-login/request-fields.adoc[]
+
 ==== Response
+
 include::{snippets}/auth-login/http-response.adoc[]
+
 ==== Response Fields
+
 include::{snippets}/auth-login/response-fields.adoc[]
 
 === 피드 좋아요 취소
 
 ==== Request
+
 include::{snippets}/feed-deleteLike/http-request.adoc[]
 
 ==== Request PathParameters
+
 include::{snippets}/feed-deleteLike/path-parameters.adoc[]
 
 ==== Response
+
 include::{snippets}/feed-deleteLike/http-response.adoc[]
 
 === 피드 업로드
 
 ==== Request
+
 include::{snippets}/feed-create/http-request.adoc[]
 include::{snippets}/feed-create/request-parameters.adoc[]
 include::{snippets}/feed-create/request-parts.adoc[]
+
 ==== Response
+
 include::{snippets}/feed-create/http-response.adoc[]
 
 === 피드 단일 조회
 
 ==== Request
-include::{snippets}/feed-findById/http-request.adoc[]
-==== Request PathParameters
-include::{snippets}/feed-findById/path-parameters.adoc[]
-==== Response
-include::{snippets}/feed-findById/http-response.adoc[]
-==== Response Fields
-include::{snippets}/feed-findById/response-fields.adoc[]
 
+include::{snippets}/feed-findById/http-request.adoc[]
+
+==== Request PathParameters
+
+include::{snippets}/feed-findById/path-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/feed-findById/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/feed-findById/response-fields.adoc[]
 
 === 인기 피드 목록 조회
 
 ==== Request
+
 include::{snippets}/feed-hotResponse/http-request.adoc[]
 
 ==== Response
+
 include::{snippets}/feed-hotResponse/http-response.adoc[]
+
 ==== Response Fields
+
 include::{snippets}/feed-hotResponse/response-fields.adoc[]
 
 === 최근 피드 목록 조회
 
 ==== Request
+
 include::{snippets}/feed-recentResponse/http-request.adoc[]
+
 ==== Request Parameters
+
 include::{snippets}/feed-recentResponse/request-parameters.adoc[]
 
-
 ==== Response
+
 include::{snippets}/feed-recentResponse/http-response.adoc[]
+
 ==== Response Fields
+
 include::{snippets}/feed-recentResponse/response-fields.adoc[]

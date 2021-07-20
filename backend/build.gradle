@@ -50,8 +50,8 @@ ext {
 }
 
 asciidoctor {
-	inputs.dir snippetsDir  // (7)
-	dependsOn test          // (8)
+	inputs.dir snippetsDir
+	dependsOn test
 }
 
 task createDocument(type: Copy) {
@@ -61,13 +61,13 @@ task createDocument(type: Copy) {
 }
 
 test {
-	outputs.dir snippetsDir // (6)
+	outputs.dir snippetsDir
 	useJUnitPlatform()
 }
 
 bootJar {
-	dependsOn asciidoctor                      // (9)
-	from ("${asciidoctor.outputDir}/html5") {  // (10)
+	dependsOn asciidoctor
+	from ("${asciidoctor.outputDir}/html5") {
 		into 'static/docs'
 	}
 }

@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,14 +22,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    @Email
-    @NotBlank
-    private String email;
+    @Column(nullable = false)
+    private Long socialId;
 
     @Column(nullable = false)
-    @NotBlank
-    private String password;
+    private String socialType;
 
     @Column(nullable = false, unique = true)
     @NotBlank
@@ -46,25 +42,17 @@ public class User {
     @OneToMany(mappedBy = "user")
     private final List<Like> likes = new ArrayList<>();
 
-    public User(String email, String password, String nickName, String imageUrl) {
-        this(null, email, password, nickName, imageUrl);
+    public User(Long socialId, String socialType, String nickName, String imageUrl) {
+        this(null, socialId, socialType, nickName, imageUrl);
     }
 
-    public User(Long id, String email, String password, String nickName) {
-        this(id, email, password, nickName, null);
+    public User(Long id, Long socialId, String socialType, String nickName) {
+        this(id, socialId, socialType, nickName, null);
     }
 
-    public void update(String email, String password, String nickName, String imageUrl) {
-        this.email = email;
-        this.password = password;
+    public void update(String nickName, String imageUrl) {
         this.nickName = nickName;
         this.imageUrl = imageUrl;
-    }
-
-    public void checkPassword(String password) {
-        if (!this.password.equals(password)) {
-            throw new IllegalArgumentException("로그인에 실패하였습니다.");
-        }
     }
 
     public boolean isLiked(Feed feed) {

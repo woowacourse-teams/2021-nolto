@@ -1,82 +1,116 @@
 spring:
-  profiles:
-    active: dev
-    group:
-      prod: realdb
-  servlet:
-    multipart:
-      enabled: true
-      file-size-threshold: 2MB
-      max-file-size: 5MB
-      max-request-size: 10MB
-  jpa:
-    hibernate:
-      ddl-auto: create
-    properties:
-      hibernate:
-        format_sql: true
-        dialect: org.hibernate.dialect.H2Dialect
-    show-sql: true
+    profiles:
+        active: dev
+        group:
+            prod: real-db,real-oauth
+            dev: dev-db,dev-oauth
+    servlet:
+        multipart:
+            enabled: true
+            file-size-threshold: 2MB
+            max-file-size: 5MB
+            max-request-size: 10MB
+    jpa:
+        hibernate:
+            ddl-auto: create
+        properties:
+            hibernate:
+                format_sql: true
+                dialect: org.hibernate.dialect.H2Dialect
+        show-sql: true
 ---
 spring:
-  config:
-    activate:
-      on-profile: dev
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:nolto
-    username: sa
-    password:
-  h2:
-    console:
-      enabled: true
+    config:
+        activate:
+            on-profile: dev
+    datasource:
+        driver-class-name: org.h2.Driver
+        url: jdbc:h2:mem:nolto
+        username: sa
+        password:
+    h2:
+        console:
+            enabled: true
+    jpa:
+        hibernate:
+            ddl-auto: update
 ---
 spring:
-  config:
-    activate:
-      on-profile: test
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:testdb
-    username: sa
-    password:
-  h2:
-    console:
-      enabled: true
+    config:
+        activate:
+            on-profile: local
+    datasource:
+        driver-class-name: org.h2.Driver
+        url: jdbc:h2:mem:nolto
+        username: sa
+        password:
+    h2:
+        console:
+            enabled: true
+    jpa:
+        hibernate:
+            ddl-auto: create
+oauth:
+    github:
+        scope: localScope
+        redirect-uri: localRedirectUri
+        client:
+            id: localCilentId
+            secret: localCilentSecret
 ---
 spring:
-  config:
-    activate:
-      on-profile: prod
-  jpa:
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    config:
+        activate:
+            on-profile: test
+    datasource:
+        driver-class-name: org.h2.Driver
+        url: jdbc:h2:mem:testdb
+        username: sa
+        password:
+    h2:
+        console:
+            enabled: true
+oauth:
+    github:
+        scope: testScope
+        redirect-uri: testRedirectUri
+        client:
+            id: testCilentId
+            secret: testCilentSecret
+---
+spring:
+    config:
+        activate:
+            on-profile: prod
+    jpa:
+        hibernate:
+            ddl-auto: update
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.MySQL5InnoDBDialect
 ---
 security:
-  jwt:
-    token:
-      secret-key: my_secret_is_secret
-      expire-length: 3600000
+    jwt:
+        token:
+            secret-key: my_secret_is_secret
+            expire-length: 3600000
 logging:
-  level:
-    org:
-      hibernate:
-        type:
-          descriptor:
-            sql:
-              BasicBinder: TRACE
+    level:
+        org:
+            hibernate:
+                type:
+                    descriptor:
+                        sql:
+                            BasicBinder: TRACE
 cloud:
-  aws:
-    region:
-      static: ap-northeast-2
-    stack:
-      auto: false
+    aws:
+        region:
+            static: ap-northeast-2
+        stack:
+            auto: false
 application:
-  bucket:
-    name: 2021-nolto
-  cloudfront:
-    url: https://dksykemwl00pf.cloudfront.net
+    bucket:
+        name: 2021-nolto
+    cloudfront:
+        url: https://dksykemwl00pf.cloudfront.net
 

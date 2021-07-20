@@ -30,14 +30,14 @@ public class DataLoader implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        User mickey = new User(null, "user1@email.com", "user1", "미키", "imageUrl");
+        User mickey = new User(null, 1L, "github", "미키", "imageUrl");
         List<User> users = Arrays.asList(
                 mickey,
-                new User(null, "user2@email.com", "user2", "아마찌", "imageUrl"),
-                new User(null, "user3@email.com", "user3", "지그", "imageUrl"),
-                new User(null, "user4@email.com", "user4", "포모", "imageUrl"),
-                new User(null, "user5@email.com", "user5", "조엘", "imageUrl"),
-                new User(null, "user6@email.com", "user6", "찰리", "imageUrl")
+                new User(null, 2L, "github", "아마찌", "imageUrl"),
+                new User(null, 3L, "github", "지그", "imageUrl"),
+                new User(null, 4L, "github", "포모", "imageUrl"),
+                new User(null, 5L, "github", "조엘", "imageUrl"),
+                new User(null, 6L, "github", "찰리", "imageUrl")
         );
         userRepository.saveAll(users);
 
