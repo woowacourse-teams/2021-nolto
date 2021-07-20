@@ -1,6 +1,6 @@
 spring:
     profiles:
-        active: dev
+        active: local
         group:
             prod: real-db,real-oauth
             dev: dev-db,dev-oauth
