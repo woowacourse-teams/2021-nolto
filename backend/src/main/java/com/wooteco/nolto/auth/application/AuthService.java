@@ -24,7 +24,7 @@ public class AuthService {
 
     public TokenResponse loginGithub(GithubUserResponse githubUser) {
         Optional<User> findUser = userRepository.findBySocialIdAndSocialType(String.valueOf(githubUser.getId()), "github");
-        User user = findUser.orElse(signUp(githubUser));
+        User user = findUser.orElseGet(() -> signUp(githubUser));
 
         String token = jwtTokenProvider.createToken(String.valueOf(user.getId()));
         return new TokenResponse(token);
@@ -32,7 +32,7 @@ public class AuthService {
 
     public TokenResponse loginGoogle(GoogleUserResponse googleUser) {
         Optional<User> findUser = userRepository.findBySocialIdAndSocialType(googleUser.getSub(), "google");
-        final User user = findUser.orElse(signUp(googleUser));
+        final User user = findUser.orElseGet(() -> signUp(googleUser));
 
         String token = jwtTokenProvider.createToken(String.valueOf(user.getId()));
         return new TokenResponse(token);
