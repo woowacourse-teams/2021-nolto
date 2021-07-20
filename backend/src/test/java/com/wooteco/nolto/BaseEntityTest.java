@@ -35,8 +35,8 @@ class BaseEntityTest {
 
     @BeforeEach
     void setUp() {
-        user1 = new User("user1@email.com", "user1", "아마찌", "imageUrl");
-        user2 = new User("user2@email.com", "user2", "지그", "imageUrl");
+        user1 = new User(123456L, "github", "아마찌", "imageUrl");
+        user2 = new User(654321L, "github", "지그", "imageUrl");
 
         userRepository.save(user1);
         userRepository.save(user2);

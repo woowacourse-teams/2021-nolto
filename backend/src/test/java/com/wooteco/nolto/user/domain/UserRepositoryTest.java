@@ -1,17 +1,7 @@
 package com.wooteco.nolto.user.domain;
 
-import com.wooteco.nolto.NotFoundException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.dao.DataIntegrityViolationException;
-
-import java.util.List;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.*;
 
 @DataJpaTest
 class UserRepositoryTest {
@@ -21,7 +11,7 @@ class UserRepositoryTest {
 
     private User user1;
 
-    @BeforeEach
+    /*@BeforeEach
     void setUp() {
         user1 = new User("user1@email.com", "pass1", "찰리", "charlie.png");
     }
@@ -113,28 +103,6 @@ class UserRepositoryTest {
         assertThat(optionalUser).isEmpty();
     }
 
-    @DisplayName("저장된 유저 정보를 수정할 수 있다.")
-    @Test
-    public void update() {
-        // given
-        User savedUser = userRepository.save(user1);
-        String newEmail = "update@test.com";
-        String newNickName = "updateNickName";
-        String newPassword = "newPassword";
-        String newImageUrl = "updateImageUrl";
-
-        // when
-        savedUser.update(newEmail, newPassword, newNickName, newImageUrl);
-        User updatedUser = userRepository.findById(savedUser.getId()).orElseThrow(NotFoundException::new);
-
-        // then
-        assertThat(updatedUser.getId()).isEqualTo(savedUser.getId());
-        assertThat(updatedUser.getEmail()).isEqualTo(newEmail);
-        assertThat(updatedUser.getPassword()).isEqualTo(newPassword);
-        assertThat(updatedUser.getNickName()).isEqualTo(newNickName);
-        assertThat(updatedUser.getImageUrl()).isEqualTo(newImageUrl);
-    }
-
     @DisplayName("유저와 같은 Id를 가진 유저를 생성해서 저장하면 저장소의 데이터가 수정된다.")
     @Test
     public void updateOtherCase() {
@@ -194,5 +162,5 @@ class UserRepositoryTest {
         assertThat(user1.getEmail()).isEqualTo(user2.getEmail());
         assertThat(user1.getPassword()).isEqualTo(user2.getPassword());
         assertThat(user1.getNickName()).isEqualTo(user2.getNickName());
-    }
+    }*/
 }

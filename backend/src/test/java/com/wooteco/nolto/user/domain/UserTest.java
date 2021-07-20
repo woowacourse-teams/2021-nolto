@@ -7,42 +7,19 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 public class UserTest {
-    private static String EMAIL = "email@email.com";
-    private static String PASSWORD = "password";
+    private static Long SOCIAL_ID = 123456L;
+    private static String SOCIAL_TYPE = "github";
     private static String NICKNAME = "nickname";
     private static String IMAGE = "sample-image.png";
 
-    public static User USER = new User(EMAIL, PASSWORD, NICKNAME, IMAGE);
-
-    @Test
-    void checkPassword() {
-        // given
-        User user = new User(null, EMAIL, PASSWORD, NICKNAME, IMAGE);
-
-        // when then
-        assertDoesNotThrow(() -> user.checkPassword(PASSWORD));
-    }
-
-    @DisplayName("비밀번호가 일치 하지 않으면 예외가 발생한다.")
-    @Test
-    void invalidPassword() {
-        // given
-        User user = new User(null, EMAIL, "passWORD", NICKNAME, IMAGE);
-
-        // when then
-        assertThatThrownBy(() -> user.checkPassword(PASSWORD))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("로그인에 실패하였습니다.");
-    }
+    public static User USER = new User(SOCIAL_ID, SOCIAL_TYPE, NICKNAME, IMAGE);
 
     @DisplayName("멤버가 해당 피드에 좋아요를 눌렀는지 검증한다.")
     @Test
     void isLiked() {
-        User user = new User(null, EMAIL, "passWORD", NICKNAME, IMAGE);
+        User user = new User(null, SOCIAL_ID, "github", NICKNAME, IMAGE);
         Feed feed = new Feed("title", "content", Step.PROGRESS, true, "", "", "");
         feed.writtenBy(user);
 
@@ -54,8 +31,8 @@ public class UserTest {
     @DisplayName("멤버가 해당 피드에 좋아요를 안 눌렀는지 검증한다.")
     @Test
     void isNotLiked() {
-        User user1 = new User(null, EMAIL, "passWORD", NICKNAME, IMAGE);
-        User user2 = new User(null, "woowa@email.com", "passWORD", "amazzi", IMAGE);
+        User user1 = new User(null, SOCIAL_ID, "github", NICKNAME, IMAGE);
+        User user2 = new User(null, 98765L, "google", "amazzi", IMAGE);
         Feed feed = new Feed("title", "content", Step.PROGRESS, true, "", "", "");
         feed.writtenBy(user1);
 
