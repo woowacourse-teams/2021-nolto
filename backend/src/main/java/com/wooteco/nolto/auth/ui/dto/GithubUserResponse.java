@@ -10,9 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GithubUserResponse {
-
     private Long id;
     private String name;
     private String avatar_url;
-
 }

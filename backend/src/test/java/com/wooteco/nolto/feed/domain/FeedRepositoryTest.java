@@ -28,8 +28,8 @@ class FeedRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        user1 = new User(123456L, "github", "아마찌", "imageUrl");
-        user2 = new User(654321L, "google", "지그", "imageUrl");
+        user1 = new User("123456L", "github", "아마찌", "imageUrl");
+        user2 = new User("654321L", "google", "지그", "imageUrl");
 
         userRepository.save(user1);
         userRepository.save(user2);

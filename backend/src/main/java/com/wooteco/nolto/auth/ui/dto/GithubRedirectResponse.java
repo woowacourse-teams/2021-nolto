@@ -2,13 +2,11 @@ package com.wooteco.nolto.auth.ui.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
-public class OauthTokenResponse {
-    private String token_type;
+public class GithubRedirectResponse {
+    private String client_id;
+    private String redirect_uri;
     private String scope;
-    private String access_token;
 }

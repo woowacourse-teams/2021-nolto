@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserTest {
-    private static Long SOCIAL_ID = 123456L;
+    private static String SOCIAL_ID = "123456L";
     private static String SOCIAL_TYPE = "github";
     private static String NICKNAME = "nickname";
     private static String IMAGE = "sample-image.png";
@@ -32,7 +32,7 @@ public class UserTest {
     @Test
     void isNotLiked() {
         User user1 = new User(null, SOCIAL_ID, "github", NICKNAME, IMAGE);
-        User user2 = new User(null, 98765L, "google", "amazzi", IMAGE);
+        User user2 = new User(null, "98765L", "google", "amazzi", IMAGE);
         Feed feed = new Feed("title", "content", Step.PROGRESS, true, "", "", "");
         feed.writtenBy(user1);
 

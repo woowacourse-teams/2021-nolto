@@ -5,10 +5,9 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class OauthRedirectResponse {
-
-    private String clientId;
-    private String redirectUri;
+public class GoogleRedirectResponse {
+    private String client_id;
+    private String redirect_uri;
     private String scope;
-
+    private String response_type;
 }

@@ -3,12 +3,14 @@ package com.wooteco.nolto.auth.ui.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OauthTokenResponse {
-    private String token_type;
-    private String scope;
-    private String access_token;
+@Getter
+@Setter
+public class GoogleUserResponse {
+    private String sub;
+    private String name;
+    private String picture;
 }

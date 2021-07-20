@@ -41,7 +41,7 @@ public class FeedControllerTest extends ControllerTest {
     private static final String TOKEN_PAYLOAD = "user@email.com";
 
     private static final User LOGIN_USER =
-            new User(2L, 11111L, "github", "아마찌", "imageUrl");
+            new User(2L, "11111L", "github", "아마찌", "imageUrl");
 
     private static final MockMultipartFile MOCK_MULTIPART_FILE =
             new MockMultipartFile("thumbnailImage", "thumbnailImage.png", "image/png", "<<png data>>".getBytes());

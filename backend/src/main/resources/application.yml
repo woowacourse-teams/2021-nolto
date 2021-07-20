@@ -57,6 +57,12 @@ oauth:
         client:
             id: localCilentId
             secret: localCilentSecret
+    google:
+        scope: localScope
+        redirect-uri: localRedirectUri
+        client:
+            id: localCilentId
+            secret: localCilentSecret
 ---
 spring:
     config:
@@ -72,6 +78,12 @@ spring:
             enabled: true
 oauth:
     github:
+        scope: testScope
+        redirect-uri: testRedirectUri
+        client:
+            id: testCilentId
+            secret: testCilentSecret
+    google:
         scope: testScope
         redirect-uri: testRedirectUri
         client:
