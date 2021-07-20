@@ -23,7 +23,7 @@ public class User {
     private Long id;
 
     @Column(nullable = false)
-    private Long socialId;
+    private String socialId;
 
     @Column(nullable = false)
     private String socialType;
@@ -42,11 +42,11 @@ public class User {
     @OneToMany(mappedBy = "user")
     private final List<Like> likes = new ArrayList<>();
 
-    public User(Long socialId, String socialType, String nickName, String imageUrl) {
+    public User(String socialId, String socialType, String nickName, String imageUrl) {
         this(null, socialId, socialType, nickName, imageUrl);
     }
 
-    public User(Long id, Long socialId, String socialType, String nickName) {
+    public User(Long id, String socialId, String socialType, String nickName) {
         this(id, socialId, socialType, nickName, null);
     }
 

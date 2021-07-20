@@ -1,8 +1,8 @@
 package com.wooteco.nolto.auth.ui;
 
 import com.wooteco.nolto.auth.application.AuthService;
-import com.wooteco.nolto.auth.ui.dto.GithubUserResponse;
-import com.wooteco.nolto.auth.ui.dto.OauthRedirectResponse;
+import com.wooteco.nolto.auth.ui.dto.GoogleRedirectResponse;
+import com.wooteco.nolto.auth.ui.dto.GoogleUserResponse;
 import com.wooteco.nolto.auth.ui.dto.OauthTokenResponse;
 import com.wooteco.nolto.auth.ui.dto.TokenResponse;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,48 +19,50 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Objects;
 
-@RestController
-public class OauthController {
 
-    @Value("${oauth.github.client.id}")
+@RestController
+public class GoogleOauthController {
+    @Value("${oauth.google.client.id}")
     private String clientId;
 
-    @Value("${oauth.github.client.secret}")
+    @Value("${oauth.google.client.secret}")
     private String clientSecret;
 
-    @Value("${oauth.github.scope}")
+    @Value("${oauth.google.scope}")
     private String scope;
 
-    @Value("${oauth.github.redirect-uri}")
+    @Value("${oauth.google.redirect-uri}")
     private String redirectUri;
 
     private final AuthService authService;
 
-    public OauthController(AuthService authService) {
+    public GoogleOauthController(AuthService authService) {
         this.authService = authService;
     }
 
-    @GetMapping("login/oauth/github")
-    public ResponseEntity<OauthRedirectResponse> githubLogin() {
-        return ResponseEntity.ok(new OauthRedirectResponse(this.clientId, this.redirectUri, this.scope));
+    @GetMapping("login/oauth/google")
+    public ResponseEntity<GoogleRedirectResponse> googleLogin() {
+        return ResponseEntity.ok(new GoogleRedirectResponse(this.clientId, this.redirectUri, this.scope, "code"));
     }
 
-    @GetMapping("login/oauth/github/token")
-    public ResponseEntity<TokenResponse> githubSignUp(@RequestParam String code) {
+    @GetMapping("login/oauth/google/token")
+    public ResponseEntity<TokenResponse> googleSignUp(@RequestParam String code) {
         OauthTokenResponse token = generateAccessToken(code).getBody();
-        TokenResponse tokenResponse = authService.loginGithub(Objects.requireNonNull(generateUserInfo(token).getBody()));
+        GoogleUserResponse googleUserResponse = generateUserInfo(token).getBody();
+        TokenResponse tokenResponse = authService.loginGoogle(Objects.requireNonNull(googleUserResponse));
         return ResponseEntity.ok(tokenResponse);
+
     }
 
-    private ResponseEntity<GithubUserResponse> generateUserInfo(OauthTokenResponse oauthToken) {
+    private ResponseEntity<GoogleUserResponse> generateUserInfo(OauthTokenResponse oauthToken) {
         HttpHeaders headers = requestUserInfoHeaders(oauthToken);
         HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(headers);
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.exchange(
-                "https://api.github.com/user",
+                "https://openidconnect.googleapis.com/v1/userinfo",
                 HttpMethod.GET,
                 httpEntity,
-                GithubUserResponse.class
+                GoogleUserResponse.class
         );
     }
 
@@ -75,7 +77,7 @@ public class OauthController {
         HttpEntity<MultiValueMap<String, String>> request = generateAccessTokenRequest(code);
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.exchange(
-                "https://github.com/login/oauth/access_token",
+                "https://oauth2.googleapis.com/token",
                 HttpMethod.POST,
                 request,
                 OauthTokenResponse.class
@@ -100,6 +102,7 @@ public class OauthController {
         param.add("client_secret", clientSecret);
         param.add("code", code);
         param.add("redirect_uri", redirectUri);
+        param.add("grant_type", "authorization_code");
         return param;
     }
 }

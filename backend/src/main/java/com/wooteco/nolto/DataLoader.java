@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.List;
 
-@Profile("dev")
+@Profile({"dev","local"})
 @Component
 @AllArgsConstructor
 public class DataLoader implements ApplicationRunner {
@@ -30,14 +30,14 @@ public class DataLoader implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        User mickey = new User(null, 1L, "github", "미키", "imageUrl");
+        User mickey = new User(null, "1", "github", "미키", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg");
         List<User> users = Arrays.asList(
                 mickey,
-                new User(null, 2L, "github", "아마찌", "imageUrl"),
-                new User(null, 3L, "github", "지그", "imageUrl"),
-                new User(null, 4L, "github", "포모", "imageUrl"),
-                new User(null, 5L, "github", "조엘", "imageUrl"),
-                new User(null, 6L, "github", "찰리", "imageUrl")
+                new User(null, "2", "github", "아마찌", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"),
+                new User(null, "3", "github", "지그", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"),
+                new User(null, "4", "github", "포모", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"),
+                new User(null, "5", "github", "조엘", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"),
+                new User(null, "6", "github", "찰리", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg")
         );
         userRepository.saveAll(users);
 
@@ -46,8 +46,8 @@ public class DataLoader implements ApplicationRunner {
         Tech saveTech1 = techRepository.save(tech1);
         Tech saveTech2 = techRepository.save(tech2);
 
-        Feed feed1 = new Feed("title1", "content1", Step.PROGRESS, true, "", "", "").writtenBy(mickey);
-        Feed feed2 = new Feed("title2", "content2", Step.COMPLETE, false, "", "http://woowa.jofilm.com", "").writtenBy(mickey);
+        Feed feed1 = new Feed("title1", "content1", Step.PROGRESS, true, "https://github.com/woowacourse-teams/2021-nolto", "", "https://dksykemwl00pf.cloudfront.net/KakaoTalk_Photo_2021-07-19-14-25-01.png").writtenBy(mickey);
+        Feed feed2 = new Feed("title2", "content2", Step.COMPLETE, false, "https://github.com/woowacourse-teams/2021-nolto", "http://woowa.jofilm.com", "https://dksykemwl00pf.cloudfront.net/KakaoTalk_Photo_2021-07-19-14-25-01.png").writtenBy(mickey);
         Feed saveFeed1 = feedRepository.save(feed1);
         Feed saveFeed2 = feedRepository.save(feed2);
 
