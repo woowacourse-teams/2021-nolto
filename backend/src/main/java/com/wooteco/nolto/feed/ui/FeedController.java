@@ -37,6 +37,12 @@ public class FeedController {
         return ResponseEntity.ok(response);
     }
 
+    @PutMapping(value = "/{feedId}")
+    public ResponseEntity<Void> update(@MemberAuthenticationPrincipal User user, @PathVariable Long feedId, @ModelAttribute @Valid FeedRequest request) {
+        feedService.update(user, feedId, request);
+        return ResponseEntity.ok().build();
+    }
+
     @PostMapping("/{feedId}/like")
     public ResponseEntity<Void> addLike(@MemberAuthenticationPrincipal User user, @PathVariable Long feedId) {
         likeService.addLike(user, feedId);

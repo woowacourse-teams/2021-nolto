@@ -34,6 +34,11 @@ public class FeedService {
         return savedFeed.getId();
     }
 
+    public void update(User user, Long feedId, FeedRequest request) {
+        Feed findFeed = findEntityById(feedId);
+
+    }
+
     public FeedResponse findById(User user, Long feedId) {
         Feed feed = findEntityById(feedId);
         User author = feed.getAuthor();

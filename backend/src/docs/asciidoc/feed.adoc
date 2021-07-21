@@ -1,22 +1,41 @@
 == Feed (피드)
 
+=== 피드 업로드
+
+==== Request
+
+include::{snippets}/feed-create/http-request.adoc[]
+include::{snippets}/feed-create/request-parameters.adoc[]
+include::{snippets}/feed-create/request-parts.adoc[]
+
+==== Response
+
+include::{snippets}/feed-create/http-response.adoc[]
+
+=== 피드 수정
+
+==== Request
+
+include::{snippets}/feed-update/http-request.adoc[]
+
+==== Request Parameters
+
+include::{snippets}/feed-update/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/feed-update/http-response.adoc[]
+
 === 피드 좋아요 추가
 
 ==== Request
 
 include::{snippets}/feed-addLike/http-request.adoc[]
 
-==== Request Fields
-
-include::{snippets}/auth-login/request-fields.adoc[]
-
 ==== Response
 
-include::{snippets}/auth-login/http-response.adoc[]
+include::{snippets}/feed-addLike/http-response.adoc[]
 
-==== Response Fields
-
-include::{snippets}/auth-login/response-fields.adoc[]
 
 === 피드 좋아요 취소
 
@@ -31,18 +50,6 @@ include::{snippets}/feed-deleteLike/path-parameters.adoc[]
 ==== Response
 
 include::{snippets}/feed-deleteLike/http-response.adoc[]
-
-=== 피드 업로드
-
-==== Request
-
-include::{snippets}/feed-create/http-request.adoc[]
-include::{snippets}/feed-create/request-parameters.adoc[]
-include::{snippets}/feed-create/request-parts.adoc[]
-
-==== Response
-
-include::{snippets}/feed-create/http-response.adoc[]
 
 === 피드 단일 조회
 
