@@ -20,26 +20,24 @@ const App = () => {
       <GlobalStyle />
       <Router>
         <Switch>
-          <>
-            <UserInfoProvider>
-              <ModalProvider>
-                <main>
-                  <Route exact path={ROUTE.HOME}>
-                    <Home />
-                  </Route>
-                  <Route path={ROUTE.UPLOAD}>
-                    <Upload />
-                  </Route>
-                  <Route exact path={ROUTE.FEEDS}>
-                    <RecentFeeds />
-                  </Route>
-                  <Route path={`${ROUTE.FEEDS}/:id`}>
-                    <FeedDetail />
-                  </Route>
-                </main>
-              </ModalProvider>
-            </UserInfoProvider>
-          </>
+          <UserInfoProvider>
+            <ModalProvider>
+              <main>
+                <Route exact path={ROUTE.HOME}>
+                  <Home />
+                </Route>
+                <Route path={ROUTE.UPLOAD}>
+                  <Upload />
+                </Route>
+                <Route exact path={ROUTE.FEEDS}>
+                  <RecentFeeds />
+                </Route>
+                <Route path={`${ROUTE.FEEDS}/:id`}>
+                  <FeedDetail />
+                </Route>
+              </main>
+            </ModalProvider>
+          </UserInfoProvider>
         </Switch>
       </Router>
       <ReactQueryDevtools panelProps={{ className: 'query-dev-tools' }} initialIsOpen={false} />
