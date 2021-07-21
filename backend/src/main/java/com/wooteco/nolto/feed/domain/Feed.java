@@ -1,5 +1,6 @@
 package com.wooteco.nolto.feed.domain;
 
+import com.amazonaws.util.StringUtils;
 import com.wooteco.nolto.BaseEntity;
 import com.wooteco.nolto.tech.domain.Tech;
 import com.wooteco.nolto.user.domain.User;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
 
 @Getter
 @Setter
@@ -90,13 +92,23 @@ public class Feed extends BaseEntity {
     }
 
     public void validateStep(Step step, String deployedUrl) {
-        if (step.equals(Step.COMPLETE) && Objects.isNull(deployedUrl)) {
-            throw new IllegalStateException("전시중 Step은 배포 URL이 필수입니다.");
+        if (step.equals(Step.COMPLETE) && StringUtils.isNullOrEmpty(deployedUrl)) {
+            throw new IllegalStateException("COMPLETE 단계는 배포 URL이 필수입니다.");
         }
     }
 
     public int likesCount() {
         return likes.size();
+    }
+
+    public void increaseView() {
+        this.views++;
+    }
+
+    public List<Tech> getTechs() {
+        return feedTechs.stream()
+                .map(FeedTech::getTech)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -110,15 +122,5 @@ public class Feed extends BaseEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id);
-    }
-
-    public void increaseView() {
-        this.views++;
-    }
-
-    public List<Tech> getTechs() {
-        return feedTechs.stream()
-                .map(FeedTech::getTech)
-                .collect(Collectors.toList());
     }
 }
