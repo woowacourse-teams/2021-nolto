@@ -73,4 +73,8 @@ public class FeedService {
         Feeds feeds = new Feeds(feedRepository.findAll(Sort.by(Sort.Direction.DESC, "createdDate")));
         return FeedCardResponse.toList(feeds.filter(strategy));
     }
+
+    public void delete(User user, Long feedId) {
+
+    }
 }

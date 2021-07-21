@@ -43,6 +43,12 @@ public class FeedController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping(value = "/{feedId}")
+    public ResponseEntity<Void> delete(@MemberAuthenticationPrincipal User user, @PathVariable Long feedId) {
+        feedService.delete(user, feedId);
+        return ResponseEntity.noContent().build();
+    }
+
     @PostMapping("/{feedId}/like")
     public ResponseEntity<Void> addLike(@MemberAuthenticationPrincipal User user, @PathVariable Long feedId) {
         likeService.addLike(user, feedId);

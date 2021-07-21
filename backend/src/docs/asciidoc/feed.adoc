@@ -17,14 +17,23 @@ include::{snippets}/feed-create/http-response.adoc[]
 ==== Request
 
 include::{snippets}/feed-update/http-request.adoc[]
-
-==== Request Parameters
-
 include::{snippets}/feed-update/request-parameters.adoc[]
 
 ==== Response
 
 include::{snippets}/feed-update/http-response.adoc[]
+
+=== 피드 삭제
+
+==== Request
+
+include::{snippets}/feed-delete/http-request.adoc[]
+include::{snippets}/feed-delete/path-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/feed-delete/http-response.adoc[]
+
 
 === 피드 좋아요 추가
 
@@ -42,9 +51,6 @@ include::{snippets}/feed-addLike/http-response.adoc[]
 ==== Request
 
 include::{snippets}/feed-deleteLike/http-request.adoc[]
-
-==== Request PathParameters
-
 include::{snippets}/feed-deleteLike/path-parameters.adoc[]
 
 ==== Response
@@ -56,9 +62,6 @@ include::{snippets}/feed-deleteLike/http-response.adoc[]
 ==== Request
 
 include::{snippets}/feed-findById/http-request.adoc[]
-
-==== Request PathParameters
-
 include::{snippets}/feed-findById/path-parameters.adoc[]
 
 ==== Response
@@ -88,9 +91,6 @@ include::{snippets}/feed-hotResponse/response-fields.adoc[]
 ==== Request
 
 include::{snippets}/feed-recentResponse/http-request.adoc[]
-
-==== Request Parameters
-
 include::{snippets}/feed-recentResponse/request-parameters.adoc[]
 
 ==== Response

@@ -156,16 +156,35 @@ public class FeedControllerTest extends ControllerTest {
                         getDocumentRequest(),
                         getDocumentResponse(),
                         requestParts(
-                                partWithName("thumbnailImage").description("썸네일 이미지")
+                                partWithName("thumbnailImage").description("수정될 수 있는 썸네일 이미지")
                         ),
                         requestParameters(
-                                parameterWithName("title").description("제목"),
-                                parameterWithName("techs").description("기술 스택 목록").optional(),
-                                parameterWithName("content").description("내용"),
-                                parameterWithName("step").description("프로젝트 단계(조립중, 전시중)"),
-                                parameterWithName("sos").description("sos 여부"),
-                                parameterWithName("storageUrl").description("저장소 URL").optional(),
-                                parameterWithName("deployedUrl").description("배포 URL(전시중일 경우만 필수)").optional()
+                                parameterWithName("title").description("수정될 수 있는 제목"),
+                                parameterWithName("techs").description("수정될 수 있는 기술 스택 목록").optional(),
+                                parameterWithName("content").description("수정될 수 있는 내용"),
+                                parameterWithName("step").description("수정될 수 있는 프로젝트 단계(조립중, 전시중)"),
+                                parameterWithName("sos").description("수정될 수 있는 sos 여부"),
+                                parameterWithName("storageUrl").description("수정될 수 있는 저장소 URL").optional(),
+                                parameterWithName("deployedUrl").description("수정될 수 있는 배포 URL(전시중일 경우만 필수)").optional()
+                        )
+                ));
+    }
+
+    @DisplayName("피드를 삭제한다.")
+    @Test
+    void deleteFeed() throws Exception {
+        given(authService.findUserByToken(TOKEN_PAYLOAD)).willReturn(LOGIN_USER);
+        willDoNothing().given(feedService).delete(any(User.class), any(Long.class));
+
+        mockMvc.perform(
+                delete("/feeds/{feedId}", FEED_ID)
+                        .header("Authorization", "Bearer dXNlcjpzZWNyZXQ="))
+                .andExpect(status().isNoContent())
+                .andDo(document("feed-delete",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("feedId").description("삭제할 피드 ID")
                         )
                 ));
     }
