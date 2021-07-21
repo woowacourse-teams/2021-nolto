@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -76,5 +78,157 @@ class FeedRepositoryTest {
         assertThat(feed1.getThumbnailUrl()).isEqualTo(feed2.getThumbnailUrl());
         assertThat(feed1.getViews()).isEqualTo(feed2.getViews());
         assertThat(feed1.getLikes()).isEqualTo(feed2.getLikes());
+    }
+
+    @DisplayName("피드의 title과 content에 검색하고자 하는 문자열이 포함되어 있다면 조회해 올 수 있다.")
+    @Test
+    void searchByKeyword() {
+        //given
+        feedRepository.save(feed1.writtenBy(user1));
+        feedRepository.save(feed2.writtenBy(user2));
+        feedRepository.save(feed3.writtenBy(user2));
+
+        //when
+        List<Feed> feedsContainingTitle = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase("title", "title");
+        List<Feed> feedsContainingContent1 = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase("content1", "content1");
+        List<Feed> feedsContainingContent2 = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase("content2", "content2");
+        List<Feed> feedsContainingTitle3 = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase("title3", "title3");
+        List<Feed> feedsContainingTle = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase("tle", "tle");
+
+        //then
+        assertThat(feedsContainingTitle).containsExactly(feed1, feed2, feed3);
+        assertThat(feedsContainingContent1).containsExactly(feed1);
+        assertThat(feedsContainingContent2).containsExactly(feed2);
+        assertThat(feedsContainingTitle3).containsExactly(feed3);
+        assertThat(feedsContainingTle).containsExactly(feed1, feed2, feed3);
+    }
+
+    @DisplayName("피드의 title과 content에 검색하고자 하는 문자열이 포함되어 있다면 조회해 올 수 있고, 대소문자 상관없이 조회가 가능하다")
+    @Test
+    void searchByKeywordIgnoringCase() {
+        //given
+        feedRepository.save(feed1.writtenBy(user1));
+        feedRepository.save(feed2.writtenBy(user2));
+        feedRepository.save(feed3.writtenBy(user2));
+
+        String query1 = "TITLE";
+        String query2 = "title";
+        String query3 = "TiTLe";
+
+        //when
+        List<Feed> query1Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query1, query1);
+        List<Feed> query2Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query2, query2);
+        List<Feed> query3Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query3, query3);
+
+        //then
+        assertThat(query1Result).containsExactly(feed1, feed2, feed3);
+        assertThat(query2Result).containsExactly(feed1, feed2, feed3);
+        assertThat(query3Result).containsExactly(feed1, feed2, feed3);
+    }
+
+    @DisplayName("피드의 title과 content에 검색하고자 하는 문자열에 한글이 포함되어 있다면 조회해 올 수 있다.")
+    @Test
+    void searchByKeywordWithKorean() {
+        //given
+        feed1 = new Feed("조엘 프로젝트", "조엘의 환상적인 토이 프로젝트로 초대합니다 룰루랄라", Step.PROGRESS, true,
+                "storageUrl", "", "http://thumbnailUrl.ppnngg");
+        feed2 = new Feed("놀토 프로젝트", "놀토는 정말 세계에서 제일가는 팀입니다. 우테코 최고 아웃풋이죠", Step.PROGRESS, false,
+                "", "deployUrl", "http://thumbnailUrl.pnggg");
+
+        feedRepository.save(feed1.writtenBy(user1));
+        feedRepository.save(feed2.writtenBy(user2));
+
+        String query1 = "조엘";
+        String query2 = "우테코";
+        String query3 = "프로젝트";
+        String query4 = "에서 제일";
+
+        //when
+        List<Feed> query1Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query1, query1);
+        List<Feed> query2Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query2, query2);
+        List<Feed> query3Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query3, query3);
+        List<Feed> query4Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query4, query4);
+
+        //then
+        assertThat(query1Result).containsExactly(feed1);
+        assertThat(query2Result).containsExactly(feed2);
+        assertThat(query3Result).containsExactly(feed1, feed2);
+        assertThat(query4Result).containsExactly(feed2);
+    }
+
+    @DisplayName("피드의 title과 content에 검색하고자 하는 문자열에 특수문자가 포함되어 있다면 조회해 올 수 있다.")
+    @Test
+    void searchByKeywordWithSpecialCharacter() {
+        //given
+        feed1 = new Feed("조엘 프로젝트$$$$", "조엘의 ### && *** 룰루랄라", Step.PROGRESS, true,
+                "storageUrl", "", "http://thumbnailUrl.ppnngg");
+        feed2 = new Feed("놀토 프로젝트%%%%", "놀토는 ()() @@@ 우테코 최고 아웃풋", Step.PROGRESS, false,
+                "", "deployUrl", "http://thumbnailUrl.pnggg");
+
+        feedRepository.save(feed1.writtenBy(user1));
+        feedRepository.save(feed2.writtenBy(user2));
+
+        String query1 = "$$";
+        String query2 = "##";
+        String query3 = "%%";
+        String query4 = ")(";
+
+        //when
+        List<Feed> query1Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query1, query1);
+        List<Feed> query2Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query2, query2);
+        List<Feed> query3Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query3, query3);
+        List<Feed> query4Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query4, query4);
+
+        //then
+        assertThat(query1Result).containsExactly(feed1);
+        assertThat(query2Result).containsExactly(feed1);
+        assertThat(query3Result).containsExactly(feed2);
+        assertThat(query4Result).containsExactly(feed2);
+    }
+
+
+    @DisplayName("피드의 title과 content에 검색하고자 하는 문자열에 영어, 한글, 특수문자가 포함되어 있다면 조회해 올 수 있다.")
+    @Test
+    void searchByKeywordWithAllTogether() {
+        //given
+        feed1 = new Feed("JOEL 프로젝트$$$$", "조엘의 ### && *** LUlu lala", Step.PROGRESS, true,
+                "storageUrl", "", "http://thumbnailUrl.ppnngg");
+        feed2 = new Feed("놀토 project%%%%", "놀토는 ()() @@@ wootecho 최고 output", Step.PROGRESS, false,
+                "", "deployUrl", "http://thumbnailUrl.pnggg");
+
+        feedRepository.save(feed1.writtenBy(user1));
+        feedRepository.save(feed2.writtenBy(user2));
+
+        String query1 = "JOEL 프로젝트$$$";
+        String query2 = "의 ### && *** LUlu lala";
+        String query3 = "놀토 project%%%%";
+        String query4 = ")() @@@ wootecho 최";
+
+        //when
+        List<Feed> query1Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query1, query1);
+        List<Feed> query2Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query2, query2);
+        List<Feed> query3Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query3, query3);
+        List<Feed> query4Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query4, query4);
+
+        //then
+        assertThat(query1Result).containsExactly(feed1);
+        assertThat(query2Result).containsExactly(feed1);
+        assertThat(query3Result).containsExactly(feed2);
+        assertThat(query4Result).containsExactly(feed2);
+    }
+
+    @DisplayName("피드의 title과 content에 검색하고자 하는 문자열에 대응하는 결과가 없다면, 빈 리스트를 반환한다.")
+    @Test
+    void searchByKeywordWithNoResult() {
+        //given
+        feedRepository.save(feed1.writtenBy(user1));
+
+        String query1 = "절대 아무도 검색하지 않을 것 같은 INPUT";
+
+        //when
+        List<Feed> query1Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query1, query1);
+
+        //then
+        assertThat(query1Result).hasSize(0);
     }
 }
