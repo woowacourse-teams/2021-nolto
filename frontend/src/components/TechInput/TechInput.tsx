@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 
 import useTechs from 'hooks/queries/useTechs';
+import useQueryDebounce from 'hooks/@common/useQueryDebounce';
 import FormInput from 'components/@common/FormInput/FormInput';
 import { Tech, ButtonStyle } from 'types';
 import Styled, { TechButton } from './TechInput.styles';
@@ -13,11 +14,12 @@ const TechInput = ({ onUpdateTechs }: Props) => {
   const [isDropdownOpened, setDropdownOpened] = useState(false);
   const [currentTechIdx, setCurrentTechIdx] = useState(-1);
   const [selectedTechs, setSelectedTechs] = useState<Tech[]>([]);
-  const [userInput, setUserInput] = useState('');
+  const [searchInput, setSearchInput] = useState('');
 
   const focusedOption = useRef(null);
 
-  const { data: techs } = useTechs(userInput);
+  const debouncedSearchInput = useQueryDebounce(searchInput, 200);
+  const { data: techs } = useTechs(debouncedSearchInput);
 
   useEffect(() => {
     if (techs?.length > 0) setDropdownOpened(true);
@@ -61,7 +63,7 @@ const TechInput = ({ onUpdateTechs }: Props) => {
     setSelectedTechs([...selectedTechs, tech]);
     setDropdownOpened(false);
     setCurrentTechIdx(-1);
-    setUserInput('');
+    setSearchInput('');
   };
 
   const deleteTech = (techId: number) => {
@@ -71,7 +73,7 @@ const TechInput = ({ onUpdateTechs }: Props) => {
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
-    setUserInput(value);
+    setSearchInput(value);
   };
 
   return (
@@ -89,7 +91,7 @@ const TechInput = ({ onUpdateTechs }: Props) => {
           </TechButton>
         ))}
       </Styled.TechButtonsContainer>
-      <FormInput value={userInput} onChange={handleInput} onKeyDown={moveFocusedOption} />
+      <FormInput value={searchInput} onChange={handleInput} onKeyDown={moveFocusedOption} />
       {isDropdownOpened && (
         <Styled.Dropdown>
           {techs?.map((tech, idx) => (
