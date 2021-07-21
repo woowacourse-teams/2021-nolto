@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import useRecentFeeds from 'hooks/queries/useRecentFeeds';
 import Header from 'components/Header/Header';
@@ -7,20 +7,33 @@ import LevelLinkButton from 'components/LevelLinkButton/LevelLinkButton';
 import StretchCard from 'components/StretchCard/StretchCard';
 import ROUTE from 'constants/routes';
 import Styled from './RecentFeeds.styles';
+import { FilterType } from 'types';
 
 const RecentFeeds = () => {
-  const { data: recentFeeds } = useRecentFeeds();
+  const { filterType } = useParams<{ filterType?: FilterType }>();
+  const { data: recentFeeds } = useRecentFeeds(filterType);
 
   return (
     <>
       <Header />
       <Styled.Root>
-        <Styled.SectionTitle fontSize="1.75rem">Recent Toys</Styled.SectionTitle>
+        <Link to={ROUTE.RECENT}>
+          <Styled.SectionTitle fontSize="1.75rem">Recent Toys</Styled.SectionTitle>
+        </Link>
         <Styled.RecentToysContainer>
           <Styled.LevelButtonsContainer>
-            <LevelLinkButton.Progress />
-            <LevelLinkButton.Complete />
-            <LevelLinkButton.SOS />
+            <LevelLinkButton.Progress
+              path={`${ROUTE.RECENT}/${FilterType.PROGRESS}`}
+              selected={filterType === FilterType.PROGRESS}
+            />
+            <LevelLinkButton.Complete
+              path={`${ROUTE.RECENT}/${FilterType.COMPLETE}`}
+              selected={filterType === FilterType.COMPLETE}
+            />
+            <LevelLinkButton.SOS
+              path={`${ROUTE.RECENT}/${FilterType.SOS}`}
+              selected={filterType === FilterType.SOS}
+            />
           </Styled.LevelButtonsContainer>
           <Styled.RecentToyCardsContainer>
             {recentFeeds &&

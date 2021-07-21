@@ -106,7 +106,7 @@ const Home = () => {
                   </li>
                 ))}
             </Styled.RecentToyCardsContainer>
-            <MoreButton to={ROUTE.FEEDS}>
+            <MoreButton to={ROUTE.RECENT}>
               MORE&nbsp;
               <MoreArrow width="10px" />
             </MoreButton>

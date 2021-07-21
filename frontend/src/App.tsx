@@ -44,7 +44,7 @@ const App = () => {
                     <Route path={ROUTE.UPLOAD}>
                       <Upload />
                     </Route>
-                    <Route exact path={ROUTE.FEEDS}>
+                    <Route exact path={ROUTE.RECENT}>
                       <RecentFeeds />
                     </Route>
                     <Route path={`${ROUTE.FEEDS}/:id`}>

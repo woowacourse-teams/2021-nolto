@@ -8,6 +8,12 @@ export enum FeedStatus {
   COMPLETE = 'COMPLETE',
 }
 
+export enum FilterType {
+  PROGRESS = 'progress',
+  COMPLETE = 'complete',
+  SOS = 'sos',
+}
+
 export interface User {
   id: number;
   nickname: string;
