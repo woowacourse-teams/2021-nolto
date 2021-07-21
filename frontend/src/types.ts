@@ -53,3 +53,5 @@ export interface LoginInfo {
 export interface UserInfo {
   email: string;
 }
+
+export type OAuthType = 'google' | 'github';

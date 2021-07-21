@@ -6,10 +6,11 @@ import GithubLogo from 'assets/githubLogo.svg';
 import GoogleLogo from 'assets/googleLogo.svg';
 import { ButtonStyle, LoginInfo } from 'types';
 import useModal from 'hooks/@common/useModal';
-import useUserInfo from 'hooks/@common/useUserInfo';
+import useUserInfo from 'hooks/useUserInfo';
 import useLogin from 'hooks/queries/useLogin';
 import REGEX from 'constants/regex';
 import ROUTE from 'constants/routes';
+import api from 'constants/api';
 import ErrorMessage from 'components/@common/ErrorMessage/ErrorMessage';
 import Styled, { Form, LoginInput, OAuthButton } from './LoginModal.styles';
 
@@ -34,6 +35,20 @@ const LoginModal = () => {
         history.push(ROUTE.HOME);
       },
     });
+  };
+
+  const githubLogin = async () => {
+    const { data } = await api.get('/login/oauth/github');
+    const url = 'https://github.com/login/oauth/authorize?' + new URLSearchParams(data);
+
+    window.location.replace(url);
+  };
+
+  const googleLogin = async () => {
+    const { data } = await api.get('/login/oauth/google');
+    const url = 'https://accounts.google.com/o/oauth2/v2/auth?' + new URLSearchParams(data);
+
+    window.location.replace(url);
   };
 
   return (
@@ -64,12 +79,12 @@ const LoginModal = () => {
         </Styled.InputWrapper>
 
         <Styled.OAuthContainer>
-          <OAuthButton buttonStyle={ButtonStyle.OUTLINE}>
+          <OAuthButton type="button" buttonStyle={ButtonStyle.OUTLINE} onClick={githubLogin}>
             <GithubLogo width="1.25rem" />
             Github 계정으로 로그인하기
           </OAuthButton>
 
-          <OAuthButton buttonStyle={ButtonStyle.OUTLINE}>
+          <OAuthButton type="button" buttonStyle={ButtonStyle.OUTLINE} onClick={googleLogin}>
             <GoogleLogo width="1.25rem" />
             Google 계정으로 로그인하기
           </OAuthButton>

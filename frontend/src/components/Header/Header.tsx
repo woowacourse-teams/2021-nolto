@@ -10,7 +10,7 @@ import useModal from 'hooks/@common/useModal';
 import LoginModal from 'components/LoginModal/LoginModal';
 import { ButtonStyle } from 'types';
 import Styled, { IconButton, SearchBar } from './Header.styles';
-import useUserInfo from 'hooks/@common/useUserInfo';
+import useUserInfo from 'hooks/useUserInfo';
 
 interface Props {
   isFolded?: boolean;
