@@ -43,7 +43,7 @@ class FeedTest {
         assertThat(feed1.getViews()).isEqualTo(beforeView + 1);
     }
 
-    @DisplayName("전시중(완료된) 프로젝트가 배포 URL을 가지지 않는 경우 예외가 발생한다.")
+    @DisplayName("전시중(완료된) 프로젝트가의 배포 URL가 null이거나 공백인 경우 예외가 발생한다.")
     @Test
     void mustHaveDeployUrlWhenCompleteStep() {
         assertThatThrownBy(() ->
