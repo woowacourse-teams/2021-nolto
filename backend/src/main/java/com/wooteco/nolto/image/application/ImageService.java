@@ -22,6 +22,9 @@ public class ImageService {
     @Value("${application.cloudfront.url}")
     private String cloudfrontUrl;
 
+    @Value("${application.default-image}")
+    private String defaultImage;
+
     private final AmazonS3 amazonS3Client;
 
     public ImageService(AmazonS3 amazonS3Client) {
@@ -29,6 +32,9 @@ public class ImageService {
     }
 
     public String upload(MultipartFile multipartFile) {
+        if (multipartFile.isEmpty()) {
+            return cloudfrontUrl + "/" + defaultImage;
+        }
         File file = convertToFile(multipartFile);
         String fileName = getFileName(file);
         amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, file));
