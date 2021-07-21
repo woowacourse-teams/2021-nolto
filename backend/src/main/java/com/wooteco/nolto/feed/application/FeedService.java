@@ -37,6 +37,13 @@ public class FeedService {
 
     public void update(User user, Long feedId, FeedRequest request) {
         Feed findFeed = findEntityById(feedId);
+        if (findFeed.getAuthor().notSameAs(user)) {
+            throw new IllegalArgumentException("수정 권한이 없습니다.");
+        }
+        updateFeed(request, findFeed);
+    }
+
+    private void updateFeed(FeedRequest request, Feed findFeed) {
         findFeed.setTitle(request.getTitle());
         findFeed.setContent(request.getContent());
         findFeed.setStep(Step.of(request.getStep()));
@@ -75,6 +82,11 @@ public class FeedService {
     }
 
     public void delete(User user, Long feedId) {
+        Feed findFeed = findEntityById(feedId);
+        if (findFeed.getAuthor().notSameAs(user)) {
+            throw new IllegalArgumentException("삭제 권한이 없습니다.");
+        }
 
+        feedRepository.delete(findFeed);
     }
 }

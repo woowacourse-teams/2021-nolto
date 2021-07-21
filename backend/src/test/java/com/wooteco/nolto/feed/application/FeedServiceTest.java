@@ -2,7 +2,9 @@ package com.wooteco.nolto.feed.application;
 
 import com.wooteco.nolto.NotFoundException;
 import com.wooteco.nolto.feed.domain.Feed;
+import com.wooteco.nolto.feed.domain.FeedTech;
 import com.wooteco.nolto.feed.domain.Step;
+import com.wooteco.nolto.feed.domain.repository.FeedTechRepository;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
@@ -19,14 +21,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import javax.transaction.Transactional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -66,6 +65,9 @@ class FeedServiceTest {
 
     @Autowired
     private TechRepository techRepository;
+
+    @Autowired
+    private FeedTechRepository feedTechRepository;
 
     @Autowired
     private EntityManager em;
@@ -108,7 +110,7 @@ class FeedServiceTest {
         피드_정보가_같은지_조회(FEED_REQUEST3, savedFeed3);
     }
 
-    @DisplayName("이미 작성한 Feed의 내용을 일부 수정한다. (storageUrl, deployUrl, thumbnailUrl을 제외한 나머지를 수정한다.)")
+    @DisplayName("Feed를 수정한다. (storageUrl, deployUrl, thumbnailUrl을 제외한 나머지만 수정)")
     @Test
     void update() {
         // given
@@ -133,6 +135,79 @@ class FeedServiceTest {
         FeedResponse updateFeed = feedService.findById(user1, feedId1);
         피드_정보가_같은지_조회(request, updateFeed);
     }
+
+    @DisplayName("작성자가 아닐 경우 Feed를 수정할 수 없다.")
+    @Test
+    void cantUpdateIfNotAuthor() {
+        // given
+        Long feedId1 = feedService.create(user1, FEED_REQUEST1);
+        FeedRequest request = new FeedRequest(
+                "수정된 제목",
+                Arrays.asList(tech1.getId(), tech2.getId()),
+                "수정된 내용",
+                Step.COMPLETE.name(),
+                false,
+                FEED_REQUEST1.getStorageUrl(),
+                FEED_REQUEST1.getDeployedUrl(),
+                null
+        );
+
+        // when
+        // then
+        assertThatThrownBy(() -> feedService.update(user2, feedId1, request))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("수정 권한이 없습니다.");
+    }
+
+    @DisplayName("Feed를 삭제한다.")
+    @Test
+    void delete() {
+        // given
+        FEED_REQUEST1.setTechs(Arrays.asList(tech1.getId(), tech2.getId()));
+        Long feedId = feedService.create(user1, FEED_REQUEST1);
+        em.flush();
+        em.clear();
+
+        // when
+        Feed feed = feedService.findEntityById(feedId);
+
+        List<FeedTech> feedTechs = feed.getFeedTechs();
+        feedTechs.forEach(feedTech -> feedTechRepository.delete(feedTech));
+
+        feedService.delete(user1, feedId);
+        em.flush();
+
+        // then
+        assertThatThrownBy(() -> feedService.findEntityById(feedId))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("피드를 찾을 수 없습니다.");
+
+        for (FeedTech feedTech : feedTechs) {
+            assertThat(feedTechRepository.findById(feedTech.getId())).isEqualTo(Optional.empty());
+        }
+    }
+
+    @DisplayName("작성자가 아닐 경우 Feed를 삭제할 수 없다.")
+    @Test
+    void cantDeleteIfNotAuthor() {
+        // given
+        FEED_REQUEST1.setTechs(Arrays.asList(tech1.getId(), tech2.getId()));
+        Long feedId = feedService.create(user1, FEED_REQUEST1);
+        em.flush();
+        em.clear();
+
+        // when
+        Feed feed = feedService.findEntityById(feedId);
+        List<FeedTech> feedTechs = feed.getFeedTechs();
+        feedTechs.forEach(feedTech -> feedTechRepository.delete(feedTech));
+        em.flush();
+
+        // then
+        assertThatThrownBy(() -> feedService.delete(user2, feedId))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("삭제 권한이 없습니다.");
+    }
+
 
     @DisplayName("Feed를 Id로 단일 조회하고 조회수를 1 증가시킨다.")
     @Test

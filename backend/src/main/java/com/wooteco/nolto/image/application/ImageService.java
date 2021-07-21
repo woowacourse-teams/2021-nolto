@@ -3,7 +3,6 @@ package com.wooteco.nolto.image.application;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.util.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -17,6 +16,9 @@ import java.io.IOException;
 @Transactional
 @Service
 public class ImageService {
+    @Value("${application.default-image.url}")
+    private String defaultImageUrl;
+
     @Value("${application.bucket.name}")
     private String bucketName;
 
@@ -48,11 +50,15 @@ public class ImageService {
     }
 
     public String update(String oldImageUrl, MultipartFile updateImage) {
-        String fileName = oldImageUrl.split(cloudfrontUrl)[1];
-        if (amazonS3Client.doesObjectExist(bucketName, fileName)) { // TODO : 기본 이미지 url이 아님을 추가해야함.
-            amazonS3Client.deleteObject(new DeleteObjectRequest(bucketName, fileName));
+        String imageUrl = oldImageUrl.split(cloudfrontUrl)[1];
+        if (!isDefault(imageUrl) && amazonS3Client.doesObjectExist(bucketName, imageUrl)) {
+            amazonS3Client.deleteObject(new DeleteObjectRequest(bucketName, imageUrl));
         }
         return upload(updateImage);
+    }
+
+    private boolean isDefault(String fileName) {
+        return defaultImageUrl.equals(fileName);
     }
 }
 
