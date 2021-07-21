@@ -7,6 +7,7 @@ import Home from 'pages/Home/Home';
 import Upload from 'pages/Upload/Upload';
 import FeedDetail from 'pages/FeedDetail/FeedDetail';
 import RecentFeeds from 'pages/RecentFeeds/RecentFeeds';
+import OAuth from 'pages/OAuth/OAuth';
 import ModalProvider from 'components/@common/ModalProvider/ModalProvider';
 import UserInfoProvider from 'storage/user/UserInfoProvider';
 import ROUTE from 'constants/routes';
@@ -34,6 +35,9 @@ const App = () => {
                 </Route>
                 <Route path={`${ROUTE.FEEDS}/:id`}>
                   <FeedDetail />
+                </Route>
+                <Route path="/:oauth/callback">
+                  <OAuth />
                 </Route>
               </main>
             </ModalProvider>

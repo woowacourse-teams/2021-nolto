@@ -1,7 +1,12 @@
 import axios from 'axios';
 
+const BASE_URL: { [key: string]: string } = {
+  development: 'https://nolto-dev.kro.kr',
+  production: 'https://nolto.kro.kr',
+};
+
 const api = axios.create({
-  baseURL: 'https://nolto.kro.kr',
+  baseURL: BASE_URL[process.env.NODE_ENV] || BASE_URL.production,
 });
 
 api.interceptors.request.use(
@@ -12,9 +17,7 @@ api.interceptors.request.use(
     }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  },
+  (error) => Promise.reject(error),
 );
 
 export default api;
