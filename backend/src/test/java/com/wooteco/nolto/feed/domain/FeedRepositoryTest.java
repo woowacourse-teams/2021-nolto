@@ -28,18 +28,18 @@ class FeedRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        user1 = new User("123456L", "github", "아마찌", "imageUrl");
-        user2 = new User("654321L", "google", "지그", "imageUrl");
+        user1 = new User("123456L", "github", "아마찌", "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png");
+        user2 = new User("654321L", "google", "지그", "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png");
 
         userRepository.save(user1);
         userRepository.save(user2);
 
-        feed1 = new Feed("title1", "content1", Step.PROGRESS, true,
-                "storageUrl", "", "http://thumbnailUrl.ppnngg");
+        feed1 = new Feed("프로젝트 제목1", "프로젝트 내용1", Step.PROGRESS, true,
+                "www.github.com/woowacourse", "", "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png");
         feed2 = new Feed("title2", "content2", Step.PROGRESS, false,
-                "", "deployUrl", "http://thumbnailUrl.pnggg");
+                "www.github.com/woowacourse", "", "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png");
         feed3 = new Feed("title3", "content3", Step.COMPLETE, false,
-                "storageUrl", "deployUrl", "http://thumbnailUrl.ddd");
+                "www.github.com/woowacourse", "www.github.com/woowacourse", "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png");
     }
 
     @DisplayName("토이 프로젝트 글을 의미하는 Feed를 저장한다.")

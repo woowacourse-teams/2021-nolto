@@ -37,12 +37,12 @@ import static org.mockito.BDDMockito.given;
 @SpringBootTest
 @Transactional
 class FeedServiceTest {
-    private FeedRequest FEED_REQUEST1 = new FeedRequest("title1", new ArrayList<>(), "content", "PROGRESS", true,
-            "storageUrl", "deployUrl", null);
-    private FeedRequest FEED_REQUEST2 = new FeedRequest("title2", new ArrayList<>(), "content", "PROGRESS", true,
-            "storageUrl", "deployUrl", null);
-    private FeedRequest FEED_REQUEST3 = new FeedRequest("title3", new ArrayList<>(), "content", "PROGRESS", true,
-            "storageUrl", "deployUrl", null);
+    private FeedRequest FEED_REQUEST1 = new FeedRequest("title1", new ArrayList<>(), "content1", "PROGRESS", true,
+            "www.github.com/woowacourse", "www.github.com/woowacourse", null);
+    private FeedRequest FEED_REQUEST2 = new FeedRequest("title2", new ArrayList<>(), "content2", "PROGRESS", true,
+            "www.github.com/woowacourse", "www.github.com/woowacourse", null);
+    private FeedRequest FEED_REQUEST3 = new FeedRequest("title3", new ArrayList<>(), "content3", "PROGRESS", true,
+            "www.github.com/woowacourse", "www.github.com/woowacourse", null);
 
     private User user1 = new User(null, "123456L", "github", "user1", "mickey.jpg");
     private User user2 = new User(null, "654321L", "google", "user2", "mickey.jpg");
