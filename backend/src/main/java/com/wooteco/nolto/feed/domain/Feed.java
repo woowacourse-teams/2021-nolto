@@ -5,6 +5,7 @@ import com.wooteco.nolto.tech.domain.Tech;
 import com.wooteco.nolto.user.domain.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -15,6 +16,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @Entity
 public class Feed extends BaseEntity {
@@ -55,10 +57,8 @@ public class Feed extends BaseEntity {
     @OneToMany(mappedBy = "feed")
     private List<FeedTech> feedTechs = new ArrayList<>();
 
-    public Feed(String title, String content, Step step, boolean isSos, String storageUrl,
-                String deployedUrl, String thumbnailUrl) {
-        this(null, title, content, step, isSos, storageUrl, deployedUrl, thumbnailUrl, 0, null,
-                new ArrayList<>());
+    public Feed(String title, String content, Step step, boolean isSos, String storageUrl, String deployedUrl, String thumbnailUrl) {
+        this(null, title, content, step, isSos, storageUrl, deployedUrl, thumbnailUrl, 0, null, new ArrayList<>());
     }
 
     public Feed(Long id, String title, String content, Step step, boolean isSos, String storageUrl,

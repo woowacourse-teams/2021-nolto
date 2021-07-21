@@ -21,4 +21,9 @@ public class FeedTechService {
         List<Tech> techs = techRepository.findAllById(techIds);
         techs.forEach(tech -> feedTechRepository.save(new FeedTech(feed, tech)));
     }
+
+    public void update(Feed feed, List<Long> updateTechIds) {
+        feedTechRepository.deleteAllByFeed(feed);
+        save(feed, updateTechIds);
+    }
 }

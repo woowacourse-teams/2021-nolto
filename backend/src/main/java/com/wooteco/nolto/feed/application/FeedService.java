@@ -4,6 +4,7 @@ import com.wooteco.nolto.NotFoundException;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.Feeds;
 import com.wooteco.nolto.feed.domain.FilterStrategy;
+import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
@@ -36,7 +37,17 @@ public class FeedService {
 
     public void update(User user, Long feedId, FeedRequest request) {
         Feed findFeed = findEntityById(feedId);
+        findFeed.setTitle(request.getTitle());
+        findFeed.setContent(request.getContent());
+        findFeed.setStep(Step.of(request.getStep()));
+        findFeed.setSos(request.isSos());
+        findFeed.setStorageUrl(request.getStorageUrl());
+        findFeed.setDeployedUrl(request.getDeployedUrl());
 
+        String updateThumbnailUrl = imageService.update(findFeed.getThumbnailUrl(), request.getThumbnailImage());
+        findFeed.setThumbnailUrl(updateThumbnailUrl);
+
+        feedTechService.update(findFeed, request.getTechs());
     }
 
     public FeedResponse findById(User user, Long feedId) {

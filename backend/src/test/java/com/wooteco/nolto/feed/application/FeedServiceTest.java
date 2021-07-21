@@ -108,6 +108,32 @@ class FeedServiceTest {
         피드_정보가_같은지_조회(FEED_REQUEST3, savedFeed3);
     }
 
+    @DisplayName("이미 작성한 Feed의 내용을 일부 수정한다. (storageUrl, deployUrl, thumbnailUrl을 제외한 나머지를 수정한다.)")
+    @Test
+    void update() {
+        // given
+        Long feedId1 = feedService.create(user1, FEED_REQUEST1);
+        FeedRequest request = new FeedRequest(
+                "수정된 제목",
+                Arrays.asList(tech1.getId(), tech2.getId()),
+                "수정된 내용",
+                Step.COMPLETE.name(),
+                false,
+                FEED_REQUEST1.getStorageUrl(),
+                FEED_REQUEST1.getDeployedUrl(),
+                null
+        );
+
+        // when
+        feedService.update(user1, feedId1, request);
+        em.flush();
+        em.clear();
+
+        // then
+        FeedResponse updateFeed = feedService.findById(user1, feedId1);
+        피드_정보가_같은지_조회(request, updateFeed);
+    }
+
     @DisplayName("Feed를 Id로 단일 조회하고 조회수를 1 증가시킨다.")
     @Test
     void findById() {
