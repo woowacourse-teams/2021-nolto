@@ -55,3 +55,7 @@ export interface UserInfo {
 }
 
 export type OAuthType = 'google' | 'github';
+
+export type SnackBarType = 'error' | 'success' | null;
+
+export type AddSnackBar = (type: SnackBarType, text: string) => void;

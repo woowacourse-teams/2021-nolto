@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useMemo, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 import CrossMark from 'assets/crossMark.svg';
@@ -46,8 +46,10 @@ const ModalProvider = ({ children }: Props) => {
     </Styled.ModalContainer>
   );
 
+  const contextValue = useMemo(() => ({ openModal, closeModal }), []);
+
   return (
-    <Context.Provider value={{ openModal, closeModal }}>
+    <Context.Provider value={contextValue}>
       {children}
       {isOpen && ReactDOM.createPortal(modalElement, modalRoot)}
     </Context.Provider>

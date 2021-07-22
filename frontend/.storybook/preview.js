@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import GlobalStyle from '../src/Global.styles';
-import ModalProvider from '../src/components/@common/ModalProvider/ModalProvider';
+import ModalProvider from '../src/context/modal/ModalProvider';
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
