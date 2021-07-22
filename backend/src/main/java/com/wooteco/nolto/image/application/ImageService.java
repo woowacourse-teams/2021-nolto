@@ -16,6 +16,9 @@ import java.util.Objects;
 @Transactional
 @Service
 public class ImageService {
+
+    public static final String FILENAME_EXTENSION_DOT = ".";
+
     @Value("${application.bucket.name}")
     private String bucketName;
 
@@ -44,8 +47,8 @@ public class ImageService {
 
     private String getFileName(File file) {
         String fileOriginName = file.getName();
-        int pos = fileOriginName.lastIndexOf(".");
-        String ext = "." + fileOriginName.substring(pos + 1);
+        int pos = fileOriginName.lastIndexOf(FILENAME_EXTENSION_DOT);
+        String ext = FILENAME_EXTENSION_DOT + fileOriginName.substring(pos + 1);
         return System.currentTimeMillis() + Base64.encodeAsString(file.getName().getBytes()) + ext;
     }
 
