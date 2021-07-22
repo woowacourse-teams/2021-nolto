@@ -53,10 +53,10 @@ public class Feed extends BaseEntity {
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_feed_to_author"), nullable = false)
     private User author;
 
-    @OneToMany(mappedBy = "feed")
+    @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL)
     private List<Like> likes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "feed")
+    @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL)
     private List<FeedTech> feedTechs = new ArrayList<>();
 
     public Feed(String title, String content, Step step, boolean isSos, String storageUrl, String deployedUrl, String thumbnailUrl) {

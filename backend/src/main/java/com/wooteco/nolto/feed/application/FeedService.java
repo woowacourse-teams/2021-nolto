@@ -1,15 +1,15 @@
 package com.wooteco.nolto.feed.application;
 
 import com.wooteco.nolto.NotFoundException;
-import com.wooteco.nolto.feed.domain.Feed;
-import com.wooteco.nolto.feed.domain.Feeds;
-import com.wooteco.nolto.feed.domain.FilterStrategy;
-import com.wooteco.nolto.feed.domain.Step;
+import com.wooteco.nolto.feed.domain.*;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
+import com.wooteco.nolto.feed.domain.repository.FeedTechRepository;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
 import com.wooteco.nolto.image.application.ImageService;
+import com.wooteco.nolto.tech.domain.Tech;
+import com.wooteco.nolto.tech.domain.TechRepository;
 import com.wooteco.nolto.user.domain.User;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 @AllArgsConstructor
@@ -25,14 +26,26 @@ public class FeedService {
 
     private final ImageService imageService;
     private final FeedRepository feedRepository;
-    private final FeedTechService feedTechService;
+    private final TechRepository techRepository;
+    private final FeedTechRepository feedTechRepository;
 
     public Long create(User user, FeedRequest request) {
         String thumbnailUrl = imageService.upload(request.getThumbnailImage());
+
         Feed feed = request.toEntityWithThumbnailUrl(thumbnailUrl).writtenBy(user);
+
+        List<FeedTech> feedTechs = makeTechIdToFeedTech(request, feed);
+        feed.setFeedTechs(feedTechs);
+
         Feed savedFeed = feedRepository.save(feed);
-        feedTechService.save(savedFeed, request.getTechs());
         return savedFeed.getId();
+    }
+
+    private List<FeedTech> makeTechIdToFeedTech(FeedRequest request, Feed feed) {
+        List<Tech> allTechs = techRepository.findAllById(request.getTechs());
+        return allTechs.stream()
+                .map(tech -> new FeedTech(feed, tech))
+                .collect(Collectors.toList());
     }
 
     public void update(User user, Long feedId, FeedRequest request) {
@@ -54,7 +67,9 @@ public class FeedService {
         String updateThumbnailUrl = imageService.update(findFeed.getThumbnailUrl(), request.getThumbnailImage());
         findFeed.setThumbnailUrl(updateThumbnailUrl);
 
-        feedTechService.update(findFeed, request.getTechs());
+        feedTechRepository.deleteAll(findFeed.getFeedTechs());
+        List<FeedTech> feedTechs = makeTechIdToFeedTech(request, findFeed);
+        findFeed.setFeedTechs(feedTechs);
     }
 
     public FeedResponse findById(User user, Long feedId) {

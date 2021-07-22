@@ -4,7 +4,6 @@ import com.wooteco.nolto.NotFoundException;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.FeedTech;
 import com.wooteco.nolto.feed.domain.Step;
-import com.wooteco.nolto.feed.domain.repository.FeedTechRepository;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
@@ -67,9 +66,6 @@ class FeedServiceTest {
     private TechRepository techRepository;
 
     @Autowired
-    private FeedTechRepository feedTechRepository;
-
-    @Autowired
     private EntityManager em;
 
     @BeforeEach
@@ -90,6 +86,7 @@ class FeedServiceTest {
     @Test
     void create() {
         // when
+        FEED_REQUEST1.setTechs(Arrays.asList(tech1.getId()));
         Long feedId1 = feedService.create(user1, FEED_REQUEST1);
         Long feedId2 = feedService.create(user1, FEED_REQUEST2);
         Long feedId3 = feedService.create(user2, FEED_REQUEST3);
@@ -112,12 +109,12 @@ class FeedServiceTest {
 
     @DisplayName("Feed를 수정한다. (storageUrl, deployUrl, thumbnailUrl을 제외한 나머지만 수정)")
     @Test
-    void update() {
+    void updateNewTechs() {
         // given
-        Long feedId1 = feedService.create(user1, FEED_REQUEST1);
+        Long feedId1 = feedService.create(user1, FEED_REQUEST2);
         FeedRequest request = new FeedRequest(
                 "수정된 제목",
-                Arrays.asList(tech1.getId(), tech2.getId()),
+                Collections.emptyList(),
                 "수정된 내용",
                 Step.COMPLETE.name(),
                 false,
@@ -172,8 +169,6 @@ class FeedServiceTest {
         Feed feed = feedService.findEntityById(feedId);
 
         List<FeedTech> feedTechs = feed.getFeedTechs();
-        feedTechs.forEach(feedTech -> feedTechRepository.delete(feedTech));
-
         feedService.delete(user1, feedId);
         em.flush();
 
@@ -181,10 +176,6 @@ class FeedServiceTest {
         assertThatThrownBy(() -> feedService.findEntityById(feedId))
                 .isInstanceOf(NotFoundException.class)
                 .hasMessage("피드를 찾을 수 없습니다.");
-
-        for (FeedTech feedTech : feedTechs) {
-            assertThat(feedTechRepository.findById(feedTech.getId())).isEqualTo(Optional.empty());
-        }
     }
 
     @DisplayName("작성자가 아닐 경우 Feed를 삭제할 수 없다.")
@@ -199,7 +190,7 @@ class FeedServiceTest {
         // when
         Feed feed = feedService.findEntityById(feedId);
         List<FeedTech> feedTechs = feed.getFeedTechs();
-        feedTechs.forEach(feedTech -> feedTechRepository.delete(feedTech));
+//        feedTechs.forEach(feedTech -> feedTechRepository.delete(feedTech));
         em.flush();
 
         // then
