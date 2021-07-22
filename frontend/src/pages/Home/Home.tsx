@@ -17,7 +17,9 @@ import { ButtonStyle } from 'types';
 const tags = ['JavaScript', 'Java', 'React.js', 'Spring'];
 
 const Home = () => {
-  const { data: hotFeeds } = useHotFeeds();
+  const { data: hotFeeds } = useHotFeeds({
+    onError: () => alert('임시 alert'),
+  });
   const { data: recentFeeds } = useRecentFeeds();
 
   const [isHeaderFolded, setHeaderFolded] = useState(true);
@@ -82,6 +84,7 @@ const Home = () => {
                   </Styled.HotToyCardWrapper>
                 ))}
             </Styled.HotToyCardsContainer>
+
             <CarouselArrowButton onClick={showFollowingCards}>
               <Styled.CarouselRight width="32px" />
             </CarouselArrowButton>
