@@ -7,6 +7,7 @@ import com.wooteco.nolto.tech.domain.Tech;
 import com.wooteco.nolto.tech.domain.TechRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -15,6 +16,7 @@ import java.util.Set;
 
 @AllArgsConstructor
 @Service
+@Transactional
 public class FeedTechService {
 
     private final TechRepository techRepository;
