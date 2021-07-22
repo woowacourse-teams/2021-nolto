@@ -69,16 +69,19 @@ class FeedTechServiceTest {
 
         List<String> techNames123 = Arrays.asList(tech1.getName(), tech2.getName(), tech3.getName());
         List<String> techNames12 = Arrays.asList(tech1.getName(), tech2.getName());
+        List<String> techNames2 = Arrays.asList(tech2.getName());
         List<String> techNames3 = Arrays.asList(tech3.getName());
 
         // when
         Set<Feed> usingTech123 = feedTechService.findFeedUsingTech(techNames123);
         Set<Feed> usingTech12 = feedTechService.findFeedUsingTech(techNames12);
+        Set<Feed> usingTech2 = feedTechService.findFeedUsingTech(techNames2);
         Set<Feed> usingTech3 = feedTechService.findFeedUsingTech(techNames3);
 
         // then
-        assertThat(usingTech123).contains(feed1, feed2, feed3);
-        assertThat(usingTech12).contains(feed1, feed2);
+        assertThat(usingTech123).hasSize(0);
+        assertThat(usingTech12).contains(feed1);
+        assertThat(usingTech2).contains(feed1, feed2);
         assertThat(usingTech3).contains(feed2, feed3);
     }
 }

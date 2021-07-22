@@ -9,10 +9,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -30,7 +28,8 @@ public class FeedTechService {
     public Set<Feed> findFeedUsingTech(List<String> techNames) {
         List<Tech> techs = techRepository.findAllByNameIn(techNames);
         List<FeedTech> findFeedTech = findFeedTechByTech(techs);
-        return findFeedByFeedTech(findFeedTech);
+        Map<Feed, Integer> feedWithTechCount = calculateFeedWithTechCount(findFeedTech);
+        return findFeedUsingAllTech(feedWithTechCount, techs.size());
     }
 
     private List<FeedTech> findFeedTechByTech(List<Tech> techs) {
@@ -39,9 +38,20 @@ public class FeedTechService {
         return findFeedTech;
     }
 
-    private Set<Feed> findFeedByFeedTech(List<FeedTech> feedTechs) {
-        Set<Feed> findFeed = new HashSet<>();
-        feedTechs.forEach(feedTech -> findFeed.add(feedTech.getFeed()));
-        return findFeed;
+    private Map<Feed, Integer> calculateFeedWithTechCount(List<FeedTech> feedTechs) {
+        Map<Feed, Integer> feedWithTechCount = new HashMap<>();
+        for (FeedTech feedTech : feedTechs) {
+            Feed feed = feedTech.getFeed();
+            feedWithTechCount.computeIfPresent(feed, (Feed, Integer) -> ++Integer);
+            feedWithTechCount.putIfAbsent(feed, 1);
+        }
+        return feedWithTechCount;
+    }
+
+    private Set<Feed> findFeedUsingAllTech(Map<Feed, Integer> feedWithTechCount, int totalTechCount) {
+        return feedWithTechCount.keySet()
+                .stream()
+                .filter(feed -> feedWithTechCount.get(feed) == totalTechCount)
+                .collect(Collectors.toSet());
     }
 }
