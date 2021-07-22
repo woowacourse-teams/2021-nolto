@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -89,18 +89,18 @@ class FeedRepositoryTest {
         feedRepository.save(feed3.writtenBy(user2));
 
         //when
-        List<Feed> feedsContainingTitle = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase("title", "title");
-        List<Feed> feedsContainingContent1 = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase("content1", "content1");
-        List<Feed> feedsContainingContent2 = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase("content2", "content2");
-        List<Feed> feedsContainingTitle3 = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase("title3", "title3");
-        List<Feed> feedsContainingTle = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase("tle", "tle");
+        Set<Feed> feedsContainingTitle = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase("title", "title");
+        Set<Feed> feedsContainingContent1 = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase("content1", "content1");
+        Set<Feed> feedsContainingContent2 = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase("content2", "content2");
+        Set<Feed> feedsContainingTitle3 = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase("title3", "title3");
+        Set<Feed> feedsContainingTle = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase("tle", "tle");
 
         //then
-        assertThat(feedsContainingTitle).containsExactly(feed1, feed2, feed3);
-        assertThat(feedsContainingContent1).containsExactly(feed1);
-        assertThat(feedsContainingContent2).containsExactly(feed2);
-        assertThat(feedsContainingTitle3).containsExactly(feed3);
-        assertThat(feedsContainingTle).containsExactly(feed1, feed2, feed3);
+        assertThat(feedsContainingTitle).contains(feed1, feed2, feed3);
+        assertThat(feedsContainingContent1).contains(feed1);
+        assertThat(feedsContainingContent2).contains(feed2);
+        assertThat(feedsContainingTitle3).contains(feed3);
+        assertThat(feedsContainingTle).contains(feed1, feed2, feed3);
     }
 
     @DisplayName("피드의 title과 content에 검색하고자 하는 문자열이 포함되어 있다면 조회해 올 수 있고, 대소문자 상관없이 조회가 가능하다")
@@ -116,14 +116,14 @@ class FeedRepositoryTest {
         String query3 = "TiTLe";
 
         //when
-        List<Feed> query1Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query1, query1);
-        List<Feed> query2Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query2, query2);
-        List<Feed> query3Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query3, query3);
+        Set<Feed> query1Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query1, query1);
+        Set<Feed> query2Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query2, query2);
+        Set<Feed> query3Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query3, query3);
 
         //then
-        assertThat(query1Result).containsExactly(feed1, feed2, feed3);
-        assertThat(query2Result).containsExactly(feed1, feed2, feed3);
-        assertThat(query3Result).containsExactly(feed1, feed2, feed3);
+        assertThat(query1Result).contains(feed1, feed2, feed3);
+        assertThat(query2Result).contains(feed1, feed2, feed3);
+        assertThat(query3Result).contains(feed1, feed2, feed3);
     }
 
     @DisplayName("피드의 title과 content에 검색하고자 하는 문자열에 한글이 포함되어 있다면 조회해 올 수 있다.")
@@ -144,16 +144,16 @@ class FeedRepositoryTest {
         String query4 = "에서 제일";
 
         //when
-        List<Feed> query1Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query1, query1);
-        List<Feed> query2Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query2, query2);
-        List<Feed> query3Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query3, query3);
-        List<Feed> query4Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query4, query4);
+        Set<Feed> query1Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query1, query1);
+        Set<Feed> query2Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query2, query2);
+        Set<Feed> query3Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query3, query3);
+        Set<Feed> query4Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query4, query4);
 
         //then
-        assertThat(query1Result).containsExactly(feed1);
-        assertThat(query2Result).containsExactly(feed2);
-        assertThat(query3Result).containsExactly(feed1, feed2);
-        assertThat(query4Result).containsExactly(feed2);
+        assertThat(query1Result).contains(feed1);
+        assertThat(query2Result).contains(feed2);
+        assertThat(query3Result).contains(feed1, feed2);
+        assertThat(query4Result).contains(feed2);
     }
 
     @DisplayName("피드의 title과 content에 검색하고자 하는 문자열에 특수문자가 포함되어 있다면 조회해 올 수 있다.")
@@ -174,16 +174,16 @@ class FeedRepositoryTest {
         String query4 = ")(";
 
         //when
-        List<Feed> query1Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query1, query1);
-        List<Feed> query2Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query2, query2);
-        List<Feed> query3Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query3, query3);
-        List<Feed> query4Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query4, query4);
+        Set<Feed> query1Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query1, query1);
+        Set<Feed> query2Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query2, query2);
+        Set<Feed> query3Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query3, query3);
+        Set<Feed> query4Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query4, query4);
 
         //then
-        assertThat(query1Result).containsExactly(feed1);
-        assertThat(query2Result).containsExactly(feed1);
-        assertThat(query3Result).containsExactly(feed2);
-        assertThat(query4Result).containsExactly(feed2);
+        assertThat(query1Result).contains(feed1);
+        assertThat(query2Result).contains(feed1);
+        assertThat(query3Result).contains(feed2);
+        assertThat(query4Result).contains(feed2);
     }
 
 
@@ -205,16 +205,16 @@ class FeedRepositoryTest {
         String query4 = ")() @@@ wootecho 최";
 
         //when
-        List<Feed> query1Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query1, query1);
-        List<Feed> query2Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query2, query2);
-        List<Feed> query3Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query3, query3);
-        List<Feed> query4Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query4, query4);
+        Set<Feed> query1Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query1, query1);
+        Set<Feed> query2Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query2, query2);
+        Set<Feed> query3Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query3, query3);
+        Set<Feed> query4Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query4, query4);
 
         //then
-        assertThat(query1Result).containsExactly(feed1);
-        assertThat(query2Result).containsExactly(feed1);
-        assertThat(query3Result).containsExactly(feed2);
-        assertThat(query4Result).containsExactly(feed2);
+        assertThat(query1Result).contains(feed1);
+        assertThat(query2Result).contains(feed1);
+        assertThat(query3Result).contains(feed2);
+        assertThat(query4Result).contains(feed2);
     }
 
     @DisplayName("피드의 title과 content에 검색하고자 하는 문자열에 대응하는 결과가 없다면, 빈 리스트를 반환한다.")
@@ -226,7 +226,7 @@ class FeedRepositoryTest {
         String query1 = "절대 아무도 검색하지 않을 것 같은 INPUT";
 
         //when
-        List<Feed> query1Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query1, query1);
+        Set<Feed> query1Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query1, query1);
 
         //then
         assertThat(query1Result).hasSize(0);
