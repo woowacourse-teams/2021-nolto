@@ -16,8 +16,7 @@ import java.io.IOException;
 @Transactional
 @Service
 public class ImageService {
-    @Value("${application.default-image.url}")
-    private String defaultImageUrl;
+    private String defaultImageUrl = "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png";
 
     @Value("${application.bucket.name}")
     private String bucketName;
