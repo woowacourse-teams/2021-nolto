@@ -1,26 +1,24 @@
 package com.wooteco.nolto.feed.application.searchstrategy;
 
-import com.wooteco.nolto.feed.application.FeedTechService;
-import com.wooteco.nolto.feed.domain.repository.FeedRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.Arrays;
-import java.util.function.BiFunction;
 
 public enum SearchStrategyFactory {
-    NONE(true, true, NoneStrategy::new),
-    QUERY_ONLY(false, true, QueryOnlyStrategy::new),
-    TECHS_ONLY(true, false, TechsOnlyStrategy::new),
-    QUERY_AND_TECHS(false, false, QueryAndTechsStrategy::new);
+    NONE(true, true),
+    QUERY_ONLY(false, true),
+    TECHS_ONLY(true, false),
+    QUERY_AND_TECHS(false, false);
 
     private final boolean isQueryEmpty;
     private final boolean isTechsEmpty;
-    private final BiFunction<FeedRepository, FeedTechService, SearchStrategy> findSearchStrategy;
+    private SearchStrategy searchStrategy;
 
-    SearchStrategyFactory(boolean isQueryEmpty, boolean isTechsEmpty,
-                          BiFunction<FeedRepository, FeedTechService, SearchStrategy> findSearchStrategy) {
+    SearchStrategyFactory(boolean isQueryEmpty, boolean isTechsEmpty) {
         this.isQueryEmpty = isQueryEmpty;
         this.isTechsEmpty = isTechsEmpty;
-        this.findSearchStrategy = findSearchStrategy;
     }
 
     public static SearchStrategyFactory of(String query, String techs) {
@@ -31,7 +29,28 @@ public enum SearchStrategyFactory {
                 .orElse(NONE);
     }
 
-    public SearchStrategy findStrategy(FeedRepository feedRepository, FeedTechService feedTechService) {
-        return findSearchStrategy.apply(feedRepository, feedTechService);
+    private void setSearchStrategy(SearchStrategy searchStrategy) {
+        this.searchStrategy = searchStrategy;
+    }
+
+    public SearchStrategy findStrategy() {
+        return this.searchStrategy;
+    }
+
+    @Component
+    @AllArgsConstructor
+    public static class StrategyInjector {
+        private NoneStrategy noneStrategy;
+        private QueryOnlyStrategy queryOnlyStrategy;
+        private TechsOnlyStrategy techsOnlyStrategy;
+        private QueryAndTechsStrategy queryAndTechsStrategy;
+
+        @PostConstruct
+        public void inject() {
+            NONE.setSearchStrategy(noneStrategy);
+            QUERY_ONLY.setSearchStrategy(queryOnlyStrategy);
+            TECHS_ONLY.setSearchStrategy(techsOnlyStrategy);
+            QUERY_AND_TECHS.setSearchStrategy(queryAndTechsStrategy);
+        }
     }
 }

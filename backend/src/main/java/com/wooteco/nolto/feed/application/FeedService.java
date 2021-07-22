@@ -62,7 +62,7 @@ public class FeedService {
     }
 
     public List<FeedCardResponse> search(String query, String techs) {
-        SearchStrategy strategy = SearchStrategyFactory.of(query, techs).findStrategy(feedRepository, feedTechService);
+        SearchStrategy strategy = SearchStrategyFactory.of(query, techs).findStrategy();
         Set<Feed> searchFeed = strategy.search(query, techs);
         return FeedCardResponse.toList(searchFeed);
     }
