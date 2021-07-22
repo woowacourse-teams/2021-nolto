@@ -9,11 +9,19 @@ import FeedDetail from 'pages/FeedDetail/FeedDetail';
 import RecentFeeds from 'pages/RecentFeeds/RecentFeeds';
 import OAuth from 'pages/OAuth/OAuth';
 import ModalProvider from 'components/@common/ModalProvider/ModalProvider';
+import AsyncBoundary from 'components/AsyncBoundary';
 import UserInfoProvider from 'storage/user/UserInfoProvider';
 import ROUTE from 'constants/routes';
 import GlobalStyle from './Global.styles';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      suspense: true,
+      useErrorBoundary: true,
+    },
+  },
+});
 
 const App = () => {
   return (
@@ -25,7 +33,9 @@ const App = () => {
             <ModalProvider>
               <main>
                 <Route exact path={ROUTE.HOME}>
-                  <Home />
+                  <AsyncBoundary rejectedFallback={<h1>임시 에러 페이지</h1>}>
+                    <Home />
+                  </AsyncBoundary>
                 </Route>
                 <Route path={ROUTE.UPLOAD}>
                   <Upload />
