@@ -1,5 +1,6 @@
 package com.wooteco.nolto.feed.domain;
 
+import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.domain.UserRepository;
@@ -28,8 +29,8 @@ class FeedRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        user1 = new User("123456L", "github", "아마찌", "imageUrl");
-        user2 = new User("654321L", "google", "지그", "imageUrl");
+        user1 = new User("123456L", SocialType.GITHUB, "아마찌", "imageUrl");
+        user2 = new User("654321L", SocialType.GOOGLE, "지그", "imageUrl");
 
         userRepository.save(user1);
         userRepository.save(user2);

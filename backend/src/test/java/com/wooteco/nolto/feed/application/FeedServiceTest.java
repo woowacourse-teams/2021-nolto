@@ -1,6 +1,7 @@
 package com.wooteco.nolto.feed.application;
 
 import com.wooteco.nolto.NotFoundException;
+import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
@@ -45,8 +46,8 @@ class FeedServiceTest {
     private FeedRequest FEED_REQUEST3 = new FeedRequest("title3", new ArrayList<>(), "content", "PROGRESS", true,
             "storageUrl", "deployUrl", null);
 
-    private User user1 = new User(null, "123456L", "github", "user1", "mickey.jpg");
-    private User user2 = new User(null, "654321L", "google", "user2", "mickey.jpg");
+    private User user1 = new User(null, "123456L", SocialType.GITHUB, "user1", "mickey.jpg");
+    private User user2 = new User(null, "654321L", SocialType.GOOGLE, "user2", "mickey.jpg");
 
     private Tech tech1 = new Tech("Spring");
     private Tech tech2 = new Tech("Java");

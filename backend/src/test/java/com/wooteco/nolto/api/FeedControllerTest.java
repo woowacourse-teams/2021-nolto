@@ -1,5 +1,6 @@
 package com.wooteco.nolto.api;
 
+import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.feed.application.FeedService;
 import com.wooteco.nolto.feed.application.LikeService;
 import com.wooteco.nolto.feed.domain.Feed;
@@ -41,7 +42,7 @@ public class FeedControllerTest extends ControllerTest {
     private static final String TOKEN_PAYLOAD = "user@email.com";
 
     private static final User LOGIN_USER =
-            new User(2L, "11111L", "github", "아마찌", "imageUrl");
+            new User(2L, "11111L", SocialType.GITHUB, "아마찌", "imageUrl");
 
     private static final MockMultipartFile MOCK_MULTIPART_FILE =
             new MockMultipartFile("thumbnailImage", "thumbnailImage.png", "image/png", "<<png data>>".getBytes());
