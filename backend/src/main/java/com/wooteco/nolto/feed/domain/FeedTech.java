@@ -34,13 +34,11 @@ public class FeedTech {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FeedTech feedTech = (FeedTech) o;
-        return Objects.equals(id, feedTech.id) &&
-                Objects.equals(feed, feedTech.feed) &&
-                Objects.equals(tech, feedTech.tech);
+        return Objects.equals(id, feedTech.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, feed, tech);
+        return Objects.hash(id);
     }
 }
