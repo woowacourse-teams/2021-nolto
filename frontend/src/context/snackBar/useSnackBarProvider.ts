@@ -1,6 +1,5 @@
 import { useState } from 'react';
-
-export type SnackBarType = 'error' | 'success' | null;
+import { AddSnackBar, SnackBarType } from 'types';
 
 interface SnackBar {
   key: number;
@@ -8,8 +7,6 @@ interface SnackBar {
   text: string;
   setTimeoutId?: NodeJS.Timeout;
 }
-
-export type AddSnackBar = (type: SnackBarType, text: string) => void;
 
 interface Props {
   maxSnackBarCount: number;
@@ -50,12 +47,12 @@ const useSnackBarProvider = ({
     setSnackBars((state) => {
       const [firstSnackBar, ...restSnackBar] = state;
 
-      clearTimeout(firstSnackBar?.setTimeoutId);
+      clearTimeout(firstSnackBar.setTimeoutId);
 
       const setTimeoutId = setTimeout(() => removeSnackBar(newSnackBar.key), snackBarRemainTime);
 
       const newSnackBar: SnackBar = {
-        ...firstSnackBar,
+        key: firstSnackBar.key,
         type,
         text,
         setTimeoutId,

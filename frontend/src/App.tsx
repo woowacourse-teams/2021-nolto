@@ -8,12 +8,12 @@ import Upload from 'pages/Upload/Upload';
 import FeedDetail from 'pages/FeedDetail/FeedDetail';
 import RecentFeeds from 'pages/RecentFeeds/RecentFeeds';
 import OAuth from 'pages/OAuth/OAuth';
-import ModalProvider from 'components/@common/ModalProvider/ModalProvider';
 import AsyncBoundary from 'components/AsyncBoundary';
-import UserInfoProvider from 'storage/user/UserInfoProvider';
+import UserInfoProvider from 'context/userInfo/UserInfoProvider';
 import ROUTE from 'constants/routes';
 import GlobalStyle from './Global.styles';
-import SnackBarProvider from 'components/@common/SnackBarProvider/SnackBarProvider';
+import ModalProvider from 'context/modal/ModalProvider';
+import SnackBarProvider from 'context/snackBar/SnackBarProvider';
 
 const queryClient = new QueryClient({
   defaultOptions: {

@@ -1,7 +1,7 @@
 import styled, { css, keyframes } from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
-import { SnackBarType } from 'hooks/@common/useSnackBarProvider';
+import { SnackBarType } from 'types';
 
 const show = keyframes`
   from {

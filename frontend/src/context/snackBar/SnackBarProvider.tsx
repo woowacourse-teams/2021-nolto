@@ -4,7 +4,8 @@ import ReactDOM from 'react-dom';
 import Styled from './SnackBarProvider.styles';
 import ErrorSignIcon from 'assets/errorSign.svg';
 import SuccessSignIcon from 'assets/successSign.svg';
-import useSnackBarProvider, { AddSnackBar } from '../../../hooks/@common/useSnackBarProvider';
+import useSnackBarProvider from './useSnackBarProvider';
+import { AddSnackBar } from 'types';
 
 interface Props {
   children: React.ReactNode;
@@ -16,7 +17,7 @@ interface SnackBarContext {
 
 export const Context = createContext<SnackBarContext>(null);
 
-const snackBarRoot = document.getElementById('snack-bar-root');
+const snackBarRoot = document.getElementById('snackbar-root');
 
 const SnackBarProvider = ({ children }: Props) => {
   const { snackBars, addSnackBar } = useSnackBarProvider({

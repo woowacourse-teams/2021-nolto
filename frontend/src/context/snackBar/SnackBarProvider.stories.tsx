@@ -1,10 +1,10 @@
-import { useSnackBar } from 'hooks/@common/useSnackBar';
 import React, { useEffect } from 'react';
 
 import SnackBarProvider from './SnackBarProvider';
+import { useSnackBar } from './useSnackBar';
 
 export default {
-  title: 'components/common/SnackBarProvider',
+  title: 'context/SnackBarProvider',
   component: SnackBarProvider,
   argTypes: {},
 };
