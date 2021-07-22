@@ -9,7 +9,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -27,31 +29,32 @@ public class FeedTechService {
 
     public Set<Feed> findFeedUsingTech(List<String> techNames) {
         List<Tech> techs = techRepository.findAllByNameIn(techNames);
-        List<FeedTech> findFeedTech = findFeedTechByTech(techs);
-        Map<Feed, Integer> feedWithTechCount = calculateFeedWithTechCount(findFeedTech);
-        return findFeedUsingAllTech(feedWithTechCount, techs.size());
-    }
-
-    private List<FeedTech> findFeedTechByTech(List<Tech> techs) {
-        List<FeedTech> findFeedTech = new ArrayList<>();
-        techs.forEach(tech -> findFeedTech.addAll(feedTechRepository.findByTech(tech)));
-        return findFeedTech;
-    }
-
-    private Map<Feed, Integer> calculateFeedWithTechCount(List<FeedTech> feedTechs) {
-        Map<Feed, Integer> feedWithTechCount = new HashMap<>();
-        for (FeedTech feedTech : feedTechs) {
-            Feed feed = feedTech.getFeed();
-            feedWithTechCount.computeIfPresent(feed, (Feed, Integer) -> ++Integer);
-            feedWithTechCount.putIfAbsent(feed, 1);
+        if (techs.isEmpty()) {
+            return new HashSet<>();
         }
-        return feedWithTechCount;
+
+        List<Set<Feed>> feedUsingEachTech = findFeedUsingEachTech(techs);
+        return findFeedUsingAllTech(feedUsingEachTech);
     }
 
-    private Set<Feed> findFeedUsingAllTech(Map<Feed, Integer> feedWithTechCount, int totalTechCount) {
-        return feedWithTechCount.keySet()
+    private List<Set<Feed>> findFeedUsingEachTech(List<Tech> techs) {
+        return techs.stream()
+                .map(this::findFeedUsingSpecificTech)
+                .collect(Collectors.toList());
+    }
+
+    private Set<Feed> findFeedUsingSpecificTech(Tech tech) {
+        return feedTechRepository.findByTech(tech)
                 .stream()
-                .filter(feed -> feedWithTechCount.get(feed) == totalTechCount)
+                .map(FeedTech::getFeed)
                 .collect(Collectors.toSet());
+    }
+
+    private Set<Feed> findFeedUsingAllTech(List<Set<Feed>> feedUsingEachTech) {
+        Set<Feed> feedUsingAllTech = feedUsingEachTech.get(0);
+        for (int i = 1; i < feedUsingEachTech.size(); i++) {
+            feedUsingAllTech.retainAll(feedUsingEachTech.get(i));
+        }
+        return feedUsingAllTech;
     }
 }
