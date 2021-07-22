@@ -5,6 +5,7 @@ import com.wooteco.nolto.auth.application.AuthService;
 import com.wooteco.nolto.auth.infrastructure.AuthorizationExtractor;
 import com.wooteco.nolto.user.domain.User;
 import lombok.AllArgsConstructor;
+import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -27,6 +28,9 @@ public class MemberArgumentResolver implements HandlerMethodArgumentResolver {
     @Override
     public User resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         String credentials = AuthorizationExtractor.extract(Objects.requireNonNull(webRequest.getNativeRequest(HttpServletRequest.class)));
+        if (Objects.isNull(credentials)) {
+            throw new AuthenticationException("토큰이 존재하지 않습니다.");
+        }
         return authService.findUserByToken(credentials);
     }
 }
