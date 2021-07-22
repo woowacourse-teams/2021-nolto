@@ -1,9 +1,10 @@
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
 
-const Root = styled(Link)`
+const Root = styled.button`
+  background: transparent;
+  border: none;
   display: flex;
   flex-direction: column;
   align-items: center;

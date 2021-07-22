@@ -138,28 +138,13 @@ const CarouselLeft = styled(ArrowIcon)`
 
 const CarouselRight = styled(ArrowIcon)``;
 
-const RecentToysContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: fit-content;
-`;
-
-const RecentToyCardsContainer = styled.ul`
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  align-items: center;
-`;
-
 const VerticalAvatar = styled(Avatar)`
   margin-bottom: 12px;
 `;
 
-const LevelButtonsContainer = styled.div`
+const RecentToysContainer = styled.div`
   display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-bottom: 3.5rem;
+  flex-direction: column;
 `;
 
 export const MoreButton = styled(Link)`
@@ -198,9 +183,7 @@ export default {
   HotToyCardWrapper,
   CarouselLeft,
   CarouselRight,
-  RecentToysContainer,
-  RecentToyCardsContainer,
   VerticalAvatar,
-  LevelButtonsContainer,
+  RecentToysContainer,
   ArrowUp,
 };
