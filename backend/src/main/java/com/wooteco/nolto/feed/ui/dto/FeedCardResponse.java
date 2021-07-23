@@ -4,6 +4,7 @@ import com.wooteco.nolto.feed.domain.Feed;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +30,7 @@ public class FeedCardResponse {
                 feed.getThumbnailUrl());
     }
 
-    public static List<FeedCardResponse> toList(List<Feed> feed) {
+    public static List<FeedCardResponse> toList(Collection<Feed> feed) {
         return feed.stream()
                 .map(FeedCardResponse::of)
                 .collect(Collectors.toList());

@@ -1,6 +1,8 @@
 package com.wooteco.nolto.feed.application;
 
 import com.wooteco.nolto.NotFoundException;
+import com.wooteco.nolto.feed.application.searchstrategy.SearchStrategy;
+import com.wooteco.nolto.feed.application.searchstrategy.SearchStrategyFactory;
 import com.wooteco.nolto.feed.domain.*;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.feed.domain.repository.FeedTechRepository;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Transactional
@@ -106,5 +109,11 @@ public class FeedService {
         }
 
         feedRepository.delete(findFeed);
+    }
+
+    public List<FeedCardResponse> search(String query, String techs) {
+        SearchStrategy strategy = SearchStrategyFactory.of(query, techs).findStrategy();
+        Set<Feed> searchFeed = strategy.search(query, techs);
+        return FeedCardResponse.toList(searchFeed);
     }
 }

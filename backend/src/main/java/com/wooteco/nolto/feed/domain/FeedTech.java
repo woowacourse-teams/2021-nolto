@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Getter
 @NoArgsConstructor
@@ -26,5 +27,18 @@ public class FeedTech {
     public FeedTech(Feed feed, Tech tech) {
         this.feed = feed;
         this.tech = tech;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FeedTech feedTech = (FeedTech) o;
+        return Objects.equals(id, feedTech.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

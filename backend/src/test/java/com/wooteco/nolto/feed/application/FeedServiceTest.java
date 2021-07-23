@@ -46,9 +46,9 @@ class FeedServiceTest {
     private User user1 = new User(null, "123456L", "github", "user1", "mickey.jpg");
     private User user2 = new User(null, "654321L", "google", "user2", "mickey.jpg");
 
-    private Tech tech1 = new Tech("Spring");
-    private Tech tech2 = new Tech("Java");
-    private Tech tech3 = new Tech("React");
+    private Tech techSpring = new Tech("Spring");
+    private Tech techJava = new Tech("Java");
+    private Tech techReact = new Tech("React");
 
     @Autowired
     private FeedService feedService;
@@ -74,9 +74,9 @@ class FeedServiceTest {
         userRepository.save(user1);
         userRepository.save(user2);
 
-        Tech savedTech1 = techRepository.save(tech1);
-        Tech savedTech2 = techRepository.save(tech2);
-        Tech savedTech3 = techRepository.save(tech3);
+        Tech savedTech1 = techRepository.save(techSpring);
+        Tech savedTech2 = techRepository.save(techJava);
+        Tech savedTech3 = techRepository.save(techReact);
 
         FEED_REQUEST2.setTechs(Arrays.asList(savedTech1.getId(), savedTech2.getId()));
         FEED_REQUEST3.setTechs(Collections.singletonList(savedTech3.getId()));
@@ -86,7 +86,7 @@ class FeedServiceTest {
     @Test
     void create() {
         // when
-        FEED_REQUEST1.setTechs(Arrays.asList(tech1.getId()));
+        FEED_REQUEST1.setTechs(Arrays.asList(techSpring.getId()));
         Long feedId1 = feedService.create(user1, FEED_REQUEST1);
         Long feedId2 = feedService.create(user1, FEED_REQUEST2);
         Long feedId3 = feedService.create(user2, FEED_REQUEST3);
@@ -140,7 +140,7 @@ class FeedServiceTest {
         Long feedId1 = feedService.create(user1, FEED_REQUEST1);
         FeedRequest request = new FeedRequest(
                 "수정된 제목",
-                Arrays.asList(tech1.getId(), tech2.getId()),
+                Arrays.asList(techSpring.getId(), techJava.getId()),
                 "수정된 내용",
                 Step.COMPLETE.name(),
                 false,
@@ -160,7 +160,7 @@ class FeedServiceTest {
     @Test
     void delete() {
         // given
-        FEED_REQUEST1.setTechs(Arrays.asList(tech1.getId(), tech2.getId()));
+        FEED_REQUEST1.setTechs(Arrays.asList(techSpring.getId(), techJava.getId()));
         Long feedId = feedService.create(user1, FEED_REQUEST1);
         em.flush();
         em.clear();
@@ -182,7 +182,7 @@ class FeedServiceTest {
     @Test
     void cantDeleteIfNotAuthor() {
         // given
-        FEED_REQUEST1.setTechs(Arrays.asList(tech1.getId(), tech2.getId()));
+        FEED_REQUEST1.setTechs(Arrays.asList(techSpring.getId(), techJava.getId()));
         Long feedId = feedService.create(user1, FEED_REQUEST1);
         em.flush();
         em.clear();
@@ -392,6 +392,124 @@ class FeedServiceTest {
         // then
         피드_정보가_같은지_조회(FEED_REQUEST2, allFeeds.get(0));
         피드_정보가_같은지_조회(FEED_REQUEST1, allFeeds.get(1));
+    }
+
+    @DisplayName("제목과 내용에 특정 query('content')가 포함된 피드를 검색한다.")
+    @Test
+    void searchByQuery_content() {
+        //given
+        Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
+        Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
+        Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
+
+        String query = "content";
+
+        //when
+        List<FeedCardResponse> searchFeeds = feedService.search(query, "");
+        List<Long> feedIds = searchFeeds.stream()
+                .map(FeedCardResponse::getId)
+                .collect(Collectors.toList());
+
+        //then
+        assertThat(searchFeeds).hasSize(3);
+        assertThat(feedIds).contains(firstFeedId, secondFeedId, thirdFeedId);
+    }
+
+    @DisplayName("제목과 내용에 특정 query('tle')가 포함된 피드를 검색한다.")
+    @Test
+    void searchByQuery_tle1() {
+        //given
+        Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
+        Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
+        Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
+
+        String query = "tle1";
+
+        //when
+        List<FeedCardResponse> searchFeeds = feedService.search(query, "");
+        List<Long> feedIds = searchFeeds.stream()
+                .map(FeedCardResponse::getId)
+                .collect(Collectors.toList());
+
+        //then
+        assertThat(searchFeeds).hasSize(1);
+        assertThat(feedIds).contains(firstFeedId);
+    }
+
+    @DisplayName("테크 이름들의 나열을 통해, 해당 테크를 사용한 피드를 검색한다.")
+    @Test
+    void searchByTechs() {
+        //given
+        FEED_REQUEST1.setTechs(Arrays.asList(techSpring.getId(), techJava.getId()));
+        Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
+
+        FEED_REQUEST2.setTechs(Collections.singletonList(techJava.getId()));
+        Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
+
+        FEED_REQUEST3.setTechs(Collections.singletonList(techReact.getId()));
+        Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
+
+        String techs = "Spring,Java";
+
+        //when
+        List<FeedCardResponse> searchFeeds = feedService.search("", techs);
+        List<Long> feedIds = searchFeeds.stream()
+                .map(FeedCardResponse::getId)
+                .collect(Collectors.toList());
+
+        //then
+        assertThat(searchFeeds).hasSize(1);
+        assertThat(feedIds).contains(firstFeedId);
+    }
+
+
+    @DisplayName("테크 이름들을 사용한 피드들이 없다면 빈 리스트를 반환한다.")
+    @Test
+    void searchByTechsWithInvalidName() {
+        //given
+        FEED_REQUEST1.setTechs(Arrays.asList(techSpring.getId(), techJava.getId()));
+        Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
+
+        FEED_REQUEST2.setTechs(Collections.singletonList(techJava.getId()));
+        Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
+
+        FEED_REQUEST3.setTechs(Collections.singletonList(techReact.getId()));
+        Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
+
+        String techs = "KOLOLO";
+
+        //when
+        List<FeedCardResponse> searchFeeds = feedService.search("", techs);
+
+        //then
+        assertThat(searchFeeds).hasSize(0);
+    }
+
+    @DisplayName("제목과 내용에 특정 query가 포함되어 있고, 검색한 테그명에 포함된 테크를 사용한 피드를 검색한다.")
+    @Test
+    void searchByQueryAndTechs() {
+        //given
+        FEED_REQUEST1.setTechs(Arrays.asList(techSpring.getId(), techJava.getId()));
+        Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
+
+        FEED_REQUEST2.setTechs(Collections.singletonList(techJava.getId()));
+        Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
+
+        FEED_REQUEST3.setTechs(Collections.singletonList(techReact.getId()));
+        Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
+
+        String query = "title";
+        String techs = "Spring,Java";
+
+        //when
+        List<FeedCardResponse> searchFeeds = feedService.search(query, techs);
+        List<Long> feedIds = searchFeeds.stream()
+                .map(FeedCardResponse::getId)
+                .collect(Collectors.toList());
+
+        //then
+        assertThat(searchFeeds).hasSize(1);
+        assertThat(feedIds).contains(firstFeedId);
     }
 
     private void 피드_정보가_같은지_조회(FeedRequest request, Feed feed) {
