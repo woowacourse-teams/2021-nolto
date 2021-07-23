@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import GithubLogo from 'assets/githubLogo.svg';
 import GoogleLogo from 'assets/googleLogo.svg';
 import { ButtonStyle, LoginInfo } from 'types';
-import useModal from 'hooks/@common/useModal';
+import useModal from 'context/modal/useModal';
 import useUserInfo from 'hooks/useUserInfo';
 import useLogin from 'hooks/queries/useLogin';
 import REGEX from 'constants/regex';

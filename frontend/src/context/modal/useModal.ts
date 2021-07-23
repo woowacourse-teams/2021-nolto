@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import { Context } from 'components/@common/ModalProvider/ModalProvider';
+import { Context } from './ModalProvider';
 
 const useModal = () => {
   const context = useContext(Context);
