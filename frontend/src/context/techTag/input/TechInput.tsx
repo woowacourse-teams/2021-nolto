@@ -3,35 +3,24 @@ import React, { useRef, useState, useEffect } from 'react';
 import useTechs from 'hooks/queries/useTechs';
 import useQueryDebounce from 'hooks/@common/useQueryDebounce';
 import FormInput from 'components/@common/FormInput/FormInput';
-import { Tech, ButtonStyle } from 'types';
-import Styled, { TechButton } from './TechInput.styles';
+import { Tech } from 'types';
+import Styled from './TechInput.styles';
+import { useTechTag } from '../useTechTag';
 
 interface Props {
   onUpdateTechs: (techs: Tech[]) => void;
+  className?: string;
 }
 
-const TechInput = ({ onUpdateTechs }: Props) => {
+const TechInput = ({ onUpdateTechs, className }: Props) => {
   const [isDropdownOpened, setDropdownOpened] = useState(false);
   const [currentTechIdx, setCurrentTechIdx] = useState(-1);
-  const [selectedTechs, setSelectedTechs] = useState<Tech[]>([]);
   const [searchInput, setSearchInput] = useState('');
+  const techTag = useTechTag();
 
   const focusedOption = useRef(null);
-
   const debouncedSearchInput = useQueryDebounce(searchInput, 200);
   const { data: techs } = useTechs(debouncedSearchInput);
-
-  useEffect(() => {
-    if (techs?.length > 0) setDropdownOpened(true);
-  }, [techs]);
-
-  useEffect(() => {
-    onUpdateTechs(selectedTechs);
-  }, [selectedTechs]);
-
-  useEffect(() => {
-    focusedOption?.current?.scrollIntoView({ block: 'nearest' });
-  }, [focusedOption?.current]);
 
   const moveFocusedOption = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'ArrowDown') {
@@ -58,16 +47,12 @@ const TechInput = ({ onUpdateTechs }: Props) => {
   };
 
   const addTech = (tech: Tech) => {
-    if (selectedTechs.some((selectedTech) => selectedTech.id === tech.id)) return;
+    if (techTag.techs.some((selectedTech) => selectedTech.id === tech.id)) return;
 
-    setSelectedTechs([...selectedTechs, tech]);
+    techTag.pushTech(tech);
     setDropdownOpened(false);
     setCurrentTechIdx(-1);
     setSearchInput('');
-  };
-
-  const deleteTech = (techId: number) => {
-    setSelectedTechs(selectedTechs.filter((tech) => tech.id !== techId));
   };
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,21 +61,20 @@ const TechInput = ({ onUpdateTechs }: Props) => {
     setSearchInput(value);
   };
 
+  useEffect(() => {
+    if (techs?.length > 0) setDropdownOpened(true);
+  }, [techs]);
+
+  useEffect(() => {
+    onUpdateTechs(techTag.techs);
+  }, [techTag.techs]);
+
+  useEffect(() => {
+    focusedOption?.current?.scrollIntoView({ block: 'nearest' });
+  }, [focusedOption?.current]);
+
   return (
-    <Styled.Root>
-      <Styled.TechButtonsContainer>
-        {selectedTechs.map((tech) => (
-          <TechButton
-            buttonStyle={ButtonStyle.SOLID}
-            key={tech.id}
-            onClick={() => {
-              deleteTech(tech.id);
-            }}
-          >
-            {tech.text}
-          </TechButton>
-        ))}
-      </Styled.TechButtonsContainer>
+    <Styled.Root className={className}>
       <FormInput value={searchInput} onChange={handleInput} onKeyDown={moveFocusedOption} />
       {isDropdownOpened && (
         <Styled.Dropdown>

@@ -13,5 +13,6 @@ const getTechs = async ({ queryKey }: QueryFunctionContext<QueryKey, string>) =>
 export default function useTechs(autoComplete: string) {
   return useQuery<Tech[]>(['techs', autoComplete], getTechs, {
     enabled: !!autoComplete,
+    suspense: false,
   });
 }

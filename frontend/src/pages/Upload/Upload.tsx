@@ -9,7 +9,6 @@ import FileInput from 'components/@common/FileInput/FileInput';
 import Toggle from 'components/@common/Toggle/Toggle';
 import RadioButton from 'components/@common/RadioButton/RadioButton';
 import Header from 'components/Header/Header';
-import TechInput from 'components/TechInput/TechInput';
 import ErrorMessage from 'components/@common/ErrorMessage/ErrorMessage';
 import useUploadFeed from 'hooks/queries/useUploadFeed';
 import { FlexContainer } from 'commonStyles';
@@ -18,6 +17,9 @@ import REGEX from 'constants/regex';
 import { ALERT_MSG, CONFIRM_MSG, UPLOAD_VALIDATION_MSG } from 'constants/message';
 import Styled, { ContentTextArea, Form, StyledButton } from './Upload.styles';
 import { ButtonStyle, FeedStatus, Tech, FeedToUpload } from 'types';
+import TechInput from 'context/techTag/input/TechInput';
+import TechTagProvider from 'context/techTag/TechTagProvider';
+import TechChip from 'context/techTag/chip/TechChips';
 
 type FeedToUploadPartial = Omit<FeedToUpload, 'techs'>;
 
@@ -89,7 +91,10 @@ const Upload = () => {
 
           <Styled.VerticalWrapper>
             <Label text="사용 스택" />
-            <TechInput onUpdateTechs={(techs: Tech[]) => setTechs(techs)} />
+            <TechTagProvider>
+              <TechChip />
+              <TechInput onUpdateTechs={(techs: Tech[]) => setTechs(techs)} />
+            </TechTagProvider>
           </Styled.VerticalWrapper>
 
           <Styled.VerticalWrapper>
