@@ -5,7 +5,6 @@ import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.FeedTech;
 import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
-import com.wooteco.nolto.feed.domain.repository.FeedTechRepository;
 import com.wooteco.nolto.tech.domain.Tech;
 import com.wooteco.nolto.tech.domain.TechRepository;
 import com.wooteco.nolto.user.domain.User;
@@ -27,7 +26,6 @@ public class DataLoader implements ApplicationRunner {
     private final UserRepository userRepository;
     private final FeedRepository feedRepository;
     private final TechRepository techRepository;
-    private final FeedTechRepository feedTechRepository;
 
     @Override
     public void run(ApplicationArguments args) {
@@ -49,12 +47,11 @@ public class DataLoader implements ApplicationRunner {
 
         Feed feed1 = new Feed("title1", "content1", Step.PROGRESS, true, "https://github.com/woowacourse-teams/2021-nolto", "", "https://dksykemwl00pf.cloudfront.net/KakaoTalk_Photo_2021-07-19-14-25-01.png").writtenBy(mickey);
         Feed feed2 = new Feed("title2", "content2", Step.COMPLETE, false, "https://github.com/woowacourse-teams/2021-nolto", "http://woowa.jofilm.com", "https://dksykemwl00pf.cloudfront.net/KakaoTalk_Photo_2021-07-19-14-25-01.png").writtenBy(mickey);
+        feed1.changeFeedTechs(Arrays.asList(new FeedTech(feed1, saveTech1)));
+        feed2.changeFeedTechs(Arrays.asList(new FeedTech(feed2, saveTech1)));
+        feed2.changeFeedTechs(Arrays.asList(new FeedTech(feed2, saveTech2)));
+
         Feed saveFeed1 = feedRepository.save(feed1);
         Feed saveFeed2 = feedRepository.save(feed2);
-
-        feedTechRepository.save(new FeedTech(saveFeed1, saveTech1));
-        feedTechRepository.save(new FeedTech(saveFeed1, saveTech2));
-        feedTechRepository.save(new FeedTech(saveFeed2, saveTech1));
-        feedTechRepository.save(new FeedTech(saveFeed2, saveTech2));
     }
 }

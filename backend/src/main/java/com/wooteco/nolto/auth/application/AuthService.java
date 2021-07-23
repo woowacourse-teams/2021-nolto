@@ -67,7 +67,7 @@ public class AuthService {
 
     private User getFindUser(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("로그인에 실패하였습니다."));
+                .orElseThrow(() -> new NotFoundException("존재하지 않는 유저입니다."));
     }
 
     public void validateToken(String token) {

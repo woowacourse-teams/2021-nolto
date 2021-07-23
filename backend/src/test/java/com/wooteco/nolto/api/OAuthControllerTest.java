@@ -41,7 +41,7 @@ public class OAuthControllerTest extends ControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(OAUTH_REDIRECT_RESPONSE)))
-                .andDo(document("oauth-requestSocialRedirect",
+                .andDo(document("auth-requestSocialRedirect",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         pathParameters(
@@ -67,11 +67,11 @@ public class OAuthControllerTest extends ControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(TOKEN_RESPONSE)))
-                .andDo(document("oauth-oAuthSignIn",
+                .andDo(document("auth-oAuthSignIn",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         requestParameters(
-                                parameterWithName("code").description("소셜 서비스에서 반환해준 code 값").optional()
+                                parameterWithName("code").description("소셜 서비스에서 반환해준 code 값")
                         ),
                         pathParameters(
                                 parameterWithName("socialType").description("소셜 서비스 이름")

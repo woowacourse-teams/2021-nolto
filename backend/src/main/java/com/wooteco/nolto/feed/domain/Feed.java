@@ -1,5 +1,6 @@
 package com.wooteco.nolto.feed.domain;
 
+import com.amazonaws.util.StringUtils;
 import com.wooteco.nolto.BaseEntity;
 import com.wooteco.nolto.tech.domain.Tech;
 import com.wooteco.nolto.user.domain.User;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
 
 @Getter
 @NoArgsConstructor
@@ -49,16 +51,14 @@ public class Feed extends BaseEntity {
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_feed_to_author"), nullable = false)
     private User author;
 
-    @OneToMany(mappedBy = "feed")
+    @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL)
     private List<Like> likes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "feed")
+    @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL)
     private List<FeedTech> feedTechs = new ArrayList<>();
 
-    public Feed(String title, String content, Step step, boolean isSos, String storageUrl,
-                String deployedUrl, String thumbnailUrl) {
-        this(null, title, content, step, isSos, storageUrl, deployedUrl, thumbnailUrl, 0, null,
-                new ArrayList<>());
+    public Feed(String title, String content, Step step, boolean isSos, String storageUrl, String deployedUrl, String thumbnailUrl) {
+        this(null, title, content, step, isSos, storageUrl, deployedUrl, thumbnailUrl, 0, null, new ArrayList<>());
     }
 
     public Feed(Long id, String title, String content, Step step, boolean isSos, String storageUrl,
@@ -89,14 +89,45 @@ public class Feed extends BaseEntity {
         return this;
     }
 
+    public void update(String title, String content, Step step, boolean sos, String storageUrl, String deployedUrl) {
+        this.title = title;
+        this.content = content;
+        this.step = step;
+        this.isSos = sos;
+        this.storageUrl = storageUrl;
+        this.deployedUrl = deployedUrl;
+    }
+
     public void validateStep(Step step, String deployedUrl) {
-        if (step.equals(Step.COMPLETE) && Objects.isNull(deployedUrl)) {
-            throw new IllegalStateException("전시중 Step은 배포 URL이 필수입니다.");
+        if (step.equals(Step.COMPLETE) && StringUtils.isNullOrEmpty(deployedUrl)) {
+            throw new IllegalStateException("COMPLETE 단계는 배포 URL이 필수입니다.");
         }
     }
 
     public int likesCount() {
         return likes.size();
+    }
+
+    public void increaseView() {
+        this.views++;
+    }
+
+    public List<Tech> getTechs() {
+        return feedTechs.stream()
+                .map(FeedTech::getTech)
+                .collect(Collectors.toList());
+    }
+
+    public boolean notSameAuthor(User user) {
+        return author.notSameAs(user);
+    }
+
+    public void changeThumbnailUrl(String updateThumbnailUrl) {
+        this.thumbnailUrl = thumbnailUrl;
+    }
+
+    public void changeFeedTechs(List<FeedTech> feedTechs) {
+        this.feedTechs = feedTechs;
     }
 
     @Override
@@ -110,15 +141,5 @@ public class Feed extends BaseEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id);
-    }
-
-    public void increaseView() {
-        this.views++;
-    }
-
-    public List<Tech> getTechs() {
-        return feedTechs.stream()
-                .map(FeedTech::getTech)
-                .collect(Collectors.toList());
     }
 }

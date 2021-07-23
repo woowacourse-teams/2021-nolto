@@ -37,6 +37,18 @@ public class FeedController {
         return ResponseEntity.ok(response);
     }
 
+    @PutMapping( "/{feedId}")
+    public ResponseEntity<Void> update(@MemberAuthenticationPrincipal User user, @PathVariable Long feedId, @ModelAttribute @Valid FeedRequest request) {
+        feedService.update(user, feedId, request);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{feedId}")
+    public ResponseEntity<Void> delete(@MemberAuthenticationPrincipal User user, @PathVariable Long feedId) {
+        feedService.delete(user, feedId);
+        return ResponseEntity.noContent().build();
+    }
+
     @PostMapping("/{feedId}/like")
     public ResponseEntity<Void> addLike(@MemberAuthenticationPrincipal User user, @PathVariable Long feedId) {
         likeService.addLike(user, feedId);
@@ -58,6 +70,13 @@ public class FeedController {
     @GetMapping("/hot")
     public ResponseEntity<List<FeedCardResponse>> hotResponse() {
         List<FeedCardResponse> feeds = feedService.findHotFeeds();
+        return ResponseEntity.ok(feeds);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<FeedCardResponse>> searchResponse(@RequestParam(required = false, defaultValue = "") String query,
+                                                                 @RequestParam(required = false, defaultValue = "") String techs) {
+        List<FeedCardResponse> feeds = feedService.search(query, techs);
         return ResponseEntity.ok(feeds);
     }
 }

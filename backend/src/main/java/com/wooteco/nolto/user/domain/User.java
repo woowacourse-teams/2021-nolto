@@ -66,6 +66,10 @@ public class User {
         this.feeds.add(feed);
     }
 
+    public boolean notSameAs(User user) {
+        return !getId().equals(user.getId());
+    }
+
     private static class GuestUser extends User {
         @Override
         public boolean isLiked(Feed feed) {
