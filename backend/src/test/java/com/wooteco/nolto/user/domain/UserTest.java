@@ -11,11 +11,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserTest {
     private static String SOCIAL_ID = "123456L";
-    private static SocialType SOCIAL_TYPE = SocialType.GITHUB;
+    private static SocialType GITHUB_SOCIAL_TYPE = SocialType.GITHUB;
     private static String NICKNAME = "nickname";
     private static String IMAGE = "sample-image.png";
 
-    public static User USER = new User(SOCIAL_ID, SOCIAL_TYPE, NICKNAME, IMAGE);
+    public static User USER = new User(SOCIAL_ID, GITHUB_SOCIAL_TYPE, NICKNAME, IMAGE);
 
     @DisplayName("멤버가 해당 피드에 좋아요를 눌렀는지 검증한다.")
     @Test
