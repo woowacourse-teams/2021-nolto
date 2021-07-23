@@ -7,6 +7,6 @@ endif::[]
 :toc: left
 :toclevels: 4
 
-include::auth.adoc[]
+//include::auth.adoc[]
 include::feed.adoc[]
 include::tech.adoc[]

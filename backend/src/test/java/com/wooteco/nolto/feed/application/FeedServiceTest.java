@@ -2,6 +2,7 @@ package com.wooteco.nolto.feed.application;
 
 import com.wooteco.nolto.NotFoundException;
 import com.wooteco.nolto.feed.domain.Feed;
+import com.wooteco.nolto.feed.domain.FeedTech;
 import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
@@ -19,14 +20,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import javax.transaction.Transactional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -38,12 +36,12 @@ import static org.mockito.BDDMockito.given;
 @SpringBootTest
 @Transactional
 class FeedServiceTest {
-    private FeedRequest FEED_REQUEST1 = new FeedRequest("title1", new ArrayList<>(), "content", "PROGRESS", true,
-            "storageUrl", "deployUrl", null);
-    private FeedRequest FEED_REQUEST2 = new FeedRequest("title2", new ArrayList<>(), "content", "PROGRESS", true,
-            "storageUrl", "deployUrl", null);
-    private FeedRequest FEED_REQUEST3 = new FeedRequest("title3", new ArrayList<>(), "content", "PROGRESS", true,
-            "storageUrl", "deployUrl", null);
+    private FeedRequest FEED_REQUEST1 = new FeedRequest("title1", new ArrayList<>(), "content1", "PROGRESS", true,
+            "www.github.com/woowacourse", "www.github.com/woowacourse", null);
+    private FeedRequest FEED_REQUEST2 = new FeedRequest("title2", new ArrayList<>(), "content2", "PROGRESS", true,
+            "www.github.com/woowacourse", "www.github.com/woowacourse", null);
+    private FeedRequest FEED_REQUEST3 = new FeedRequest("title3", new ArrayList<>(), "content3", "PROGRESS", true,
+            "www.github.com/woowacourse", "www.github.com/woowacourse", null);
 
     private User user1 = new User(null, "123456L", "github", "user1", "mickey.jpg");
     private User user2 = new User(null, "654321L", "google", "user2", "mickey.jpg");
@@ -88,6 +86,7 @@ class FeedServiceTest {
     @Test
     void create() {
         // when
+        FEED_REQUEST1.setTechs(Arrays.asList(techSpring.getId()));
         Long feedId1 = feedService.create(user1, FEED_REQUEST1);
         Long feedId2 = feedService.create(user1, FEED_REQUEST2);
         Long feedId3 = feedService.create(user2, FEED_REQUEST3);
@@ -107,6 +106,99 @@ class FeedServiceTest {
         피드_정보가_같은지_조회(FEED_REQUEST2, savedFeed2);
         피드_정보가_같은지_조회(FEED_REQUEST3, savedFeed3);
     }
+
+    @DisplayName("Feed를 수정한다. (storageUrl, deployUrl, thumbnailUrl을 제외한 나머지만 수정)")
+    @Test
+    void updateNewTechs() {
+        // given
+        Long feedId1 = feedService.create(user1, FEED_REQUEST2);
+        FeedRequest request = new FeedRequest(
+                "수정된 제목",
+                Collections.emptyList(),
+                "수정된 내용",
+                Step.COMPLETE.name(),
+                false,
+                FEED_REQUEST1.getStorageUrl(),
+                FEED_REQUEST1.getDeployedUrl(),
+                null
+        );
+
+        // when
+        feedService.update(user1, feedId1, request);
+        em.flush();
+        em.clear();
+
+        // then
+        FeedResponse updateFeed = feedService.findById(user1, feedId1);
+        피드_정보가_같은지_조회(request, updateFeed);
+    }
+
+    @DisplayName("작성자가 아닐 경우 Feed를 수정할 수 없다.")
+    @Test
+    void cantUpdateIfNotAuthor() {
+        // given
+        Long feedId1 = feedService.create(user1, FEED_REQUEST1);
+        FeedRequest request = new FeedRequest(
+                "수정된 제목",
+                Arrays.asList(techSpring.getId(), techJava.getId()),
+                "수정된 내용",
+                Step.COMPLETE.name(),
+                false,
+                FEED_REQUEST1.getStorageUrl(),
+                FEED_REQUEST1.getDeployedUrl(),
+                null
+        );
+
+        // when
+        // then
+        assertThatThrownBy(() -> feedService.update(user2, feedId1, request))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("수정 권한이 없습니다.");
+    }
+
+    @DisplayName("Feed를 삭제한다.")
+    @Test
+    void delete() {
+        // given
+        FEED_REQUEST1.setTechs(Arrays.asList(techSpring.getId(), techJava.getId()));
+        Long feedId = feedService.create(user1, FEED_REQUEST1);
+        em.flush();
+        em.clear();
+
+        // when
+        Feed feed = feedService.findEntityById(feedId);
+
+        List<FeedTech> feedTechs = feed.getFeedTechs();
+        feedService.delete(user1, feedId);
+        em.flush();
+
+        // then
+        assertThatThrownBy(() -> feedService.findEntityById(feedId))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("피드를 찾을 수 없습니다.");
+    }
+
+    @DisplayName("작성자가 아닐 경우 Feed를 삭제할 수 없다.")
+    @Test
+    void cantDeleteIfNotAuthor() {
+        // given
+        FEED_REQUEST1.setTechs(Arrays.asList(techSpring.getId(), techJava.getId()));
+        Long feedId = feedService.create(user1, FEED_REQUEST1);
+        em.flush();
+        em.clear();
+
+        // when
+        Feed feed = feedService.findEntityById(feedId);
+        List<FeedTech> feedTechs = feed.getFeedTechs();
+//        feedTechs.forEach(feedTech -> feedTechRepository.delete(feedTech));
+        em.flush();
+
+        // then
+        assertThatThrownBy(() -> feedService.delete(user2, feedId))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("삭제 권한이 없습니다.");
+    }
+
 
     @DisplayName("Feed를 Id로 단일 조회하고 조회수를 1 증가시킨다.")
     @Test

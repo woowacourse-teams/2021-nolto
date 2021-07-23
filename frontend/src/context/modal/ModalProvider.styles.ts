@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-import { PALETTE } from 'constants/palette';
 import IconButton from 'components/@common/IconButton/IconButton';
+import { PALETTE } from 'constants/palette';
 
 const ModalContainer = styled.div`
   position: fixed;
