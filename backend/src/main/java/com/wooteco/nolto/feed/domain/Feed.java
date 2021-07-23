@@ -111,6 +111,10 @@ public class Feed extends BaseEntity {
                 .collect(Collectors.toList());
     }
 
+    public boolean notSameAuthor(User user) {
+        return author.notSameAs(user);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

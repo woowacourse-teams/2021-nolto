@@ -50,7 +50,8 @@ public class FeedService {
 
     public void update(User user, Long feedId, FeedRequest request) {
         Feed findFeed = findEntityById(feedId);
-        if (findFeed.getAuthor().notSameAs(user)) {
+
+        if (findFeed.notSameAuthor(user)) {
             throw new IllegalArgumentException("수정 권한이 없습니다.");
         }
         updateFeed(request, findFeed);
