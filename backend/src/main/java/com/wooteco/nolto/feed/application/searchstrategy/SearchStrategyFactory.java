@@ -1,5 +1,7 @@
 package com.wooteco.nolto.feed.application.searchstrategy;
 
+import com.wooteco.nolto.exception.ErrorType;
+import com.wooteco.nolto.exception.InternalServerErrorException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +29,7 @@ public enum SearchStrategyFactory {
                 .filter(searchStrategyFactory -> searchStrategyFactory.isQueryEmpty == query.isEmpty())
                 .filter(searchStrategyFactory -> searchStrategyFactory.isTechsEmpty == techs.isEmpty())
                 .findFirst()
-                .orElseThrow(IllegalStateException::new);
+                .orElseThrow(() -> new InternalServerErrorException(ErrorType.LOGIC_ERROR));
     }
 
     private void setSearchStrategy(SearchStrategy searchStrategy) {

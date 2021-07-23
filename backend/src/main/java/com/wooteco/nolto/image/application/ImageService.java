@@ -58,7 +58,7 @@ public class ImageService {
         try (FileOutputStream fos = new FileOutputStream(convertedFile)) {
             fos.write(multipartFile.getBytes());
         } catch (IOException e) {
-            throw new IllegalStateException("파일 변환에 실패하였습니다.");
+            throw new IllegalStateException("MultipartFile 변환에 실패하였습니다.");
         }
         return convertedFile;
     }

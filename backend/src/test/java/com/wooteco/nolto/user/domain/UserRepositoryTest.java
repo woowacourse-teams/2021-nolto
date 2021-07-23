@@ -1,8 +1,10 @@
 package com.wooteco.nolto.user.domain;
 
-import com.wooteco.nolto.NotFoundException;
 import com.wooteco.nolto.auth.domain.SocialType;
+import com.wooteco.nolto.exception.ErrorType;
+import com.wooteco.nolto.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +45,10 @@ class UserRepositoryTest {
         checkSameInfo(savedUser, user1);
     }
 
+
     @DisplayName("이미 존재하는 nickname을 가진 User를 저장하려고 하면 예외가 발생한다.")
     @Test
+    @Disabled
     public void saveWithDuplicatedNickname() {
         // given
         userRepository.save(user1);
@@ -62,7 +66,7 @@ class UserRepositoryTest {
         User savedUser = userRepository.save(user1);
 
         // when
-        User findUser = userRepository.findById(savedUser.getId()).orElseThrow(NotFoundException::new);
+        User findUser = userRepository.findById(savedUser.getId()).orElseThrow(() -> new NotFoundException(ErrorType.USER_NOT_FOUND));
 
         // then
         assertThat(savedUser.getId()).isEqualTo(findUser.getId());
@@ -86,7 +90,7 @@ class UserRepositoryTest {
 
         // when
         User findUser = userRepository.findBySocialIdAndSocialType(savedUser.getSocialId(), savedUser.getSocialType())
-                .orElseThrow(NotFoundException::new);
+                .orElseThrow(() -> new NotFoundException(ErrorType.USER_NOT_FOUND));
 
         // then
         assertThat(savedUser.getId()).isEqualTo(findUser.getId());

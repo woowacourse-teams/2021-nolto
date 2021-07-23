@@ -21,7 +21,7 @@ public enum FilterStrategy {
         return Arrays.stream(FilterStrategy.values())
                 .filter(filterStrategy -> filterStrategy.name().equalsIgnoreCase(value))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("잘못된 필터링 값입니다."));
+                .orElseThrow(() -> new IllegalArgumentException("지원하지 않는 피드의 필터링 값입니다."));
     }
 
     public List<Feed> execute(List<Feed> feedCards) {

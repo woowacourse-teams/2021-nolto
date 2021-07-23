@@ -1,5 +1,7 @@
 package com.wooteco.nolto.auth.domain;
 
+import com.wooteco.nolto.exception.BadRequestException;
+import com.wooteco.nolto.exception.ErrorType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +29,7 @@ public class OAuthClientProvider {
     private OAuthClient findOAuthClient(SocialType socialType) {
         return oAuthClients.stream()
                 .filter(oAuthClient -> oAuthClient.checkType(socialType))
-                .findAny().orElseThrow(() -> new IllegalArgumentException("지원하지 않는 소셜 로그인 입니다."));
+                .findAny().orElseThrow(() -> new BadRequestException(ErrorType.NOT_SUPPORTED_SOCIAL_LOGIN));
     }
 
     public OAuthClient provideOAuthClientBy(SocialType socialType) {

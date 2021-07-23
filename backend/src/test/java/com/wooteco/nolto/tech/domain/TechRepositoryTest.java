@@ -61,7 +61,7 @@ class TechRepositoryTest {
         // then
         assertThat(findTechs).doesNotContain(TECH_SPRING);
     }
-    
+
     @DisplayName("테크 이름 리스트로 그에 대응하는 테크 목록을 받아올 수 있다.")
     @Test
     void findAllByName() {
@@ -83,7 +83,7 @@ class TechRepositoryTest {
         // then
         assertThat(techs).hasSize(0);
     }
-    
+
     @DisplayName("테크 이름 리스트에 대응하는 테크가 있기도 하고 없기도 하다면, 대응되는 테크만 가져온다")
     @Test
     void findAllByNameSeveralMatching() {

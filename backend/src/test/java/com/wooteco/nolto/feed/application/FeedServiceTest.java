@@ -1,7 +1,9 @@
 package com.wooteco.nolto.feed.application;
 
-import com.wooteco.nolto.NotFoundException;
 import com.wooteco.nolto.auth.domain.SocialType;
+import com.wooteco.nolto.exception.ErrorType;
+import com.wooteco.nolto.exception.NotFoundException;
+import com.wooteco.nolto.exception.UnauthorizedException;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.FeedTech;
 import com.wooteco.nolto.feed.domain.Step;
@@ -25,7 +27,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -153,8 +158,8 @@ class FeedServiceTest {
         // when
         // then
         assertThatThrownBy(() -> feedService.update(user2, feedId1, request))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("수정 권한이 없습니다.");
+                .isInstanceOf(UnauthorizedException.class)
+                .hasMessage(ErrorType.UNAUTHORIZED_UPDATE_FEED.getMessage());
     }
 
     @DisplayName("Feed를 삭제한다.")
@@ -176,7 +181,7 @@ class FeedServiceTest {
         // then
         assertThatThrownBy(() -> feedService.findEntityById(feedId))
                 .isInstanceOf(NotFoundException.class)
-                .hasMessage("피드를 찾을 수 없습니다.");
+                .hasMessage(ErrorType.FEED_NOT_FOUND.getMessage());
     }
 
     @DisplayName("작성자가 아닐 경우 Feed를 삭제할 수 없다.")
@@ -196,8 +201,8 @@ class FeedServiceTest {
 
         // then
         assertThatThrownBy(() -> feedService.delete(user2, feedId))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("삭제 권한이 없습니다.");
+                .isInstanceOf(UnauthorizedException.class)
+                .hasMessage(ErrorType.UNAUTHORIZED_DELETE_FEED.getMessage());
     }
 
 
@@ -238,7 +243,7 @@ class FeedServiceTest {
         // when then
         assertThatThrownBy(() -> feedService.findById(user1, Long.MAX_VALUE))
                 .isInstanceOf(NotFoundException.class)
-                .hasMessage("피드를 찾을 수 없습니다.");
+                .hasMessage(ErrorType.FEED_NOT_FOUND.getMessage());
     }
 
     @DisplayName("Feed Id로 entity 객체를 가져올 수 있다.")
@@ -261,7 +266,7 @@ class FeedServiceTest {
         // when
         assertThatThrownBy(() -> feedService.findEntityById(Long.MAX_VALUE))
                 .isInstanceOf(NotFoundException.class)
-                .hasMessage("피드를 찾을 수 없습니다.");
+                .hasMessage(ErrorType.FEED_NOT_FOUND.getMessage());
     }
 
     @DisplayName("좋아요 개수가 높은 인기 Feed들을 가져온다.")
