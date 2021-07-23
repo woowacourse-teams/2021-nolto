@@ -10,6 +10,8 @@ import java.util.Set;
 
 public abstract class SearchStrategy {
 
+    private static final String TECH_SEARCH_DELIMITER = ",";
+
     private final FeedRepository feedRepository;
     private final FeedTechService feedTechService;
 
@@ -23,7 +25,7 @@ public abstract class SearchStrategy {
     }
 
     protected Set<Feed> searchByTechs(String techs) {
-        List<String> techNames = Arrays.asList(techs.split(","));
+        List<String> techNames = Arrays.asList(techs.split(TECH_SEARCH_DELIMITER));
         return feedTechService.findFeedUsingTech(techNames);
     }
 

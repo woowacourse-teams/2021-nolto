@@ -40,14 +40,14 @@ public enum SearchStrategyFactory {
 
     @Component
     @AllArgsConstructor
-    public static class StrategyInjector {
+    private static class StrategyInjector {
         private NoneStrategy noneStrategy;
         private QueryOnlyStrategy queryOnlyStrategy;
         private TechsOnlyStrategy techsOnlyStrategy;
         private QueryAndTechsStrategy queryAndTechsStrategy;
 
         @PostConstruct
-        public void inject() {
+        private void inject() {
             NONE.setSearchStrategy(noneStrategy);
             QUERY_ONLY.setSearchStrategy(queryOnlyStrategy);
             TECHS_ONLY.setSearchStrategy(techsOnlyStrategy);
