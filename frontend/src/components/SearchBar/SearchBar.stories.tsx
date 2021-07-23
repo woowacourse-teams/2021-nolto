@@ -7,6 +7,6 @@ export default {
   component: SearchBar,
 };
 
-const Template = () => <SearchBar />;
+const Template = () => <SearchBar selectable />;
 
 export const Default = Template.bind({});
