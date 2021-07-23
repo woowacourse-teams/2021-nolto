@@ -22,7 +22,7 @@ public abstract class OAuthClientDetail implements OAuthClient {
 
     protected abstract MultiValueMap<String, String> generateAccessTokenRequestParam(String code);
 
-    public User requestUserInfo(OAuthTokenResponse oauthToken, String userInfoRequestUrl, Class<? extends OAuthUserResponse> responseType) {
+    protected User requestUserInfo(OAuthTokenResponse oauthToken, String userInfoRequestUrl, Class<? extends OAuthUserResponse> responseType) {
         HttpHeaders headers = requestUserInfoHeaders(oauthToken);
         RestTemplate restTemplate = new RestTemplate();
         try {
@@ -38,7 +38,7 @@ public abstract class OAuthClientDetail implements OAuthClient {
         }
     }
 
-    public OAuthTokenResponse requestAccessToken(String code, String tokenRequestUrl) {
+    protected OAuthTokenResponse requestAccessToken(String code, String tokenRequestUrl) {
         HttpEntity<MultiValueMap<String, String>> request = this.generateAccessTokenRequest(code);
         RestTemplate restTemplate = new RestTemplate();
         try {
