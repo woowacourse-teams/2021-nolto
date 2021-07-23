@@ -33,6 +33,7 @@ class FeedTest {
         assertThat(feed.getAuthor()).isEqualTo(UserTest.USER);
     }
 
+    @DisplayName("조회수를 증가시킨다.")
     @Test
     void increaseView() {
         // when
