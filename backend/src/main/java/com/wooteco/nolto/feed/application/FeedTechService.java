@@ -52,8 +52,8 @@ public class FeedTechService {
 
     private Set<Feed> findFeedUsingAllTech(List<Set<Feed>> feedUsingEachTech) {
         Set<Feed> feedUsingAllTech = feedUsingEachTech.get(0);
-        for (int i = 1; i < feedUsingEachTech.size(); i++) {
-            feedUsingAllTech.retainAll(feedUsingEachTech.get(i));
+        for (Set<Feed> usingEachTech : feedUsingEachTech) {
+            feedUsingAllTech.retainAll(usingEachTech);
         }
         return feedUsingAllTech;
     }
