@@ -27,7 +27,7 @@ public enum SearchStrategyFactory {
                 .filter(searchStrategyFactory -> searchStrategyFactory.isQueryEmpty == query.isEmpty())
                 .filter(searchStrategyFactory -> searchStrategyFactory.isTechsEmpty == techs.isEmpty())
                 .findFirst()
-                .orElse(NONE);
+                .orElseThrow(IllegalStateException::new);
     }
 
     private void setSearchStrategy(SearchStrategy searchStrategy) {
