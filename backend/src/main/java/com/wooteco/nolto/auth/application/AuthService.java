@@ -1,6 +1,7 @@
 package com.wooteco.nolto.auth.application;
 
 import com.wooteco.nolto.AuthorizationException;
+import com.wooteco.nolto.BadRequestException;
 import com.wooteco.nolto.NotFoundException;
 import com.wooteco.nolto.auth.domain.*;
 import com.wooteco.nolto.auth.infrastructure.JwtTokenProvider;
@@ -33,12 +34,18 @@ public class AuthService {
     }
 
     public TokenResponse oAuthSignIn(String socialTypeName, String code) {
+        this.validateCode(code);
         SocialType socialType = SocialType.findBy(socialTypeName);
         OAuthClient oAuthClient = oAuthClientProvider.provideOAuthClientBy(socialType);
-
         OAuthTokenResponse token = oAuthClient.generateAccessToken(code);
         User user = oAuthClient.generateUserInfo(token);
         return createToken(Objects.requireNonNull(user));
+    }
+
+    private void validateCode(String code) {
+        if (Objects.isNull(code) || code.isEmpty()) {
+            throw new BadRequestException("로그인 요청에 실패했습니다.");
+        }
     }
 
     private TokenResponse createToken(User user) {
