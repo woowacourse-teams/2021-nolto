@@ -13,6 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 class FeedRepositoryTest {
+    public static final String DEFAULT_THUMBNAIL_IMAGE = "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png";
     @Autowired
     private FeedRepository feedRepository;
 
@@ -28,18 +29,18 @@ class FeedRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        user1 = new User("123456L", "github", "아마찌", "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png");
-        user2 = new User("654321L", "google", "지그", "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png");
+        user1 = new User("123456L", "github", "아마찌", DEFAULT_THUMBNAIL_IMAGE);
+        user2 = new User("654321L", "google", "지그", DEFAULT_THUMBNAIL_IMAGE);
 
         userRepository.save(user1);
         userRepository.save(user2);
 
         feed1 = new Feed("프로젝트 제목1", "프로젝트 내용1", Step.PROGRESS, true,
-                "www.github.com/woowacourse", "", "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png");
+                "www.github.com/woowacourse", "", DEFAULT_THUMBNAIL_IMAGE);
         feed2 = new Feed("title2", "content2", Step.PROGRESS, false,
-                "www.github.com/woowacourse", "", "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png");
+                "www.github.com/woowacourse", "", DEFAULT_THUMBNAIL_IMAGE);
         feed3 = new Feed("title3", "content3", Step.COMPLETE, false,
-                "www.github.com/woowacourse", "www.github.com/woowacourse", "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png");
+                "www.github.com/woowacourse", "www.github.com/woowacourse", DEFAULT_THUMBNAIL_IMAGE);
     }
 
     @DisplayName("토이 프로젝트 글을 의미하는 Feed를 저장한다.")
