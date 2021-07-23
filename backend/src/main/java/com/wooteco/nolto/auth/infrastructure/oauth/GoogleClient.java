@@ -1,5 +1,6 @@
 package com.wooteco.nolto.auth.infrastructure.oauth;
 
+import com.wooteco.nolto.SocialAccessException;
 import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.auth.infrastructure.oauth.dto.GoogleUserResponse;
 import com.wooteco.nolto.auth.ui.dto.OAuthTokenResponse;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Objects;
@@ -25,28 +27,12 @@ public class GoogleClient extends OAuthClientDetail {
 
     @Override
     public User generateUserInfo(OAuthTokenResponse oauthToken) {
-        HttpHeaders headers = requestUserInfoHeaders(oauthToken);
-        HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(headers);
-        RestTemplate restTemplate = new RestTemplate();
-        GoogleUserResponse googleUserResponse = restTemplate.exchange(
-                GOOGLE_USERINFO_REQUEST_URL,
-                HttpMethod.GET,
-                httpEntity,
-                GoogleUserResponse.class
-        ).getBody();
-        return Objects.requireNonNull(googleUserResponse).toUser();
+        return super.requestUserInfo(oauthToken, GOOGLE_USERINFO_REQUEST_URL, GoogleUserResponse.class);
     }
 
     @Override
     public OAuthTokenResponse generateAccessToken(String code) {
-        HttpEntity<MultiValueMap<String, String>> request = this.generateAccessTokenRequest(code);
-        RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.exchange(
-                GOOGLE_TOKEN_REQUEST_URL,
-                HttpMethod.POST,
-                request,
-                OAuthTokenResponse.class
-        ).getBody();
+        return super.requestAccessToken(code, GOOGLE_TOKEN_REQUEST_URL);
     }
 
     @Override

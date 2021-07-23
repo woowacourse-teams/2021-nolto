@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class GoogleUserResponse {
+public class GoogleUserResponse implements OAuthUserResponse {
     private String sub;
     private String name;
     private String picture;

@@ -1,5 +1,6 @@
 package com.wooteco.nolto.auth.application;
 
+import com.wooteco.nolto.BadRequestException;
 import com.wooteco.nolto.auth.domain.OAuthClientProvider;
 import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.auth.infrastructure.oauth.GithubClient;
@@ -58,7 +59,7 @@ class AuthServiceTest {
         assertThat(response.getResponse_type()).isNotNull();
     }
 
-    @DisplayName("지원하지 않는 소셜 로긍인 서비스로 code를 얻기위한 파라미터들을 요청하면 예외가 발생한다.")
+    @DisplayName("지원하지 않는 소셜 로그인 서비스로 code를 얻기위한 파라미터들을 요청하면 예외가 발생한다.")
     @Test
     void requestNaverRedirect() {
         assertThatThrownBy(() -> authService.requestSocialRedirect("naver"))
@@ -88,6 +89,22 @@ class AuthServiceTest {
         TokenResponse tokenResponse = authService.oAuthSignIn("google", "code");
 
         assertThat(tokenResponse).isNotNull();
+    }
+
+    @DisplayName("code 요청값이 null이거나 빈값이면 예외가 발생한다.")
+    @Test
+    void socialSignInCode() {
+        given(oAuthClientProvider.provideOAuthClientBy(SocialType.GOOGLE)).willReturn(githubClient);
+        given(githubClient.generateAccessToken("code")).willReturn(OAUTH_TOKEN_RESPONSE);
+        given(githubClient.generateUserInfo(OAUTH_TOKEN_RESPONSE)).willReturn(USER);
+
+        assertThatThrownBy(() -> authService.oAuthSignIn("google", null))
+                .isInstanceOf(BadRequestException.class)
+        .hasMessage("로그인 요청에 실패했습니다.");
+
+        assertThatThrownBy(() -> authService.oAuthSignIn("google", ""))
+                .isInstanceOf(BadRequestException.class)
+                .hasMessage("로그인 요청에 실패했습니다.");
     }
 
     @DisplayName("지원하지 않는 소셜 타입으로 로그인을 요청하면 예외가 발생한다.")

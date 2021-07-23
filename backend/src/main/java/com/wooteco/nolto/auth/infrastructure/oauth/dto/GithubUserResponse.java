@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class GithubUserResponse {
+public class GithubUserResponse implements OAuthUserResponse{
     private Long id;
     private String name;
     private String avatar_url;

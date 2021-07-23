@@ -5,14 +5,8 @@ import com.wooteco.nolto.auth.infrastructure.oauth.dto.GithubUserResponse;
 import com.wooteco.nolto.auth.ui.dto.OAuthTokenResponse;
 import com.wooteco.nolto.user.domain.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
@@ -25,28 +19,12 @@ public class GithubClient extends OAuthClientDetail {
 
     @Override
     public User generateUserInfo(OAuthTokenResponse oauthToken) {
-        HttpHeaders headers = requestUserInfoHeaders(oauthToken);
-        HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(headers);
-        RestTemplate restTemplate = new RestTemplate();
-        GithubUserResponse githubUserResponse = restTemplate.exchange(
-                GITHUB_USERINFO_REQUEST_URL,
-                HttpMethod.GET,
-                httpEntity,
-                GithubUserResponse.class
-        ).getBody();
-        return Objects.requireNonNull(githubUserResponse).toUser();
+        return super.requestUserInfo(oauthToken, GITHUB_USERINFO_REQUEST_URL, GithubUserResponse.class);
     }
 
     @Override
     public OAuthTokenResponse generateAccessToken(String code) {
-        HttpEntity<MultiValueMap<String, String>> request = generateAccessTokenRequest(code);
-        RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.exchange(
-                GITHUB_TOKEN_REQUEST_URL,
-                HttpMethod.POST,
-                request,
-                OAuthTokenResponse.class
-        ).getBody();
+        return super.requestAccessToken(code, GITHUB_TOKEN_REQUEST_URL);
     }
 
     @Override
