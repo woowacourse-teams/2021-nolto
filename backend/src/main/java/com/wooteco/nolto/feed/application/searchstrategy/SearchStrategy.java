@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 public abstract class SearchStrategy {
+
     private final FeedRepository feedRepository;
     private final FeedTechService feedTechService;
 

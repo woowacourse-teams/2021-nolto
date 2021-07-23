@@ -7,6 +7,7 @@ import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import java.util.Set;
 
 public class QueryOnlyStrategy extends SearchStrategy {
+
     public QueryOnlyStrategy(FeedRepository feedRepository, FeedTechService feedTechService) {
         super(feedRepository, feedTechService);
     }

@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class NoneStrategy extends SearchStrategy {
+
     public NoneStrategy(FeedRepository feedRepository, FeedTechService feedTechService) {
         super(feedRepository, feedTechService);
     }

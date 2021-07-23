@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 import java.util.Arrays;
 
 public enum SearchStrategyFactory {
+
     NONE(true, true),
     QUERY_ONLY(false, true),
     TECHS_ONLY(true, false),
