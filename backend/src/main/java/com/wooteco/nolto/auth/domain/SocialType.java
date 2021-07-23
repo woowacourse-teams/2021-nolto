@@ -8,7 +8,7 @@ public enum SocialType {
 
     public static SocialType findBy(String socialTypeName) {
         return Arrays.stream(SocialType.values())
-                .filter(socialType -> socialTypeName.equalsIgnoreCase(socialType.name()))
+                .filter(socialType -> socialType.name().equalsIgnoreCase(socialTypeName))
                 .findAny().orElseThrow(() -> new IllegalArgumentException("지원하지 않는 소셜 로그인입니다."));
     }
 }
