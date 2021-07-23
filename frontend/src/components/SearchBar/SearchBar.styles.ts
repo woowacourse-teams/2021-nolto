@@ -2,6 +2,8 @@ import styled from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
 import DownPolygon from 'assets/downPolygon.svg';
+import TechChipsComponent from 'context/techTag/chip/TechChips';
+import TechInputComponent from 'context/techTag/input/TechInput';
 
 const Root = styled.form<{ selectable: boolean }>`
   position: relative;
@@ -65,6 +67,18 @@ const SearchOptionContainer = styled.div<{ isOpen: boolean }>`
   border-radius: 25px;
   filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.25));
   transition: max-height 0.5s ease-in-out;
+`;
+
+export const TechChips = styled(TechChipsComponent)``;
+
+export const TechInput = styled(TechInputComponent)`
+  & > input {
+    border: none;
+
+    &:focus {
+      border: none;
+    }
+  }
 `;
 
 export default {

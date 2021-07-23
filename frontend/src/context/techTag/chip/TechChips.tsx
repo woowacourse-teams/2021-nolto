@@ -6,9 +6,10 @@ import Styled, { TechButton } from './TechChips.styles';
 
 interface Props {
   className?: string;
+  reverse?: boolean;
 }
 
-const TechChip = ({ className }: Props) => {
+const TechChips = ({ className, reverse = false }: Props) => {
   const techTag = useTechTag();
 
   const deleteTech = (techId: number) => {
@@ -21,6 +22,7 @@ const TechChip = ({ className }: Props) => {
         <TechButton
           buttonStyle={ButtonStyle.SOLID}
           key={tech.id}
+          reverse={reverse}
           onClick={() => deleteTech(tech.id)}
         >
           {tech.text}
@@ -30,4 +32,4 @@ const TechChip = ({ className }: Props) => {
   );
 };
 
-export default TechChip;
+export default TechChips;
