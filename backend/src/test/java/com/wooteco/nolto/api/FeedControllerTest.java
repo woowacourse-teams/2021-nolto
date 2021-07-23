@@ -41,8 +41,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = FeedController.class)
 public class FeedControllerTest extends ControllerTest {
 
-    private static final String TOKEN_PAYLOAD = "user@email.com";
-
+    private static final String ACCESS_TOKEN = "accessToken";
+    private static final String ACCESS_TOKEN_OPTIONAL = "accessTokenOptional";
     private static final User LOGIN_USER =
             new User(2L, "11111L", "github", "아마찌", "imageUrl");
 
@@ -89,8 +89,8 @@ public class FeedControllerTest extends ControllerTest {
     @DisplayName("멤버 사용자가 피드를 업로드한다")
     @Test
     void create() throws Exception {
-        given(authService.findUserByToken(TOKEN_PAYLOAD)).willReturn(LOGIN_USER);
-        given(feedService.create(any(), any())).willReturn(FEED_ID);
+        given(authService.findUserByToken(ACCESS_TOKEN)).willReturn(LOGIN_USER);
+        given(feedService.create(any(User.class), any())).willReturn(FEED_ID);
 
         MockHttpServletRequestBuilder request = multipart("/feeds")
                 .file("thumbnailImage", MOCK_MULTIPART_FILE.getBytes())
@@ -101,7 +101,8 @@ public class FeedControllerTest extends ControllerTest {
                 .param("step", "PROGRESS")
                 .param("sos", "true")
                 .param("storageUrl", "https://github.com/woowacourse-teams/2021-nolto.git")
-                .param("deployedUrl", "https://nolto.kro.kr");
+                .param("deployedUrl", "")
+                .header("Authorization", "Bearer " + ACCESS_TOKEN);
 
         mockMvc.perform(request)
                 .andExpect(status().isCreated())
@@ -192,14 +193,14 @@ public class FeedControllerTest extends ControllerTest {
     @DisplayName("유저 모두 글 상세페이지를 조회할 수 있다.")
     @Test
     void findById() throws Exception {
-        given(authService.findUserByToken(TOKEN_PAYLOAD)).willReturn(LOGIN_USER);
-        given(feedService.findById(any(), any())).willReturn(FEED_RESPONSE);
+        given(authService.findUserByToken(ACCESS_TOKEN_OPTIONAL)).willReturn(LOGIN_USER);
+        given(feedService.findById(any(User.class), any())).willReturn(FEED_RESPONSE);
 
         mockMvc.perform(
                 get("/feeds/{feedId}", FEED_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .header("Authorization", "Bearer optional"))
+                        .header("Authorization", "Bearer " + ACCESS_TOKEN_OPTIONAL))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(FEED_RESPONSE)))
                 .andDo(document("feed-findById",
@@ -271,10 +272,10 @@ public class FeedControllerTest extends ControllerTest {
     @DisplayName("피드에 좋아요를 누른다.")
     @Test
     void addLike() throws Exception {
-        given(authService.findUserByToken(TOKEN_PAYLOAD)).willReturn(LOGIN_USER);
+        given(authService.findUserByToken(ACCESS_TOKEN)).willReturn(LOGIN_USER);
 
         mockMvc.perform(post("/feeds/{feedId}/like", FEED_ID)
-                .header("Authorization", "Bearer dXNlcjpzZWNyZXQ="))
+                .header("Authorization", "Bearer " + ACCESS_TOKEN))
                 .andExpect(status().isOk())
                 .andDo(document("feed-addLike",
                         getDocumentRequest(),
@@ -288,11 +289,11 @@ public class FeedControllerTest extends ControllerTest {
     @DisplayName("피드의 좋아요를 취소한다.")
     @Test
     void deleteLike() throws Exception {
-        given(authService.findUserByToken(TOKEN_PAYLOAD)).willReturn(LOGIN_USER);
+        given(authService.findUserByToken("accessToken")).willReturn(LOGIN_USER);
         willDoNothing().given(likeService).deleteLike(LOGIN_USER, FEED_ID);
 
         mockMvc.perform(delete("/feeds/{feedId}/like", FEED_ID)
-                .header("Authorization", "Bearer dXNlcjpzZWNyZXQ=")
+                .header("Authorization", "Bearer " + ACCESS_TOKEN)
                 .characterEncoding("UTF-8"))
                 .andExpect(status().isOk())
                 .andDo(document("feed-deleteLike",
