@@ -101,7 +101,7 @@ public class FeedService {
 
     public void delete(User user, Long feedId) {
         Feed findFeed = findEntityById(feedId);
-        if (findFeed.getAuthor().notSameAs(user)) {
+        if (findFeed.notSameAuthor(user)) {
             throw new IllegalArgumentException("삭제 권한이 없습니다.");
         }
 
