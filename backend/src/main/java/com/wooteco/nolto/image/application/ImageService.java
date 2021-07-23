@@ -58,13 +58,13 @@ public class ImageService {
         try (FileOutputStream fos = new FileOutputStream(convertedFile)) {
             fos.write(multipartFile.getBytes());
         } catch (IOException e) {
-            throw new IllegalStateException("파일 변환 실패!");
+            throw new IllegalStateException("파일 변환에 실패하였습니다.");
         }
         return convertedFile;
     }
 
     public String update(String oldImageUrl, MultipartFile updateImage) {
-        String imageUrl = oldImageUrl.split(cloudfrontUrl)[1];
+        String imageUrl = oldImageUrl.replace(cloudfrontUrl, "");
         if (!isDefault(imageUrl) && amazonS3Client.doesObjectExist(bucketName, imageUrl)) {
             amazonS3Client.deleteObject(new DeleteObjectRequest(bucketName, imageUrl));
         }
