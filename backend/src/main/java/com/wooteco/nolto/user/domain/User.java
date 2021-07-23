@@ -30,7 +30,7 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private SocialType socialType;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     @NotBlank
     private String nickName;
 

@@ -2,6 +2,8 @@ package com.wooteco.nolto.feed.domain;
 
 import com.amazonaws.util.StringUtils;
 import com.wooteco.nolto.BaseEntity;
+import com.wooteco.nolto.exception.BadRequestException;
+import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.tech.domain.Tech;
 import com.wooteco.nolto.user.domain.User;
 import lombok.Getter;
@@ -100,7 +102,7 @@ public class Feed extends BaseEntity {
 
     public void validateStep(Step step, String deployedUrl) {
         if (step.equals(Step.COMPLETE) && StringUtils.isNullOrEmpty(deployedUrl)) {
-            throw new IllegalStateException("COMPLETE 단계는 배포 URL이 필수입니다.");
+            throw new BadRequestException(ErrorType.MISSING_DEPLOY_URL);
         }
     }
 

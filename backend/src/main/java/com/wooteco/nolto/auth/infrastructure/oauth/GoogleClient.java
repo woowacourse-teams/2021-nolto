@@ -1,20 +1,12 @@
 package com.wooteco.nolto.auth.infrastructure.oauth;
 
-import com.wooteco.nolto.SocialAccessException;
 import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.auth.infrastructure.oauth.dto.GoogleUserResponse;
 import com.wooteco.nolto.auth.ui.dto.OAuthTokenResponse;
 import com.wooteco.nolto.user.domain.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.HttpStatusCodeException;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor

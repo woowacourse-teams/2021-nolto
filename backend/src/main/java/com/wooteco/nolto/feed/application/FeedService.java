@@ -1,6 +1,8 @@
 package com.wooteco.nolto.feed.application;
 
-import com.wooteco.nolto.NotFoundException;
+import com.wooteco.nolto.exception.ErrorType;
+import com.wooteco.nolto.exception.NotFoundException;
+import com.wooteco.nolto.exception.UnauthorizedException;
 import com.wooteco.nolto.feed.application.searchstrategy.SearchStrategy;
 import com.wooteco.nolto.feed.application.searchstrategy.SearchStrategyFactory;
 import com.wooteco.nolto.feed.domain.*;
@@ -55,7 +57,7 @@ public class FeedService {
         Feed findFeed = findEntityById(feedId);
 
         if (findFeed.notSameAuthor(user)) {
-            throw new IllegalArgumentException("수정 권한이 없습니다.");
+            throw new UnauthorizedException(ErrorType.UNAUTHORIZED_UPDATE_FEED);
         }
         updateFeed(request, findFeed);
     }
@@ -88,7 +90,7 @@ public class FeedService {
 
     public Feed findEntityById(Long feedId) {
         return feedRepository.findById(feedId)
-                .orElseThrow(() -> new NotFoundException("피드를 찾을 수 없습니다."));
+                .orElseThrow(() -> new NotFoundException(ErrorType.FEED_NOT_FOUND));
     }
 
     public List<FeedCardResponse> findHotFeeds() {
@@ -105,7 +107,7 @@ public class FeedService {
     public void delete(User user, Long feedId) {
         Feed findFeed = findEntityById(feedId);
         if (findFeed.notSameAuthor(user)) {
-            throw new IllegalArgumentException("삭제 권한이 없습니다.");
+            throw new UnauthorizedException(ErrorType.UNAUTHORIZED_DELETE_FEED);
         }
 
         feedRepository.delete(findFeed);

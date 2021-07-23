@@ -1,6 +1,5 @@
 package com.wooteco.nolto.auth.application;
 
-import com.wooteco.nolto.BadRequestException;
 import com.wooteco.nolto.auth.domain.OAuthClientProvider;
 import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.auth.infrastructure.oauth.GithubClient;
@@ -8,6 +7,8 @@ import com.wooteco.nolto.auth.infrastructure.oauth.GoogleClient;
 import com.wooteco.nolto.auth.ui.dto.OAuthRedirectResponse;
 import com.wooteco.nolto.auth.ui.dto.OAuthTokenResponse;
 import com.wooteco.nolto.auth.ui.dto.TokenResponse;
+import com.wooteco.nolto.exception.BadRequestException;
+import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.user.domain.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -63,8 +64,8 @@ class AuthServiceTest {
     @Test
     void requestNaverRedirect() {
         assertThatThrownBy(() -> authService.requestSocialRedirect("naver"))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("지원하지 않는 소셜 로그인입니다.");
+                .isInstanceOf(BadRequestException.class)
+                .hasMessage(ErrorType.NOT_SUPPORTED_SOCIAL_LOGIN.getMessage());
     }
 
     @DisplayName("깃허브 로그인으로 로그인에 성공하면 토큰을 반환해준다.")
@@ -100,11 +101,11 @@ class AuthServiceTest {
 
         assertThatThrownBy(() -> authService.oAuthSignIn("google", null))
                 .isInstanceOf(BadRequestException.class)
-        .hasMessage("로그인 요청에 실패했습니다.");
+                .hasMessage(ErrorType.INVALID_OAUTH_CODE.getMessage());
 
         assertThatThrownBy(() -> authService.oAuthSignIn("google", ""))
                 .isInstanceOf(BadRequestException.class)
-                .hasMessage("로그인 요청에 실패했습니다.");
+                .hasMessage(ErrorType.INVALID_OAUTH_CODE.getMessage());
     }
 
     @DisplayName("지원하지 않는 소셜 타입으로 로그인을 요청하면 예외가 발생한다.")
@@ -115,7 +116,7 @@ class AuthServiceTest {
         given(githubClient.generateUserInfo(OAUTH_TOKEN_RESPONSE)).willReturn(USER);
 
         assertThatThrownBy(() -> authService.oAuthSignIn("naver", "code"))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("지원하지 않는 소셜 로그인입니다.");
+                .isInstanceOf(BadRequestException.class)
+                .hasMessage(ErrorType.NOT_SUPPORTED_SOCIAL_LOGIN.getMessage());
     }
 }

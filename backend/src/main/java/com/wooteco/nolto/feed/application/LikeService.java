@@ -1,6 +1,7 @@
 package com.wooteco.nolto.feed.application;
 
-import com.wooteco.nolto.NotFoundException;
+import com.wooteco.nolto.exception.BadRequestException;
+import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.Like;
 import com.wooteco.nolto.feed.domain.repository.LikeRepository;
@@ -20,7 +21,7 @@ public class LikeService {
     public void addLike(User user, Long feedId) {
         Feed findFeed = feedService.findEntityById(feedId);
         if (user.isLiked(findFeed)) {
-            throw new IllegalStateException("해당 유저가 이미 좋아요를 눌렀습니다");
+            throw new BadRequestException(ErrorType.ALREADY_LIKED);
         }
 
         likeRepository.save(new Like(user, findFeed));
@@ -29,7 +30,7 @@ public class LikeService {
     public void deleteLike(User user, Long feedId) {
         Feed findFeed = feedService.findEntityById(feedId);
         Like findLike = likeRepository.findByUserAndFeed(user, findFeed)
-                .orElseThrow(() -> new NotFoundException("해당 유저가 좋아요를 누르지 않았습니다"));
+                .orElseThrow(() -> new BadRequestException(ErrorType.NOT_LIKED));
         likeRepository.delete(findLike);
     }
 }
