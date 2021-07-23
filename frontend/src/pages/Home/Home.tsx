@@ -12,7 +12,6 @@ import useRecentFeeds from 'hooks/queries/useRecentFeeds';
 import ROUTE from 'constants/routes';
 import Styled, { CarouselArrowButton, ScrollUpButton, SearchBar, MoreButton } from './Home.styles';
 import MoreArrow from 'assets/moreArrow.svg';
-import { ButtonStyle } from 'types';
 
 const tags = ['JavaScript', 'Java', 'React.js', 'Spring'];
 
@@ -57,12 +56,11 @@ const Home = () => {
         </Styled.EllipseWrapper>
         <Styled.SearchContainer>
           <Styled.SearchTitle>Search for Ideas?</Styled.SearchTitle>
-          <SearchBar />
+          <SearchBar selectable />
           <Styled.TagsContainer>
+            <span className="trends">💎 Trends</span>
             {tags.map((tag) => (
-              <Styled.TagButton buttonStyle={ButtonStyle.SOLID} reverse={true} key={tag}>
-                {tag}
-              </Styled.TagButton>
+              <Styled.TagLink key={tag}>{tag}</Styled.TagLink>
             ))}
           </Styled.TagsContainer>
         </Styled.SearchContainer>

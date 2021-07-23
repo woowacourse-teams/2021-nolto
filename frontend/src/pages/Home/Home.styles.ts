@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { PALETTE } from 'constants/palette';
 import SearchBarComponent from 'components/SearchBar/SearchBar';
 import HighLightedText from 'components/@common/HighlightedText/HighlightedText';
-import TextButton from 'components/@common/TextButton/TextButton';
 import Avatar from 'components/@common/Avatar/Avatar';
 import IconButtonComponent from 'components/@common/IconButton/IconButton';
 import ArrowIcon from 'assets/carouselArrow.svg';
@@ -46,12 +45,30 @@ export const SearchBar = styled(SearchBarComponent)`
 
 const TagsContainer = styled.div`
   display: flex;
-  gap: 1rem;
+  gap: 0.75rem;
+  align-items: center;
+
+  & span {
+    color: ${PALETTE.WHITE_400};
+    line-height: 1rem;
+  }
+
+  & span.trends {
+    font-weight: 700;
+  }
 `;
 
-const TagButton = styled(TextButton.Rounded)`
-  width: 6rem;
-  height: 1.5rem;
+const TagLink = styled.span`
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:before {
+    content: '|';
+    margin-right: 0.75rem;
+  }
 `;
 
 const ContentArea = styled.div`
@@ -173,7 +190,7 @@ export default {
   EllipseWrapper,
   SearchTitle,
   TagsContainer,
-  TagButton,
+  TagLink,
   ContentArea,
   SectionTitle,
   HotToysContainer,
