@@ -37,13 +37,13 @@ public class FeedController {
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping(value = "/{feedId}")
+    @PutMapping( "/{feedId}")
     public ResponseEntity<Void> update(@MemberAuthenticationPrincipal User user, @PathVariable Long feedId, @ModelAttribute @Valid FeedRequest request) {
         feedService.update(user, feedId, request);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping(value = "/{feedId}")
+    @DeleteMapping("/{feedId}")
     public ResponseEntity<Void> delete(@MemberAuthenticationPrincipal User user, @PathVariable Long feedId) {
         feedService.delete(user, feedId);
         return ResponseEntity.noContent().build();
