@@ -1,5 +1,6 @@
 package com.wooteco.nolto.feed.domain;
 
+import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.feed.domain.repository.FeedTechRepository;
 import com.wooteco.nolto.tech.domain.Tech;
@@ -41,7 +42,7 @@ class FeedTechRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        user = new User("123456L", "github", "아마찌", "imageUrl");
+        user = new User("123456L", SocialType.GOOGLE, "아마찌", "imageUrl");
         feed1 = new Feed("조엘 프로젝트", "조엘의 환상적인 토이 프로젝트로 초대합니다 룰루랄라",
                 Step.PROGRESS, true, "storageUrl", "", "http://thumbnailUrl.ppnngg");
         feed2 = new Feed("놀토 프로젝트", "놀토는 정말 세계에서 제일가는 팀입니다. 우테코 최고 아웃풋이죠",

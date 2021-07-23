@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OauthTokenResponse {
+public class OAuthTokenResponse {
     private String token_type;
     private String scope;
     private String access_token;

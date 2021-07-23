@@ -1,5 +1,6 @@
 package com.wooteco.nolto;
 
+import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
@@ -35,8 +36,8 @@ class BaseEntityTest {
 
     @BeforeEach
     void setUp() {
-        user1 = new User("123456L", "github", "아마찌", "imageUrl");
-        user2 = new User("654321L", "github", "지그", "imageUrl");
+        user1 = new User("123456L", SocialType.GITHUB, "아마찌", "imageUrl");
+        user2 = new User("654321L", SocialType.GOOGLE, "지그", "imageUrl");
 
         userRepository.save(user1);
         userRepository.save(user2);

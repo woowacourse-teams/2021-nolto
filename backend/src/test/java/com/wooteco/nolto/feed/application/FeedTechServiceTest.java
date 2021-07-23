@@ -1,5 +1,6 @@
 package com.wooteco.nolto.feed.application;
 
+import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
@@ -48,7 +49,7 @@ class FeedTechServiceTest {
 
     @BeforeEach
     void setUp() {
-        user = new User("socialId", "socialType", "nickName", "imageUrl");
+        user = new User("socialId", SocialType.GOOGLE, "nickName", "imageUrl");
         userRepository.save(user);
 
         feed1 = new Feed("T1", "C1", Step.PROGRESS, true, "", "", "");

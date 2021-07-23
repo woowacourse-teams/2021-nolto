@@ -1,5 +1,6 @@
 package com.wooteco.nolto;
 
+import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.FeedTech;
 import com.wooteco.nolto.feed.domain.Step;
@@ -28,14 +29,14 @@ public class DataLoader implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        User mickey = new User(null, "1", "github", "미키", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg");
+        User mickey = new User(null, "1", SocialType.GITHUB, "미키", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg");
         List<User> users = Arrays.asList(
                 mickey,
-                new User(null, "2", "github", "아마찌", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"),
-                new User(null, "3", "github", "지그", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"),
-                new User(null, "4", "github", "포모", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"),
-                new User(null, "5", "github", "조엘", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"),
-                new User(null, "6", "github", "찰리", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg")
+                new User(null, "2", SocialType.GITHUB, "아마찌", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"),
+                new User(null, "3", SocialType.GITHUB, "지그", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"),
+                new User(null, "4", SocialType.GITHUB, "포모", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"),
+                new User(null, "5", SocialType.GITHUB, "조엘", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"),
+                new User(null, "6", SocialType.GITHUB, "찰리", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg")
         );
         userRepository.saveAll(users);
 

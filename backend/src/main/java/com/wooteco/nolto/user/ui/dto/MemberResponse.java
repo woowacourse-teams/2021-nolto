@@ -13,6 +13,6 @@ public class MemberResponse {
     private final String imageUrl;
 
     public static MemberResponse of(User user) {
-        return new MemberResponse(user.getId(), user.getSocialType(), user.getNickName(), user.getImageUrl());
+        return new MemberResponse(user.getId(), user.getSocialType().name(), user.getNickName(), user.getImageUrl());
     }
 }

@@ -1,10 +1,12 @@
 package com.wooteco.nolto.auth.application;
 
 import com.wooteco.nolto.AuthorizationException;
+import com.wooteco.nolto.BadRequestException;
 import com.wooteco.nolto.NotFoundException;
+import com.wooteco.nolto.auth.domain.*;
 import com.wooteco.nolto.auth.infrastructure.JwtTokenProvider;
-import com.wooteco.nolto.auth.ui.dto.GithubUserResponse;
-import com.wooteco.nolto.auth.ui.dto.GoogleUserResponse;
+import com.wooteco.nolto.auth.ui.dto.OAuthRedirectResponse;
+import com.wooteco.nolto.auth.ui.dto.OAuthTokenResponse;
 import com.wooteco.nolto.auth.ui.dto.TokenResponse;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.domain.UserRepository;
@@ -12,6 +14,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Objects;
 import java.util.Optional;
 
 @Transactional
@@ -19,23 +22,42 @@ import java.util.Optional;
 @AllArgsConstructor
 public class AuthService {
 
+    private final SocialOAuthInfoProvider socialOAuthInfoProvider;
+    private final OAuthClientProvider oAuthClientProvider;
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public TokenResponse loginGithub(GithubUserResponse githubUser) {
-        Optional<User> findUser = userRepository.findBySocialIdAndSocialType(String.valueOf(githubUser.getId()), "github");
-        User user = findUser.orElseGet(() -> signUp(githubUser));
+    public OAuthRedirectResponse requestSocialRedirect(String socialTypeName) {
+        SocialType socialType = SocialType.findBy(socialTypeName);
+        SocialOAuthInfo socialOauthInfo = socialOAuthInfoProvider.provideSocialOAuthInfoBy(socialType);
+        return OAuthRedirectResponse.of(socialOauthInfo);
+    }
 
-        String token = jwtTokenProvider.createToken(String.valueOf(user.getId()));
+    public TokenResponse oAuthSignIn(String socialTypeName, String code) {
+        this.validateCode(code);
+        SocialType socialType = SocialType.findBy(socialTypeName);
+        OAuthClient oAuthClient = oAuthClientProvider.provideOAuthClientBy(socialType);
+        OAuthTokenResponse token = oAuthClient.generateAccessToken(code);
+        User user = oAuthClient.generateUserInfo(token);
+        return createToken(Objects.requireNonNull(user));
+    }
+
+    private void validateCode(String code) {
+        if (Objects.isNull(code) || code.isEmpty()) {
+            throw new BadRequestException("로그인 요청에 실패했습니다.");
+        }
+    }
+
+    private TokenResponse createToken(User user) {
+        Optional<User> userOptional = userRepository.findBySocialIdAndSocialType(user.getSocialId(), user.getSocialType());
+        User findUser = userOptional.orElseGet(() -> signUp(user));
+
+        String token = jwtTokenProvider.createToken(String.valueOf(findUser.getId()));
         return new TokenResponse(token);
     }
 
-    public TokenResponse loginGoogle(GoogleUserResponse googleUser) {
-        Optional<User> findUser = userRepository.findBySocialIdAndSocialType(googleUser.getSub(), "google");
-        final User user = findUser.orElseGet(() -> signUp(googleUser));
-
-        String token = jwtTokenProvider.createToken(String.valueOf(user.getId()));
-        return new TokenResponse(token);
+    private User signUp(User user) {
+        return userRepository.save(user);
     }
 
     public User findUserByToken(String token) {
@@ -52,15 +74,5 @@ public class AuthService {
         if (!jwtTokenProvider.validateToken(token)) {
             throw new AuthorizationException("유효하지 않은 토큰입니다.");
         }
-    }
-
-    public User signUp(GithubUserResponse githubUser) {
-        User user = new User(String.valueOf(githubUser.getId()), "github", githubUser.getName(), githubUser.getAvatar_url());
-        return userRepository.save(user);
-    }
-
-    public User signUp(GoogleUserResponse googleUser) {
-        User user = new User(googleUser.getSub(), "google", googleUser.getName(), googleUser.getPicture());
-        return userRepository.save(user);
     }
 }

@@ -1,5 +1,6 @@
 package com.wooteco.nolto.api;
 
+import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.ui.UserController;
 import com.wooteco.nolto.user.ui.dto.MemberResponse;
@@ -20,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = UserController.class)
 class UserControllerTest extends ControllerTest {
     private static final User LOGIN_USER =
-            new User(1L, "11111", "github", "아마찌", "imageUrl");
+            new User(1L, "11111", SocialType.GOOGLE, "아마찌", "imageUrl");
     private static final MemberResponse MEMBER_RESPONSE = MemberResponse.of(LOGIN_USER);
 
     @DisplayName("멤버가 자신의 정보를 조회한다.")

@@ -1,5 +1,6 @@
 package com.wooteco.nolto.user.domain;
 
+import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.Like;
 import lombok.AllArgsConstructor;
@@ -26,7 +27,8 @@ public class User {
     private String socialId;
 
     @Column(nullable = false)
-    private String socialType;
+    @Enumerated(value = EnumType.STRING)
+    private SocialType socialType;
 
     @Column(nullable = false, unique = true)
     @NotBlank
@@ -42,11 +44,11 @@ public class User {
     @OneToMany(mappedBy = "user")
     private final List<Like> likes = new ArrayList<>();
 
-    public User(String socialId, String socialType, String nickName, String imageUrl) {
+    public User(String socialId, SocialType socialType, String nickName, String imageUrl) {
         this(null, socialId, socialType, nickName, imageUrl);
     }
 
-    public User(Long id, String socialId, String socialType, String nickName) {
+    public User(Long id, String socialId, SocialType socialType, String nickName) {
         this(id, socialId, socialType, nickName, null);
     }
 

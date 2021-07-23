@@ -1,5 +1,6 @@
 package com.wooteco.nolto.api;
 
+import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.feed.application.FeedService;
 import com.wooteco.nolto.feed.application.LikeService;
 import com.wooteco.nolto.feed.domain.Feed;
@@ -44,7 +45,7 @@ public class FeedControllerTest extends ControllerTest {
     private static final String ACCESS_TOKEN = "accessToken";
     private static final String ACCESS_TOKEN_OPTIONAL = "accessTokenOptional";
     private static final User LOGIN_USER =
-            new User(2L, "11111L", "github", "아마찌", "imageUrl");
+            new User(2L, "11111L", SocialType.GITHUB, "아마찌", "imageUrl");
 
     private static final MockMultipartFile MOCK_MULTIPART_FILE =
             new MockMultipartFile("thumbnailImage", "thumbnailImage.png", "image/png", "<<png data>>".getBytes());
@@ -128,7 +129,7 @@ public class FeedControllerTest extends ControllerTest {
     @DisplayName("피드를 업데이트한다.")
     @Test
     void update() throws Exception {
-        given(authService.findUserByToken(TOKEN_PAYLOAD)).willReturn(LOGIN_USER);
+        given(authService.findUserByToken(ACCESS_TOKEN)).willReturn(LOGIN_USER);
         willDoNothing().given(feedService).update(any(User.class), any(Long.class), any(FeedRequest.class));
 
         MockHttpServletRequestBuilder request = multipart("/feeds/" + FEED_ID)
@@ -141,7 +142,7 @@ public class FeedControllerTest extends ControllerTest {
                 .param("sos", "false")
                 .param("storageUrl", "https://github.com/woowacourse-teams/2021-nolto.git")
                 .param("deployedUrl", "https://nolto.kro.kr")
-                .header("Authorization", "Bearer dXNlcjpzZWNyZXQ=");
+                .header("Authorization", "Bearer " + ACCESS_TOKEN);
 
         request.with(new RequestPostProcessor() {
             @Override
@@ -174,12 +175,12 @@ public class FeedControllerTest extends ControllerTest {
     @DisplayName("피드를 삭제한다.")
     @Test
     void deleteFeed() throws Exception {
-        given(authService.findUserByToken(TOKEN_PAYLOAD)).willReturn(LOGIN_USER);
+        given(authService.findUserByToken(ACCESS_TOKEN)).willReturn(LOGIN_USER);
         willDoNothing().given(feedService).delete(any(User.class), any(Long.class));
 
         mockMvc.perform(
                 delete("/feeds/{feedId}", FEED_ID)
-                        .header("Authorization", "Bearer dXNlcjpzZWNyZXQ="))
+                        .header("Authorization", "Bearer " + ACCESS_TOKEN))
                 .andExpect(status().isNoContent())
                 .andDo(document("feed-delete",
                         getDocumentRequest(),
@@ -289,7 +290,7 @@ public class FeedControllerTest extends ControllerTest {
     @DisplayName("피드의 좋아요를 취소한다.")
     @Test
     void deleteLike() throws Exception {
-        given(authService.findUserByToken("accessToken")).willReturn(LOGIN_USER);
+        given(authService.findUserByToken(ACCESS_TOKEN)).willReturn(LOGIN_USER);
         willDoNothing().given(likeService).deleteLike(LOGIN_USER, FEED_ID);
 
         mockMvc.perform(delete("/feeds/{feedId}/like", FEED_ID)

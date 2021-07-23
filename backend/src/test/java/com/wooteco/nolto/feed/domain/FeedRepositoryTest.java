@@ -1,5 +1,6 @@
 package com.wooteco.nolto.feed.domain;
 
+import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.domain.UserRepository;
@@ -16,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 class FeedRepositoryTest {
     public static final String DEFAULT_THUMBNAIL_IMAGE = "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png";
+
     @Autowired
     private FeedRepository feedRepository;
 
@@ -31,8 +33,8 @@ class FeedRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        user1 = new User("123456L", "github", "아마찌", DEFAULT_THUMBNAIL_IMAGE);
-        user2 = new User("654321L", "google", "지그", DEFAULT_THUMBNAIL_IMAGE);
+        user1 = new User("123456L", SocialType.GITHUB, "아마찌", DEFAULT_THUMBNAIL_IMAGE);
+        user2 = new User("654321L", SocialType.GOOGLE, "지그", DEFAULT_THUMBNAIL_IMAGE);
 
         userRepository.save(user1);
         userRepository.save(user2);

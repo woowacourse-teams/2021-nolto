@@ -1,6 +1,7 @@
 package com.wooteco.nolto.user.domain;
 
 import com.wooteco.nolto.NotFoundException;
+import com.wooteco.nolto.auth.domain.SocialType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,7 +24,7 @@ class UserRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        user1 = new User("1111", "google", "찰리", "charlie.png");
+        user1 = new User("1111", SocialType.GOOGLE, "찰리", "charlie.png");
     }
 
     @DisplayName("context가 제대로 생성되고 설정이 됐는지 확인한다.")
@@ -47,7 +48,7 @@ class UserRepositoryTest {
     public void saveWithDuplicatedNickname() {
         // given
         userRepository.save(user1);
-        User duplicatedNicknameUser = new User("2222", "google", user1.getNickName(), "image_sample.png");
+        User duplicatedNicknameUser = new User("2222", SocialType.GOOGLE, user1.getNickName(), "image_sample.png");
 
         // when then
         assertThatThrownBy(() -> userRepository.save(duplicatedNicknameUser))
@@ -96,7 +97,7 @@ class UserRepositoryTest {
     @Test
     public void findByNonExistsEmail() {
         // when
-        Optional<User> optionalUser = userRepository.findBySocialIdAndSocialType("NonExistsSocialId", "NonExistsSocialType");
+        Optional<User> optionalUser = userRepository.findBySocialIdAndSocialType("NonExistsSocialId", null);
 
         // then
         assertThat(optionalUser).isEmpty();
@@ -108,10 +109,10 @@ class UserRepositoryTest {
         // given
         User savedUser = userRepository.save(user1);
         String newSocialId = "2222";
-        String newSocialType = "github";
+        SocialType newSocialType = SocialType.GITHUB;
         String newNickname = "Gomding";
         String newImageUrl = "updateImageUrl";
-        User updatedUser = new User(savedUser.getId(), newSocialId, newNickname, newSocialType, newImageUrl);
+        User updatedUser = new User(savedUser.getId(), newSocialId, newSocialType, newNickname, newImageUrl);
 
         // when
         userRepository.save(updatedUser);
@@ -137,7 +138,7 @@ class UserRepositoryTest {
     public void deleteWithSameIdAndDiffInfoObject() {
         // given
         userRepository.save(user1);
-        User otherUser = new User(user1.getId(), "1234", "google", "Gomding");
+        User otherUser = new User(user1.getId(), "1234", SocialType.GOOGLE, "Gomding");
 
         // when
         userRepository.delete(otherUser);
