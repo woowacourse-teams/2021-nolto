@@ -1,7 +1,8 @@
-import { QueryFunctionContext, QueryKey, useQuery } from 'react-query';
+import { QueryFunctionContext, QueryKey, useQuery, UseQueryOptions } from 'react-query';
 
 import api from 'constants/api';
 import { FeedDetail } from 'types';
+import HttpError from 'utils/HttpError';
 
 const getFeedDetail = async ({ queryKey }: QueryFunctionContext<QueryKey, number>) => {
   const [_, id] = queryKey;
@@ -9,6 +10,6 @@ const getFeedDetail = async ({ queryKey }: QueryFunctionContext<QueryKey, number
   return data;
 };
 
-export default function useFeedDetail(id: number) {
-  return useQuery<FeedDetail>(['feedDetail', id], getFeedDetail);
+export default function useFeedDetail(id: number, option?: UseQueryOptions<FeedDetail, HttpError>) {
+  return useQuery<FeedDetail>(['feedDetail', id], getFeedDetail, option);
 }

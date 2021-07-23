@@ -1,6 +1,7 @@
 package com.wooteco.nolto.image.application;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.util.Base64;
 import org.springframework.beans.factory.annotation.Value;
@@ -60,6 +61,18 @@ public class ImageService {
             throw new IllegalStateException("파일 변환 실패!");
         }
         return convertedFile;
+    }
+
+    public String update(String oldImageUrl, MultipartFile updateImage) {
+        String imageUrl = oldImageUrl.split(cloudfrontUrl)[1];
+        if (!isDefault(imageUrl) && amazonS3Client.doesObjectExist(bucketName, imageUrl)) {
+            amazonS3Client.deleteObject(new DeleteObjectRequest(bucketName, imageUrl));
+        }
+        return upload(updateImage);
+    }
+
+    private boolean isDefault(String fileName) {
+        return defaultImage.equals(fileName);
     }
 }
 
