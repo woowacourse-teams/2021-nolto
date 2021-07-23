@@ -6,7 +6,6 @@ import com.wooteco.nolto.tech.domain.Tech;
 import com.wooteco.nolto.user.domain.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -18,7 +17,6 @@ import java.util.stream.Collectors;
 
 
 @Getter
-@Setter
 @NoArgsConstructor
 @Entity
 public class Feed extends BaseEntity {
@@ -91,6 +89,15 @@ public class Feed extends BaseEntity {
         return this;
     }
 
+    public void update(String title, String content, Step step, boolean sos, String storageUrl, String deployedUrl) {
+        this.title = title;
+        this.content = content;
+        this.step = step;
+        this.isSos = sos;
+        this.storageUrl = storageUrl;
+        this.deployedUrl = deployedUrl;
+    }
+
     public void validateStep(Step step, String deployedUrl) {
         if (step.equals(Step.COMPLETE) && StringUtils.isNullOrEmpty(deployedUrl)) {
             throw new IllegalStateException("COMPLETE 단계는 배포 URL이 필수입니다.");
@@ -113,6 +120,14 @@ public class Feed extends BaseEntity {
 
     public boolean notSameAuthor(User user) {
         return author.notSameAs(user);
+    }
+
+    public void changeThumbnailUrl(String updateThumbnailUrl) {
+        this.thumbnailUrl = thumbnailUrl;
+    }
+
+    public void changeFeedTechs(List<FeedTech> feedTechs) {
+        this.feedTechs = feedTechs;
     }
 
     @Override

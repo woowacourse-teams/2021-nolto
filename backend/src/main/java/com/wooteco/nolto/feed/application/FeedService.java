@@ -35,7 +35,7 @@ public class FeedService {
         Feed feed = request.toEntityWithThumbnailUrl(thumbnailUrl).writtenBy(user);
 
         List<FeedTech> feedTechs = makeTechIdToFeedTech(request, feed);
-        feed.setFeedTechs(feedTechs);
+        feed.changeFeedTechs(feedTechs);
 
         Feed savedFeed = feedRepository.save(feed);
         return savedFeed.getId();
@@ -58,19 +58,21 @@ public class FeedService {
     }
 
     private void updateFeed(FeedRequest request, Feed findFeed) {
-        findFeed.setTitle(request.getTitle());
-        findFeed.setContent(request.getContent());
-        findFeed.setStep(Step.of(request.getStep()));
-        findFeed.setSos(request.isSos());
-        findFeed.setStorageUrl(request.getStorageUrl());
-        findFeed.setDeployedUrl(request.getDeployedUrl());
+        findFeed.update(
+                request.getTitle(),
+                request.getContent(),
+                Step.of(request.getStep()),
+                request.isSos(),
+                request.getStorageUrl(),
+                request.getDeployedUrl()
+        );
 
         String updateThumbnailUrl = imageService.update(findFeed.getThumbnailUrl(), request.getThumbnailImage());
-        findFeed.setThumbnailUrl(updateThumbnailUrl);
+        findFeed.changeThumbnailUrl(updateThumbnailUrl);
 
         feedTechRepository.deleteAll(findFeed.getFeedTechs());
         List<FeedTech> feedTechs = makeTechIdToFeedTech(request, findFeed);
-        findFeed.setFeedTechs(feedTechs);
+        findFeed.changeFeedTechs(feedTechs);
     }
 
     public FeedResponse findById(User user, Long feedId) {
