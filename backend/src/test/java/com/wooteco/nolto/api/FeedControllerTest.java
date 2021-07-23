@@ -7,6 +7,7 @@ import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.ui.FeedController;
 import com.wooteco.nolto.feed.ui.dto.FeedAuthorResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
+import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
 import com.wooteco.nolto.user.domain.User;
 import org.junit.jupiter.api.DisplayName;
@@ -14,10 +15,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -118,6 +121,71 @@ public class FeedControllerTest extends ControllerTest {
                                 parameterWithName("sos").description("sos 여부"),
                                 parameterWithName("storageUrl").description("저장소 URL").optional(),
                                 parameterWithName("deployedUrl").description("배포 URL(전시중일 경우만 필수)").optional()
+                        )
+                ));
+    }
+
+    @DisplayName("피드를 업데이트한다.")
+    @Test
+    void update() throws Exception {
+        given(authService.findUserByToken(TOKEN_PAYLOAD)).willReturn(LOGIN_USER);
+        willDoNothing().given(feedService).update(any(User.class), any(Long.class), any(FeedRequest.class));
+
+        MockHttpServletRequestBuilder request = multipart("/feeds/" + FEED_ID)
+                .file("thumbnailImage", MOCK_MULTIPART_FILE.getBytes())
+                .param("title", "수정된 제목")
+                .param("techs", "2")
+                .param("techs", "3")
+                .param("content", "수정된 글 내용입니다. 하지만 꼭 수정될 필요는 없습니다.")
+                .param("step", "COMPLETE")
+                .param("sos", "false")
+                .param("storageUrl", "https://github.com/woowacourse-teams/2021-nolto.git")
+                .param("deployedUrl", "https://nolto.kro.kr")
+                .header("Authorization", "Bearer dXNlcjpzZWNyZXQ=");
+
+        request.with(new RequestPostProcessor() {
+            @Override
+            public MockHttpServletRequest postProcessRequest(MockHttpServletRequest request) {
+                request.setMethod("PUT");
+                return request;
+            }
+        });
+
+        mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andDo(document("feed-update",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        requestParts(
+                                partWithName("thumbnailImage").description("수정될 수 있는 썸네일 이미지")
+                        ),
+                        requestParameters(
+                                parameterWithName("title").description("수정될 수 있는 제목"),
+                                parameterWithName("techs").description("수정될 수 있는 기술 스택 목록").optional(),
+                                parameterWithName("content").description("수정될 수 있는 내용"),
+                                parameterWithName("step").description("수정될 수 있는 프로젝트 단계(조립중, 전시중)"),
+                                parameterWithName("sos").description("수정될 수 있는 sos 여부"),
+                                parameterWithName("storageUrl").description("수정될 수 있는 저장소 URL").optional(),
+                                parameterWithName("deployedUrl").description("수정될 수 있는 배포 URL(전시중일 경우만 필수)").optional()
+                        )
+                ));
+    }
+
+    @DisplayName("피드를 삭제한다.")
+    @Test
+    void deleteFeed() throws Exception {
+        given(authService.findUserByToken(TOKEN_PAYLOAD)).willReturn(LOGIN_USER);
+        willDoNothing().given(feedService).delete(any(User.class), any(Long.class));
+
+        mockMvc.perform(
+                delete("/feeds/{feedId}", FEED_ID)
+                        .header("Authorization", "Bearer dXNlcjpzZWNyZXQ="))
+                .andExpect(status().isNoContent())
+                .andDo(document("feed-delete",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("feedId").description("삭제할 피드 ID")
                         )
                 ));
     }

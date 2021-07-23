@@ -6,7 +6,7 @@ import Search from 'assets/search.svg';
 import Pencil from 'assets/pencil.svg';
 import { PALETTE } from 'constants/palette';
 import ROUTE from 'constants/routes';
-import useModal from 'hooks/@common/useModal';
+import useModal from 'context/modal/useModal';
 import LoginModal from 'components/LoginModal/LoginModal';
 import { ButtonStyle } from 'types';
 import Styled, { IconButton, SearchBar } from './Header.styles';

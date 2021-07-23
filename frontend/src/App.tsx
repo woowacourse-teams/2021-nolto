@@ -8,11 +8,12 @@ import Upload from 'pages/Upload/Upload';
 import FeedDetail from 'pages/FeedDetail/FeedDetail';
 import RecentFeeds from 'pages/RecentFeeds/RecentFeeds';
 import OAuth from 'pages/OAuth/OAuth';
-import ModalProvider from 'components/@common/ModalProvider/ModalProvider';
 import AsyncBoundary from 'components/AsyncBoundary';
-import UserInfoProvider from 'storage/user/UserInfoProvider';
+import UserInfoProvider from 'context/userInfo/UserInfoProvider';
 import ROUTE from 'constants/routes';
 import GlobalStyle from './Global.styles';
+import ModalProvider from 'context/modal/ModalProvider';
+import SnackBarProvider from 'context/snackBar/SnackBarProvider';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -30,27 +31,29 @@ const App = () => {
       <Router>
         <Switch>
           <UserInfoProvider>
-            <ModalProvider>
-              <main>
-                <Route exact path={ROUTE.HOME}>
-                  <AsyncBoundary rejectedFallback={<h1>임시 에러 페이지</h1>}>
-                    <Home />
-                  </AsyncBoundary>
-                </Route>
-                <Route path={ROUTE.UPLOAD}>
-                  <Upload />
-                </Route>
-                <Route exact path={ROUTE.FEEDS}>
-                  <RecentFeeds />
-                </Route>
-                <Route path={`${ROUTE.FEEDS}/:id`}>
-                  <FeedDetail />
-                </Route>
-                <Route path="/:oauth/callback">
-                  <OAuth />
-                </Route>
-              </main>
-            </ModalProvider>
+            <SnackBarProvider>
+              <ModalProvider>
+                <main>
+                  <Route exact path={ROUTE.HOME}>
+                    <AsyncBoundary rejectedFallback={<h1>임시 에러 페이지</h1>}>
+                      <Home />
+                    </AsyncBoundary>
+                  </Route>
+                  <Route path={ROUTE.UPLOAD}>
+                    <Upload />
+                  </Route>
+                  <Route exact path={ROUTE.FEEDS}>
+                    <RecentFeeds />
+                  </Route>
+                  <Route path={`${ROUTE.FEEDS}/:id`}>
+                    <FeedDetail />
+                  </Route>
+                  <Route path="/:oauth/callback">
+                    <OAuth />
+                  </Route>
+                </main>
+              </ModalProvider>
+            </SnackBarProvider>
           </UserInfoProvider>
         </Switch>
       </Router>
