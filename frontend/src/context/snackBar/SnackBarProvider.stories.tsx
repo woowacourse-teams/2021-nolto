@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 import SnackBarProvider from './SnackBarProvider';
-import { useSnackBar } from './useSnackBar';
+import useSnackBar from './useSnackBar';
 
 export default {
   title: 'context/SnackBarProvider',

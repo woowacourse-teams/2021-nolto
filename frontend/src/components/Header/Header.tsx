@@ -7,10 +7,10 @@ import Pencil from 'assets/pencil.svg';
 import { PALETTE } from 'constants/palette';
 import ROUTE from 'constants/routes';
 import useModal from 'context/modal/useModal';
+import useUserInfo from 'hooks/useUserInfo';
 import LoginModal from 'components/LoginModal/LoginModal';
 import { ButtonStyle } from 'types';
 import Styled, { IconButton, SearchBar } from './Header.styles';
-import useUserInfo from 'hooks/useUserInfo';
 
 interface Props {
   isFolded?: boolean;
