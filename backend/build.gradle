@@ -43,6 +43,9 @@ dependencies {
 	// Rest Docs
 	testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
 	asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+
+	// flyway
+	implementation('org.flywaydb:flyway-core:6.4.2')
 }
 
 ext {
