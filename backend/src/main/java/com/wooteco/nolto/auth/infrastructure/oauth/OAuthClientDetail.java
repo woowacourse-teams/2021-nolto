@@ -1,10 +1,10 @@
 package com.wooteco.nolto.auth.infrastructure.oauth;
 
-import com.wooteco.nolto.SocialAccessException;
 import com.wooteco.nolto.auth.domain.OAuthClient;
-import com.wooteco.nolto.auth.infrastructure.oauth.dto.GithubUserResponse;
 import com.wooteco.nolto.auth.infrastructure.oauth.dto.OAuthUserResponse;
 import com.wooteco.nolto.auth.ui.dto.OAuthTokenResponse;
+import com.wooteco.nolto.exception.ErrorType;
+import com.wooteco.nolto.exception.InternalServerErrorException;
 import com.wooteco.nolto.user.domain.User;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -34,7 +34,7 @@ public abstract class OAuthClientDetail implements OAuthClient {
             ).getBody();
             return Objects.requireNonNull(userResponse).toUser();
         } catch (HttpStatusCodeException e) {
-            throw new SocialAccessException("로그인 요청에 실패했습니다.");
+            throw new InternalServerErrorException(ErrorType.SOCIAL_LOGIN_CONNECTION_FAIL);
         }
     }
 
@@ -49,7 +49,7 @@ public abstract class OAuthClientDetail implements OAuthClient {
                     OAuthTokenResponse.class
             ).getBody();
         } catch (HttpStatusCodeException e) {
-            throw new SocialAccessException("로그인 요청에 실패했습니다.");
+            throw new InternalServerErrorException(ErrorType.SOCIAL_LOGIN_CONNECTION_FAIL);
         }
     }
 

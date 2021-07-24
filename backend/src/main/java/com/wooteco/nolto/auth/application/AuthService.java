@@ -1,13 +1,14 @@
 package com.wooteco.nolto.auth.application;
 
-import com.wooteco.nolto.AuthorizationException;
-import com.wooteco.nolto.BadRequestException;
-import com.wooteco.nolto.NotFoundException;
 import com.wooteco.nolto.auth.domain.*;
 import com.wooteco.nolto.auth.infrastructure.JwtTokenProvider;
 import com.wooteco.nolto.auth.ui.dto.OAuthRedirectResponse;
 import com.wooteco.nolto.auth.ui.dto.OAuthTokenResponse;
 import com.wooteco.nolto.auth.ui.dto.TokenResponse;
+import com.wooteco.nolto.exception.BadRequestException;
+import com.wooteco.nolto.exception.ErrorType;
+import com.wooteco.nolto.exception.NotFoundException;
+import com.wooteco.nolto.exception.UnauthorizedException;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.domain.UserRepository;
 import lombok.AllArgsConstructor;
@@ -44,7 +45,7 @@ public class AuthService {
 
     private void validateCode(String code) {
         if (Objects.isNull(code) || code.isEmpty()) {
-            throw new BadRequestException("로그인 요청에 실패했습니다.");
+            throw new BadRequestException(ErrorType.INVALID_OAUTH_CODE);
         }
     }
 
@@ -67,12 +68,12 @@ public class AuthService {
 
     private User getFindUser(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 유저입니다."));
+                .orElseThrow(() -> new NotFoundException(ErrorType.USER_NOT_FOUND));
     }
 
     public void validateToken(String token) {
         if (!jwtTokenProvider.validateToken(token)) {
-            throw new AuthorizationException("유효하지 않은 토큰입니다.");
+            throw new UnauthorizedException(ErrorType.INVALID_TOKEN);
         }
     }
 }

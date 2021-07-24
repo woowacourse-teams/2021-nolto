@@ -37,7 +37,7 @@ public class FeedController {
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping( "/{feedId}")
+    @PutMapping("/{feedId}")
     public ResponseEntity<Void> update(@MemberAuthenticationPrincipal User user, @PathVariable Long feedId, @ModelAttribute @Valid FeedRequest request) {
         feedService.update(user, feedId, request);
         return ResponseEntity.ok().build();

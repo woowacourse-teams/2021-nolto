@@ -1,5 +1,7 @@
 package com.wooteco.nolto.feed.domain;
 
+import com.wooteco.nolto.exception.BadRequestException;
+import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.user.domain.UserTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -56,7 +58,7 @@ class FeedTest {
                         "www.github.com/woowacourse",
                         "",
                         "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png"))
-                .isInstanceOf(IllegalStateException.class)
-                .hasMessage("COMPLETE 단계는 배포 URL이 필수입니다.");
+                .isInstanceOf(BadRequestException.class)
+                .hasMessage(ErrorType.MISSING_DEPLOY_URL.getMessage());
     }
 }
