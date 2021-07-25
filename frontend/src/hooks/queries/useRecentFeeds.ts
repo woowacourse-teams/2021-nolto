@@ -1,6 +1,7 @@
-import { QueryFunctionContext, QueryKey, useQuery } from 'react-query';
+import { QueryFunctionContext, QueryKey, useQuery, UseQueryOptions } from 'react-query';
 
 import api from 'constants/api';
+import HttpError from 'utils/HttpError';
 import { Feed, FilterType } from 'types';
 
 const getRecentFeeds = async ({ queryKey }: QueryFunctionContext<QueryKey, FilterType>) => {
@@ -10,6 +11,9 @@ const getRecentFeeds = async ({ queryKey }: QueryFunctionContext<QueryKey, Filte
   return data;
 };
 
-export default function useRecentFeeds(filter?: FilterType) {
-  return useQuery<Feed[]>(['recentFeeds', filter], getRecentFeeds);
+export default function useRecentFeeds(
+  option: UseQueryOptions<Feed[], HttpError>,
+  filter?: FilterType,
+) {
+  return useQuery<Feed[]>(['recentFeeds', filter], getRecentFeeds, option);
 }

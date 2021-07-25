@@ -8,7 +8,7 @@ type ErrorType = 'feeds-001' | 'feeds-002';
 
 const getHotFeeds = async () => {
   try {
-    const { data } = await api.get('/feeds/hot');
+    const { data } = await api.get('/feeds/ho');
 
     return data;
   } catch (error) {

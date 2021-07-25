@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import LevelButton from 'components/LevelButton/LevelButton';
 import StretchCard from 'components/StretchCard/StretchCard';
 import useRecentFeeds from 'hooks/queries/useRecentFeeds';
+import useSnackBar from 'context/snackBar/useSnackBar';
 import ROUTE from 'constants/routes';
 import Styled from './RecentFeedsContent.styles';
 import { FilterType } from 'types';
@@ -14,7 +15,15 @@ interface Props {
 
 const RecentFeedsContent = ({ limit }: Props) => {
   const [filterType, setFilterType] = useState<FilterType>();
-  const { data: recentFeeds } = useRecentFeeds(filterType);
+
+  const snackbar = useSnackBar();
+  const { data: recentFeeds } = useRecentFeeds(
+    {
+      onError: () => snackbar.addSnackBar('error', '최신 피드를 불러올 수 없습니다.'),
+      refetchOnMount: true,
+    },
+    filterType,
+  );
 
   const toggleLevel = (type: FilterType) => {
     if (filterType === type) setFilterType(null);
