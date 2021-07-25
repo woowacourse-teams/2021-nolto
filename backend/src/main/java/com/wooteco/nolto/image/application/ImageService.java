@@ -36,7 +36,7 @@ public class ImageService {
     }
 
     public String upload(MultipartFile multipartFile) {
-        if (multipartFile.isEmpty()) {
+        if (isEmpty(multipartFile)) {
             return cloudfrontUrl + "/" + defaultImage;
         }
         File file = convertToFile(multipartFile);
@@ -44,6 +44,10 @@ public class ImageService {
         amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, file));
         file.delete();
         return cloudfrontUrl + "/" + fileName;
+    }
+
+    public boolean isEmpty(MultipartFile multipartFile) {
+        return Objects.isNull(multipartFile) || multipartFile.isEmpty();
     }
 
     private String getFileName(File file) {
