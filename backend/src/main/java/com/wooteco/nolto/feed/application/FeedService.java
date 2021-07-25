@@ -80,7 +80,7 @@ public class FeedService {
     }
 
     private void updateThumbnailIfImageExist(FeedRequest request, Feed findFeed) {
-        if (request.getThumbnailImage().isEmpty()) return;
+        if (imageService.isEmpty(request.getThumbnailImage())) return;
 
         String updateThumbnailUrl = imageService.update(findFeed.getThumbnailUrl(), request.getThumbnailImage());
         findFeed.changeThumbnailUrl(updateThumbnailUrl);
