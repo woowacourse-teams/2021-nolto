@@ -7,6 +7,7 @@ import ViewCountIcon from 'assets/viewCount.svg';
 import Chip from 'components/@common/Chip/Chip';
 import { ButtonStyle } from 'types';
 import { STEP_CONVERTER } from 'constants/common';
+import FeedDropdown from 'components/FeedDropdown/FeedDropdown';
 
 interface Props {
   id: number;
@@ -50,6 +51,7 @@ const FeedDetailContent = ({ id }: Props) => {
             <Styled.UserWrapper>
               <Styled.UserName>{feedDetail.author.nickname}</Styled.UserName>
               <Styled.UserImage src={feedDetail.author.imageUrl} />
+              <FeedDropdown feedId={id} />
             </Styled.UserWrapper>
           </Styled.TitleContainer>
           <hr />
