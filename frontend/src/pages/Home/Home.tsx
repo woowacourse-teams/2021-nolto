@@ -1,14 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
+import AsyncBoundary from 'components/AsyncBoundary';
 import CroppedEllipse from 'components/CroppedEllipse/CroppedEllipse';
 import RegularCard from 'components/RegularCard/RegularCard';
-import StretchCard from 'components/StretchCard/StretchCard';
-import LevelLinkButton from 'components/LevelLinkButton/LevelLinkButton';
 import Header from 'components/Header/Header';
+import RecentFeedsContent from 'components/RecentFeedsContent/RecentFeedsContent';
 import useHotFeeds from 'hooks/queries/useHotFeeds';
 import useOnScreen from 'hooks/@common/useOnScreen';
-import useRecentFeeds from 'hooks/queries/useRecentFeeds';
 import ROUTE from 'constants/routes';
 import Styled, { CarouselArrowButton, ScrollUpButton, SearchBar, MoreButton } from './Home.styles';
 import MoreArrow from 'assets/moreArrow.svg';
@@ -19,13 +18,14 @@ const Home = () => {
   const { data: hotFeeds } = useHotFeeds({
     onError: () => alert('임시 alert'),
   });
-  const { data: recentFeeds } = useRecentFeeds();
 
   const [isHeaderFolded, setHeaderFolded] = useState(true);
   const [hotToyCardIdx, setHotToyCardIdx] = useState(3);
 
   const ellipseRef = useRef();
   const isEllipseVisible = useOnScreen(ellipseRef);
+
+  const RECENT_FEED_LENGTH = 4;
 
   useEffect(() => {
     if (isEllipseVisible) {
@@ -90,23 +90,10 @@ const Home = () => {
 
           <Styled.SectionTitle fontSize="1.75rem">Recent Toys</Styled.SectionTitle>
           <Styled.RecentToysContainer>
-            <Styled.LevelButtonsContainer>
-              <LevelLinkButton.Progress />
-              <LevelLinkButton.Complete />
-              <LevelLinkButton.SOS />
-            </Styled.LevelButtonsContainer>
-            <Styled.RecentToyCardsContainer>
-              {recentFeeds &&
-                recentFeeds.slice(0, 4).map((feed) => (
-                  <li key={feed.id}>
-                    <Link to={`${ROUTE.FEEDS}/${feed.id}`}>
-                      <Styled.VerticalAvatar user={feed.author} />
-                      <StretchCard feed={feed} />
-                    </Link>
-                  </li>
-                ))}
-            </Styled.RecentToyCardsContainer>
-            <MoreButton to={ROUTE.FEEDS}>
+            <AsyncBoundary rejectedFallback={<h1>임시 에러 페이지</h1>}>
+              <RecentFeedsContent limit={RECENT_FEED_LENGTH} />
+            </AsyncBoundary>
+            <MoreButton to={ROUTE.RECENT}>
               MORE&nbsp;
               <MoreArrow width="10px" />
             </MoreButton>
