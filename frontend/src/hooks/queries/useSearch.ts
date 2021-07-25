@@ -1,7 +1,7 @@
 import { useQuery, UseQueryOptions, QueryFunctionContext } from 'react-query';
 
 import api from 'constants/api';
-import { Feed, Tech } from 'types';
+import { Feed } from 'types';
 import HttpError from 'utils/HttpError';
 
 interface SearchParams {
@@ -12,9 +12,8 @@ interface SearchParams {
 const getSearchResult = async ({ queryKey }: QueryFunctionContext) => {
   const [_, { query, techs }] = queryKey as [string, SearchParams];
   const queryString = new URLSearchParams({ query, techs });
-  console.log(queryString);
 
-  const { data } = await api.get('/search?' + queryString);
+  const { data } = await api.get('/feeds/search?' + queryString);
 
   return data;
 };

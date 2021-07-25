@@ -27,6 +27,7 @@ const SearchContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 3.75rem;
+  z-index: 10;
 `;
 
 const SearchTitle = styled.div`
@@ -38,7 +39,7 @@ const SearchTitle = styled.div`
 
 export const SearchBar = styled(SearchBarComponent)`
   position: relative;
-  width: 30rem;
+  width: 32rem;
   height: 2.5rem;
   margin-bottom: 18px;
 `;

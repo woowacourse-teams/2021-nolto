@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { ButtonStyle } from 'types';
-import useTechTag from '../useTechTag';
 import Styled, { TechButton } from './TechChips.styles';
+import useTechTag from '../useTechTag';
 
 interface Props {
   className?: string;
@@ -26,6 +26,7 @@ const TechChips = ({ className, reverse = false }: Props) => {
           onClick={() => deleteTech(tech.id)}
         >
           {tech.text}
+          <Styled.DeleteMark width="10px" reverse={reverse} />
         </TechButton>
       ))}
     </Styled.Root>

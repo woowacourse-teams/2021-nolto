@@ -1,4 +1,4 @@
-import CustomError from "./CustomError";
+import CustomError from './CustomError';
 
 class HttpError extends CustomError {
   statusCode: number;
