@@ -72,12 +72,18 @@ public class FeedService {
                 request.getDeployedUrl()
         );
 
-        String updateThumbnailUrl = imageService.update(findFeed.getThumbnailUrl(), request.getThumbnailImage());
-        findFeed.changeThumbnailUrl(updateThumbnailUrl);
+        updateThumbnailIfImageExist(request, findFeed);
 
         feedTechRepository.deleteAll(findFeed.getFeedTechs());
         List<FeedTech> feedTechs = makeTechIdToFeedTech(request, findFeed);
         findFeed.changeFeedTechs(feedTechs);
+    }
+
+    private void updateThumbnailIfImageExist(FeedRequest request, Feed findFeed) {
+        if (request.getThumbnailImage().isEmpty()) return;
+
+        String updateThumbnailUrl = imageService.update(findFeed.getThumbnailUrl(), request.getThumbnailImage());
+        findFeed.changeThumbnailUrl(updateThumbnailUrl);
     }
 
     public FeedResponse findById(User user, Long feedId) {
