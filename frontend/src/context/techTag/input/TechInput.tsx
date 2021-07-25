@@ -5,7 +5,7 @@ import useQueryDebounce from 'hooks/@common/useQueryDebounce';
 import FormInput from 'components/@common/FormInput/FormInput';
 import { Tech } from 'types';
 import Styled from './TechInput.styles';
-import { useTechTag } from '../useTechTag';
+import useTechTag from '../useTechTag';
 
 interface Props {
   onUpdateTechs: (techs: Tech[]) => void;

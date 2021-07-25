@@ -2,7 +2,7 @@ import { useContext } from 'react';
 
 import { Context } from './SnackBarProvider';
 
-export const useSnackBar = () => {
+const useSnackBar = () => {
   const context = useContext(Context);
 
   if (!context) {
@@ -11,3 +11,5 @@ export const useSnackBar = () => {
 
   return context;
 };
+
+export default useSnackBar;
