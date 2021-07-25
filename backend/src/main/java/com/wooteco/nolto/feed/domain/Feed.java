@@ -125,7 +125,7 @@ public class Feed extends BaseEntity {
     }
 
     public void changeThumbnailUrl(String updateThumbnailUrl) {
-        this.thumbnailUrl = thumbnailUrl;
+        this.thumbnailUrl = updateThumbnailUrl;
     }
 
     public void changeFeedTechs(List<FeedTech> feedTechs) {
