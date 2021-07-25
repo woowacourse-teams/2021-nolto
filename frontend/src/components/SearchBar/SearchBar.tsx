@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { InputHTMLAttributes, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import SearchIcon from 'assets/search.svg';
@@ -8,12 +8,12 @@ import SearchOption from 'components/SearchOption/SearchOption';
 import Styled, { TechChips, TechInput } from './SearchBar.styles';
 import { Tech, SearchType } from 'types';
 
-interface Props {
+interface Props extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
   selectable?: boolean;
 }
 
-const SearchBar = ({ className, selectable = false }: Props) => {
+const SearchBar = ({ className, selectable = false, ...options }: Props) => {
   const history = useHistory();
 
   const [query, setQuery] = useState<string>('');
@@ -50,7 +50,7 @@ const SearchBar = ({ className, selectable = false }: Props) => {
       <Styled.Root className={className} selectable={selectable} onSubmit={search}>
         {selectable && <SearchOption searchType={searchType} setSearchType={setSearchType} />}
         {searchType === SearchType.CONTENT && (
-          <Styled.Input onChange={(event) => setQuery(event.target.value)} />
+          <Styled.Input onChange={(event) => setQuery(event.target.value)} {...options} />
         )}
         {searchType === SearchType.TECH && (
           <TechInput
