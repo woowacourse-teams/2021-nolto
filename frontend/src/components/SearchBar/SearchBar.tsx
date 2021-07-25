@@ -20,7 +20,9 @@ const SearchBar = ({ className, selectable = false, ...options }: Props) => {
   const [techs, setTechs] = useState<Tech[]>([]);
   const [searchType, setSearchType] = useState<SearchType>(SearchType.CONTENT);
 
-  const search = () => {
+  const search = (event: React.FormEvent) => {
+    event.preventDefault();
+
     const queryParams = new URLSearchParams({
       query,
       techs: techs.map((tech) => tech.text).join(','),
@@ -29,6 +31,7 @@ const SearchBar = ({ className, selectable = false, ...options }: Props) => {
     history.push({
       pathname: ROUTE.SEARCH,
       search: '?' + queryParams,
+      state: { query, techs },
     });
   };
 

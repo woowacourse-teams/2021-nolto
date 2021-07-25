@@ -76,6 +76,7 @@ const Home = () => {
     history.push({
       pathname: ROUTE.SEARCH,
       search: '?' + queryParams,
+      state: { techs: [tech] },
     });
   };
 
