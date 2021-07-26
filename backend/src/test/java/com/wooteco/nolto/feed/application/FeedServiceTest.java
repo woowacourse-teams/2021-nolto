@@ -27,10 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -267,6 +264,96 @@ class FeedServiceTest {
         assertThatThrownBy(() -> feedService.findEntityById(Long.MAX_VALUE))
                 .isInstanceOf(NotFoundException.class)
                 .hasMessage(ErrorType.FEED_NOT_FOUND.getMessage());
+    }
+
+
+    @DisplayName("좋아요를 누른 피드 조회 시 'liked=true'로 반환한다.")
+    @Test
+    void checkLikeWhenFindFeed() {
+        // given
+        Long feedId1 = feedService.create(user1, FEED_REQUEST1);
+        likeService.addLike(user2, feedId1);
+        em.flush();
+        em.clear();
+
+        // when
+        FeedResponse feedResponse = feedService.findById(user2, feedId1);
+
+        // then
+        assertThat(feedResponse.isLiked()).isTrue();
+    }
+
+    @DisplayName("좋아요를 누르지 않은 피드 조회 시 'liked=false'로 반환한다.")
+    @Test
+    void checkNotLikeWhenFindFeed() {
+        // given
+        Long feedId1 = feedService.create(user1, FEED_REQUEST1);
+        em.flush();
+        em.clear();
+
+        // when
+        FeedResponse feedResponse = feedService.findById(user2, feedId1);
+
+        // then
+        assertThat(feedResponse.isLiked()).isFalse();
+    }
+
+    @DisplayName("좋아요를 취소한 이후 피드를 조회하면 liked=false를 반환한다.")
+    @Test
+    void cancelLike() {
+        // given
+        Long feedId1 = feedService.create(user1, FEED_REQUEST1);
+        likeService.addLike(user2, feedId1);
+        em.flush();
+        em.clear();
+
+        // when
+        likeService.deleteLike(user2, feedId1);
+        em.flush();
+        em.clear();
+        FeedResponse feedResponse = feedService.findById(user2, feedId1);
+
+        // then
+        assertThat(feedResponse.isLiked()).isFalse();
+    }
+
+    @DisplayName("좋아요를 누른 유저가 삭제되면 해당 피드의 좋아요 데이터도 삭제된다. (user2가 삭제 -> feed1의 user2가 좋아요한 데이터 삭제) - user2가 없으므로 엔티티로 조회")
+    @Test
+    void cancelLikeWhenDeleteUser() {
+        // given
+        Long feedId1 = feedService.create(user1, FEED_REQUEST1);
+        likeService.addLike(user2, feedId1);
+        em.flush();
+        em.clear();
+
+        // when
+        userRepository.delete(user2);
+        em.flush();
+        em.clear();
+        Feed findFeed = feedService.findEntityById(feedId1);
+
+        // then
+        assertThat(findFeed.findLikeBy(user2)).isEqualTo(Optional.empty());
+    }
+
+    @DisplayName("좋아요를 누른 피드가 삭제되면 유저의 좋아요 데이터도 삭제된다. (feed1이 삭제 ->  user2의 feed1에 대한 like 데이터 삭제) - feed1이 없으므로 엔티티로 조회")
+    @Test
+    void cancelLikeWhenDeleteFeed() {
+        // given
+        Long feedId1 = feedService.create(user1, FEED_REQUEST1);
+        likeService.addLike(user2, feedId1);
+        em.flush();
+        em.clear();
+
+        // when
+        Feed findFeed = feedService.findEntityById(feedId1);
+        feedService.delete(user1, feedId1);
+        em.flush();
+        em.clear();
+
+        // then
+        user2 = userRepository.findById(this.user2.getId()).get();
+        assertThat(user2.isLiked(findFeed)).isFalse();
     }
 
     @DisplayName("좋아요 개수가 높은 인기 Feed들을 가져온다.")
