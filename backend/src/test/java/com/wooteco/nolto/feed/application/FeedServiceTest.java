@@ -498,7 +498,7 @@ class FeedServiceTest {
         String query = "content";
 
         //when
-        List<FeedCardResponse> searchFeeds = feedService.search(query, "");
+        List<FeedCardResponse> searchFeeds = feedService.search(query, "", "all");
         List<Long> feedIds = searchFeeds.stream()
                 .map(FeedCardResponse::getId)
                 .collect(Collectors.toList());
@@ -519,7 +519,7 @@ class FeedServiceTest {
         String query = "tle1";
 
         //when
-        List<FeedCardResponse> searchFeeds = feedService.search(query, "");
+        List<FeedCardResponse> searchFeeds = feedService.search(query, "", "all");
         List<Long> feedIds = searchFeeds.stream()
                 .map(FeedCardResponse::getId)
                 .collect(Collectors.toList());
@@ -545,7 +545,7 @@ class FeedServiceTest {
         String techs = "Spring,Java";
 
         //when
-        List<FeedCardResponse> searchFeeds = feedService.search("", techs);
+        List<FeedCardResponse> searchFeeds = feedService.search("", techs, "all");
         List<Long> feedIds = searchFeeds.stream()
                 .map(FeedCardResponse::getId)
                 .collect(Collectors.toList());
@@ -572,7 +572,7 @@ class FeedServiceTest {
         String techs = "KOLOLO";
 
         //when
-        List<FeedCardResponse> searchFeeds = feedService.search("", techs);
+        List<FeedCardResponse> searchFeeds = feedService.search("", techs, "all");
 
         //then
         assertThat(searchFeeds).hasSize(0);
@@ -595,7 +595,7 @@ class FeedServiceTest {
         String techs = "Spring,Java";
 
         //when
-        List<FeedCardResponse> searchFeeds = feedService.search(query, techs);
+        List<FeedCardResponse> searchFeeds = feedService.search(query, techs, "all");
         List<Long> feedIds = searchFeeds.stream()
                 .map(FeedCardResponse::getId)
                 .collect(Collectors.toList());
@@ -603,6 +603,97 @@ class FeedServiceTest {
         //then
         assertThat(searchFeeds).hasSize(1);
         assertThat(feedIds).contains(firstFeedId);
+    }
+
+    @DisplayName("제목+내용 Query와 기술명 나열 Techs로 검색한 결과에 대해 SOS 필터링하여 받을 수 있다.")
+    @Test
+    void searchByQueryAndTechsWithSos() {
+        //given
+        FEED_REQUEST1.setTechs(Arrays.asList(techSpring.getId(), techJava.getId()));
+        FEED_REQUEST1.setSos(true);
+        Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
+
+        FEED_REQUEST2.setTechs(Arrays.asList(techSpring.getId() , techJava.getId()));
+        FEED_REQUEST2.setSos(false);
+        Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
+
+        FEED_REQUEST3.setTechs(Collections.singletonList(techReact.getId()));
+        FEED_REQUEST3.setSos(false);
+        Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
+
+        String query = "title";
+        String techs = "Spring,Java";
+
+        //when
+        List<FeedCardResponse> searchFeeds = feedService.search(query, techs, "sos");
+        List<Long> feedIds = searchFeeds.stream()
+                .map(FeedCardResponse::getId)
+                .collect(Collectors.toList());
+
+        //then
+        assertThat(searchFeeds).hasSize(1);
+        assertThat(feedIds).contains(firstFeedId);
+    }
+
+    @DisplayName("제목+내용 Query와 기술명 나열 Techs로 검색한 결과에 대해 PROGRESS만 필터링하여 받을 수 있다.")
+    @Test
+    void searchByQueryAndTechsWithProgress() {
+        //given
+        FEED_REQUEST1.setTechs(Arrays.asList(techSpring.getId(), techJava.getId()));
+        FEED_REQUEST1.setStep("PROGRESS");
+        Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
+
+        FEED_REQUEST2.setTechs(Arrays.asList(techSpring.getId() , techJava.getId()));
+        FEED_REQUEST2.setStep("PROGRESS");
+        Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
+
+        FEED_REQUEST3.setTechs(Arrays.asList(techSpring.getId() , techJava.getId()));
+        FEED_REQUEST3.setStep("COMPLETE");
+        Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
+
+        String query = "title";
+        String techs = "Spring,Java";
+
+        //when
+        List<FeedCardResponse> searchFeeds = feedService.search(query, techs, "progress");
+        List<Long> feedIds = searchFeeds.stream()
+                .map(FeedCardResponse::getId)
+                .collect(Collectors.toList());
+
+        //then
+        assertThat(searchFeeds).hasSize(2);
+        assertThat(feedIds).contains(firstFeedId, secondFeedId);
+    }
+
+
+    @DisplayName("제목+내용 Query와 기술명 나열 Techs로 검색한 결과에 대해 COMPLETE만 필터링하여 받을 수 있다.")
+    @Test
+    void searchByQueryAndTechsWithComplete() {
+        //given
+        FEED_REQUEST1.setTechs(Arrays.asList(techSpring.getId(), techJava.getId()));
+        FEED_REQUEST1.setStep("COMPLETE");
+        Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
+
+        FEED_REQUEST2.setTechs(Arrays.asList(techSpring.getId() , techJava.getId()));
+        FEED_REQUEST2.setStep("PROGRESS");
+        Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
+
+        FEED_REQUEST3.setTechs(Arrays.asList(techSpring.getId() , techJava.getId()));
+        FEED_REQUEST3.setStep("COMPLETE");
+        Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
+
+        String query = "title";
+        String techs = "Spring,Java";
+
+        //when
+        List<FeedCardResponse> searchFeeds = feedService.search(query, techs, "complete");
+        List<Long> feedIds = searchFeeds.stream()
+                .map(FeedCardResponse::getId)
+                .collect(Collectors.toList());
+
+        //then
+        assertThat(searchFeeds).hasSize(2);
+        assertThat(feedIds).contains(firstFeedId, thirdFeedId);
     }
 
     private void 피드_정보가_같은지_조회(FeedRequest request, Feed feed) {
