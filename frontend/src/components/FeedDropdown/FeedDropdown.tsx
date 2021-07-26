@@ -1,13 +1,13 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 import Dropdown from 'components/@common/Dropdown/Dropdown';
-import Styled from './FeedDropdown.styles';
 import useNotification from 'context/notification/useNotification';
-import useFeedDelete from 'hooks/queries/useFeedDelete';
 import useSnackBar from 'context/snackBar/useSnackBar';
-import { useHistory } from 'react-router-dom';
+import useFeedDelete from 'hooks/queries/useFeedDelete';
 import ROUTE from 'constants/routes';
 import { FeedDetail } from 'types';
+import Styled from './FeedDropdown.styles';
 
 interface Props {
   feedDetail: FeedDetail;

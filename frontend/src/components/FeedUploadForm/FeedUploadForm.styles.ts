@@ -2,6 +2,8 @@ import styled from 'styled-components';
 
 import TextArea from 'components/@common/TextArea/TextArea';
 import TextButton from 'components/@common/TextButton/TextButton';
+import Tooltip from 'components/@common/Tooltip/Tooltip';
+import ToyboxIcon from 'assets/toybox.svg';
 
 const Root = styled.div`
   display: flex;
@@ -29,6 +31,7 @@ export const Form = styled.form`
 `;
 
 const VerticalWrapper = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   border-bottom: 2rem;
@@ -48,7 +51,6 @@ const InputsContainer = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  justify-content: space-between;
 `;
 
 const StretchWrapper = styled.div`
@@ -67,9 +69,20 @@ const StretchWrapper = styled.div`
   }
 `;
 
-const LevelWrapper = styled(StretchWrapper)`
-  margin-bottom: 0;
-  width: auto;
+const LevelWrapper = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 7rem;
+`;
+
+const SOSLabel = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
 `;
 
 export const StyledButton = styled(TextButton.Regular)`
@@ -86,6 +99,32 @@ const ButtonsWrapper = styled.div`
   justify-content: center;
 `;
 
+const QuestionMark = styled.span``;
+
+export const LevelTooltip = styled(Tooltip)<{ visible: boolean }>`
+  display: ${({ visible }) => !visible && 'none'};
+  position: absolute;
+  top: 10%;
+  left: 70%;
+`;
+
+export const SOSTooltip = styled(Tooltip)<{ visible: boolean }>`
+  display: ${({ visible }) => !visible && 'none'};
+  position: absolute;
+  top: 15%;
+  right: 105%;
+`;
+
+const InputCaption = styled.span`
+  font-size: 0.75rem;
+`;
+
+export const Toybox = styled(ToyboxIcon)`
+  position: absolute;
+  height: 2rem;
+  right: 0;
+`;
+
 export default {
   Root,
   TitleWrapper,
@@ -93,5 +132,8 @@ export default {
   InputsContainer,
   StretchWrapper,
   LevelWrapper,
+  SOSLabel,
+  QuestionMark,
   ButtonsWrapper,
+  InputCaption,
 };

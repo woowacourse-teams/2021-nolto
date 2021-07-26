@@ -5,7 +5,6 @@ const Root = styled.div`
   position: relative;
   display: flex;
   justify-content: center;
-  width: 54px;
   height: 16px;
 `;
 
@@ -49,7 +48,8 @@ const Menu = styled.div<{ isTriggered: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  width: 54px;
+
   border: 1px solid ${PALETTE.GRAY_400};
   border-radius: 4px;
   overflow: hidden;
