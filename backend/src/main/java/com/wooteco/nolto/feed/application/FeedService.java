@@ -20,6 +20,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -119,9 +120,12 @@ public class FeedService {
         feedRepository.delete(findFeed);
     }
 
-    public List<FeedCardResponse> search(String query, String techs) {
-        SearchStrategy strategy = SearchStrategyFactory.of(query, techs).findStrategy();
-        Set<Feed> searchFeed = strategy.search(query, techs);
-        return FeedCardResponse.toList(searchFeed);
+    public List<FeedCardResponse> search(String query, String techs, String filter) {
+        SearchStrategy searchStrategy = SearchStrategyFactory.of(query, techs).findStrategy();
+        Set<Feed> searchFeed = searchStrategy.search(query, techs);
+
+        Feeds feeds = new Feeds(new ArrayList<>(searchFeed));
+        FilterStrategy filterStrategy = FilterStrategy.of(filter);
+        return FeedCardResponse.toList(feeds.filter(filterStrategy));
     }
 }
