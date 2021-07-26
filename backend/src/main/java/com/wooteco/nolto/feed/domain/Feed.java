@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -121,7 +122,7 @@ public class Feed extends BaseEntity {
     }
 
     public boolean notSameAuthor(User user) {
-        return author.notSameAs(user);
+        return !author.SameAs(user);
     }
 
     public void changeThumbnailUrl(String updateThumbnailUrl) {
@@ -130,6 +131,16 @@ public class Feed extends BaseEntity {
 
     public void changeFeedTechs(List<FeedTech> feedTechs) {
         this.feedTechs = feedTechs;
+    }
+
+    public Optional<Like> findLikeBy(User user) {
+        return likes.stream()
+                .filter(like -> like.SameAs(user))
+                .findAny();
+    }
+
+    public void delete(Like like) {
+        this.likes.remove(like);
     }
 
     @Override

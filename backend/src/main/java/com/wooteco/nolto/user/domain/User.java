@@ -41,7 +41,7 @@ public class User {
     @OneToMany(mappedBy = "author")
     private final List<Feed> feeds = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private final List<Like> likes = new ArrayList<>();
 
     public User(String socialId, SocialType socialType, String nickName, String imageUrl) {
@@ -66,8 +66,16 @@ public class User {
         this.feeds.add(feed);
     }
 
-    public boolean notSameAs(User user) {
-        return !getId().equals(user.getId());
+    public void addLike(Like like) {
+        this.likes.add(like);
+    }
+
+    public boolean SameAs(User user) {
+        return getId().equals(user.getId());
+    }
+
+    public void delete(Like like) {
+        this.likes.remove(like);
     }
 
     private static class GuestUser extends User {
