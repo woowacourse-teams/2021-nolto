@@ -12,7 +12,7 @@ interface Props {
 }
 
 const SearchResultContent = ({ query, techs }: Props) => {
-  const { data: feeds } = useSearch({ query, techs });
+  const { data: feeds } = useSearch({ query, techs }, { suspense: false });
 
   return (
     <Styled.Root>

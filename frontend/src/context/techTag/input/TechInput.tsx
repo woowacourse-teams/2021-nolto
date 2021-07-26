@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect, InputHTMLAttributes } from 'react';
 
-import useTechs from 'hooks/queries/useTechs';
+import useTechAutoComplete from 'hooks/queries/useTechAutoComplete';
 import useQueryDebounce from 'hooks/@common/useQueryDebounce';
 import FormInput from 'components/@common/FormInput/FormInput';
 import { Tech } from 'types';
@@ -20,7 +20,7 @@ const TechInput = ({ onUpdateTechs, className, ...options }: Props) => {
 
   const focusedOption = useRef(null);
   const debouncedSearchInput = useQueryDebounce(searchInput, 200);
-  const { data: techs } = useTechs(debouncedSearchInput);
+  const { data: techs } = useTechAutoComplete(debouncedSearchInput);
 
   const moveFocusedOption = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'ArrowDown') {

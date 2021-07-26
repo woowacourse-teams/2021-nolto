@@ -31,7 +31,6 @@ const SearchBar = ({ className, selectable = false, ...options }: Props) => {
     history.push({
       pathname: ROUTE.SEARCH,
       search: '?' + queryParams,
-      state: { query, techs },
     });
   };
 
