@@ -7,5 +7,5 @@ import java.util.List;
 public interface TechRepository extends JpaRepository<Tech, Long> {
     List<Tech> findByNameStartsWithIgnoreCase(String name);
 
-    List<Tech> findAllByNameIn(List<String> techNames);
+    List<Tech> findAllByNameInIgnoreCase(List<String> techNames);
 }
