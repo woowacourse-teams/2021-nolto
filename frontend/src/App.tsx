@@ -15,6 +15,7 @@ import ModalProvider from 'context/modal/ModalProvider';
 import SnackBarProvider from 'context/snackBar/SnackBarProvider';
 import ROUTE from 'constants/routes';
 import GlobalStyle from './Global.styles';
+import Modify from 'pages/Modify/Modify';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -43,6 +44,9 @@ const App = () => {
                     </Route>
                     <Route path={ROUTE.UPLOAD}>
                       <Upload />
+                    </Route>
+                    <Route path={ROUTE.MODIFY}>
+                      <Modify />
                     </Route>
                     <Route exact path={ROUTE.RECENT}>
                       <RecentFeeds />
