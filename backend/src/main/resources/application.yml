@@ -22,6 +22,8 @@ spring:
     output:
         ansi:
             enabled: always
+    main:
+        allow-bean-definition-overriding: true
 ---
 spring:
     config:
@@ -141,5 +143,5 @@ application:
     bucket:
         name: 2021-nolto
     cloudfront:
-        url: https://dksykemwl00pf.cloudfront.net
+        url: https://dksykemwl00pf.cloudfront.net/
     default-image: nolto-default-thumbnail.png
