@@ -295,7 +295,7 @@ class FeedServiceTest {
 
     @DisplayName("좋아요 개수가 같은 경우 최신 Feed를 가져온다.(피드1: 좋아요0개, 피드2: 좋아요2개, 피드3: 좋아요2개)")
     @Test
-    void findHotFeedsBySameDate() throws InterruptedException {
+    void findHotFeedsBySameDate() {
         // given
         Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
         Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
