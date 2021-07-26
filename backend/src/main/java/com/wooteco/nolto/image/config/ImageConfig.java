@@ -12,7 +12,7 @@ public class ImageConfig {
     private String region;
 
     @Bean
-    public AmazonS3 generateS3Client() {
+    public AmazonS3 amazonS3() {
         return AmazonS3ClientBuilder
                 .standard()
                 .withRegion(region)
