@@ -23,14 +23,16 @@ public class LikeService {
         if (user.isLiked(findFeed)) {
             throw new BadRequestException(ErrorType.ALREADY_LIKED);
         }
-
-        likeRepository.save(new Like(user, findFeed));
+        user.addLike(new Like(user, findFeed));
     }
 
     public void deleteLike(User user, Long feedId) {
         Feed findFeed = feedService.findEntityById(feedId);
-        Like findLike = likeRepository.findByUserAndFeed(user, findFeed)
+        Like findLike = findFeed.findLikeBy(user)
                 .orElseThrow(() -> new BadRequestException(ErrorType.NOT_LIKED));
+
         likeRepository.delete(findLike);
+        findFeed.delete(findLike);
+        user.delete(findLike);
     }
 }
