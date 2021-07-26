@@ -7,28 +7,29 @@ import useFeedDelete from 'hooks/queries/useFeedDelete';
 import useSnackBar from 'context/snackBar/useSnackBar';
 import { useHistory } from 'react-router-dom';
 import ROUTE from 'constants/routes';
+import { FeedDetail } from 'types';
 
 interface Props {
-  feedId: number;
+  feedDetail: FeedDetail;
 }
 
-const FeedDropdown = ({ feedId }: Props) => {
+const FeedDropdown = ({ feedDetail }: Props) => {
   const notification = useNotification();
   const snackBar = useSnackBar();
   const deleteMutation = useFeedDelete();
   const history = useHistory();
 
   const handleModify = () => {
-    history.push(ROUTE.MODIFY, { feedId });
+    history.push(ROUTE.MODIFY, { feedDetail });
   };
 
   const handleDelete = () => {
-    notification.confirm('정말로 삭제하시겠어요?', () => {
+    notification.confirm('정말로 삭제하시겠습니까?', () => {
       deleteMutation.mutate(
-        { feedId },
+        { feedId: feedDetail.id },
         {
           onSuccess: () => {
-            snackBar.addSnackBar('success', '토이 프로젝트가 삭제되었어요');
+            snackBar.addSnackBar('success', '토이 프로젝트가 삭제되었습니다.');
             history.push(ROUTE.HOME);
           },
         },

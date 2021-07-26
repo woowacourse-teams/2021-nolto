@@ -51,7 +51,7 @@ const FeedDetailContent = ({ id }: Props) => {
             <Styled.UserWrapper>
               <Styled.UserName>{feedDetail.author.nickname}</Styled.UserName>
               <Styled.UserImage src={feedDetail.author.imageUrl} />
-              <FeedDropdown feedId={id} />
+              <FeedDropdown feedDetail={feedDetail} />
             </Styled.UserWrapper>
           </Styled.TitleContainer>
           <hr />
