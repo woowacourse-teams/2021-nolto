@@ -33,6 +33,9 @@ class TechControllerTest extends ControllerTest {
     public static final List<TechResponse> TECH_RESPONSES = Arrays.asList(
             new TechResponse(67L, "Spring"), new TechResponse(1149L, "Spring Batch"));
 
+    public static final List<TechResponse> TECH_RESPONSES2 = Arrays.asList(
+            new TechResponse(67L, "Spring"), new TechResponse(1149L, "Java"));
+
     @MockBean
     private TechService techService;
 
@@ -50,6 +53,26 @@ class TechControllerTest extends ControllerTest {
                         getDocumentResponse(),
                         requestParameters(
                                 parameterWithName("auto_complete").description("기술 키워드")
+                        ),
+                        responseFields(
+                                fieldWithPath("[]").type(JsonFieldType.ARRAY).description("기술 스택 목록"))
+                                .andWithPrefix("[].", TECH)));
+    }
+
+    @DisplayName("키워드로 기술 스택을 조회한다.")
+    @Test
+    void findAllByNameInIgnoreCase() throws Exception {
+        String techNames = "Spring,Java,UnidentifiedTech";
+        given(techService.findAllByNameInIgnoreCase(techNames)).willReturn(TECH_RESPONSES2);
+
+        mockMvc.perform(get("/tags/techs/search").param("names", techNames))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(TECH_RESPONSES2)))
+                .andDo(document("tech-findAllByNameInIgnoreCase",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        requestParameters(
+                                parameterWithName("names").description("기술 이름")
                         ),
                         responseFields(
                                 fieldWithPath("[]").type(JsonFieldType.ARRAY).description("기술 스택 목록"))

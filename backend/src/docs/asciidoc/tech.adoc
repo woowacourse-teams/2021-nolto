@@ -12,3 +12,16 @@ include::{snippets}/tech-findByTechsContains/http-response.adoc[]
 ==== Response Fields
 
 include::{snippets}/tech-findByTechsContains/response-fields.adoc[]
+
+==== Request
+
+include::{snippets}/tech-findAllByNameInIgnoreCase/http-request.adoc[]
+include::{snippets}/tech-findAllByNameInIgnoreCase/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/tech-findAllByNameInIgnoreCase/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/tech-findAllByNameInIgnoreCase/response-fields.adoc[]

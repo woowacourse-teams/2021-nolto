@@ -28,7 +28,7 @@ public class FeedTechService {
     }
 
     public Set<Feed> findFeedUsingTech(List<String> techNames) {
-        List<Tech> techs = techRepository.findAllByNameIn(techNames);
+        List<Tech> techs = techRepository.findAllByNameInIgnoreCase(techNames);
         if (techs.isEmpty()) {
             return new HashSet<>();
         }

@@ -23,4 +23,10 @@ public class TechController {
         List<TechResponse> findTechs = techService.findByTechsContains(searchWord);
         return ResponseEntity.ok(findTechs);
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<TechResponse>> findAllByNameInIgnoreCase(@RequestParam("names") String techNames) {
+        List<TechResponse> findTechs = techService.findAllByNameInIgnoreCase(techNames);
+        return ResponseEntity.ok(findTechs);
+    }
 }
