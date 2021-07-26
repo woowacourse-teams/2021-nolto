@@ -1,12 +1,14 @@
 package com.wooteco.nolto.image.application;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.wooteco.nolto.config.LocalStackS3Config;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
@@ -21,12 +23,18 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = LocalStackS3Config.class)
 class ImageServiceTest {
 
-    public static final String BUCKET_NAME = "2021-nolto";
     public static final String FILE_PATH = "/src/test/resources/static/";
     public static final String FILE_NAME = "pretty_cat.png";
     public static final String UPDATE_FILE_NAME = "amazzi.jpeg";
-    public static final String DEFAULT_FILE_NAME = "nolto-default-thumbnail.png";
-    private static final String CLOUD_FRONT_URL = "https://dksykemwl00pf.cloudfront.net/";
+
+    @Value("${application.bucket.name}")
+    private String bucketName;
+
+    @Value("${application.cloudfront.url}")
+    private String cloudfrontUrl;
+
+    @Value("${application.default-image}")
+    private String defaultImage;
 
     @Autowired
     AmazonS3 amazonS3;
@@ -36,8 +44,8 @@ class ImageServiceTest {
 
     @BeforeEach
     void init() {
-        amazonS3.createBucket(BUCKET_NAME);
-        amazonS3.putObject(BUCKET_NAME, DEFAULT_FILE_NAME, new File(new File("").getAbsolutePath() + FILE_PATH + DEFAULT_FILE_NAME));
+        amazonS3.createBucket(bucketName);
+        amazonS3.putObject(bucketName, defaultImage, new File(new File("").getAbsolutePath() + FILE_PATH + defaultImage));
     }
 
     @DisplayName("이미지를 S3에 업로드한다.")
@@ -47,11 +55,11 @@ class ImageServiceTest {
         MultipartFile 테스트용_멀티파트파일 = generateMultiPartFile(테스트용_파일);
 
         String 업로드된_이미지_주소 = imageService.upload(테스트용_멀티파트파일);
-        String 업로드된_이미지_이름 = 업로드된_이미지_주소.replace(CLOUD_FRONT_URL, "");
+        String 업로드된_이미지_이름 = 업로드된_이미지_주소.replace(cloudfrontUrl, "");
 
         assertAll(
                 () -> assertThat(업로드된_이미지_주소).isNotNull(),
-                () -> assertThat(amazonS3.doesObjectExist(BUCKET_NAME, 업로드된_이미지_이름)).isTrue()
+                () -> assertThat(amazonS3.doesObjectExist(bucketName, 업로드된_이미지_이름)).isTrue()
         );
     }
 
@@ -59,10 +67,10 @@ class ImageServiceTest {
     @Test
     void uploadDefaultImage() throws IOException {
         String 업로드된_이미지_주소 = imageService.upload(null);
-        String 업로드된_이미지_이름 = 업로드된_이미지_주소.replace(CLOUD_FRONT_URL, "");
+        String 업로드된_이미지_이름 = 업로드된_이미지_주소.replace(cloudfrontUrl, "");
 
         assertAll(
-                () -> assertThat(업로드된_이미지_주소).isEqualTo(CLOUD_FRONT_URL + DEFAULT_FILE_NAME)
+                () -> assertThat(업로드된_이미지_주소).isEqualTo(cloudfrontUrl + defaultImage)
         );
     }
 
@@ -73,7 +81,7 @@ class ImageServiceTest {
         File 테스트용_파일 = new File(new File("").getAbsolutePath() + FILE_PATH + FILE_NAME);
         MultipartFile 테스트용_멀티파트파일 = generateMultiPartFile(테스트용_파일);
         String 미리_저장한_이미지_주소 = imageService.upload(테스트용_멀티파트파일);
-        String 미리_저장한_이미지_이름 = 미리_저장한_이미지_주소.replace(CLOUD_FRONT_URL, "");
+        String 미리_저장한_이미지_이름 = 미리_저장한_이미지_주소.replace(cloudfrontUrl, "");
 
 
         File 업데이트_테스트용_파일 = new File(new File("").getAbsolutePath() + FILE_PATH + UPDATE_FILE_NAME);
@@ -81,13 +89,13 @@ class ImageServiceTest {
 
         // when
         String 업데이트된_업로드_이미지_주소 = imageService.update(미리_저장한_이미지_주소, 업데이트_테스트용_멀티파트파일);
-        String 업데이트된_업로드_이미지_이름 = 업데이트된_업로드_이미지_주소.replace(CLOUD_FRONT_URL, "");
+        String 업데이트된_업로드_이미지_이름 = 업데이트된_업로드_이미지_주소.replace(cloudfrontUrl, "");
 
 
         assertAll(
                 () -> assertThat(업데이트된_업로드_이미지_주소).isNotNull(),
-                () -> assertThat(amazonS3.doesObjectExist(BUCKET_NAME, 업데이트된_업로드_이미지_이름)).isTrue(),
-                () -> assertThat(amazonS3.doesObjectExist(BUCKET_NAME, 미리_저장한_이미지_이름)).isFalse()
+                () -> assertThat(amazonS3.doesObjectExist(bucketName, 업데이트된_업로드_이미지_이름)).isTrue(),
+                () -> assertThat(amazonS3.doesObjectExist(bucketName, 미리_저장한_이미지_이름)).isFalse()
         );
     }
 
@@ -95,7 +103,7 @@ class ImageServiceTest {
     @Test
     void updateNotDelete() throws IOException {
         // given
-        String 기본_이미지_주소 = CLOUD_FRONT_URL + DEFAULT_FILE_NAME;
+        String 기본_이미지_주소 = cloudfrontUrl + defaultImage;
 
 
         File 업데이트_테스트용_파일 = new File(new File("").getAbsolutePath() + FILE_PATH + UPDATE_FILE_NAME);
@@ -103,12 +111,12 @@ class ImageServiceTest {
 
         // when
         String 업데이트된_업로드_이미지_주소 = imageService.update(기본_이미지_주소, 업데이트_테스트용_멀티파트파일);
-        String 업데이트된_업로드_이미지_이름 = 업데이트된_업로드_이미지_주소.replace(CLOUD_FRONT_URL, "");
+        String 업데이트된_업로드_이미지_이름 = 업데이트된_업로드_이미지_주소.replace(cloudfrontUrl, "");
 
         assertAll(
                 () -> assertThat(업데이트된_업로드_이미지_주소).isNotNull(),
-                () -> assertThat(amazonS3.doesObjectExist(BUCKET_NAME, DEFAULT_FILE_NAME)).isTrue(),
-                () -> assertThat(amazonS3.doesObjectExist(BUCKET_NAME, 업데이트된_업로드_이미지_이름)).isTrue()
+                () -> assertThat(amazonS3.doesObjectExist(bucketName, defaultImage)).isTrue(),
+                () -> assertThat(amazonS3.doesObjectExist(bucketName, 업데이트된_업로드_이미지_이름)).isTrue()
         );
     }
 

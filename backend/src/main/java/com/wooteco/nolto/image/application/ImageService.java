@@ -37,13 +37,13 @@ public class ImageService {
 
     public String upload(MultipartFile multipartFile) {
         if (isEmpty(multipartFile)) {
-            return cloudfrontUrl + "/" + defaultImage;
+            return cloudfrontUrl + defaultImage;
         }
         File file = convertToFile(multipartFile);
         String fileName = getFileName(file);
         amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, file));
         file.delete();
-        return cloudfrontUrl + "/" + fileName;
+        return cloudfrontUrl + fileName;
     }
 
     public boolean isEmpty(MultipartFile multipartFile) {
@@ -68,7 +68,7 @@ public class ImageService {
     }
 
     public String update(String oldImageUrl, MultipartFile updateImage) {
-        String imageUrl = oldImageUrl.replace(cloudfrontUrl + "/", "");
+        String imageUrl = oldImageUrl.replace(cloudfrontUrl , "");
         if (!isDefault(imageUrl) && amazonS3Client.doesObjectExist(bucketName, imageUrl)) {
             amazonS3Client.deleteObject(new DeleteObjectRequest(bucketName, imageUrl));
         }

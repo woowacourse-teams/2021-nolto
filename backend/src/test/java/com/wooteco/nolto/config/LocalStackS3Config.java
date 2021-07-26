@@ -1,4 +1,4 @@
-package com.wooteco.nolto.image.application;
+package com.wooteco.nolto.config;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
