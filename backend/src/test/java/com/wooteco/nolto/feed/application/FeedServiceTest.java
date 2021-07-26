@@ -27,10 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -269,6 +266,96 @@ class FeedServiceTest {
                 .hasMessage(ErrorType.FEED_NOT_FOUND.getMessage());
     }
 
+
+    @DisplayName("좋아요를 누른 피드 조회 시 'liked=true'로 반환한다.")
+    @Test
+    void checkLikeWhenFindFeed() {
+        // given
+        Long feedId1 = feedService.create(user1, FEED_REQUEST1);
+        likeService.addLike(user2, feedId1);
+        em.flush();
+        em.clear();
+
+        // when
+        FeedResponse feedResponse = feedService.findById(user2, feedId1);
+
+        // then
+        assertThat(feedResponse.isLiked()).isTrue();
+    }
+
+    @DisplayName("좋아요를 누르지 않은 피드 조회 시 'liked=false'로 반환한다.")
+    @Test
+    void checkNotLikeWhenFindFeed() {
+        // given
+        Long feedId1 = feedService.create(user1, FEED_REQUEST1);
+        em.flush();
+        em.clear();
+
+        // when
+        FeedResponse feedResponse = feedService.findById(user2, feedId1);
+
+        // then
+        assertThat(feedResponse.isLiked()).isFalse();
+    }
+
+    @DisplayName("좋아요를 취소한 이후 피드를 조회하면 liked=false를 반환한다.")
+    @Test
+    void cancelLike() {
+        // given
+        Long feedId1 = feedService.create(user1, FEED_REQUEST1);
+        likeService.addLike(user2, feedId1);
+        em.flush();
+        em.clear();
+
+        // when
+        likeService.deleteLike(user2, feedId1);
+        em.flush();
+        em.clear();
+        FeedResponse feedResponse = feedService.findById(user2, feedId1);
+
+        // then
+        assertThat(feedResponse.isLiked()).isFalse();
+    }
+
+    @DisplayName("좋아요를 누른 유저가 삭제되면 해당 피드의 좋아요 데이터도 삭제된다. (user2가 삭제 -> feed1의 user2가 좋아요한 데이터 삭제) - user2가 없으므로 엔티티로 조회")
+    @Test
+    void cancelLikeWhenDeleteUser() {
+        // given
+        Long feedId1 = feedService.create(user1, FEED_REQUEST1);
+        likeService.addLike(user2, feedId1);
+        em.flush();
+        em.clear();
+
+        // when
+        userRepository.delete(user2);
+        em.flush();
+        em.clear();
+        Feed findFeed = feedService.findEntityById(feedId1);
+
+        // then
+        assertThat(findFeed.findLikeBy(user2)).isEqualTo(Optional.empty());
+    }
+
+    @DisplayName("좋아요를 누른 피드가 삭제되면 유저의 좋아요 데이터도 삭제된다. (feed1이 삭제 ->  user2의 feed1에 대한 like 데이터 삭제) - feed1이 없으므로 엔티티로 조회")
+    @Test
+    void cancelLikeWhenDeleteFeed() {
+        // given
+        Long feedId1 = feedService.create(user1, FEED_REQUEST1);
+        likeService.addLike(user2, feedId1);
+        em.flush();
+        em.clear();
+
+        // when
+        Feed findFeed = feedService.findEntityById(feedId1);
+        feedService.delete(user1, feedId1);
+        em.flush();
+        em.clear();
+
+        // then
+        user2 = userRepository.findById(this.user2.getId()).get();
+        assertThat(user2.isLiked(findFeed)).isFalse();
+    }
+
     @DisplayName("좋아요 개수가 높은 인기 Feed들을 가져온다.")
     @Test
     void findHotFeeds() {
@@ -411,7 +498,7 @@ class FeedServiceTest {
         String query = "content";
 
         //when
-        List<FeedCardResponse> searchFeeds = feedService.search(query, "");
+        List<FeedCardResponse> searchFeeds = feedService.search(query, "", "all");
         List<Long> feedIds = searchFeeds.stream()
                 .map(FeedCardResponse::getId)
                 .collect(Collectors.toList());
@@ -432,7 +519,7 @@ class FeedServiceTest {
         String query = "tle1";
 
         //when
-        List<FeedCardResponse> searchFeeds = feedService.search(query, "");
+        List<FeedCardResponse> searchFeeds = feedService.search(query, "", "all");
         List<Long> feedIds = searchFeeds.stream()
                 .map(FeedCardResponse::getId)
                 .collect(Collectors.toList());
@@ -458,7 +545,7 @@ class FeedServiceTest {
         String techs = "Spring,Java";
 
         //when
-        List<FeedCardResponse> searchFeeds = feedService.search("", techs);
+        List<FeedCardResponse> searchFeeds = feedService.search("", techs, "all");
         List<Long> feedIds = searchFeeds.stream()
                 .map(FeedCardResponse::getId)
                 .collect(Collectors.toList());
@@ -485,7 +572,7 @@ class FeedServiceTest {
         String techs = "KOLOLO";
 
         //when
-        List<FeedCardResponse> searchFeeds = feedService.search("", techs);
+        List<FeedCardResponse> searchFeeds = feedService.search("", techs, "all");
 
         //then
         assertThat(searchFeeds).hasSize(0);
@@ -508,7 +595,7 @@ class FeedServiceTest {
         String techs = "Spring,Java";
 
         //when
-        List<FeedCardResponse> searchFeeds = feedService.search(query, techs);
+        List<FeedCardResponse> searchFeeds = feedService.search(query, techs, "all");
         List<Long> feedIds = searchFeeds.stream()
                 .map(FeedCardResponse::getId)
                 .collect(Collectors.toList());
@@ -516,6 +603,97 @@ class FeedServiceTest {
         //then
         assertThat(searchFeeds).hasSize(1);
         assertThat(feedIds).contains(firstFeedId);
+    }
+
+    @DisplayName("제목+내용 Query와 기술명 나열 Techs로 검색한 결과에 대해 SOS 필터링하여 받을 수 있다.")
+    @Test
+    void searchByQueryAndTechsWithSos() {
+        //given
+        FEED_REQUEST1.setTechs(Arrays.asList(techSpring.getId(), techJava.getId()));
+        FEED_REQUEST1.setSos(true);
+        Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
+
+        FEED_REQUEST2.setTechs(Arrays.asList(techSpring.getId() , techJava.getId()));
+        FEED_REQUEST2.setSos(false);
+        Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
+
+        FEED_REQUEST3.setTechs(Collections.singletonList(techReact.getId()));
+        FEED_REQUEST3.setSos(false);
+        Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
+
+        String query = "title";
+        String techs = "Spring,Java";
+
+        //when
+        List<FeedCardResponse> searchFeeds = feedService.search(query, techs, "sos");
+        List<Long> feedIds = searchFeeds.stream()
+                .map(FeedCardResponse::getId)
+                .collect(Collectors.toList());
+
+        //then
+        assertThat(searchFeeds).hasSize(1);
+        assertThat(feedIds).contains(firstFeedId);
+    }
+
+    @DisplayName("제목+내용 Query와 기술명 나열 Techs로 검색한 결과에 대해 PROGRESS만 필터링하여 받을 수 있다.")
+    @Test
+    void searchByQueryAndTechsWithProgress() {
+        //given
+        FEED_REQUEST1.setTechs(Arrays.asList(techSpring.getId(), techJava.getId()));
+        FEED_REQUEST1.setStep("PROGRESS");
+        Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
+
+        FEED_REQUEST2.setTechs(Arrays.asList(techSpring.getId() , techJava.getId()));
+        FEED_REQUEST2.setStep("PROGRESS");
+        Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
+
+        FEED_REQUEST3.setTechs(Arrays.asList(techSpring.getId() , techJava.getId()));
+        FEED_REQUEST3.setStep("COMPLETE");
+        Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
+
+        String query = "title";
+        String techs = "Spring,Java";
+
+        //when
+        List<FeedCardResponse> searchFeeds = feedService.search(query, techs, "progress");
+        List<Long> feedIds = searchFeeds.stream()
+                .map(FeedCardResponse::getId)
+                .collect(Collectors.toList());
+
+        //then
+        assertThat(searchFeeds).hasSize(2);
+        assertThat(feedIds).contains(firstFeedId, secondFeedId);
+    }
+
+
+    @DisplayName("제목+내용 Query와 기술명 나열 Techs로 검색한 결과에 대해 COMPLETE만 필터링하여 받을 수 있다.")
+    @Test
+    void searchByQueryAndTechsWithComplete() {
+        //given
+        FEED_REQUEST1.setTechs(Arrays.asList(techSpring.getId(), techJava.getId()));
+        FEED_REQUEST1.setStep("COMPLETE");
+        Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
+
+        FEED_REQUEST2.setTechs(Arrays.asList(techSpring.getId() , techJava.getId()));
+        FEED_REQUEST2.setStep("PROGRESS");
+        Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
+
+        FEED_REQUEST3.setTechs(Arrays.asList(techSpring.getId() , techJava.getId()));
+        FEED_REQUEST3.setStep("COMPLETE");
+        Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
+
+        String query = "title";
+        String techs = "Spring,Java";
+
+        //when
+        List<FeedCardResponse> searchFeeds = feedService.search(query, techs, "complete");
+        List<Long> feedIds = searchFeeds.stream()
+                .map(FeedCardResponse::getId)
+                .collect(Collectors.toList());
+
+        //then
+        assertThat(searchFeeds).hasSize(2);
+        assertThat(feedIds).contains(firstFeedId, thirdFeedId);
     }
 
     private void 피드_정보가_같은지_조회(FeedRequest request, Feed feed) {

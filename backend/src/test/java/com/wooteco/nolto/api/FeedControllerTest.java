@@ -293,7 +293,7 @@ public class FeedControllerTest extends ControllerTest {
         given(authService.findUserByToken(ACCESS_TOKEN)).willReturn(LOGIN_USER);
         willDoNothing().given(likeService).deleteLike(LOGIN_USER, FEED_ID);
 
-        mockMvc.perform(delete("/feeds/{feedId}/like", FEED_ID)
+        mockMvc.perform(post("/feeds/{feedId}/unlike", FEED_ID)
                 .header("Authorization", "Bearer " + ACCESS_TOKEN)
                 .characterEncoding("UTF-8"))
                 .andExpect(status().isOk())
