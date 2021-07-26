@@ -24,8 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 class ImageServiceTest {
 
     public static final String FILE_PATH = "/src/test/resources/static/";
-    public static final String FILE_NAME = "pretty_cat.png";
-    public static final String UPDATE_FILE_NAME = "amazzi.jpeg";
+    public static final String 업로드할_이미지_이름 = "pretty_cat.png";
+    public static final String 업데이트할_이미지_이름 = "amazzi.jpeg";
 
     @Value("${application.bucket.name}")
     private String bucketName;
@@ -34,7 +34,7 @@ class ImageServiceTest {
     private String cloudfrontUrl;
 
     @Value("${application.default-image}")
-    private String defaultImage;
+    private String 기본_이미지_이름;
 
     @Autowired
     AmazonS3 amazonS3;
@@ -45,16 +45,16 @@ class ImageServiceTest {
     @BeforeEach
     void init() {
         amazonS3.createBucket(bucketName);
-        amazonS3.putObject(bucketName, defaultImage, new File(new File("").getAbsolutePath() + FILE_PATH + defaultImage));
+        amazonS3.putObject(bucketName, 기본_이미지_이름, new File(new File("").getAbsolutePath() + FILE_PATH + 기본_이미지_이름));
     }
 
     @DisplayName("이미지를 S3에 업로드한다.")
     @Test
     void upload() throws IOException {
-        File 테스트용_파일 = new File(new File("").getAbsolutePath() + FILE_PATH + FILE_NAME);
-        MultipartFile 테스트용_멀티파트파일 = generateMultiPartFile(테스트용_파일);
+        File 업로드할_이미지_파일 = new File(new File("").getAbsolutePath() + FILE_PATH + 업로드할_이미지_이름);
+        MultipartFile 업로드할_멀티파트_파일 = generateMultiPartFile(업로드할_이미지_파일);
 
-        String 업로드된_이미지_주소 = imageService.upload(테스트용_멀티파트파일);
+        String 업로드된_이미지_주소 = imageService.upload(업로드할_멀티파트_파일);
         String 업로드된_이미지_이름 = 업로드된_이미지_주소.replace(cloudfrontUrl, "");
 
         assertAll(
@@ -70,7 +70,8 @@ class ImageServiceTest {
         String 업로드된_이미지_이름 = 업로드된_이미지_주소.replace(cloudfrontUrl, "");
 
         assertAll(
-                () -> assertThat(업로드된_이미지_주소).isEqualTo(cloudfrontUrl + defaultImage)
+                () -> assertThat(업로드된_이미지_주소).isEqualTo(cloudfrontUrl + 기본_이미지_이름),
+                () -> assertThat(업로드된_이미지_이름).isEqualTo(기본_이미지_이름)
         );
     }
 
@@ -78,24 +79,22 @@ class ImageServiceTest {
     @Test
     void update() throws IOException {
         // given
-        File 테스트용_파일 = new File(new File("").getAbsolutePath() + FILE_PATH + FILE_NAME);
-        MultipartFile 테스트용_멀티파트파일 = generateMultiPartFile(테스트용_파일);
-        String 미리_저장한_이미지_주소 = imageService.upload(테스트용_멀티파트파일);
-        String 미리_저장한_이미지_이름 = 미리_저장한_이미지_주소.replace(cloudfrontUrl, "");
+        File 미리_업로드할_이미지_파일 = new File(new File("").getAbsolutePath() + FILE_PATH + 업로드할_이미지_이름);
+        MultipartFile 미리_업로드할_멀티파트_파일 = generateMultiPartFile(미리_업로드할_이미지_파일);
+        String 미리_업로드한_이미지_주소 = imageService.upload(미리_업로드할_멀티파트_파일);
+        String 미리_업로드한_이미지_이름 = 미리_업로드한_이미지_주소.replace(cloudfrontUrl, "");
 
-
-        File 업데이트_테스트용_파일 = new File(new File("").getAbsolutePath() + FILE_PATH + UPDATE_FILE_NAME);
+        File 업데이트_테스트용_파일 = new File(new File("").getAbsolutePath() + FILE_PATH + 업데이트할_이미지_이름);
         MultipartFile 업데이트_테스트용_멀티파트파일 = generateMultiPartFile(업데이트_테스트용_파일);
 
         // when
-        String 업데이트된_업로드_이미지_주소 = imageService.update(미리_저장한_이미지_주소, 업데이트_테스트용_멀티파트파일);
+        String 업데이트된_업로드_이미지_주소 = imageService.update(미리_업로드한_이미지_주소, 업데이트_테스트용_멀티파트파일);
         String 업데이트된_업로드_이미지_이름 = 업데이트된_업로드_이미지_주소.replace(cloudfrontUrl, "");
-
 
         assertAll(
                 () -> assertThat(업데이트된_업로드_이미지_주소).isNotNull(),
                 () -> assertThat(amazonS3.doesObjectExist(bucketName, 업데이트된_업로드_이미지_이름)).isTrue(),
-                () -> assertThat(amazonS3.doesObjectExist(bucketName, 미리_저장한_이미지_이름)).isFalse()
+                () -> assertThat(amazonS3.doesObjectExist(bucketName, 미리_업로드한_이미지_이름)).isFalse()
         );
     }
 
@@ -103,10 +102,9 @@ class ImageServiceTest {
     @Test
     void updateNotDelete() throws IOException {
         // given
-        String 기본_이미지_주소 = cloudfrontUrl + defaultImage;
+        String 기본_이미지_주소 = cloudfrontUrl + 기본_이미지_이름;
 
-
-        File 업데이트_테스트용_파일 = new File(new File("").getAbsolutePath() + FILE_PATH + UPDATE_FILE_NAME);
+        File 업데이트_테스트용_파일 = new File(new File("").getAbsolutePath() + FILE_PATH + 업데이트할_이미지_이름);
         MultipartFile 업데이트_테스트용_멀티파트파일 = generateMultiPartFile(업데이트_테스트용_파일);
 
         // when
@@ -115,13 +113,13 @@ class ImageServiceTest {
 
         assertAll(
                 () -> assertThat(업데이트된_업로드_이미지_주소).isNotNull(),
-                () -> assertThat(amazonS3.doesObjectExist(bucketName, defaultImage)).isTrue(),
+                () -> assertThat(amazonS3.doesObjectExist(bucketName, 기본_이미지_이름)).isTrue(),
                 () -> assertThat(amazonS3.doesObjectExist(bucketName, 업데이트된_업로드_이미지_이름)).isTrue()
         );
     }
 
     private MultipartFile generateMultiPartFile(File file) throws IOException {
-        FileItem fileItem = new DiskFileItem(FILE_NAME, Files.probeContentType(file.toPath()), false, file.getName(), (int) file.length(), file.getParentFile());
+        FileItem fileItem = new DiskFileItem(업로드할_이미지_이름, Files.probeContentType(file.toPath()), false, file.getName(), (int) file.length(), file.getParentFile());
 
         InputStream input = new FileInputStream(file);
         OutputStream os = fileItem.getOutputStream();
