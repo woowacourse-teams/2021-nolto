@@ -25,8 +25,4 @@ const Page = () => {
   );
 };
 
-export const Default = () => (
-  <SnackBarProvider>
-    <Page />
-  </SnackBarProvider>
-);
+export const Default = () => <Page />;
