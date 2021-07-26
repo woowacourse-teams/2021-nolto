@@ -18,6 +18,8 @@ spring:
                 format_sql: true
                 dialect: org.hibernate.dialect.H2Dialect
         show-sql: true
+    main:
+        allow-bean-definition-overriding: true
 ---
 spring:
     config:
