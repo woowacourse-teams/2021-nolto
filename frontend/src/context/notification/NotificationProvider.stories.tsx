@@ -22,8 +22,4 @@ const Page = () => {
   );
 };
 
-export const Default = () => (
-  <NotificationProvider>
-    <Page />
-  </NotificationProvider>
-);
+export const Default = () => <Page />;

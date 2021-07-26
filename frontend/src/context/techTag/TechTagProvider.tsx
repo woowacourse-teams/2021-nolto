@@ -3,6 +3,7 @@ import React, { createContext, useState } from 'react';
 import { Tech } from 'types';
 
 interface Props {
+  initialTechs?: Tech[];
   children: React.ReactNode;
 }
 
@@ -14,8 +15,8 @@ interface TechTagContext {
 
 export const Context = createContext<TechTagContext | null>(null);
 
-const TechTagProvider = ({ children }: Props) => {
-  const [techs, setTechs] = useState<Tech[]>([]);
+const TechTagProvider = ({ initialTechs = [], children }: Props) => {
+  const [techs, setTechs] = useState<Tech[]>(initialTechs);
 
   const pushTech = (tech: Tech) => {
     setTechs([...techs, tech]);
