@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -67,7 +68,7 @@ class TechRepositoryTest {
     void findAllByName() {
         // when
         List<String> techNames = Arrays.asList("Java", "Javascript", "Spring");
-        List<Tech> techs = techRepository.findAllByNameIn(techNames);
+        List<Tech> techs = techRepository.findAllByNameInIgnoreCase(techNames);
 
         // then
         assertThat(techs).containsExactly(TECH_JAVA, TECH_JAVASCRIPT, TECH_SPRING);
@@ -78,7 +79,7 @@ class TechRepositoryTest {
     void findAllByNameNoMatching() {
         // when
         List<String> techNames = Arrays.asList("real-wow-tech");
-        List<Tech> techs = techRepository.findAllByNameIn(techNames);
+        List<Tech> techs = techRepository.findAllByNameInIgnoreCase(techNames);
 
         // then
         assertThat(techs).hasSize(0);
@@ -89,9 +90,45 @@ class TechRepositoryTest {
     void findAllByNameSeveralMatching() {
         // when
         List<String> techNames = Arrays.asList("real-wow-tech", "Java", "Javascript");
-        List<Tech> techs = techRepository.findAllByNameIn(techNames);
+        List<Tech> techs = techRepository.findAllByNameInIgnoreCase(techNames);
 
         // then
         assertThat(techs).containsExactly(TECH_JAVA, TECH_JAVASCRIPT);
+    }
+
+    @DisplayName("테크 이름이 정확히 일치하는 테크들만 가져온다.(단, 대소문자는 구분하지 않는다.)")
+    @Test
+    void findAllByNameInIgnoreCase() {
+        // given
+        String techWord1 = "Java";
+        String techWord2 = "jaVA";
+        String techWord3 = "Java,JavaScr,UnidentifiedTech";
+
+        String[] splitTechWord1 = techWord1.split(",");
+        String[] splitTechWord2 = techWord2.split(",");
+        String[] splitTechWord3 = techWord3.split(",");
+
+        // when
+        List<Tech> findTechs1 = techRepository.findAllByNameInIgnoreCase(Arrays.asList(splitTechWord1));
+        List<Tech> findTechs2 = techRepository.findAllByNameInIgnoreCase(Arrays.asList(splitTechWord2));
+        List<Tech> findTechs3 = techRepository.findAllByNameInIgnoreCase(Arrays.asList(splitTechWord3));
+
+        // then
+        assertThat(findTechs1).extracting("name").contains("Java");
+        assertThat(findTechs2).extracting("name").contains("Java");
+        assertThat(findTechs3).extracting("name").contains("Java");
+    }
+
+    @DisplayName("테크 이름이 정확히 일치하는 테크들만 가져온다.(단, 대소문자는 구분하지 않는다.)")
+    @Test
+    void findAllByNameInIgnoreCaseWithNonExistTech() {
+        // given
+        String techWord = "UnidentifiedTech";
+
+        // when
+        List<Tech> findTechs1 = techRepository.findAllByNameInIgnoreCase(Collections.singletonList(techWord));
+
+        // then
+        assertThat(findTechs1).isEmpty();
     }
 }

@@ -7,17 +7,29 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
 @AllArgsConstructor
 public class TechService {
 
+    private static final String TECH_SEARCH_DELIMITER = ",";
+
     private final TechRepository techRepository;
 
     public List<TechResponse> findByTechsContains(String searchWord) {
         List<Tech> findTechs = techRepository.findByNameStartsWithIgnoreCase(searchWord);
+        return TechResponse.toList(findTechs);
+    }
+
+    public List<TechResponse> findAllByNameInIgnoreCase(String searchWord) {
+        List<String> techNames = Arrays.stream(searchWord.split(TECH_SEARCH_DELIMITER))
+                .map(String::trim)
+                .collect(Collectors.toList());
+        List<Tech> findTechs = techRepository.findAllByNameInIgnoreCase(techNames);
         return TechResponse.toList(findTechs);
     }
 }
