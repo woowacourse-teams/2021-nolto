@@ -1,5 +1,7 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
 
+import CustomError from 'utils/CustomError';
+
 interface Props {
   children: ReactNode;
   fallback: ReactNode;
@@ -20,6 +22,10 @@ export default class ErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('Uncaught error in Error Boundary:', error, errorInfo);
+
+    if (error instanceof CustomError) {
+      error.executeSideEffect();
+    }
   }
 
   render() {

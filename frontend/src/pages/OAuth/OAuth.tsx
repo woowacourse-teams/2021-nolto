@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import Loading from 'components/@common/Loading/Loading';
 import useOAuthLogin from 'hooks/useOAuthLogin';
+import Styled from './OAuth.styles';
 import { OAuthType } from 'types';
 
 const OAuth = () => {
@@ -10,7 +11,11 @@ const OAuth = () => {
 
   useOAuthLogin(params.oauth);
 
-  return <Loading />;
+  return (
+    <Styled.Root>
+      <Loading />
+    </Styled.Root>
+  );
 };
 
 export default OAuth;

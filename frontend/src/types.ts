@@ -1,3 +1,5 @@
+import CustomError from 'utils/CustomError';
+
 export enum ButtonStyle {
   SOLID = 'SOLID',
   OUTLINE = 'OUTLINE',
@@ -72,3 +74,5 @@ export type SnackBarType = 'error' | 'success' | null;
 export type AddSnackBar = (type: SnackBarType, text: string) => void;
 
 export type NotificationType = 'alert' | 'confirm';
+
+export type ErrorHandler = (error: CustomError) => void;

@@ -4,6 +4,7 @@ import { PALETTE } from './constants/palette';
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@1,700&display=swap');
 
   * {
     margin: 0;

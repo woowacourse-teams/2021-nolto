@@ -5,19 +5,23 @@ import Styled, { Tag, StacksMoreButton } from './FeedDetailContent.styles';
 import LikeHeartIcon from 'assets/likeHeart.svg';
 import ViewCountIcon from 'assets/viewCount.svg';
 import Chip from 'components/@common/Chip/Chip';
-import { ButtonStyle } from 'types';
-import { STEP_CONVERTER } from 'constants/common';
 import FeedDropdown from 'components/FeedDropdown/FeedDropdown';
+import { STEP_CONVERTER } from 'constants/common';
+import useSnackBar from 'context/snackBar/useSnackBar';
+import { ButtonStyle } from 'types';
 
 interface Props {
   id: number;
 }
 
 const FeedDetailContent = ({ id }: Props) => {
-  const { data: feedDetail } = useFeedDetail(id, {
-    onError: (error) => {
-      alert(error.message);
+  const snackbar = useSnackBar();
+
+  const { data: feedDetail } = useFeedDetail({
+    errorHandler: (error) => {
+      snackbar.addSnackBar('error', error.message);
     },
+    id,
   });
 
   return (

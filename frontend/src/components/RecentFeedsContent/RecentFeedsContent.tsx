@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import LevelButton from 'components/LevelButton/LevelButton';
 import StretchCard from 'components/StretchCard/StretchCard';
 import useRecentFeeds from 'hooks/queries/useRecentFeeds';
+import useSnackBar from 'context/snackBar/useSnackBar';
 import ROUTE from 'constants/routes';
 import Styled from './RecentFeedsContent.styles';
 import { FilterType } from 'types';
@@ -13,12 +14,17 @@ interface Props {
 }
 
 const RecentFeedsContent = ({ limit }: Props) => {
-  const [filterType, setFilterType] = useState<FilterType>();
-  const { data: recentFeeds } = useRecentFeeds(filterType);
+  const [filter, setFilter] = useState<FilterType>();
 
-  const toggleLevel = (type: FilterType) => {
-    if (filterType === type) setFilterType(null);
-    else setFilterType(type);
+  const snackbar = useSnackBar();
+  const { data: recentFeeds } = useRecentFeeds({
+    errorHandler: (error) => snackbar.addSnackBar('error', error.message),
+    filter: filter,
+  });
+
+  const toggleLevel = (filterType: FilterType) => {
+    if (filter === filterType) setFilter(null);
+    else setFilter(filterType);
   };
 
   return (
@@ -26,15 +32,15 @@ const RecentFeedsContent = ({ limit }: Props) => {
       <Styled.LevelButtonsContainer>
         <LevelButton.Progress
           onClick={() => toggleLevel(FilterType.PROGRESS)}
-          selected={filterType === FilterType.PROGRESS}
+          selected={filter === FilterType.PROGRESS}
         />
         <LevelButton.Complete
           onClick={() => toggleLevel(FilterType.COMPLETE)}
-          selected={filterType === FilterType.COMPLETE}
+          selected={filter === FilterType.COMPLETE}
         />
         <LevelButton.SOS
           onClick={() => toggleLevel(FilterType.SOS)}
-          selected={filterType === FilterType.SOS}
+          selected={filter === FilterType.SOS}
         />
       </Styled.LevelButtonsContainer>
       <Styled.CardsContainer>

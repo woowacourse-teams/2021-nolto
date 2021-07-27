@@ -1,15 +1,15 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import React, { useRef } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import AsyncBoundary from 'components/AsyncBoundary';
 import CroppedEllipse from 'components/CroppedEllipse/CroppedEllipse';
-import RegularCard from 'components/RegularCard/RegularCard';
 import Header from 'components/Header/Header';
 import RecentFeedsContent from 'components/RecentFeedsContent/RecentFeedsContent';
-import useHotFeeds from 'hooks/queries/useHotFeeds';
+import HotFeedsContent from 'components/HotFeedsContent/HotFeedsContent';
 import useOnScreen from 'hooks/@common/useOnScreen';
+import ErrorFallback from 'components/@common/ErrorFallback/ErrorFallback';
 import ROUTE from 'constants/routes';
-import Styled, { CarouselArrowButton, ScrollUpButton, SearchBar, MoreButton } from './Home.styles';
+import Styled, { ScrollUpButton, SearchBar, MoreButton } from './Home.styles';
 import MoreArrow from 'assets/moreArrow.svg';
 import { Tech } from 'types';
 
@@ -35,36 +35,13 @@ const tags: Tech[] = [
 const Home = () => {
   const history = useHistory();
 
-  const { data: hotFeeds } = useHotFeeds({
-    onError: () => alert('임시 alert'),
-  });
-
-  const [isHeaderFolded, setHeaderFolded] = useState(true);
-  const [hotToyCardIdx, setHotToyCardIdx] = useState(3);
-
   const ellipseRef = useRef();
   const isEllipseVisible = useOnScreen(ellipseRef);
 
   const RECENT_FEED_LENGTH = 4;
 
-  useEffect(() => {
-    if (isEllipseVisible) {
-      setHeaderFolded(true);
-    } else {
-      setHeaderFolded(false);
-    }
-  }, [isEllipseVisible]);
-
   const scrollTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const showPreviousCards = () => {
-    if (hotToyCardIdx > 1) setHotToyCardIdx(hotToyCardIdx - 1);
-  };
-
-  const showFollowingCards = () => {
-    if (hotToyCardIdx < hotFeeds?.length) setHotToyCardIdx(hotToyCardIdx + 1);
   };
 
   const searchByTrend = (tech: Tech) => {
@@ -82,7 +59,7 @@ const Home = () => {
 
   return (
     <>
-      <Header isFolded={isHeaderFolded} />
+      <Header isFolded={isEllipseVisible} />
       <Styled.Root>
         <Styled.EllipseWrapper ref={ellipseRef}>
           <CroppedEllipse />
@@ -103,29 +80,18 @@ const Home = () => {
         <Styled.ContentArea>
           <Styled.SectionTitle fontSize="1.75rem">Hot Toys</Styled.SectionTitle>
           <Styled.HotToysContainer>
-            <CarouselArrowButton onClick={showPreviousCards}>
-              <Styled.CarouselLeft width="32px" />
-            </CarouselArrowButton>
-            <Styled.HotToyCardsContainer position={hotToyCardIdx}>
-              {hotFeeds &&
-                hotFeeds.map((feed, idx) => (
-                  <Styled.HotToyCardWrapper key={feed.id} offset={idx + 1} position={hotToyCardIdx}>
-                    <Link to={`${ROUTE.FEEDS}/${feed.id}`}>
-                      <Styled.VerticalAvatar user={feed.author} />
-                      <RegularCard feed={feed} />
-                    </Link>
-                  </Styled.HotToyCardWrapper>
-                ))}
-            </Styled.HotToyCardsContainer>
-
-            <CarouselArrowButton onClick={showFollowingCards}>
-              <Styled.CarouselRight width="32px" />
-            </CarouselArrowButton>
+            <AsyncBoundary
+              rejectedFallback={<ErrorFallback message="데이터를 불러올 수 없습니다." />}
+            >
+              <HotFeedsContent />
+            </AsyncBoundary>
           </Styled.HotToysContainer>
 
           <Styled.SectionTitle fontSize="1.75rem">Recent Toys</Styled.SectionTitle>
           <Styled.RecentToysContainer>
-            <AsyncBoundary rejectedFallback={<h1>임시 에러 페이지</h1>}>
+            <AsyncBoundary
+              rejectedFallback={<ErrorFallback message="데이터를 불러올 수 없습니다." />}
+            >
               <RecentFeedsContent limit={RECENT_FEED_LENGTH} />
             </AsyncBoundary>
             <MoreButton to={ROUTE.RECENT}>
