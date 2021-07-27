@@ -5,7 +5,7 @@ import { ButtonStyle } from 'types';
 
 interface RootProps {
   buttonStyle: ButtonStyle;
-  reverse: boolean;
+  reverse?: boolean;
 }
 
 const solid = (reverse: boolean) => css`

@@ -1,18 +1,18 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, InputHTMLAttributes } from 'react';
 
-import useTechs from 'hooks/queries/useTechs';
+import useTechAutoComplete from 'hooks/queries/useTechAutoComplete';
 import useQueryDebounce from 'hooks/@common/useQueryDebounce';
 import FormInput from 'components/@common/FormInput/FormInput';
 import { Tech } from 'types';
 import Styled from './TechInput.styles';
 import useTechTag from '../useTechTag';
 
-interface Props {
+interface Props extends InputHTMLAttributes<HTMLInputElement> {
   onUpdateTechs: (techs: Tech[]) => void;
   className?: string;
 }
 
-const TechInput = ({ onUpdateTechs, className }: Props) => {
+const TechInput = ({ onUpdateTechs, className, ...options }: Props) => {
   const [isDropdownOpened, setDropdownOpened] = useState(false);
   const [currentTechIdx, setCurrentTechIdx] = useState(-1);
   const [searchInput, setSearchInput] = useState('');
@@ -20,7 +20,7 @@ const TechInput = ({ onUpdateTechs, className }: Props) => {
 
   const focusedOption = useRef(null);
   const debouncedSearchInput = useQueryDebounce(searchInput, 200);
-  const { data: techs } = useTechs(debouncedSearchInput);
+  const { data: techs } = useTechAutoComplete(debouncedSearchInput);
 
   const moveFocusedOption = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'ArrowDown') {
@@ -40,10 +40,6 @@ const TechInput = ({ onUpdateTechs, className }: Props) => {
       };
       addTech(tech);
     }
-  };
-
-  const clickOption = (tech: Tech) => {
-    addTech(tech);
   };
 
   const addTech = (tech: Tech) => {
@@ -75,7 +71,12 @@ const TechInput = ({ onUpdateTechs, className }: Props) => {
 
   return (
     <Styled.Root className={className}>
-      <FormInput value={searchInput} onChange={handleInput} onKeyDown={moveFocusedOption} />
+      <FormInput
+        value={searchInput}
+        onChange={handleInput}
+        onKeyDown={moveFocusedOption}
+        {...options}
+      />
       {isDropdownOpened && (
         <Styled.Dropdown>
           {techs?.map((tech, idx) => (
@@ -85,7 +86,7 @@ const TechInput = ({ onUpdateTechs, className }: Props) => {
               data-text={tech.text}
               focused={idx === currentTechIdx}
               ref={idx === currentTechIdx ? focusedOption : null}
-              onClick={() => clickOption(tech)}
+              onClick={() => addTech(tech)}
             >
               {tech.text}
             </Styled.TechOption>

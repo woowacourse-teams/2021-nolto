@@ -27,6 +27,7 @@ const SearchContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 3.75rem;
+  z-index: 10;
 `;
 
 const SearchTitle = styled.div`
@@ -38,12 +39,12 @@ const SearchTitle = styled.div`
 
 export const SearchBar = styled(SearchBarComponent)`
   position: relative;
-  width: 30rem;
+  width: 32rem;
   height: 2.5rem;
   margin-bottom: 18px;
 `;
 
-const TagsContainer = styled.div`
+const TrendContainer = styled.div`
   display: flex;
   gap: 0.75rem;
   align-items: center;
@@ -58,7 +59,7 @@ const TagsContainer = styled.div`
   }
 `;
 
-const TagLink = styled.span`
+const TrendTag = styled.span`
   cursor: pointer;
 
   &:hover {
@@ -174,8 +175,8 @@ export default {
   SearchContainer,
   EllipseWrapper,
   SearchTitle,
-  TagsContainer,
-  TagLink,
+  TrendContainer,
+  TrendTag,
   ContentArea,
   SectionTitle,
   HotToysContainer,

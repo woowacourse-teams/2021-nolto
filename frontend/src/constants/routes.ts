@@ -4,6 +4,7 @@ const ROUTE = {
   FEEDS: '/feeds',
   RECENT: '/recent',
   MODIFY: '/modify',
+  SEARCH: '/search',
 };
 
 export default ROUTE;

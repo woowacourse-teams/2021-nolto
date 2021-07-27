@@ -1,57 +1,70 @@
-import React, { useState } from 'react';
+import React, { InputHTMLAttributes, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import SearchIcon from 'assets/search.svg';
-import Styled, { SearchMorePolygon } from './SearchBar.styles';
+import TechTagProvider from 'context/techTag/TechTagProvider';
+import ROUTE from 'constants/routes';
+import SearchOption from 'components/SearchOption/SearchOption';
+import Styled, { TechChips, TechInput } from './SearchBar.styles';
+import { Tech, SearchType } from 'types';
 
-interface Props {
+interface Props extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
   selectable?: boolean;
 }
 
-type SearchOption = '제목/내용' | '기술스택' | '검색';
+const SearchBar = ({ className, selectable = false, ...options }: Props) => {
+  const history = useHistory();
 
-const SearchBar = ({ className, selectable = false }: Props) => {
-  const [isOptionOpened, setIsOptionOpened] = useState(false);
-  const [searchOption, setSearchOption] = useState<SearchOption>('검색');
+  const [query, setQuery] = useState<string>('');
+  const [techs, setTechs] = useState<Tech[]>([]);
+  const [searchType, setSearchType] = useState<SearchType>(SearchType.CONTENT);
 
-  const changeSearchOption = (option: SearchOption) => {
-    setSearchOption(option);
-    setIsOptionOpened(false);
+  const search = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    const queryParams = new URLSearchParams({
+      query,
+      techs: techs.map((tech) => tech.text).join(','),
+    });
+
+    history.push({
+      pathname: ROUTE.SEARCH,
+      search: '?' + queryParams,
+    });
   };
 
-  const searchOptions: React.ReactNode = (
-    <Styled.SearchOptionContainer isOpen={isOptionOpened}>
-      <Styled.SearchTypeSelector onClick={() => setIsOptionOpened(!isOptionOpened)}>
-        <Styled.SearchOptionText>{searchOption}</Styled.SearchOptionText>
-        <SearchMorePolygon width="14px" isOpened={isOptionOpened} />
-      </Styled.SearchTypeSelector>
-      {isOptionOpened && (
-        <>
-          <Styled.SearchOptionText
-            className="option"
-            onClick={() => changeSearchOption('제목/내용')}
-          >
-            제목/내용
-          </Styled.SearchOptionText>
-          <Styled.SearchOptionText
-            className="option"
-            onClick={() => changeSearchOption('기술스택')}
-          >
-            기술스택
-          </Styled.SearchOptionText>
-        </>
-      )}
-    </Styled.SearchOptionContainer>
+  useEffect(() => {
+    setQuery('');
+    setTechs([]);
+  }, [searchType]);
+
+  const selectedTags: React.ReactNode = (
+    <Styled.SelectedChips>
+      <span>Selected:</span>
+      <TechChips reverse={true} />
+    </Styled.SelectedChips>
   );
 
   return (
-    <Styled.Root className={className} selectable={selectable}>
-      {selectable && searchOptions}
-      <Styled.Input />
-      <Styled.Button>
-        <SearchIcon width="32px" />
-      </Styled.Button>
-    </Styled.Root>
+    <TechTagProvider>
+      {searchType === SearchType.TECH && selectedTags}
+      <Styled.Root className={className} selectable={selectable} onSubmit={search}>
+        {selectable && <SearchOption searchType={searchType} setSearchType={setSearchType} />}
+        {searchType === SearchType.CONTENT && (
+          <Styled.Input onChange={(event) => setQuery(event.target.value)} {...options} />
+        )}
+        {searchType === SearchType.TECH && (
+          <TechInput
+            onUpdateTechs={(techs: Tech[]) => setTechs(techs)}
+            placeholder="기술스택 선택 후 우측 검색 아이콘을 클릭하세요"
+          />
+        )}
+        <Styled.Button>
+          <SearchIcon width="32px" />
+        </Styled.Button>
+      </Styled.Root>
+    </TechTagProvider>
   );
 };
 

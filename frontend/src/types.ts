@@ -14,6 +14,11 @@ export enum FilterType {
   SOS = 'sos',
 }
 
+export enum SearchType {
+  CONTENT = '제목/내용',
+  TECH = '기술스택',
+}
+
 export interface User {
   id: number;
   nickname: string;

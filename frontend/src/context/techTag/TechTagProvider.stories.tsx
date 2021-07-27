@@ -1,6 +1,6 @@
 import React from 'react';
-import TechChip from './chip/TechChips';
 
+import TechChips from './chip/TechChips';
 import TechInput from './input/TechInput';
 import TechTagProvider from './TechTagProvider';
 
@@ -12,7 +12,7 @@ export default {
 
 export const Default = () => (
   <TechTagProvider>
-    <TechChip />
+    <TechChips />
     <div>예에에에 성공~~~💯</div>
     <TechInput
       onUpdateTechs={() => {

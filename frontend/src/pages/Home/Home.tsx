@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import AsyncBoundary from 'components/AsyncBoundary';
 import CroppedEllipse from 'components/CroppedEllipse/CroppedEllipse';
@@ -11,10 +11,30 @@ import useOnScreen from 'hooks/@common/useOnScreen';
 import ROUTE from 'constants/routes';
 import Styled, { CarouselArrowButton, ScrollUpButton, SearchBar, MoreButton } from './Home.styles';
 import MoreArrow from 'assets/moreArrow.svg';
+import { Tech } from 'types';
 
-const tags = ['JavaScript', 'Java', 'React.js', 'Spring'];
+const tags: Tech[] = [
+  {
+    id: 25,
+    text: 'ReactJS',
+  },
+  {
+    id: 882,
+    text: 'Java',
+  },
+  {
+    id: 655,
+    text: 'JavaScript',
+  },
+  {
+    id: 67,
+    text: 'Spring',
+  },
+];
 
 const Home = () => {
+  const history = useHistory();
+
   const { data: hotFeeds } = useHotFeeds({
     onError: () => alert('임시 alert'),
   });
@@ -47,6 +67,19 @@ const Home = () => {
     if (hotToyCardIdx < hotFeeds?.length) setHotToyCardIdx(hotToyCardIdx + 1);
   };
 
+  const searchByTrend = (tech: Tech) => {
+    const queryParams = new URLSearchParams({
+      query: '',
+      techs: tech.text,
+    });
+
+    history.push({
+      pathname: ROUTE.SEARCH,
+      search: '?' + queryParams,
+      state: { techs: [tech] },
+    });
+  };
+
   return (
     <>
       <Header isFolded={isHeaderFolded} />
@@ -57,12 +90,14 @@ const Home = () => {
         <Styled.SearchContainer>
           <Styled.SearchTitle>Search for Ideas?</Styled.SearchTitle>
           <SearchBar selectable />
-          <Styled.TagsContainer>
+          <Styled.TrendContainer>
             <span className="trends">💎 Trends</span>
             {tags.map((tag) => (
-              <Styled.TagLink key={tag}>{tag}</Styled.TagLink>
+              <Styled.TrendTag key={tag.id} onClick={() => searchByTrend(tag)}>
+                {tag.text}
+              </Styled.TrendTag>
             ))}
-          </Styled.TagsContainer>
+          </Styled.TrendContainer>
         </Styled.SearchContainer>
 
         <Styled.ContentArea>

@@ -1,16 +1,17 @@
 import styled from 'styled-components';
 
-import { PALETTE } from 'constants/palette';
-import TechChipsComponent from 'context/techTag/chip/TechChips';
 import TechInputComponent from 'context/techTag/input/TechInput';
+import { PALETTE } from 'constants/palette';
 
-const Root = styled.form<{ selectable: boolean }>`
+const SearchBarContainer = styled.form`
   position: relative;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding-right: 12px;
-  padding-left: ${({ selectable }) => !selectable && '24px'};
+  padding: 0 12px;
+  width: 18rem;
+  height: 2.5rem;
+  margin-bottom: 4rem;
 
   background-color: ${PALETTE.WHITE_400};
   border-radius: 25px;
@@ -32,28 +33,22 @@ const Button = styled.button`
   height: 2em;
 `;
 
-const SelectedChips = styled.div`
-  width: 100%;
-  height: 36px;
+const TechTagContainer = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
-
-  & > span {
-    color: ${PALETTE.WHITE_400};
-
-    &:after {
-      content: '';
-      margin-right: 0.25rem;
-    }
-  }
+  width: 24rem;
+  margin-bottom: 4rem;
 `;
 
-export const TechChips = styled(TechChipsComponent)``;
-
-export const TechInput = styled(TechInputComponent)`
+const TechInputWrapper = styled.div`
   width: 100%;
+  background-color: ${PALETTE.WHITE_400};
+  border-radius: 25px;
+  filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.25));
+  z-index: 10;
 
-  & > input {
+  & input {
     border: none;
 
     &:focus {
@@ -62,9 +57,12 @@ export const TechInput = styled(TechInputComponent)`
   }
 `;
 
+export const TechInput = styled(TechInputComponent)``;
+
 export default {
-  Root,
+  SearchBarContainer,
   Input,
   Button,
-  SelectedChips,
+  TechTagContainer,
+  TechInputWrapper,
 };

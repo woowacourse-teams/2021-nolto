@@ -7,6 +7,7 @@ import Home from 'pages/Home/Home';
 import Upload from 'pages/Upload/Upload';
 import FeedDetail from 'pages/FeedDetail/FeedDetail';
 import RecentFeeds from 'pages/RecentFeeds/RecentFeeds';
+import SearchResult from 'pages/SearchResult/SearchResult';
 import OAuth from 'pages/OAuth/OAuth';
 import AsyncBoundary from 'components/AsyncBoundary';
 import NotificationProvider from 'context/notification/NotificationProvider';
@@ -53,6 +54,9 @@ const App = () => {
                     </Route>
                     <Route path={`${ROUTE.FEEDS}/:id`}>
                       <FeedDetail />
+                    </Route>
+                    <Route path={ROUTE.SEARCH}>
+                      <SearchResult />
                     </Route>
                     <Route path="/:oauth/callback">
                       <OAuth />
