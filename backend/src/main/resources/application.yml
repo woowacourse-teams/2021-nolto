@@ -145,4 +145,3 @@ application:
     cloudfront:
         url: https://dksykemwl00pf.cloudfront.net/
     default-image: nolto-default-thumbnail.png
-
