@@ -1,5 +1,6 @@
 import React from 'react';
 
+import SnackBarProvider from 'context/snackBar/SnackBarProvider';
 import HotFeedsContent from './HotFeedsContent';
 
 export default {
@@ -8,4 +9,8 @@ export default {
   argTypes: {},
 };
 
-export const Default = () => <HotFeedsContent />;
+export const Default = () => (
+  <SnackBarProvider>
+    <HotFeedsContent />
+  </SnackBarProvider>
+);

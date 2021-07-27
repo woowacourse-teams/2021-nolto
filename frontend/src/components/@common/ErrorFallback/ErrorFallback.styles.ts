@@ -1,5 +1,6 @@
-import { PALETTE } from 'constants/palette';
 import styled from 'styled-components';
+
+import { PALETTE } from 'constants/palette';
 
 const Root = styled.div`
   display: flex;
@@ -7,6 +8,11 @@ const Root = styled.div`
   align-items: center;
   font-family: 'Work Sans', sans-serif;
   color: ${PALETTE.RED_500};
+`;
+
+const Image = styled.img`
+  border-radius: 50%;
+  filter: drop-shadow(0 0 1rem rgba(0, 0, 0, 0.25));
 `;
 
 const ErrorText = styled.span`
@@ -18,7 +24,8 @@ const ErrorText = styled.span`
 
 const Message = styled.pre`
   color: inherit;
-  margin-top: 0.5rem;
+  font-size: 1.5rem;
+  margin-top: 1rem;
 `;
 
-export default { Root, ErrorText, Message };
+export default { Root, Image, ErrorText, Message };

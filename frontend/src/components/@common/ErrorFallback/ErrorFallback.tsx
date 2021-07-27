@@ -11,7 +11,7 @@ const ErrorFallback = ({ message }: Props) => {
   return (
     <Styled.Root>
       <Styled.ErrorText>ERROR</Styled.ErrorText>
-      <img src={catError} alt="error" />
+      <Styled.Image src={catError} alt="error" />
       <Styled.Message>{message}</Styled.Message>
     </Styled.Root>
   );

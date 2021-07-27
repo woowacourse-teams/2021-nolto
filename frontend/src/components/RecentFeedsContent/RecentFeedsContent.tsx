@@ -14,20 +14,17 @@ interface Props {
 }
 
 const RecentFeedsContent = ({ limit }: Props) => {
-  const [filterType, setFilterType] = useState<FilterType>();
+  const [filter, setFilter] = useState<FilterType>();
 
   const snackbar = useSnackBar();
-  const { data: recentFeeds } = useRecentFeeds(
-    {
-      onError: () => snackbar.addSnackBar('error', '최신 피드를 불러올 수 없습니다.'),
-      refetchOnMount: true,
-    },
-    filterType,
-  );
+  const { data: recentFeeds } = useRecentFeeds({
+    errorHandler: (error) => snackbar.addSnackBar('error', error.message),
+    filter: filter,
+  });
 
-  const toggleLevel = (type: FilterType) => {
-    if (filterType === type) setFilterType(null);
-    else setFilterType(type);
+  const toggleLevel = (filterType: FilterType) => {
+    if (filter === filterType) setFilter(null);
+    else setFilter(filterType);
   };
 
   return (
@@ -35,15 +32,15 @@ const RecentFeedsContent = ({ limit }: Props) => {
       <Styled.LevelButtonsContainer>
         <LevelButton.Progress
           onClick={() => toggleLevel(FilterType.PROGRESS)}
-          selected={filterType === FilterType.PROGRESS}
+          selected={filter === FilterType.PROGRESS}
         />
         <LevelButton.Complete
           onClick={() => toggleLevel(FilterType.COMPLETE)}
-          selected={filterType === FilterType.COMPLETE}
+          selected={filter === FilterType.COMPLETE}
         />
         <LevelButton.SOS
           onClick={() => toggleLevel(FilterType.SOS)}
-          selected={filterType === FilterType.SOS}
+          selected={filter === FilterType.SOS}
         />
       </Styled.LevelButtonsContainer>
       <Styled.CardsContainer>

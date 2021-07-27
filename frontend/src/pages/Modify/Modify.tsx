@@ -7,8 +7,8 @@ import Header from 'components/Header/Header';
 import ROUTE from 'constants/routes';
 import { ALERT_MSG } from 'constants/message';
 import useNotification from 'context/notification/useNotification';
-import Styled from './Modify.styles';
 import useFeedModify from 'hooks/queries/useFeedModify';
+import Styled from './Modify.styles';
 import { FeedDetail } from 'types';
 
 const Modify = () => {
@@ -35,7 +35,7 @@ const Modify = () => {
   } = location.state.feedDetail;
   const modifyMutation = useFeedModify();
 
-  const ModifyFeed = (formData: FormData) => {
+  const modifyFeed = (formData: FormData) => {
     modifyMutation.mutate(
       { feedId, formData },
       {
@@ -56,7 +56,7 @@ const Modify = () => {
         </Styled.TitleWrapper>
 
         <FeedUploadForm
-          onFeedSubmit={ModifyFeed}
+          onFeedSubmit={modifyFeed}
           initialFormValue={{
             title,
             content,

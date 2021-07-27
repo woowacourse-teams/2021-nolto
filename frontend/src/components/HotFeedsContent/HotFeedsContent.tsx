@@ -11,9 +11,11 @@ const HotFeedsContent = () => {
   const [hotToyCardIdx, setHotToyCardIdx] = useState(3);
 
   const snackbar = useSnackBar();
+
   const { data: hotFeeds } = useHotFeeds({
-    onError: () => snackbar.addSnackBar('error', '인기 피드를 불러올 수 없습니다'),
-    refetchOnMount: true,
+    errorHandler: (error) => {
+      snackbar.addSnackBar('error', error.message);
+    },
   });
 
   const showPreviousCards = () => {

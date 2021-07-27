@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import React, { useRef } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import AsyncBoundary from 'components/AsyncBoundary';
 import CroppedEllipse from 'components/CroppedEllipse/CroppedEllipse';
@@ -35,20 +35,10 @@ const tags: Tech[] = [
 const Home = () => {
   const history = useHistory();
 
-  const [isHeaderFolded, setHeaderFolded] = useState(true);
-
   const ellipseRef = useRef();
   const isEllipseVisible = useOnScreen(ellipseRef);
 
   const RECENT_FEED_LENGTH = 4;
-
-  useEffect(() => {
-    if (isEllipseVisible) {
-      setHeaderFolded(true);
-    } else {
-      setHeaderFolded(false);
-    }
-  }, [isEllipseVisible]);
 
   const scrollTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -69,7 +59,7 @@ const Home = () => {
 
   return (
     <>
-      <Header isFolded={isHeaderFolded} />
+      <Header isFolded={isEllipseVisible} />
       <Styled.Root>
         <Styled.EllipseWrapper ref={ellipseRef}>
           <CroppedEllipse />
