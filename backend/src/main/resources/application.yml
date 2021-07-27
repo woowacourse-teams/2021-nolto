@@ -2,8 +2,9 @@ spring:
     profiles:
         active: local
         group:
-            prod: real-db,real-oauth
-            dev: dev-db,dev-oauth
+            local: console-logging
+            prod: real-db,real-oauth, file-error-logging
+            dev: dev-db,dev-oauth, file-error-logging
     servlet:
         multipart:
             enabled: true
@@ -18,6 +19,9 @@ spring:
                 format_sql: true
                 dialect: org.hibernate.dialect.H2Dialect
         show-sql: true
+    output:
+        ansi:
+            enabled: always
     main:
         allow-bean-definition-overriding: true
 ---
@@ -120,6 +124,8 @@ security:
             secret-key: my_secret_is_secret
             expire-length: 3600000
 logging:
+    file:
+        path: /home/ubuntu/nolto2021
     level:
         org:
             hibernate:
