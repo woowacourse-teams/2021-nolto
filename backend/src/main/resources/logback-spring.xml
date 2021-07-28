@@ -56,7 +56,6 @@
         </springProfile>
 
         <springProfile name="file-error-logging">
-            <appender-ref ref="INFO_FILE_POLICY"/>
             <appender-ref ref="ERROR_FILE_POLICY"/>
         </springProfile>
     </root>
