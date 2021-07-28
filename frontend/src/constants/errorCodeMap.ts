@@ -1,4 +1,4 @@
-const ERROR_CODE: Record<string, string> = {
+const ERROR_CODE_MAP = {
   'common-001': '잘못된 요청입니다.',
   'common-002': '서버에서 에러가 발생했습니다.',
 
@@ -16,6 +16,9 @@ const ERROR_CODE: Record<string, string> = {
   'feed-005': '지원하지 않는 피드의 필터링 값입니다.',
   'feed-006': '지원하지 않는 피드의 step입니다.',
   'feed-007': '이미지 업로드에 실패했습니다.',
+
+  'like-001': '이미 좋아요를 누른 글입니다',
+  'like-002': '이미 좋아요 취소된 글입니다.',
 };
 
-export default ERROR_CODE;
+export default ERROR_CODE_MAP;

@@ -13,6 +13,8 @@ import useModal from 'context/modal/useModal';
 import useNotification from 'context/notification/useNotification';
 import { FeedDetail } from 'types';
 import Styled from './LikeButton.styles';
+import ERROR_CODE from 'constants/errorCode';
+import { useHistory } from 'react-router-dom';
 
 interface Props {
   feedDetail: FeedDetail;
@@ -26,6 +28,7 @@ const LikeButton = ({ feedDetail }: Props) => {
   const member = useMember();
   const modal = useModal();
   const notification = useNotification();
+  const history = useHistory();
 
   const handleUnauthorizeError = () => {
     member.logout();
@@ -39,6 +42,14 @@ const LikeButton = ({ feedDetail }: Props) => {
     },
     onError: (error) => {
       notification.alert(error.message);
+
+      const errorHandleMap = {
+        'auth-001': handleUnauthorizeError,
+      };
+
+      // 세션만료
+      // 이미 좋아요를 누른 글입니다.
+
       handleUnauthorizeError();
     },
   });
@@ -49,6 +60,8 @@ const LikeButton = ({ feedDetail }: Props) => {
       setLikeCount(likeCount - 1);
     },
     onError: () => {
+      //세션 만료
+      //이미 좋아요 취소된 글입니다.
       handleUnauthorizeError();
     },
   });
@@ -71,10 +84,10 @@ const LikeButton = ({ feedDetail }: Props) => {
       return;
     }
 
-    if (isLiked) {
-      unlikeMutation.mutate({ feedId: feedDetail.id });
-      return;
-    }
+    // if (isLiked) {
+    //   unlikeMutation.mutate({ feedId: feedDetail.id });
+    //   return;
+    // }
 
     likeMutation.mutate({ feedId: feedDetail.id });
   };

@@ -3,7 +3,7 @@ import { useQuery, UseQueryOptions } from 'react-query';
 import api from 'constants/api';
 import { ErrorHandler, Tech } from 'types';
 import HttpError from 'utils/HttpError';
-import ERROR_CODE from 'constants/errorCode';
+import { resolveHttpErrorResponse } from 'utils/error';
 
 interface CustomQueryOption extends UseQueryOptions<Tech[], HttpError> {
   errorHandler?: ErrorHandler;
@@ -16,15 +16,11 @@ const getTechs = async (techs: string, errorHandler: ErrorHandler) => {
 
     return data;
   } catch (error) {
-    const { status, data } = error.response;
-
-    console.error(data.errorMessage);
-
-    throw new HttpError(
-      status,
-      ERROR_CODE[data.errorCode] || '기술스택을 불러오는 과정에서 에러가 발생했습니다',
+    resolveHttpErrorResponse({
+      errorResponse: error.response,
+      defaultErrorMessage: '기술스택을 불러오는 과정에서 에러가 발생했습니다',
       errorHandler,
-    );
+    });
   }
 };
 
