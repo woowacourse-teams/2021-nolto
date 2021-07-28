@@ -21,7 +21,7 @@ const ModalInner = styled.div`
   display: inline-block;
   background-color: ${PALETTE.WHITE_400};
   border-radius: 25px;
-  padding: 6.25rem 4.75rem;
+  padding: 4.75rem;
   box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.2);
 `;
 

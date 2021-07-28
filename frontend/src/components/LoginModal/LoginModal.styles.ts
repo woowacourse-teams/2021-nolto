@@ -15,7 +15,7 @@ const Title = styled.h2`
 `;
 
 const Greeting = styled.div`
-  margin-bottom: 2rem;
+  margin-top: 1rem;
   color: ${PALETTE.GRAY_400};
 `;
 
