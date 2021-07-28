@@ -8,6 +8,7 @@ import ERROR_CODE from 'constants/errorCode';
 import useModal from 'context/modal/useModal';
 import useNotification from 'context/notification/useNotification';
 import LoginModal from 'components/LoginModal/LoginModal';
+import { UserInfo } from 'types';
 
 const getMember = async () => {
   const token = localStorage.getItem('accessToken') || '';
@@ -42,7 +43,7 @@ const useMember = () => {
     queryClient.resetQueries('member');
   };
 
-  const { data: userData } = useQuery('member', getMember, {
+  const { data: userData } = useQuery<UserInfo>('member', getMember, {
     suspense: false,
     useErrorBoundary: false,
     onError: (error) => {
