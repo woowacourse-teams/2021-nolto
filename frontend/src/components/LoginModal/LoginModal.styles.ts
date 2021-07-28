@@ -17,19 +17,6 @@ const Title = styled.h2`
   margin-bottom: 2rem;
 `;
 
-export const Form = styled.form`
-  width: 100%;
-`;
-
-const InputWrapper = styled.div`
-  margin-bottom: 0.625rem;
-`;
-
-export const LoginInput = styled(TextInput)`
-  font-size: 1rem;
-  width: 100%;
-`;
-
 const OAuthContainer = styled.div`
   margin-top: 3.25rem;
   width: 100%;
@@ -48,12 +35,6 @@ export const OAuthButton = styled(TextButton.Rounded)`
   }
 `;
 
-const LoginButton = styled(TextButton.Rounded)`
-  width: 100%;
-  height: 2.25rem;
-  margin: 2rem 0 0.75rem;
-`;
-
 const SignUpWrapper = styled.div`
   font-size: 12px;
 `;
@@ -67,8 +48,6 @@ export default {
   Root,
   Title,
   OAuthContainer,
-  InputWrapper,
-  LoginButton,
   SignUpWrapper,
   SignUpLink,
 };
