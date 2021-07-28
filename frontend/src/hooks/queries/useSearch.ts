@@ -3,7 +3,7 @@ import { useQuery, UseQueryOptions } from 'react-query';
 import api from 'constants/api';
 import { ErrorHandler, Feed, FilterType } from 'types';
 import HttpError from 'utils/HttpError';
-import ERROR_CODE from 'constants/errorCode';
+import { resolveHttpErrorResponse } from 'utils/error';
 
 interface SearchParams {
   query: string;
@@ -25,15 +25,11 @@ const getSearchResult = async (searchParams: SearchParams, errorHandler: ErrorHa
 
     return data;
   } catch (error) {
-    const { status, data } = error.response;
-
-    console.error(data.errorMessage);
-
-    throw new HttpError(
-      status,
-      ERROR_CODE[data.errorCode] || '검색 과정에서 에러가 발생했습니다',
+    resolveHttpErrorResponse({
+      errorResponse: error.response,
+      defaultErrorMessage: '검색 과정에서 에러가 발생했습니다',
       errorHandler,
-    );
+    });
   }
 };
 

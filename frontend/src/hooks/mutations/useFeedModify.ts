@@ -2,8 +2,8 @@ import { useMutation } from 'react-query';
 import { AxiosResponse } from 'axios';
 
 import api from 'constants/api';
-import ERROR_CODE from 'constants/errorCode';
 import HttpError from 'utils/HttpError';
+import { resolveHttpErrorResponse } from 'utils/error';
 
 interface Args {
   feedId: number;
@@ -16,11 +16,10 @@ const uploadFeed = async ({ feedId, formData }: Args) => {
 
     return data;
   } catch (error) {
-    const { status, data } = error.response;
-
-    console.error(data.errorMessage);
-
-    throw new HttpError(status, ERROR_CODE[data.errorCode] || '피드 수정에 에러가 발생했습니다');
+    resolveHttpErrorResponse({
+      errorResponse: error.response,
+      defaultErrorMessage: '피드 수정에 에러가 발생했습니다',
+    });
   }
 };
 
