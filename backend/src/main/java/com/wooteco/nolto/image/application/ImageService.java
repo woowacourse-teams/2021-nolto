@@ -4,6 +4,8 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.util.Base64;
+import com.wooteco.nolto.exception.ErrorType;
+import com.wooteco.nolto.exception.InternalServerErrorException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -62,7 +64,7 @@ public class ImageService {
         try (FileOutputStream fos = new FileOutputStream(convertedFile)) {
             fos.write(multipartFile.getBytes());
         } catch (IOException e) {
-            throw new IllegalStateException("MultipartFile 변환에 실패하였습니다.");
+            throw new InternalServerErrorException(ErrorType.MULTIPART_CONVERT_FAIL);
         }
         return convertedFile;
     }
