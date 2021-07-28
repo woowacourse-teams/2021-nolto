@@ -1,4 +1,4 @@
-import ERROR_CODE_MAP from 'constants/errorCodeMap';
+import ERROR_CODE from 'constants/errorCodeMap';
 import { ErrorResponse, HttpErrorResponse } from 'types';
 
 export const isErrorResponse = (response: any): response is ErrorResponse => {
@@ -13,12 +13,12 @@ export const isErrorResponse = (response: any): response is ErrorResponse => {
   return true;
 };
 
-export const isErrorCode = (data: unknown): data is keyof typeof ERROR_CODE_MAP => {
+export const isErrorCode = (data: unknown): data is keyof typeof ERROR_CODE => {
   if (typeof data !== 'string') {
     return false;
   }
 
-  return Object.keys(ERROR_CODE_MAP).some((key) => key === data);
+  return Object.keys(ERROR_CODE).some((key) => key === data);
 };
 
 export const isHttpErrorResponse = (errorResponse: any): errorResponse is HttpErrorResponse => {

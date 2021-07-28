@@ -1,4 +1,4 @@
-const ERROR_CODE_MAP = {
+const ERROR_CODE = {
   'common-001': '잘못된 요청입니다.',
   'common-002': '서버에서 에러가 발생했습니다.',
 
@@ -21,4 +21,4 @@ const ERROR_CODE_MAP = {
   'like-002': '이미 좋아요 취소된 글입니다.',
 };
 
-export default ERROR_CODE_MAP;
+export default ERROR_CODE;
