@@ -70,7 +70,7 @@ public class ImageService {
     }
 
     public String update(String oldImageUrl, MultipartFile updateImage) {
-        String imageUrl = oldImageUrl.replace(cloudfrontUrl , "");
+        String imageUrl = oldImageUrl.replace(cloudfrontUrl, "");
         if (!isDefault(imageUrl) && amazonS3Client.doesObjectExist(bucketName, imageUrl)) {
             amazonS3Client.deleteObject(new DeleteObjectRequest(bucketName, imageUrl));
         }

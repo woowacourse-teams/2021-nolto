@@ -54,6 +54,9 @@ dependencies {
 	testImplementation "org.testcontainers:localstack:1.15.3"
 	compile group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
 	compile group: 'commons-io', name: 'commons-io', version: '2.4'
+
+	// restassured
+	testImplementation 'io.rest-assured:rest-assured:3.3.0'
 }
 
 ext {
