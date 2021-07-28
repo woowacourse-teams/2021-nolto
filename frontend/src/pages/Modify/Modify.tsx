@@ -7,7 +7,7 @@ import Header from 'components/Header/Header';
 import ROUTE from 'constants/routes';
 import { ALERT_MSG } from 'constants/message';
 import useNotification from 'context/notification/useNotification';
-import useFeedModify from 'hooks/queries/useFeedModify';
+import useFeedModify from 'hooks/mutations/useFeedModify';
 import Styled from './Modify.styles';
 import { FeedDetail } from 'types';
 

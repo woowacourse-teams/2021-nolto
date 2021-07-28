@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 
 import { TechChips } from 'components/SearchBar/SearchBar.styles';
 import TechTagProvider from 'context/techTag/TechTagProvider';
+import useSnackBar from 'context/snackBar/useSnackBar';
 import ROUTE from 'constants/routes';
 import useTechs from 'hooks/queries/useTechs';
 import SearchIcon from 'assets/search.svg';
@@ -22,8 +23,12 @@ const SearchResultHeader = ({ searchParams, query, setQuery, techs, setTechs }: 
 
   const [queryValue, setQueryValue] = useState('');
 
+  const snackbar = useSnackBar();
   // TODO: 네이밍 고려하기
-  const { data: techsData } = useTechs(techs);
+  const { data: techsData } = useTechs({
+    techs,
+    errorHandler: (error) => snackbar.addSnackBar('error', error.message),
+  });
 
   const searchByQuery = (event: React.FormEvent) => {
     event.preventDefault();

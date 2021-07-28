@@ -1,17 +1,41 @@
-import { QueryFunctionContext, QueryKey, useQuery } from 'react-query';
+import { useQuery, UseQueryOptions } from 'react-query';
 
 import api from 'constants/api';
-import { Tech } from 'types';
+import { ErrorHandler, Tech } from 'types';
+import HttpError from 'utils/HttpError';
+import ERROR_CODE from 'constants/errorCode';
 
-const getTechs = async (autoComplete: string) => {
-  const { data } = await api.get(`/tags/techs?auto_complete=${autoComplete}`);
+interface CustomQueryOption extends UseQueryOptions<Tech[], HttpError> {
+  autoComplete: string;
+  errorHandler?: ErrorHandler;
+}
 
-  return data;
+const getTechs = async (autoComplete: string, errorHandler: ErrorHandler) => {
+  try {
+    const { data } = await api.get(`/tags/techs?auto_complete=${autoComplete}`);
+    return data;
+  } catch (error) {
+    const { status, data } = error.response;
+
+    console.error(data.errorMessage);
+
+    throw new HttpError(
+      status,
+      ERROR_CODE[data.errorCode] || '기술스택 자동완성 과정에서 에러가 발생했습니다',
+      errorHandler,
+    );
+  }
 };
 
-export default function useTechAutoComplete(autoComplete: string) {
-  return useQuery<Tech[]>(['techAutoComplete', autoComplete], () => getTechs(autoComplete), {
-    enabled: !!autoComplete,
-    suspense: false,
-  });
-}
+const useTechAutoComplete = ({ autoComplete, errorHandler }: CustomQueryOption) => {
+  return useQuery<Tech[]>(
+    ['techAutoComplete', autoComplete],
+    () => getTechs(autoComplete, errorHandler),
+    {
+      enabled: !!autoComplete,
+      suspense: false,
+    },
+  );
+};
+
+export default useTechAutoComplete;

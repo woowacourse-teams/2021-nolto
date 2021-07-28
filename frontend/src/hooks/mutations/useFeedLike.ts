@@ -3,6 +3,7 @@ import { AxiosResponse } from 'axios';
 
 import api from 'constants/api';
 import HttpError from 'utils/HttpError';
+import ERROR_CODE from 'constants/errorCode';
 
 interface Args {
   feedId: number;
@@ -19,7 +20,10 @@ const postLike = async ({ feedId }: Args) => {
     console.error(data.message);
 
     // 잠깐 임시로 작성한 에러 핸들링 코드입니다.
-    throw new HttpError(status, data.message);
+    throw new HttpError(
+      status,
+      ERROR_CODE[data.errorCode] || '피드 좋아요 과정에서 에러가 발생했습니다',
+    );
   }
 };
 
