@@ -250,7 +250,7 @@ public class FeedControllerTest extends ControllerTest {
                                 parameterWithName("filter").description("필터 조건 (ALL, SOS, PROGRESS, COMPLETE)").optional()
                         ),
                         responseFields(
-                                fieldWithPath("[]").type(JsonFieldType.ARRAY).description("HOT 피드 목록")
+                                fieldWithPath("[]").type(JsonFieldType.ARRAY).description("최신 피드 목록")
                         ).andWithPrefix("[].", FEED_CARD_RESPONSE)));
 
     }
