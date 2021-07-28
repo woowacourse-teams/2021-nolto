@@ -7,17 +7,11 @@ const Root = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 4rem 0;
+  margin: 4rem 0;
 `;
 
 const SectionTitle = styled(HighLightedText)`
   margin-bottom: 1rem;
-`;
-
-const RecentToysContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: fit-content;
 `;
 
 const LevelButtonsContainer = styled.div`
@@ -27,11 +21,15 @@ const LevelButtonsContainer = styled.div`
   margin-bottom: 3.5rem;
 `;
 
+const RecentToysContainer = styled.div`
+  height: 30rem;
+`;
+
 export const TechInput = styled(TechInputComponent)``;
 
 export default {
   Root,
   SectionTitle,
-  RecentToysContainer,
   LevelButtonsContainer,
+  RecentToysContainer,
 };

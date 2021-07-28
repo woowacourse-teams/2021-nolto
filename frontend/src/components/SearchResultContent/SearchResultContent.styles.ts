@@ -7,9 +7,9 @@ const Root = styled.ul`
   flex-direction: column;
   gap: 2rem;
   align-items: center;
-  height: 40rem;
+  height: 100%;
   padding: 0 1rem;
-  overflow: auto;
+  overflow: scroll;
 
   &::-webkit-scrollbar {
     display: none;
