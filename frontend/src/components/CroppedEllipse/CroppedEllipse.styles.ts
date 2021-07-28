@@ -1,6 +1,20 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 import HorseIcon from 'assets/horse.svg';
+
+const shake = keyframes`
+  0% {
+    transform: rotate(-12deg);
+  }
+
+  50% {
+    transform: rotate(30deg);
+  }
+
+  100% {
+    transform: rotate(-30deg);
+  }
+`;
 
 const Root = styled.div`
   position: relative;
@@ -18,6 +32,11 @@ const Horse = styled(HorseIcon)`
   right: 20%;
   bottom: 10%;
   transform: rotate(-12deg);
+
+  &:hover {
+    animation: ${shake} 1s ease infinite;
+    animation-direction: alternate;
+  }
 `;
 
 export default { Root, SvgRoot, Horse };
