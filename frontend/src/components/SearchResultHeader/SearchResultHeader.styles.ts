@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import TechInputComponent from 'context/techTag/input/TechInput';
 import { PALETTE } from 'constants/palette';
+import Z_INDEX from 'constants/zIndex';
 
 const SearchBarContainer = styled.form`
   position: relative;
@@ -46,7 +47,7 @@ const TechInputWrapper = styled.div`
   background-color: ${PALETTE.WHITE_400};
   border-radius: 25px;
   filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.25));
-  z-index: 10;
+  z-index: ${Z_INDEX.TECH_INPUT};
 
   & input {
     border: none;

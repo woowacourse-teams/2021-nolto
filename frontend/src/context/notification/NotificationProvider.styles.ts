@@ -2,6 +2,7 @@ import styled, { keyframes } from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
 import TextButton from 'components/@common/TextButton/TextButton';
+import Z_INDEX from 'constants/zIndex';
 
 const show = keyframes`
   from {
@@ -22,7 +23,7 @@ const NotiContainer = styled.div`
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.15);
-  z-index: 120;
+  z-index: ${Z_INDEX.NOTIFICATION};
 `;
 
 const NotiInner = styled.div`

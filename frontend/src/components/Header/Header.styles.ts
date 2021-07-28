@@ -4,13 +4,14 @@ import { PALETTE } from 'constants/palette';
 import TextButton from 'components/@common/TextButton/TextButton';
 import IconButtonComponent from 'components/@common/IconButton/IconButton';
 import SearchBarComponent from 'components/SearchBar/SearchBar';
+import Z_INDEX from 'constants/zIndex';
 
 const Root = styled.header<{ isFolded: boolean }>`
   position: sticky;
   top: 0;
   height: 92px;
   width: 100%;
-  z-index: 10;
+  z-index: ${Z_INDEX.HEADER};
   box-shadow: ${({ isFolded }) => !isFolded && '0px 4px 4px rgba(0, 0, 0, 0.25)'};
 
   & svg {

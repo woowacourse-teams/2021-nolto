@@ -10,13 +10,15 @@ interface CustomQueryOption extends UseQueryOptions<Feed[], HttpError> {
 
 type ErrorType = 'feeds-001' | 'feeds-002';
 
-const getHotFeeds = (errorHandler?: ErrorHandler) => async () => {
+const getHotFeeds = async (errorHandler?: ErrorHandler) => {
   try {
     const { data } = await api.get('/feeds/hot');
 
     return data;
   } catch (error) {
     const { status, data } = error.response;
+
+    console.error(data.message);
 
     const errorMap: Record<ErrorType, string> = {
       ['feeds-001']: '임시 에러 메시지 1',
@@ -32,7 +34,7 @@ const getHotFeeds = (errorHandler?: ErrorHandler) => async () => {
 };
 
 const useHotFeeds = ({ errorHandler, ...option }: CustomQueryOption) => {
-  return useQuery<Feed[], HttpError>(['hotFeeds'], getHotFeeds(errorHandler), option);
+  return useQuery<Feed[], HttpError>(['hotFeeds'], () => getHotFeeds(errorHandler), option);
 };
 
 export default useHotFeeds;

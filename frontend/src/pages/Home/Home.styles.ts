@@ -7,6 +7,7 @@ import HighLightedText from 'components/@common/HighlightedText/HighlightedText'
 import Avatar from 'components/@common/Avatar/Avatar';
 import IconButtonComponent from 'components/@common/IconButton/IconButton';
 import ArrowIcon from 'assets/carouselArrow.svg';
+import Z_INDEX from 'constants/zIndex';
 
 const Root = styled.div`
   position: relative;
@@ -27,7 +28,7 @@ const SearchContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 3.75rem;
-  z-index: 10;
+  z-index: ${Z_INDEX.HOME_SEARCHBAR};
 `;
 
 const SearchTitle = styled.div`

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
+import Z_INDEX from 'constants/zIndex';
 
 const Root = styled.span<{ fontSize: string }>`
   position: relative;
@@ -17,7 +18,7 @@ const Root = styled.span<{ fontSize: string }>`
     left: 0;
     background-color: ${PALETTE.HIGHLIGHT};
     opacity: 0.7;
-    z-index: -1;
+    z-index: ${Z_INDEX.HIGHLIGHT_TEXT};
     width: 100%;
     height: 32%;
   }

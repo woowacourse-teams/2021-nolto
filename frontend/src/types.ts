@@ -64,7 +64,10 @@ export interface LoginInfo {
 }
 
 export interface UserInfo {
-  email: string;
+  id: number;
+  socialType: 'GOOGLE' | 'GITHUB';
+  nickName: string;
+  imageUrl: string;
 }
 
 export type OAuthType = 'google' | 'github';

@@ -10,9 +10,8 @@ interface SearchParams {
   filter: FilterType;
 }
 
-const getSearchResult = async ({ queryKey }: QueryFunctionContext) => {
-  const [_, { query, techs, filter }] = queryKey as [string, SearchParams];
-  const queryString = new URLSearchParams({ query, techs, filter: filter || '' });
+const getSearchResult = async ({ query, techs }: SearchParams) => {
+  const queryString = new URLSearchParams({ query, techs });
 
   const { data } = await api.get('/feeds/search?' + queryString);
 
@@ -23,5 +22,9 @@ export default function useSearch(
   searchParams: SearchParams,
   option?: UseQueryOptions<Feed[], HttpError>,
 ) {
-  return useQuery<Feed[]>(['searchResult', searchParams], getSearchResult, option);
+  return useQuery<Feed[]>(
+    ['searchResult', searchParams],
+    () => getSearchResult(searchParams),
+    option,
+  );
 }

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
+import Z_INDEX from 'constants/zIndex';
 
 const Root = styled.div`
   position: relative;
@@ -13,7 +14,7 @@ const Dropdown = styled.ul`
   margin-top: 2px;
   max-height: 20rem;
   overflow-y: scroll;
-  z-index: 10;
+  z-index: ${Z_INDEX.DROPDOWN};
 `;
 
 const TechOption = styled.li<{ focused?: boolean }>`

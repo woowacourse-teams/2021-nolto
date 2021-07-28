@@ -7,10 +7,11 @@ import Pencil from 'assets/pencil.svg';
 import { PALETTE } from 'constants/palette';
 import ROUTE from 'constants/routes';
 import useModal from 'context/modal/useModal';
-import useUserInfo from 'hooks/useUserInfo';
 import LoginModal from 'components/LoginModal/LoginModal';
 import { ButtonStyle } from 'types';
 import Styled, { IconButton, SearchBar } from './Header.styles';
+import useMember from 'hooks/queries/useMember';
+import useNotification from 'context/notification/useNotification';
 
 interface Props {
   isFolded?: boolean;
@@ -18,8 +19,9 @@ interface Props {
 
 const Header = ({ isFolded = false }: Props) => {
   const modal = useModal();
-  const userInfo = useUserInfo();
   const [isSearchBarOpened, setSearchBarOpened] = useState(false);
+  const member = useMember();
+  const notification = useNotification();
 
   const navLinkActiveStyle = {
     borderBottom: `2px solid ${PALETTE.WHITE_400}`,
@@ -40,8 +42,8 @@ const Header = ({ isFolded = false }: Props) => {
   };
 
   const logout = () => {
-    localStorage.removeItem('accessToken');
-    userInfo.removeUserInfo();
+    member.logout();
+    notification.alert('로그아웃 되었습니다.');
   };
 
   return (
@@ -97,7 +99,7 @@ const Header = ({ isFolded = false }: Props) => {
             </IconButton>
           </Link>
 
-          {userInfo.userInfo ? (
+          {member.loginData ? (
             <Styled.AuthButton buttonStyle={ButtonStyle.OUTLINE} reverse={true} onClick={logout}>
               Logout
             </Styled.AuthButton>

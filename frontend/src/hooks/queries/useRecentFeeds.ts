@@ -11,29 +11,31 @@ interface CustomQueryOption extends UseQueryOptions<Feed[], HttpError> {
 
 type ErrorType = 'feeds-001' | 'feeds-002';
 
-const getRecentFeeds =
-  (errorHandler: ErrorHandler) =>
-  async ({ queryKey }: QueryFunctionContext<QueryKey, FilterType>) => {
-    const [_, filter] = queryKey;
-    try {
-      const { data } = await api.get('/feeds/recent', { params: { filter } });
-      return data;
-    } catch (error) {
-      const { status, data } = error.response;
+const getRecentFeeds = async (filter: FilterType, errorHandler: ErrorHandler) => {
+  try {
+    const { data } = await api.get('/feeds/recent', { params: { filter } });
 
-      const errorMap: Record<ErrorType, string> = {
-        ['feeds-001']: '임시 에러 메시지 1',
-        ['feeds-002']: '임시 에러 메시지 2',
-      };
+    return data;
+  } catch (error) {
+    const { status, data } = error.response;
 
-      throw new HttpError(
-        status,
-        errorMap[data.error as ErrorType] || '최신 피드에 에러가 발생했습니다',
-        errorHandler,
-      );
-    }
-  };
+    const errorMap: Record<ErrorType, string> = {
+      ['feeds-001']: '임시 에러 메시지 1',
+      ['feeds-002']: '임시 에러 메시지 2',
+    };
+
+    throw new HttpError(
+      status,
+      errorMap[data.error as ErrorType] || '최신 피드에 에러가 발생했습니다',
+      errorHandler,
+    );
+  }
+};
 
 export default function useRecentFeeds({ errorHandler, filter, ...option }: CustomQueryOption) {
-  return useQuery<Feed[]>(['recentFeeds', filter], getRecentFeeds(errorHandler), option);
+  return useQuery<Feed[]>(
+    ['recentFeeds', filter],
+    () => getRecentFeeds(filter, errorHandler),
+    option,
+  );
 }
