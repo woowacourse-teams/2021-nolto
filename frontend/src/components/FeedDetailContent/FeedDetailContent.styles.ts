@@ -22,7 +22,7 @@ const IconsContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  margin-top: 0.25rem;
+  margin-top: 0.75rem;
 `;
 
 const IconWrapper = styled.div`
@@ -44,6 +44,7 @@ const Thumbnail = styled.div`
   border-radius: 0.5rem;
   width: 100%;
   overflow: hidden;
+  box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.2);
 
   &::after {
     content: '';
