@@ -8,10 +8,22 @@ interface Args {
   feedId: number;
 }
 
-const deleteLike = ({ feedId }: Args) => api.delete(`/feeds/${feedId}/like`);
+const postUnlike = async ({ feedId }: Args) => {
+  try {
+    const { data } = await api.post(`/feeds/${feedId}/unlike `);
+
+    return data;
+  } catch (error) {
+    const { status, data } = error.response;
+
+    console.error(data.message);
+    // 잠깐 임시로 작성한 에러 핸들링 코드입니다.
+    throw new HttpError(status, data.error);
+  }
+};
 
 const useFeedUnlike = (option?: UseMutationOptions<AxiosResponse<unknown>, HttpError, Args>) => {
-  return useMutation(deleteLike, option);
+  return useMutation(postUnlike, option);
 };
 
 export default useFeedUnlike;
