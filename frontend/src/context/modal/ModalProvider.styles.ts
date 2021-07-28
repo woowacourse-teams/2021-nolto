@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import IconButton from 'components/@common/IconButton/IconButton';
 import { PALETTE } from 'constants/palette';
+import Z_INDEX from 'constants/zIndex';
 
 const ModalContainer = styled.div`
   position: fixed;
@@ -13,7 +14,7 @@ const ModalContainer = styled.div`
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.3);
-  z-index: 110;
+  z-index: ${Z_INDEX.MODAL};
 `;
 
 const ModalInner = styled.div`

@@ -2,6 +2,7 @@ import styled, { css, keyframes } from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
 import { SnackBarType } from 'types';
+import Z_INDEX from 'constants/zIndex';
 
 const show = keyframes`
   from {
@@ -24,7 +25,7 @@ const SnackBarWrapper = styled.div`
   gap: 0.5rem;
   bottom: 1rem;
   left: 1rem;
-  z-index: 120;
+  z-index: ${Z_INDEX.SNACKBAR};
 `;
 
 const SnackBar = styled.div<{ type: SnackBarType }>`

@@ -36,7 +36,6 @@ const Message = styled.div`
   padding-left: 0.5rem;
 
   & > span {
-    z-index: 1;
     font-size: 0.75rem;
     color: ${PALETTE.WHITE_400};
   }

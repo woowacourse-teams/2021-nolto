@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
+import Z_INDEX from 'constants/zIndex';
 
 const Root = styled.div`
   position: absolute;
@@ -9,7 +10,7 @@ const Root = styled.div`
   border-radius: 4px;
   padding: 0.5rem 1rem;
   font-size: 0.75rem;
-  z-index: 10;
+  z-index: ${Z_INDEX.TOOLTIP};
 `;
 
 export default { Root };
