@@ -21,25 +21,31 @@ public class AcceptanceTest {
     int port;
 
     @Autowired
-    private UserRepository userRepository;
+    public UserRepository userRepository;
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+
+
+    public User 엄청난_유저 = new User(
+            "1",
+            SocialType.GITHUB,
+            "엄청난 유저",
+            "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png");
 
     @BeforeEach
     public void setUp() {
         RestAssured.port = port;
     }
 
-    public TokenResponse 가입된_유저의_토큰을_받는다() {
-        User 엄청난_유저 = new User(
-                "1",
-                SocialType.GITHUB,
-                "엄청난 유저",
-                "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png");
-        User 저장된_엄청난_유저 = userRepository.save(엄청난_유저);
+    public TokenResponse 가입된_유저의_토큰을_받는다(User user) {
+        User 저장된_엄청난_유저 = userRepository.save(user);
 
         String token = jwtTokenProvider.createToken(String.valueOf(저장된_엄청난_유저.getId()));
         return new TokenResponse(token);
+    }
+
+    public User 회원_등록되어_있음(User user) {
+        return userRepository.save(user);
     }
 }
