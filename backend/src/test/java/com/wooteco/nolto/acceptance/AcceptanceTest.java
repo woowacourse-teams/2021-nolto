@@ -27,7 +27,7 @@ public class AcceptanceTest {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
-    public static User 엄청난_유저 = new User(
+    public User 엄청난_유저 = new User(
             "1",
             SocialType.GITHUB,
             "엄청난 유저",
