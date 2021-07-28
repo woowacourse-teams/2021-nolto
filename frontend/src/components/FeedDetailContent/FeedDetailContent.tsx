@@ -27,6 +27,8 @@ const FeedDetailContent = ({ id }: Props) => {
     id,
   });
 
+  const isMyFeed = member.userData?.id === feedDetail.author.id;
+
   return (
     <Styled.Root>
       <Styled.IntroContainer>
@@ -57,9 +59,7 @@ const FeedDetailContent = ({ id }: Props) => {
             <Styled.UserWrapper>
               <Styled.UserName>{feedDetail.author.nickname}</Styled.UserName>
               <Styled.UserImage src={feedDetail.author.imageUrl} />
-              {member.userData?.id === feedDetail.author.id && (
-                <FeedDropdown feedDetail={feedDetail} />
-              )}
+              {isMyFeed && <FeedDropdown feedDetail={feedDetail} />}
             </Styled.UserWrapper>
           </Styled.TitleContainer>
           <hr />

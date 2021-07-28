@@ -1,4 +1,4 @@
-import ERROR_CODE_MAP from 'constants/errorCodeMap';
+import ERROR_CODE from 'constants/errorCodeMap';
 import CustomError from 'utils/CustomError';
 
 export enum ButtonStyle {
@@ -81,11 +81,11 @@ export interface ErrorResponse {
   data: unknown;
 }
 
-export type ERROR_CODE = keyof typeof ERROR_CODE_MAP;
+export type ERROR_CODE_KEY = keyof typeof ERROR_CODE;
 
 export interface HttpErrorResponse extends ErrorResponse {
   data: {
     message: string;
-    errorCode: ERROR_CODE;
+    errorCode: ERROR_CODE_KEY;
   };
 }

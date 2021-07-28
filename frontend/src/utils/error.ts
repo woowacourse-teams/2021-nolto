@@ -1,4 +1,4 @@
-import ERROR_CODE_MAP from 'constants/errorCodeMap';
+import ERROR_CODE from 'constants/errorCodeMap';
 import { ErrorHandler } from 'types';
 import CustomError from './CustomError';
 import HttpError from './HttpError';
@@ -25,7 +25,7 @@ export const resolveHttpErrorResponse = ({
 
   throw new HttpError(
     data.errorCode,
-    ERROR_CODE_MAP[data.errorCode] || defaultErrorMessage,
+    ERROR_CODE[data.errorCode] || defaultErrorMessage,
     errorHandler,
   );
 };
