@@ -3,6 +3,7 @@ package com.wooteco.nolto.auth;
 import com.wooteco.nolto.auth.application.AuthService;
 import com.wooteco.nolto.auth.ui.AuthInterceptor;
 import com.wooteco.nolto.auth.ui.MemberArgumentResolver;
+import com.wooteco.nolto.auth.ui.UserArgumentResolver;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,12 +20,18 @@ public class AuthenticationPrincipalConfig implements WebMvcConfigurer {
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-        argumentResolvers.add(createAuthenticationPrincipalArgumentResolver());
+        argumentResolvers.add(createAuthenticationPrincipalMemberArgumentResolver());
+        argumentResolvers.add(createAuthenticationPrincipalUserArgumentResolver());
     }
 
     @Bean
-    public MemberArgumentResolver createAuthenticationPrincipalArgumentResolver() {
+    public MemberArgumentResolver createAuthenticationPrincipalMemberArgumentResolver() {
         return new MemberArgumentResolver(authService);
+    }
+
+    @Bean
+    public UserArgumentResolver createAuthenticationPrincipalUserArgumentResolver() {
+        return new UserArgumentResolver(authService);
     }
 
     @Override
