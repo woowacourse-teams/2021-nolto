@@ -56,7 +56,7 @@ public class OAuthControllerTest extends ControllerTest {
                 ));
     }
 
-    @DisplayName("소셜 로그인을 기능 요청의 code 값을 얻기 위한 파라미터 반환해준다.")
+    @DisplayName("소셜로그인 측에서 발급한 코드를 받아 소셜로그인을 완료하고, 백엔드 자체의 토큰을 발급한다.")
     @Test
     void oAuthSignIn() throws Exception {
         given(authService.oAuthSignIn(SOCIAL_TYPE_NAME, "code")).willReturn(TOKEN_RESPONSE);

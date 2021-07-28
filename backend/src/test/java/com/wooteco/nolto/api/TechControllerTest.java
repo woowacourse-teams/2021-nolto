@@ -59,7 +59,7 @@ class TechControllerTest extends ControllerTest {
                                 .andWithPrefix("[].", TECH)));
     }
 
-    @DisplayName("키워드로 기술 스택을 조회한다.")
+    @DisplayName("','로 구분된 테크명의 나열들로 기술 스택을 조회한다.")
     @Test
     void findAllByNameInIgnoreCase() throws Exception {
         String techNames = "Spring,Java,UnidentifiedTech";
