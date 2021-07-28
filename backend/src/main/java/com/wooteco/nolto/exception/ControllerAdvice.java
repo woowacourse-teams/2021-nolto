@@ -20,14 +20,12 @@ public class ControllerAdvice {
         String defaultMessage = Objects.requireNonNull(e.getBindingResult().getFieldError()).getDefaultMessage();
         ExceptionResponse errorResponse = new ExceptionResponse("common-001", defaultMessage);
         log.info(e.getMessage());
-        e.printStackTrace();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
     @ExceptionHandler(NoltoException.class)
     public ResponseEntity<ExceptionResponse> handleNoltoException(NoltoException e) {
         log.info(e.getBody().getMessage());
-        e.printStackTrace();
         return ResponseEntity.status(e.getHttpStatus()).body(e.getBody());
     }
 
