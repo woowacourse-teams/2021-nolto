@@ -5,6 +5,7 @@ import TextButton from 'components/@common/TextButton/TextButton';
 import IconButtonComponent from 'components/@common/IconButton/IconButton';
 import SearchBarComponent from 'components/SearchBar/SearchBar';
 import Z_INDEX from 'constants/zIndex';
+import UserProfileComponent from 'components/UserProfile/UserProfile';
 
 const Root = styled.header<{ isFolded: boolean }>`
   position: sticky;
@@ -103,6 +104,10 @@ export const SearchBar = styled(SearchBarComponent)`
   > input {
     animation: ${fadeIn} 0.5s ease 0s 1 normal forwards;
   }
+`;
+
+export const UserProfile = styled(UserProfileComponent)`
+  margin-left: 1.5rem;
 `;
 
 export default {

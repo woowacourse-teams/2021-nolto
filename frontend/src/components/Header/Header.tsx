@@ -9,9 +9,8 @@ import ROUTE from 'constants/routes';
 import useModal from 'context/modal/useModal';
 import LoginModal from 'components/LoginModal/LoginModal';
 import { ButtonStyle } from 'types';
-import Styled, { IconButton, SearchBar } from './Header.styles';
 import useMember from 'hooks/queries/useMember';
-import useNotification from 'context/notification/useNotification';
+import Styled, { IconButton, SearchBar, UserProfile } from './Header.styles';
 
 interface Props {
   isFolded?: boolean;
@@ -21,7 +20,6 @@ const Header = ({ isFolded = false }: Props) => {
   const modal = useModal();
   const [isSearchBarOpened, setSearchBarOpened] = useState(false);
   const member = useMember();
-  const notification = useNotification();
 
   const navLinkActiveStyle = {
     borderBottom: `2px solid ${PALETTE.WHITE_400}`,
@@ -39,11 +37,6 @@ const Header = ({ isFolded = false }: Props) => {
     if (event.target === event.currentTarget) {
       setSearchBarOpened(false);
     }
-  };
-
-  const logout = () => {
-    member.logout();
-    notification.alert('로그아웃 되었습니다.');
   };
 
   return (
@@ -99,10 +92,8 @@ const Header = ({ isFolded = false }: Props) => {
             </IconButton>
           </Link>
 
-          {member.loginData ? (
-            <Styled.AuthButton buttonStyle={ButtonStyle.OUTLINE} reverse={true} onClick={logout}>
-              Logout
-            </Styled.AuthButton>
+          {member.userData ? (
+            <UserProfile />
           ) : (
             <Styled.AuthButton
               buttonStyle={ButtonStyle.OUTLINE}

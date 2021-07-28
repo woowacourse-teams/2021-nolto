@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 
 import api from 'constants/api';
@@ -12,7 +12,6 @@ type ErrorType = 'auth-001' | 'auth-002';
 
 const getMember = async () => {
   const token = localStorage.getItem('accessToken') || '';
-  console.log('엑세스토큰', token);
 
   if (!token) {
     throw new CustomError('로그아웃 상태입니다.');
@@ -47,7 +46,7 @@ const useMember = () => {
     queryClient.resetQueries('member');
   };
 
-  const { data: loginData } = useQuery('member', getMember, {
+  const { data: userData } = useQuery('member', getMember, {
     suspense: false,
     useErrorBoundary: false,
     onError: (error) => {
@@ -62,11 +61,11 @@ const useMember = () => {
   const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
-    setIsLogin(loginData ? true : false);
-  }, [loginData]);
+    setIsLogin(userData ? true : false);
+  }, [userData]);
 
   return {
-    loginData,
+    userData,
     isLogin,
     logout,
   };
