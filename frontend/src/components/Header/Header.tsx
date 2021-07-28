@@ -9,9 +9,9 @@ import ROUTE from 'constants/routes';
 import useModal from 'context/modal/useModal';
 import LoginModal from 'components/LoginModal/LoginModal';
 import { ButtonStyle } from 'types';
-import Styled, { IconButton, SearchBar } from './Header.styles';
 import useMember from 'hooks/queries/useMember';
 import useNotification from 'context/notification/useNotification';
+import Styled, { IconButton, SearchBar, UserProfile } from './Header.styles';
 
 interface Props {
   isFolded?: boolean;
@@ -100,9 +100,7 @@ const Header = ({ isFolded = false }: Props) => {
           </Link>
 
           {member.loginData ? (
-            <Styled.AuthButton buttonStyle={ButtonStyle.OUTLINE} reverse={true} onClick={logout}>
-              Logout
-            </Styled.AuthButton>
+            <UserProfile />
           ) : (
             <Styled.AuthButton
               buttonStyle={ButtonStyle.OUTLINE}

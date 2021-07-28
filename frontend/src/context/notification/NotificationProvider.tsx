@@ -2,7 +2,6 @@ import React, { useMemo, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 import Styled, { Button } from './NotificationProvider.styles';
-import CrossMark from 'assets/crossMark.svg';
 import { ButtonStyle, NotificationType } from 'types';
 
 interface Props {
@@ -37,10 +36,6 @@ const NotificationProvider = ({ children }: Props) => {
     setMessage(msg);
     setIsOpen(true);
     setOnConfirm(() => callback);
-  };
-
-  const closeNotification = () => {
-    setIsOpen(false);
   };
 
   const confirmNotification = () => {
@@ -80,9 +75,6 @@ const NotificationProvider = ({ children }: Props) => {
       <Styled.NotiInner>
         <Styled.TopBar>
           <Styled.AlertTitle>알림</Styled.AlertTitle>
-          <Styled.CrossMarkButton onClick={closeNotification}>
-            <CrossMark width="16px" />
-          </Styled.CrossMarkButton>
         </Styled.TopBar>
         <div>{message}</div>
         <Styled.ButtonsContainer>{notiButtonMap[notiType]}</Styled.ButtonsContainer>
