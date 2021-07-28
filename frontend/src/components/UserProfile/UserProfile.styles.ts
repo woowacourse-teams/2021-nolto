@@ -5,7 +5,7 @@ import { PALETTE } from 'constants/palette';
 const Root = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
   gap: 0.75rem;
 `;
 
@@ -34,8 +34,7 @@ const Dropdown = styled.div<{ isOpen: boolean }>`
   display: flex;
   position: absolute;
   width: fit-content;
-  top: 110%;
-  margin-right: 1rem;
+  top: 120%;
   flex-direction: column;
   align-items: center;
   border: 1px solid ${PALETTE.PRIMARY_400};

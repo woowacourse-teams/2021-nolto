@@ -58,11 +58,6 @@ export interface FeedDetail extends Feed {
   liked: boolean;
 }
 
-export interface LoginInfo {
-  email: string;
-  password: string;
-}
-
 export interface UserInfo {
   id: number;
   socialType: 'GOOGLE' | 'GITHUB';
