@@ -1,4 +1,4 @@
-import { QueryFunctionContext, QueryKey, useQuery, UseQueryOptions } from 'react-query';
+import { useQuery, UseQueryOptions } from 'react-query';
 
 import api from 'constants/api';
 import { ErrorHandler, FeedDetail } from 'types';
@@ -18,6 +18,8 @@ const getFeedDetail = async (id: number, errorHandler: ErrorHandler) => {
     return data;
   } catch (error) {
     const { status, data } = error.response;
+
+    console.error(data.message);
 
     const errorMap: Record<ErrorType, string> = {
       ['feeds-001']: '임시 에러 메시지 1',

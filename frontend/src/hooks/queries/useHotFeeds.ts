@@ -18,6 +18,8 @@ const getHotFeeds = async (errorHandler?: ErrorHandler) => {
   } catch (error) {
     const { status, data } = error.response;
 
+    console.error(data.message);
+
     const errorMap: Record<ErrorType, string> = {
       ['feeds-001']: '임시 에러 메시지 1',
       ['feeds-002']: '임시 에러 메시지 2',

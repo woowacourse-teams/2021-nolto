@@ -24,6 +24,7 @@ const LoginModal = () => {
   return (
     <Styled.Root>
       <Styled.Title>로그인</Styled.Title>
+      <Styled.Greeting>👋 놀토에 오신 것을 환영합니다</Styled.Greeting>
       <Styled.OAuthContainer>
         <OAuthButton type="button" buttonStyle={ButtonStyle.OUTLINE} onClick={githubLogin}>
           <GithubLogo width="1.25rem" />
@@ -35,11 +36,6 @@ const LoginModal = () => {
           Google 계정으로 로그인하기
         </OAuthButton>
       </Styled.OAuthContainer>
-
-      <Styled.SignUpWrapper>
-        <span>🤔 아직 회원이 아니신가요?</span>
-        <Styled.SignUpLink to="/">&nbsp; 회원가입</Styled.SignUpLink>
-      </Styled.SignUpWrapper>
     </Styled.Root>
   );
 };
