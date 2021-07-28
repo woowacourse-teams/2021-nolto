@@ -33,6 +33,7 @@ const Modify = () => {
     deployedUrl,
     storageUrl,
   } = location.state.feedDetail;
+
   const modifyMutation = useFeedModify();
 
   const modifyFeed = (formData: FormData) => {

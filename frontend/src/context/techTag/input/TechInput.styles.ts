@@ -13,6 +13,7 @@ const Dropdown = styled.ul`
   margin-top: 2px;
   max-height: 20rem;
   overflow-y: scroll;
+  z-index: 10;
 `;
 
 const TechOption = styled.li<{ focused?: boolean }>`
