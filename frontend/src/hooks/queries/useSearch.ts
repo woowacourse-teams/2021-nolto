@@ -1,8 +1,9 @@
-import { useQuery, UseQueryOptions, QueryFunctionContext } from 'react-query';
+import { useQuery, UseQueryOptions } from 'react-query';
 
 import api from 'constants/api';
-import { Feed, FilterType } from 'types';
+import { ErrorHandler, Feed, FilterType } from 'types';
 import HttpError from 'utils/HttpError';
+import ERROR_CODE from 'constants/errorCode';
 
 interface SearchParams {
   query: string;
@@ -10,21 +11,38 @@ interface SearchParams {
   filter: FilterType;
 }
 
-const getSearchResult = async ({ query, techs }: SearchParams) => {
-  const queryString = new URLSearchParams({ query, techs });
+interface CustomQueryOption extends UseQueryOptions<Feed[], HttpError> {
+  searchParams: SearchParams;
+  errorHandler?: ErrorHandler;
+}
 
-  const { data } = await api.get('/feeds/search?' + queryString);
+const getSearchResult = async (searchParams: SearchParams, errorHandler: ErrorHandler) => {
+  const { query, techs, filter } = searchParams;
+  const queryString = new URLSearchParams({ query, techs, filter: filter || '' });
 
-  return data;
+  try {
+    const { data } = await api.get('/feeds/search?' + queryString);
+
+    return data;
+  } catch (error) {
+    const { status, data } = error.response;
+
+    console.error(data.errorMessage);
+
+    throw new HttpError(
+      status,
+      ERROR_CODE[data.errorCode] || '검색 과정에서 에러가 발생했습니다',
+      errorHandler,
+    );
+  }
 };
 
-export default function useSearch(
-  searchParams: SearchParams,
-  option?: UseQueryOptions<Feed[], HttpError>,
-) {
+const useSearch = ({ searchParams, errorHandler, ...option }: CustomQueryOption) => {
   return useQuery<Feed[]>(
     ['searchResult', searchParams],
-    () => getSearchResult(searchParams),
+    () => getSearchResult(searchParams, errorHandler),
     option,
   );
-}
+};
+
+export default useSearch;

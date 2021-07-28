@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect, InputHTMLAttributes } from 'react';
 
 import useTechAutoComplete from 'hooks/queries/useTechAutoComplete';
 import useQueryDebounce from 'hooks/@common/useQueryDebounce';
+import useSnackBar from 'context/snackBar/useSnackBar';
 import FormInput from 'components/@common/FormInput/FormInput';
 import { Tech } from 'types';
 import Styled from './TechInput.styles';
@@ -16,11 +17,16 @@ const TechInput = ({ onUpdateTechs, className, ...options }: Props) => {
   const [isDropdownOpened, setDropdownOpened] = useState(false);
   const [currentTechIdx, setCurrentTechIdx] = useState(-1);
   const [searchInput, setSearchInput] = useState('');
-  const techTag = useTechTag();
 
   const focusedOption = useRef(null);
+
+  const techTag = useTechTag();
+  const snackbar = useSnackBar();
   const debouncedSearchInput = useQueryDebounce(searchInput, 200);
-  const { data: techs } = useTechAutoComplete(debouncedSearchInput);
+  const { data: techs } = useTechAutoComplete({
+    autoComplete: debouncedSearchInput,
+    errorHandler: (error) => snackbar.addSnackBar('error', error.message),
+  });
 
   const moveFocusedOption = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'ArrowDown') {

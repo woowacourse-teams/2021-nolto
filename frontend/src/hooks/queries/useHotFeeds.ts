@@ -1,14 +1,13 @@
 import { useQuery, UseQueryOptions } from 'react-query';
 
 import api from 'constants/api';
+import ERROR_CODE from 'constants/errorCode';
 import HttpError from 'utils/HttpError';
 import { Feed, ErrorHandler } from 'types';
 
 interface CustomQueryOption extends UseQueryOptions<Feed[], HttpError> {
   errorHandler?: ErrorHandler;
 }
-
-type ErrorType = 'feeds-001' | 'feeds-002';
 
 const getHotFeeds = async (errorHandler?: ErrorHandler) => {
   try {
@@ -18,16 +17,11 @@ const getHotFeeds = async (errorHandler?: ErrorHandler) => {
   } catch (error) {
     const { status, data } = error.response;
 
-    console.error(data.message);
-
-    const errorMap: Record<ErrorType, string> = {
-      ['feeds-001']: '임시 에러 메시지 1',
-      ['feeds-002']: '임시 에러 메시지 2',
-    };
+    console.error(data.errorMessage);
 
     throw new HttpError(
       status,
-      errorMap[data.error as ErrorType] || '인기 피드에 에러가 발생했습니다',
+      ERROR_CODE[data.errorCode] || '인기 피드에 에러가 발생했습니다',
       errorHandler,
     );
   }

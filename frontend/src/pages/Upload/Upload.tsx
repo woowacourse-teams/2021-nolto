@@ -5,7 +5,7 @@ import HighLightedText from 'components/@common/HighlightedText/HighlightedText'
 import FeedUploadForm from 'components/FeedUploadForm/FeedUploadForm';
 import Header from 'components/Header/Header';
 import Styled from './Upload.styles';
-import useFeedUpload from 'hooks/queries/useFeedUpload';
+import useFeedUpload from 'hooks/mutations/useFeedUpload';
 import { ALERT_MSG } from 'constants/message';
 import ROUTE from 'constants/routes';
 import useNotification from 'context/notification/useNotification';

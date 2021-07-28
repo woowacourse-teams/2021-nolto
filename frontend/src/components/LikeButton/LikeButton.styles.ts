@@ -4,6 +4,7 @@ import styled from 'styled-components';
 const Root = styled.div`
   display: flex;
   gap: 0.25rem;
+  align-items: center;
 `;
 
 export const Button = styled.button`
