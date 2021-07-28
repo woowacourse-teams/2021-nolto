@@ -29,29 +29,23 @@ import static org.mockito.ArgumentMatchers.any;
 public class FeedAcceptanceTest extends AcceptanceTest {
 
     public static final String BEARER = "Bearer ";
+
     private File thumbnail = new File(new File("").getAbsolutePath() + "/src/test/resources/static/nolto-default-thumbnail.png");
 
     @Autowired
-    private TechRepository techRepository;  // TODO : techRepository로 할까?
+    private TechRepository techRepository;
     @MockBean
     private ImageService imageService;
 
-    private Tech JAVA;
-    private Tech SPRING;
+    private Tech JAVA = new Tech("Java");
+    private Tech SPRING = new Tech("Spring");
     private Tech REACT = new Tech("React");
-
 
     @Override
     @BeforeEach
     public void setUp() {
         BDDMockito.given(imageService.upload(any(MultipartFile.class))).willReturn(" https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png");
-        JAVA = techRepository.save(new Tech("Java"));
-        SPRING = techRepository.save(new Tech("Spring"));
-    }
-
-    @Test
-    void addLike() {
-
+        techRepository.saveAll(Arrays.asList(JAVA, SPRING, REACT));
     }
 
     /*
@@ -73,17 +67,94 @@ public class FeedAcceptanceTest extends AcceptanceTest {
         );
 
         // when
-        ExtractableResponse<Response> response = 피드_요청_데이터를_저장한다(feedRequest);
+        ExtractableResponse<Response> response = 피드를_작성한다(feedRequest, 가입된_유저의_토큰을_받는다().getAccessToken());
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
         assertThat(response.header("Location")).isNotBlank();
     }
 
-    private ExtractableResponse<Response> 피드_요청_데이터를_저장한다(FeedRequest feedRequest) {
-        return given().log().all()
-                .header(HttpHeaders.AUTHORIZATION, BEARER + 가입된_유저의_토큰을_받는다().getAccessToken())
+    @DisplayName("비회원이 피드를 조회한다.")
+    @Test
+    void findById() {
+        // given
+        FeedRequest request = new FeedRequest(
+                "My Project",
+                Arrays.asList(JAVA.getId(), SPRING.getId()),
+                "hello. this is my project",
+                Step.PROGRESS.name(),
+                true,
+                "https://github.com/woowacourse-teams/2021-nolto",
+                "",
+                null
+        );
+        ExtractableResponse<Response> saveResponse = 피드를_작성한다(request, 가입된_유저의_토큰을_받는다().getAccessToken());
+        Long feedId = Long.valueOf(saveResponse.header("Location").replace("/feeds/", ""));
+
+        // when
+        ExtractableResponse<Response> response = given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .when()
+                .get("/feeds/{feedId}", feedId)
+                .then()
+                .log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .extract();
+
+        // then
+        FeedResponse feedResponse = response.as(FeedResponse.class);
+        assertThat(feedResponse.getTitle()).isEqualTo(request.getTitle());
+    }
+
+    @DisplayName("놀토의 회원이 기존의 피드를 수정한다.")
+    @Test
+    void update() {
+        // given
+        FeedRequest request = new FeedRequest(
+                "Olympic Project",
+                Arrays.asList(JAVA.getId(), SPRING.getId()),
+                "This is my Project. follow me if you want my other projects",
+                Step.PROGRESS.name(),
+                true,
+                "https://github.com/woowacourse-teams/2021-nolto",
+                "",
+                null
+        );
+        String token = 가입된_유저의_토큰을_받는다().getAccessToken();
+        ExtractableResponse<Response> saveResponse = 피드를_작성한다(request, token);
+        Long feedId = Long.valueOf(saveResponse.header("Location").replace("/feeds/", ""));
+
+        // when
+        ExtractableResponse<Response> updateResponse = given().log().all()
+                .header(HttpHeaders.AUTHORIZATION, BEARER + token)
+                .formParam("title", "수정된 프로젝트 제목")
+                .formParam("techs", String.valueOf(SPRING.getId()))
+                .formParam("techs", String.valueOf(REACT.getId()))
+                .formParam("content", "수정된 컨텐츠")
+                .formParam("step", Step.COMPLETE)
+                .formParam("sos", false)
+                .formParam("StorageUrl", "https://github.com/woowacourse-teams/2021-nolto")
+                .formParam("DeployedUrl", "https://github.com/woowacourse-teams/2021-nolto")
+                .multiPart("thumbnailImage", thumbnail)
                 .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
+                .when()
+                .put("/feeds/{feedId}", feedId)
+                .then().log().all()
+                .extract();
+
+        // then
+        assertThat(updateResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
+    void addLike() {
+
+    }
+
+    private ExtractableResponse<Response> 피드를_작성한다(FeedRequest feedRequest, String token) {
+        return given().log().all()
+                .header(HttpHeaders.AUTHORIZATION, BEARER + token)
                 .formParam("title", feedRequest.getTitle())
                 .formParam("techs", String.valueOf(JAVA.getId()))
                 .formParam("content", feedRequest.getContent())
@@ -92,6 +163,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
                 .formParam("StorageUrl", feedRequest.getStorageUrl())
                 .formParam("DeployedUrl", feedRequest.getDeployedUrl())
                 .multiPart("thumbnailImage", thumbnail)
+                .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
                 .when()
                 .post("/feeds")
                 .then().log().all()

@@ -20,19 +20,20 @@ public class ControllerAdvice {
         String defaultMessage = Objects.requireNonNull(e.getBindingResult().getFieldError()).getDefaultMessage();
         ExceptionResponse errorResponse = new ExceptionResponse("common-001", defaultMessage);
         log.info(e.getMessage());
+        e.printStackTrace();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
     @ExceptionHandler(NoltoException.class)
     public ResponseEntity<ExceptionResponse> handleNoltoException(NoltoException e) {
         log.info(e.getBody().getMessage());
+        e.printStackTrace();
         return ResponseEntity.status(e.getHttpStatus()).body(e.getBody());
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleException(Exception e) {
         log.error(e.getMessage());
-        e.printStackTrace();
         return ResponseEntity.internalServerError().body("놀토 관리자에게 문의하세요");
     }
 }
