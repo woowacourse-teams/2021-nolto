@@ -1,14 +1,15 @@
-import useFeedDetail from 'hooks/queries/useFeedDetail';
 import React from 'react';
 
 import Styled, { Tag, StacksMoreButton } from './FeedDetailContent.styles';
-import LikeHeartIcon from 'assets/likeHeart.svg';
+import useFeedDetail from 'hooks/queries/useFeedDetail';
 import ViewCountIcon from 'assets/viewCount.svg';
 import Chip from 'components/@common/Chip/Chip';
 import FeedDropdown from 'components/FeedDropdown/FeedDropdown';
+import LikeButton from 'components/LikeButton/LikeButton';
 import { STEP_CONVERTER } from 'constants/common';
-import useSnackBar from 'context/snackBar/useSnackBar';
+import { PALETTE } from 'constants/palette';
 import { ButtonStyle } from 'types';
+import useSnackBar from 'context/snackBar/useSnackBar';
 
 interface Props {
   id: number;
@@ -35,11 +36,10 @@ const FeedDetailContent = ({ id }: Props) => {
 
           <Styled.IconsContainer>
             <Styled.IconWrapper>
-              <LikeHeartIcon width="24px" />
-              <span>{feedDetail.likes}</span>
+              <LikeButton feedDetail={feedDetail} />
             </Styled.IconWrapper>
             <Styled.IconWrapper>
-              <ViewCountIcon width="22px" />
+              <ViewCountIcon width="22px" fill={PALETTE.PRIMARY_200} />
               <span>{feedDetail.views}</span>
             </Styled.IconWrapper>
           </Styled.IconsContainer>
