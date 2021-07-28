@@ -6,6 +6,7 @@ import com.wooteco.nolto.auth.ui.dto.TokenResponse;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.domain.UserRepository;
 import io.restassured.RestAssured;
+import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,6 +30,10 @@ public class AcceptanceTest {
     @BeforeEach
     public void setUp() {
         RestAssured.port = port;
+    }
+
+    public RequestSpecification given() {
+        return RestAssured.given().port(port);
     }
 
     public TokenResponse 가입된_유저의_토큰을_받는다() {

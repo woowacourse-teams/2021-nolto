@@ -32,6 +32,7 @@ public class ControllerAdvice {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleException(Exception e) {
         log.error(e.getMessage());
+        e.printStackTrace();
         return ResponseEntity.internalServerError().body("놀토 관리자에게 문의하세요");
     }
 }
