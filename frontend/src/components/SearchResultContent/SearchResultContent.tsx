@@ -5,14 +5,16 @@ import StretchCard from 'components/StretchCard/StretchCard';
 import ROUTE from 'constants/routes';
 import useSearch from 'hooks/queries/useSearch';
 import Styled from './SearchResultContent.styles';
+import { FilterType } from 'types';
 
 interface Props {
   query: string;
   techs: string;
+  filter: FilterType;
 }
 
-const SearchResultContent = ({ query, techs }: Props) => {
-  const { data: feeds } = useSearch({ query, techs }, { suspense: false });
+const SearchResultContent = ({ query, techs, filter }: Props) => {
+  const { data: feeds } = useSearch({ query, techs, filter }, { suspense: false });
 
   return (
     <Styled.Root>

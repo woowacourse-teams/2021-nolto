@@ -19,7 +19,7 @@ const RecentFeedsContent = ({ limit }: Props) => {
   const snackbar = useSnackBar();
   const { data: recentFeeds } = useRecentFeeds({
     errorHandler: (error) => snackbar.addSnackBar('error', error.message),
-    filter: filter,
+    filter,
   });
 
   const toggleLevel = (filterType: FilterType) => {

@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import Header from 'components/Header/Header';
-import LevelButton from 'components/LevelButton/LevelButton';
 import AsyncBoundary from 'components/AsyncBoundary';
 import SearchResultContent from 'components/SearchResultContent/SearchResultContent';
 import SearchResultHeader from 'components/SearchResultHeader/SearchResultHeader';
+import LevelButton from 'components/LevelButton/LevelButton';
 import Styled from './SearchResult.styles';
-import { Tech } from 'types';
+import { FilterType, Tech } from 'types';
 
 interface LocationState {
   query: string;
@@ -19,6 +19,12 @@ const SearchResult = () => {
 
   const [query, setQuery] = useState('');
   const [techs, setTechs] = useState('');
+  const [filter, setFilter] = useState<FilterType>(null);
+
+  const toggleLevel = (filterType: FilterType) => {
+    if (filter === filterType) setFilter(null);
+    else setFilter(filterType);
+  };
 
   return (
     <>
@@ -35,15 +41,24 @@ const SearchResult = () => {
           />
         </AsyncBoundary>
 
-        <Styled.RecentToysContainer>
-          <Styled.LevelButtonsContainer>
-            <LevelButton.Progress />
-            <LevelButton.Complete />
-            <LevelButton.SOS />
-          </Styled.LevelButtonsContainer>
+        <Styled.LevelButtonsContainer>
+          <LevelButton.Progress
+            onClick={() => toggleLevel(FilterType.PROGRESS)}
+            selected={filter === FilterType.PROGRESS}
+          />
+          <LevelButton.Complete
+            onClick={() => toggleLevel(FilterType.COMPLETE)}
+            selected={filter === FilterType.COMPLETE}
+          />
+          <LevelButton.SOS
+            onClick={() => toggleLevel(FilterType.SOS)}
+            selected={filter === FilterType.SOS}
+          />
+        </Styled.LevelButtonsContainer>
 
+        <Styled.RecentToysContainer>
           <AsyncBoundary rejectedFallback={<div>게시물 검색에 실패했습니다.</div>}>
-            <SearchResultContent query={query} techs={techs} />
+            <SearchResultContent query={query} techs={techs} filter={filter} />
           </AsyncBoundary>
         </Styled.RecentToysContainer>
       </Styled.Root>

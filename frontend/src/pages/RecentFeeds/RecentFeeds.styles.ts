@@ -6,7 +6,7 @@ const Root = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 4rem 0;
+  margin: 4rem 0;
 `;
 
 const SectionTitle = styled(HighLightedText)`
