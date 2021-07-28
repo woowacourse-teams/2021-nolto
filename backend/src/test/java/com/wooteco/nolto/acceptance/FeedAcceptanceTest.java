@@ -1,6 +1,5 @@
 package com.wooteco.nolto.acceptance;
 
-import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.dto.ExceptionResponse;
 import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
@@ -34,28 +33,26 @@ public class FeedAcceptanceTest extends AcceptanceTest {
 
     public static final String BEARER = "Bearer ";
 
-    private File thumbnail = new File(new File("").getAbsolutePath() + "/src/test/resources/static/nolto-default-thumbnail.png");
+    private final String defaultImageUrl = "nolto-default-thumbnail.png";
+    private final File thumbnail = new File(new File("").getAbsolutePath() + "/src/test/resources/static/" + defaultImageUrl);
 
     @Autowired
     private TechRepository techRepository;
     @MockBean
     private ImageService imageService;
 
-    private Tech JAVA = new Tech("Java");
-    private Tech SPRING = new Tech("Spring");
-    private Tech REACT = new Tech("React");
+    private final Tech JAVA = new Tech("Java");
+    private final Tech SPRING = new Tech("Spring");
+    private final Tech REACT = new Tech("React");
 
     @Override
     @BeforeEach
     public void setUp() {
-        BDDMockito.given(imageService.upload(any(MultipartFile.class))).willReturn(" https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png");
+        BDDMockito.given(imageService.upload(any(MultipartFile.class))).willReturn("https://dksykemwl00pf.cloudfront.net/" + defaultImageUrl);
         techRepository.saveAll(Arrays.asList(JAVA, SPRING, REACT));
     }
 
-    /*
-    이미지는 놀토의 기본 썸네일을 저장한다.
-     */
-    @DisplayName("놀토의 회원이 피드를 작성한다.")
+    @DisplayName("놀토의 회원이 피드를 작성한다. (이미지 : 기본 썸네일)")
     @Test
     public void create() {
         // given
@@ -80,7 +77,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("비회원이 피드를 조회한다.")
     @Test
-    void findById() {
+    void findByIdWithGuest() {
         // given
         FeedRequest request = new FeedRequest(
                 "My Project",
@@ -97,8 +94,40 @@ public class FeedAcceptanceTest extends AcceptanceTest {
 
         // when
         ExtractableResponse<Response> response = given().log().all()
+                .when()
+                .get("/feeds/{feedId}", feedId)
+                .then()
+                .log().all()
+                .extract();
+
+        // then
+        FeedResponse feedResponse = response.as(FeedResponse.class);
+        assertThat(feedResponse.getTitle()).isEqualTo(request.getTitle());
+    }
+
+    @DisplayName("회원이 피드를 조회한다.")
+    @Test
+    void findByIdWithMember() {
+        // given
+        FeedRequest request = new FeedRequest(
+                "My Project",
+                Arrays.asList(JAVA.getId(), SPRING.getId()),
+                "hello. this is my project",
+                Step.PROGRESS.name(),
+                true,
+                "https://github.com/woowacourse-teams/2021-nolto",
+                "",
+                null
+        );
+        String token = 가입된_유저의_토큰을_받는다().getAccessToken();
+        ExtractableResponse<Response> saveResponse = 피드를_작성한다(request, token);
+        Long feedId = Long.valueOf(saveResponse.header("Location").replace("/feeds/", ""));
+
+        // when
+        ExtractableResponse<Response> response = given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.AUTHORIZATION, token)
                 .when()
                 .get("/feeds/{feedId}", feedId)
                 .then()
