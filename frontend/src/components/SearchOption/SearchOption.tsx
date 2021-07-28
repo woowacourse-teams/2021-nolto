@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import { PALETTE } from 'constants/palette';
 import { SearchType } from 'types';
 import Styled, { SearchMorePolygon } from './SearchOption.styles';
 
@@ -20,7 +21,7 @@ const SearchOption = ({ searchType, setSearchType }: Props) => {
     <Styled.Root isOpen={isOptionOpened}>
       <Styled.DefaultSelector onClick={() => setIsOptionOpened(!isOptionOpened)}>
         <Styled.SearchOptionText>{searchType}</Styled.SearchOptionText>
-        <SearchMorePolygon width="14px" isOpen={isOptionOpened} />
+        <SearchMorePolygon width="14px" fill={PALETTE.PRIMARY_400} isOpen={isOptionOpened} />
       </Styled.DefaultSelector>
       {isOptionOpened && (
         <>

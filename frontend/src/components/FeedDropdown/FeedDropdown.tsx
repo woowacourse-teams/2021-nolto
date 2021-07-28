@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import Dropdown from 'components/@common/Dropdown/Dropdown';
 import useNotification from 'context/notification/useNotification';
 import useSnackBar from 'context/snackBar/useSnackBar';
-import useFeedDelete from 'hooks/queries/useFeedDelete';
+import useFeedDelete from 'hooks/mutations/useFeedDelete';
 import ROUTE from 'constants/routes';
 import { FeedDetail } from 'types';
 import Styled from './FeedDropdown.styles';
@@ -31,6 +31,9 @@ const FeedDropdown = ({ feedDetail }: Props) => {
           onSuccess: () => {
             snackBar.addSnackBar('success', '토이 프로젝트가 삭제되었습니다.');
             history.push(ROUTE.HOME);
+          },
+          onError: (error) => {
+            snackBar.addSnackBar('error', error.message);
           },
         },
       );

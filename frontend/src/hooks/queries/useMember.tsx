@@ -4,11 +4,10 @@ import { useQuery, useQueryClient } from 'react-query';
 import api from 'constants/api';
 import HttpError from 'utils/HttpError';
 import CustomError from 'utils/CustomError';
+import ERROR_CODE from 'constants/errorCode';
 import useModal from 'context/modal/useModal';
 import useNotification from 'context/notification/useNotification';
 import LoginModal from 'components/LoginModal/LoginModal';
-
-type ErrorType = 'auth-001' | 'auth-002';
 
 const getMember = async () => {
   const token = localStorage.getItem('accessToken') || '';
@@ -24,14 +23,11 @@ const getMember = async () => {
   } catch (error) {
     const { status, data } = error.response;
 
-    const errorMap: Record<ErrorType, string> = {
-      ['auth-001']: '임시 에러 메시지 1',
-      ['auth-002']: '임시 에러 메시지 2',
-    };
+    console.error(data.errorMessage);
 
     throw new HttpError(
       status,
-      errorMap[data.error as ErrorType] || '사용자 정보를 불러오는 과정에서 에러가 발생했습니다',
+      ERROR_CODE[data.errorCode] || '사용자 정보를 불러오는 과정에서 에러가 발생했습니다',
     );
   }
 };

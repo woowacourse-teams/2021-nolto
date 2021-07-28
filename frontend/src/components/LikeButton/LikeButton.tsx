@@ -4,8 +4,8 @@ import { PALETTE } from 'constants/palette';
 import { Button } from './LikeButton.styles';
 import LikeHeartIcon from 'assets/likeHeart.svg';
 import FilledLikeHeart from 'assets/filledLikeHeart.svg';
-import useFeedLike from 'hooks/queries/useFeedLike';
-import useFeedUnlike from 'hooks/queries/useFeedUnlike';
+import useFeedLike from 'hooks/mutations/useFeedLike';
+import useFeedUnlike from 'hooks/mutations/useFeedUnlike';
 import useMember from 'hooks/queries/useMember';
 import LoginModal from 'components/LoginModal/LoginModal';
 import useSnackBar from 'context/snackBar/useSnackBar';
@@ -54,7 +54,6 @@ const LikeButton = ({ feedDetail }: Props) => {
   });
 
   useEffect(() => {
-    console.log(feedDetail.liked, '좋아요했니');
     if (feedDetail.liked === undefined) return;
 
     setIsLiked(feedDetail.liked);
@@ -67,7 +66,7 @@ const LikeButton = ({ feedDetail }: Props) => {
   }, [feedDetail.likes]);
 
   const handleToggleLike = () => {
-    if (!member.loginData) {
+    if (!member.userData) {
       snackBar.addSnackBar('error', '로그인이 필요한 서비스입니다.');
       return;
     }
