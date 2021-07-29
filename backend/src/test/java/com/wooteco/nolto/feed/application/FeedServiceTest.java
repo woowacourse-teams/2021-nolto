@@ -141,7 +141,7 @@ class FeedServiceTest {
     void updateNewTechs2() {
         // given
         FEED_REQUEST2.setTechs(Arrays.asList(techSpring.getId(), techJava.getId()));
-        Long feedId1 = feedService.create(user1, FEED_REQUEST2); // 피드 등록 with Spring, Java
+        Long feedId1 = feedService.create(user1, FEED_REQUEST2);
         FeedRequest request = new FeedRequest(
                 "수정된 제목",
                 Arrays.asList(techJava.getId(), techReact.getId()),
@@ -152,7 +152,7 @@ class FeedServiceTest {
                 FEED_REQUEST1.getDeployedUrl(),
                 null
         );
-        FeedResponse saveFeed = feedService.findById(user1, feedId1); // 피드 등록한거 조회
+        FeedResponse saveFeed = feedService.findById(user1, feedId1);
 
         // when
         feedService.update(user1, feedId1, request);
@@ -161,7 +161,6 @@ class FeedServiceTest {
 
         // then
         FeedResponse updateFeed = feedService.findById(user1, feedId1);
-        System.out.println(" *************** " + updateFeed.getTechs().stream().count());
         피드_정보가_같은지_조회(request, updateFeed);
     }
 

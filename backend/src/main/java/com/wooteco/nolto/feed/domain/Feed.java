@@ -129,8 +129,14 @@ public class Feed extends BaseEntity {
         this.thumbnailUrl = updateThumbnailUrl;
     }
 
-    public void changeFeedTechs(List<FeedTech> feedTechs) {
-        this.feedTechs = feedTechs;
+    public void changeTechs(List<Tech> techs) {
+        this.feedTechs.addAll(techs.stream()
+                .map(tech -> new FeedTech(this, tech))
+                .collect(Collectors.toList()));
+    }
+
+    public void deleteAllTechs() {
+        this.feedTechs.clear();
     }
 
     public Optional<Like> findLikeBy(User user) {
@@ -141,10 +147,6 @@ public class Feed extends BaseEntity {
 
     public void delete(Like like) {
         this.likes.remove(like);
-    }
-
-    public void deleteFeedTechs() {
-        this.feedTechs.clear();
     }
 
     @Override
