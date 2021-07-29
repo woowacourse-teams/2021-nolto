@@ -100,3 +100,18 @@ include::{snippets}/feed-recentResponse/http-response.adoc[]
 ==== Response Fields
 
 include::{snippets}/feed-recentResponse/response-fields.adoc[]
+
+=== 피드 검색
+
+==== Request
+
+include::{snippets}/feed-searchResponse/http-request.adoc[]
+include::{snippets}/feed-searchResponse/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/feed-searchResponse/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/feed-searchResponse/response-fields.adoc[]

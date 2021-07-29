@@ -1,0 +1,15 @@
+== Member (멤버)
+
+=== 멤버 자신의 정보 조회
+
+==== Request
+
+include::{snippets}/member-findMe/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/member-findMe/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/member-findMe/response-fields.adoc[]
