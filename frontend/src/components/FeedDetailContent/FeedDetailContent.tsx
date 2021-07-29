@@ -10,6 +10,7 @@ import { STEP_CONVERTER } from 'constants/common';
 import { PALETTE } from 'constants/palette';
 import { ButtonStyle } from 'types';
 import useSnackBar from 'context/snackBar/useSnackBar';
+import useMember from 'hooks/queries/useMember';
 
 interface Props {
   id: number;
@@ -17,6 +18,7 @@ interface Props {
 
 const FeedDetailContent = ({ id }: Props) => {
   const snackbar = useSnackBar();
+  const member = useMember();
 
   const { data: feedDetail } = useFeedDetail({
     errorHandler: (error) => {
@@ -24,6 +26,8 @@ const FeedDetailContent = ({ id }: Props) => {
     },
     id,
   });
+
+  const isMyFeed = member.userData?.id === feedDetail.author.id;
 
   return (
     <Styled.Root>
@@ -55,7 +59,7 @@ const FeedDetailContent = ({ id }: Props) => {
             <Styled.UserWrapper>
               <Styled.UserName>{feedDetail.author.nickname}</Styled.UserName>
               <Styled.UserImage src={feedDetail.author.imageUrl} />
-              <FeedDropdown feedDetail={feedDetail} />
+              {isMyFeed && <FeedDropdown feedDetail={feedDetail} />}
             </Styled.UserWrapper>
           </Styled.TitleContainer>
           <hr />

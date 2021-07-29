@@ -4,10 +4,11 @@ import { useQuery, useQueryClient } from 'react-query';
 import api from 'constants/api';
 import HttpError from 'utils/HttpError';
 import CustomError from 'utils/CustomError';
-import ERROR_CODE from 'constants/errorCode';
 import useModal from 'context/modal/useModal';
 import useNotification from 'context/notification/useNotification';
 import LoginModal from 'components/LoginModal/LoginModal';
+import { UserInfo } from 'types';
+import { resolveHttpErrorResponse } from 'utils/error';
 
 const getMember = async () => {
   const token = localStorage.getItem('accessToken') || '';
@@ -21,14 +22,10 @@ const getMember = async () => {
 
     return data;
   } catch (error) {
-    const { status, data } = error.response;
-
-    console.error(data.errorMessage);
-
-    throw new HttpError(
-      status,
-      ERROR_CODE[data.errorCode] || '사용자 정보를 불러오는 과정에서 에러가 발생했습니다',
-    );
+    resolveHttpErrorResponse({
+      errorResponse: error.response,
+      defaultErrorMessage: '사용자 정보를 불러오는 과정에서 에러가 발생했습니다',
+    });
   }
 };
 
@@ -42,7 +39,7 @@ const useMember = () => {
     queryClient.resetQueries('member');
   };
 
-  const { data: userData } = useQuery('member', getMember, {
+  const { data: userData } = useQuery<UserInfo>('member', getMember, {
     suspense: false,
     useErrorBoundary: false,
     onError: (error) => {

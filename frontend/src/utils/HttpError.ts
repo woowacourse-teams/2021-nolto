@@ -1,13 +1,13 @@
 import CustomError from './CustomError';
-import { ErrorHandler } from 'types';
+import { ErrorHandler, ERROR_CODE_KEY } from 'types';
 
 class HttpError extends CustomError {
-  statusCode: number;
+  errorCode: ERROR_CODE_KEY;
 
-  constructor(statusCode: number, message?: string, errorHandler?: ErrorHandler) {
+  constructor(errorCode: ERROR_CODE_KEY, message?: string, errorHandler?: ErrorHandler) {
     super(message, errorHandler);
     this.name = 'HttpError';
-    this.statusCode = statusCode;
+    this.errorCode = errorCode;
   }
 }
 

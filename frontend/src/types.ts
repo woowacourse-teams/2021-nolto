@@ -1,3 +1,4 @@
+import ERROR_CODE from 'constants/errorCodeMap';
 import CustomError from 'utils/CustomError';
 
 export enum ButtonStyle {
@@ -74,3 +75,17 @@ export type AddSnackBar = (type: SnackBarType, text: string) => void;
 export type NotificationType = 'alert' | 'confirm';
 
 export type ErrorHandler = (error: CustomError) => void;
+
+export interface ErrorResponse {
+  status: number;
+  data: unknown;
+}
+
+export type ERROR_CODE_KEY = keyof typeof ERROR_CODE;
+
+export interface HttpErrorResponse extends ErrorResponse {
+  data: {
+    message: string;
+    errorCode: ERROR_CODE_KEY;
+  };
+}

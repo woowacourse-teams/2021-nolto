@@ -11,8 +11,9 @@ import LoginModal from 'components/LoginModal/LoginModal';
 import useSnackBar from 'context/snackBar/useSnackBar';
 import useModal from 'context/modal/useModal';
 import useNotification from 'context/notification/useNotification';
-import { FeedDetail } from 'types';
+import { ERROR_CODE_KEY, FeedDetail } from 'types';
 import Styled from './LikeButton.styles';
+import ERROR_CODE from 'constants/errorCodeMap';
 
 interface Props {
   feedDetail: FeedDetail;
@@ -39,7 +40,12 @@ const LikeButton = ({ feedDetail }: Props) => {
     },
     onError: (error) => {
       notification.alert(error.message);
-      handleUnauthorizeError();
+
+      const errorHandleMap: Partial<Record<ERROR_CODE_KEY, () => void>> = {
+        'auth-001': handleUnauthorizeError,
+      };
+
+      errorHandleMap[error.errorCode]?.();
     },
   });
 
@@ -48,8 +54,14 @@ const LikeButton = ({ feedDetail }: Props) => {
       setIsLiked(false);
       setLikeCount(likeCount - 1);
     },
-    onError: () => {
-      handleUnauthorizeError();
+    onError: (error) => {
+      notification.alert(error.message);
+
+      const errorHandleMap: Partial<Record<ERROR_CODE_KEY, () => void>> = {
+        'auth-001': handleUnauthorizeError,
+      };
+
+      errorHandleMap[error.errorCode]?.();
     },
   });
 
