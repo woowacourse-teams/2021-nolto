@@ -1,147 +1,147 @@
 spring:
-    profiles:
-        active: local
-        group:
-            local: console-logging
-            prod: real-db,real-oauth,file-error-logging,file-info-logging
-            dev: dev-db,dev-oauth,file-error-logging,file-info-logging
-    servlet:
-        multipart:
-            enabled: true
-            file-size-threshold: 2MB
-            max-file-size: 5MB
-            max-request-size: 10MB
-    jpa:
-        hibernate:
-            ddl-auto: create
-        properties:
-            hibernate:
-                format_sql: true
-                dialect: org.hibernate.dialect.H2Dialect
-        show-sql: true
-    output:
-        ansi:
-            enabled: always
-    main:
-        allow-bean-definition-overriding: true
+  profiles:
+    active: local
+    group:
+      local: console-logging
+      prod: real-db,real-oauth,file-error-logging,file-info-logging
+      dev: dev-db,dev-oauth,file-error-logging,file-info-logging
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2MB
+      max-file-size: 5MB
+      max-request-size: 10MB
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+    show-sql: true
+  output:
+    ansi:
+      enabled: always
+  main:
+    allow-bean-definition-overriding: true
 ---
 spring:
-    config:
-        activate:
-            on-profile: dev
-    datasource:
-        driver-class-name: org.h2.Driver
-        url: jdbc:h2:mem:nolto
-        username: sa
-        password:
-    h2:
-        console:
-            enabled: true
-    jpa:
-        hibernate:
-            ddl-auto: validate
-    flyway:
-        enabled: true
-        baseline-on-migrate: true
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:nolto
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
 ---
 spring:
-    config:
-        activate:
-            on-profile: local
-    datasource:
-        driver-class-name: org.h2.Driver
-        url: jdbc:h2:mem:nolto
-        username: sa
-        password:
-    h2:
-        console:
-            enabled: true
-    jpa:
-        hibernate:
-            ddl-auto: create
-    flyway:
-        enabled: false
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:nolto
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: create
+  flyway:
+    enabled: false
 oauth:
-    github:
-        scope: localScope
-        redirect-uri: localRedirectUri
-        client:
-            id: localCilentId
-            secret: localCilentSecret
-    google:
-        scope: localScope
-        redirect-uri: localRedirectUri
-        client:
-            id: localCilentId
-            secret: localCilentSecret
+  github:
+    scope: localScope
+    redirect-uri: localRedirectUri
+    client:
+      id: localCilentId
+      secret: localCilentSecret
+  google:
+    scope: localScope
+    redirect-uri: localRedirectUri
+    client:
+      id: localCilentId
+      secret: localCilentSecret
 ---
 spring:
-    config:
-        activate:
-            on-profile: test
-    datasource:
-        driver-class-name: org.h2.Driver
-        url: jdbc:h2:mem:testdb
-        username: sa
-        password:
-    h2:
-        console:
-            enabled: true
-    flyway:
-        enabled: false
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+  flyway:
+    enabled: false
 oauth:
-    github:
-        scope: testScope
-        redirect-uri: testRedirectUri
-        client:
-            id: testCilentId
-            secret: testCilentSecret
-    google:
-        scope: testScope
-        redirect-uri: testRedirectUri
-        client:
-            id: testCilentId
-            secret: testCilentSecret
+  github:
+    scope: testScope
+    redirect-uri: testRedirectUri
+    client:
+      id: testCilentId
+      secret: testCilentSecret
+  google:
+    scope: testScope
+    redirect-uri: testRedirectUri
+    client:
+      id: testCilentId
+      secret: testCilentSecret
 ---
 spring:
-    config:
-        activate:
-            on-profile: prod
-    jpa:
-        hibernate:
-            ddl-auto: validate
-        generate-ddl: false
-        properties:
-            hibernate:
-                dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-    flyway:
-        enabled: true
-        baseline-on-migrate: true
+  config:
+    activate:
+      on-profile: prod
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    generate-ddl: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
 ---
 security:
-    jwt:
-        token:
-            secret-key: my_secret_is_secret
-            expire-length: 3600000
+  jwt:
+    token:
+      secret-key: my_secret_is_secret
+      expire-length: 3600000
 logging:
-    file:
-        path: /home/ubuntu/nolto2021
-    level:
-        org:
-            hibernate:
-                type:
-                    descriptor:
-                        sql:
-                            BasicBinder: TRACE
+  file:
+    path: /home/ubuntu/nolto2021
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
 cloud:
-    aws:
-        region:
-            static: ap-northeast-2
-        stack:
-            auto: false
+  aws:
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
 application:
-    bucket:
-        name: 2021-nolto
-    cloudfront:
-        url: https://dksykemwl00pf.cloudfront.net/
-    default-image: nolto-default-thumbnail.png
+  bucket:
+    name: 2021-nolto
+  cloudfront:
+    url: https://dksykemwl00pf.cloudfront.net/
+  default-image: nolto-default-thumbnail.png

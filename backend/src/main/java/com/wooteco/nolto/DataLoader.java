@@ -2,7 +2,6 @@ package com.wooteco.nolto;
 
 import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.feed.domain.Feed;
-import com.wooteco.nolto.feed.domain.FeedTech;
 import com.wooteco.nolto.feed.domain.Like;
 import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
@@ -50,9 +49,9 @@ public class DataLoader implements ApplicationRunner {
 
         Feed feed1 = new Feed("title1", "content1", Step.PROGRESS, true, "https://github.com/woowacourse-teams/2021-nolto", "", "https://dksykemwl00pf.cloudfront.net/KakaoTalk_Photo_2021-07-19-14-25-01.png").writtenBy(mickey);
         Feed feed2 = new Feed("title2", "content2", Step.COMPLETE, false, "https://github.com/woowacourse-teams/2021-nolto", "http://woowa.jofilm.com", "https://dksykemwl00pf.cloudfront.net/KakaoTalk_Photo_2021-07-19-14-25-01.png").writtenBy(mickey);
-        feed1.changeFeedTechs(Arrays.asList(new FeedTech(feed1, saveTech1)));
-        feed2.changeFeedTechs(Arrays.asList(new FeedTech(feed2, saveTech1)));
-        feed2.changeFeedTechs(Arrays.asList(new FeedTech(feed2, saveTech2)));
+        feed1.changeTechs(Arrays.asList(saveTech1));
+        feed2.changeTechs(Arrays.asList(saveTech1));
+        feed2.changeTechs(Arrays.asList(saveTech2));
 
         Feed saveFeed1 = feedRepository.save(feed1);
         Feed saveFeed2 = feedRepository.save(feed2);
