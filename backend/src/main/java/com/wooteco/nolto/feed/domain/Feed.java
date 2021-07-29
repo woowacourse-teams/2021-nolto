@@ -143,6 +143,10 @@ public class Feed extends BaseEntity {
         this.likes.remove(like);
     }
 
+    public void deleteFeedTechs() {
+        this.feedTechs.clear();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
