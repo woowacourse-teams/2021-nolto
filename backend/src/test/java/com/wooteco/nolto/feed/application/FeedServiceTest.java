@@ -136,6 +136,35 @@ class FeedServiceTest {
         피드_정보가_같은지_조회(request, updateFeed);
     }
 
+    @DisplayName("Feed를 수정한다2. (storageUrl, deployUrl, thumbnailUrl을 제외한 나머지만 수정)")
+    @Test
+    void updateNewTechs2() {
+        // given
+        FEED_REQUEST2.setTechs(Arrays.asList(techSpring.getId(), techJava.getId()));
+        Long feedId1 = feedService.create(user1, FEED_REQUEST2); // 피드 등록 with Spring, Java
+        FeedRequest request = new FeedRequest(
+                "수정된 제목",
+                Arrays.asList(techJava.getId(), techReact.getId()),
+                "수정된 내용",
+                Step.COMPLETE.name(),
+                false,
+                FEED_REQUEST1.getStorageUrl(),
+                FEED_REQUEST1.getDeployedUrl(),
+                null
+        );
+        FeedResponse saveFeed = feedService.findById(user1, feedId1); // 피드 등록한거 조회
+
+        // when
+        feedService.update(user1, feedId1, request);
+        em.flush();
+        em.clear();
+
+        // then
+        FeedResponse updateFeed = feedService.findById(user1, feedId1);
+        System.out.println(" *************** " + updateFeed.getTechs().stream().count());
+        피드_정보가_같은지_조회(request, updateFeed);
+    }
+
     @DisplayName("작성자가 아닐 경우 Feed를 수정할 수 없다.")
     @Test
     void cantUpdateIfNotAuthor() {

@@ -76,6 +76,8 @@ public class FeedService {
         updateThumbnailIfImageExist(request, findFeed);
 
         feedTechRepository.deleteAll(findFeed.getFeedTechs());
+        findFeed.deleteFeedTechs();
+
         List<FeedTech> feedTechs = makeTechIdToFeedTech(request, findFeed);
         findFeed.changeFeedTechs(feedTechs);
     }
