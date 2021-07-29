@@ -5,7 +5,7 @@ import HttpError from './HttpError';
 import { isHttpErrorResponse } from './typeGuard';
 
 interface ResolveHttpErrorResponseArgs {
-  errorResponse: any;
+  errorResponse: unknown;
   defaultErrorMessage: string;
   errorHandler?: ErrorHandler;
 }
