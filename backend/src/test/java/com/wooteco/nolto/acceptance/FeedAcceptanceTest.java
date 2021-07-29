@@ -49,6 +49,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
             "www.github.com/woowacourse", "www.github.com/woowacourse", null);
     private FeedRequest 전시중_단계의_SOS_피드_요청 = new FeedRequest("제목4", new ArrayList<>(), "내용4", "COMPLETE", true,
             "www.github.com/woowacourse", "www.github.com/woowacourse", null);
+
     @Autowired
     private FeedService feedService;
 
