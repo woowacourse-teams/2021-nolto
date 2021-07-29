@@ -5,14 +5,16 @@ import com.wooteco.nolto.exception.NotFoundException;
 import com.wooteco.nolto.exception.UnauthorizedException;
 import com.wooteco.nolto.feed.application.searchstrategy.SearchStrategy;
 import com.wooteco.nolto.feed.application.searchstrategy.SearchStrategyFactory;
-import com.wooteco.nolto.feed.domain.*;
+import com.wooteco.nolto.feed.domain.Feed;
+import com.wooteco.nolto.feed.domain.Feeds;
+import com.wooteco.nolto.feed.domain.FilterStrategy;
+import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.feed.domain.repository.FeedTechRepository;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
 import com.wooteco.nolto.image.application.ImageService;
-import com.wooteco.nolto.tech.domain.Tech;
 import com.wooteco.nolto.tech.domain.TechRepository;
 import com.wooteco.nolto.user.domain.User;
 import lombok.AllArgsConstructor;
@@ -23,7 +25,6 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Transactional
 @AllArgsConstructor
@@ -39,19 +40,10 @@ public class FeedService {
         String thumbnailUrl = imageService.upload(request.getThumbnailImage());
 
         Feed feed = request.toEntityWithThumbnailUrl(thumbnailUrl).writtenBy(user);
-
-        List<FeedTech> feedTechs = makeTechIdToFeedTech(request, feed);
-        feed.changeFeedTechs(feedTechs);
+        feed.changeTechs(techRepository.findAllById(request.getTechs()));
 
         Feed savedFeed = feedRepository.save(feed);
         return savedFeed.getId();
-    }
-
-    private List<FeedTech> makeTechIdToFeedTech(FeedRequest request, Feed feed) {
-        List<Tech> allTechs = techRepository.findAllById(request.getTechs());
-        return allTechs.stream()
-                .map(tech -> new FeedTech(feed, tech))
-                .collect(Collectors.toList());
     }
 
     public void update(User user, Long feedId, FeedRequest request) {
@@ -74,12 +66,13 @@ public class FeedService {
         );
 
         updateThumbnailIfImageExist(request, findFeed);
+        updateTechs(request, findFeed);
+    }
 
+    private void updateTechs(FeedRequest request, Feed findFeed) {
         feedTechRepository.deleteAll(findFeed.getFeedTechs());
-        findFeed.deleteFeedTechs();
-
-        List<FeedTech> feedTechs = makeTechIdToFeedTech(request, findFeed);
-        findFeed.changeFeedTechs(feedTechs);
+        findFeed.deleteAllTechs();
+        findFeed.changeTechs(techRepository.findAllById(request.getTechs()));
     }
 
     private void updateThumbnailIfImageExist(FeedRequest request, Feed findFeed) {
