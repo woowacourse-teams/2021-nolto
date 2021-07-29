@@ -38,6 +38,10 @@ public class AcceptanceTest {
         RestAssured.port = port;
     }
 
+    public RequestSpecification given() {
+        return RestAssured.given().port(port);
+    }
+
     public TokenResponse 가입된_유저의_토큰을_받는다() {
         User 저장된_엄청난_유저 = userRepository.save(엄청난_유저);
 
