@@ -14,8 +14,6 @@ public class TechValidator implements ConstraintValidator<TechValid, List<Long>>
     @Override
     public boolean isValid(List<Long> techs, ConstraintValidatorContext context) {
         HashSet<Long> techSet = new HashSet<>(techs);
-        System.out.println("tech size : " + techs.size());
-        System.out.println("tech set size : " + techSet.size());
         return techs.size() == techSet.size();
     }
 }
