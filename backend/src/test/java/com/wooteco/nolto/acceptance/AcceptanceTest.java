@@ -43,13 +43,17 @@ public class AcceptanceTest {
     }
 
     public TokenResponse 가입된_유저의_토큰을_받는다() {
-        User 저장된_엄청난_유저 = userRepository.save(엄청난_유저);
+        return 가입된_유저의_토큰을_받는다(엄청난_유저);
+    }
+
+    public TokenResponse 가입된_유저의_토큰을_받는다(User user) {
+        User 저장된_엄청난_유저 = 회원_등록되어_있음(user);
 
         String token = jwtTokenProvider.createToken(String.valueOf(저장된_엄청난_유저.getId()));
         return new TokenResponse(token);
     }
 
-    public RequestSpecification given() {
-        return RestAssured.given().port(port);
+    public User 회원_등록되어_있음(User user) {
+        return userRepository.save(user);
     }
 }
