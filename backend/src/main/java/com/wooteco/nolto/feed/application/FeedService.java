@@ -10,7 +10,6 @@ import com.wooteco.nolto.feed.domain.Feeds;
 import com.wooteco.nolto.feed.domain.FilterStrategy;
 import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
-import com.wooteco.nolto.feed.domain.repository.FeedTechRepository;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
@@ -34,7 +33,6 @@ public class FeedService {
     private final ImageService imageService;
     private final FeedRepository feedRepository;
     private final TechRepository techRepository;
-    private final FeedTechRepository feedTechRepository;
 
     public Long create(User user, FeedRequest request) {
         String thumbnailUrl = imageService.upload(request.getThumbnailImage());
@@ -66,12 +64,6 @@ public class FeedService {
         );
 
         updateThumbnailIfImageExist(request, findFeed);
-        updateTechs(request, findFeed);
-    }
-
-    private void updateTechs(FeedRequest request, Feed findFeed) {
-        feedTechRepository.deleteAll(findFeed.getFeedTechs());
-        findFeed.deleteAllTechs();
         findFeed.changeTechs(techRepository.findAllById(request.getTechs()));
     }
 
