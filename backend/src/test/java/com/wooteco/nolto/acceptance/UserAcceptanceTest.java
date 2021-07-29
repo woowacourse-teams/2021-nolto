@@ -40,15 +40,15 @@ public class UserAcceptanceTest extends AcceptanceTest {
     }
 
     public ExtractableResponse<Response> 내_회원_정보_조회_요청(TokenResponse tokenResponse) {
-        return given().log().all().
-                auth().oauth2(tokenResponse.getAccessToken()).
-                accept(MediaType.APPLICATION_JSON_VALUE).
-                when().
-                get("/members/me").
-                then().
-                log().all().
-                statusCode(HttpStatus.OK.value()).
-                extract();
+        return given().log().all()
+                .auth().oauth2(tokenResponse.getAccessToken())
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .when()
+                .get("/members/me")
+                .then()
+                .log().all()
+                .statusCode(HttpStatus.OK.value())
+                .extract();
     }
 
     public void 알맞은_회원_정보_조회됨(ExtractableResponse<Response> response, User expectedUser) {
@@ -60,14 +60,14 @@ public class UserAcceptanceTest extends AcceptanceTest {
     }
 
     public ExtractableResponse<Response> 토큰_없이_회원_정보_요청() {
-        return given().log().all().
-                accept(MediaType.APPLICATION_JSON_VALUE).
-                when().
-                get("/members/me").
-                then().
-                log().all().
-                statusCode(HttpStatus.UNAUTHORIZED.value()).
-                extract();
+        return given().log().all()
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .when()
+                .get("/members/me")
+                .then()
+                .log().all()
+                .statusCode(HttpStatus.UNAUTHORIZED.value())
+                .extract();
     }
 
     public void 토큰_필요_예외_발생(ExtractableResponse<Response> response) {
