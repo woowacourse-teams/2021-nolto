@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import ERROR_CODE from 'constants/errorCodeMap';
 import { ErrorResponse, HttpErrorResponse } from 'types';
 

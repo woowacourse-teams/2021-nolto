@@ -10,6 +10,7 @@ import RecentFeeds from 'pages/RecentFeeds/RecentFeeds';
 import SearchResult from 'pages/SearchResult/SearchResult';
 import OAuth from 'pages/OAuth/OAuth';
 import Modify from 'pages/Modify/Modify';
+import PrivateRoute from 'components/PrivateRoute';
 import NotificationProvider from 'context/notification/NotificationProvider';
 import ModalProvider from 'context/modal/ModalProvider';
 import SnackBarProvider from 'context/snackBar/SnackBarProvider';
@@ -39,12 +40,12 @@ const App = () => {
                   <Route exact path={ROUTE.HOME}>
                     <Home />
                   </Route>
-                  <Route path={ROUTE.UPLOAD}>
+                  <PrivateRoute path={ROUTE.UPLOAD}>
                     <Upload />
-                  </Route>
-                  <Route path={ROUTE.MODIFY}>
+                  </PrivateRoute>
+                  <PrivateRoute path={ROUTE.MODIFY}>
                     <Modify />
-                  </Route>
+                  </PrivateRoute>
                   <Route exact path={ROUTE.RECENT}>
                     <RecentFeeds />
                   </Route>
