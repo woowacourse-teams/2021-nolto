@@ -7,8 +7,10 @@ import com.wooteco.nolto.feed.ui.dto.FeedResponse;
 import com.wooteco.nolto.image.application.ImageService;
 import com.wooteco.nolto.tech.domain.Tech;
 import com.wooteco.nolto.tech.domain.TechRepository;
+import com.wooteco.nolto.tech.ui.dto.TechResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,6 +24,8 @@ import org.testcontainers.shaded.com.google.common.net.HttpHeaders;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.wooteco.nolto.exception.ErrorType.ALREADY_LIKED;
 import static com.wooteco.nolto.exception.ErrorType.NOT_LIKED;
@@ -102,8 +106,9 @@ public class FeedAcceptanceTest extends AcceptanceTest {
 
         // then
         FeedResponse feedResponse = response.as(FeedResponse.class);
-        assertThat(feedResponse.getTitle()).isEqualTo(request.getTitle());
+        피드_정보가_같은지_조회(request, feedResponse);
     }
+
 
     @DisplayName("회원이 피드를 조회한다.")
     @Test
@@ -137,7 +142,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
 
         // then
         FeedResponse feedResponse = response.as(FeedResponse.class);
-        assertThat(feedResponse.getTitle()).isEqualTo(request.getTitle());
+        피드_정보가_같은지_조회(request, feedResponse);
     }
 
     @DisplayName("놀토의 회원이 자신의 피드를 수정한다.")
@@ -336,20 +341,38 @@ public class FeedAcceptanceTest extends AcceptanceTest {
     }
 
     private ExtractableResponse<Response> 피드를_작성한다(FeedRequest feedRequest, String token) {
-        return given().log().all()
+        RequestSpecification requestSpecification = given().log().all()
                 .header(HttpHeaders.AUTHORIZATION, BEARER + token)
                 .formParam("title", feedRequest.getTitle())
-                .formParam("techs", String.valueOf(JAVA.getId()))
                 .formParam("content", feedRequest.getContent())
                 .formParam("step", feedRequest.getStep())
                 .formParam("sos", feedRequest.isSos())
                 .formParam("StorageUrl", feedRequest.getStorageUrl())
                 .formParam("DeployedUrl", feedRequest.getDeployedUrl())
-                .multiPart("thumbnailImage", thumbnail)
+                .multiPart("thumbnailImage", thumbnail);
+
+        feedRequest.getTechs().stream()
+                .forEach(techId -> requestSpecification.formParam("techs", techId));
+
+        return requestSpecification
                 .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
                 .when()
                 .post("/feeds")
                 .then().log().all()
                 .extract();
+    }
+
+    private void 피드_정보가_같은지_조회(FeedRequest request, FeedResponse response) {
+        List<Long> techIds = response.getTechs().stream()
+                .map(TechResponse::getId)
+                .collect(Collectors.toList());
+
+        assertThat(request.getTitle()).isEqualTo(response.getTitle());
+        assertThat(request.getTechs()).containsExactlyElementsOf(techIds);
+        assertThat(request.getContent()).isEqualTo(response.getContent());
+        assertThat(request.getStep()).isEqualTo(response.getStep());
+        assertThat(request.isSos()).isEqualTo(response.isSos());
+        assertThat(request.getStorageUrl()).isEqualTo(response.getStorageUrl());
+        assertThat(request.getDeployedUrl()).isEqualTo(response.getDeployedUrl());
     }
 }
