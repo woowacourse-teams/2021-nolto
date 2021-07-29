@@ -22,6 +22,8 @@ import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -248,7 +250,7 @@ public class FeedControllerTest extends ControllerTest {
                                 parameterWithName("filter").description("필터 조건 (ALL, SOS, PROGRESS, COMPLETE)").optional()
                         ),
                         responseFields(
-                                fieldWithPath("[]").type(JsonFieldType.ARRAY).description("HOT 피드 목록")
+                                fieldWithPath("[]").type(JsonFieldType.ARRAY).description("최신 피드 목록")
                         ).andWithPrefix("[].", FEED_CARD_RESPONSE)));
 
     }
@@ -303,6 +305,36 @@ public class FeedControllerTest extends ControllerTest {
                         pathParameters(
                                 parameterWithName("feedId").description("피드 ID")
                         )));
+
+    }
+
+    @DisplayName("유저 모두가 제목+내용(query), ','로 구분된 테크명(techs), 필터링(filter)로 피드 검색할 수 있다.")
+    @Test
+    void searchResponse() throws Exception {
+        String query = "content";
+        String techs = "Java,Spring";
+        String filter = "ALL";
+        given(feedService.search(query, techs, filter)).willReturn(FEED_CARD_RESPONSES);
+
+        MultiValueMap<String, String> searchParams = new LinkedMultiValueMap<>();
+        searchParams.add("query", query);
+        searchParams.add("techs", techs);
+        searchParams.add("filter", filter);
+
+        mockMvc.perform(get("/feeds/search").params(searchParams))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(FEED_CARD_RESPONSES)))
+                .andDo(document("feed-searchResponse",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        requestParameters(
+                                parameterWithName("query").description("제목+내용에서 찾고자 하는 텍스트").optional(),
+                                parameterWithName("techs").description("','로 구분된 테크명의 나열").optional(),
+                                parameterWithName("filter").description("필터 조건 (ALL, SOS, PROGRESS, COMPLETE)").optional()
+                        ),
+                        responseFields(
+                                fieldWithPath("[]").type(JsonFieldType.ARRAY).description("검색된 피드 목록")
+                        ).andWithPrefix("[].", FEED_CARD_RESPONSE)));
 
     }
 }
