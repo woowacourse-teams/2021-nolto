@@ -6,6 +6,7 @@ import com.wooteco.nolto.auth.ui.dto.TokenResponse;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.domain.UserRepository;
 import io.restassured.RestAssured;
+import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -41,5 +42,9 @@ public class AcceptanceTest {
 
         String token = jwtTokenProvider.createToken(String.valueOf(저장된_엄청난_유저.getId()));
         return new TokenResponse(token);
+    }
+
+    public RequestSpecification given() {
+        return RestAssured.given().port(port);
     }
 }
