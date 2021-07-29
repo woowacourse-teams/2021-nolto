@@ -27,17 +27,18 @@ public class AcceptanceTest {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
+    public User 엄청난_유저 = new User(
+            "1",
+            SocialType.GITHUB,
+            "엄청난 유저",
+            "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png");
+
     @BeforeEach
     public void setUp() {
         RestAssured.port = port;
     }
 
     public TokenResponse 가입된_유저의_토큰을_받는다() {
-        User 엄청난_유저 = new User(
-                "1",
-                SocialType.GITHUB,
-                "엄청난 유저",
-                "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png");
         User 저장된_엄청난_유저 = userRepository.save(엄청난_유저);
 
         String token = jwtTokenProvider.createToken(String.valueOf(저장된_엄청난_유저.getId()));
