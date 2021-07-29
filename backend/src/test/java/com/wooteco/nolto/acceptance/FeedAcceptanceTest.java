@@ -372,3 +372,5 @@ public class FeedAcceptanceTest extends AcceptanceTest {
                 .extract();
     }
 }
+
+
