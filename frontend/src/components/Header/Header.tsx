@@ -60,19 +60,14 @@ const Header = ({ isFolded = false }: Props) => {
         <nav>
           <Styled.NavContainer>
             <li>
-              <NavLink to="/" activeStyle={navLinkActiveStyle}>
-                Feed
+              <NavLink to={ROUTE.RECENT} activeStyle={navLinkActiveStyle}>
+                Feeds
               </NavLink>
             </li>
             <li>
-              <NavLink to="/best" activeStyle={navLinkActiveStyle}>
-                Best 10
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/hosting" activeStyle={navLinkActiveStyle}>
+              <a href="https://joel-web-hosting.o-r.kr/" target="_blank">
                 Joel’s Hosting
-              </NavLink>
+              </a>
             </li>
             <li>
               <NavLink to="/makers" activeStyle={navLinkActiveStyle}>
