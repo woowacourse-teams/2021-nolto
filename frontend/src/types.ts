@@ -22,7 +22,7 @@ export enum SearchType {
   TECH = '기술스택',
 }
 
-export interface User {
+export interface Author {
   id: number;
   nickname: string;
   imageUrl: string;
@@ -35,7 +35,7 @@ export interface Tech {
 
 export interface Feed {
   id: number;
-  author: User;
+  author: Author;
   title: string;
   content: string;
   step: FeedStatus;

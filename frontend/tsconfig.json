@@ -8,7 +8,11 @@
     "allowJs": true,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
-    "baseUrl": "src"
+    "baseUrl": "src",
+    "paths": {
+      "@tests/*": [ "./__tests__/*" ],
+      "@src/*": ["src/*"]
+    }
   },
   "includes": ["src", "custom.d.ts"]
 }
