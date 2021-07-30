@@ -13,10 +13,10 @@ import lombok.Setter;
 @AllArgsConstructor
 public class GithubUserResponse implements OAuthUserResponse {
     private Long id;
-    private String name;
+    private String login;
     private String avatar_url;
 
     public User toUser() {
-        return new User(String.valueOf(id), SocialType.GITHUB, name, avatar_url);
+        return new User(String.valueOf(id), SocialType.GITHUB, login, avatar_url);
     }
 }
