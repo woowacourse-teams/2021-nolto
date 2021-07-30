@@ -48,7 +48,7 @@
 
     <springProfile name="slack-dev-error-logging">
         <appender name="SLACK" class="com.github.maricn.logback.SlackAppender">
-            <webhookUri>https://hooks.slack.com/services/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</webhookUri>
+            <webhookUri>${SLACK_WEBHOOK_URI}</webhookUri>
             <layout class="ch.qos.logback.classic.PatternLayout">
                 <pattern>[DEV] %-4relative [%thread] %-5level %class - %msg%n</pattern>
             </layout>
@@ -64,7 +64,7 @@
 
     <springProfile name="slack-prod-error-logging">
         <appender name="PROD-SLACK" class="com.github.maricn.logback.SlackAppender">
-            <webhookUri>https://hooks.slack.com/services/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</webhookUri>
+            <webhookUri>${SLACK_WEBHOOK_URI}</webhookUri>
             <layout class="ch.qos.logback.classic.PatternLayout">
                 <pattern>[PROD] %-4relative [%thread] %-5level %class - %msg%n</pattern>
             </layout>
