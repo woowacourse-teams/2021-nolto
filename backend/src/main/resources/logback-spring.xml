@@ -48,7 +48,7 @@
 
     <springProfile name="slack-dev-error-logging">
         <appender name="SLACK" class="com.github.maricn.logback.SlackAppender">
-            <webhookUri>https://hooks.slack.com/services/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</webhookUri>
+            <webhookUri>https://hooks.slack.com/services/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</webhookUri>
             <layout class="ch.qos.logback.classic.PatternLayout">
                 <pattern>[DEV] %-4relative [%thread] %-5level %class - %msg%n</pattern>
             </layout>
@@ -63,15 +63,15 @@
     </springProfile>
 
     <springProfile name="slack-prod-error-logging">
-        <appender name="SLACK" class="com.github.maricn.logback.SlackAppender">
-            <webhookUri>https://hooks.slack.com/services/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</webhookUri>
+        <appender name="PROD-SLACK" class="com.github.maricn.logback.SlackAppender">
+            <webhookUri>https://hooks.slack.com/services/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</webhookUri>
             <layout class="ch.qos.logback.classic.PatternLayout">
                 <pattern>[PROD] %-4relative [%thread] %-5level %class - %msg%n</pattern>
             </layout>
             <colorCoding>true</colorCoding>
         </appender>
-        <appender name="ASYNC_SLACK" class="ch.qos.logback.classic.AsyncAppender">
-            <appender-ref ref="SLACK" />
+        <appender name="PROD_ASYNC_SLACK" class="ch.qos.logback.classic.AsyncAppender">
+            <appender-ref ref="PROD-SLACK" />
             <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
                 <level>ERROR</level>
             </filter>
@@ -97,7 +97,7 @@
         </springProfile>
 
         <springProfile name="slack-prod-error-logging">
-            <appender-ref ref="ASYNC_SLACK" />
+            <appender-ref ref="PROD_ASYNC_SLACK" />
         </springProfile>
     </root>
 </configuration>
