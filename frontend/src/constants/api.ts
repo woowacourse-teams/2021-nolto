@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL: { [key: string]: string } = {
+export const BASE_URL: { [key: string]: string } = {
   development: 'https://nolto-dev.kro.kr',
   production: 'https://nolto.kro.kr',
 };
