@@ -2,6 +2,7 @@ package com.wooteco.nolto.feed.ui;
 
 import com.wooteco.nolto.auth.MemberAuthenticationPrincipal;
 import com.wooteco.nolto.auth.UserAuthenticationPrincipal;
+import com.wooteco.nolto.auth.ValidTokenRequired;
 import com.wooteco.nolto.feed.application.FeedService;
 import com.wooteco.nolto.feed.application.LikeService;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
@@ -25,6 +26,7 @@ public class FeedController {
     private final FeedService feedService;
     private final LikeService likeService;
 
+    @ValidTokenRequired
     @PostMapping
     public ResponseEntity<Void> create(@MemberAuthenticationPrincipal User user, @ModelAttribute @Valid FeedRequest request) {
         Long feedId = feedService.create(user, request);
@@ -37,24 +39,28 @@ public class FeedController {
         return ResponseEntity.ok(response);
     }
 
+    @ValidTokenRequired
     @PutMapping("/{feedId}")
     public ResponseEntity<Void> update(@MemberAuthenticationPrincipal User user, @PathVariable Long feedId, @ModelAttribute @Valid FeedRequest request) {
         feedService.update(user, feedId, request);
         return ResponseEntity.ok().build();
     }
 
+    @ValidTokenRequired
     @DeleteMapping("/{feedId}")
     public ResponseEntity<Void> delete(@MemberAuthenticationPrincipal User user, @PathVariable Long feedId) {
         feedService.delete(user, feedId);
         return ResponseEntity.noContent().build();
     }
 
+    @ValidTokenRequired
     @PostMapping("/{feedId}/like")
     public ResponseEntity<Void> addLike(@MemberAuthenticationPrincipal User user, @PathVariable Long feedId) {
         likeService.addLike(user, feedId);
         return ResponseEntity.ok().build();
     }
 
+    @ValidTokenRequired
     @PostMapping("/{feedId}/unlike")
     public ResponseEntity<Void> deleteLike(@MemberAuthenticationPrincipal User user, @PathVariable Long feedId) {
         likeService.deleteLike(user, feedId);

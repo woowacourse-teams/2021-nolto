@@ -3,8 +3,6 @@ package com.wooteco.nolto.auth.ui;
 import com.wooteco.nolto.auth.MemberAuthenticationPrincipal;
 import com.wooteco.nolto.auth.application.AuthService;
 import com.wooteco.nolto.auth.infrastructure.AuthorizationExtractor;
-import com.wooteco.nolto.exception.ErrorType;
-import com.wooteco.nolto.exception.UnauthorizedException;
 import com.wooteco.nolto.user.domain.User;
 import lombok.AllArgsConstructor;
 import org.springframework.core.MethodParameter;
@@ -29,9 +27,6 @@ public class MemberArgumentResolver implements HandlerMethodArgumentResolver {
     @Override
     public User resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         String credentials = AuthorizationExtractor.extract(Objects.requireNonNull(webRequest.getNativeRequest(HttpServletRequest.class)));
-        if (Objects.isNull(credentials)) {
-            throw new UnauthorizedException(ErrorType.TOKEN_NEEDED);
-        }
         return authService.findUserByToken(credentials);
     }
 }

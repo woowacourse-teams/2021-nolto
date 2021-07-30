@@ -30,7 +30,7 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
         String credentials = AuthorizationExtractor.extract(Objects.requireNonNull(webRequest.getNativeRequest(HttpServletRequest.class)));
         try {
             return authService.findUserByToken(credentials);
-        } catch (JwtException | NullPointerException | NotFoundException e) {
+        } catch (JwtException | IllegalArgumentException | NotFoundException | NullPointerException e) {
             return User.GUEST_USER;
         }
     }
