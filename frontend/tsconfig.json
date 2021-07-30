@@ -9,10 +9,7 @@
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "baseUrl": "src",
-    "paths": {
-      "@tests/*": [ "./__tests__/*" ],
-      "@src/*": ["src/*"]
-    }
+    "esModuleInterop": true
   },
   "includes": ["src", "custom.d.ts"]
 }

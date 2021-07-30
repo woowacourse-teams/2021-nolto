@@ -1,7 +1,3 @@
-const { pathsToModuleNameMapper } = require('ts-jest/utils');
-
-const { compilerOptions } = require('./tsconfig');
-
 module.exports = {
   preset: 'ts-jest',
   setupFilesAfterEnv: ['./src/setUpTests.ts'],
@@ -12,9 +8,5 @@ module.exports = {
       isolatedModules: true,
     },
   },
-  moduleDirectories: ['node_modules'],
-  // moduleNameMapper: {
-  //   '^@src(.*)$': './src/$1',
-  // },
-  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths /*, { prefix: '<rootDir>/' } */),
+  moduleDirectories: ['./node_modules', 'src'],
 };
