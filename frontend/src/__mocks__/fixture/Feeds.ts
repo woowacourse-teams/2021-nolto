@@ -1,6 +1,6 @@
 import { Feed, FeedStatus } from 'types';
 
-export const feeds: Feed[] = [
+export const mockFeeds: Feed[] = [
   {
     author: {
       id: 48,
