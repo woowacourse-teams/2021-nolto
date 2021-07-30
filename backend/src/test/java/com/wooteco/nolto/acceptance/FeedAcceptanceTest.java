@@ -41,8 +41,6 @@ import static org.mockito.ArgumentMatchers.any;
 
 public class FeedAcceptanceTest extends AcceptanceTest {
 
-    public static final String BEARER = "Bearer ";
-
     private User 좋아요_1개_누를_유저;
     private User 좋아요_2개_누를_유저;
     private User 좋아요_3개_누를_유저;
@@ -166,7 +164,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
-                .header(HttpHeaders.AUTHORIZATION, token)
+                .auth().oauth2(token)
                 .when()
                 .get("/feeds/{feedId}", feedId)
                 .then()
@@ -199,7 +197,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
 
         // when
         ExtractableResponse<Response> updateResponse = given().log().all()
-                .header(HttpHeaders.AUTHORIZATION, BEARER + token)
+                .auth().oauth2(token)
                 .formParam("title", "수정된 프로젝트 제목")
                 .formParam("techs", String.valueOf(SPRING.getId()))
                 .formParam("techs", String.valueOf(REACT.getId()))
@@ -239,7 +237,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
 
         // when
         ExtractableResponse<Response> updateResponse = given().log().all()
-                .header(HttpHeaders.AUTHORIZATION, BEARER + token)
+                .auth().oauth2(token)
                 .when()
                 .delete("/feeds/{feedId}", feedId)
                 .then().log().all()
@@ -323,7 +321,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
 
         // when
         ExtractableResponse<Response> likeResponse = given().log().all()
-                .header(HttpHeaders.AUTHORIZATION, BEARER + token)
+                .auth().oauth2(token)
                 .when()
                 .post("/feeds/{feedId}/unlike", feedId)
                 .then().log().all()
@@ -353,7 +351,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
 
         // when
         ExtractableResponse<Response> likeResponse = given().log().all()
-                .header(HttpHeaders.AUTHORIZATION, BEARER + token)
+                .auth().oauth2(token)
                 .when()
                 .post("/feeds/{feedId}/unlike", feedId)
                 .then().log().all()
@@ -557,7 +555,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
 
     private ExtractableResponse<Response> 좋아요를_누른다(String token, Long feedId) {
         return given().log().all()
-                .header(HttpHeaders.AUTHORIZATION, BEARER + token)
+                .auth().oauth2(token)
                 .when()
                 .post("/feeds/{feedId}/like", feedId)
                 .then().log().all()
@@ -566,7 +564,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
 
     private ExtractableResponse<Response> 피드를_작성한다(FeedRequest feedRequest, String token) {
         RequestSpecification requestSpecification = given().log().all()
-                .header(HttpHeaders.AUTHORIZATION, BEARER + token)
+                .auth().oauth2(token)
                 .formParam("title", feedRequest.getTitle())
                 .formParam("content", feedRequest.getContent())
                 .formParam("step", feedRequest.getStep())
