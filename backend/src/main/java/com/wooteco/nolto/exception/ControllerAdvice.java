@@ -9,6 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 @RestControllerAdvice
@@ -31,7 +32,14 @@ public class ControllerAdvice {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleException(Exception e) {
-        log.error(e.getMessage());
+        log.error("༼;´༎ຶ \u06DD ༎ຶ༽ \uD835\uDE52\uD835\uDE5D\uD835\uDE6E\uD835\uDE67\uD835\uDE56\uD835\uDE63\uD835\uDE64...");
+        log.error("Error Message : " + e.getMessage());
+        String stackTrace = Arrays.toString(e.getStackTrace());
+        String[] spiltMessages = stackTrace.split(",");
+        for (String splitMessage : spiltMessages) {
+            log.error(splitMessage);
+        }
+        log.error("༼;´༎ຶ \u06DD ༎ຶ༽ \uD835\uDE52\uD835\uDE5D\uD835\uDE6E\uD835\uDE67\uD835\uDE56\uD835\uDE63\uD835\uDE64...");
         return ResponseEntity.internalServerError().body("놀토 관리자에게 문의하세요");
     }
 }
