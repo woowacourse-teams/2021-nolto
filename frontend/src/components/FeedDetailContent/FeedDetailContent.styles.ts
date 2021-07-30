@@ -54,6 +54,7 @@ const Thumbnail = styled.div`
 
   & > img {
     position: absolute;
+    object-fit: contain;
     height: 100%;
     width: 100%;
     left: 0;
