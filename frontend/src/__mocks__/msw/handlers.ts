@@ -18,6 +18,18 @@ export const handlers = [
     return res(ctx.status(200), ctx.json(mockFeeds));
   }),
   rest.post(`${BASE_URL.development}/feeds`, (req, res, ctx) => {
+    return res(ctx.status(201));
+  }),
+  rest.put(`${BASE_URL.development}/feeds/:feedId`, (req, res, ctx) => {
+    return res(ctx.status(200));
+  }),
+  rest.delete(`${BASE_URL.development}/feeds/:feedId`, (req, res, ctx) => {
+    return res(ctx.status(204));
+  }),
+  rest.post(`${BASE_URL.development}/feeds/:feedId/like`, (req, res, ctx) => {
+    return res(ctx.status(200));
+  }),
+  rest.post(`${BASE_URL.development}/feeds/:feedId/unlike`, (req, res, ctx) => {
     return res(ctx.status(200));
   }),
   rest.get(`${BASE_URL.development}/members/me`, (req, res, ctx) => {
