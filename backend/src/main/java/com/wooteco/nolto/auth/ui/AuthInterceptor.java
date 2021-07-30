@@ -19,7 +19,6 @@ public class AuthInterceptor implements HandlerInterceptor {
             return true;
         }
         String token = AuthorizationExtractor.extract(request);
-        request.setAttribute("credential", token);
         if (Objects.isNull(token)) {
             return true;
         }
