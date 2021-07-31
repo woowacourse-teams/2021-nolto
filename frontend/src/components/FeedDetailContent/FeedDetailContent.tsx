@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 import useFeedDetail from 'hooks/queries/useFeedDetail';
 import ViewCountIcon from 'assets/viewCount.svg';
@@ -7,6 +8,7 @@ import FeedDropdown from 'components/FeedDropdown/FeedDropdown';
 import LikeButton from 'components/LikeButton/LikeButton';
 import { STEP_CONVERTER } from 'constants/common';
 import { PALETTE } from 'constants/palette';
+import ROUTE from 'constants/routes';
 import { ButtonStyle } from 'types';
 import useSnackBar from 'context/snackBar/useSnackBar';
 import useMember from 'hooks/queries/useMember';
@@ -17,7 +19,9 @@ interface Props {
 }
 
 const FeedDetailContent = ({ id }: Props) => {
+  const history = useHistory();
   const snackbar = useSnackBar();
+
   const member = useMember();
 
   const { data: feedDetail } = useFeedDetail({
@@ -26,6 +30,18 @@ const FeedDetailContent = ({ id }: Props) => {
     },
     id,
   });
+
+  const searchByTag = (tech: string) => {
+    const queryParams = new URLSearchParams({
+      query: '',
+      techs: tech,
+    });
+
+    history.push({
+      pathname: ROUTE.SEARCH,
+      search: '?' + queryParams,
+    });
+  };
 
   const isMyFeed = member.userData?.id === feedDetail.author.id;
 
@@ -90,7 +106,9 @@ const FeedDetailContent = ({ id }: Props) => {
               <Styled.DetailsValue>
                 {feedDetail.techs.map((tech) => (
                   <li key={tech.id}>
-                    <Tag buttonStyle={ButtonStyle.SOLID}>{tech.text}</Tag>
+                    <Tag buttonStyle={ButtonStyle.SOLID} onClick={() => searchByTag(tech.text)}>
+                      {tech.text}
+                    </Tag>
                   </li>
                 ))}
                 <StacksMoreButton width="24px" />
