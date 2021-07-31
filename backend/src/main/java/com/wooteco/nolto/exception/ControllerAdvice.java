@@ -33,12 +33,17 @@ public class ControllerAdvice {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleException(Exception e) {
         log.error("༼;´༎ຶ \u06DD ༎ຶ༽ \uD835\uDE52\uD835\uDE5D\uD835\uDE6E\uD835\uDE67\uD835\uDE56\uD835\uDE63\uD835\uDE64...");
-        log.error("Error Message : " + e.getMessage());
-        String stackTrace = Arrays.toString(e.getStackTrace());
-        String[] spiltMessages = stackTrace.split(",");
+        log.error("༼;´༎ຶ \u06DD ༎ຶ༽ 에러 로그 시작 ༼;´༎ຶ \u06DD ༎ຶ༽");
+        log.error("༼;´༎ຶ \u06DD ༎ຶ༽ 에러 메세지 : " + e.getMessage());
+        String[] spiltMessages = Arrays.toString(e.getStackTrace()).split(",");
+
+        StringBuilder sb = new StringBuilder();
         for (String splitMessage : spiltMessages) {
-            log.warn(splitMessage);
+            sb.append(splitMessage).append("\n");
         }
+        log.error(sb.toString());
+
+        log.error("༼;´༎ຶ \u06DD ༎ຶ༽ 에러 로그 끝 ༼;´༎ຶ \u06DD ༎ຶ༽");
         log.error("༼;´༎ຶ \u06DD ༎ຶ༽ \uD835\uDE52\uD835\uDE5D\uD835\uDE6E\uD835\uDE67\uD835\uDE56\uD835\uDE63\uD835\uDE64...");
         return ResponseEntity.internalServerError().body("놀토 관리자에게 문의하세요");
     }
