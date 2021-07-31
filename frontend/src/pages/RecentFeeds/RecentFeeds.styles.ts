@@ -14,7 +14,7 @@ const SectionTitle = styled(HighLightedText)`
 `;
 
 const RecentToysContainer = styled.div`
-  height: 45rem;
+  height: 56vh;
 `;
 
 export default {
