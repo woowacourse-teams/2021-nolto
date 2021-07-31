@@ -13,6 +13,7 @@ import { ButtonStyle } from 'types';
 import useSnackBar from 'context/snackBar/useSnackBar';
 import useMember from 'hooks/queries/useMember';
 import Styled, { Tag, StacksMoreButton } from './FeedDetailContent.styles';
+import ToggleList from 'components/@common/ToggleList/ToggleList';
 
 interface Props {
   id: number;
@@ -101,19 +102,20 @@ const FeedDetailContent = ({ id }: Props) => {
                 </Styled.DetailsValue>
               </Styled.DetailsPair>
             )}
-            <Styled.DetailsPair>
-              <Styled.DetailsKey fontSize="1.5rem">기술스택</Styled.DetailsKey>
-              <Styled.DetailsValue>
-                {feedDetail.techs.map((tech) => (
-                  <li key={tech.id}>
-                    <Tag buttonStyle={ButtonStyle.SOLID} onClick={() => searchByTag(tech.text)}>
-                      {tech.text}
-                    </Tag>
-                  </li>
-                ))}
-                <StacksMoreButton width="24px" />
-              </Styled.DetailsValue>
-            </Styled.DetailsPair>
+            {feedDetail.techs.length > 0 && (
+              <Styled.DetailsPair>
+                <Styled.DetailsKey fontSize="1.5rem">기술스택</Styled.DetailsKey>
+                <Styled.DetailsValue>
+                  <ToggleList width="100%" height="2rem">
+                    {feedDetail.techs.map((tech) => (
+                      <li key={tech.id}>
+                        <Tag buttonStyle={ButtonStyle.SOLID}>{tech.text}</Tag>
+                      </li>
+                    ))}
+                  </ToggleList>
+                </Styled.DetailsValue>
+              </Styled.DetailsPair>
+            )}
           </Styled.DetailsContent>
         </Styled.FeedSummaryContainer>
       </Styled.IntroContainer>
