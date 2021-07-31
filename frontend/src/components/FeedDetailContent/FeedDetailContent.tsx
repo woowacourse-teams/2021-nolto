@@ -118,8 +118,6 @@ const FeedDetailContent = ({ id }: Props) => {
         </Styled.FeedSummaryContainer>
       </Styled.IntroContainer>
 
-      <Styled.DotsDivider width="52px" />
-
       <Styled.Description>{feedDetail.content}</Styled.Description>
     </Styled.Root>
   );
