@@ -37,7 +37,7 @@ public class ControllerAdvice {
         String stackTrace = Arrays.toString(e.getStackTrace());
         String[] spiltMessages = stackTrace.split(",");
         for (String splitMessage : spiltMessages) {
-            log.error(splitMessage);
+            log.warn(splitMessage);
         }
         log.error("༼;´༎ຶ \u06DD ༎ຶ༽ \uD835\uDE52\uD835\uDE5D\uD835\uDE6E\uD835\uDE67\uD835\uDE56\uD835\uDE63\uD835\uDE64...");
         return ResponseEntity.internalServerError().body("놀토 관리자에게 문의하세요");
