@@ -71,7 +71,8 @@ const Home = () => {
             <span className="trends">💎 Trends</span>
             {tags.map((tag) => (
               <Styled.TrendTag key={tag.id} onClick={() => searchByTrend(tag)}>
-                {tag.text}
+                <span className="trends-bar">|</span>
+                <span className="trends-text">{tag.text}</span>
               </Styled.TrendTag>
             ))}
           </Styled.TrendContainer>

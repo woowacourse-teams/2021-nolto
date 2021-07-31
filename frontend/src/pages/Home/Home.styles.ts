@@ -63,12 +63,13 @@ const TrendContainer = styled.div`
 const TrendTag = styled.span`
   cursor: pointer;
 
-  &:hover {
-    text-decoration: underline;
+  > .trends-text {
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
-  &:before {
-    content: '|';
+  > .trends-bar {
     margin-right: 0.75rem;
   }
 `;
