@@ -11,6 +11,6 @@ export default {
 
 export const Default = () => (
   <IconButton>
-    <Pencil />
+    <Pencil width="10rem" height="10rem" />
   </IconButton>
 );

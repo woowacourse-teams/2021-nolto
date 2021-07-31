@@ -44,7 +44,6 @@ const VerticalAvatar = styled(Avatar)`
 export const CarouselArrowButton = styled(IconButtonComponent)`
   width: 1.85rem;
   height: 1.85rem;
-  padding: 0.55rem;
 `;
 
 const CarouselLeft = styled(ArrowIcon)`

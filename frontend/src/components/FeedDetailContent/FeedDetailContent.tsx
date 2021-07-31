@@ -12,7 +12,8 @@ import ROUTE from 'constants/routes';
 import { ButtonStyle } from 'types';
 import useSnackBar from 'context/snackBar/useSnackBar';
 import useMember from 'hooks/queries/useMember';
-import Styled, { Tag, StacksMoreButton } from './FeedDetailContent.styles';
+import Styled, { Tag } from './FeedDetailContent.styles';
+import ToggleList from 'components/@common/ToggleList/ToggleList';
 
 interface Props {
   id: number;
@@ -101,26 +102,31 @@ const FeedDetailContent = ({ id }: Props) => {
                 </Styled.DetailsValue>
               </Styled.DetailsPair>
             )}
-            <Styled.DetailsPair>
-              <Styled.DetailsKey fontSize="1.5rem">기술스택</Styled.DetailsKey>
-              <Styled.DetailsValue>
-                {feedDetail.techs.map((tech) => (
-                  <li key={tech.id}>
-                    <Tag buttonStyle={ButtonStyle.SOLID} onClick={() => searchByTag(tech.text)}>
-                      {tech.text}
-                    </Tag>
-                  </li>
-                ))}
-                <StacksMoreButton width="24px" />
-              </Styled.DetailsValue>
-            </Styled.DetailsPair>
+            {feedDetail.techs.length > 0 && (
+              <Styled.DetailsPair>
+                <Styled.DetailsKey fontSize="1.5rem">기술스택</Styled.DetailsKey>
+                <Styled.DetailsValue>
+                  <ToggleList width="100%" height="1.75rem">
+                    {feedDetail.techs.map((tech) => (
+                      <li key={tech.id}>
+                        <Tag buttonStyle={ButtonStyle.SOLID} onClick={() => searchByTag(tech.text)}>
+                          {tech.text}
+                        </Tag>
+                      </li>
+                    ))}
+                  </ToggleList>
+                </Styled.DetailsValue>
+              </Styled.DetailsPair>
+            )}
           </Styled.DetailsContent>
         </Styled.FeedSummaryContainer>
       </Styled.IntroContainer>
 
-      <Styled.DotsDivider width="52px" />
-
-      <Styled.Description>{feedDetail.content}</Styled.Description>
+      <Styled.DescriptionContainer>
+        <h3>프로젝트 소개</h3>
+        <hr />
+        <Styled.Description>{feedDetail.content}</Styled.Description>
+      </Styled.DescriptionContainer>
     </Styled.Root>
   );
 };

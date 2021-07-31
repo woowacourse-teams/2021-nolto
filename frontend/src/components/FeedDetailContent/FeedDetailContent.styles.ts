@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 import HighlightedText from 'components/@common/HighlightedText/HighlightedText';
 import TextButton from 'components/@common/TextButton/TextButton';
-import DotsIcon from 'assets/dots.svg';
 import SOSFlag from 'assets/sosFlag.svg';
 import StacksMoreIcon from 'assets/stacksMore.svg';
 
@@ -111,13 +110,15 @@ const DetailsContent = styled.div`
 
 const DetailsPair = styled.div`
   display: flex;
-  align-items: center;
   gap: 1.75rem;
 `;
 
 const DetailsKey = styled(HighlightedText)`
   font-size: 1rem;
   font-weight: 400;
+  flex-basis: 6.5rem;
+  flex-shrink: 0;
+  text-align: center;
 `;
 
 const DetailsValue = styled.span`
@@ -125,6 +126,7 @@ const DetailsValue = styled.span`
   font-size: 1rem;
   align-items: center;
   gap: 0.5rem;
+  flex-wrap: wrap;
 
   & > a {
     &:hover {
@@ -143,17 +145,19 @@ export const StacksMoreButton = styled(StacksMoreIcon)`
   cursor: pointer;
 `;
 
-const DotsDivider = styled(DotsIcon)`
-  display: block;
-  margin: auto;
+const DescriptionContainer = styled.div`
+  & > h3 {
+    margin-bottom: 0.75rem;
+  }
 `;
 
 const Description = styled.pre`
-  margin: 5rem auto 0 auto;
+  margin: 4rem auto 0 auto;
   width: 52rem;
   font-size: 1rem;
   line-height: 1.5rem;
   text-align: justify;
+  white-space: pre-wrap;
 `;
 
 export default {
@@ -174,6 +178,6 @@ export default {
   DetailsPair,
   DetailsKey,
   DetailsValue,
-  DotsDivider,
+  DescriptionContainer,
   Description,
 };

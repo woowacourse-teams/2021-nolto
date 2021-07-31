@@ -1,10 +1,11 @@
 interface SVGProps {
   fill?: string;
-  width: string;
+  width?: string;
+  height?: string;
 }
 
 declare module '*.svg' {
-  const content: ({ fill, width }: SVGProps) => JSX.Element;
+  const content: ({ fill, width, height }: SVGProps) => JSX.Element;
 
   export default content;
 }
