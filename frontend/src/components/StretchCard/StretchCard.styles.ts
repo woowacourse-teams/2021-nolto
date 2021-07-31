@@ -5,9 +5,9 @@ import { PALETTE } from 'constants/palette';
 
 const Root = styled(Card)`
   position: relative;
-  width: 34rem;
-  height: 6rem;
-  padding: 0.75rem 1rem;
+  width: 40rem;
+  height: 8rem;
+  padding: 0.5rem 1.25rem;
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -28,8 +28,8 @@ const Root = styled(Card)`
 `;
 
 const Thumbnail = styled.img`
-  width: 4.25rem;
-  height: 4.25rem;
+  width: 5.5rem;
+  height: 5.5rem;
   border-radius: 0.5rem;
 `;
 

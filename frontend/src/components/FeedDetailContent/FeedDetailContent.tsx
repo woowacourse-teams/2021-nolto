@@ -1,6 +1,5 @@
 import React from 'react';
 
-import Styled, { Tag, StacksMoreButton } from './FeedDetailContent.styles';
 import useFeedDetail from 'hooks/queries/useFeedDetail';
 import ViewCountIcon from 'assets/viewCount.svg';
 import Chip from 'components/@common/Chip/Chip';
@@ -11,6 +10,7 @@ import { PALETTE } from 'constants/palette';
 import { ButtonStyle } from 'types';
 import useSnackBar from 'context/snackBar/useSnackBar';
 import useMember from 'hooks/queries/useMember';
+import Styled, { Tag, StacksMoreButton } from './FeedDetailContent.styles';
 
 interface Props {
   id: number;
