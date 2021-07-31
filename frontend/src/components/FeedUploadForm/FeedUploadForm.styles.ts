@@ -5,29 +5,18 @@ import TextButton from 'components/@common/TextButton/TextButton';
 import Tooltip from 'components/@common/Tooltip/Tooltip';
 import ToyboxIcon from 'assets/toybox.svg';
 
-const Root = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 30rem;
-  margin-right: auto;
-  margin-left: auto;
-  padding-top: 7.75rem;
-
-  & > form {
-    width: 100%;
-  }
-`;
-
-const TitleWrapper = styled.h2`
-  margin-bottom: 3rem;
-`;
-
 export const Form = styled.form`
+  margin-bottom: 5rem;
+`;
+
+const FormContainer = styled.div`
+  padding: 4rem 3rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin-bottom: 5rem;
+  box-shadow: 4px 4px 8px 4px rgba(85, 85, 85, 0.2);
+  border-radius: 1.5rem;
+  margin-bottom: 2.5rem;
 `;
 
 const VerticalWrapper = styled.div`
@@ -126,8 +115,7 @@ export const Toybox = styled(ToyboxIcon)`
 `;
 
 export default {
-  Root,
-  TitleWrapper,
+  FormContainer,
   VerticalWrapper,
   InputsContainer,
   StretchWrapper,
