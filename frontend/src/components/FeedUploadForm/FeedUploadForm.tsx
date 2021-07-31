@@ -83,93 +83,114 @@ const FeedUploadForm = ({ onFeedSubmit, initialFormValue }: Props) => {
 
   return (
     <Form onSubmit={handleSubmit(submitFeed)}>
-      <Styled.VerticalWrapper>
-        <Label text="제목" required={true} />
-        <FormInput
-          {...register('title', {
-            required: UPLOAD_VALIDATION_MSG.TITLE_REQUIRED,
-          })}
-        />
-        <ErrorMessage targetError={errors.title} />
-      </Styled.VerticalWrapper>
+      <Styled.FormContainer>
+        <Styled.VerticalWrapper>
+          <Label text="제목" required={true} />
+          <FormInput
+            {...register('title', {
+              required: UPLOAD_VALIDATION_MSG.TITLE_REQUIRED,
+            })}
+          />
+          <ErrorMessage targetError={errors.title} />
+        </Styled.VerticalWrapper>
 
-      <Styled.VerticalWrapper>
-        <Label text="사용 스택" />
-        <TechTagProvider initialTechs={techs}>
-          <TechChip />
-          <TechInput onUpdateTechs={(techs: Tech[]) => setTechs(techs)} />
-        </TechTagProvider>
-      </Styled.VerticalWrapper>
+        <Styled.VerticalWrapper>
+          <Label text="사용 스택" />
+          <TechTagProvider initialTechs={techs}>
+            <TechChip />
+            <TechInput onUpdateTechs={(techs: Tech[]) => setTechs(techs)} />
+          </TechTagProvider>
+        </Styled.VerticalWrapper>
 
-      <Styled.VerticalWrapper>
-        <Label text="내용" required={true} />
-        <Toybox width="32px" />
-        <ContentTextArea
-          {...register('content', { required: UPLOAD_VALIDATION_MSG.CONTENT_REQUIRED })}
-        />
-        <ErrorMessage targetError={errors.content} />
-      </Styled.VerticalWrapper>
+        <Styled.VerticalWrapper>
+          <Label text="내용" required={true} />
+          <Toybox width="32px" />
+          <ContentTextArea
+            {...register('content', { required: UPLOAD_VALIDATION_MSG.CONTENT_REQUIRED })}
+          />
+          <ErrorMessage targetError={errors.content} />
+        </Styled.VerticalWrapper>
 
-      <div>
-        <Styled.InputsContainer>
-          <Styled.LevelWrapper>
-            <Label text="레벨" required={true} />
-            <Styled.QuestionMark
-              onMouseOver={() => setIsLevelTooltipVisible(true)}
-              onMouseOut={() => setIsLevelTooltipVisible(false)}
-            >
-              <QuestionIcon width="20px" />
-            </Styled.QuestionMark>
-            <LevelTooltip visible={isLevelTooltipVisible}>
-              <pre>
-                <strong>프로젝트 단계</strong> <br />
-                <br />
-                🎈조립중: 프로젝트가 완성되지 않았어요 <br />
-                🦄 전시중: 프로젝트가 완성됐어요
-              </pre>
-            </LevelTooltip>
-          </Styled.LevelWrapper>
-          <FlexContainer>
-            <RadioButton
-              name="step"
-              labelText="🧩 조립중"
-              value={FeedStatus.PROGRESS}
-              {...register('step', { required: UPLOAD_VALIDATION_MSG.STEP_REQUIRED })}
-            />
-            <RadioButton
-              name="step"
-              labelText="🦄 전시중"
-              value={FeedStatus.COMPLETE}
-              {...register('step')}
-            />
-          </FlexContainer>
+        <div>
+          <Styled.InputsContainer>
+            <Styled.LevelWrapper>
+              <Label text="레벨" required={true} />
+              <Styled.QuestionMark
+                onMouseOver={() => setIsLevelTooltipVisible(true)}
+                onMouseOut={() => setIsLevelTooltipVisible(false)}
+              >
+                <QuestionIcon width="20px" />
+              </Styled.QuestionMark>
+              <LevelTooltip visible={isLevelTooltipVisible}>
+                <pre>
+                  <strong>프로젝트 단계</strong> <br />
+                  <br />
+                  🎈조립중: 프로젝트가 완성되지 않았어요 <br />
+                  🦄 전시중: 프로젝트가 완성됐어요
+                </pre>
+              </LevelTooltip>
+            </Styled.LevelWrapper>
+            <FlexContainer>
+              <RadioButton
+                name="step"
+                labelText="🧩 조립중"
+                value={FeedStatus.PROGRESS}
+                {...register('step', { required: UPLOAD_VALIDATION_MSG.STEP_REQUIRED })}
+              />
+              <RadioButton
+                name="step"
+                labelText="🦄 전시중"
+                value={FeedStatus.COMPLETE}
+                {...register('step')}
+              />
+            </FlexContainer>
 
-          <Styled.SOSLabel>
-            <SOSTooltip visible={isSOSTooltipVisible}>
-              <pre>
-                프로젝트를 완성하는 데<br /> 도움이 필요하신가요?
-              </pre>
-            </SOSTooltip>
-            <Styled.QuestionMark
-              onMouseOver={() => setIsSOSTooltipVisible(true)}
-              onMouseOut={() => setIsSOSTooltipVisible(false)}
-            >
-              <QuestionIcon width="20px" />
-            </Styled.QuestionMark>
-            <Toggle labelText="🚨 SOS" {...register('sos')} />
-          </Styled.SOSLabel>
-        </Styled.InputsContainer>
-        <ErrorMessage targetError={errors.step} />
-      </div>
+            <Styled.SOSLabel>
+              <SOSTooltip visible={isSOSTooltipVisible}>
+                <pre>
+                  프로젝트를 완성하는 데<br /> 도움이 필요하신가요?
+                </pre>
+              </SOSTooltip>
+              <Styled.QuestionMark
+                onMouseOver={() => setIsSOSTooltipVisible(true)}
+                onMouseOut={() => setIsSOSTooltipVisible(false)}
+              >
+                <QuestionIcon width="20px" />
+              </Styled.QuestionMark>
+              <Toggle labelText="🚨 SOS" {...register('sos')} />
+            </Styled.SOSLabel>
+          </Styled.InputsContainer>
+          <ErrorMessage targetError={errors.step} />
+        </div>
 
-      {watchStep === FeedStatus.COMPLETE && (
+        {watchStep === FeedStatus.COMPLETE && (
+          <div>
+            <Styled.StretchWrapper>
+              <Label className="stretch-label" text="배포 URL" required={true} />
+              <div>
+                <FormInput
+                  {...register('deployedUrl', {
+                    required: UPLOAD_VALIDATION_MSG.DEPLOY_URL_REQUIRED,
+                    pattern: {
+                      value: REGEX.URL,
+                      message: UPLOAD_VALIDATION_MSG.INVALID_URL,
+                    },
+                  })}
+                />
+                <Styled.InputCaption>
+                  http:// 또는 https://의 형태로 입력해주세요
+                </Styled.InputCaption>
+              </div>
+            </Styled.StretchWrapper>
+            <ErrorMessage targetError={errors.deployedUrl} />
+          </div>
+        )}
         <div>
           <Styled.StretchWrapper>
-            <Label className="stretch-label" text="배포 URL" required={true} />
+            <Label className="stretch-label" text="github URL" />
             <div>
               <FormInput
-                {...register('deployedUrl', {
-                  required: UPLOAD_VALIDATION_MSG.DEPLOY_URL_REQUIRED,
+                {...register('storageUrl', {
                   pattern: {
                     value: REGEX.URL,
                     message: UPLOAD_VALIDATION_MSG.INVALID_URL,
@@ -179,37 +200,20 @@ const FeedUploadForm = ({ onFeedSubmit, initialFormValue }: Props) => {
               <Styled.InputCaption>http:// 또는 https://의 형태로 입력해주세요</Styled.InputCaption>
             </div>
           </Styled.StretchWrapper>
-          <ErrorMessage targetError={errors.deployedUrl} />
+          <ErrorMessage targetError={errors.storageUrl} />
         </div>
-      )}
-      <div>
+
         <Styled.StretchWrapper>
-          <Label className="stretch-label" text="github URL" />
+          <Label className="stretch-label" text="대표 이미지" />
           <div>
-            <FormInput
-              {...register('storageUrl', {
-                pattern: {
-                  value: REGEX.URL,
-                  message: UPLOAD_VALIDATION_MSG.INVALID_URL,
-                },
-              })}
+            <FileInput
+              fileName={watchThumbnailImage?.name}
+              onChange={(event) => setValue('thumbnailImage', event.currentTarget.files[0])}
             />
-            <Styled.InputCaption>http:// 또는 https://의 형태로 입력해주세요</Styled.InputCaption>
+            <Styled.InputCaption>최대 n 바이트의 이미지를 업로드할 수 있습니다</Styled.InputCaption>
           </div>
         </Styled.StretchWrapper>
-        <ErrorMessage targetError={errors.storageUrl} />
-      </div>
-
-      <Styled.StretchWrapper>
-        <Label className="stretch-label" text="대표 이미지" />
-        <div>
-          <FileInput
-            fileName={watchThumbnailImage?.name}
-            onChange={(event) => setValue('thumbnailImage', event.currentTarget.files[0])}
-          />
-          <Styled.InputCaption>최대 n 바이트의 이미지를 업로드할 수 있습니다</Styled.InputCaption>
-        </div>
-      </Styled.StretchWrapper>
+      </Styled.FormContainer>
 
       <Styled.ButtonsWrapper>
         <StyledButton buttonStyle={ButtonStyle.SOLID}>
