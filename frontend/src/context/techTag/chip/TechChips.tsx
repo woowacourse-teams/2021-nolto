@@ -20,6 +20,7 @@ const TechChips = ({ className, reverse = false }: Props) => {
     <Styled.Root className={className}>
       {techTag.techs.map((tech) => (
         <TechButton
+          type="button"
           buttonStyle={ButtonStyle.SOLID}
           key={tech.id}
           reverse={reverse}

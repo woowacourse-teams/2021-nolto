@@ -7,8 +7,8 @@ export const UPLOAD_VALIDATION_MSG = {
 };
 
 export const ALERT_MSG = {
-  SUCCESS_UPLOAD_FEED: '🎉 토이 프로젝트 등록에 성공했습니다!',
-  SUCCESS_MODIFY_FEED: '🔧 토이 프로젝트 수정에 성공했습니다!',
+  SUCCESS_UPLOAD_FEED: '토이 프로젝트를 등록했습니다.',
+  SUCCESS_MODIFY_FEED: '토이 프로젝트를 수정했습니다.',
 };
 
 export const CONFIRM_MSG = {

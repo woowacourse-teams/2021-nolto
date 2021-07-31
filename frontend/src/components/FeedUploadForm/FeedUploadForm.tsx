@@ -212,7 +212,9 @@ const FeedUploadForm = ({ onFeedSubmit, initialFormValue }: Props) => {
       </Styled.StretchWrapper>
 
       <Styled.ButtonsWrapper>
-        <StyledButton buttonStyle={ButtonStyle.SOLID}>등록</StyledButton>
+        <StyledButton buttonStyle={ButtonStyle.SOLID}>
+          {initialFormValue ? '수정' : '등록'}
+        </StyledButton>
         <StyledButton onClick={handleCancelUpload} type="button" buttonStyle={ButtonStyle.OUTLINE}>
           취소
         </StyledButton>
