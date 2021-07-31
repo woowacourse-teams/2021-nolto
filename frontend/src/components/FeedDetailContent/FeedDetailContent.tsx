@@ -12,7 +12,7 @@ import ROUTE from 'constants/routes';
 import { ButtonStyle } from 'types';
 import useSnackBar from 'context/snackBar/useSnackBar';
 import useMember from 'hooks/queries/useMember';
-import Styled, { Tag, StacksMoreButton } from './FeedDetailContent.styles';
+import Styled, { Tag } from './FeedDetailContent.styles';
 import ToggleList from 'components/@common/ToggleList/ToggleList';
 
 interface Props {
@@ -106,10 +106,12 @@ const FeedDetailContent = ({ id }: Props) => {
               <Styled.DetailsPair>
                 <Styled.DetailsKey fontSize="1.5rem">기술스택</Styled.DetailsKey>
                 <Styled.DetailsValue>
-                  <ToggleList width="100%" height="2rem">
+                  <ToggleList width="100%" height="1.75rem">
                     {feedDetail.techs.map((tech) => (
                       <li key={tech.id}>
-                        <Tag buttonStyle={ButtonStyle.SOLID}>{tech.text}</Tag>
+                        <Tag buttonStyle={ButtonStyle.SOLID} onClick={() => searchByTag(tech.text)}>
+                          {tech.text}
+                        </Tag>
                       </li>
                     ))}
                   </ToggleList>
@@ -120,7 +122,11 @@ const FeedDetailContent = ({ id }: Props) => {
         </Styled.FeedSummaryContainer>
       </Styled.IntroContainer>
 
-      <Styled.Description>{feedDetail.content}</Styled.Description>
+      <Styled.DescriptionContainer>
+        <h3>프로젝트 소개</h3>
+        <hr />
+        <Styled.Description>{feedDetail.content}</Styled.Description>
+      </Styled.DescriptionContainer>
     </Styled.Root>
   );
 };

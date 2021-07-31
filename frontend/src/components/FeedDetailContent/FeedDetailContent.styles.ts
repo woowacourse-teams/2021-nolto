@@ -110,7 +110,6 @@ const DetailsContent = styled.div`
 
 const DetailsPair = styled.div`
   display: flex;
-  align-items: center;
   gap: 1.75rem;
 `;
 
@@ -119,6 +118,7 @@ const DetailsKey = styled(HighlightedText)`
   font-weight: 400;
   flex-basis: 6.5rem;
   flex-shrink: 0;
+  text-align: center;
 `;
 
 const DetailsValue = styled.span`
@@ -145,8 +145,14 @@ export const StacksMoreButton = styled(StacksMoreIcon)`
   cursor: pointer;
 `;
 
+const DescriptionContainer = styled.div`
+  & > h3 {
+    margin-bottom: 0.75rem;
+  }
+`;
+
 const Description = styled.pre`
-  margin: 5rem auto 0 auto;
+  margin: 4rem auto 0 auto;
   width: 52rem;
   font-size: 1rem;
   line-height: 1.5rem;
@@ -172,5 +178,6 @@ export default {
   DetailsPair,
   DetailsKey,
   DetailsValue,
+  DescriptionContainer,
   Description,
 };

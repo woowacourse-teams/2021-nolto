@@ -15,21 +15,25 @@ const Root = styled.div<{ width: string; height: string; isToggled: boolean }>`
     if (!isToggled) {
       return height;
     }
-    return `calc(${height} * 2)`;
+    return `calc(${height} * 2.5)`;
   }};
 `;
 
-const Content = styled.div<{ isToggled: boolean }>`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem;
+const ContentWrapper = styled.div<{ isToggled: boolean }>`
   overflow-y: ${({ isToggled }) => isToggled && 'scroll'};
+
   -ms-overflow-style: none;
   scrollbar-width: none;
-
   &::-webkit-scrollbar {
     display: none;
   }
+`;
+
+const Content = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  height: fit-content;
+  gap: 0.25rem;
 `;
 
 const ButtonWrapper = styled.div`
@@ -45,4 +49,4 @@ const StacksMoreIcon = styled(StacksMoreSvg)<{ isToggled: boolean }>`
   transform: ${({ isToggled }) => isToggled && 'rotate(180deg)'};
 `;
 
-export default { Root, Content, ButtonWrapper, StacksMoreIcon };
+export default { Root, ContentWrapper, Content, ButtonWrapper, StacksMoreIcon };

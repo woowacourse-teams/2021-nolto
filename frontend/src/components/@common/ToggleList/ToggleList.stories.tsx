@@ -16,12 +16,5 @@ export const Default = () => (
     <Chip.Solid>안녕하세요</Chip.Solid>
     <Chip.Solid>안녕하세요</Chip.Solid>
     <Chip.Solid>안녕하세요</Chip.Solid>
-    <Chip.Solid>안녕하세요</Chip.Solid>
-    <Chip.Solid>안녕하세요</Chip.Solid>
-    <Chip.Solid>안녕하세요</Chip.Solid>
-    <Chip.Solid>안녕하세요</Chip.Solid>
-    <Chip.Solid>안녕하세요</Chip.Solid>
-    <Chip.Solid>안녕하세요</Chip.Solid>
-    <Chip.Solid>안녕하세요</Chip.Solid>
   </ToggleList>
 );
