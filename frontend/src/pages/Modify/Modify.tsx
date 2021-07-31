@@ -7,14 +7,19 @@ import Header from 'components/Header/Header';
 import ROUTE from 'constants/routes';
 import { ALERT_MSG } from 'constants/message';
 import useNotification from 'context/notification/useNotification';
+import useSnackBar from 'context/snackBar/useSnackBar';
 import useFeedModify from 'hooks/mutations/useFeedModify';
 import Styled from './Modify.styles';
 import { FeedDetail } from 'types';
 
 const Modify = () => {
   const location = useLocation<{ feedDetail: FeedDetail }>();
-  const notification = useNotification();
   const history = useHistory();
+
+  const notification = useNotification();
+  const snackbar = useSnackBar();
+
+  const modifyMutation = useFeedModify();
 
   if (location.state?.feedDetail === undefined) {
     notification.alert('잘못된 접근입니다.');
@@ -34,15 +39,14 @@ const Modify = () => {
     storageUrl,
   } = location.state.feedDetail;
 
-  const modifyMutation = useFeedModify();
-
   const modifyFeed = (formData: FormData) => {
     modifyMutation.mutate(
       { feedId, formData },
       {
         onSuccess: () => {
-          notification.alert(ALERT_MSG.SUCCESS_MODIFY_FEED);
-          history.push(ROUTE.HOME);
+          snackbar.addSnackBar('success', ALERT_MSG.SUCCESS_MODIFY_FEED);
+
+          history.push(`${ROUTE.FEEDS}/${feedId}`);
         },
       },
     );
