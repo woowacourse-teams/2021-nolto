@@ -113,12 +113,15 @@ const DetailsPair = styled.div`
   gap: 1.75rem;
 `;
 
+const DetailsKeyWrapper = styled.div`
+  display: flex;
+  flex-basis: 6.5rem;
+  flex-shrink: 0;
+`;
+
 const DetailsKey = styled(HighlightedText)`
   font-size: 1rem;
   font-weight: 400;
-  flex-basis: 6.5rem;
-  flex-shrink: 0;
-  text-align: center;
 `;
 
 const DetailsValue = styled.span`
@@ -176,6 +179,7 @@ export default {
   UserImage,
   DetailsContent,
   DetailsPair,
+  DetailsKeyWrapper,
   DetailsKey,
   DetailsValue,
   DescriptionContainer,
