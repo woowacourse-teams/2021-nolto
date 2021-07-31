@@ -29,7 +29,7 @@ const HotFeedsContent = () => {
   return (
     <>
       <CarouselArrowButton onClick={showPreviousCards}>
-        <Styled.CarouselLeft width="32px" />
+        <Styled.CarouselLeft width="20px" height="20px" />
       </CarouselArrowButton>
       <Styled.HotToyCardsContainer position={hotToyCardIdx}>
         {hotFeeds &&
@@ -44,7 +44,7 @@ const HotFeedsContent = () => {
       </Styled.HotToyCardsContainer>
 
       <CarouselArrowButton onClick={showFollowingCards}>
-        <Styled.CarouselRight width="32px" />
+        <Styled.CarouselRight width="20px" height="20px" />
       </CarouselArrowButton>
     </>
   );
