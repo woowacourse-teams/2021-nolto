@@ -3,7 +3,7 @@ import React from 'react';
 import ErrorFallback from './ErrorFallback';
 
 export default {
-  title: 'components/common/ErrorFallback',
+  title: 'components/ErrorFallback',
   component: ErrorFallback,
   argTypes: {},
 };
