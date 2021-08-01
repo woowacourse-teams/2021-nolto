@@ -10,7 +10,7 @@ const About = () => {
     <>
       <Header />
       <Styled.Root>
-        <Styled.SectionTitle fontSize="1.75rem">We Made Nolto 🚀</Styled.SectionTitle>
+        <Styled.SectionTitle fontSize="1.75rem">We Make Nolto 🚀</Styled.SectionTitle>
         <Styled.MembersContainer>
           <TeamMember {...member.amazzi} />
           <TeamMember {...member.joel} reverse />
