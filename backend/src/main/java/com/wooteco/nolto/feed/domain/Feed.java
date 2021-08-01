@@ -32,7 +32,7 @@ public class Feed extends BaseEntity {
     @NotBlank
     private String title;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition="TEXT")
     @NotBlank
     private String content;
 
