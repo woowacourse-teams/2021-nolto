@@ -6,14 +6,14 @@ import StretchCard from 'components/StretchCard/StretchCard';
 import useRecentFeeds from 'hooks/queries/useRecentFeeds';
 import useSnackBar from 'context/snackBar/useSnackBar';
 import ROUTE from 'constants/routes';
-import Styled from './RecentFeedsContent.styles';
+import Styled, { MoreFeedsArrow } from './RecentFeedsContent.styles';
 import { FilterType } from 'types';
 
 interface Props {
-  limit?: number;
+  feedsCountToShow?: number;
 }
 
-const RecentFeedsContent = ({ limit }: Props) => {
+const RecentFeedsContent = ({ feedsCountToShow }: Props) => {
   const [filter, setFilter] = useState<FilterType>();
 
   const snackbar = useSnackBar();
@@ -44,15 +44,22 @@ const RecentFeedsContent = ({ limit }: Props) => {
         />
       </Styled.LevelButtonsContainer>
       <Styled.CardsContainer>
-        {recentFeeds &&
-          recentFeeds.slice(0, limit).map((feed) => (
-            <li key={feed.id}>
-              <Link to={`${ROUTE.FEEDS}/${feed.id}`}>
-                <Styled.VerticalAvatar user={feed.author} />
-                <StretchCard feed={feed} />
-              </Link>
-            </li>
-          ))}
+        <Styled.ScrollableContainer>
+          {recentFeeds &&
+            recentFeeds.slice(0, feedsCountToShow).map((feed) => (
+              <li key={feed.id}>
+                <Link to={`${ROUTE.FEEDS}/${feed.id}`}>
+                  <Styled.VerticalAvatar user={feed.author} />
+                  <StretchCard feed={feed} />
+                </Link>
+              </li>
+            ))}
+        </Styled.ScrollableContainer>
+        {!feedsCountToShow && (
+          <Styled.MoreButton>
+            <MoreFeedsArrow width="14px" />
+          </Styled.MoreButton>
+        )}
       </Styled.CardsContainer>
     </Styled.Root>
   );

@@ -1,15 +1,24 @@
 import styled from 'styled-components';
 
 import Avatar from 'components/@common/Avatar/Avatar';
+import DownPolygon from 'assets/downPolygon.svg';
+import { PALETTE } from 'constants/palette';
 
 const Root = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  width: fit-content;
 `;
 
-const CardsContainer = styled.ul`
+const CardsContainer = styled.div`
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+`;
+
+const ScrollableContainer = styled.ul`
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -38,9 +47,39 @@ const LevelButtonsContainer = styled.div`
   margin-bottom: 3.5rem;
 `;
 
+const MoreButton = styled.button`
+  bottom: 0.25rem;
+  width: calc(100% - 0.5rem);
+  height: 1.25rem;
+  margin: 0 0.5rem;
+  border: none;
+  border-radius: 0.25rem;
+  background-color: ${PALETTE.WHITE_400};
+  filter: drop-shadow(0 0 0.25rem rgba(0, 0, 0, 0.25));
+  overflow: hidden;
+
+  &:hover::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.1;
+    background-color: ${PALETTE.BLACK_400};
+  }
+`;
+
+export const MoreFeedsArrow = styled(DownPolygon)`
+  fill: ${PALETTE.PRIMARY_400};
+`;
+
 export default {
   Root,
   CardsContainer,
+  ScrollableContainer,
   VerticalAvatar,
   LevelButtonsContainer,
+  MoreButton,
 };

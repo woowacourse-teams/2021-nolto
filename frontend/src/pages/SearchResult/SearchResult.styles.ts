@@ -22,7 +22,7 @@ const LevelButtonsContainer = styled.div`
 `;
 
 const RecentToysContainer = styled.div`
-  height: 30rem;
+  height: 48vh;
 `;
 
 export const TechInput = styled(TechInputComponent)``;

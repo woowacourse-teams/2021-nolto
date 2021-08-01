@@ -97,7 +97,7 @@ const Home = () => {
                 <ErrorFallback message="데이터를 불러올 수 없습니다." queryKey="recentFeeds" />
               }
             >
-              <RecentFeedsContent limit={RECENT_FEED_LENGTH} />
+              <RecentFeedsContent feedsCountToShow={RECENT_FEED_LENGTH} />
             </AsyncBoundary>
             <MoreButton to={ROUTE.RECENT}>
               MORE&nbsp;
