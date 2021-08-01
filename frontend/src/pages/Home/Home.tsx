@@ -7,7 +7,7 @@ import Header from 'components/Header/Header';
 import RecentFeedsContent from 'components/RecentFeedsContent/RecentFeedsContent';
 import HotFeedsContent from 'components/HotFeedsContent/HotFeedsContent';
 import useOnScreen from 'hooks/@common/useOnScreen';
-import ErrorFallback from 'components/@common/ErrorFallback/ErrorFallback';
+import ErrorFallback from 'components/ErrorFallback/ErrorFallback';
 import ROUTE from 'constants/routes';
 import Styled, { ScrollUpButton, SearchBar, MoreButton } from './Home.styles';
 import MoreArrow from 'assets/moreArrow.svg';
@@ -82,7 +82,9 @@ const Home = () => {
           <Styled.SectionTitle fontSize="1.75rem">Hot Toys</Styled.SectionTitle>
           <Styled.HotToysContainer>
             <AsyncBoundary
-              rejectedFallback={<ErrorFallback message="데이터를 불러올 수 없습니다." />}
+              rejectedFallback={
+                <ErrorFallback message="데이터를 불러올 수 없습니다." queryKey="hotFeeds" />
+              }
             >
               <HotFeedsContent />
             </AsyncBoundary>
@@ -91,7 +93,9 @@ const Home = () => {
           <Styled.SectionTitle fontSize="1.75rem">Recent Toys</Styled.SectionTitle>
           <Styled.RecentToysContainer>
             <AsyncBoundary
-              rejectedFallback={<ErrorFallback message="데이터를 불러올 수 없습니다." />}
+              rejectedFallback={
+                <ErrorFallback message="데이터를 불러올 수 없습니다." queryKey="recentFeeds" />
+              }
             >
               <RecentFeedsContent limit={RECENT_FEED_LENGTH} />
             </AsyncBoundary>
@@ -102,7 +106,7 @@ const Home = () => {
           </Styled.RecentToysContainer>
         </Styled.ContentArea>
         <ScrollUpButton onClick={scrollTop}>
-          <Styled.ArrowUp width="10px" />
+          <Styled.ArrowUp width="14px" />
         </ScrollUpButton>
       </Styled.Root>
     </>
