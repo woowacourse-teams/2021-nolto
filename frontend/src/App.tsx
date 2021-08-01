@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
 import Home from 'pages/Home/Home';
+import About from 'pages/About/About';
 import Upload from 'pages/Upload/Upload';
 import FeedDetail from 'pages/FeedDetail/FeedDetail';
 import RecentFeeds from 'pages/RecentFeeds/RecentFeeds';
@@ -39,6 +40,9 @@ const App = () => {
                 <main>
                   <Route exact path={ROUTE.HOME}>
                     <Home />
+                  </Route>
+                  <Route exact path={ROUTE.ABOUT}>
+                    <About />
                   </Route>
                   <PrivateRoute path={ROUTE.UPLOAD}>
                     <Upload />

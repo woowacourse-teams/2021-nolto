@@ -70,8 +70,8 @@ const Header = ({ isFolded = false }: Props) => {
               </a>
             </li>
             <li>
-              <NavLink to="/makers" activeStyle={navLinkActiveStyle}>
-                Toy Makers
+              <NavLink to={ROUTE.ABOUT} activeStyle={navLinkActiveStyle}>
+                Nolto Team
               </NavLink>
             </li>
           </Styled.NavContainer>

@@ -1,5 +1,6 @@
 const ROUTE = {
   HOME: '/',
+  ABOUT: '/about',
   UPLOAD: '/upload',
   FEEDS: '/feeds',
   RECENT: '/recent',
