@@ -33,35 +33,35 @@ public class FeedController {
         return ResponseEntity.created(URI.create("/feeds/" + feedId)).build();
     }
 
-    @GetMapping(value = "/{feedId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{feedId:[\\d]+}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<FeedResponse> findById(@UserAuthenticationPrincipal User user, @PathVariable Long feedId) {
         FeedResponse response = feedService.findById(user, feedId);
         return ResponseEntity.ok(response);
     }
 
     @ValidTokenRequired
-    @PutMapping("/{feedId}")
+    @PutMapping("/{feedId:[\\d]+}")
     public ResponseEntity<Void> update(@MemberAuthenticationPrincipal User user, @PathVariable Long feedId, @ModelAttribute @Valid FeedRequest request) {
         feedService.update(user, feedId, request);
         return ResponseEntity.ok().build();
     }
 
     @ValidTokenRequired
-    @DeleteMapping("/{feedId}")
+    @DeleteMapping("/{feedId:[\\d]+}")
     public ResponseEntity<Void> delete(@MemberAuthenticationPrincipal User user, @PathVariable Long feedId) {
         feedService.delete(user, feedId);
         return ResponseEntity.noContent().build();
     }
 
     @ValidTokenRequired
-    @PostMapping("/{feedId}/like")
+    @PostMapping("/{feedId:[\\d]+}/like")
     public ResponseEntity<Void> addLike(@MemberAuthenticationPrincipal User user, @PathVariable Long feedId) {
         likeService.addLike(user, feedId);
         return ResponseEntity.ok().build();
     }
 
     @ValidTokenRequired
-    @PostMapping("/{feedId}/unlike")
+    @PostMapping("/{feedId:[\\d]+}/unlike")
     public ResponseEntity<Void> deleteLike(@MemberAuthenticationPrincipal User user, @PathVariable Long feedId) {
         likeService.deleteLike(user, feedId);
         return ResponseEntity.ok().build();
