@@ -1,6 +1,17 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
+
+const open = keyframes`
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+
+`;
 
 const Root = styled.div`
   display: flex;
@@ -30,8 +41,7 @@ const MoreProfileButton = styled.button`
 
 const Dropdown = styled.div<{ isOpen: boolean }>`
   position: absolute;
-  opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
-  display: flex;
+  display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
   position: absolute;
   width: fit-content;
   top: 120%;
@@ -39,7 +49,7 @@ const Dropdown = styled.div<{ isOpen: boolean }>`
   align-items: center;
   border: 1px solid ${PALETTE.PRIMARY_400};
   border-radius: 4px;
-  transition: opacity 0.2s ease;
+  animation: ${open} 0.3s ease;
   overflow: hidden;
 
   * {

@@ -34,6 +34,17 @@ interface Props {
   initialFormValue?: Omit<FeedToUpload, 'thumbnailImage'>;
 }
 
+const THUMBNAIL_EXTENSION = [
+  'image/apng',
+  'image/bmp',
+  'image/gif',
+  'image/jpg',
+  'image/jpeg',
+  'image/pjpeg',
+  'image/png',
+  'image/svg+xml',
+];
+
 const FeedUploadForm = ({ onFeedSubmit, initialFormValue }: Props) => {
   const {
     register,
@@ -54,6 +65,16 @@ const FeedUploadForm = ({ onFeedSubmit, initialFormValue }: Props) => {
   const watchStep = watch('step');
   const history = useHistory();
   const notification = useNotification();
+
+  const setFileInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!THUMBNAIL_EXTENSION.includes(event.currentTarget.files[0].type)) {
+      notification.alert('잘못된 확장자입니다.');
+
+      return;
+    }
+
+    setValue('thumbnailImage', event.currentTarget.files[0]);
+  };
 
   const submitFeed = (data: FeedToUploadPartial) => {
     const formData = new FormData();
@@ -208,7 +229,8 @@ const FeedUploadForm = ({ onFeedSubmit, initialFormValue }: Props) => {
           <div>
             <FileInput
               fileName={watchThumbnailImage?.name}
-              onChange={(event) => setValue('thumbnailImage', event.currentTarget.files[0])}
+              onChange={setFileInput}
+              accept={THUMBNAIL_EXTENSION.join(',')}
             />
             <Styled.InputCaption>최대 n 바이트의 이미지를 업로드할 수 있습니다</Styled.InputCaption>
           </div>

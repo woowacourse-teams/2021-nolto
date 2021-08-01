@@ -30,7 +30,7 @@ const TeamMember = ({ image, name, introduction, github, site, reverse }: Props)
             {site && (
               <div>
                 <HighLightedText>Site</HighLightedText>
-                <a href={github} target="_blank">
+                <a href={site} target="_blank">
                   {site}
                 </a>
               </div>

@@ -40,7 +40,7 @@ const ModalProvider = ({ children }: Props) => {
     <Styled.ModalContainer onMouseDown={handleClickDimmed}>
       <Styled.ModalInner>
         <Styled.CrossMarkButton onClick={closeModal}>
-          <CrossMark width="14px" fill={PALETTE.WHITE_400} />
+          <CrossMark width="18px" fill={PALETTE.WHITE_400} />
         </Styled.CrossMarkButton>
         {modal && modal}
       </Styled.ModalInner>
