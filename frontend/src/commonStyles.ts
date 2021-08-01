@@ -8,6 +8,8 @@ export interface FlexContainerProps {
   gap?: string;
   flexGrow?: string;
   width?: string;
+  flexBasis?: string;
+  flexShrink?: string;
 }
 
 export const Card = styled.div`
@@ -23,6 +25,8 @@ export const FlexContainer = styled.div<FlexContainerProps>`
   align-items: ${({ alignItems }) => alignItems};
   gap: ${({ gap }) => gap};
   flex-grow: ${({ flexGrow }) => flexGrow};
+  flex-basis: ${({ flexBasis }) => flexBasis};
+  flex-shrink: ${({ flexShrink }) => flexShrink};
   width: ${({ width }) => width};
 `;
 

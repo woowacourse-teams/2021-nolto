@@ -84,7 +84,9 @@ const FeedDetailContent = ({ id }: Props) => {
           <Styled.DetailsContent>
             {feedDetail.deployedUrl && (
               <Styled.DetailsPair>
-                <Styled.DetailsKey fontSize="1.5rem">서비스 URL</Styled.DetailsKey>
+                <Styled.DetailsKeyWrapper>
+                  <Styled.DetailsKey fontSize="1.5rem">서비스 URL</Styled.DetailsKey>
+                </Styled.DetailsKeyWrapper>
                 <Styled.DetailsValue>
                   <a href={feedDetail.deployedUrl} target="_blank">
                     {feedDetail.deployedUrl}
@@ -94,7 +96,9 @@ const FeedDetailContent = ({ id }: Props) => {
             )}
             {feedDetail.storageUrl && (
               <Styled.DetailsPair>
-                <Styled.DetailsKey fontSize="1.5rem">저장소 URL</Styled.DetailsKey>
+                <Styled.DetailsKeyWrapper>
+                  <Styled.DetailsKey fontSize="1.5rem">저장소 URL</Styled.DetailsKey>
+                </Styled.DetailsKeyWrapper>
                 <Styled.DetailsValue>
                   <a href={feedDetail.storageUrl} target="_blank">
                     {feedDetail.storageUrl}
@@ -104,7 +108,9 @@ const FeedDetailContent = ({ id }: Props) => {
             )}
             {feedDetail.techs.length > 0 && (
               <Styled.DetailsPair>
-                <Styled.DetailsKey fontSize="1.5rem">기술스택</Styled.DetailsKey>
+                <Styled.DetailsKeyWrapper>
+                  <Styled.DetailsKey fontSize="1.5rem">기술스택</Styled.DetailsKey>
+                </Styled.DetailsKeyWrapper>
                 <Styled.DetailsValue>
                   <ToggleList width="100%" height="1.75rem">
                     {feedDetail.techs.map((tech) => (
