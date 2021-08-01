@@ -16,7 +16,9 @@ export const resolveHttpErrorResponse = ({
   errorHandler,
 }: ResolveHttpErrorResponseArgs) => {
   if (!isHttpErrorResponse(errorResponse)) {
-    throw new CustomError('에러 응답이 ErrorResponse 타입이 아닙니다');
+    console.error('에러 응답이 ErrorResponse 타입이 아닙니다');
+
+    throw new CustomError(defaultErrorMessage, errorHandler);
   }
 
   const { data } = errorResponse;
