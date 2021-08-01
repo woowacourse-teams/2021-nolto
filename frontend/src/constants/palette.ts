@@ -3,6 +3,7 @@ export const PALETTE = {
 
   GRAY_300: '#dfe6e9',
   GRAY_400: '#b2bec3',
+  GRAY_500: '#7a7a7a',
 
   BLACK_200: '#999999',
   BLACK_300: '#444444',
