@@ -12,7 +12,7 @@ import SearchResult from 'pages/SearchResult/SearchResult';
 import OAuth from 'pages/OAuth/OAuth';
 import Modify from 'pages/Modify/Modify';
 import PrivateRoute from 'components/PrivateRoute';
-import NotificationProvider from 'context/notification/NotificationProvider';
+import DialogProvider from 'context/dialog/DialogProvider';
 import ModalProvider from 'context/modal/ModalProvider';
 import SnackBarProvider from 'context/snackBar/SnackBarProvider';
 import ROUTE from 'constants/routes';
@@ -35,7 +35,7 @@ const App = () => {
       <Router>
         <Switch>
           <SnackBarProvider>
-            <NotificationProvider>
+            <DialogProvider>
               <ModalProvider>
                 <main>
                   <Route exact path={ROUTE.HOME}>
@@ -64,7 +64,7 @@ const App = () => {
                   </Route>
                 </main>
               </ModalProvider>
-            </NotificationProvider>
+            </DialogProvider>
           </SnackBarProvider>
         </Switch>
       </Router>

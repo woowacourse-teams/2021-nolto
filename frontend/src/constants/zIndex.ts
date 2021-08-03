@@ -6,7 +6,7 @@ const Z_INDEX = {
   TOOLTIP: 10,
   HEADER: 50,
   MODAL: 110,
-  NOTIFICATION: 120,
+  DIALOG: 120,
   SNACKBAR: 120,
 };
 

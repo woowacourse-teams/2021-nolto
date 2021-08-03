@@ -14,7 +14,7 @@ const show = keyframes`
   }
 `;
 
-const NotiContainer = styled.div`
+const DialogContainer = styled.div`
   position: fixed;
   display: flex;
   justify-content: center;
@@ -23,10 +23,10 @@ const NotiContainer = styled.div`
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.15);
-  z-index: ${Z_INDEX.NOTIFICATION};
+  z-index: ${Z_INDEX.DIALOG};
 `;
 
-const NotiInner = styled.div`
+const DialogInner = styled.div`
   animation: ${show} 0.1s ease;
 
   width: 372px;
@@ -78,8 +78,8 @@ export const Button = styled(TextButton.Regular)<{ single?: boolean }>`
 `;
 
 export default {
-  NotiContainer,
-  NotiInner,
+  DialogContainer,
+  DialogInner,
   TopBar,
   AlertTitle,
   CrossMarkButton,

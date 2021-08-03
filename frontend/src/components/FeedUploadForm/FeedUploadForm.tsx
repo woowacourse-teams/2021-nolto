@@ -14,7 +14,7 @@ import { CONFIRM_MSG, UPLOAD_VALIDATION_MSG } from 'constants/message';
 import TechInput from 'context/techTag/input/TechInput';
 import TechTagProvider from 'context/techTag/TechTagProvider';
 import TechChip from 'context/techTag/chip/TechChips';
-import useNotification from 'context/notification/useNotification';
+import useDialog from 'context/dialog/useDialog';
 import { except } from 'utils/common';
 import QuestionIcon from 'assets/questionMark.svg';
 import Styled, {
@@ -64,11 +64,11 @@ const FeedUploadForm = ({ onFeedSubmit, initialFormValue }: Props) => {
   const watchThumbnailImage = watch('thumbnailImage');
   const watchStep = watch('step');
   const history = useHistory();
-  const notification = useNotification();
+  const dialog = useDialog();
 
   const setFileInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!THUMBNAIL_EXTENSION.includes(event.currentTarget.files[0].type)) {
-      notification.alert('잘못된 확장자입니다.');
+      dialog.alert('잘못된 확장자입니다.');
 
       return;
     }
@@ -97,7 +97,7 @@ const FeedUploadForm = ({ onFeedSubmit, initialFormValue }: Props) => {
   };
 
   const handleCancelUpload = () => {
-    notification.confirm(CONFIRM_MSG.LEAVE_UPLOAD_PAGE, () => {
+    dialog.confirm(CONFIRM_MSG.LEAVE_UPLOAD_PAGE, () => {
       history.goBack();
     });
   };

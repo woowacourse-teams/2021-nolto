@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 
 import Dropdown from 'components/@common/Dropdown/Dropdown';
-import useNotification from 'context/notification/useNotification';
+import useDialog from 'context/dialog/useDialog';
 import useSnackBar from 'context/snackBar/useSnackBar';
 import useFeedDelete from 'hooks/mutations/useFeedDelete';
 import ROUTE from 'constants/routes';
@@ -14,7 +14,7 @@ interface Props {
 }
 
 const FeedDropdown = ({ feedDetail }: Props) => {
-  const notification = useNotification();
+  const dialog = useDialog();
   const snackBar = useSnackBar();
   const deleteMutation = useFeedDelete();
   const history = useHistory();
@@ -24,7 +24,7 @@ const FeedDropdown = ({ feedDetail }: Props) => {
   };
 
   const handleDelete = () => {
-    notification.confirm('정말로 삭제하시겠습니까?', () => {
+    dialog.confirm('정말로 삭제하시겠습니까?', () => {
       deleteMutation.mutate(
         { feedId: feedDetail.id },
         {

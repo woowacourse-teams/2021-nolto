@@ -10,10 +10,9 @@ import useMember from 'hooks/queries/useMember';
 import LoginModal from 'components/LoginModal/LoginModal';
 import useSnackBar from 'context/snackBar/useSnackBar';
 import useModal from 'context/modal/useModal';
-import useNotification from 'context/notification/useNotification';
+import useDialog from 'context/dialog/useDialog';
 import { ERROR_CODE_KEY, FeedDetail } from 'types';
 import Styled from './LikeButton.styles';
-import ERROR_CODE from 'constants/errorCodeMap';
 
 interface Props {
   feedDetail: FeedDetail;
@@ -26,7 +25,7 @@ const LikeButton = ({ feedDetail }: Props) => {
   const snackBar = useSnackBar();
   const member = useMember();
   const modal = useModal();
-  const notification = useNotification();
+  const dialog = useDialog();
 
   const handleUnauthorizeError = () => {
     member.logout();
@@ -39,7 +38,7 @@ const LikeButton = ({ feedDetail }: Props) => {
       setLikeCount(likeCount + 1);
     },
     onError: (error) => {
-      notification.alert(error.message);
+      dialog.alert(error.message);
 
       const errorHandleMap: Partial<Record<ERROR_CODE_KEY, () => void>> = {
         'auth-001': handleUnauthorizeError,
@@ -55,7 +54,7 @@ const LikeButton = ({ feedDetail }: Props) => {
       setLikeCount(likeCount - 1);
     },
     onError: (error) => {
-      notification.alert(error.message);
+      dialog.alert(error.message);
 
       const errorHandleMap: Partial<Record<ERROR_CODE_KEY, () => void>> = {
         'auth-001': handleUnauthorizeError,
