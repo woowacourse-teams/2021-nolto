@@ -1,6 +1,6 @@
 import React from 'react';
-import { Author } from 'types';
 
+import { Author } from 'types';
 import CommentForm from './CommentForm';
 
 export default {

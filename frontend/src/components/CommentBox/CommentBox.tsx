@@ -1,6 +1,7 @@
-import Comment from 'components/CommentBox/Comment/Comment';
 import React, { useState } from 'react';
+
 import { RootComment } from 'types';
+import Comment from 'components/CommentBox/Comment/Comment';
 import Styled, { FoldButton } from './CommentBox.styles';
 
 interface Props {

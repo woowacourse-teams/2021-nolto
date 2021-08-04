@@ -1,7 +1,8 @@
+import styled, { css } from 'styled-components';
+
 import TextButton from 'components/@common/TextButton/TextButton';
 import TextInput from 'components/@common/TextInput/TextInput';
 import { PALETTE } from 'constants/palette';
-import styled, { css } from 'styled-components';
 import { ButtonStyle } from 'types';
 
 const Author = styled.div`

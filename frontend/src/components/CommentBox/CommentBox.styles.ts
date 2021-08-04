@@ -1,5 +1,6 @@
-import { PALETTE } from 'constants/palette';
 import styled from 'styled-components';
+
+import { PALETTE } from 'constants/palette';
 import ArrowIcon from '../../assets/carouselArrow.svg';
 
 const Reply = styled.div`

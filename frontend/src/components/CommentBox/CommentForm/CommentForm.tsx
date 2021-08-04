@@ -1,10 +1,10 @@
 import React from 'react';
 
-import Avatar from 'components/@common/Avatar/Avatar';
 import { Author } from 'types';
 import SendIcon from 'assets/send.svg';
 import { CommentFormInput, Form, SendButton } from './CommentForm.styles';
 import Styled from './CommentForm.styles';
+import Avatar from 'components/@common/Avatar/Avatar';
 import Toggle from 'components/@common/Toggle/Toggle';
 
 interface Props {
