@@ -28,6 +28,12 @@ export enum NotiType {
   LIKE = 'LIKE',
 }
 
+export enum UserHistoryType {
+  MY_LIKED = 'MY_LIKED',
+  MY_FEED = 'MY_FEED',
+  MY_COMMENT = 'MY_COMMENT',
+}
+
 export interface Author {
   id: number;
   nickname: string;
@@ -63,6 +69,11 @@ export interface FeedDetail extends Feed {
   likes: number;
   views: number;
   liked: boolean;
+}
+
+export interface FeedWithComment {
+  feed: Omit<Feed, 'author'>;
+  text: string;
 }
 
 export interface UserInfo {
