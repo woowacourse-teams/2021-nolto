@@ -60,6 +60,9 @@ public class Feed extends BaseEntity {
     @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FeedTech> feedTechs = new ArrayList<>();
 
+    @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL)
+    private List<Comment> comments = new ArrayList<>();
+
     public Feed(String title, String content, Step step, boolean isSos, String storageUrl, String deployedUrl, String thumbnailUrl) {
         this(null, title, content, step, isSos, storageUrl, deployedUrl, thumbnailUrl, 0, null, new ArrayList<>());
     }
@@ -134,6 +137,11 @@ public class Feed extends BaseEntity {
         this.feedTechs.addAll(techs.stream()
                 .map(tech -> new FeedTech(this, tech))
                 .collect(Collectors.toList()));
+    }
+
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
+        comment.setFeed(this);
     }
 
     public Optional<Like> findLikeBy(User user) {

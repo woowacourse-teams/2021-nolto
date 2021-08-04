@@ -1,6 +1,7 @@
 package com.wooteco.nolto.user.domain;
 
 import com.wooteco.nolto.auth.domain.SocialType;
+import com.wooteco.nolto.feed.domain.Comment;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.Like;
 import lombok.AllArgsConstructor;
@@ -38,11 +39,14 @@ public class User {
     @NotBlank
     private String imageUrl;
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private final List<Feed> feeds = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private final List<Like> likes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    private final List<Comment> comments = new ArrayList<>();
 
     public User(String socialId, SocialType socialType, String nickName, String imageUrl) {
         this(null, socialId, socialType, nickName, imageUrl);

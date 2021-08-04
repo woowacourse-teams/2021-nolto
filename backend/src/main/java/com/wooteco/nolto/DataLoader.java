@@ -1,9 +1,11 @@
 package com.wooteco.nolto;
 
 import com.wooteco.nolto.auth.domain.SocialType;
+import com.wooteco.nolto.feed.domain.Comment;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.Like;
 import com.wooteco.nolto.feed.domain.Step;
+import com.wooteco.nolto.feed.domain.repository.CommentRepository;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.feed.domain.repository.LikeRepository;
 import com.wooteco.nolto.tech.domain.Tech;
@@ -15,19 +17,24 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.util.Arrays;
 import java.util.List;
 
 @Profile("local")
 @Component
 @AllArgsConstructor
+@Transactional
 public class DataLoader implements ApplicationRunner {
 
     private final UserRepository userRepository;
     private final FeedRepository feedRepository;
     private final TechRepository techRepository;
     private final LikeRepository likeRepository;
+    private final CommentRepository commentRepository;
+    private final EntityManager entityManager;
 
     @Override
     public void run(ApplicationArguments args) {
@@ -55,6 +62,31 @@ public class DataLoader implements ApplicationRunner {
 
         Feed saveFeed1 = feedRepository.save(feed1);
         Feed saveFeed2 = feedRepository.save(feed2);
+
+        Comment comment1 = new Comment("첫 댓글", false).writtenBy(mickey);
+        Comment comment2 = new Comment("2등 댓글", false).writtenBy(mickey);
+        Comment comment3 = new Comment("첫 댓글의 대댓글111", false).writtenBy(mickey);
+        Comment comment4 = new Comment("첫 댓글의 대댓글222", false).writtenBy(mickey);
+        Comment comment5 = new Comment("첫 댓글의 대댓글333", false).writtenBy(mickey);
+        Comment comment6 = new Comment("2등 댓글의 대댓글111", false).writtenBy(mickey);
+
+        feed1.addComment(comment1);
+        commentRepository.save(comment1);
+
+        feed1.addComment(comment2);
+        commentRepository.save(comment2);
+
+        comment1.addReply(comment3);
+        commentRepository.save(comment3);
+
+        comment1.addReply(comment4);
+        commentRepository.save(comment4);
+
+        comment1.addReply(comment5);
+        commentRepository.save(comment5);
+
+        comment2.addReply(comment6);
+        commentRepository.save(comment6);
 
         likeRepository.save(new Like(mickey, saveFeed1));
     }
