@@ -32,4 +32,10 @@ public class UserController {
         userService.validateDuplicated(nickname);
         return ResponseEntity.ok(MemberResponse.of(user));
     }
+
+    @ValidTokenRequired
+    @GetMapping("/me/profile")
+    public ResponseEntity<MemberResponse> findProfileOfMine(@MemberAuthenticationPrincipal User user) {
+        return ResponseEntity.ok(MemberResponse.of(user));
+    }
 }

@@ -43,6 +43,8 @@ public class User extends BaseEntity {
     @NotBlank
     private String imageUrl;
 
+    private String bio;
+
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private final List<Feed> feeds = new ArrayList<>();
 
@@ -55,12 +57,16 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private final List<CommentLike> commentLikes = new ArrayList<>();
 
-    public User(String socialId, SocialType socialType, String nickName, String imageUrl) {
-        this(null, socialId, socialType, nickName, imageUrl);
+    public User(Long id, String socialId, SocialType socialType, String nickName) {
+        this(id, socialId, socialType, nickName, null, null);
     }
 
-    public User(Long id, String socialId, SocialType socialType, String nickName) {
-        this(id, socialId, socialType, nickName, null);
+    public User(String socialId, SocialType socialType, String nickName, String imageUrl) {
+        this(null, socialId, socialType, nickName, imageUrl, null);
+    }
+
+    public User(Long id, String socialId, SocialType socialType, String nickName, String imageUrl) {
+        this(id, socialId, socialType, nickName, imageUrl, null);
     }
 
     public void update(String nickName, String imageUrl) {

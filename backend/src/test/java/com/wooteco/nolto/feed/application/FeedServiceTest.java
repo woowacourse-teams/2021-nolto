@@ -46,8 +46,8 @@ class FeedServiceTest {
     private FeedRequest FEED_REQUEST3 = new FeedRequest("title3", new ArrayList<>(), "content3", "PROGRESS", true,
             "www.github.com/woowacourse", "www.github.com/woowacourse", null);
 
-    private User user1 = new User(null, "123456L", SocialType.GITHUB, "user1", "mickey.jpg");
-    private User user2 = new User(null, "654321L", SocialType.GOOGLE, "user2", "mickey.jpg");
+    private User user1 = new User( "123456L", SocialType.GITHUB, "user1", "mickey.jpg");
+    private User user2 = new User( "654321L", SocialType.GOOGLE, "user2", "mickey.jpg");
 
     private Tech techSpring = new Tech("Spring");
     private Tech techJava = new Tech("Java");
