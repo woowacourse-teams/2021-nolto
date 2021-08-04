@@ -45,9 +45,9 @@ class UserControllerTest extends ControllerTest {
                         getDocumentResponse(),
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("멤버 ID"),
-                                fieldWithPath("socialType").type(JsonFieldType.STRING).description("멤버 소셜 타입"),
                                 fieldWithPath("nickname").type(JsonFieldType.STRING).description("멤버 닉네임"),
-                                fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("멤버 이미지 주소")
+                                fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("멤버 이미지 주소"),
+                                fieldWithPath("notifications").type(JsonFieldType.NUMBER).description("알림 수")
                         )
                 ));
     }
