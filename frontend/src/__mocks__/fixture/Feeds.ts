@@ -1,6 +1,6 @@
 import { Feed, FeedDetail, FeedStatus } from 'types';
 
-export const mockFeeds: Feed[] = [
+export const MOCK_FEEDS: Feed[] = [
   {
     author: {
       id: 48,
@@ -44,7 +44,7 @@ export const mockFeeds: Feed[] = [
   },
 ];
 
-export const mockFeedDetail: FeedDetail = {
+export const MOCK_FEED_DETAIL: FeedDetail = {
   author: {
     id: 7,
     nickname: 'zigsong',
@@ -68,7 +68,7 @@ export const mockFeedDetail: FeedDetail = {
   ],
   content:
     '2020년에 p5js와 ml로 만든 프로젝트입니다\n제가 팀장이었어요\n저만 일했어요\n우테코에서는 함께 일해서 행복해요!',
-  step: 'COMPLETE',
+  step: FeedStatus.PROGRESS,
   sos: false,
   storageUrl: 'https://github.com/zigsong/Ah-Really',
   deployedUrl: 'https://zigsong.github.io/Ah-Really/',
@@ -77,5 +77,4 @@ export const mockFeedDetail: FeedDetail = {
   likes: 7,
   views: 97,
   liked: false,
-  createdDate: '2021-08-01T18:34:42',
 };

@@ -1,7 +1,7 @@
 import { rest } from 'msw';
 
 import { BASE_URL } from 'constants/api';
-import { mockFeeds } from '__mocks__/fixture/Feeds';
+import { MOCK_FEEDS, MOCK_FEED_DETAIL } from '__mocks__/fixture/Feeds';
 import { UserInfo } from 'types';
 import { MOCK_USER } from '__mocks__/fixture/User';
 
@@ -15,7 +15,10 @@ export const handlers = [
     );
   }),
   rest.get(`${BASE_URL.development}/feeds/recent`, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(mockFeeds));
+    return res(ctx.status(200), ctx.json(MOCK_FEEDS));
+  }),
+  rest.get(`${BASE_URL.development}/feeds/:feedId`, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(MOCK_FEED_DETAIL));
   }),
   rest.post(`${BASE_URL.development}/feeds`, (req, res, ctx) => {
     return res(ctx.status(201));
