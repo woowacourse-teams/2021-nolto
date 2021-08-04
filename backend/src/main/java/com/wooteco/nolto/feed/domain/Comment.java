@@ -85,4 +85,8 @@ public class Comment extends BaseEntity {
         return likes.stream()
                 .anyMatch(commentLike -> commentLike.getUser().SameAs(user));
     }
+
+    public void changeContent(String content) {
+        this.content = content;
+    }
 }

@@ -74,9 +74,7 @@ class CommentServiceTest {
     @Test
     void createReply() {
         // given
-        Comment 찰리_댓글 = new Comment("역시 아마찌! 우리 팀 최고 아웃풋!", false);
-        찰리_댓글.writtenBy(찰리);
-        찰리_댓글.setFeed(아마찌의_개쩌는_지하철_미션);
+        Comment 찰리_댓글 = 댓글_생성("오 마찌 멋진데?", false, 찰리, 아마찌의_개쩌는_지하철_미션);
         commentRepository.saveAndFlush(찰리_댓글);
         entityManager.clear();
 
@@ -122,20 +120,18 @@ class CommentServiceTest {
         assertThat(replyResponse.getAuthor().getId()).isEqualTo(아마찌.getId());
     }
 
-    @DisplayName("대댓글을 조회한다. ")
+    @DisplayName("대댓글을 조회한다. 최신 순으로 대댓글이 나열 (아마찌 -> 포모 -> 조엘)")
     @Test
     void findAllById() {
         // given
-        Comment 찰리_댓글 = 댓글_생성("킨스 강의 있습니다. 이거 듣고 젠킨스를 통해 배포 자동화 해보시죠", false, 찰리, 아마찌의_개쩌는_지하철_미션);
-        commentRepository.saveAndFlush(찰리_댓글);
-
-        Comment 조엘_대댓글 = 댓글_생성("저 듣고 싶어요!!! 도커도 알려주세요 우테코는 왜 도커를 안 알려주는 거야!!!!!!!", true, 조엘, 아마찌의_개쩌는_지하철_미션);
+        Comment 찰리_댓글 = 댓글_생성("내일 젠킨스 강의 있습니다. 제 강의 듣고 배포 자동화 해보시죠", false, 찰리, 아마찌의_개쩌는_지하철_미션);
+        Comment 조엘_대댓글 = 댓글_생성("저 듣고 싶어요!!! 도커도 알려주세요 우테코는 왜 도커를 안 알려주는 거야!!!!!!!", false, 조엘, 아마찌의_개쩌는_지하철_미션);
         조엘_대댓글.addParentComment(찰리_댓글);
         Comment 포모_대댓글 = 댓글_생성("오오 젠킨스 강의 탑승해봅니다", false, 포모, 아마찌의_개쩌는_지하철_미션);
         포모_대댓글.addParentComment(찰리_댓글);
         Comment 아마찌_대댓글 = 댓글_생성("내 글에서 광고하지마!!!", false, 아마찌, 아마찌의_개쩌는_지하철_미션);
         아마찌_대댓글.addParentComment(찰리_댓글);
-        List<Comment> saveReplies = commentRepository.saveAllAndFlush(Arrays.asList(조엘_대댓글, 포모_대댓글, 아마찌_대댓글));
+        List<Comment> saveReplies = commentRepository.saveAllAndFlush(Arrays.asList(찰리_댓글, 조엘_대댓글, 포모_대댓글, 아마찌_대댓글));
         entityManager.clear();
 
         // when
@@ -145,6 +141,31 @@ class CommentServiceTest {
         assertThat(findReplies.get(0).getId()).isEqualTo(아마찌_대댓글.getId());
         assertThat(findReplies.get(1).getId()).isEqualTo(포모_대댓글.getId());
         assertThat(findReplies.get(2).getId()).isEqualTo(조엘_대댓글.getId());
+    }
+
+    @DisplayName("대댓글의 내용을 수정한다.")
+    @Test
+    void update() {
+        // given
+        Comment 조엘_댓글 = 댓글_생성("조엘의 웹 호스팅을 통해 배포해보실 생각은 없으신가요?", false, 조엘, 아마찌의_개쩌는_지하철_미션);
+        Comment 아마찌_대댓글 = 댓글_생성("내 글에서 광고하지마!!!", false, 아마찌, 아마찌의_개쩌는_지하철_미션);
+        아마찌_대댓글.addParentComment(조엘_댓글);
+        commentRepository.saveAllAndFlush(Arrays.asList(조엘_댓글, 아마찌_대댓글));
+        entityManager.clear();
+
+        // when
+        ReplyRequest 아마찌_대댓글_수정_요청 = new ReplyRequest("다시 생각해보니 괜찮은 거 같기도?");
+        ReplyResponse updateReply = commentService.update(조엘, 아마찌의_개쩌는_지하철_미션.getId(), 조엘_댓글.getId(), 아마찌_대댓글.getId(), 아마찌_대댓글_수정_요청);
+
+        // then
+        assertThat(updateReply.getId()).isNotNull();
+        assertThat(updateReply.getContent()).isEqualTo(아마찌_대댓글_수정_요청.getContent());
+        assertThat(updateReply.getLikes()).isEqualTo(아마찌_대댓글.likesCount());
+        assertThat(updateReply.isFeedAuthor()).isTrue();
+        assertThat(updateReply.getCreatedAt()).isNotNull();
+        assertThat(updateReply.isModified()).isTrue();
+        assertThat(updateReply.getCommentId()).isEqualTo(조엘_댓글.getId());
+        assertThat(updateReply.getAuthor().getId()).isEqualTo(아마찌.getId());
     }
 
     private Comment 댓글_생성(String 댓글_내용, boolean 도움, User 댓글_유저, Feed 피드) {

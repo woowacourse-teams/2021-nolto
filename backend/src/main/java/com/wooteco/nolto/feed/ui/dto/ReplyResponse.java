@@ -23,7 +23,7 @@ public class ReplyResponse {
     private final Long commentId;
     private final AuthorResponse author;
 
-    public static ReplyResponse of(Comment reply, boolean liked) { // TODO 2
+    public static ReplyResponse of(Comment reply, boolean liked) {
         return new ReplyResponse(
                 reply.getId(),
                 reply.getContent(),

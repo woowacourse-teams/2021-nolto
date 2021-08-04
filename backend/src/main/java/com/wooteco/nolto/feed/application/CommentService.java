@@ -24,10 +24,9 @@ public class CommentService {
     private final CommentRepository commentRepository;
 
     public ReplyResponse createReply(User user, Long feedId, Long commentId, ReplyRequest request) {
-        Comment parentComment = findEntityById(commentId);
-
+        Comment comment = findEntityById(commentId);
         Comment reply = new Comment(request.getContent(), false);
-        reply.addParentComment(parentComment);
+        reply.addParentComment(comment);
         reply.setFeed(feedService.findEntityById(feedId));
         reply.writtenBy(user);
 
@@ -41,11 +40,22 @@ public class CommentService {
     }
 
     public List<ReplyResponse> findAllRepliesById(User user, Long feedId, Long commentId) {
-        Feed feed = feedService.findEntityById(feedId);
-        Comment comment = findEntityById(commentId);
-
-        List<Comment> replies = commentRepository.findAllByFeedAndParentComment(feed, comment);
+        List<Comment> replies = findAllReplies(feedId, commentId);
         replies.sort(Comparator.comparing(Comment::getCreatedDate, Comparator.reverseOrder()));
         return ReplyResponse.toList(replies, user);
+    }
+
+    private List<Comment> findAllReplies(Long feedId, Long commentId) {
+        Feed feed = feedService.findEntityById(feedId);
+        Comment comment = findEntityById(commentId);
+        List<Comment> replies = commentRepository.findAllByFeedAndParentComment(feed, comment);
+        return replies;
+    }
+
+    public ReplyResponse update(User user, Long feedId, Long commentId, Long replyId, ReplyRequest request) {
+        Comment reply = findEntityById(replyId);
+        reply.changeContent(request.getContent());
+        commentRepository.flush();
+        return ReplyResponse.of(reply, reply.isLike(user));
     }
 }

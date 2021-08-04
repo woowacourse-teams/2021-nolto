@@ -38,4 +38,14 @@ public class CommentController {
         List<ReplyResponse> replyResponses = commentService.findAllRepliesById(user, feedId, commentId);
         return ResponseEntity.ok(replyResponses);
     }
+
+    @PutMapping("/{commentId}/replies/{replyId}")
+    public ResponseEntity<ReplyResponse> update(@UserAuthenticationPrincipal User user,
+                                                @PathVariable Long feedId,
+                                                @PathVariable Long commentId,
+                                                @PathVariable Long replyId,
+                                                @RequestBody ReplyRequest request) {
+        ReplyResponse updateReplyResponse = commentService.update(user, feedId, commentId, replyId, request);
+        return ResponseEntity.ok(updateReplyResponse);
+    }
 }
