@@ -20,7 +20,7 @@
     "test": "jest --maxWorkers=1",
     "start": "webpack serve --mode development",
     "build": "webpack",
-    "storybook": "start-storybook -p 6006",
+    "storybook": "start-storybook -s public -p 6006",
     "build-storybook": "build-storybook"
   },
   "dependencies": {
@@ -75,5 +75,8 @@
     "webpack": "^5.42.1",
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.2"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }
