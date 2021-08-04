@@ -6,12 +6,12 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class FeedAuthorResponse {
+public class AuthorResponse {
     private final Long id;
     private final String nickname;
     private final String imageUrl;
 
-    public static FeedAuthorResponse of(User author) {
-        return new FeedAuthorResponse(author.getId(), author.getNickName(), author.getImageUrl());
+    public static AuthorResponse of(User author) {
+        return new AuthorResponse(author.getId(), author.getNickName(), author.getImageUrl());
     }
 }

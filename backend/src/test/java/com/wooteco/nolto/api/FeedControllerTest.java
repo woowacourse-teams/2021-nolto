@@ -6,7 +6,7 @@ import com.wooteco.nolto.feed.application.LikeService;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.ui.FeedController;
-import com.wooteco.nolto.feed.ui.dto.FeedAuthorResponse;
+import com.wooteco.nolto.feed.ui.dto.AuthorResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
@@ -62,7 +62,7 @@ public class FeedControllerTest extends ControllerTest {
 
     private static final List<FeedCardResponse> FEED_CARD_RESPONSES = FeedCardResponse.toList(Arrays.asList(FEED1, FEED2));
 
-    private static final FeedResponse FEED_RESPONSE = new FeedResponse(FeedAuthorResponse.of(LOGIN_USER), FEED1.getId(), FEED1.getTitle(), TechControllerTest.TECH_RESPONSES,
+    private static final FeedResponse FEED_RESPONSE = new FeedResponse(AuthorResponse.of(LOGIN_USER), FEED1.getId(), FEED1.getTitle(), TechControllerTest.TECH_RESPONSES,
             FEED1.getContent(), FEED1.getStep().name(), FEED1.isSos(), FEED1.getStorageUrl(), FEED1.getDeployedUrl(),
             FEED1.getThumbnailUrl(), FEED1.getLikes().size(), FEED1.getViews(), true, LocalDateTime.now());
 
