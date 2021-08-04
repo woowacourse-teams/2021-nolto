@@ -6,7 +6,7 @@ CREATE TABLE `comment` (
                         `helper` bit(1) NOT NULL,
                         `author_id` bigint(20) NOT NULL,
                         `feed_id` bigint(20) NOT NULL,
-                        `parent_id` bigint(20) NOT NULL,
+                        `parent_id` bigint(20),
                         PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

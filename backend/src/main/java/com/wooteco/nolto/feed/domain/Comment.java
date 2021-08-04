@@ -15,23 +15,29 @@ public class Comment extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
+
+    @Column(nullable = false)
     private boolean helper;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
     private Feed feed;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
     private User author;
-
-    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
-    private List<CommentLike> likes = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "parent_id")
     private Comment parentComment;
 
-    @OneToMany(mappedBy = "parentComment", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE)
+    private List<CommentLike> likes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "parentComment", cascade = CascadeType.REMOVE)
     private List<Comment> replies = new ArrayList<>();
 
     public Comment() {
