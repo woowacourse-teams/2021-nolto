@@ -45,7 +45,7 @@ public class UserController {
 
     @ValidTokenRequired
     @PutMapping("/me/profile")
-    public ResponseEntity<ProfileResponse> editProfileOfMine(@MemberAuthenticationPrincipal User user, @Valid @ModelAttribute ProfileRequest profileRequest) {
+    public ResponseEntity<ProfileResponse> updateProfileOfMine(@MemberAuthenticationPrincipal User user, @Valid @ModelAttribute ProfileRequest profileRequest) {
         ProfileResponse response = userService.updateProfile(user, profileRequest);
         return ResponseEntity.ok(response);
     }

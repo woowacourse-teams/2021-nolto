@@ -6,5 +6,5 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class NicknameValidationResponse {
-    private final boolean isUsable;
+    private final boolean isIsUsable;
 }

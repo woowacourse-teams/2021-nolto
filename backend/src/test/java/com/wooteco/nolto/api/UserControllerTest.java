@@ -5,26 +5,43 @@ import com.wooteco.nolto.user.application.UserService;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.ui.UserController;
 import com.wooteco.nolto.user.ui.dto.MemberResponse;
+import com.wooteco.nolto.user.ui.dto.NicknameValidationResponse;
+import com.wooteco.nolto.user.ui.dto.ProfileRequest;
+import com.wooteco.nolto.user.ui.dto.ProfileResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
+import java.time.LocalDateTime;
+
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = UserController.class)
 class UserControllerTest extends ControllerTest {
+    private static final String ACCESS_TOKEN = "accessToken";
     private static final User LOGIN_USER =
-            new User(1L, "11111", SocialType.GOOGLE, "아마찌", "imageUrl");
+            new User(1L, "11111", SocialType.GOOGLE, "아마찌", "imageUrl", "");
     private static final MemberResponse MEMBER_RESPONSE = MemberResponse.of(LOGIN_USER);
+    private static final int NOTIFICATIONS = 0;
+    private static final NicknameValidationResponse NICKNAME_VALIDATION_RESPONSE = new NicknameValidationResponse(true);
+    private static final MockMultipartFile MOCK_MULTIPART_FILE =
+            new MockMultipartFile("thumbnailImage", "thumbnailImage.png", "image/png", "<<png data>>".getBytes());
+    private static final ProfileRequest PROFILE_REQUEST = new ProfileRequest("수정할 닉네임", "수정할 한 줄 소개", MOCK_MULTIPART_FILE);
+    private static final ProfileResponse PROFILE_RESPONSE = ProfileResponse.of(LOGIN_USER, NOTIFICATIONS);
 
     @MockBean
     private UserService userService;
@@ -32,12 +49,12 @@ class UserControllerTest extends ControllerTest {
     @DisplayName("멤버가 자신의 정보를 조회한다.")
     @Test
     void findMemberOfMine() throws Exception {
-        given(authService.findUserByToken("accessToken")).willReturn(LOGIN_USER);
+        given(authService.findUserByToken(ACCESS_TOKEN)).willReturn(LOGIN_USER);
 
         mockMvc.perform(
                 get("/members/me")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization", "Bearer accessToken"))
+                        .header("Authorization", "Bearer " + ACCESS_TOKEN))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(MEMBER_RESPONSE)))
                 .andDo(document("member-findMe",
@@ -55,22 +72,84 @@ class UserControllerTest extends ControllerTest {
     @DisplayName("멤버가 닉네임 사용 여부를 조회한다.")
     @Test
     void validateDuplicatedNickname() throws Exception {
-        given(authService.findUserByToken("accessToken")).willReturn(LOGIN_USER);
+        String 검증할_닉네임 = "검증할 닉네임";
+        given(authService.findUserByToken(ACCESS_TOKEN)).willReturn(LOGIN_USER);
+        given(userService.validateDuplicated(검증할_닉네임)).willReturn(NICKNAME_VALIDATION_RESPONSE);
 
         mockMvc.perform(
-                get("/me/profile/validation")
+                get("/members/me/profile/validation").param("nickname", 검증할_닉네임)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization", "Bearer accessToken"))
+                        .header("Authorization", "Bearer " + ACCESS_TOKEN))
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(MEMBER_RESPONSE)))
+                .andExpect(content().json(objectMapper.writeValueAsString(NICKNAME_VALIDATION_RESPONSE)))
                 .andDo(document("member-validateDuplicatedNickname",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        requestParameters(
+                                parameterWithName("nickname").description("중복체크할 닉네임").optional()
+                        ),
+                        responseFields(
+                                fieldWithPath("isUsable").type(JsonFieldType.BOOLEAN).description("닉네임 사용 가능 여부")
+                        )
+                ));
+    }
+
+    @DisplayName("멤버가 자신의 프로필을 조회한다.")
+    @Test
+    void findProfileOfMine() throws Exception {
+        PROFILE_RESPONSE.setCreatedAt(LocalDateTime.now());
+        given(authService.findUserByToken(ACCESS_TOKEN)).willReturn(LOGIN_USER);
+        given(userService.findProfile(LOGIN_USER)).willReturn(PROFILE_RESPONSE);
+
+        mockMvc.perform(
+                get("/members/me/profile")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + ACCESS_TOKEN))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(PROFILE_RESPONSE)))
+                .andDo(document("member-findProfileOfMine",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("멤버 ID"),
                                 fieldWithPath("nickname").type(JsonFieldType.STRING).description("멤버 닉네임"),
+                                fieldWithPath("bio").type(JsonFieldType.STRING).description("멤버 한줄 소개"),
                                 fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("멤버 이미지 주소"),
-                                fieldWithPath("notifications").type(JsonFieldType.NUMBER).description("알림 수")
+                                fieldWithPath("notifications").type(JsonFieldType.NUMBER).description("알림 수"),
+                                fieldWithPath("createdAt").type(JsonFieldType.STRING).description("가입 날짜")
+                        )
+                ));
+    }
+
+    @DisplayName("멤버의 프로필을 업데이트한다.")
+    @Test
+    void update() throws Exception {
+        given(authService.findUserByToken(ACCESS_TOKEN)).willReturn(LOGIN_USER);
+        given(userService.updateProfile(any(User.class), any(ProfileRequest.class))).willReturn(PROFILE_RESPONSE);
+
+        MockHttpServletRequestBuilder request = multipart("/members/me/profile")
+                .file("image", MOCK_MULTIPART_FILE.getBytes())
+                .param("nickname", "수정할 닉네임")
+                .param("bio", "수정할 한 줄 소개")
+                .header("Authorization", "Bearer " + ACCESS_TOKEN);
+
+        request.with(req -> {
+            req.setMethod("PUT");
+            return req;
+        });
+
+        mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(PROFILE_RESPONSE)))
+                .andDo(document("member-updateProfileOfMine",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        requestParts(
+                                partWithName("image").description("수정될 수 있는 이미지")
+                        ),
+                        requestParameters(
+                                parameterWithName("nickname").description("수정될 수 있는 닉네임"),
+                                parameterWithName("bio").description("수정될 수 있는 한 줄 소개").optional()
                         )
                 ));
     }
