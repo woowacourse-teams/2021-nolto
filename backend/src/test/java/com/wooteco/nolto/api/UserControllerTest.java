@@ -51,4 +51,27 @@ class UserControllerTest extends ControllerTest {
                         )
                 ));
     }
+
+    @DisplayName("멤버가 닉네임 사용 여부를 조회한다.")
+    @Test
+    void validateDuplicatedNickname() throws Exception {
+        given(authService.findUserByToken("accessToken")).willReturn(LOGIN_USER);
+
+        mockMvc.perform(
+                get("/me/profile/validation")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer accessToken"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(MEMBER_RESPONSE)))
+                .andDo(document("member-validateDuplicatedNickname",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        responseFields(
+                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("멤버 ID"),
+                                fieldWithPath("nickname").type(JsonFieldType.STRING).description("멤버 닉네임"),
+                                fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("멤버 이미지 주소"),
+                                fieldWithPath("notifications").type(JsonFieldType.NUMBER).description("알림 수")
+                        )
+                ));
+    }
 }

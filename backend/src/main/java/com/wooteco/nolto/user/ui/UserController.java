@@ -5,6 +5,7 @@ import com.wooteco.nolto.auth.ValidTokenRequired;
 import com.wooteco.nolto.user.application.UserService;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.ui.dto.MemberResponse;
+import com.wooteco.nolto.user.ui.dto.NicknameValidationResponse;
 import com.wooteco.nolto.user.ui.dto.ProfileRequest;
 import com.wooteco.nolto.user.ui.dto.ProfileResponse;
 import lombok.AllArgsConstructor;
@@ -29,10 +30,10 @@ public class UserController {
 
     @ValidTokenRequired
     @GetMapping("/me/profile/validation")
-    public ResponseEntity<MemberResponse> validateDuplicatedNickname(@MemberAuthenticationPrincipal User user,
-                                                                     @RequestParam String nickname) {
-        userService.validateDuplicated(nickname);
-        return ResponseEntity.ok(MemberResponse.of(user));
+    public ResponseEntity<NicknameValidationResponse> validateDuplicatedNickname(@MemberAuthenticationPrincipal User user,
+                                                                                 @RequestParam String nickname) {
+        NicknameValidationResponse response = userService.validateDuplicated(nickname);
+        return ResponseEntity.ok(response);
     }
 
     @ValidTokenRequired
