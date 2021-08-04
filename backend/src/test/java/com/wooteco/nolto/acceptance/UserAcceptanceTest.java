@@ -55,7 +55,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
         MemberResponse memberResponse = response.as(MemberResponse.class);
         assertThat(memberResponse.getId()).isNotNull();
         assertThat(memberResponse.getSocialType()).isEqualTo(expectedUser.getSocialType().name());
-        assertThat(memberResponse.getNickName()).isEqualTo(expectedUser.getNickName());
+        assertThat(memberResponse.getNickname()).isEqualTo(expectedUser.getNickName());
         assertThat(memberResponse.getImageUrl()).isEqualTo(expectedUser.getImageUrl());
     }
 

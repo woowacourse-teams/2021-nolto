@@ -9,7 +9,7 @@ import lombok.Getter;
 public class MemberResponse {
     private final Long id;
     private final String socialType;
-    private final String nickName;
+    private final String nickname;
     private final String imageUrl;
 
     public static MemberResponse of(User user) {
