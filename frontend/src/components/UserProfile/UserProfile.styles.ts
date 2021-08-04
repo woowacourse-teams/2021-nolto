@@ -1,5 +1,5 @@
 import styled, { keyframes, css } from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link as LinkElement } from 'react-router-dom';
 
 import { PALETTE } from 'constants/palette';
 
@@ -90,7 +90,7 @@ const buttonStyle = css`
   }
 `;
 
-const LinkButton = styled(Link)`
+export const Link = styled(LinkElement)`
   ${buttonStyle};
 `;
 
@@ -105,6 +105,5 @@ export default {
   MoreProfileButton,
   Dropdown,
   Greeting,
-  LinkButton,
   Button,
 };

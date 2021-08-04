@@ -38,6 +38,7 @@ const Title = styled.span`
 const NotiMark = styled.div`
   width: 1.25rem;
   height: 1.25rem;
+  font-size: 14px;
   display: flex;
   justify-content: center;
   align-items: center;

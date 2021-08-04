@@ -5,7 +5,7 @@ import useDialog from 'context/dialog/useDialog';
 import { PALETTE } from 'constants/palette';
 import ROUTE from 'constants/routes';
 import useMember from 'hooks/queries/useMember';
-import Styled from './UserProfile.styles';
+import Styled, { Link } from './UserProfile.styles';
 
 interface Props {
   className?: string;
@@ -32,7 +32,7 @@ const UserProfile = ({ className }: Props) => {
       </Styled.UserThumbnail>
       <Styled.Dropdown isOpen={isProfileOpen}>
         <Styled.Greeting>👋 Hello, {member.userData?.nickName}!</Styled.Greeting>
-        <Styled.LinkButton to={ROUTE.MYPAGE}>Profile</Styled.LinkButton>
+        <Link to={ROUTE.MYPAGE}>Profile</Link>
         <Styled.Button onClick={logout}>Logout</Styled.Button>
       </Styled.Dropdown>
     </Styled.Root>
