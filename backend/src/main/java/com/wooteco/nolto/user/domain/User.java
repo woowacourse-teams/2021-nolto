@@ -1,7 +1,10 @@
 package com.wooteco.nolto.user.domain;
 
 import com.wooteco.nolto.auth.domain.SocialType;
+import com.wooteco.nolto.exception.ErrorType;
+import com.wooteco.nolto.exception.UnauthorizedException;
 import com.wooteco.nolto.feed.domain.Comment;
+import com.wooteco.nolto.feed.domain.CommentLike;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.Like;
 import lombok.AllArgsConstructor;
@@ -48,6 +51,9 @@ public class User {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private final List<Comment> comments = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private final List<CommentLike> commentLikes = new ArrayList<>();
+
     public User(String socialId, SocialType socialType, String nickName, String imageUrl) {
         this(null, socialId, socialType, nickName, imageUrl);
     }
@@ -72,6 +78,7 @@ public class User {
 
     public void addLike(Like like) {
         this.likes.add(like);
+        like.getFeed().addLike(like);
     }
 
     public boolean SameAs(User user) {
@@ -80,6 +87,12 @@ public class User {
 
     public void delete(Like like) {
         this.likes.remove(like);
+    }
+
+    public Feed findMyFeed(Long feedId) {
+        return this.feeds.stream()
+                .filter(feed -> feedId.equals(feed.getId()))
+                .findAny().orElseThrow(() -> new UnauthorizedException(ErrorType.UNAUTHORIZED_UPDATE_FEED));
     }
 
     private static class GuestUser extends User {

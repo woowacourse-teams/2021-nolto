@@ -23,7 +23,7 @@ public class Tech {
     @NotBlank
     private String name;
 
-    @OneToMany(mappedBy = "tech")
+    @OneToMany(mappedBy = "tech", cascade = CascadeType.REMOVE)
     private List<FeedTech> feeds = new ArrayList<>();
 
     public Tech(String name) {
