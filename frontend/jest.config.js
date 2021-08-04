@@ -9,4 +9,7 @@ module.exports = {
     },
   },
   moduleDirectories: ['./node_modules', 'src'],
+  moduleNameMapper: {
+    '\\.svg$': '<rootDir>/src/__mocks__/svgrMock.tsx',
+  },
 };

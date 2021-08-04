@@ -1,4 +1,4 @@
-import { Feed, FeedStatus } from 'types';
+import { Feed, FeedDetail, FeedStatus } from 'types';
 
 export const mockFeeds: Feed[] = [
   {
@@ -43,3 +43,39 @@ export const mockFeeds: Feed[] = [
       'https://dksykemwl00pf.cloudfront.net/1626847909246dGh1bWJuYWlsSW1hZ2U=image/jpeg',
   },
 ];
+
+export const mockFeedDetail: FeedDetail = {
+  author: {
+    id: 7,
+    nickname: 'zigsong',
+    imageUrl: 'https://avatars.githubusercontent.com/u/44080404?v=4',
+  },
+  id: 3,
+  title: '아진짜요? 토이게임',
+  techs: [
+    {
+      id: 655,
+      text: 'JavaScript',
+    },
+    {
+      id: 983,
+      text: 'HTML',
+    },
+    {
+      id: 1243,
+      text: 'ML Kit',
+    },
+  ],
+  content:
+    '2020년에 p5js와 ml로 만든 프로젝트입니다\n제가 팀장이었어요\n저만 일했어요\n우테코에서는 함께 일해서 행복해요!',
+  step: 'COMPLETE',
+  sos: false,
+  storageUrl: 'https://github.com/zigsong/Ah-Really',
+  deployedUrl: 'https://zigsong.github.io/Ah-Really/',
+  thumbnailUrl:
+    'https://dksykemwl00pf.cloudfront.net/16278104820814YSL4YWh4YSM4YW14Yar4YSN4YWh4YSL4YWtLnBuZw==.png',
+  likes: 7,
+  views: 97,
+  liked: false,
+  createdDate: '2021-08-01T18:34:42',
+};
