@@ -12,3 +12,19 @@ export const except = (object: any, keys: string[]) => {
 
   return newObject;
 };
+
+const isIso8601 = (date: string) => {
+  return /[0-9]+-[0-9]+-[0-9]+T.+/.test(date);
+};
+
+export const refineDate = (date: string) => {
+  if (!isIso8601(date)) {
+    console.error('refineDate() : 잘못된 date 타입입니다');
+    return date;
+  }
+
+  return date
+    .replace(/T.+$/, '')
+    .replace(/-/g, '/')
+    .replace(/[0-9]+\//, '');
+};

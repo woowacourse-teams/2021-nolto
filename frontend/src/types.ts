@@ -75,12 +75,8 @@ export interface FeedWithComment {
   feed: Omit<Feed, 'author'>;
   text: string;
 }
-
-export interface UserInfo {
-  id: number;
+export interface UserInfo extends Author {
   socialType: 'GOOGLE' | 'GITHUB';
-  nickName: string;
-  imageUrl: string;
 }
 
 export type OAuthType = 'google' | 'github';
@@ -105,4 +101,20 @@ export interface HttpErrorResponse extends ErrorResponse {
     message: string;
     errorCode: ERROR_CODE_KEY;
   };
+}
+
+export interface CommentBase {
+  id: number;
+  content: string;
+  likes: number;
+  liked: boolean;
+  feedAuthor: boolean;
+  createdAt: string;
+  modified: boolean;
+  author: Author;
+}
+
+export interface RootComment extends CommentBase {
+  helper: boolean;
+  replies: CommentBase[];
 }

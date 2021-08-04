@@ -31,7 +31,7 @@ const UserProfile = ({ className }: Props) => {
         </Styled.MoreProfileButton>
       </Styled.UserThumbnail>
       <Styled.Dropdown isOpen={isProfileOpen}>
-        <Styled.Greeting>👋 Hello, {member.userData?.nickName}!</Styled.Greeting>
+        <Styled.Greeting>👋 Hello, {member.userData?.nickname}!</Styled.Greeting>
         <Link to={ROUTE.MYPAGE}>Profile</Link>
         <Styled.Button onClick={logout}>Logout</Styled.Button>
       </Styled.Dropdown>
