@@ -4,7 +4,6 @@ import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +23,12 @@ class UserRepositoryTest {
 
     private User user1;
 
+    public static final String EXIST_NICKNAME = "찰리";
+    public static final String NOT_EXIST_NICKNAME = "존재하지 않는 닉네임";
+
     @BeforeEach
     void setUp() {
-        user1 = new User("1111", SocialType.GOOGLE, "찰리", "charlie.png");
+        user1 = new User("1111", SocialType.GOOGLE, EXIST_NICKNAME, "charlie.png");
     }
 
     @DisplayName("context가 제대로 생성되고 설정이 됐는지 확인한다.")
@@ -159,6 +161,20 @@ class UserRepositoryTest {
 
         // then
         assertThatNoException();
+    }
+
+    @DisplayName("nickname이 존재하는지 여부를 확인한다.")
+    @Test
+    void existsByNickName() {
+        // given
+        User savedUser = userRepository.save(user1);
+
+        // when
+        boolean existNicknameResult = userRepository.existsByNickName(EXIST_NICKNAME);
+        boolean notExistNicknameResult = userRepository.existsByNickName(NOT_EXIST_NICKNAME);
+
+        assertThat(existNicknameResult).isTrue();
+        assertThat(notExistNicknameResult).isFalse();
     }
 
     private void checkSameInfo(User user1, User user2) {

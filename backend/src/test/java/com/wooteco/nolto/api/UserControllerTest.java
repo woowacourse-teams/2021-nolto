@@ -1,12 +1,14 @@
 package com.wooteco.nolto.api;
 
 import com.wooteco.nolto.auth.domain.SocialType;
+import com.wooteco.nolto.user.application.UserService;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.ui.UserController;
 import com.wooteco.nolto.user.ui.dto.MemberResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
@@ -23,6 +25,9 @@ class UserControllerTest extends ControllerTest {
     private static final User LOGIN_USER =
             new User(1L, "11111", SocialType.GOOGLE, "아마찌", "imageUrl");
     private static final MemberResponse MEMBER_RESPONSE = MemberResponse.of(LOGIN_USER);
+
+    @MockBean
+    private UserService userService;
 
     @DisplayName("멤버가 자신의 정보를 조회한다.")
     @Test
