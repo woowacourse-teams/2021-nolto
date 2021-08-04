@@ -43,7 +43,7 @@ public class User extends BaseEntity {
     @NotBlank
     private String imageUrl;
 
-    private String bio;
+    private String bio = "";
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private final List<Feed> feeds = new ArrayList<>();

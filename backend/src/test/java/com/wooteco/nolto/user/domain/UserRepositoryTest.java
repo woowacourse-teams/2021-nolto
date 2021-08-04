@@ -182,5 +182,7 @@ class UserRepositoryTest {
         assertThat(user1.getSocialType()).isEqualTo(user2.getSocialType());
         assertThat(user1.getNickName()).isEqualTo(user2.getNickName());
         assertThat(user1.getImageUrl()).isEqualTo(user2.getImageUrl());
+        assertThat(user1.getBio()).isEqualTo(user2.getBio());
+        assertThat(user1.getCreatedDate()).isEqualTo(user2.getCreatedDate());
     }
 }
