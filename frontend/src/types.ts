@@ -72,7 +72,7 @@ export type SnackBarType = 'error' | 'success' | null;
 
 export type AddSnackBar = (type: SnackBarType, text: string) => void;
 
-export type NotificationType = 'alert' | 'confirm';
+export type DialogType = 'alert' | 'confirm';
 
 export type ErrorHandler = (error: CustomError) => void;
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import DownPolygon from 'assets/downPolygon.svg';
-import useNotification from 'context/notification/useNotification';
+import useDialog from 'context/dialog/useDialog';
 import { PALETTE } from 'constants/palette';
 import useMember from 'hooks/queries/useMember';
 import Styled from './UserProfile.styles';
@@ -14,15 +14,15 @@ const UserProfile = ({ className }: Props) => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const member = useMember();
-  const notification = useNotification();
+  const dialog = useDialog();
 
   const goUserProfile = () => {
-    notification.alert('프로필 기능 구현 중...');
+    dialog.alert('프로필 기능 구현 중...');
   };
 
   const logout = () => {
     member.logout();
-    notification.alert('로그아웃되었습니다.');
+    dialog.alert('로그아웃되었습니다.');
   };
 
   return (

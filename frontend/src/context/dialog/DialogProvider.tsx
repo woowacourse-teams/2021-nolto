@@ -1,44 +1,44 @@
 import React, { useMemo, useState } from 'react';
 import ReactDOM from 'react-dom';
 
-import Styled, { Button } from './NotificationProvider.styles';
-import { ButtonStyle, NotificationType } from 'types';
+import Styled, { Button } from './DialogProvider.styles';
+import { ButtonStyle, DialogType } from 'types';
 
 interface Props {
   children: React.ReactNode;
 }
 
-interface NotificationContext {
+interface DialogContext {
   alert: (message: string) => void;
   confirm: (message: string, callback: OnConfirm) => void;
 }
 
 type OnConfirm = () => unknown;
 
-export const Context = React.createContext<NotificationContext>(null);
+export const Context = React.createContext<DialogContext>(null);
 
-const notificationRoot = document.getElementById('notification-root');
+const dialogRoot = document.getElementById('dialog-root');
 
-const NotificationProvider = ({ children }: Props) => {
-  const [notiType, setNotiType] = useState<NotificationType>();
+const DialogProvider = ({ children }: Props) => {
+  const [dialogType, setDialogType] = useState<DialogType>();
   const [message, setMessage] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [onConfirm, setOnConfirm] = useState<OnConfirm | null>(null);
 
   const alert = (msg: string) => {
-    setNotiType('alert');
+    setDialogType('alert');
     setMessage(msg);
     setIsOpen(true);
   };
 
   const confirm = (msg: string, callback: OnConfirm) => {
-    setNotiType('confirm');
+    setDialogType('confirm');
     setMessage(msg);
     setIsOpen(true);
     setOnConfirm(() => callback);
   };
 
-  const confirmNotification = () => {
+  const confirmDialog = () => {
     if (onConfirm) {
       onConfirm();
     }
@@ -46,48 +46,48 @@ const NotificationProvider = ({ children }: Props) => {
     setIsOpen(false);
   };
 
-  const cancelNotification = () => {
+  const cancelDialog = () => {
     setIsOpen(false);
   };
 
   const contextValue = useMemo(() => ({ alert, confirm }), []);
 
-  const notiButtonMap = {
+  const dialogButtonMap = {
     alert: (
-      <Button single buttonStyle={ButtonStyle.SOLID} onClick={confirmNotification}>
+      <Button single buttonStyle={ButtonStyle.SOLID} onClick={confirmDialog}>
         확인
       </Button>
     ),
     confirm: (
       <>
-        <Button buttonStyle={ButtonStyle.SOLID} onClick={confirmNotification}>
+        <Button buttonStyle={ButtonStyle.SOLID} onClick={confirmDialog}>
           확인
         </Button>
-        <Button buttonStyle={ButtonStyle.OUTLINE} onClick={cancelNotification}>
+        <Button buttonStyle={ButtonStyle.OUTLINE} onClick={cancelDialog}>
           취소
         </Button>
       </>
     ),
   };
 
-  const notificationElement: React.ReactNode = (
-    <Styled.NotiContainer>
-      <Styled.NotiInner>
+  const dialogElement: React.ReactNode = (
+    <Styled.DialogContainer>
+      <Styled.DialogInner>
         <Styled.TopBar>
           <Styled.AlertTitle>알림</Styled.AlertTitle>
         </Styled.TopBar>
         <div>{message}</div>
-        <Styled.ButtonsContainer>{notiButtonMap[notiType]}</Styled.ButtonsContainer>
-      </Styled.NotiInner>
-    </Styled.NotiContainer>
+        <Styled.ButtonsContainer>{dialogButtonMap[dialogType]}</Styled.ButtonsContainer>
+      </Styled.DialogInner>
+    </Styled.DialogContainer>
   );
 
   return (
     <Context.Provider value={contextValue}>
       {children}
-      {isOpen && ReactDOM.createPortal(notificationElement, notificationRoot)}
+      {isOpen && ReactDOM.createPortal(dialogElement, dialogRoot)}
     </Context.Provider>
   );
 };
 
-export default NotificationProvider;
+export default DialogProvider;
