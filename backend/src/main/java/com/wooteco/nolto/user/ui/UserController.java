@@ -5,13 +5,11 @@ import com.wooteco.nolto.auth.ValidTokenRequired;
 import com.wooteco.nolto.user.application.UserService;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.ui.dto.MemberResponse;
+import com.wooteco.nolto.user.ui.dto.ProfileRequest;
 import com.wooteco.nolto.user.ui.dto.ProfileResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/members")
@@ -39,6 +37,14 @@ public class UserController {
     @GetMapping("/me/profile")
     public ResponseEntity<ProfileResponse> findProfileOfMine(@MemberAuthenticationPrincipal User user) {
         ProfileResponse response = userService.findProfile(user);
+        return ResponseEntity.ok(response);
+    }
+
+    @ValidTokenRequired
+    @PutMapping("/me/profile")
+    public ResponseEntity<ProfileResponse> editProfileOfMine(@MemberAuthenticationPrincipal User user,
+                                                             @ModelAttribute ProfileRequest profileRequest) {
+        ProfileResponse response = userService.updateProfile(user, profileRequest);
         return ResponseEntity.ok(response);
     }
 }

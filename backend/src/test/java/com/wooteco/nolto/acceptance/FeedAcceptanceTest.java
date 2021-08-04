@@ -7,6 +7,7 @@ import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
+import com.wooteco.nolto.image.application.ImageKind;
 import com.wooteco.nolto.image.application.ImageService;
 import com.wooteco.nolto.tech.domain.Tech;
 import com.wooteco.nolto.tech.domain.TechRepository;
@@ -75,7 +76,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
     @Override
     @BeforeEach
     public void setUp() {
-        BDDMockito.given(imageService.upload(any(MultipartFile.class))).willReturn("https://dksykemwl00pf.cloudfront.net/" + defaultImageUrl);
+        BDDMockito.given(imageService.upload(any(MultipartFile.class), any(ImageKind.class))).willReturn("https://dksykemwl00pf.cloudfront.net/" + defaultImageUrl);
         techRepository.saveAll(Arrays.asList(JAVA, SPRING, REACT));
 
         진행중_좋아요3개_1번째_피드_ID = 피드_업로드되어_있음(진행중_단계의_피드_요청);

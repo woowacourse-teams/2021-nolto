@@ -10,6 +10,7 @@ import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
+import com.wooteco.nolto.image.application.ImageKind;
 import com.wooteco.nolto.image.application.ImageService;
 import com.wooteco.nolto.tech.domain.Tech;
 import com.wooteco.nolto.tech.domain.TechRepository;
@@ -73,7 +74,7 @@ class FeedServiceTest {
 
     @BeforeEach
     void setUp() {
-        given(imageService.upload(any(MultipartFile.class))).willReturn("image.jpg");
+        given(imageService.upload(any(MultipartFile.class), any(ImageKind.class))).willReturn("image.jpg");
         userRepository.save(user1);
         userRepository.save(user2);
 

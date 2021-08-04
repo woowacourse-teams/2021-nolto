@@ -144,4 +144,5 @@ application:
     name: 2021-nolto
   cloudfront:
     url: https://dksykemwl00pf.cloudfront.net/
-  default-image: nolto-default-thumbnail.png
+  feed-default-image: nolto-default-thumbnail.png
+  user-default-image: nolto-default-thumbnail.png

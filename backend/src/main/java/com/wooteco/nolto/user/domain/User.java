@@ -106,6 +106,15 @@ public class User extends BaseEntity {
         this.nickName = nickName;
     }
 
+    public void changeImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public void updateProfile(String nickname, String bio) {
+        this.nickName = nickname;
+        this.bio = bio;
+    }
+
     private static class GuestUser extends User {
         @Override
         public boolean isLiked(Feed feed) {
