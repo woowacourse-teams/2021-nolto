@@ -69,6 +69,20 @@ public class Comment extends BaseEntity {
     }
 
     public boolean isFeedAuthor() {
-        return feed.getAuthor().equals(this.author);
+        return feed.getAuthor().SameAs(this.author);
+    }
+
+    public void addParentComment(Comment comment) {
+        this.parentComment = comment;
+        comment.addReply(this);
+    }
+
+    public int likesCount() {
+        return likes.size();
+    }
+
+    public boolean isLike(User user) {
+        return likes.stream()
+                .anyMatch(commentLike -> commentLike.getUser().SameAs(user));
     }
 }
