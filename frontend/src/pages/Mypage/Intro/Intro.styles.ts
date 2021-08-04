@@ -51,17 +51,38 @@ const Content = styled.div`
 
 const TopContainer = styled.div`
   display: flex;
+  gap: 1rem;
 `;
 
-const Name = styled.div`
+const Name = styled.div<{ isEditing: boolean }>`
   font-weight: 700;
   width: 100%;
+  padding-bottom: 0.25rem;
+  border-bottom: ${({ isEditing }) => isEditing && `1px solid ${PALETTE.BLACK_100}`};
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 const EditButton = styled.button`
   background: transparent;
   border: none;
-  flex: 1;
+  flex-shrink: 0;
+  color: ${PALETTE.GRAY_500};
+  position: relative;
+
+  &:hover::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.1;
+    background-color: ${PALETTE.BLACK_400};
+  }
 `;
 
 const ValidationMessage = styled.span<{ isValid: boolean }>`
@@ -73,9 +94,16 @@ const DetailContainer = styled.div`
   margin-top: 1rem;
 `;
 
-const DetailText = styled.div`
+const DetailText = styled.div<{ isEditing?: boolean }>`
   font-size: 0.75rem;
   color: ${PALETTE.BLACK_200};
+  padding-bottom: 0.25rem;
+  border-bottom: ${({ isEditing }) => isEditing && `1px solid ${PALETTE.BLACK_100}`};
+
+  &:focus {
+    outline: none;
+    border-bottom: 1px solid ${PALETTE.BLACK_200};
+  }
 `;
 
 export default {
