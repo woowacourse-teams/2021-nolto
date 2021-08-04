@@ -9,7 +9,7 @@ const Root = styled.div`
   gap: 2rem;
   width: 32rem;
   height: 10rem;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   box-shadow: 4px 4px 8px 4px rgba(85, 85, 85, 0.2);
 `;
 
@@ -55,6 +55,7 @@ const TopContainer = styled.div`
 `;
 
 const Name = styled.div<{ isEditing: boolean }>`
+  font-size: 18px;
   font-weight: 700;
   width: 100%;
   padding-bottom: 0.25rem;

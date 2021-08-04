@@ -9,7 +9,7 @@ const Root = styled.div<{ isFolded: boolean; notiCount: number }>`
   width: 32rem;
   height: ${({ isFolded, notiCount }) =>
     isFolded ? '12rem' : `calc(12rem + ${notiCount - 3} * 1rem)`};
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   box-shadow: 4px 4px 8px 4px rgba(85, 85, 85, 0.2);
   display: flex;
   flex-direction: column;

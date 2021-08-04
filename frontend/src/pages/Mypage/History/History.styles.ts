@@ -7,7 +7,7 @@ const Root = styled.div`
   padding: 1rem 2rem;
   width: 32rem;
   height: 24rem;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   box-shadow: 4px 4px 8px 4px rgba(85, 85, 85, 0.2);
 `;
 
@@ -43,7 +43,7 @@ const SlideTitle = styled.span<{ selected: boolean }>`
   color: inherit;
   text-align: center;
   width: 9rem;
-  padding: 0.5rem 1.5rem;
+  padding: 0.75rem 1.5rem;
   font-weight: ${({ selected }) => selected && '700'};
   cursor: pointer;
 

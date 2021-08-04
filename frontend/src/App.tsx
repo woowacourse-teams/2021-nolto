@@ -11,6 +11,7 @@ import RecentFeeds from 'pages/RecentFeeds/RecentFeeds';
 import SearchResult from 'pages/SearchResult/SearchResult';
 import OAuth from 'pages/OAuth/OAuth';
 import Modify from 'pages/Modify/Modify';
+import Mypage from 'pages/Mypage/Mypage';
 import PrivateRoute from 'components/PrivateRoute';
 import DialogProvider from 'context/dialog/DialogProvider';
 import ModalProvider from 'context/modal/ModalProvider';
@@ -58,6 +59,9 @@ const App = () => {
                   </Route>
                   <Route path={ROUTE.SEARCH}>
                     <SearchResult />
+                  </Route>
+                  <Route path={ROUTE.MYPAGE}>
+                    <Mypage />
                   </Route>
                   <Route path="/:oauth/callback">
                     <OAuth />

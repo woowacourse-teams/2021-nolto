@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import DownPolygon from 'assets/downPolygon.svg';
 import useDialog from 'context/dialog/useDialog';
 import { PALETTE } from 'constants/palette';
+import ROUTE from 'constants/routes';
 import useMember from 'hooks/queries/useMember';
 import Styled from './UserProfile.styles';
 
@@ -15,10 +16,6 @@ const UserProfile = ({ className }: Props) => {
 
   const member = useMember();
   const dialog = useDialog();
-
-  const goUserProfile = () => {
-    dialog.alert('프로필 기능 구현 중...');
-  };
 
   const logout = () => {
     member.logout();
@@ -35,7 +32,7 @@ const UserProfile = ({ className }: Props) => {
       </Styled.UserThumbnail>
       <Styled.Dropdown isOpen={isProfileOpen}>
         <Styled.Greeting>👋 Hello, {member.userData?.nickName}!</Styled.Greeting>
-        <Styled.Button onClick={goUserProfile}>Profile</Styled.Button>
+        <Styled.LinkButton to={ROUTE.MYPAGE}>Profile</Styled.LinkButton>
         <Styled.Button onClick={logout}>Logout</Styled.Button>
       </Styled.Dropdown>
     </Styled.Root>

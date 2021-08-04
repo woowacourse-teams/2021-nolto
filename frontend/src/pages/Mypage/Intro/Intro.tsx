@@ -31,13 +31,15 @@ const Intro = () => {
             </Styled.EditButton>
           ) : (
             <Styled.EditButton type="button" onClick={() => setIsEditing(true)}>
-              <NoteEdit width="16px" />
+              <NoteEdit width="18px" />
             </Styled.EditButton>
           )}
         </Styled.TopContainer>
-        <Styled.ValidationMessage isValid={false}>
-          이미 사용중인 닉네임입니다.
-        </Styled.ValidationMessage>
+        {isEditing && (
+          <Styled.ValidationMessage isValid={false}>
+            이미 사용중인 닉네임입니다.
+          </Styled.ValidationMessage>
+        )}
         <Styled.DetailContainer>
           <Styled.DetailText>Joined at 2021.07.22</Styled.DetailText>
           <Styled.DetailText contentEditable={isEditing} spellCheck={false} isEditing={isEditing}>

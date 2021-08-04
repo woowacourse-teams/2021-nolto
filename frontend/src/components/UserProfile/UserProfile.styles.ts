@@ -1,4 +1,5 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
+import { Link } from 'react-router-dom';
 
 import { PALETTE } from 'constants/palette';
 
@@ -62,12 +63,13 @@ const Greeting = styled.div`
   color: ${PALETTE.WHITE_400};
 `;
 
-const Button = styled.button`
+const buttonStyle = css`
   width: 100%;
   position: relative;
   border: none;
   border-top: 1px solid ${PALETTE.PRIMARY_400};
   background-color: ${PALETTE.WHITE_400};
+  text-align: center;
   font-size: 1rem;
   overflow: hidden;
 
@@ -88,4 +90,21 @@ const Button = styled.button`
   }
 `;
 
-export default { Root, UserThumbnail, Image, MoreProfileButton, Dropdown, Greeting, Button };
+const LinkButton = styled(Link)`
+  ${buttonStyle};
+`;
+
+const Button = styled.button`
+  ${buttonStyle};
+`;
+
+export default {
+  Root,
+  UserThumbnail,
+  Image,
+  MoreProfileButton,
+  Dropdown,
+  Greeting,
+  LinkButton,
+  Button,
+};
