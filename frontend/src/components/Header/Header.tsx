@@ -83,7 +83,7 @@ const Header = ({ isFolded = false }: Props) => {
           {isSearchBarOpened && <SearchBar placeholder="제목/내용으로만 검색이 가능합니다" />}
           <Link to={ROUTE.UPLOAD}>
             <IconButton>
-              <Pencil height="30px" />
+              <Pencil fill={PALETTE.PRIMARY_300} height="30px" />
             </IconButton>
           </Link>
 

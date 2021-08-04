@@ -45,3 +45,14 @@ addDecorator((story) => (
 ));
 
 configure(require.context('../src', true, /\.stories\.js?$/), module);
+
+localStorage.setItem(
+  'accessToken',
+  'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwiaWF0IjoxNjI4MDU2NjMzLCJleHAiOjE2MjgwNjAyMzN9.ic01hzhIonPcW1u50Do6u05sxbLp4H09-UwXRUultew',
+);
+
+if (typeof global.process === 'undefined') {
+  const { worker } = require('../src/__mocks__/msw/browser');
+
+  worker.start();
+}

@@ -11,6 +11,8 @@ export const PALETTE = {
   BLACK_400: '#333333',
   BLACK_500: '#222222',
 
+  ORANGE_200: ' #FFEDD9',
+
   PRIMARY_200: '#f6d365',
   PRIMARY_300: '#FFCB91',
   PRIMARY_400: '#FDA085',
