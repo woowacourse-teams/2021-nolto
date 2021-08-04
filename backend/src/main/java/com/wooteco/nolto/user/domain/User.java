@@ -1,5 +1,6 @@
 package com.wooteco.nolto.user.domain;
 
+import com.wooteco.nolto.BaseEntity;
 import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.UnauthorizedException;
@@ -20,7 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class User {
+public class User extends BaseEntity {
     public static final GuestUser GUEST_USER = new GuestUser();
 
     @Id
@@ -34,7 +35,7 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private SocialType socialType;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     @NotBlank
     private String nickName;
 

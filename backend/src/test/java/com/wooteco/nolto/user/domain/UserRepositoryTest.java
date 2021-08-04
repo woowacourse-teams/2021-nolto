@@ -48,7 +48,6 @@ class UserRepositoryTest {
 
     @DisplayName("이미 존재하는 nickname을 가진 User를 저장하려고 하면 예외가 발생한다.")
     @Test
-    @Disabled
     public void saveWithDuplicatedNickname() {
         // given
         userRepository.save(user1);
