@@ -96,6 +96,10 @@ public class User extends BaseEntity {
                 .findAny().orElseThrow(() -> new UnauthorizedException(ErrorType.UNAUTHORIZED_UPDATE_FEED));
     }
 
+    public void changeNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
     private static class GuestUser extends User {
         @Override
         public boolean isLiked(Feed feed) {
