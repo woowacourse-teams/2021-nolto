@@ -24,7 +24,9 @@ public enum ErrorType {
     MULTIPART_CONVERT_FAIL("feed-007", "MultipartFile 변환에 실패하였습니다."),
 
     ALREADY_LIKED("like-001", "이미 좋아요 누른 글 입니다."),
-    NOT_LIKED("like-002", "좋아요를 누르지 않았습니다.");
+    NOT_LIKED("like-002", "좋아요를 누르지 않았습니다."),
+
+    ALREADY_EXIST_NICKNAME("member-001", "이미 존재하는 닉네임입니다.");
 
     private String errorCode;
     private String message;

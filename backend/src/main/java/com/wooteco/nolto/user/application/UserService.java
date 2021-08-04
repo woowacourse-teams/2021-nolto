@@ -1,5 +1,6 @@
 package com.wooteco.nolto.user.application;
 
+import com.wooteco.nolto.exception.BadRequestException;
 import com.wooteco.nolto.image.application.ImageKind;
 import com.wooteco.nolto.image.application.ImageService;
 import com.wooteco.nolto.user.domain.User;
@@ -10,6 +11,8 @@ import com.wooteco.nolto.user.ui.dto.ProfileResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import static com.wooteco.nolto.exception.ErrorType.ALREADY_EXIST_NICKNAME;
 
 @Service
 @Transactional
@@ -30,6 +33,9 @@ public class UserService {
     }
 
     public ProfileResponse updateProfile(User user, ProfileRequest request) {
+        if (userRepository.existsByNickName(request.getNickname())) {
+            throw new BadRequestException(ALREADY_EXIST_NICKNAME);
+        }
         updateIfImageExist(request, user);
         user.updateProfile(request.getNickname(), request.getBio());
         return ProfileResponse.of(user, 0);

@@ -11,6 +11,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/members")
 @AllArgsConstructor
@@ -42,8 +44,7 @@ public class UserController {
 
     @ValidTokenRequired
     @PutMapping("/me/profile")
-    public ResponseEntity<ProfileResponse> editProfileOfMine(@MemberAuthenticationPrincipal User user,
-                                                             @ModelAttribute ProfileRequest profileRequest) {
+    public ResponseEntity<ProfileResponse> editProfileOfMine(@MemberAuthenticationPrincipal User user, @Valid @ModelAttribute ProfileRequest profileRequest) {
         ProfileResponse response = userService.updateProfile(user, profileRequest);
         return ResponseEntity.ok(response);
     }
