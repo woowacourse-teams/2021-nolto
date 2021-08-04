@@ -1,9 +1,9 @@
 import React from 'react';
 
-import Styled from './Intro.styles';
 import zigIcon from 'assets/team/zig.png';
 import Camera from 'assets/camera.svg';
 import NoteEdit from 'assets/noteEdit.svg';
+import Styled from './Intro.styles';
 
 const Intro = () => {
   return (
@@ -20,7 +20,7 @@ const Intro = () => {
         <Styled.TopContainer>
           <Styled.Name>Jieun Song</Styled.Name>
           <Styled.EditButton type="button">
-            <NoteEdit width="14px" />
+            <NoteEdit width="16px" />
           </Styled.EditButton>
         </Styled.TopContainer>
         <Styled.ValidationMessage isValid={false}>

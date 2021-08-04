@@ -17,6 +17,8 @@ export const PALETTE = {
 
   HIGHLIGHT: '#FFBB33',
 
+  ORANGE_400: '#FFAE54',
+
   RED_400: '#FF0000',
   RED_500: '#FF2020',
 

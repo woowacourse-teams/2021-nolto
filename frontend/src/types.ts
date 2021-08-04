@@ -22,6 +22,12 @@ export enum SearchType {
   TECH = '기술스택',
 }
 
+export enum NotiType {
+  COMMENT_SOS = 'COMMENT_SOS',
+  COMMENT = 'COMMENT',
+  LIKE = 'LIKE',
+}
+
 export interface Author {
   id: number;
   nickname: string;
