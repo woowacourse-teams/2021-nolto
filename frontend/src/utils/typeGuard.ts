@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import ERROR_CODE from 'constants/errorCodeMap';
-import { ErrorResponse, HttpErrorResponse } from 'types';
+import { CommentBase, RootComment, ErrorResponse, HttpErrorResponse } from 'types';
 
 export const isErrorResponse = (response: any): response is ErrorResponse => {
   if (typeof response.status !== 'number') {
@@ -38,4 +38,8 @@ export const isHttpErrorResponse = (errorResponse: any): errorResponse is HttpEr
   }
 
   return true;
+};
+
+export const isRootComment = (commentBase: CommentBase): commentBase is RootComment => {
+  return (commentBase as RootComment).replies ? true : false;
 };

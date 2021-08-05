@@ -23,4 +23,7 @@ public abstract class BaseEntity {
     @Column(nullable = false)
     private LocalDateTime modifiedDate;
 
+    public boolean isModified() {
+        return this.modifiedDate.isAfter(this.createdDate);
+    }
 }

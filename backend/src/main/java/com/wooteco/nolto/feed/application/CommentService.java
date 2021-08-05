@@ -6,8 +6,7 @@ import com.wooteco.nolto.exception.UnauthorizedException;
 import com.wooteco.nolto.feed.domain.Comment;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.repository.CommentRepository;
-import com.wooteco.nolto.feed.ui.dto.ReplyRequest;
-import com.wooteco.nolto.feed.ui.dto.ReplyResponse;
+import com.wooteco.nolto.feed.ui.dto.*;
 import com.wooteco.nolto.user.domain.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,8 +20,40 @@ import java.util.List;
 @AllArgsConstructor
 public class CommentService {
 
-    private final FeedService feedService;
     private final CommentRepository commentRepository;
+    private final FeedService feedService;
+
+    public CommentResponse create(User user, Long feedId, CommentRequest request) {
+        Feed findFeed = feedService.findEntityById(feedId);
+        Comment comment = new Comment(request.getContent(), request.isHelper()).writtenBy(user);
+        findFeed.addComment(comment);
+        commentRepository.save(comment);
+        return CommentResponse.of(comment, user);
+    }
+
+    public List<CommentWithReplyResponse> findAllByFeedId(Long feedId, User user) {
+        List<Comment> comments = commentRepository.findAllByFeedId(feedId);
+        for (Comment comment : comments) {
+            comment.sortReplies();
+        }
+        return CommentWithReplyResponse.toList(comments, user);
+    }
+
+    public CommentResponse updateComment(Long commentId, CommentRequest request, User user) {
+        Comment findComment = findEntityById(commentId);
+        findComment.update(request.getContent(), request.isHelper());
+        commentRepository.flush();
+        return CommentResponse.of(findComment, user);
+    }
+
+    public void deleteComment(Long commentId) {
+        commentRepository.delete(findEntityById(commentId));
+    }
+
+    public Comment findEntityById(Long commentId) {
+        return commentRepository.findById(commentId)
+                .orElseThrow(() -> new NotFoundException(ErrorType.COMMENT_NOT_FOUND));
+    }
 
     public ReplyResponse createReply(User user, Long feedId, Long commentId, ReplyRequest request) {
         Comment comment = findEntityById(commentId);
@@ -32,11 +63,6 @@ public class CommentService {
 
         Comment saveReply = commentRepository.save(reply);
         return ReplyResponse.of(saveReply, false);
-    }
-
-    public Comment findEntityById(Long commentId) {
-        return commentRepository.findById(commentId)
-                .orElseThrow(() -> new NotFoundException(ErrorType.COMMENT_NOT_FOUND));
     }
 
     public List<ReplyResponse> findAllRepliesById(User user, Long feedId, Long commentId) {
@@ -52,8 +78,9 @@ public class CommentService {
         }
 
         reply.changeContent(request.getContent());
-        commentRepository.flush();
-        return ReplyResponse.of(reply, reply.isLike(user));
+        Comment newReply = commentRepository.save(reply);
+//        commentRepository.flush();
+        return ReplyResponse.of(newReply, user.isCommentLiked(newReply));
     }
 
     public void deleteReply(User user, Long feedId, Long commentId, Long replyId) {

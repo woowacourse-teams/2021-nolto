@@ -6,7 +6,7 @@ export const BASE_URL: { [key: string]: string } = {
 };
 
 const api = axios.create({
-  baseURL: BASE_URL[process.env.NODE_ENV] || BASE_URL.production,
+  baseURL: BASE_URL[process.env.NODE_ENV] || BASE_URL.development,
 });
 
 api.interceptors.request.use(

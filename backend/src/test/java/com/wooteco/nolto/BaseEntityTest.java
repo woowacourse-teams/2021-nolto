@@ -52,20 +52,21 @@ class BaseEntityTest {
         feed1.writtenBy(user1);
         feed2.writtenBy(user2);
         feed3.writtenBy(user2);
+
+        feedRepository.save(feed1);
+        feedRepository.save(feed2);
+        feedRepository.save(feed3);
     }
 
     @DisplayName("피드 저장 시 생성 날짜가 저장된다.")
     @Test
     void save() {
         // when
-        Feed savedFeed1 = feedRepository.save(feed1);
-        Feed savedFeed2 = feedRepository.save(feed2);
-        Feed savedFeed3 = feedRepository.save(feed3);
         entityManager.flush();
 
         // then
-        assertThat(savedFeed1.getCreatedDate()).isNotNull();
-        assertThat(savedFeed1.getModifiedDate()).isNotNull();
+        assertThat(feed1.getCreatedDate()).isNotNull();
+        assertThat(feed1.getModifiedDate()).isNotNull();
     }
 
     @DisplayName("데이터 변경 시 lastModifiedDate가 수정된다")
@@ -86,4 +87,17 @@ class BaseEntityTest {
         assertThat(modifiedDate).isNotEqualTo(changedUpdatedAt);
     }
 
+    @DisplayName("객체가 수정됐는지 확인할 수 있다.")
+    @Test
+    void isModified() {
+        // given
+        feed1.update("수정된 제목", feed1.getContent(), feed1.getStep(), feed1.isSos(), feed1.getStorageUrl(), feed1.getDeployedUrl());;
+
+        // when
+        entityManager.flush();
+        entityManager.clear();
+
+        // then
+        assertThat(feed1.isModified()).isTrue();
+    }
 }

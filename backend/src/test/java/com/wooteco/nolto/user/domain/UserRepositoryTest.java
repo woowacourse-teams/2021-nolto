@@ -4,7 +4,6 @@ import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +23,12 @@ class UserRepositoryTest {
 
     private User user1;
 
+    public static final String EXIST_NICKNAME = "찰리";
+    public static final String NOT_EXIST_NICKNAME = "존재하지 않는 닉네임";
+
     @BeforeEach
     void setUp() {
-        user1 = new User("1111", SocialType.GOOGLE, "찰리", "charlie.png");
+        user1 = new User("1111", SocialType.GOOGLE, EXIST_NICKNAME, "charlie.png");
     }
 
     @DisplayName("context가 제대로 생성되고 설정이 됐는지 확인한다.")
@@ -48,7 +50,6 @@ class UserRepositoryTest {
 
     @DisplayName("이미 존재하는 nickname을 가진 User를 저장하려고 하면 예외가 발생한다.")
     @Test
-    @Disabled
     public void saveWithDuplicatedNickname() {
         // given
         userRepository.save(user1);
@@ -116,7 +117,7 @@ class UserRepositoryTest {
         SocialType newSocialType = SocialType.GITHUB;
         String newNickname = "Gomding";
         String newImageUrl = "updateImageUrl";
-        User updatedUser = new User(savedUser.getId(), newSocialId, newSocialType, newNickname, newImageUrl);
+        User updatedUser = new User(savedUser.getId(), newSocialId, newSocialType, newNickname, newImageUrl,null);
 
         // when
         userRepository.save(updatedUser);
@@ -162,10 +163,26 @@ class UserRepositoryTest {
         assertThatNoException();
     }
 
+    @DisplayName("nickname이 존재하는지 여부를 확인한다.")
+    @Test
+    void existsByNickName() {
+        // given
+        User savedUser = userRepository.save(user1);
+
+        // when
+        boolean existNicknameResult = userRepository.existsByNickName(EXIST_NICKNAME);
+        boolean notExistNicknameResult = userRepository.existsByNickName(NOT_EXIST_NICKNAME);
+
+        assertThat(existNicknameResult).isTrue();
+        assertThat(notExistNicknameResult).isFalse();
+    }
+
     private void checkSameInfo(User user1, User user2) {
         assertThat(user1.getSocialId()).isEqualTo(user2.getSocialId());
         assertThat(user1.getSocialType()).isEqualTo(user2.getSocialType());
         assertThat(user1.getNickName()).isEqualTo(user2.getNickName());
         assertThat(user1.getImageUrl()).isEqualTo(user2.getImageUrl());
+        assertThat(user1.getBio()).isEqualTo(user2.getBio());
+        assertThat(user1.getCreatedDate()).isEqualTo(user2.getCreatedDate());
     }
 }

@@ -3,8 +3,8 @@ import { useLocation } from 'react-router-dom';
 
 import Header from 'components/Header/Header';
 import AsyncBoundary from 'components/AsyncBoundary';
-import SearchResultContent from 'components/SearchResultContent/SearchResultContent';
-import SearchResultHeader from 'components/SearchResultHeader/SearchResultHeader';
+import SearchResultContent from 'pages/SearchResult/SearchResultContent/SearchResultContent';
+import SearchResultHeader from 'pages/SearchResult/SearchResultHeader/SearchResultHeader';
 import LevelButton from 'components/LevelButton/LevelButton';
 import Styled from './SearchResult.styles';
 import { FilterType, Tech } from 'types';

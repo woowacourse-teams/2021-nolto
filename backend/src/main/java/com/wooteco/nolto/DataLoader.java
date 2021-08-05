@@ -38,14 +38,14 @@ public class DataLoader implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        User mickey = new User(null, "1", SocialType.GITHUB, "미키", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg");
+        User mickey = new User( "1", SocialType.GITHUB, "미키", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg");
         List<User> users = Arrays.asList(
                 mickey,
-                new User(null, "2", SocialType.GITHUB, "아마찌", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"),
-                new User(null, "3", SocialType.GITHUB, "지그", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"),
-                new User(null, "4", SocialType.GITHUB, "포모", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"),
-                new User(null, "5", SocialType.GITHUB, "조엘", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"),
-                new User(null, "6", SocialType.GITHUB, "찰리", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg")
+                new User("2", SocialType.GITHUB, "아마찌", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"),
+                new User("3", SocialType.GITHUB, "지그", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"),
+                new User("4", SocialType.GITHUB, "포모", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"),
+                new User( "5", SocialType.GITHUB, "조엘", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"),
+                new User("6", SocialType.GITHUB, "찰리", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg")
         );
         userRepository.saveAll(users);
 
@@ -70,10 +70,10 @@ public class DataLoader implements ApplicationRunner {
         Comment comment5 = new Comment("첫 댓글의 대댓글333", false).writtenBy(mickey);
         Comment comment6 = new Comment("2등 댓글의 대댓글111", false).writtenBy(mickey);
 
-        feed1.addComment(comment1);
+        comment1.setFeed(feed1);
         commentRepository.save(comment1);
 
-        feed1.addComment(comment2);
+        comment2.setFeed(feed1);
         commentRepository.save(comment2);
 
         comment1.addReply(comment3);

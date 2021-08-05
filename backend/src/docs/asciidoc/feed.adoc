@@ -18,6 +18,8 @@ include::{snippets}/feed-create/http-response.adoc[]
 
 include::{snippets}/feed-update/http-request.adoc[]
 include::{snippets}/feed-update/request-parameters.adoc[]
+include::{snippets}/feed-update/request-parts.adoc[]
+
 
 ==== Response
 

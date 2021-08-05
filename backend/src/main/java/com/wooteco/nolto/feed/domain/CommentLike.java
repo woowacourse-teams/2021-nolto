@@ -30,6 +30,14 @@ public class CommentLike {
         this.comment = comment;
     }
 
+    public boolean hasComment(Comment comment) {
+        return this.comment.equals(comment);
+    }
+
+    public boolean sameAs(User user) {
+        return this.user.sameAs(user);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

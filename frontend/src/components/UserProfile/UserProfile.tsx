@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 
 import DownPolygon from 'assets/downPolygon.svg';
-import useNotification from 'context/notification/useNotification';
+import useDialog from 'context/dialog/useDialog';
 import { PALETTE } from 'constants/palette';
+import ROUTE from 'constants/routes';
 import useMember from 'hooks/queries/useMember';
-import Styled from './UserProfile.styles';
+import Styled, { Link } from './UserProfile.styles';
 
 interface Props {
   className?: string;
@@ -14,15 +15,11 @@ const UserProfile = ({ className }: Props) => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const member = useMember();
-  const notification = useNotification();
-
-  const goUserProfile = () => {
-    notification.alert('프로필 기능 구현 중...');
-  };
+  const dialog = useDialog();
 
   const logout = () => {
     member.logout();
-    notification.alert('로그아웃되었습니다.');
+    dialog.alert('로그아웃되었습니다.');
   };
 
   return (
@@ -34,8 +31,8 @@ const UserProfile = ({ className }: Props) => {
         </Styled.MoreProfileButton>
       </Styled.UserThumbnail>
       <Styled.Dropdown isOpen={isProfileOpen}>
-        <Styled.Greeting>👋 Hello, {member.userData?.nickName}!</Styled.Greeting>
-        <Styled.Button onClick={goUserProfile}>Profile</Styled.Button>
+        <Styled.Greeting>👋 Hello, {member.userData?.nickname}!</Styled.Greeting>
+        <Link to={ROUTE.MYPAGE}>Profile</Link>
         <Styled.Button onClick={logout}>Logout</Styled.Button>
       </Styled.Dropdown>
     </Styled.Root>

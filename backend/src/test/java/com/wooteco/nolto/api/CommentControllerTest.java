@@ -1,6 +1,7 @@
 package com.wooteco.nolto.api;
 
 import com.wooteco.nolto.auth.domain.SocialType;
+import com.wooteco.nolto.feed.application.CommentLikeService;
 import com.wooteco.nolto.feed.application.CommentService;
 import com.wooteco.nolto.feed.ui.CommentController;
 import com.wooteco.nolto.feed.ui.dto.AuthorResponse;
@@ -48,6 +49,9 @@ public class CommentControllerTest extends ControllerTest {
 
     @MockBean
     private CommentService commentService;
+
+    @MockBean
+    private CommentLikeService commentLikeService;
 
     private static final FieldDescriptor[] SINGLE_REPLY_RESPONSE = new FieldDescriptor[]{
             fieldWithPath("id").type(JsonFieldType.NUMBER).description("대댓글 ID"),

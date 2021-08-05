@@ -1,6 +1,7 @@
 import React from 'react';
 
 import SearchResultContent from './SearchResultContent';
+import { FilterType } from 'types';
 
 export default {
   title: 'components/SearchResultContent',
@@ -8,4 +9,6 @@ export default {
   argTypes: {},
 };
 
-export const Default = () => <SearchResultContent query="" techs="reactjs" />;
+export const Default = () => (
+  <SearchResultContent query="" techs="reactjs" filter={FilterType.COMPLETE} />
+);

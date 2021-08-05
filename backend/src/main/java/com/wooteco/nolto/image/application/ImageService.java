@@ -28,18 +28,15 @@ public class ImageService {
     @Value("${application.cloudfront.url}")
     private String cloudfrontUrl;
 
-    @Value("${application.default-image}")
-    private String defaultImage;
-
     private final AmazonS3 amazonS3Client;
 
     public ImageService(AmazonS3 amazonS3Client) {
         this.amazonS3Client = amazonS3Client;
     }
 
-    public String upload(MultipartFile multipartFile) {
+    public String upload(MultipartFile multipartFile, ImageKind imageKind) {
         if (isEmpty(multipartFile)) {
-            return cloudfrontUrl + defaultImage;
+            return cloudfrontUrl + imageKind.defaultName();
         }
         File file = convertToFile(multipartFile);
         String fileName = getFileName(file);
@@ -69,16 +66,12 @@ public class ImageService {
         return convertedFile;
     }
 
-    public String update(String oldImageUrl, MultipartFile updateImage) {
-        String imageUrl = oldImageUrl.replace(cloudfrontUrl, "");
-        if (!isDefault(imageUrl) && amazonS3Client.doesObjectExist(bucketName, imageUrl)) {
-            amazonS3Client.deleteObject(new DeleteObjectRequest(bucketName, imageUrl));
+    public String update(String oldImageUrl, MultipartFile updateImage, ImageKind imageKind) {
+        String imageName = oldImageUrl.replace(cloudfrontUrl, "");
+        if (ImageKind.isDefault(imageName) && amazonS3Client.doesObjectExist(bucketName, imageName)) {
+            amazonS3Client.deleteObject(new DeleteObjectRequest(bucketName, imageName));
         }
-        return upload(updateImage);
-    }
-
-    private boolean isDefault(String fileName) {
-        return defaultImage.equals(fileName);
+        return upload(updateImage, imageKind);
     }
 }
 

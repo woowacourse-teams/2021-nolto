@@ -22,6 +22,18 @@ export enum SearchType {
   TECH = '기술스택',
 }
 
+export enum NotiType {
+  COMMENT_SOS = 'COMMENT_SOS',
+  COMMENT = 'COMMENT',
+  LIKE = 'LIKE',
+}
+
+export enum UserHistoryType {
+  MY_LIKED = 'MY_LIKED',
+  MY_FEED = 'MY_FEED',
+  MY_COMMENT = 'MY_COMMENT',
+}
+
 export interface Author {
   id: number;
   nickname: string;
@@ -59,11 +71,12 @@ export interface FeedDetail extends Feed {
   liked: boolean;
 }
 
-export interface UserInfo {
-  id: number;
+export interface FeedWithComment {
+  feed: Omit<Feed, 'author'>;
+  text: string;
+}
+export interface UserInfo extends Author {
   socialType: 'GOOGLE' | 'GITHUB';
-  nickName: string;
-  imageUrl: string;
 }
 
 export type OAuthType = 'google' | 'github';
@@ -72,7 +85,7 @@ export type SnackBarType = 'error' | 'success' | null;
 
 export type AddSnackBar = (type: SnackBarType, text: string) => void;
 
-export type NotificationType = 'alert' | 'confirm';
+export type DialogType = 'alert' | 'confirm';
 
 export type ErrorHandler = (error: CustomError) => void;
 
@@ -88,4 +101,20 @@ export interface HttpErrorResponse extends ErrorResponse {
     message: string;
     errorCode: ERROR_CODE_KEY;
   };
+}
+
+export interface CommentBase {
+  id: number;
+  content: string;
+  likes: number;
+  liked: boolean;
+  feedAuthor: boolean;
+  createdAt: string;
+  modified: boolean;
+  author: Author;
+}
+
+export interface RootComment extends CommentBase {
+  helper: boolean;
+  replies: CommentBase[];
 }

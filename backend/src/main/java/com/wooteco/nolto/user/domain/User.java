@@ -1,5 +1,6 @@
 package com.wooteco.nolto.user.domain;
 
+import com.wooteco.nolto.BaseEntity;
 import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.UnauthorizedException;
@@ -15,12 +16,14 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class User {
+public class User extends BaseEntity {
     public static final GuestUser GUEST_USER = new GuestUser();
 
     @Id
@@ -34,13 +37,15 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private SocialType socialType;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     @NotBlank
     private String nickName;
 
     @Column(nullable = false)
     @NotBlank
     private String imageUrl;
+
+    private String bio = "";
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private final List<Feed> feeds = new ArrayList<>();
@@ -54,12 +59,16 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private final List<CommentLike> commentLikes = new ArrayList<>();
 
-    public User(String socialId, SocialType socialType, String nickName, String imageUrl) {
-        this(null, socialId, socialType, nickName, imageUrl);
+    public User(Long id, String socialId, SocialType socialType, String nickName) {
+        this(id, socialId, socialType, nickName, null, null);
     }
 
-    public User(Long id, String socialId, SocialType socialType, String nickName) {
-        this(id, socialId, socialType, nickName, null);
+    public User(String socialId, SocialType socialType, String nickName, String imageUrl) {
+        this(null, socialId, socialType, nickName, imageUrl, null);
+    }
+
+    public User(Long id, String socialId, SocialType socialType, String nickName, String imageUrl) {
+        this(id, socialId, socialType, nickName, imageUrl, null);
     }
 
     public void update(String nickName, String imageUrl) {
@@ -72,11 +81,6 @@ public class User {
                 .anyMatch(like -> like.hasFeed(feed));
     }
 
-    public boolean isLiked(Comment comment) {
-        return commentLikes.stream()
-                .anyMatch(commentLike -> commentLike.getComment().equals(comment));
-    }
-
     public void addFeed(Feed feed) {
         this.feeds.add(feed);
     }
@@ -86,12 +90,26 @@ public class User {
         like.getFeed().addLike(like);
     }
 
+    public boolean isCommentLiked(Comment comment) {
+        return commentLikes.stream()
+                .anyMatch(commentLike -> commentLike.hasComment(comment));
+    }
+
+    public void addCommentLike(CommentLike commentLike) {
+        this.commentLikes.add(commentLike);
+        commentLike.getComment().addCommentLike(commentLike);
+    }
+
     public boolean sameAs(User user) {
-        return getId().equals(user.getId());
+        return this.equals(user);
     }
 
     public void delete(Like like) {
         this.likes.remove(like);
+    }
+
+    public void delete(CommentLike like) {
+        this.commentLikes.remove(like);
     }
 
     public Feed findMyFeed(Long feedId) {
@@ -100,8 +118,27 @@ public class User {
                 .findAny().orElseThrow(() -> new UnauthorizedException(ErrorType.UNAUTHORIZED_UPDATE_FEED));
     }
 
-    public void deleteComment(Comment comment) {
-        this.comments.removeIf(comment1 -> comment1.getId().equals(comment.getId()));
+    public List<Feed> findLikedFeeds() {
+        return this.likes.stream()
+                .map(Like::getFeed)
+                .collect(Collectors.toList());
+    }
+
+    public void changeNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public void changeImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public void updateProfile(String nickname, String bio) {
+        this.nickName = nickname;
+        this.bio = bio;
+    }
+
+    public void deleteComment(Comment reply) {
+        this.comments.remove(reply);
     }
 
     private static class GuestUser extends User {
@@ -109,5 +146,23 @@ public class User {
         public boolean isLiked(Feed feed) {
             return false;
         }
+
+        @Override
+        public boolean isCommentLiked(Comment comment) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

@@ -54,10 +54,10 @@ public class FeedControllerTest extends ControllerTest {
 
     private static final long FEED_ID = 1L;
 
-    private static final Feed FEED1 =
+    public static final Feed FEED1 =
             new Feed(1L, "title1", "content1", Step.PROGRESS, true, "www.surl.com", "www.durl.com", "www.turl.com").writtenBy(LOGIN_USER);
 
-    private static final Feed FEED2 =
+    public static final Feed FEED2 =
             new Feed(2L, "title2", "content2", Step.COMPLETE, false, "", "http://woowa.jofilm.com", "", 2, LOGIN_USER, new ArrayList<>());
 
     private static final List<FeedCardResponse> FEED_CARD_RESPONSES = FeedCardResponse.toList(Arrays.asList(FEED1, FEED2));
