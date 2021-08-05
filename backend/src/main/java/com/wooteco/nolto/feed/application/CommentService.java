@@ -78,8 +78,7 @@ public class CommentService {
         }
 
         reply.changeContent(request.getContent());
-        Comment newReply = commentRepository.save(reply);
-//        commentRepository.flush();
+        Comment newReply = commentRepository.saveAndFlush(reply);
         return ReplyResponse.of(newReply, user.isCommentLiked(newReply));
     }
 

@@ -117,7 +117,7 @@ class UserRepositoryTest {
         SocialType newSocialType = SocialType.GITHUB;
         String newNickname = "Gomding";
         String newImageUrl = "updateImageUrl";
-        User updatedUser = new User(savedUser.getId(), newSocialId, newSocialType, newNickname, newImageUrl,null);
+        User updatedUser = new User(savedUser.getId(), newSocialId, newSocialType, newNickname, newImageUrl, null);
 
         // when
         userRepository.save(updatedUser);

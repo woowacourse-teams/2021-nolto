@@ -91,7 +91,8 @@ class BaseEntityTest {
     @Test
     void isModified() {
         // given
-        feed1.update("수정된 제목", feed1.getContent(), feed1.getStep(), feed1.isSos(), feed1.getStorageUrl(), feed1.getDeployedUrl());;
+        feed1.update("수정된 제목", feed1.getContent(), feed1.getStep(), feed1.isSos(), feed1.getStorageUrl(), feed1.getDeployedUrl());
+        ;
 
         // when
         entityManager.flush();

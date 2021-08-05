@@ -76,7 +76,6 @@ public class Comment extends BaseEntity {
     public void setFeed(Feed feed) {
         if (Objects.isNull(this.feed)) {
             this.feed = feed;
-            feed.addComment(this);
         }
     }
 
@@ -96,7 +95,6 @@ public class Comment extends BaseEntity {
 
     public boolean isFeedAuthor() {
         return this.author.sameAs(feed.getAuthor());
-//        return feed.getAuthor().sameAs(this.author);
     }
 
     public void addParentComment(Comment comment) {

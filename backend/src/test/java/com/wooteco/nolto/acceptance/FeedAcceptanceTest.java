@@ -25,7 +25,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
-import org.testcontainers.shaded.com.google.common.net.HttpHeaders;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -84,9 +83,9 @@ public class FeedAcceptanceTest extends AcceptanceTest {
         진행중_SOS_좋아요1개_3번째_피드_ID = 피드_업로드되어_있음(진행중_단계의_SOS_피드_요청);
         전시중_SOS_좋아요0개_4번째_피드_ID = 피드_업로드되어_있음(전시중_단계의_SOS_피드_요청);
 
-        좋아요_1개_누를_유저 = 회원_등록되어_있음(new User( "2", SocialType.GITHUB, "아마찌", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"));
-        좋아요_2개_누를_유저 = 회원_등록되어_있음(new User( "3", SocialType.GITHUB, "마찌", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"));
-        좋아요_3개_누를_유저 = 회원_등록되어_있음(new User( "4", SocialType.GITHUB, "아마짜", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"));
+        좋아요_1개_누를_유저 = 회원_등록되어_있음(new User("2", SocialType.GITHUB, "아마찌", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"));
+        좋아요_2개_누를_유저 = 회원_등록되어_있음(new User("3", SocialType.GITHUB, "마찌", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"));
+        좋아요_3개_누를_유저 = 회원_등록되어_있음(new User("4", SocialType.GITHUB, "아마짜", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"));
     }
 
     @DisplayName("놀토의 회원이 피드를 작성한다. (이미지 : 기본 썸네일)")
@@ -483,7 +482,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
         // then
         피드_목록_조회_응답됨(JAVA_기술_응답);
         피드_목록_조회_응답됨(JAVA_AND_SPRING_기술_응답);
-        피드_목록_포함됨(JAVA_기술_응답,Arrays.asList(JAVA_기술가진_피드_ID, JAVA_AND_SPRING_기술가진_피드_ID));
+        피드_목록_포함됨(JAVA_기술_응답, Arrays.asList(JAVA_기술가진_피드_ID, JAVA_AND_SPRING_기술가진_피드_ID));
         피드_목록_포함됨(JAVA_AND_SPRING_기술_응답, Collections.singletonList(JAVA_AND_SPRING_기술가진_피드_ID));
     }
 
@@ -509,7 +508,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
         // then
         피드_목록_조회_응답됨(쿼리와_기술로_피드_검색_응답);
         피드_목록_조회_응답됨(쿼리_기술_필터링값으로_피드_검색_응답);
-        피드_목록_포함됨(쿼리와_기술로_피드_검색_응답,Arrays.asList(JAVA_기술가진_피드_ID, JAVA_AND_SPRING_기술가진_피드_ID));
+        피드_목록_포함됨(쿼리와_기술로_피드_검색_응답, Arrays.asList(JAVA_기술가진_피드_ID, JAVA_AND_SPRING_기술가진_피드_ID));
         피드_목록_포함됨(쿼리_기술_필터링값으로_피드_검색_응답, Collections.singletonList(JAVA_AND_SPRING_기술가진_피드_ID));
 
     }

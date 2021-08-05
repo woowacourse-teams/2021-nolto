@@ -38,13 +38,13 @@ public class DataLoader implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        User mickey = new User( "1", SocialType.GITHUB, "미키", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg");
+        User mickey = new User("1", SocialType.GITHUB, "미키", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg");
         List<User> users = Arrays.asList(
                 mickey,
                 new User("2", SocialType.GITHUB, "아마찌", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"),
                 new User("3", SocialType.GITHUB, "지그", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"),
                 new User("4", SocialType.GITHUB, "포모", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"),
-                new User( "5", SocialType.GITHUB, "조엘", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"),
+                new User("5", SocialType.GITHUB, "조엘", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"),
                 new User("6", SocialType.GITHUB, "찰리", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg")
         );
         userRepository.saveAll(users);

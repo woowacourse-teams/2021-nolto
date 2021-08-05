@@ -5,20 +5,9 @@ import com.wooteco.nolto.auth.UserAuthenticationPrincipal;
 import com.wooteco.nolto.auth.ValidTokenRequired;
 import com.wooteco.nolto.feed.application.CommentLikeService;
 import com.wooteco.nolto.feed.application.CommentService;
-import com.wooteco.nolto.feed.ui.dto.CommentRequest;
-import com.wooteco.nolto.feed.ui.dto.CommentResponse;
-import com.wooteco.nolto.feed.ui.dto.CommentWithReplyResponse;
+import com.wooteco.nolto.feed.ui.dto.*;
 import com.wooteco.nolto.user.domain.User;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import com.wooteco.nolto.auth.MemberAuthenticationPrincipal;
-import com.wooteco.nolto.auth.UserAuthenticationPrincipal;
-import com.wooteco.nolto.feed.application.CommentService;
-import com.wooteco.nolto.feed.ui.dto.ReplyRequest;
-import com.wooteco.nolto.feed.ui.dto.ReplyResponse;
-import com.wooteco.nolto.user.domain.User;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,7 +47,7 @@ public class CommentController {
     @ValidTokenRequired
     @DeleteMapping("/{commentId:[\\d]+}")
     public ResponseEntity<Void> deleteComment(@MemberAuthenticationPrincipal User user,
-                                       @PathVariable Long feedId, @PathVariable Long commentId) {
+                                              @PathVariable Long feedId, @PathVariable Long commentId) {
         commentService.deleteComment(commentId);
         return ResponseEntity.noContent().build();
     }
@@ -66,7 +55,7 @@ public class CommentController {
     @ValidTokenRequired
     @PostMapping("/{commentId:[\\d]+}/like")
     public ResponseEntity<Void> addCommentLike(@MemberAuthenticationPrincipal User user,
-                                            @PathVariable Long feedId, @PathVariable Long commentId) {
+                                               @PathVariable Long feedId, @PathVariable Long commentId) {
         commentLikeService.addCommentLike(commentId, user);
         return ResponseEntity.ok().build();
     }
@@ -74,7 +63,7 @@ public class CommentController {
     @ValidTokenRequired
     @PostMapping("/{commentId:[\\d]+}/unlike")
     public ResponseEntity<Void> deleteCommentLike(@MemberAuthenticationPrincipal User user,
-                                              @PathVariable Long feedId, @PathVariable Long commentId) {
+                                                  @PathVariable Long feedId, @PathVariable Long commentId) {
         commentLikeService.deleteCommentLike(commentId, user);
         return ResponseEntity.ok().build();
     }

@@ -20,7 +20,7 @@ public class UserTest {
     @DisplayName("멤버가 해당 피드에 좋아요를 눌렀는지 검증한다.")
     @Test
     void isLiked() {
-        User user = new User( SOCIAL_ID, SocialType.GITHUB, NICKNAME, IMAGE);
+        User user = new User(SOCIAL_ID, SocialType.GITHUB, NICKNAME, IMAGE);
         Feed feed = new Feed("title", "content", Step.PROGRESS, true, "", "", "");
         feed.writtenBy(user);
 
@@ -32,7 +32,7 @@ public class UserTest {
     @DisplayName("멤버가 해당 피드에 좋아요를 안 눌렀는지 검증한다.")
     @Test
     void isNotLiked() {
-        User user1 = new User( SOCIAL_ID, SocialType.GITHUB, NICKNAME, IMAGE);
+        User user1 = new User(SOCIAL_ID, SocialType.GITHUB, NICKNAME, IMAGE);
         User user2 = new User("98765L", SocialType.GOOGLE, "amazzi", IMAGE);
         Feed feed = new Feed("title", "content", Step.PROGRESS, true, "", "", "");
         feed.writtenBy(user1);
