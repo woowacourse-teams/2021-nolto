@@ -7,10 +7,11 @@ import { ButtonStyle } from 'types';
 
 const Author = styled.div`
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   gap: 0.5rem;
   font-size: 14px;
   font-weight: 600;
+  margin: 0.5rem 0;
 
   & > span {
     color: ${PALETTE.PRIMARY_400};
@@ -29,17 +30,18 @@ const modify = css`
 
 const Body = styled.span<{ isModifying: boolean }>`
   display: inline-block;
-  padding: 0.7rem 2rem 0;
+  padding: 0 1.5rem;
   ${({ isModifying }) => isModifying && modify};
 `;
 
 const Content = styled.span<{ isFeedAuthor: boolean }>`
   display: inline-block;
-  padding: 0.7rem 2rem 0;
+  padding: 0 1.5rem;
   box-shadow: 2px 2px 4px 2px rgba(85, 85, 85, 0.1);
-  border-radius: 16px;
+  border-radius: 0.75rem;
   min-width: 12rem;
-  height: 3rem;
+  height: 2.5rem;
+  line-height: 2.5rem;
 
   background-color: ${({ isFeedAuthor }) => isFeedAuthor && PALETTE.ORANGE_200};
 `;
@@ -47,9 +49,12 @@ const Content = styled.span<{ isFeedAuthor: boolean }>`
 export const ModifyTextInput = styled(TextInput)`
   font-size: 1rem;
   border-color: ${PALETTE.GRAY_300};
+  padding: 0;
+  padding-bottom: 2px;
+  transition: border-color 0.1s ease;
 
   &:focus {
-    border-color: ${PALETTE.GRAY_300};
+    border-color: ${PALETTE.GRAY_400};
   }
 `;
 
@@ -67,7 +72,8 @@ const ThumbUpWrapper = styled.div`
 `;
 
 const ReplyFromWrapper = styled.div`
-  padding: 0.7rem 0 0 2rem;
+  margin-top: 0.5rem;
+  padding: 0 1.5rem;
 `;
 
 export const CommentTextButton = styled(TextButton.Regular)`
