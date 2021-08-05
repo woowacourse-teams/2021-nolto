@@ -6,6 +6,7 @@ const ROUTE = {
   RECENT: '/recent',
   MODIFY: '/modify',
   SEARCH: '/search',
+  MYPAGE: '/mypage',
 };
 
 export default ROUTE;

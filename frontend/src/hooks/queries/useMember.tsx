@@ -5,7 +5,7 @@ import api from 'constants/api';
 import HttpError from 'utils/HttpError';
 import CustomError from 'utils/CustomError';
 import useModal from 'context/modal/useModal';
-import useNotification from 'context/notification/useNotification';
+import useDialog from 'context/dialog/useDialog';
 import LoginModal from 'components/LoginModal/LoginModal';
 import { UserInfo } from 'types';
 import { resolveHttpErrorResponse } from 'utils/error';
@@ -32,7 +32,7 @@ const getMember = async () => {
 const useMember = () => {
   const queryClient = useQueryClient();
   const modal = useModal();
-  const notification = useNotification();
+  const dialog = useDialog();
 
   const logout = () => {
     localStorage.removeItem('accessToken');
@@ -44,7 +44,7 @@ const useMember = () => {
     useErrorBoundary: false,
     onError: (error) => {
       if (error instanceof HttpError) {
-        notification.alert('로그인 정보가 만료되었습니다. 다시 로그인 해주세요.');
+        dialog.alert('로그인 정보가 만료되었습니다. 다시 로그인 해주세요.');
         logout();
         modal.openModal(<LoginModal />);
       }

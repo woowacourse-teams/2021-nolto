@@ -1,16 +1,21 @@
 package com.wooteco.nolto.user.application;
 
 import com.wooteco.nolto.exception.BadRequestException;
+import com.wooteco.nolto.feed.domain.Comment;
+import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.image.application.ImageKind;
 import com.wooteco.nolto.image.application.ImageService;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.domain.UserRepository;
+import com.wooteco.nolto.user.ui.dto.MemberHistoryResponse;
 import com.wooteco.nolto.user.ui.dto.NicknameValidationResponse;
 import com.wooteco.nolto.user.ui.dto.ProfileRequest;
 import com.wooteco.nolto.user.ui.dto.ProfileResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static com.wooteco.nolto.exception.ErrorType.ALREADY_EXIST_NICKNAME;
 
@@ -21,6 +26,13 @@ public class UserService {
 
     private final ImageService imageService;
     private final UserRepository userRepository;
+
+    public MemberHistoryResponse findHistory(User user) {
+        List<Feed> likedFeeds = user.findLikedFeeds();
+        List<Feed> myFeeds = user.getFeeds();
+        List<Comment> myComments = user.getComments();
+        return MemberHistoryResponse.of(likedFeeds, myFeeds, myComments);
+    }
 
     public NicknameValidationResponse validateDuplicated(String nickname) {
         boolean isExistNickname = userRepository.existsByNickName(nickname);

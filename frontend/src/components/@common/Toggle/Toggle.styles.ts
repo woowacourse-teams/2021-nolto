@@ -34,7 +34,7 @@ const ToggleMark = styled.span`
     border-radius: 50%;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
 
-    transition: transform 0.5s ease, backgroud-color 0.5s ease;
+    transition: transform 0.2s ease, backgroud-color 0.5s ease;
   }
 `;
 

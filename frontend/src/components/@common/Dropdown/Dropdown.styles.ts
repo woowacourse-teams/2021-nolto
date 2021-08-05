@@ -10,7 +10,7 @@ const Root = styled.div`
 
 const trigger = css`
   background-color: ${PALETTE.GRAY_300};
-  filter: ${`drop-shadow(0 0 2px ${PALETTE.BLACK_200})`};
+  filter: ${`drop-shadow(0 0 2px ${PALETTE.BLACK_100})`};
 `;
 
 export const ToggleButton = styled.button<{ isTriggered: boolean }>`
