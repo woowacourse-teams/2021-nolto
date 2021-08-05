@@ -10,25 +10,35 @@ import com.wooteco.nolto.auth.ui.dto.TokenResponse;
 import com.wooteco.nolto.exception.BadRequestException;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.user.domain.User;
+import com.wooteco.nolto.user.domain.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 
+@Transactional
 @SpringBootTest
 class AuthServiceTest {
 
-    private static final OAuthTokenResponse OAUTH_TOKEN_RESPONSE =
+    private static final OAuthTokenResponse OAUTH_TOKEN_RESPONSE1 =
             new OAuthTokenResponse("Bearer", "read:user", "access_token");
-    private static final User USER = new User("socialId", SocialType.GITHUB, "user", "imageUrl");
+    private static final OAuthTokenResponse OAUTH_TOKEN_RESPONSE2 =
+            new OAuthTokenResponse("Bearer", "read:user", "access_token");
+    public static final String USER_NICKNAME = "user";
+    private static final User USER1 = new User("socialId1", SocialType.GITHUB, USER_NICKNAME, "imageUrl");
+    private static final User USER2 = new User("socialId2", SocialType.GITHUB, USER_NICKNAME, "imageUrl");
 
     @Autowired
     private AuthService authService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @MockBean
     private OAuthClientProvider oAuthClientProvider;
@@ -72,8 +82,8 @@ class AuthServiceTest {
     @Test
     void githubSignIn() {
         given(oAuthClientProvider.provideOAuthClientBy(SocialType.GITHUB)).willReturn(githubClient);
-        given(githubClient.generateAccessToken("code")).willReturn(OAUTH_TOKEN_RESPONSE);
-        given(githubClient.generateUserInfo(OAUTH_TOKEN_RESPONSE)).willReturn(USER);
+        given(githubClient.generateAccessToken("code")).willReturn(OAUTH_TOKEN_RESPONSE1);
+        given(githubClient.generateUserInfo(OAUTH_TOKEN_RESPONSE1)).willReturn(USER1);
 
         TokenResponse tokenResponse = authService.oAuthSignIn("github", "code");
 
@@ -84,8 +94,8 @@ class AuthServiceTest {
     @Test
     void googleSignIn() {
         given(oAuthClientProvider.provideOAuthClientBy(SocialType.GOOGLE)).willReturn(githubClient);
-        given(githubClient.generateAccessToken("code")).willReturn(OAUTH_TOKEN_RESPONSE);
-        given(githubClient.generateUserInfo(OAUTH_TOKEN_RESPONSE)).willReturn(USER);
+        given(githubClient.generateAccessToken("code")).willReturn(OAUTH_TOKEN_RESPONSE1);
+        given(githubClient.generateUserInfo(OAUTH_TOKEN_RESPONSE1)).willReturn(USER1);
 
         TokenResponse tokenResponse = authService.oAuthSignIn("google", "code");
 
@@ -96,8 +106,8 @@ class AuthServiceTest {
     @Test
     void socialSignInCode() {
         given(oAuthClientProvider.provideOAuthClientBy(SocialType.GOOGLE)).willReturn(githubClient);
-        given(githubClient.generateAccessToken("code")).willReturn(OAUTH_TOKEN_RESPONSE);
-        given(githubClient.generateUserInfo(OAUTH_TOKEN_RESPONSE)).willReturn(USER);
+        given(githubClient.generateAccessToken("code")).willReturn(OAUTH_TOKEN_RESPONSE1);
+        given(githubClient.generateUserInfo(OAUTH_TOKEN_RESPONSE1)).willReturn(USER1);
 
         assertThatThrownBy(() -> authService.oAuthSignIn("google", null))
                 .isInstanceOf(BadRequestException.class)
@@ -112,11 +122,35 @@ class AuthServiceTest {
     @Test
     void unSupportedSocialSignIn() {
         given(oAuthClientProvider.provideOAuthClientBy(SocialType.GITHUB)).willReturn(githubClient);
-        given(githubClient.generateAccessToken("code")).willReturn(OAUTH_TOKEN_RESPONSE);
-        given(githubClient.generateUserInfo(OAUTH_TOKEN_RESPONSE)).willReturn(USER);
+        given(githubClient.generateAccessToken("code")).willReturn(OAUTH_TOKEN_RESPONSE1);
+        given(githubClient.generateUserInfo(OAUTH_TOKEN_RESPONSE1)).willReturn(USER1);
 
         assertThatThrownBy(() -> authService.oAuthSignIn("naver", "code"))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage(ErrorType.NOT_SUPPORTED_SOCIAL_LOGIN.getMessage());
+    }
+
+    @DisplayName("중복된 닉네임이 있을 경우 원래 닉네임에 식별자를 붙여 가입한다.")
+    @Test
+    void changeForUniqueNickname() {
+        // given
+        given(oAuthClientProvider.provideOAuthClientBy(SocialType.GOOGLE)).willReturn(githubClient);
+        given(githubClient.generateAccessToken("code1")).willReturn(OAUTH_TOKEN_RESPONSE1);
+        given(githubClient.generateAccessToken("code2")).willReturn(OAUTH_TOKEN_RESPONSE2);
+        given(githubClient.generateUserInfo(OAUTH_TOKEN_RESPONSE1)).willReturn(USER1);
+        given(githubClient.generateUserInfo(OAUTH_TOKEN_RESPONSE2)).willReturn(USER2);
+        User existNickNameUser = new User("socialId3", SocialType.GITHUB, USER_NICKNAME, "imageUrl");
+        userRepository.save(existNickNameUser);
+
+        authService.oAuthSignIn("google", "code1");
+        authService.oAuthSignIn("google", "code2");
+
+        boolean 맨처음_저장된_중복_닉네임_존재여부 = userRepository.existsByNickName(USER_NICKNAME);
+        boolean 두번째_저장된_중복_닉네임_존재여부 = userRepository.existsByNickName(USER_NICKNAME + "(1)");
+        boolean 세번째_저장된_중복_닉네임_존재여부 = userRepository.existsByNickName(USER_NICKNAME + "(2)");
+
+        assertThat(맨처음_저장된_중복_닉네임_존재여부).isTrue();
+        assertThat(두번째_저장된_중복_닉네임_존재여부).isTrue();
+        assertThat(세번째_저장된_중복_닉네임_존재여부).isTrue();
     }
 }

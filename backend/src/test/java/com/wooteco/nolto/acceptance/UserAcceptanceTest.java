@@ -55,8 +55,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
     public void 알맞은_회원_정보_조회됨(ExtractableResponse<Response> response, User expectedUser) {
         MemberResponse memberResponse = response.as(MemberResponse.class);
         assertThat(memberResponse.getId()).isNotNull();
-        assertThat(memberResponse.getSocialType()).isEqualTo(expectedUser.getSocialType().name());
-        assertThat(memberResponse.getNickName()).isEqualTo(expectedUser.getNickName());
+        assertThat(memberResponse.getNickname()).isEqualTo(expectedUser.getNickName());
         assertThat(memberResponse.getImageUrl()).isEqualTo(expectedUser.getImageUrl());
     }
 
