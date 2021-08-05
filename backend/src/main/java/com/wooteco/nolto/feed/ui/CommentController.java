@@ -32,7 +32,7 @@ public class CommentController {
     }
 
     @GetMapping("/{commentId}")
-    public ResponseEntity<List<ReplyResponse>> findById(@UserAuthenticationPrincipal User user,
+    public ResponseEntity<List<ReplyResponse>> findAllRepliesById(@UserAuthenticationPrincipal User user,
                                                         @PathVariable Long feedId,
                                                         @PathVariable Long commentId) {
         List<ReplyResponse> replyResponses = commentService.findAllRepliesById(user, feedId, commentId);
@@ -40,12 +40,21 @@ public class CommentController {
     }
 
     @PutMapping("/{commentId}/replies/{replyId}")
-    public ResponseEntity<ReplyResponse> update(@UserAuthenticationPrincipal User user,
+    public ResponseEntity<ReplyResponse> updateReply(@UserAuthenticationPrincipal User user,
                                                 @PathVariable Long feedId,
                                                 @PathVariable Long commentId,
                                                 @PathVariable Long replyId,
                                                 @RequestBody ReplyRequest request) {
-        ReplyResponse updateReplyResponse = commentService.update(user, feedId, commentId, replyId, request);
+        ReplyResponse updateReplyResponse = commentService.updateReply(user, feedId, commentId, replyId, request);
         return ResponseEntity.ok(updateReplyResponse);
+    }
+
+    @DeleteMapping("/{commentId}/replies/{replyId}/like")
+    public ResponseEntity<Void> deleteReply(@UserAuthenticationPrincipal User user,
+                                            @PathVariable Long feedId,
+                                            @PathVariable Long commentId,
+                                            @PathVariable Long replyId) {
+        commentService.deleteReply(user, feedId, commentId, replyId);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -95,6 +95,10 @@ public class User {
                 .findAny().orElseThrow(() -> new UnauthorizedException(ErrorType.UNAUTHORIZED_UPDATE_FEED));
     }
 
+    public void deleteComment(Comment comment) {
+        this.comments.removeIf(comment1 -> comment1.getId().equals(comment.getId()));
+    }
+
     private static class GuestUser extends User {
         @Override
         public boolean isLiked(Feed feed) {

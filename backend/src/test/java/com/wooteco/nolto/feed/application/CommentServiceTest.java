@@ -1,6 +1,7 @@
 package com.wooteco.nolto.feed.application;
 
 import com.wooteco.nolto.auth.domain.SocialType;
+import com.wooteco.nolto.exception.NotFoundException;
 import com.wooteco.nolto.feed.domain.Comment;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.Step;
@@ -23,6 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -141,6 +143,10 @@ class CommentServiceTest {
         assertThat(findReplies.get(0).getId()).isEqualTo(아마찌_대댓글.getId());
         assertThat(findReplies.get(1).getId()).isEqualTo(포모_대댓글.getId());
         assertThat(findReplies.get(2).getId()).isEqualTo(조엘_대댓글.getId());
+        assertThat(아마찌.getComments().size()).isOne();
+        assertThat(찰리.getComments().size()).isOne();
+        assertThat(조엘.getComments().size()).isOne();
+        assertThat(포모.getComments().size()).isOne();
     }
 
     @DisplayName("대댓글의 내용을 수정한다.")
@@ -155,7 +161,7 @@ class CommentServiceTest {
 
         // when
         ReplyRequest 아마찌_대댓글_수정_요청 = new ReplyRequest("다시 생각해보니 괜찮은 거 같기도?");
-        ReplyResponse updateReply = commentService.update(조엘, 아마찌의_개쩌는_지하철_미션.getId(), 조엘_댓글.getId(), 아마찌_대댓글.getId(), 아마찌_대댓글_수정_요청);
+        ReplyResponse updateReply = commentService.updateReply(아마찌, 아마찌의_개쩌는_지하철_미션.getId(), 조엘_댓글.getId(), 아마찌_대댓글.getId(), 아마찌_대댓글_수정_요청);
 
         // then
         assertThat(updateReply.getId()).isNotNull();
@@ -166,6 +172,29 @@ class CommentServiceTest {
         assertThat(updateReply.isModified()).isTrue();
         assertThat(updateReply.getCommentId()).isEqualTo(조엘_댓글.getId());
         assertThat(updateReply.getAuthor().getId()).isEqualTo(아마찌.getId());
+    }
+
+    @DisplayName("대댓글 작성자가 대댓글을 삭제한다.")
+    @Test
+    void deleteReply() {
+        // given
+        Comment 포모_댓글 = 댓글_생성("영 차 영 차 영 차 영 차 영 차 영 차", false, 포모, 아마찌의_개쩌는_지하철_미션);
+        Comment 아마찌_대댓글 = 댓글_생성("영 차 영 차 영 차", false, 아마찌, 아마찌의_개쩌는_지하철_미션);
+        아마찌_대댓글.addParentComment(포모_댓글);
+        commentRepository.saveAllAndFlush(Arrays.asList(포모_댓글, 아마찌_대댓글));
+        entityManager.clear();
+
+        // when
+        commentService.deleteReply(아마찌, 아마찌의_개쩌는_지하철_미션.getId(), 포모_댓글.getId(), 아마찌_대댓글.getId());
+        entityManager.flush();
+        entityManager.clear();
+
+        // then
+        assertThatThrownBy(() -> commentService.findEntityById(아마찌_대댓글.getId()))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("댓글이 존재하지 않습니다.");
+        assertThat(아마찌.getComments().size()).isZero();
+        assertThat(아마찌의_개쩌는_지하철_미션.getComments().size()).isOne();
     }
 
     private Comment 댓글_생성(String 댓글_내용, boolean 도움, User 댓글_유저, Feed 피드) {

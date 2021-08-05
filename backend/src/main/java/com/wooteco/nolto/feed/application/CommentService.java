@@ -2,6 +2,7 @@ package com.wooteco.nolto.feed.application;
 
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.NotFoundException;
+import com.wooteco.nolto.exception.UnauthorizedException;
 import com.wooteco.nolto.feed.domain.Comment;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.repository.CommentRepository;
@@ -52,10 +53,25 @@ public class CommentService {
         return replies;
     }
 
-    public ReplyResponse update(User user, Long feedId, Long commentId, Long replyId, ReplyRequest request) {
+    public ReplyResponse updateReply(User user, Long feedId, Long commentId, Long replyId, ReplyRequest request) {
         Comment reply = findEntityById(replyId);
+        if (!reply.getAuthor().SameAs(user)) {
+            throw new UnauthorizedException(ErrorType.UNAUTHORIZED_UPDATE_COMMENT);
+        }
+
         reply.changeContent(request.getContent());
         commentRepository.flush();
         return ReplyResponse.of(reply, reply.isLike(user));
+    }
+
+    public void deleteReply(User user, Long feedId, Long commentId, Long replyId) {
+        Feed feed = feedService.findEntityById(feedId);
+        Comment reply = findEntityById(replyId);
+        if (!reply.getAuthor().SameAs(user)) {
+            throw new UnauthorizedException(ErrorType.UNAUTHORIZED_DELETE_COMMENT);
+        }
+        commentRepository.delete(reply);
+        user.deleteComment(reply);
+        feed.deleteComment(reply);
     }
 }
