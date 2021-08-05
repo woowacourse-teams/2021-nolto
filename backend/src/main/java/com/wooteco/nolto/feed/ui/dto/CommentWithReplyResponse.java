@@ -44,4 +44,20 @@ public class CommentWithReplyResponse {
                 .map(comment -> CommentWithReplyResponse.of(comment, user))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public String toString() {
+        return "CommentWithReplyResponse{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", helper=" + helper +
+                ", likes=" + likes +
+                ", liked=" + liked +
+                ", feedAuthor=" + feedAuthor +
+                ", createAt=" + createAt +
+                ", modified=" + modified +
+                ", author=" + author +
+                ", replies=" + replies +
+                '}';
+    }
 }

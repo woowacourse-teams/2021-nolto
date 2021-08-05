@@ -11,9 +11,6 @@ import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.domain.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestConstructor;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -44,11 +41,17 @@ class CommentServiceTest extends CommentServiceFixture {
         assertThat(response.getCreateAt()).isNotNull();
     }
 
-    @DisplayName("특정 피드에 대한 댓글과 대댓글 전체를 조회한다.")
+    @DisplayName("특정 피드에 대한 댓글과 대댓글 전체를 조회한다. 댓글은 좋아요 + 최신 순, 대댓글은 최신 순 정렬")
     @Test
     void findAllByFeedId() {
         // when
+        commentLikeService.addCommentLike(comment1.getId(), user1);
+
         List<CommentWithReplyResponse> allByFeedId = commentService.findAllByFeedId(feed.getId(), user1);
+
+        for (CommentWithReplyResponse commentWithReplyResponse : allByFeedId) {
+            System.out.println(commentWithReplyResponse);
+        }
 
         // then
         checkSameCommentWithReplyResponse(allByFeedId.get(0), comment1, user1);
@@ -72,6 +75,19 @@ class CommentServiceTest extends CommentServiceFixture {
         assertThat(commentResponse.isModified()).isTrue();
     }
 
+    @DisplayName("댓글 수정 시 존재하지 않는 댓글 ID로 요청이 오면 예외가 발생한다.")
+    @Test
+    void updateCommentWithNonExistCommentId() {
+        // given
+        String updateContent = "수정된 댓글 내용";
+        boolean updateHelper = true;
+
+        // when then
+        assertThatThrownBy(() -> commentService.updateComment(Long.MAX_VALUE, new CommentRequest(updateContent, updateHelper), user1))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("존재하지 않는 댓글입니다.");
+    }
+
     @DisplayName("댓글 삭제시 댓글의 대댓글도 함께 삭제된다.")
     @Test
     void deleteComment() {
@@ -89,18 +105,13 @@ class CommentServiceTest extends CommentServiceFixture {
                 .isInstanceOf(NotFoundException.class);
     }
 
-    private void checkSameCommentResponse(CommentResponse response, Comment comment, User user) {
-        CommentResponse commentResponse = CommentResponse.of(comment, user);
-        assertThat(response.getId()).isEqualTo(commentResponse.getId());
-        assertThat(response.getContent()).isEqualTo(commentResponse.getContent());
-        assertThat(response.isHelper()).isEqualTo(commentResponse.isHelper());
-        assertThat(response.getLikes()).isEqualTo(commentResponse.getLikes());
-        assertThat(response.isLiked()).isEqualTo(commentResponse.isLiked());
-        assertThat(response.isFeedAuthor()).isEqualTo(commentResponse.isFeedAuthor());
-        assertThat(response.getCreateAt()).isEqualTo(commentResponse.getCreateAt());
-        assertThat(response.getId()).isEqualTo(commentResponse.getId());
-        assertThat(response.isModified()).isEqualTo(commentResponse.isModified());
-        assertThat(response.getAuthor().getId()).isEqualTo(commentResponse.getAuthor().getId());
+    @DisplayName("존재하지 않는 댓글 ID로 삭제를 요청하면 예외가 발생한다.")
+    @Test
+    void deleteCommentWithNonExistCommentId() {
+        // when then
+        assertThatThrownBy(() -> commentService.deleteComment(Long.MAX_VALUE))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("존재하지 않는 댓글입니다.");
     }
 
     private void checkSameCommentWithReplyResponse(CommentWithReplyResponse response, Comment comment, User user) {

@@ -5,6 +5,7 @@ import com.wooteco.nolto.feed.domain.Comment;
 import com.wooteco.nolto.feed.domain.repository.CommentRepository;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.user.domain.UserRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,6 +23,7 @@ class CommentLikeServiceTest extends CommentServiceFixture {
     @Autowired
     private EntityManager entityManager;
 
+    @DisplayName("댓글에 좋아요 추가할 수 있다.")
     @Test
     void addCommentLike() {
         // when
@@ -34,6 +36,7 @@ class CommentLikeServiceTest extends CommentServiceFixture {
         assertThat(comment1.getLikes()).hasSize(1);
     }
 
+    @DisplayName("이미 좋아요가 눌러져있는 댓글에 좋아요 요청을 하면 예외가 발생한다.")
     @Test
     void addCommentLikeTwice() {
         // given
@@ -47,6 +50,7 @@ class CommentLikeServiceTest extends CommentServiceFixture {
                 .isInstanceOf(BadRequestException.class);
     }
 
+    @DisplayName("댓글에 좋아요를 취소할 수 있다.")
     @Test
     void deleteCommentLike() {
         // given
@@ -65,6 +69,7 @@ class CommentLikeServiceTest extends CommentServiceFixture {
         assertThat(findComment2.getLikes()).hasSize(0);
     }
 
+    @DisplayName("댓글에 좋아요를 누르지 않은 상태에서 좋아요 취소 요청을 하면 예외가 발생한다.")
     @Test
     void deleteCommentLikeNotLiked() {
         // given

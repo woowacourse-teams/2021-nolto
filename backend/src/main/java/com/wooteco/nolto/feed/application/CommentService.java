@@ -32,7 +32,7 @@ public class CommentService {
     }
 
     public List<CommentWithReplyResponse> findAllByFeedId(Long feedId, User user) {
-        List<Comment> comments = commentRepository.findByFeedId(feedId);
+        List<Comment> comments = commentRepository.findAllByFeedId(feedId);
         for (Comment comment : comments) {
             comment.sortReplies();
         }
