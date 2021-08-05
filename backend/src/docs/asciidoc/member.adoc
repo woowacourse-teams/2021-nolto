@@ -13,3 +13,63 @@ include::{snippets}/member-findMe/http-response.adoc[]
 ==== Response Fields
 
 include::{snippets}/member-findMe/response-fields.adoc[]
+
+=== 멤버 닉네임 사용 가능 여부 조회 (중복체크)
+
+==== Request
+
+include::{snippets}/member-validateDuplicatedNickname/http-request.adoc[]
+include::{snippets}/member-validateDuplicatedNickname/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/member-validateDuplicatedNickname/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/member-validateDuplicatedNickname/response-fields.adoc[]
+
+=== 멤버 자신의 프로필 조회
+
+==== Request
+
+include::{snippets}/member-findProfileOfMine/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/member-findProfileOfMine/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/member-findProfileOfMine/response-fields.adoc[]
+
+
+=== 멤버 자신의 프로필 수정
+
+==== Request
+
+include::{snippets}/member-updateProfileOfMine/http-request.adoc[]
+include::{snippets}/member-updateProfileOfMine/request-parameters.adoc[]
+include::{snippets}/member-updateProfileOfMine/request-parts.adoc[]
+
+
+==== Response
+
+include::{snippets}/member-updateProfileOfMine/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/member-updateProfileOfMine/response-fields.adoc[]
+=== 멤버 자신의 히스토리(좋아요 한 글, 내가 작성한 글, 내가 남긴 댓글) 조회
+
+==== Request
+
+include::{snippets}/member-findHistory/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/member-findHistory/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/member-findHistory/response-fields.adoc[]

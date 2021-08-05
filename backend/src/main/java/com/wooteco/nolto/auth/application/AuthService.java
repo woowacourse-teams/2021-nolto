@@ -23,6 +23,8 @@ import java.util.Optional;
 @AllArgsConstructor
 public class AuthService {
 
+    public static final String IDENTIFIER = "(%d)";
+
     private final SocialOAuthInfoProvider socialOAuthInfoProvider;
     private final OAuthClientProvider oAuthClientProvider;
     private final UserRepository userRepository;
@@ -58,7 +60,18 @@ public class AuthService {
     }
 
     private User signUp(User user) {
+        changeForUniqueNickname(user);
         return userRepository.save(user);
+    }
+
+    private void changeForUniqueNickname(User user) {
+        int identifier = 0;
+        String originNickName = user.getNickName();
+        String targetNickName = originNickName;
+        while (userRepository.existsByNickName(targetNickName)) {
+            targetNickName = originNickName + String.format(IDENTIFIER, ++identifier);
+        }
+        user.changeNickName(targetNickName);
     }
 
     public User findUserByToken(String token) {

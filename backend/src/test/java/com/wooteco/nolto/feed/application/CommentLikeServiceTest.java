@@ -27,26 +27,26 @@ class CommentLikeServiceTest extends CommentServiceFixture {
     @Test
     void addCommentLike() {
         // when
-        commentLikeService.addCommentLike(comment1.getId(), user1);
+        commentLikeService.addCommentLike(찰리가_쓴_피드에_찰리가_쓴_댓글.getId(), 찰리);
 
         entityManager.flush();
         entityManager.clear();
 
         // then
-        assertThat(comment1.getLikes()).hasSize(1);
+        assertThat(찰리가_쓴_피드에_찰리가_쓴_댓글.getLikes()).hasSize(1);
     }
 
     @DisplayName("이미 좋아요가 눌러져있는 댓글에 좋아요 요청을 하면 예외가 발생한다.")
     @Test
     void addCommentLikeTwice() {
         // given
-        commentLikeService.addCommentLike(comment1.getId(), user1);
+        commentLikeService.addCommentLike(찰리가_쓴_피드에_찰리가_쓴_댓글.getId(), 찰리);
 
         entityManager.flush();
         entityManager.clear();
 
         // when then
-        assertThatThrownBy(() -> commentLikeService.addCommentLike(comment1.getId(), user1))
+        assertThatThrownBy(() -> commentLikeService.addCommentLike(찰리가_쓴_피드에_찰리가_쓴_댓글.getId(), 찰리))
                 .isInstanceOf(BadRequestException.class);
     }
 
@@ -54,16 +54,16 @@ class CommentLikeServiceTest extends CommentServiceFixture {
     @Test
     void deleteCommentLike() {
         // given
-        commentLikeService.addCommentLike(comment1.getId(), user1);
+        commentLikeService.addCommentLike(찰리가_쓴_피드에_찰리가_쓴_댓글.getId(), 찰리);
         entityManager.flush();
         entityManager.clear();
 
         // when
-        Comment findComment = commentService.findEntityById(comment1.getId());
-        commentLikeService.deleteCommentLike(findComment.getId(), user1);
+        Comment findComment = commentService.findEntityById(찰리가_쓴_피드에_찰리가_쓴_댓글.getId());
+        commentLikeService.deleteCommentLike(findComment.getId(), 찰리);
         entityManager.flush();
         entityManager.clear();
-        Comment findComment2 = commentService.findEntityById(comment1.getId());
+        Comment findComment2 = commentService.findEntityById(찰리가_쓴_피드에_찰리가_쓴_댓글.getId());
 
         // then
         assertThat(findComment2.getLikes()).hasSize(0);
@@ -73,21 +73,21 @@ class CommentLikeServiceTest extends CommentServiceFixture {
     @Test
     void deleteCommentLikeNotLiked() {
         // given
-        commentLikeService.addCommentLike(comment1.getId(), user1);
+        commentLikeService.addCommentLike(찰리가_쓴_피드에_찰리가_쓴_댓글.getId(), 찰리);
         entityManager.flush();
         entityManager.clear();
-        assertThat(comment1.getLikes()).hasSize(1);
+        assertThat(찰리가_쓴_피드에_찰리가_쓴_댓글.getLikes()).hasSize(1);
 
         // when
-        Comment findComment1 = commentService.findEntityById(comment1.getId());
-        commentLikeService.deleteCommentLike(findComment1.getId(), user1);
+        Comment findComment1 = commentService.findEntityById(찰리가_쓴_피드에_찰리가_쓴_댓글.getId());
+        commentLikeService.deleteCommentLike(findComment1.getId(), 찰리);
         entityManager.flush();
         entityManager.clear();
-        Comment findComment2 = commentService.findEntityById(comment1.getId());
+        Comment findComment2 = commentService.findEntityById(찰리가_쓴_피드에_찰리가_쓴_댓글.getId());
         assertThat(findComment2.getLikes()).hasSize(0);
 
         // then
-        assertThatThrownBy(() -> commentLikeService.deleteCommentLike(findComment2.getId(), user1))
+        assertThatThrownBy(() -> commentLikeService.deleteCommentLike(findComment2.getId(), 찰리))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("좋아요를 누르지 않았습니다.");
     }

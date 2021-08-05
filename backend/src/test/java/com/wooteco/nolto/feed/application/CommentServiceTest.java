@@ -27,13 +27,13 @@ class CommentServiceTest extends CommentServiceFixture {
     @Test
     void create() {
         // when
-        CommentResponse response = commentService.create(user1, feed.getId(), COMMENT_REQUEST_WITHOUT_HELPER);
+        CommentResponse response = commentService.create(찰리, 찰리가_쓴_피드.getId(), COMMENT_REQUEST_WITHOUT_HELPER);
 
         // then
         assertThat(response.getId()).isNotNull();
         assertThat(response.getContent()).isEqualTo(COMMENT_REQUEST_WITHOUT_HELPER.getContent());
         assertThat(response.isHelper()).isEqualTo(COMMENT_REQUEST_WITHOUT_HELPER.isHelper());
-        assertThat(response.getAuthor().getId()).isEqualTo(user1.getId());
+        assertThat(response.getAuthor().getId()).isEqualTo(찰리.getId());
         assertThat(response.getLikes()).isEqualTo(0);
         assertThat(response.isLiked()).isFalse();
         assertThat(response.isModified()).isFalse();
@@ -45,29 +45,29 @@ class CommentServiceTest extends CommentServiceFixture {
     @Test
     void findAllByFeedId() {
         // when
-        commentLikeService.addCommentLike(comment1.getId(), user1);
+        commentLikeService.addCommentLike(찰리가_쓴_피드에_찰리가_쓴_댓글.getId(), 찰리);
 
-        List<CommentWithReplyResponse> allByFeedId = commentService.findAllByFeedId(feed.getId(), user1);
+        List<CommentWithReplyResponse> allByFeedId = commentService.findAllByFeedId(찰리가_쓴_피드.getId(), 찰리);
 
         for (CommentWithReplyResponse commentWithReplyResponse : allByFeedId) {
             System.out.println(commentWithReplyResponse);
         }
 
         // then
-        checkSameCommentWithReplyResponse(allByFeedId.get(0), comment1, user1);
-        checkSameCommentWithReplyResponse(allByFeedId.get(1), comment2, user1);
+        checkSameCommentWithReplyResponse(allByFeedId.get(0), 찰리가_쓴_피드에_찰리가_쓴_댓글, 찰리);
+        checkSameCommentWithReplyResponse(allByFeedId.get(1), 찰리가_쓴_피드에_포모가_쓴_댓글, 찰리);
     }
 
     @DisplayName("댓글을 수정할 수 있다.")
     @Test
     void updateComment() {
         // given
-        CommentResponse response = commentService.create(user1, feed.getId(), COMMENT_REQUEST_WITHOUT_HELPER);
+        CommentResponse response = commentService.create(찰리, 찰리가_쓴_피드.getId(), COMMENT_REQUEST_WITHOUT_HELPER);
         String updateContent = "수정된 댓글 내용";
         boolean updateHelper = true;
 
         // when
-        CommentResponse commentResponse = commentService.updateComment(response.getId(), new CommentRequest(updateContent, updateHelper), user1);
+        CommentResponse commentResponse = commentService.updateComment(response.getId(), new CommentRequest(updateContent, updateHelper), 찰리);
 
         // then
         assertThat(commentResponse.getContent()).isEqualTo(updateContent);
@@ -83,7 +83,7 @@ class CommentServiceTest extends CommentServiceFixture {
         boolean updateHelper = true;
 
         // when then
-        assertThatThrownBy(() -> commentService.updateComment(Long.MAX_VALUE, new CommentRequest(updateContent, updateHelper), user1))
+        assertThatThrownBy(() -> commentService.updateComment(Long.MAX_VALUE, new CommentRequest(updateContent, updateHelper), 찰리))
                 .isInstanceOf(NotFoundException.class)
                 .hasMessage("존재하지 않는 댓글입니다.");
     }
@@ -92,16 +92,16 @@ class CommentServiceTest extends CommentServiceFixture {
     @Test
     void deleteComment() {
         // when
-        commentService.deleteComment(comment1.getId());
+        commentService.deleteComment(찰리가_쓴_피드에_찰리가_쓴_댓글.getId());
 
         // then
-        assertThatThrownBy(() -> commentService.findEntityById(comment1.getId()))
+        assertThatThrownBy(() -> commentService.findEntityById(찰리가_쓴_피드에_찰리가_쓴_댓글.getId()))
                 .isInstanceOf(NotFoundException.class);
-        assertThatThrownBy(() -> commentService.findEntityById(reply1.getId()))
+        assertThatThrownBy(() -> commentService.findEntityById(찰리가_쓴_피드에_찰리가_쓴_댓글에_찰리가_쓴_대댓글.getId()))
                 .isInstanceOf(NotFoundException.class);
-        assertThatThrownBy(() -> commentService.findEntityById(reply2.getId()))
+        assertThatThrownBy(() -> commentService.findEntityById(찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_대댓글.getId()))
                 .isInstanceOf(NotFoundException.class);
-        assertThatThrownBy(() -> commentService.findEntityById(reply3.getId()))
+        assertThatThrownBy(() -> commentService.findEntityById(찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_두번째_대댓글.getId()))
                 .isInstanceOf(NotFoundException.class);
     }
 

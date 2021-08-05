@@ -1,5 +1,6 @@
 package com.wooteco.nolto.user.domain;
 
+import com.wooteco.nolto.BaseEntity;
 import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.UnauthorizedException;
@@ -15,12 +16,13 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class User {
+public class User extends BaseEntity {
     public static final GuestUser GUEST_USER = new GuestUser();
 
     @Id
@@ -34,13 +36,15 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private SocialType socialType;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     @NotBlank
     private String nickName;
 
     @Column(nullable = false)
     @NotBlank
     private String imageUrl;
+
+    private String bio = "";
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private final List<Feed> feeds = new ArrayList<>();
@@ -54,12 +58,16 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private final List<CommentLike> commentLikes = new ArrayList<>();
 
-    public User(String socialId, SocialType socialType, String nickName, String imageUrl) {
-        this(null, socialId, socialType, nickName, imageUrl);
+    public User(Long id, String socialId, SocialType socialType, String nickName) {
+        this(id, socialId, socialType, nickName, null, null);
     }
 
-    public User(Long id, String socialId, SocialType socialType, String nickName) {
-        this(id, socialId, socialType, nickName, null);
+    public User(String socialId, SocialType socialType, String nickName, String imageUrl) {
+        this(null, socialId, socialType, nickName, imageUrl, null);
+    }
+
+    public User(Long id, String socialId, SocialType socialType, String nickName, String imageUrl) {
+        this(id, socialId, socialType, nickName, imageUrl, null);
     }
 
     public void update(String nickName, String imageUrl) {
@@ -107,6 +115,25 @@ public class User {
         return this.feeds.stream()
                 .filter(feed -> feedId.equals(feed.getId()))
                 .findAny().orElseThrow(() -> new UnauthorizedException(ErrorType.UNAUTHORIZED_UPDATE_FEED));
+    }
+
+    public List<Feed> findLikedFeeds() {
+        return this.likes.stream()
+                .map(Like::getFeed)
+                .collect(Collectors.toList());
+    }
+
+    public void changeNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public void changeImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public void updateProfile(String nickname, String bio) {
+        this.nickName = nickname;
+        this.bio = bio;
     }
 
     private static class GuestUser extends User {

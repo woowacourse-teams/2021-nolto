@@ -56,7 +56,7 @@ class ImageServiceTest {
         File 업로드할_이미지_파일 = new File(new File("").getAbsolutePath() + FILE_PATH + 업로드할_이미지_이름);
         MultipartFile 업로드할_멀티파트_파일 = generateMultiPartFile(업로드할_이미지_파일);
 
-        String 업로드된_이미지_주소 = imageService.upload(업로드할_멀티파트_파일);
+        String 업로드된_이미지_주소 = imageService.upload(업로드할_멀티파트_파일, ImageKind.FEED);
         String 업로드된_이미지_이름 = 업로드된_이미지_주소.replace(cloudfrontUrl, "");
 
         assertAll(
@@ -68,7 +68,7 @@ class ImageServiceTest {
     @DisplayName("이미지가 없을 시 기본 이미지 URL을 반환한다.")
     @Test
     void uploadDefaultImage() throws IOException {
-        String 업로드된_이미지_주소 = imageService.upload(null);
+        String 업로드된_이미지_주소 = imageService.upload(null, ImageKind.FEED);
         String 업로드된_이미지_이름 = 업로드된_이미지_주소.replace(cloudfrontUrl, "");
 
         assertAll(
@@ -83,14 +83,14 @@ class ImageServiceTest {
         // given
         File 미리_업로드할_이미지_파일 = new File(new File("").getAbsolutePath() + FILE_PATH + 업로드할_이미지_이름);
         MultipartFile 미리_업로드할_멀티파트_파일 = generateMultiPartFile(미리_업로드할_이미지_파일);
-        String 미리_업로드한_이미지_주소 = imageService.upload(미리_업로드할_멀티파트_파일);
+        String 미리_업로드한_이미지_주소 = imageService.upload(미리_업로드할_멀티파트_파일, ImageKind.FEED);
         String 미리_업로드한_이미지_이름 = 미리_업로드한_이미지_주소.replace(cloudfrontUrl, "");
 
         File 업데이트_테스트용_파일 = new File(new File("").getAbsolutePath() + FILE_PATH + 업데이트할_이미지_이름);
         MultipartFile 업데이트_테스트용_멀티파트파일 = generateMultiPartFile(업데이트_테스트용_파일);
 
         // when
-        String 업데이트된_업로드_이미지_주소 = imageService.update(미리_업로드한_이미지_주소, 업데이트_테스트용_멀티파트파일);
+        String 업데이트된_업로드_이미지_주소 = imageService.update(미리_업로드한_이미지_주소, 업데이트_테스트용_멀티파트파일, ImageKind.FEED);
         String 업데이트된_업로드_이미지_이름 = 업데이트된_업로드_이미지_주소.replace(cloudfrontUrl, "");
 
         assertAll(
@@ -110,7 +110,7 @@ class ImageServiceTest {
         MultipartFile 업데이트_테스트용_멀티파트파일 = generateMultiPartFile(업데이트_테스트용_파일);
 
         // when
-        String 업데이트된_업로드_이미지_주소 = imageService.update(기본_이미지_주소, 업데이트_테스트용_멀티파트파일);
+        String 업데이트된_업로드_이미지_주소 = imageService.update(기본_이미지_주소, 업데이트_테스트용_멀티파트파일, ImageKind.FEED);
         String 업데이트된_업로드_이미지_이름 = 업데이트된_업로드_이미지_주소.replace(cloudfrontUrl, "");
 
         assertAll(

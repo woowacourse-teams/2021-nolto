@@ -3,6 +3,7 @@ package com.wooteco.nolto.acceptance;
 import com.wooteco.nolto.auth.ui.dto.TokenResponse;
 import com.wooteco.nolto.exception.dto.ExceptionResponse;
 import com.wooteco.nolto.user.domain.User;
+import com.wooteco.nolto.user.ui.dto.MemberHistoryResponse;
 import com.wooteco.nolto.user.ui.dto.MemberResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -54,8 +55,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
     public void 알맞은_회원_정보_조회됨(ExtractableResponse<Response> response, User expectedUser) {
         MemberResponse memberResponse = response.as(MemberResponse.class);
         assertThat(memberResponse.getId()).isNotNull();
-        assertThat(memberResponse.getSocialType()).isEqualTo(expectedUser.getSocialType().name());
-        assertThat(memberResponse.getNickName()).isEqualTo(expectedUser.getNickName());
+        assertThat(memberResponse.getNickname()).isEqualTo(expectedUser.getNickName());
         assertThat(memberResponse.getImageUrl()).isEqualTo(expectedUser.getImageUrl());
     }
 
@@ -74,5 +74,24 @@ public class UserAcceptanceTest extends AcceptanceTest {
         ExceptionResponse exceptionResponse = response.as(ExceptionResponse.class);
         assertThat(exceptionResponse.getErrorCode()).isEqualTo("auth-002");
         assertThat(exceptionResponse.getMessage()).isEqualTo("토큰이 필요합니다.");
+    }
+
+    private ExtractableResponse<Response> 내_히스토리_조회_요청(TokenResponse tokenResponse) {
+        return given().log().all()
+                .auth().oauth2(tokenResponse.getAccessToken())
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .when()
+                .get("/members/me/history")
+                .then()
+                .log().all()
+                .statusCode(HttpStatus.OK.value())
+                .extract();
+    }
+
+    private void 알맞은_회원_히스토리_조회됨(ExtractableResponse<Response> response, User expectedUser) {
+        MemberHistoryResponse memberHistoryResponse = response.as(MemberHistoryResponse.class);
+        assertThat(memberHistoryResponse.getLikedFeeds()).isNotNull();
+        assertThat(memberHistoryResponse.getMyFeeds()).isNotNull();
+        assertThat(memberHistoryResponse.getMyComments()).isNotNull();
     }
 }
