@@ -11,6 +11,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class FeedTest {
+    public static final Feed FEED1 = new Feed(
+            "title",
+            "content",
+            Step.PROGRESS,
+            true,
+            "https://github.com/woowacourse-teams/2021-nolto",
+            "https://github.com/woowacourse-teams/2021-nolto",
+            "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png").writtenBy(UserTest.USER);
+
     private Feed feed1;
 
     @BeforeEach

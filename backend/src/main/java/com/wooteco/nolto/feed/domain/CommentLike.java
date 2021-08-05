@@ -28,4 +28,12 @@ public class CommentLike {
         this.user = user;
         this.comment = comment;
     }
+
+    public boolean hasComment(Comment comment) {
+        return this.comment.equals(comment);
+    }
+
+    public boolean sameAs(User user) {
+        return this.user.sameAs(user);
+    }
 }

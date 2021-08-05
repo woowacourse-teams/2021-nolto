@@ -70,10 +70,10 @@ public class DataLoader implements ApplicationRunner {
         Comment comment5 = new Comment("첫 댓글의 대댓글333", false).writtenBy(mickey);
         Comment comment6 = new Comment("2등 댓글의 대댓글111", false).writtenBy(mickey);
 
-        feed1.addComment(comment1);
+        comment1.setFeed(feed1);
         commentRepository.save(comment1);
 
-        feed1.addComment(comment2);
+        comment2.setFeed(feed1);
         commentRepository.save(comment2);
 
         comment1.addReply(comment3);

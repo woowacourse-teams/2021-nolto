@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 public class FeedResponse {
-    private final FeedAuthorResponse author;
+    private final AuthorResponse author;
     private final Long id;
     private final String title;
     private final List<TechResponse> techs;
@@ -28,7 +28,7 @@ public class FeedResponse {
     private final LocalDateTime createdDate;
 
     public static FeedResponse of(User author, Feed feed, boolean liked) {
-        return new FeedResponse(FeedAuthorResponse.of(author), feed.getId(), feed.getTitle(), TechResponse.toList(feed.getTechs()),
+        return new FeedResponse(AuthorResponse.of(author), feed.getId(), feed.getTitle(), TechResponse.toList(feed.getTechs()),
                 feed.getContent(), feed.getStep().name(), feed.isSos(), feed.getStorageUrl(), feed.getDeployedUrl(),
                 feed.getThumbnailUrl(), feed.getLikes().size(), feed.getViews(), liked, feed.getCreatedDate());
     }

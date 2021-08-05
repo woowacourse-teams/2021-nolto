@@ -67,13 +67,13 @@ public class User {
         this.imageUrl = imageUrl;
     }
 
+    public void addFeed(Feed feed) {
+        this.feeds.add(feed);
+    }
+
     public boolean isLiked(Feed feed) {
         return likes.stream()
                 .anyMatch(like -> like.hasFeed(feed));
-    }
-
-    public void addFeed(Feed feed) {
-        this.feeds.add(feed);
     }
 
     public void addLike(Like like) {
@@ -81,12 +81,26 @@ public class User {
         like.getFeed().addLike(like);
     }
 
-    public boolean SameAs(User user) {
-        return getId().equals(user.getId());
+    public boolean isCommentLiked(Comment comment) {
+        return commentLikes.stream()
+                .anyMatch(commentLike -> commentLike.hasComment(comment));
+    }
+
+    public void addCommentLike(CommentLike commentLike) {
+        this.commentLikes.add(commentLike);
+        commentLike.getComment().addCommentLike(commentLike);
+    }
+
+    public boolean sameAs(User user) {
+        return this.id.equals(user.id);
     }
 
     public void delete(Like like) {
         this.likes.remove(like);
+    }
+
+    public void delete(CommentLike like) {
+        this.commentLikes.remove(like);
     }
 
     public Feed findMyFeed(Long feedId) {
@@ -98,6 +112,11 @@ public class User {
     private static class GuestUser extends User {
         @Override
         public boolean isLiked(Feed feed) {
+            return false;
+        }
+
+        @Override
+        public boolean isCommentLiked(Comment comment) {
             return false;
         }
     }

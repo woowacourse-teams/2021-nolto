@@ -2,14 +2,16 @@ package com.wooteco.nolto.feed.domain;
 
 import com.wooteco.nolto.BaseEntity;
 import com.wooteco.nolto.user.domain.User;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Getter
 @Entity
+@AllArgsConstructor
 public class Comment extends BaseEntity {
 
     @Id
@@ -48,6 +50,15 @@ public class Comment extends BaseEntity {
         this.helper = helper;
     }
 
+    public int likesCount() {
+        return likes.size();
+    }
+
+    public void update(String content, boolean helper) {
+        this.content = content;
+        this.helper = helper;
+    }
+
     public void addReply(Comment reply) {
         this.replies.add(reply);
         reply.parentComment = this;
@@ -61,14 +72,40 @@ public class Comment extends BaseEntity {
     }
 
     public void setFeed(Feed feed) {
-        this.feed = feed;
+        if (Objects.isNull(this.feed)) {
+            this.feed = feed;
+            feed.addComment(this);
+        }
     }
 
-    public boolean isModified() {
-        return getModifiedDate().isAfter(getCreatedDate());
+    public void addCommentLike(CommentLike commentLike) {
+        this.likes.add(commentLike);
+    }
+
+    public Optional<CommentLike> findLikeBy(User user) {
+        return this.likes.stream()
+                .filter(commentLike -> commentLike.sameAs(user))
+                .findAny();
     }
 
     public boolean isFeedAuthor() {
-        return feed.getAuthor().equals(this.author);
+        return feed.getAuthor().sameAs(this.author);
+    }
+
+    public void sortReplies() {
+        this.replies.sort((o1, o2) -> o2.getCreatedDate().compareTo(o1.getCreatedDate()));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Comment comment = (Comment) o;
+        return Objects.equals(id, comment.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
