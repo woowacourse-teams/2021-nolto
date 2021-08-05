@@ -1,0 +1,39 @@
+== comment (댓글)
+
+=== 대댓글 등록
+
+==== Request
+
+include::{snippets}/reply-create/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/reply-create/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/reply-create/response-fields.adoc[]
+
+=== 대댓글 수정
+
+==== Request
+
+include::{snippets}/reply-update/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/reply-update/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/reply-update/response-fields.adoc[]
+
+=== 대댓글 삭제
+
+==== Request
+
+include::{snippets}/reply-delete/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/reply-delete/http-response.adoc[]

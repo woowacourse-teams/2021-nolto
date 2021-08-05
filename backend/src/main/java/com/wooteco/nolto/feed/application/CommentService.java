@@ -1,5 +1,6 @@
 package com.wooteco.nolto.feed.application;
 
+import com.wooteco.nolto.exception.BadRequestException;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.NotFoundException;
 import com.wooteco.nolto.exception.UnauthorizedException;
@@ -70,8 +71,18 @@ public class CommentService {
         if (!reply.getAuthor().SameAs(user)) {
             throw new UnauthorizedException(ErrorType.UNAUTHORIZED_DELETE_COMMENT);
         }
-        commentRepository.delete(reply);
+        reply.getParentComment().getReplies().remove(reply);
         user.deleteComment(reply);
         feed.deleteComment(reply);
+        commentRepository.delete(reply);
+    }
+
+    public void likeReply(User user, Long feedId, Long commentId, Long replyId) {
+        Feed feed = feedService.findEntityById(feedId);
+        Comment reply = findEntityById(commentId);
+        if (reply.isLike(user)) {
+            throw new BadRequestException(ErrorType.ALREADY_LIKED_COMMENT);
+        }
+
     }
 }

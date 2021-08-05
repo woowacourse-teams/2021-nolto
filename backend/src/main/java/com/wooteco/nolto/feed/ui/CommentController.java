@@ -49,7 +49,7 @@ public class CommentController {
         return ResponseEntity.ok(updateReplyResponse);
     }
 
-    @DeleteMapping("/{commentId}/replies/{replyId}/like")
+    @DeleteMapping("/{commentId}/replies/{replyId}")
     public ResponseEntity<Void> deleteReply(@UserAuthenticationPrincipal User user,
                                             @PathVariable Long feedId,
                                             @PathVariable Long commentId,
