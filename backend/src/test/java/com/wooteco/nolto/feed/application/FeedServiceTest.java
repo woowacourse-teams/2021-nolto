@@ -10,7 +10,6 @@ import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
-import com.wooteco.nolto.image.application.ImageKind;
 import com.wooteco.nolto.image.application.ImageService;
 import com.wooteco.nolto.tech.domain.Tech;
 import com.wooteco.nolto.tech.domain.TechRepository;
@@ -23,6 +22,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,8 +47,8 @@ class FeedServiceTest {
     private FeedRequest FEED_REQUEST3 = new FeedRequest("title3", new ArrayList<>(), "content3", "PROGRESS", true,
             "www.github.com/woowacourse", "www.github.com/woowacourse", null);
 
-    private User user1 = new User( "123456L", SocialType.GITHUB, "user1", "mickey.jpg");
-    private User user2 = new User( "654321L", SocialType.GOOGLE, "user2", "mickey.jpg");
+    private User user1 = new User("123456L", SocialType.GITHUB, "user1", "mickey.jpg");
+    private User user2 = new User("654321L", SocialType.GOOGLE, "user2", "mickey.jpg");
 
     private Tech techSpring = new Tech("Spring");
     private Tech techJava = new Tech("Java");
@@ -74,7 +74,7 @@ class FeedServiceTest {
 
     @BeforeEach
     void setUp() {
-        given(imageService.upload(any(MultipartFile.class), any(ImageKind.class))).willReturn("image.jpg");
+        given(imageService.upload(any(MultipartFile.class), any())).willReturn("image.jpg");
         userRepository.save(user1);
         userRepository.save(user2);
 
@@ -523,6 +523,8 @@ class FeedServiceTest {
         Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
         Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
         Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
+        em.flush();
+        em.clear();
 
         String query = "content";
 
@@ -544,6 +546,8 @@ class FeedServiceTest {
         Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
         Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
         Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
+        em.flush();
+        em.clear();
 
         String query = "tle1";
 
@@ -570,6 +574,9 @@ class FeedServiceTest {
 
         FEED_REQUEST3.setTechs(Collections.singletonList(techReact.getId()));
         Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
+
+        em.flush();
+        em.clear();
 
         String techs = "Spring,Java";
 
@@ -619,6 +626,8 @@ class FeedServiceTest {
 
         FEED_REQUEST3.setTechs(Collections.singletonList(techReact.getId()));
         Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
+        em.flush();
+        em.clear();
 
         String query = "title";
         String techs = "Spring,Java";
@@ -642,13 +651,15 @@ class FeedServiceTest {
         FEED_REQUEST1.setSos(true);
         Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
 
-        FEED_REQUEST2.setTechs(Arrays.asList(techSpring.getId() , techJava.getId()));
+        FEED_REQUEST2.setTechs(Arrays.asList(techSpring.getId(), techJava.getId()));
         FEED_REQUEST2.setSos(false);
         Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
 
         FEED_REQUEST3.setTechs(Collections.singletonList(techReact.getId()));
         FEED_REQUEST3.setSos(false);
         Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
+        em.flush();
+        em.clear();
 
         String query = "title";
         String techs = "Spring,Java";
@@ -672,13 +683,15 @@ class FeedServiceTest {
         FEED_REQUEST1.setStep("PROGRESS");
         Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
 
-        FEED_REQUEST2.setTechs(Arrays.asList(techSpring.getId() , techJava.getId()));
+        FEED_REQUEST2.setTechs(Arrays.asList(techSpring.getId(), techJava.getId()));
         FEED_REQUEST2.setStep("PROGRESS");
         Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
 
-        FEED_REQUEST3.setTechs(Arrays.asList(techSpring.getId() , techJava.getId()));
+        FEED_REQUEST3.setTechs(Arrays.asList(techSpring.getId(), techJava.getId()));
         FEED_REQUEST3.setStep("COMPLETE");
         Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
+        em.flush();
+        em.clear();
 
         String query = "title";
         String techs = "Spring,Java";
@@ -703,13 +716,15 @@ class FeedServiceTest {
         FEED_REQUEST1.setStep("COMPLETE");
         Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
 
-        FEED_REQUEST2.setTechs(Arrays.asList(techSpring.getId() , techJava.getId()));
+        FEED_REQUEST2.setTechs(Arrays.asList(techSpring.getId(), techJava.getId()));
         FEED_REQUEST2.setStep("PROGRESS");
         Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
 
-        FEED_REQUEST3.setTechs(Arrays.asList(techSpring.getId() , techJava.getId()));
+        FEED_REQUEST3.setTechs(Arrays.asList(techSpring.getId(), techJava.getId()));
         FEED_REQUEST3.setStep("COMPLETE");
         Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
+        em.flush();
+        em.clear();
 
         String query = "title";
         String techs = "Spring,Java";

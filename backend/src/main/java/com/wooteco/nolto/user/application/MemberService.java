@@ -22,7 +22,7 @@ import static com.wooteco.nolto.exception.ErrorType.ALREADY_EXIST_NICKNAME;
 @Service
 @Transactional
 @AllArgsConstructor
-public class UserService {
+public class MemberService {
 
     private final ImageService imageService;
     private final UserRepository userRepository;

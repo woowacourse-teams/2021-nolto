@@ -3,10 +3,15 @@ package com.wooteco.nolto.feed.application.searchstrategy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+
+import javax.transaction.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ActiveProfiles("test")
 @SpringBootTest
+@Transactional
 class SearchStrategyFactoryTest {
 
     @DisplayName("검색할 텍스트 query와 기술목록 techs를 넘겨주면, 알맞는 검색전략 팩토리가 반환된다.")

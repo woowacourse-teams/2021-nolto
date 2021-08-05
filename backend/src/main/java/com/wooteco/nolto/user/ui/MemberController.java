@@ -2,7 +2,7 @@ package com.wooteco.nolto.user.ui;
 
 import com.wooteco.nolto.auth.MemberAuthenticationPrincipal;
 import com.wooteco.nolto.auth.ValidTokenRequired;
-import com.wooteco.nolto.user.application.UserService;
+import com.wooteco.nolto.user.application.MemberService;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.ui.dto.MemberHistoryResponse;
 import com.wooteco.nolto.user.ui.dto.MemberResponse;
@@ -16,45 +16,45 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/members")
+@RequestMapping("/members/me")
 @AllArgsConstructor
-public class UserController {
+public class MemberController {
 
-    private final UserService userService;
+    private final MemberService memberService;
 
     @ValidTokenRequired
-    @GetMapping("/me")
+    @GetMapping
     public ResponseEntity<MemberResponse> findMemberOfMine(@MemberAuthenticationPrincipal User user) {
         // TODO user의 notifications 수 구하는 로직 필요, user안에서 notifications 가지고 있게 할것인과
         return ResponseEntity.ok(MemberResponse.of(user));
     }
 
     @ValidTokenRequired
-    @GetMapping("/me/history")
+    @GetMapping("/history")
     public ResponseEntity<MemberHistoryResponse> findHistory(@MemberAuthenticationPrincipal User user) {
-        MemberHistoryResponse memberHistoryResponse = userService.findHistory(user);
+        MemberHistoryResponse memberHistoryResponse = memberService.findHistory(user);
         return ResponseEntity.ok(memberHistoryResponse);
     }
 
     @ValidTokenRequired
-    @GetMapping("/me/profile/validation")
+    @GetMapping("/profile/validation")
     public ResponseEntity<NicknameValidationResponse> validateDuplicatedNickname(@MemberAuthenticationPrincipal User user,
                                                                                  @RequestParam String nickname) {
-        NicknameValidationResponse response = userService.validateDuplicated(nickname);
+        NicknameValidationResponse response = memberService.validateDuplicated(nickname);
         return ResponseEntity.ok(response);
     }
 
     @ValidTokenRequired
-    @GetMapping("/me/profile")
+    @GetMapping("/profile")
     public ResponseEntity<ProfileResponse> findProfileOfMine(@MemberAuthenticationPrincipal User user) {
-        ProfileResponse response = userService.findProfile(user);
+        ProfileResponse response = memberService.findProfile(user);
         return ResponseEntity.ok(response);
     }
 
     @ValidTokenRequired
-    @PutMapping("/me/profile")
+    @PutMapping("/profile")
     public ResponseEntity<ProfileResponse> updateProfileOfMine(@MemberAuthenticationPrincipal User user, @Valid @ModelAttribute ProfileRequest profileRequest) {
-        ProfileResponse response = userService.updateProfile(user, profileRequest);
+        ProfileResponse response = memberService.updateProfile(user, profileRequest);
         return ResponseEntity.ok(response);
     }
 }

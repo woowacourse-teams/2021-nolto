@@ -22,7 +22,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,10 +33,10 @@ import static org.mockito.BDDMockito.given;
 @ActiveProfiles("test")
 @SpringBootTest
 @Transactional
-class UserServiceTest {
+class MemberServiceTest {
 
     @Autowired
-    UserService userService;
+    MemberService memberService;
 
     @Autowired
     UserRepository userRepository;
@@ -45,68 +44,60 @@ class UserServiceTest {
     @MockBean
     private ImageService imageService;
 
-    public static final String 존재하는_닉네임 = "존재하는 닉네임";
+    public static final String 존재하는_백신_영상_닉네임 = "존재하는 백신 영상 닉네임";
     public static final String 존재하지않는_닉네임 = "존재하지않는 닉네임";
     public static final String 수정할_닉네임 = "수정할 닉네임";
 
     public static final ProfileRequest 프로필_수정_요청 = new ProfileRequest(수정할_닉네임, "안녕하세용", null);
-    public static final ProfileRequest 존재하는_닉네임으로_프로필_수정_요청 = new ProfileRequest(존재하는_닉네임, "안녕하세용", null);
+    public static final ProfileRequest 존재하는_닉네임으로_프로필_수정_요청 = new ProfileRequest(존재하는_백신_영상_닉네임, "안녕하세용", null);
 
-    private User 존재하는_유저 = new User(
-            "1",
-            SocialType.GITHUB,
-            존재하는_닉네임,
-            "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png");
+    private final User 존재하는_백신_영상이 = new User(null, "1", SocialType.GITHUB, 존재하는_백신_영상_닉네임, "joel.jpg");
+    private final User 아마찌 = new User(null, "2", SocialType.GITHUB, "AMAZZI", "ama.jpg");
 
+    private final Feed 영상이_피드 = new Feed("joelFeed", "joelFeed", Step.PROGRESS, true, "", "", "").writtenBy(존재하는_백신_영상이);
+    private final Feed 아마찌_피드 = new Feed("amaFeed", "amaFeed", Step.PROGRESS, true, "", "", "").writtenBy(아마찌);
 
-    private final User joel = new User(null, "1", SocialType.GITHUB, "JOEL", "joel.jpg");
-    private final User ama = new User(null, "2", SocialType.GITHUB, "AMAZZI", "ama.jpg");
+    private final Comment 영상이_피드에_영상이_댓글 = new Comment("joelCommentJoelFeed", true).writtenBy(존재하는_백신_영상이);
+    private final Comment 영상이_피드에_아마찌_댓글 = new Comment("joelCommentAmaFeed", true).writtenBy(존재하는_백신_영상이);
 
-    private final Feed joelFeed = new Feed("joelFeed", "joelFeed", Step.PROGRESS, true, "", "", "").writtenBy(joel);
-    private final Feed amaFeed = new Feed("amaFeed", "amaFeed", Step.PROGRESS, true, "", "", "").writtenBy(ama);
-
-    private final Comment joelCommentsJoelFeed = new Comment("joelCommentJoelFeed", true).writtenBy(joel);
-    private final Comment joelCommentsAmaFeed = new Comment("joelCommentAmaFeed", true).writtenBy(joel);
-
-    private final Like joelLikesJoelFeed = new Like(joel, joelFeed);
-    private final Like joelLikesAmaFeed = new Like(joel, amaFeed);
+    private final Like 영상이_좋아요_영상이_피드 = new Like(존재하는_백신_영상이, 영상이_피드);
+    private final Like 영상이_좋아요_아마찌_피드 = new Like(존재하는_백신_영상이, 아마찌_피드);
 
     @BeforeEach
     void setUp() {
         given(imageService.upload(any(MultipartFile.class), any(ImageKind.class))).willReturn("image.jpg");
 
-        joelFeed.addComment(joelCommentsJoelFeed);
-        amaFeed.addComment(joelCommentsAmaFeed);
-        joel.addLike(joelLikesJoelFeed);
-        joel.addLike(joelLikesAmaFeed);
-        userRepository.save(ama);
-        userRepository.save(joel);
-        userRepository.save(존재하는_유저);
+        영상이_피드.addComment(영상이_피드에_영상이_댓글);
+        아마찌_피드.addComment(영상이_피드에_아마찌_댓글);
+        존재하는_백신_영상이.addLike(영상이_좋아요_영상이_피드);
+        존재하는_백신_영상이.addLike(영상이_좋아요_아마찌_피드);
+        userRepository.save(아마찌);
+        userRepository.save(존재하는_백신_영상이);
     }
 
     @DisplayName("사용자의 히스토리(좋아요 한 글, 내가 작성한 글, 내가 남긴 댓글)를 조회할 수 있다.")
     @Test
     void findHistory() {
         //when
-        MemberHistoryResponse memberHistoryResponse = userService.findHistory(joel);
+        MemberHistoryResponse memberHistoryResponse = memberService.findHistory(존재하는_백신_영상이);
 
         //then
         List<String> likedFeedsTitle = getFeedHistoryResponseTitle(memberHistoryResponse.getLikedFeeds());
-        assertThat(likedFeedsTitle).containsExactly(joelFeed.getTitle(), amaFeed.getTitle());
+        assertThat(likedFeedsTitle).containsExactly(영상이_피드.getTitle(), 아마찌_피드.getTitle());
 
         List<String> myFeedsTitle = getFeedHistoryResponseTitle(memberHistoryResponse.getMyFeeds());
-        assertThat(myFeedsTitle).containsExactly(joelFeed.getTitle());
+        assertThat(myFeedsTitle).containsExactly(영상이_피드.getTitle());
 
         List<String> myComments = getCommentResponseComment(memberHistoryResponse.getMyComments());
-        assertThat(myComments).containsExactly(joelCommentsJoelFeed.getContent(), joelCommentsAmaFeed.getContent());
+        assertThat(myComments).containsExactly(영상이_피드에_영상이_댓글.getContent(), 영상이_피드에_아마찌_댓글.getContent());
     }
 
     @DisplayName("닉네임의 중복 여부를 검사한다.")
     @Test
     void validateDuplicated() {
         // when
-        NicknameValidationResponse 사용불가능한_닉네임 = userService.validateDuplicated(존재하는_닉네임);
-        NicknameValidationResponse 사용가능한_닉네임 = userService.validateDuplicated(존재하지않는_닉네임);
+        NicknameValidationResponse 사용불가능한_닉네임 = memberService.validateDuplicated(존재하는_백신_영상_닉네임);
+        NicknameValidationResponse 사용가능한_닉네임 = memberService.validateDuplicated(존재하지않는_닉네임);
 
         // then
         assertThat(사용불가능한_닉네임).extracting("isUsable").isEqualTo(false);
@@ -116,15 +107,15 @@ class UserServiceTest {
     @DisplayName("멤버의 프로필을 조회한다.")
     @Test
     void findProfile() {
-        ProfileResponse 프로필_조회_응답 = userService.findProfile(존재하는_유저);
+        ProfileResponse 프로필_조회_응답 = memberService.findProfile(존재하는_백신_영상이);
 
-        멤버_프로필_정보가_같은지_확인(존재하는_유저, 프로필_조회_응답);
+        멤버_프로필_정보가_같은지_확인(존재하는_백신_영상이, 프로필_조회_응답);
     }
 
     @DisplayName("멤버의 프로필을 수정한다.")
     @Test
     void updateProfile() {
-        ProfileResponse 프로필_수정_응답 = userService.updateProfile(존재하는_유저, 프로필_수정_요청);
+        ProfileResponse 프로필_수정_응답 = memberService.updateProfile(존재하는_백신_영상이, 프로필_수정_요청);
 
         멤버_프로필_정보가_같은지_확인(프로필_수정_요청, 프로필_수정_응답);
     }
@@ -132,7 +123,7 @@ class UserServiceTest {
     @DisplayName("멤버의 프로필을 수정하는 경우 이미 존재하는 닉네임일 경우 예외가 발생한다..")
     @Test
     void updateProfileException() {
-        assertThatThrownBy(() -> userService.updateProfile(존재하는_유저, 존재하는_닉네임으로_프로필_수정_요청))
+        assertThatThrownBy(() -> memberService.updateProfile(존재하는_백신_영상이, 존재하는_닉네임으로_프로필_수정_요청))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage(ErrorType.ALREADY_EXIST_NICKNAME.getMessage());
     }
