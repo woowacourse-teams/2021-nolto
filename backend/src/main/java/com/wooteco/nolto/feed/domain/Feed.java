@@ -125,7 +125,7 @@ public class Feed extends BaseEntity {
     }
 
     public boolean notSameAuthor(User user) {
-        return !author.SameAs(user);
+        return !author.sameAs(user);
     }
 
     public void changeThumbnailUrl(String updateThumbnailUrl) {

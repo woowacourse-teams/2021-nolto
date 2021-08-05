@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 @Getter
 @AllArgsConstructor
 public class FeedCardResponse {
-    private final FeedAuthorResponse author;
+    private final AuthorResponse author;
     private final Long id;
     private final String title;
     private final String content;
@@ -21,7 +21,7 @@ public class FeedCardResponse {
 
     public static FeedCardResponse of(Feed feed) {
         return new FeedCardResponse(
-                FeedAuthorResponse.of(feed.getAuthor()),
+                AuthorResponse.of(feed.getAuthor()),
                 feed.getId(),
                 feed.getTitle(),
                 feed.getContent(),

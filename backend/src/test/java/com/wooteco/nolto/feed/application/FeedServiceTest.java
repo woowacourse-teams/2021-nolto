@@ -788,5 +788,8 @@ class FeedServiceTest {
         assertThat(request.getContent()).isEqualTo(response.getContent());
         assertThat(request.getStep()).isEqualTo(response.getStep());
         assertThat(request.isSos()).isEqualTo(response.isSos());
+
+        System.out.println();
+        System.out.println();
     }
 }
