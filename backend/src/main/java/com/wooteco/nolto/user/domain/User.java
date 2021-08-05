@@ -72,6 +72,11 @@ public class User {
                 .anyMatch(like -> like.hasFeed(feed));
     }
 
+    public boolean isLiked(Comment comment) {
+        return commentLikes.stream()
+                .anyMatch(commentLike -> commentLike.getComment().equals(comment));
+    }
+
     public void addFeed(Feed feed) {
         this.feeds.add(feed);
     }

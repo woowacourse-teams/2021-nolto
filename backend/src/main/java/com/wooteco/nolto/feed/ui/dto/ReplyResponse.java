@@ -39,7 +39,7 @@ public class ReplyResponse {
 
     public static List<ReplyResponse> toList(List<Comment> replies, User user) {
         return replies.stream()
-                .map(reply -> ReplyResponse.of(reply, reply.isLike(user)))
+                .map(reply -> ReplyResponse.of(reply, user.isLiked(reply)))
                 .collect(Collectors.toList());
     }
 }
