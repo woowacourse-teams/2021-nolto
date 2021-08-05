@@ -4,6 +4,7 @@ import com.wooteco.nolto.user.domain.User;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -35,5 +36,18 @@ public class CommentLike {
 
     public boolean sameAs(User user) {
         return this.user.sameAs(user);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CommentLike that = (CommentLike) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

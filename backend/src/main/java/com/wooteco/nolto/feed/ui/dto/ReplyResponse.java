@@ -42,19 +42,5 @@ public class ReplyResponse {
                 .map(reply -> ReplyResponse.of(reply, user.isCommentLiked(reply)))
                 .collect(Collectors.toList());
     }
-
-    @Override
-    public String toString() {
-        return "ReplyResponse{" +
-                "id=" + id +
-                ", content='" + content + '\'' +
-                ", likes=" + likes +
-                ", liked=" + liked +
-                ", feedAuthor=" + feedAuthor +
-                ", createdAt=" + createdAt +
-                ", modified=" + modified +
-                ", commentId=" + commentId +
-                ", author=" + author +
-                '}';
-    }
 }
+

@@ -169,4 +169,8 @@ public class Feed extends BaseEntity {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    public void deleteComment(Comment comment) {
+        this.comments.remove(comment);
+    }
 }

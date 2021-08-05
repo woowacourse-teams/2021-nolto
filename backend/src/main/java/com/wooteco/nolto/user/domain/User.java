@@ -16,6 +16,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Getter
@@ -75,13 +76,13 @@ public class User extends BaseEntity {
         this.imageUrl = imageUrl;
     }
 
-    public void addFeed(Feed feed) {
-        this.feeds.add(feed);
-    }
-
     public boolean isLiked(Feed feed) {
         return likes.stream()
                 .anyMatch(like -> like.hasFeed(feed));
+    }
+
+    public void addFeed(Feed feed) {
+        this.feeds.add(feed);
     }
 
     public void addLike(Like like) {
@@ -100,7 +101,7 @@ public class User extends BaseEntity {
     }
 
     public boolean sameAs(User user) {
-        return this.id.equals(user.id);
+        return this.equals(user);
     }
 
     public void delete(Like like) {
@@ -136,6 +137,10 @@ public class User extends BaseEntity {
         this.bio = bio;
     }
 
+    public void deleteComment(Comment reply) {
+        this.comments.remove(reply);
+    }
+
     private static class GuestUser extends User {
         @Override
         public boolean isLiked(Feed feed) {
@@ -146,5 +151,18 @@ public class User extends BaseEntity {
         public boolean isCommentLiked(Comment comment) {
             return false;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

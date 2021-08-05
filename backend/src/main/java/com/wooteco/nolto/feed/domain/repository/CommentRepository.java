@@ -14,4 +14,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
             "where com.feed.id = :feedId and com.parentComment.id is null " +
             "order by com.likes.size desc , com.createdDate desc")
     List<Comment> findAllByFeedId(@Param("feedId") Long feedId);
+
+    List<Comment> findAllByFeedIdAndParentCommentId(Long feedId, Long parentCommentId);
+
 }

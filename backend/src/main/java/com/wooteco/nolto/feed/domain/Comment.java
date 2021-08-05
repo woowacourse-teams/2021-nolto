@@ -6,8 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Getter
 @Entity
@@ -74,7 +76,6 @@ public class Comment extends BaseEntity {
     public void setFeed(Feed feed) {
         if (Objects.isNull(this.feed)) {
             this.feed = feed;
-            feed.addComment(this);
         }
     }
 
@@ -88,12 +89,25 @@ public class Comment extends BaseEntity {
                 .findAny();
     }
 
+    public boolean isModified() {
+        return getModifiedDate().isAfter(getCreatedDate());
+    }
+
     public boolean isFeedAuthor() {
-        return feed.getAuthor().sameAs(this.author);
+        return this.author.sameAs(feed.getAuthor());
+    }
+
+    public void addParentComment(Comment comment) {
+        this.parentComment = comment;
+        comment.addReply(this);
     }
 
     public void sortReplies() {
         this.replies.sort((o1, o2) -> o2.getCreatedDate().compareTo(o1.getCreatedDate()));
+    }
+
+    public void changeContent(String content) {
+        this.content = content;
     }
 
     @Override

@@ -14,7 +14,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface TechValid {
 
     String message() default "기술 스택이 중복됩니다.";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 
 }

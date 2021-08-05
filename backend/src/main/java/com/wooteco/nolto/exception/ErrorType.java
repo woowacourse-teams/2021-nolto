@@ -23,11 +23,14 @@ public enum ErrorType {
     NOT_SUPPORTED_STEP("feed-006", "지원하지 않는 피드의 Step입니다."),
     MULTIPART_CONVERT_FAIL("feed-007", "MultipartFile 변환에 실패하였습니다."),
 
-    COMMENT_NOT_FOUND("comment-001", "존재하지 않는 댓글입니다."),
-
     ALREADY_LIKED("like-001", "이미 좋아요 누른 글 입니다."),
     NOT_LIKED("like-002", "좋아요를 누르지 않았습니다."),
-    ALREADY_LIKED_COMMENT("like-003", "이미 좋아요 누른 댓글 입니다."),
+
+    COMMENT_NOT_FOUND("comment-001", "존재하지 않는 댓글입니다."),
+    UNAUTHORIZED_UPDATE_COMMENT("comment-002", "댓글은 작성자만 수정할 수 있습니다."),
+    UNAUTHORIZED_DELETE_COMMENT("comment-003", "댓글은 작성자만 삭제할 수 있습니다."),
+    ALREADY_LIKED_COMMENT("comment-004", "이미 좋아요 누른 댓글 입니다."),
+    NOT_LIKED_COMMENT("comment-005", "좋아요를 누르지 않은 댓글입니다."),
 
     ALREADY_EXIST_NICKNAME("member-001", "이미 존재하는 닉네임입니다.");
 
