@@ -15,6 +15,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor
@@ -93,6 +94,12 @@ public class User {
         return this.feeds.stream()
                 .filter(feed -> feedId.equals(feed.getId()))
                 .findAny().orElseThrow(() -> new UnauthorizedException(ErrorType.UNAUTHORIZED_UPDATE_FEED));
+    }
+
+    public List<Feed> findLikedFeeds() {
+        return this.likes.stream()
+                .map(Like::getFeed)
+                .collect(Collectors.toList());
     }
 
     private static class GuestUser extends User {
