@@ -12,10 +12,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -46,6 +49,21 @@ public class CommentControllerTest extends ControllerTest {
     @MockBean
     private CommentService commentService;
 
+    private static final FieldDescriptor[] SINGLE_REPLY_RESPONSE = new FieldDescriptor[]{
+            fieldWithPath("id").type(JsonFieldType.NUMBER).description("대댓글 ID"),
+            fieldWithPath("content").type(JsonFieldType.STRING).description("수정된 대댓글 내용"),
+            fieldWithPath("likes").type(JsonFieldType.NUMBER).description("대댓글 좋아요 개수"),
+            fieldWithPath("liked").type(JsonFieldType.BOOLEAN).description("현재 로그인한 유저의 현재 대댓글 좋아요 여부"),
+            fieldWithPath("feedAuthor").type(JsonFieldType.BOOLEAN).description("대댓글 작성자 확인 여부"),
+            fieldWithPath("createdAt").type(JsonFieldType.STRING).description("대댓글 작성 날짜"),
+            fieldWithPath("modified").type(JsonFieldType.BOOLEAN).description("대댓글 수정 여부"),
+            fieldWithPath("commentId").type(JsonFieldType.NUMBER).description("대댓글이 가리키는 댓글의 ID"),
+            fieldWithPath("author").type(JsonFieldType.OBJECT).description("댓글 작성자"),
+            fieldWithPath("author.id").type(JsonFieldType.NUMBER).description("댓글 작성자 ID"),
+            fieldWithPath("author.nickname").type(JsonFieldType.STRING).description("댓글 작성자 닉네임"),
+            fieldWithPath("author.imageUrl").type(JsonFieldType.STRING).description("댓글 작성자 이미지 URL")
+    };
+
     @Test
     void createReply() throws Exception {
         given(authService.findUserByToken(ACCESS_TOKEN)).willReturn(LOGIN_USER);
@@ -70,7 +88,7 @@ public class CommentControllerTest extends ControllerTest {
                                 fieldWithPath("likes").type(JsonFieldType.NUMBER).description("대댓글 좋아요 개수"),
                                 fieldWithPath("liked").type(JsonFieldType.BOOLEAN).description("현재 로그인한 유저의 현재 대댓글 좋아요 여부"),
                                 fieldWithPath("feedAuthor").type(JsonFieldType.BOOLEAN).description("대댓글 작성자 확인 여부"),
-                                fieldWithPath("createdAt").type(JsonFieldType.STRING).description("대댓글 작성 날짜").optional(),
+                                fieldWithPath("createdAt").type(JsonFieldType.STRING).description("대댓글 작성 날짜"),
                                 fieldWithPath("modified").type(JsonFieldType.BOOLEAN).description("대댓글 수정 여부"),
                                 fieldWithPath("commentId").type(JsonFieldType.NUMBER).description("대댓글이 가리키는 댓글의 ID"),
                                 fieldWithPath("author").type(JsonFieldType.OBJECT).description("댓글 작성자"),
@@ -109,7 +127,7 @@ public class CommentControllerTest extends ControllerTest {
                                 fieldWithPath("likes").type(JsonFieldType.NUMBER).description("대댓글 좋아요 개수"),
                                 fieldWithPath("liked").type(JsonFieldType.BOOLEAN).description("현재 로그인한 유저의 현재 대댓글 좋아요 여부"),
                                 fieldWithPath("feedAuthor").type(JsonFieldType.BOOLEAN).description("대댓글 작성자 확인 여부"),
-                                fieldWithPath("createdAt").type(JsonFieldType.STRING).description("대댓글 작성 날짜").optional(),
+                                fieldWithPath("createdAt").type(JsonFieldType.STRING).description("대댓글 작성 날짜"),
                                 fieldWithPath("modified").type(JsonFieldType.BOOLEAN).description("대댓글 수정 여부"),
                                 fieldWithPath("commentId").type(JsonFieldType.NUMBER).description("대댓글이 가리키는 댓글의 ID"),
                                 fieldWithPath("author").type(JsonFieldType.OBJECT).description("댓글 작성자"),
@@ -134,5 +152,39 @@ public class CommentControllerTest extends ControllerTest {
                                 parameterWithName("commentId").description("댓글 ID"),
                                 parameterWithName("replyId").description("대댓글 ID")
                         )));
+    }
+
+    @Test
+    void findAllReplies() throws Exception {
+        ReplyResponse firstResponse = new ReplyResponse(REPLY_ID, "처음 작성된 대댓글입니다.", 0, false,
+                false, LocalDateTime.now(), false, COMMENT_ID, AuthorResponse.of(LOGIN_USER));
+        ReplyResponse secondResponse = new ReplyResponse(REPLY_ID + 1, "두번째 작성된 대댓글입니다.", 0, false,
+                false, LocalDateTime.now(), true, COMMENT_ID, AuthorResponse.of(LOGIN_USER));
+
+        List<ReplyResponse> replyResponses = new ArrayList<>();
+        replyResponses.add(secondResponse);
+        replyResponses.add(firstResponse);
+
+        given(authService.findUserByToken(ACCESS_TOKEN)).willReturn(LOGIN_USER);
+        given(commentService.findAllRepliesById(any(User.class), any(Long.class), any())).willReturn(replyResponses);
+
+        mockMvc.perform(
+                get("/feeds/{feedId}/comments/{commentId}", FEED_ID, COMMENT_ID)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + ACCESS_TOKEN))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(replyResponses)))
+                .andDo(document("reply-findAllReplies",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("feedId").description("피드 ID"),
+                                parameterWithName("commentId").description("댓글 ID")
+                        ),
+                        responseFields(
+                                fieldWithPath("[]").type(JsonFieldType.ARRAY).description("최신순으로 정렬된 대댓글 목록")
+                        ).andWithPrefix("[].", SINGLE_REPLY_RESPONSE)));
+
     }
 }

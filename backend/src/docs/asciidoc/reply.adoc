@@ -37,3 +37,18 @@ include::{snippets}/reply-delete/http-request.adoc[]
 ==== Response
 
 include::{snippets}/reply-delete/http-response.adoc[]
+
+=== 대댓글 전제 조회
+
+==== Request
+
+include::{snippets}/reply-findAllReplies/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/reply-findAllReplies/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/reply-findAllReplies/response-fields.adoc[]
+

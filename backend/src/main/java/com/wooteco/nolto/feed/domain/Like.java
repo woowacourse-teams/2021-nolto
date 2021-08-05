@@ -35,7 +35,7 @@ public class Like {
     }
 
     public boolean SameAs(User user) {
-        return this.user.SameAs(user);
+        return this.user.sameAs(user);
     }
 
     @Override

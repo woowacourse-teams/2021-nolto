@@ -81,7 +81,7 @@ public class User {
         like.getFeed().addLike(like);
     }
 
-    public boolean SameAs(User user) {
+    public boolean sameAs(User user) {
         return getId().equals(user.getId());
     }
 

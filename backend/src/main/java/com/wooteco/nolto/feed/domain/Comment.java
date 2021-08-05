@@ -69,7 +69,7 @@ public class Comment extends BaseEntity {
     }
 
     public boolean isFeedAuthor() {
-        return feed.getAuthor().SameAs(this.author);
+        return feed.getAuthor().sameAs(this.author);
     }
 
     public void addParentComment(Comment comment) {
@@ -83,7 +83,7 @@ public class Comment extends BaseEntity {
 
     public boolean isLike(User user) {
         return likes.stream()
-                .anyMatch(commentLike -> commentLike.getUser().SameAs(user));
+                .anyMatch(commentLike -> commentLike.getUser().sameAs(user));
     }
 
     public void changeContent(String content) {

@@ -198,8 +198,7 @@ class CommentServiceTest {
     }
 
     private Comment 댓글_생성(String 댓글_내용, boolean 도움, User 댓글_유저, Feed 피드) {
-        Comment 댓글 = new Comment(댓글_내용, 도움);
-        댓글.writtenBy(댓글_유저);
+        Comment 댓글 = new Comment(댓글_내용, 도움).writtenBy(댓글_유저);
         댓글.setFeed(피드);
         return 댓글;
     }

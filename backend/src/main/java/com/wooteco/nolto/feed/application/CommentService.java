@@ -1,6 +1,5 @@
 package com.wooteco.nolto.feed.application;
 
-import com.wooteco.nolto.exception.BadRequestException;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.NotFoundException;
 import com.wooteco.nolto.exception.UnauthorizedException;
@@ -27,10 +26,9 @@ public class CommentService {
 
     public ReplyResponse createReply(User user, Long feedId, Long commentId, ReplyRequest request) {
         Comment comment = findEntityById(commentId);
-        Comment reply = new Comment(request.getContent(), false);
+        Comment reply = new Comment(request.getContent(), false).writtenBy(user);
         reply.addParentComment(comment);
         reply.setFeed(feedService.findEntityById(feedId));
-        reply.writtenBy(user);
 
         Comment saveReply = commentRepository.save(reply);
         return ReplyResponse.of(saveReply, false);
@@ -50,13 +48,12 @@ public class CommentService {
     private List<Comment> findAllReplies(Long feedId, Long commentId) {
         Feed feed = feedService.findEntityById(feedId);
         Comment comment = findEntityById(commentId);
-        List<Comment> replies = commentRepository.findAllByFeedAndParentComment(feed, comment);
-        return replies;
+        return commentRepository.findAllByFeedAndParentComment(feed, comment);
     }
 
     public ReplyResponse updateReply(User user, Long feedId, Long commentId, Long replyId, ReplyRequest request) {
         Comment reply = findEntityById(replyId);
-        if (!reply.getAuthor().SameAs(user)) {
+        if (!reply.getAuthor().sameAs(user)) {
             throw new UnauthorizedException(ErrorType.UNAUTHORIZED_UPDATE_COMMENT);
         }
 
@@ -68,21 +65,12 @@ public class CommentService {
     public void deleteReply(User user, Long feedId, Long commentId, Long replyId) {
         Feed feed = feedService.findEntityById(feedId);
         Comment reply = findEntityById(replyId);
-        if (!reply.getAuthor().SameAs(user)) {
+        if (!reply.getAuthor().sameAs(user)) {
             throw new UnauthorizedException(ErrorType.UNAUTHORIZED_DELETE_COMMENT);
         }
         reply.getParentComment().getReplies().remove(reply);
         user.deleteComment(reply);
         feed.deleteComment(reply);
         commentRepository.delete(reply);
-    }
-
-    public void likeReply(User user, Long feedId, Long commentId, Long replyId) {
-        Feed feed = feedService.findEntityById(feedId);
-        Comment reply = findEntityById(commentId);
-        if (reply.isLike(user)) {
-            throw new BadRequestException(ErrorType.ALREADY_LIKED_COMMENT);
-        }
-
     }
 }
