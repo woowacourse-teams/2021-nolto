@@ -69,7 +69,7 @@ class UserControllerTest extends ControllerTest {
                 ));
     }
 
-    @DisplayName("멤버가 닉네임 사용 여부를 조회한다.")
+    @DisplayName("멤버가 닉네임 사용 가능 여부를 조회한다.")
     @Test
     void validateDuplicatedNickname() throws Exception {
         String 검증할_닉네임 = "검증할 닉네임";
@@ -124,6 +124,7 @@ class UserControllerTest extends ControllerTest {
     @DisplayName("멤버의 프로필을 업데이트한다.")
     @Test
     void update() throws Exception {
+        PROFILE_RESPONSE.setCreatedAt(LocalDateTime.now());
         given(authService.findUserByToken(ACCESS_TOKEN)).willReturn(LOGIN_USER);
         given(userService.updateProfile(any(User.class), any(ProfileRequest.class))).willReturn(PROFILE_RESPONSE);
 
@@ -150,6 +151,14 @@ class UserControllerTest extends ControllerTest {
                         requestParameters(
                                 parameterWithName("nickname").description("수정될 수 있는 닉네임"),
                                 parameterWithName("bio").description("수정될 수 있는 한 줄 소개").optional()
+                        ),
+                        responseFields(
+                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("멤버 ID"),
+                                fieldWithPath("nickname").type(JsonFieldType.STRING).description("멤버 닉네임"),
+                                fieldWithPath("bio").type(JsonFieldType.STRING).description("멤버 한줄 소개"),
+                                fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("멤버 이미지 주소"),
+                                fieldWithPath("notifications").type(JsonFieldType.NUMBER).description("알림 수"),
+                                fieldWithPath("createdAt").type(JsonFieldType.STRING).description("가입 날짜")
                         )
                 ));
     }
