@@ -63,7 +63,7 @@ class CommentServiceTest extends CommentServiceFixture {
     @Test
     void create() {
         // when
-        CommentResponse response = commentService.create(찰리, 찰리가_쓴_피드.getId(), COMMENT_REQUEST_WITHOUT_HELPER);
+        CommentResponse response = commentService.createComment(찰리, 찰리가_쓴_피드.getId(), COMMENT_REQUEST_WITHOUT_HELPER);
 
         // then
         assertThat(response.getId()).isNotNull();
@@ -74,7 +74,7 @@ class CommentServiceTest extends CommentServiceFixture {
         assertThat(response.isLiked()).isFalse();
         assertThat(response.isModified()).isFalse();
         assertThat(response.isFeedAuthor()).isTrue();
-        assertThat(response.getCreateAt()).isNotNull();
+        assertThat(response.getCreatedAt()).isNotNull();
     }
 
     @DisplayName("특정 피드에 대한 댓글과 대댓글 전체를 조회한다. 댓글은 좋아요 + 최신 순, 대댓글은 최신 순 정렬")
@@ -98,7 +98,7 @@ class CommentServiceTest extends CommentServiceFixture {
     @Test
     void updateComment() {
         // given
-        CommentResponse response = commentService.create(찰리, 찰리가_쓴_피드.getId(), COMMENT_REQUEST_WITHOUT_HELPER);
+        CommentResponse response = commentService.createComment(찰리, 찰리가_쓴_피드.getId(), COMMENT_REQUEST_WITHOUT_HELPER);
         String updateContent = "수정된 댓글 내용";
         boolean updateHelper = true;
 
@@ -158,7 +158,7 @@ class CommentServiceTest extends CommentServiceFixture {
         assertThat(response.getLikes()).isEqualTo(responseFromComment.getLikes());
         assertThat(response.isLiked()).isEqualTo(responseFromComment.isLiked());
         assertThat(response.isFeedAuthor()).isEqualTo(responseFromComment.isFeedAuthor());
-        assertThat(response.getCreateAt()).isEqualTo(responseFromComment.getCreateAt());
+        assertThat(response.getCreatedAt()).isEqualTo(responseFromComment.getCreatedAt());
         assertThat(response.getId()).isEqualTo(responseFromComment.getId());
         assertThat(response.isModified()).isEqualTo(responseFromComment.isModified());
         assertThat(response.getAuthor().getId()).isEqualTo(responseFromComment.getAuthor().getId());

@@ -1,10 +1,11 @@
-== comment (댓글)
+== reply (대댓글)
 
 === 대댓글 등록
 
 ==== Request
 
 include::{snippets}/reply-create/http-request.adoc[]
+include::{snippets}/reply-create/path-parameters.adoc[]
 
 ==== Response
 
@@ -19,6 +20,7 @@ include::{snippets}/reply-create/response-fields.adoc[]
 ==== Request
 
 include::{snippets}/reply-update/http-request.adoc[]
+include::{snippets}/reply-update/path-parameters.adoc[]
 
 ==== Response
 
@@ -33,16 +35,18 @@ include::{snippets}/reply-update/response-fields.adoc[]
 ==== Request
 
 include::{snippets}/reply-delete/http-request.adoc[]
+include::{snippets}/reply-delete/path-parameters.adoc[]
 
 ==== Response
 
 include::{snippets}/reply-delete/http-response.adoc[]
 
-=== 대댓글 전제 조회
+=== 대댓글 전체 조회
 
 ==== Request
 
 include::{snippets}/reply-findAllReplies/http-request.adoc[]
+include::{snippets}/reply-findAllReplies/path-parameters.adoc[]
 
 ==== Response
 

@@ -23,7 +23,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final FeedService feedService;
 
-    public CommentResponse create(User user, Long feedId, CommentRequest request) {
+    public CommentResponse createComment(User user, Long feedId, CommentRequest request) {
         Feed findFeed = feedService.findEntityById(feedId);
         Comment comment = new Comment(request.getContent(), request.isHelper()).writtenBy(user);
         findFeed.addComment(comment);
