@@ -8,6 +8,7 @@ import com.wooteco.nolto.feed.ui.dto.AuthorResponse;
 import com.wooteco.nolto.feed.ui.dto.ReplyRequest;
 import com.wooteco.nolto.feed.ui.dto.ReplyResponse;
 import com.wooteco.nolto.user.domain.User;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -23,6 +24,7 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -68,13 +70,14 @@ public class CommentControllerTest extends ControllerTest {
             fieldWithPath("author.imageUrl").type(JsonFieldType.STRING).description("댓글 작성자 이미지 URL")
     };
 
+    @DisplayName("대댓글을 작성한다.")
     @Test
     void createReply() throws Exception {
         given(authService.findUserByToken(ACCESS_TOKEN)).willReturn(LOGIN_USER);
         given(commentService.createReply(any(User.class), any(Long.class), any(Long.class), any())).willReturn(REPLY_RESPONSE);
 
         mockMvc.perform(post("/feeds/{feedId}/comments/{commentId}/replies", FEED_ID, COMMENT_ID)
-                .header("Authorization", BEARER + ACCESS_TOKEN)
+                .header(HttpHeaders.AUTHORIZATION, BEARER + ACCESS_TOKEN)
                 .content(new ObjectMapper().writeValueAsString(new ReplyRequest("작성된 대댓글입니다.")))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isCreated())
@@ -102,6 +105,7 @@ public class CommentControllerTest extends ControllerTest {
                         )));
     }
 
+    @DisplayName("대댓글을 수정한다.")
     @Test
     void updateReply() throws Exception {
         ReplyRequest updateReplyRequest = new ReplyRequest("수정된 대댓글입니다.");
@@ -112,7 +116,7 @@ public class CommentControllerTest extends ControllerTest {
         given(commentService.updateReply(any(User.class), any(Long.class), any(Long.class), any(Long.class), any())).willReturn(updateReplyResponse);
 
         mockMvc.perform(put("/feeds/{feedId}/comments/{commentId}/replies/{replyId}", FEED_ID, COMMENT_ID, REPLY_ID)
-                .header("Authorization", BEARER + ACCESS_TOKEN)
+                .header(HttpHeaders.AUTHORIZATION, BEARER + ACCESS_TOKEN)
                 .content(new ObjectMapper().writeValueAsString(updateReplyRequest))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -141,6 +145,7 @@ public class CommentControllerTest extends ControllerTest {
                         )));
     }
 
+    @DisplayName("대댓글을 삭제한다.")
     @Test
     void deleteReply() throws Exception {
         given(authService.findUserByToken(ACCESS_TOKEN)).willReturn(LOGIN_USER);
@@ -158,6 +163,7 @@ public class CommentControllerTest extends ControllerTest {
                         )));
     }
 
+    @DisplayName("대댓글을 전체 조회한다.")
     @Test
     void findAllReplies() throws Exception {
         ReplyResponse firstResponse = new ReplyResponse(REPLY_ID, "처음 작성된 대댓글입니다.", 0, false,
@@ -176,7 +182,7 @@ public class CommentControllerTest extends ControllerTest {
                 get("/feeds/{feedId}/comments/{commentId}", FEED_ID, COMMENT_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .header("Authorization", "Bearer " + ACCESS_TOKEN))
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + ACCESS_TOKEN))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(replyResponses)))
                 .andDo(document("reply-findAllReplies",
@@ -191,4 +197,44 @@ public class CommentControllerTest extends ControllerTest {
                         ).andWithPrefix("[].", SINGLE_REPLY_RESPONSE)));
 
     }
+
+    @DisplayName("대댓글에 좋아요를 누른다.")
+    @Test
+    void addReplyLike() throws Exception {
+        given(authService.findUserByToken(ACCESS_TOKEN)).willReturn(LOGIN_USER);
+        willDoNothing().given(commentLikeService).addCommentLike(COMMENT_ID, LOGIN_USER);
+
+        mockMvc.perform(post("/feeds/{feedId}/comments/{commentId}/replies/{replyId}/like", FEED_ID, COMMENT_ID, REPLY_ID)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + ACCESS_TOKEN))
+                .andExpect(status().isOk())
+                .andDo(document("reply-like",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("feedId").description("피드 ID"),
+                                parameterWithName("commentId").description("댓글 ID"),
+                                parameterWithName("replyId").description("대댓글 ID")
+                        )));
+    }
+
+    @DisplayName("대댓글의 좋아요를 취소한다.")
+    @Test
+    void deleteReplyLike() throws Exception {
+        given(authService.findUserByToken(ACCESS_TOKEN)).willReturn(LOGIN_USER);
+        willDoNothing().given(commentLikeService).deleteCommentLike(FEED_ID, LOGIN_USER);
+
+        mockMvc.perform(post("/feeds/{feedId}/comments/{commentId}/replies/{replyId}/unlike", FEED_ID, COMMENT_ID, REPLY_ID)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + ACCESS_TOKEN)
+                .characterEncoding("UTF-8"))
+                .andExpect(status().isOk())
+                .andDo(document("reply-unlike",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("feedId").description("피드 ID"),
+                                parameterWithName("commentId").description("댓글 ID"),
+                                parameterWithName("replyId").description("대댓글 ID")
+                        )));
+    }
+
 }

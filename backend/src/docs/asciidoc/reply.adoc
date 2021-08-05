@@ -52,3 +52,22 @@ include::{snippets}/reply-findAllReplies/http-response.adoc[]
 
 include::{snippets}/reply-findAllReplies/response-fields.adoc[]
 
+=== 대댓글 좋아요
+
+==== Request
+
+include::{snippets}/reply-like/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/reply-like/http-response.adoc[]
+
+=== 대댓글 좋아요 취소
+
+==== Request
+
+include::{snippets}/reply-unlike/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/reply-unlike/http-response.adoc[]
