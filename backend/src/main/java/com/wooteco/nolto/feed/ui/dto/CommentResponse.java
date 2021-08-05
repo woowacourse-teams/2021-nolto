@@ -17,23 +17,9 @@ public class CommentResponse {
     private int likes;
     private boolean liked;
     private boolean feedAuthor;
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
     private boolean modified;
     private AuthorResponse author;
-
-    public static CommentResponse create(Long id) {
-        return new CommentResponse(
-                id,
-                "댓글이다" + id,
-                false,
-                10,
-                false,
-                false,
-                LocalDateTime.now(),
-                true,
-                new AuthorResponse(1L, "charlie", "https://dksykemwl00pf.cloudfront.net/")
-        );
-    }
 
     public static CommentResponse of(Comment comment, User user) {
         return new CommentResponse(
