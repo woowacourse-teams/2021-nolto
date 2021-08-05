@@ -7,6 +7,7 @@ import com.wooteco.nolto.exception.UnauthorizedException;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.FeedTech;
 import com.wooteco.nolto.feed.domain.Step;
+import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
@@ -38,6 +39,7 @@ import static org.mockito.BDDMockito.given;
 
 @ActiveProfiles("test")
 @SpringBootTest
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @Transactional
 class FeedServiceTest {
     private FeedRequest FEED_REQUEST1 = new FeedRequest("title1", new ArrayList<>(), "content1", "PROGRESS", true,
@@ -53,6 +55,8 @@ class FeedServiceTest {
     private Tech techSpring = new Tech("Spring");
     private Tech techJava = new Tech("Java");
     private Tech techReact = new Tech("React");
+    @Autowired
+    private FeedRepository feedRepository;
 
     @Autowired
     private FeedService feedService;
@@ -523,13 +527,24 @@ class FeedServiceTest {
         Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
         Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
         Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
+        System.out.println("-------------------");
+        System.out.println(firstFeedId);
+        System.out.println(secondFeedId);
+        System.out.println(thirdFeedId);
         em.flush();
         em.clear();
-
         String query = "content";
+        List<Feed> feeds = feedRepository.findAll();
+        System.out.println("1++++++++++++++++++++++++");
+        System.out.println(feeds);
 
         //when
         List<FeedCardResponse> searchFeeds = feedService.search(query, "", "all");
+        List<Feed> feeds2 = feedRepository.findAll();
+        System.out.println("2++++++++++++++++++++++++");
+        System.out.println(feeds2);
+        System.out.println("3++++++++++++++++");
+        System.out.println("searchFeeds: " + searchFeeds);
         List<Long> feedIds = searchFeeds.stream()
                 .map(FeedCardResponse::getId)
                 .collect(Collectors.toList());
