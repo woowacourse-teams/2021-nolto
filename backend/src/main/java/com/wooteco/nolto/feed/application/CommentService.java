@@ -40,15 +40,9 @@ public class CommentService {
     }
 
     public List<ReplyResponse> findAllRepliesById(User user, Long feedId, Long commentId) {
-        List<Comment> replies = findAllReplies(feedId, commentId);
+        List<Comment> replies = commentRepository.findAllByFeedIdAndParentCommentId(feedId, commentId);
         replies.sort(Comparator.comparing(Comment::getCreatedDate, Comparator.reverseOrder()));
         return ReplyResponse.toList(replies, user);
-    }
-
-    private List<Comment> findAllReplies(Long feedId, Long commentId) {
-        Feed feed = feedService.findEntityById(feedId);
-        Comment comment = findEntityById(commentId);
-        return commentRepository.findAllByFeedAndParentComment(feed, comment);
     }
 
     public ReplyResponse updateReply(User user, Long feedId, Long commentId, Long replyId, ReplyRequest request) {

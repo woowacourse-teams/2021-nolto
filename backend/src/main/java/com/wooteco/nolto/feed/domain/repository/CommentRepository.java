@@ -7,5 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-    List<Comment> findAllByFeedAndParentComment(Feed feed, Comment comment);
+
+    List<Comment> findAllByFeedIdAndParentCommentId(Long feedId, Long parentCommentId);
+
 }
