@@ -2,6 +2,7 @@ package com.wooteco.nolto.user.ui;
 
 import com.wooteco.nolto.auth.MemberAuthenticationPrincipal;
 import com.wooteco.nolto.auth.ValidTokenRequired;
+import com.wooteco.nolto.notification.application.NotificationService;
 import com.wooteco.nolto.user.application.MemberService;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.ui.dto.*;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/members/me")
@@ -52,5 +54,12 @@ public class MemberController {
     public ResponseEntity<ProfileResponse> updateProfileOfMine(@MemberAuthenticationPrincipal User user, @Valid @ModelAttribute ProfileRequest profileRequest) {
         ProfileResponse response = memberService.updateProfile(user, profileRequest);
         return ResponseEntity.ok(response);
+    }
+
+    @ValidTokenRequired
+    @GetMapping("/notifications")
+    public ResponseEntity<List<NotificationResponse>> findNotifications(@MemberAuthenticationPrincipal User user) {
+        List<NotificationResponse> notificationResponses = memberService.findNotifications(user);
+        return ResponseEntity.ok(notificationResponses);
     }
 }

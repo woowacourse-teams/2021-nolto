@@ -5,12 +5,10 @@ import com.wooteco.nolto.feed.domain.Comment;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.image.application.ImageKind;
 import com.wooteco.nolto.image.application.ImageService;
+import com.wooteco.nolto.notification.application.NotificationService;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.domain.UserRepository;
-import com.wooteco.nolto.user.ui.dto.MemberHistoryResponse;
-import com.wooteco.nolto.user.ui.dto.NicknameValidationResponse;
-import com.wooteco.nolto.user.ui.dto.ProfileRequest;
-import com.wooteco.nolto.user.ui.dto.ProfileResponse;
+import com.wooteco.nolto.user.ui.dto.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +23,7 @@ import static com.wooteco.nolto.exception.ErrorType.ALREADY_EXIST_NICKNAME;
 public class MemberService {
 
     private final ImageService imageService;
+    private final NotificationService notificationService;
     private final UserRepository userRepository;
 
     public MemberHistoryResponse findHistory(User user) {
@@ -58,5 +57,9 @@ public class MemberService {
 
         String updateImageUrl = imageService.update(user.getImageUrl(), request.getImage(), ImageKind.USER);
         user.changeImageUrl(updateImageUrl);
+    }
+
+    public List<NotificationResponse> findNotifications(User user) {
+        return NotificationResponse.toList(notificationService.findAllByUser(user));
     }
 }
