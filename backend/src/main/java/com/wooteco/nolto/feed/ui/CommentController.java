@@ -108,4 +108,24 @@ public class CommentController {
         commentService.deleteReply(user, feedId, commentId, replyId);
         return ResponseEntity.noContent().build();
     }
+
+    @ValidTokenRequired
+    @PostMapping("/{commentId:[\\d]+}/replies/{replyId}/like")
+    public ResponseEntity<Void> addReplyLike(@MemberAuthenticationPrincipal User user,
+                                             @PathVariable Long feedId,
+                                             @PathVariable Long replyId,
+                                             @PathVariable Long commentId) {
+        commentLikeService.addCommentLike(replyId, user);
+        return ResponseEntity.ok().build();
+    }
+
+    @ValidTokenRequired
+    @PostMapping("/{commentId:[\\d]+}/replies/{replyId}/unlike")
+    public ResponseEntity<Void> deleteReplyLike(@MemberAuthenticationPrincipal User user,
+                                                  @PathVariable Long feedId,
+                                                @PathVariable Long replyId,
+                                                @PathVariable Long commentId) {
+        commentLikeService.deleteCommentLike(replyId, user);
+        return ResponseEntity.ok().build();
+    }
 }

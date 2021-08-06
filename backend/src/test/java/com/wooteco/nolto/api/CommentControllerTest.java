@@ -23,6 +23,7 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -124,9 +125,9 @@ public class CommentControllerTest extends ControllerTest {
         given(commentService.createComment(any(User.class), any(Long.class), any(CommentRequest.class))).willReturn(COMMENT_RESPONSE);
 
         mockMvc.perform(post("/feeds/{feedId}/comments", FEED_ID)
-                        .header("Authorization", BEARER + ACCESS_TOKEN)
-                        .content(new ObjectMapper().writeValueAsString(new CommentRequest("작성된 댓글입니다.", false)))
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .header("Authorization", BEARER + ACCESS_TOKEN)
+                .content(new ObjectMapper().writeValueAsString(new CommentRequest("작성된 댓글입니다.", false)))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isCreated())
                 .andExpect(content().json(objectMapper.writeValueAsString(COMMENT_RESPONSE)))
                 .andDo(document("comment-create",
@@ -161,12 +162,12 @@ public class CommentControllerTest extends ControllerTest {
         CommentRequest updateRequest = new CommentRequest("수정된 댓글입니다.", true);
 
         given(authService.findUserByToken(ACCESS_TOKEN)).willReturn(LOGIN_USER);
-        given(commentService.updateComment(any(Long.class), any(CommentRequest.class),any(User.class))).willReturn(UPDATED_COMMENT_RESPONSE1);
+        given(commentService.updateComment(any(Long.class), any(CommentRequest.class), any(User.class))).willReturn(UPDATED_COMMENT_RESPONSE1);
 
         mockMvc.perform(patch("/feeds/{feedId}/comments/{commentId}", FEED_ID, COMMENT_ID)
-                        .header("Authorization", BEARER + ACCESS_TOKEN)
-                        .content(new ObjectMapper().writeValueAsString(updateRequest))
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .header(HttpHeaders.AUTHORIZATION, BEARER + ACCESS_TOKEN)
+                .content(new ObjectMapper().writeValueAsString(updateRequest))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(UPDATED_COMMENT_RESPONSE1)))
                 .andDo(document("comment-update",
@@ -202,7 +203,7 @@ public class CommentControllerTest extends ControllerTest {
         given(authService.findUserByToken(ACCESS_TOKEN)).willReturn(LOGIN_USER);
 
         mockMvc.perform(delete("/feeds/{feedId}/comments/{commentId}", FEED_ID, COMMENT_ID)
-                        .header(HttpHeaders.AUTHORIZATION, BEARER + ACCESS_TOKEN))
+                .header(HttpHeaders.AUTHORIZATION, BEARER + ACCESS_TOKEN))
                 .andExpect(status().isNoContent())
                 .andDo(document("comment-delete",
                         getDocumentRequest(),
@@ -222,10 +223,10 @@ public class CommentControllerTest extends ControllerTest {
         given(commentService.findAllByFeedId(any(Long.class), any(User.class))).willReturn(responses);
 
         mockMvc.perform(
-                        get("/feeds/{feedId}/comments", FEED_ID)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .accept(MediaType.APPLICATION_JSON)
-                                .header("Authorization", "Bearer " + ACCESS_TOKEN))
+                get("/feeds/{feedId}/comments", FEED_ID)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + ACCESS_TOKEN))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(responses)))
                 .andDo(document("comment-findAllByFeedId",
@@ -247,7 +248,7 @@ public class CommentControllerTest extends ControllerTest {
         given(authService.findUserByToken(ACCESS_TOKEN)).willReturn(LOGIN_USER);
 
         mockMvc.perform(post("/feeds/{feedId}/comments/{commentId}/like", FEED_ID, COMMENT_ID)
-                        .header("Authorization", "Bearer " + ACCESS_TOKEN))
+                .header("Authorization", "Bearer " + ACCESS_TOKEN))
                 .andExpect(status().isOk())
                 .andDo(document("comment-addLike",
                         getDocumentRequest(),
@@ -264,7 +265,7 @@ public class CommentControllerTest extends ControllerTest {
         given(authService.findUserByToken(ACCESS_TOKEN)).willReturn(LOGIN_USER);
 
         mockMvc.perform(post("/feeds/{feedId}/comments/{commentId}/unlike", FEED_ID, COMMENT_ID)
-                        .header("Authorization", "Bearer " + ACCESS_TOKEN))
+                .header("Authorization", "Bearer " + ACCESS_TOKEN))
                 .andExpect(status().isOk())
                 .andDo(document("comment-deleteLike",
                         getDocumentRequest(),
@@ -282,9 +283,9 @@ public class CommentControllerTest extends ControllerTest {
         given(commentService.createReply(any(User.class), any(Long.class), any(Long.class), any())).willReturn(REPLY_RESPONSE);
 
         mockMvc.perform(post("/feeds/{feedId}/comments/{commentId}/replies", FEED_ID, COMMENT_ID)
-                        .header("Authorization", BEARER + ACCESS_TOKEN)
-                        .content(new ObjectMapper().writeValueAsString(new ReplyRequest("작성된 대댓글입니다.")))
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .header(HttpHeaders.AUTHORIZATION, BEARER + ACCESS_TOKEN)
+                .content(new ObjectMapper().writeValueAsString(new ReplyRequest("작성된 대댓글입니다.")))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isCreated())
                 .andExpect(content().json(objectMapper.writeValueAsString(REPLY_RESPONSE)))
                 .andDo(document("reply-create",
@@ -324,9 +325,9 @@ public class CommentControllerTest extends ControllerTest {
         given(commentService.updateReply(any(User.class), any(Long.class), any(Long.class), any(Long.class), any())).willReturn(updateReplyResponse);
 
         mockMvc.perform(put("/feeds/{feedId}/comments/{commentId}/replies/{replyId}", FEED_ID, COMMENT_ID, REPLY_ID)
-                        .header("Authorization", BEARER + ACCESS_TOKEN)
-                        .content(new ObjectMapper().writeValueAsString(updateReplyRequest))
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .header(HttpHeaders.AUTHORIZATION, BEARER + ACCESS_TOKEN)
+                .content(new ObjectMapper().writeValueAsString(updateReplyRequest))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(updateReplyResponse)))
                 .andDo(document("reply-update",
@@ -362,7 +363,7 @@ public class CommentControllerTest extends ControllerTest {
         given(authService.findUserByToken(ACCESS_TOKEN)).willReturn(LOGIN_USER);
 
         mockMvc.perform(delete("/feeds/{feedId}/comments/{commentId}/replies/{replyId}", FEED_ID, COMMENT_ID, REPLY_ID)
-                        .header(HttpHeaders.AUTHORIZATION, BEARER + ACCESS_TOKEN))
+                .header(HttpHeaders.AUTHORIZATION, BEARER + ACCESS_TOKEN))
                 .andExpect(status().isNoContent())
                 .andDo(document("reply-delete",
                         getDocumentRequest(),
@@ -390,10 +391,10 @@ public class CommentControllerTest extends ControllerTest {
         given(commentService.findAllRepliesById(any(User.class), any(Long.class), any())).willReturn(replyResponses);
 
         mockMvc.perform(
-                        get("/feeds/{feedId}/comments/{commentId}", FEED_ID, COMMENT_ID)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .accept(MediaType.APPLICATION_JSON)
-                                .header("Authorization", "Bearer " + ACCESS_TOKEN))
+                get("/feeds/{feedId}/comments/{commentId}", FEED_ID, COMMENT_ID)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + ACCESS_TOKEN))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(replyResponses)))
                 .andDo(document("reply-findAllReplies",
@@ -408,4 +409,44 @@ public class CommentControllerTest extends ControllerTest {
                         ).andWithPrefix("[].", SINGLE_REPLY_RESPONSE)));
 
     }
+
+    @DisplayName("대댓글에 좋아요를 누른다.")
+    @Test
+    void addReplyLike() throws Exception {
+        given(authService.findUserByToken(ACCESS_TOKEN)).willReturn(LOGIN_USER);
+        willDoNothing().given(commentLikeService).addCommentLike(COMMENT_ID, LOGIN_USER);
+
+        mockMvc.perform(post("/feeds/{feedId}/comments/{commentId}/replies/{replyId}/like", FEED_ID, COMMENT_ID, REPLY_ID)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + ACCESS_TOKEN))
+                .andExpect(status().isOk())
+                .andDo(document("reply-like",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("feedId").description("피드 ID"),
+                                parameterWithName("commentId").description("댓글 ID"),
+                                parameterWithName("replyId").description("대댓글 ID")
+                        )));
+    }
+
+    @DisplayName("대댓글의 좋아요를 취소한다.")
+    @Test
+    void deleteReplyLike() throws Exception {
+        given(authService.findUserByToken(ACCESS_TOKEN)).willReturn(LOGIN_USER);
+        willDoNothing().given(commentLikeService).deleteCommentLike(FEED_ID, LOGIN_USER);
+
+        mockMvc.perform(post("/feeds/{feedId}/comments/{commentId}/replies/{replyId}/unlike", FEED_ID, COMMENT_ID, REPLY_ID)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + ACCESS_TOKEN)
+                .characterEncoding("UTF-8"))
+                .andExpect(status().isOk())
+                .andDo(document("reply-unlike",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("feedId").description("피드 ID"),
+                                parameterWithName("commentId").description("댓글 ID"),
+                                parameterWithName("replyId").description("대댓글 ID")
+                        )));
+    }
+
 }
