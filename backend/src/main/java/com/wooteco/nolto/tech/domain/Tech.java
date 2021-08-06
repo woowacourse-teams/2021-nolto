@@ -42,13 +42,4 @@ public class Tech {
     public int hashCode() {
         return Objects.hash(id, name);
     }
-
-    @Override
-    public String toString() {
-        return "Tech{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", feeds=" + feeds +
-                '}';
-    }
 }

@@ -17,4 +17,8 @@ public class NotificationEvent {
     public Notification toEntity() {
         return new Notification(feed.getAuthor(), feed, publisher, notificationType);
     }
+
+    public static NotificationEvent commentOf(Feed feed, User publisher, boolean isHelper) {
+        return new NotificationEvent(feed, publisher, NotificationType.findCommentBy(isHelper));
+    }
 }
