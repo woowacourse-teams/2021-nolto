@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
+import { hoverLayer } from 'commonStyles';
 import { ButtonStyle } from 'types';
 
 interface RootProps {
@@ -27,20 +28,9 @@ const styleMap = {
 
 const Root = styled.button<RootProps>`
   ${({ buttonStyle, reverse }) => styleMap[buttonStyle](reverse)}
-  position: relative;
   overflow: hidden;
 
-  &:hover::after {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0.1;
-    background-color: ${PALETTE.BLACK_400};
-  }
+  ${hoverLayer({})};
 `;
 
 export default { Root };
