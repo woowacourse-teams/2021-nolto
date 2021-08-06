@@ -415,10 +415,12 @@ class FeedServiceTest {
 
     @DisplayName("좋아요 개수가 같은 경우 최신 Feed를 가져온다.(피드1: 좋아요0개, 피드2: 좋아요2개, 피드3: 좋아요2개)")
     @Test
-    void findHotFeedsBySameDate() {
+    void findHotFeedsBySameDate() throws InterruptedException {
         // given
         Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
+        Thread.sleep(1);
         Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
+        Thread.sleep(1);
         Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
 
         likeService.addLike(user2, secondFeedId);
@@ -440,11 +442,13 @@ class FeedServiceTest {
 
     @DisplayName("모든 피드를 조회한다. (최신 등록된 날짜 순)")
     @Test
-    void findAllWithAllFilter() {
+    void findAllWithAllFilter() throws InterruptedException {
         // given
         String defaultFilter = "all";
         feedService.create(user1, FEED_REQUEST1);
+        Thread.sleep(1);
         feedService.create(user1, FEED_REQUEST2);
+        Thread.sleep(1);
         feedService.create(user1, FEED_REQUEST3);
 
         // when
@@ -459,7 +463,7 @@ class FeedServiceTest {
 
     @DisplayName("SOS 피드를 조회한다. (최신 등록된 날짜 순)")
     @Test
-    void findAllWithFilterSOS() {
+    void findAllWithFilterSOS() throws InterruptedException {
         // given
         FEED_REQUEST1.setSos(true);
         FEED_REQUEST2.setSos(false);
@@ -467,7 +471,9 @@ class FeedServiceTest {
 
         String defaultFilter = "sos";
         feedService.create(user1, FEED_REQUEST1);
+        Thread.sleep(1);
         feedService.create(user1, FEED_REQUEST2);
+        Thread.sleep(1);
         feedService.create(user1, FEED_REQUEST3);
 
         // when
@@ -481,14 +487,16 @@ class FeedServiceTest {
 
     @DisplayName("PROGRESS 피드를 조회한다. (최신 등록된 날짜 순)")
     @Test
-    void findAllWithFilterProgress() {
+    void findAllWithFilterProgress() throws InterruptedException {
         // given
         FEED_REQUEST1.setStep(Step.COMPLETE.name());
         FEED_REQUEST2.setStep(Step.PROGRESS.name());
         FEED_REQUEST3.setStep(Step.PROGRESS.name());
 
         feedService.create(user1, FEED_REQUEST1);
+        Thread.sleep(1);
         feedService.create(user1, FEED_REQUEST2);
+        Thread.sleep(1);
         feedService.create(user1, FEED_REQUEST3);
 
         // when
@@ -502,14 +510,16 @@ class FeedServiceTest {
 
     @DisplayName("COMPLETE 피드를 조회한다. (최신 등록된 날짜 순)")
     @Test
-    void findAllWithFilterComplete() {
+    void findAllWithFilterComplete() throws InterruptedException {
         // given
         FEED_REQUEST1.setStep(Step.COMPLETE.name());
         FEED_REQUEST2.setStep(Step.COMPLETE.name());
         FEED_REQUEST3.setStep(Step.PROGRESS.name());
 
         feedService.create(user1, FEED_REQUEST1);
+        Thread.sleep(1);
         feedService.create(user1, FEED_REQUEST2);
+        Thread.sleep(1);
         feedService.create(user1, FEED_REQUEST3);
 
         // when
