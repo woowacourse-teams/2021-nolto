@@ -36,6 +36,10 @@ class TechControllerTest extends ControllerTest {
     public static final List<TechResponse> TECH_RESPONSES2 = Arrays.asList(
             new TechResponse(67L, "Spring"), new TechResponse(1149L, "Java"));
 
+    public static final List<TechResponse> TREND_TECH_RESPONSES = Arrays.asList(
+            new TechResponse(67L, "Spring"), new TechResponse(1149L, "Java"),
+            new TechResponse(67L, "Spring"), new TechResponse(1149L, "Java"));
+
     @MockBean
     private TechService techService;
 
@@ -74,6 +78,22 @@ class TechControllerTest extends ControllerTest {
                         requestParameters(
                                 parameterWithName("names").description("기술 이름")
                         ),
+                        responseFields(
+                                fieldWithPath("[]").type(JsonFieldType.ARRAY).description("기술 스택 목록"))
+                                .andWithPrefix("[].", TECH)));
+    }
+
+    @DisplayName("최신 트랜드 기술을 4개만 조회한다.")
+    @Test
+    void findTrendTechs() throws Exception {
+        given(techService.findTrendTechs()).willReturn(TREND_TECH_RESPONSES);
+
+        mockMvc.perform(get("/tags/techs/trend"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(TREND_TECH_RESPONSES)))
+                .andDo(document("tech-findTrendTechs",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
                         responseFields(
                                 fieldWithPath("[]").type(JsonFieldType.ARRAY).description("기술 스택 목록"))
                                 .andWithPrefix("[].", TECH)));

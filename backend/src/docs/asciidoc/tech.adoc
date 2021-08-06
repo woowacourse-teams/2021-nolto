@@ -13,6 +13,8 @@ include::{snippets}/tech-findByTechsContains/http-response.adoc[]
 
 include::{snippets}/tech-findByTechsContains/response-fields.adoc[]
 
+=== 기술 스택 목록 조회 2
+
 ==== Request
 
 include::{snippets}/tech-findAllByNameInIgnoreCase/http-request.adoc[]
@@ -25,3 +27,17 @@ include::{snippets}/tech-findAllByNameInIgnoreCase/http-response.adoc[]
 ==== Response Fields
 
 include::{snippets}/tech-findAllByNameInIgnoreCase/response-fields.adoc[]
+
+=== 최신 스택 목록 조회
+
+==== Request
+
+include::{snippets}/tech-findTrendTechs/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/tech-findTrendTechs/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/tech-findTrendTechs/response-fields.adoc[]
