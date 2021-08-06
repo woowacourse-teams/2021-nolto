@@ -1,9 +1,22 @@
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
 import TextButton from 'components/@common/TextButton/TextButton';
 import TextInput from 'components/@common/TextInput/TextInput';
 import { PALETTE } from 'constants/palette';
 import { ButtonStyle } from 'types';
+
+const show = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const Root = styled.div`
+  animation: ${show} 0.5s ease;
+`;
 
 const Author = styled.div`
   display: flex;
@@ -96,6 +109,7 @@ CommentTextButton.defaultProps = {
 };
 
 export default {
+  Root,
   Author,
   Content,
   Detail,

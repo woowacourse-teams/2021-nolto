@@ -16,7 +16,6 @@ import Styled, { CommentTextButton, ModifyTextInput } from './Comment.styles';
 import { ButtonStyle, CommentBase, CommentRequest } from 'types';
 import useCommentDelete from 'hooks/queries/comment/useCommentDelete';
 import useCommentsModule from 'context/comment/useCommentsModule';
-import useSnackBar from 'context/snackBar/useSnackBar';
 import useDialog from 'context/dialog/useDialog';
 import useCommentModify from 'hooks/queries/comment/useCommentModify';
 import useReplyWrite from 'hooks/queries/comment/reply/useReplyWrite';
@@ -31,7 +30,6 @@ const Comment = ({ comment }: Props) => {
   const [isModifying, setIsModifying] = useState(false);
   const [modifyInput, setModifyInput] = useState('');
   const member = useMember();
-  const snackBar = useSnackBar();
   const dialog = useDialog();
   const { feedId, reloadComments } = useCommentsModule();
   const { reloadReplies } = useRepliesProvider();
@@ -39,7 +37,6 @@ const Comment = ({ comment }: Props) => {
     { feedId, commentId: comment.id },
     {
       onSuccess: () => {
-        snackBar.addSnackBar('success', '답글 작성에 성공했습니다.');
         reloadReplies();
       },
     },
@@ -48,8 +45,7 @@ const Comment = ({ comment }: Props) => {
     { feedId, commentId: comment.id },
     {
       onSuccess: () => {
-        snackBar.addSnackBar('success', '댓글 수정에 성공했습니다.');
-        reloadComments();
+        isRootComment(comment) ? reloadComments() : reloadReplies();
       },
       //TODO: 에러처리 해야됨
     },
@@ -58,8 +54,7 @@ const Comment = ({ comment }: Props) => {
     { feedId, commentId: comment.id },
     {
       onSuccess: () => {
-        snackBar.addSnackBar('success', '댓글 삭제에 성공했습니다.');
-        reloadComments();
+        isRootComment(comment) ? reloadComments() : reloadReplies();
       },
     },
   );
@@ -97,7 +92,7 @@ const Comment = ({ comment }: Props) => {
   };
 
   return (
-    <div>
+    <Styled.Root>
       <Styled.Author>
         <div>
           <Avatar user={comment.author} />
@@ -162,7 +157,7 @@ const Comment = ({ comment }: Props) => {
           <CommentForm onSubmit={handleSubmitReply} />
         </Styled.ReplyFromWrapper>
       )}
-    </div>
+    </Styled.Root>
   );
 };
 

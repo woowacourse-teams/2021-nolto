@@ -2,7 +2,6 @@ import React, { useMemo } from 'react';
 
 import CommentForm from 'components/CommentBox/CommentForm/CommentForm';
 import useDialog from 'context/dialog/useDialog';
-import useSnackBar from 'context/snackBar/useSnackBar';
 import useCommentsLoad from 'hooks/queries/comment/useCommentsLoad';
 import useCommentWrite from 'hooks/queries/comment/useCommentWrite';
 import { CommentRequest } from 'types';
@@ -22,7 +21,6 @@ export const Context = React.createContext<CommentsContext>(null);
 
 const CommentsProviderModule = ({ feedId }: Props) => {
   const { data: comments, refetch } = useCommentsLoad({ feedId });
-  const snackBar = useSnackBar();
   const dialog = useDialog();
 
   const reloadComments = () => {
@@ -31,8 +29,7 @@ const CommentsProviderModule = ({ feedId }: Props) => {
 
   const commentWriteMutation = useCommentWrite(feedId, {
     onSuccess: () => {
-      snackBar.addSnackBar('success', '댓글 등록에 성공했습니다');
-      reloadComments();
+      // reloadComments();
     },
     onError: (error) => {
       //TODO: 에러처리 추가적으로 해줘야함

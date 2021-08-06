@@ -46,7 +46,7 @@ const RepliesProvider = ({ children, commentId }: Props) => {
 
           <Styled.ReplyWrapper isFold={isFold} replyCount={replies.length}>
             {replies.map((reply) => (
-              <Comment comment={reply} />
+              <Comment key={reply.id} comment={reply} />
             ))}
           </Styled.ReplyWrapper>
         </Styled.Reply>
