@@ -226,7 +226,6 @@ class CommentServiceTest extends CommentServiceFixture {
         Comment 아마찌_대댓글 = 댓글_생성("내 글에서 광고하지마!!!", false, 아마찌, 아마찌의_개쩌는_지하철_미션);
         아마찌_대댓글.addParentComment(찰리_댓글);
         List<Comment> saveReplies = commentRepository.saveAllAndFlush(Arrays.asList(찰리_댓글, 조엘_대댓글, 포모_대댓글, 아마찌_대댓글));
-        entityManager.clear();
 
         // when
         List<ReplyResponse> findReplies = commentService.findAllRepliesById(찰리1, 아마찌의_개쩌는_지하철_미션.getId(), 찰리_댓글.getId());
