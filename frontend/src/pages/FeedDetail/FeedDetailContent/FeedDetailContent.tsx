@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { FormEvent } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import useFeedDetail from 'hooks/queries/useFeedDetail';
+import useFeedDetail from 'hooks/queries/feed/useFeedDetail';
 import ViewCountIcon from 'assets/viewCount.svg';
 import Chip from 'components/@common/Chip/Chip';
 import FeedDropdown from 'components/FeedDropdown/FeedDropdown';
@@ -9,27 +9,48 @@ import LikeButton from 'components/LikeButton/LikeButton';
 import { STEP_CONVERTER } from 'constants/common';
 import { PALETTE } from 'constants/palette';
 import ROUTE from 'constants/routes';
-import { ButtonStyle } from 'types';
+import { ButtonStyle, CommentRequest } from 'types';
 import useSnackBar from 'context/snackBar/useSnackBar';
 import useMember from 'hooks/queries/useMember';
 import Styled, { Tag } from './FeedDetailContent.styles';
 import ToggleList from 'components/@common/ToggleList/ToggleList';
+import CommentForm from 'components/CommentBox/CommentForm/CommentForm';
+import useCommentRead from 'hooks/queries/comment/useCommentRead';
+import CommentBox from 'components/CommentBox/CommentBox';
+import useDialog from 'context/dialog/useDialog';
+import useCommentWrite from 'hooks/queries/comment/useCommentWrite';
 
 interface Props {
-  id: number;
+  feedId: number;
 }
 
-const FeedDetailContent = ({ id }: Props) => {
+const FeedDetailContent = ({ feedId }: Props) => {
   const history = useHistory();
-  const snackbar = useSnackBar();
-
+  const snackBar = useSnackBar();
+  const dialog = useDialog();
   const member = useMember();
+  const { data: comments, refetch } = useCommentRead({ feedId });
+
+  const commentWriteMutation = useCommentWrite(feedId, {
+    onSuccess: () => {
+      snackBar.addSnackBar('success', '댓글 등록에 성공했습니다');
+      refetch();
+    },
+    onError: (error) => {
+      //TODO: 에러처리 추가적으로 해줘야함
+      dialog.alert(error.message);
+    },
+  });
+
+  const handleSubmitComment = (commentRequest: CommentRequest) => {
+    commentWriteMutation.mutate(commentRequest);
+  };
 
   const { data: feedDetail } = useFeedDetail({
     errorHandler: (error) => {
-      snackbar.addSnackBar('error', error.message);
+      snackBar.addSnackBar('error', error.message);
     },
-    id,
+    feedId,
   });
 
   const searchByTag = (tech: string) => {
@@ -128,11 +149,22 @@ const FeedDetailContent = ({ id }: Props) => {
         </Styled.FeedSummaryContainer>
       </Styled.IntroContainer>
 
-      <Styled.DescriptionContainer>
+      <div>
         <h3>프로젝트 소개</h3>
         <hr />
         <Styled.Description>{feedDetail.content}</Styled.Description>
-      </Styled.DescriptionContainer>
+      </div>
+
+      <div>
+        <h3>댓글 {comments.length}개</h3>
+        <hr />
+        <Styled.CommentContainer>
+          <CommentForm onSubmit={handleSubmitComment} isRoot={true} />
+          {comments.map((comment) => (
+            <CommentBox key={comment.id} commentBoxInfo={comment} />
+          ))}
+        </Styled.CommentContainer>
+      </div>
     </Styled.Root>
   );
 };

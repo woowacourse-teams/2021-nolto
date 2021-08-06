@@ -1,7 +1,7 @@
 import { useMutation } from 'react-query';
 
 import api from 'constants/api';
-import { resolveHttpErrorResponse } from 'utils/error';
+import { resolveHttpError } from 'utils/error';
 
 const uploadFeed = async (formData: FormData) => {
   try {
@@ -9,8 +9,8 @@ const uploadFeed = async (formData: FormData) => {
 
     return data;
   } catch (error) {
-    resolveHttpErrorResponse({
-      errorResponse: error.response,
+    resolveHttpError({
+      error,
       defaultErrorMessage: '피드 업로드 과정에서 에러가 발생했습니다',
     });
   }

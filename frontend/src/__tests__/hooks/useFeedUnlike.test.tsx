@@ -1,5 +1,5 @@
 import { customRenderHook } from 'test-util';
-import useFeedUnlike from 'hooks/mutations/useFeedUnlike';
+import useFeedUnlike from 'hooks/queries/feed/useFeedUnlike';
 
 describe('useFeedUnlike 테스트', () => {
   it('피드 좋아요를 취소할 수 있다.', async () => {

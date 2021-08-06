@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import useHotFeeds from 'hooks/queries/useHotFeeds';
+import useHotFeeds from 'hooks/queries/feed/useHotFeeds';
 import RegularCard from 'components/RegularCard/RegularCard';
 import ROUTE from 'constants/routes';
 import Styled, { CarouselArrowButton } from './HotFeedsContent.styles';

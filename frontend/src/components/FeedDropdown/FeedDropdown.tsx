@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import Dropdown from 'components/@common/Dropdown/Dropdown';
 import useDialog from 'context/dialog/useDialog';
 import useSnackBar from 'context/snackBar/useSnackBar';
-import useFeedDelete from 'hooks/mutations/useFeedDelete';
+import useFeedDelete from 'hooks/queries/feed/useFeedDelete';
 import ROUTE from 'constants/routes';
 import { FeedDetail } from 'types';
 import Styled from './FeedDropdown.styles';

@@ -18,17 +18,20 @@ const CommentBox = ({ commentBoxInfo }: Props) => {
   return (
     <div>
       <Comment comment={commentBoxInfo} />
-      <Styled.Reply>
-        <FoldButton onClick={handleClickFold}>
-          <Styled.ArrowUp isFold={isFold} width="10px" />
-          {`답글 ${commentBoxInfo.replies.length}개 ${isFold ? '더보기' : '숨기기'}`}
-        </FoldButton>
-        <Styled.ReplyWrapper isFold={isFold} replyCount={commentBoxInfo.replies.length}>
-          {commentBoxInfo.replies.map((reply) => (
-            <Comment comment={reply} />
-          ))}
-        </Styled.ReplyWrapper>
-      </Styled.Reply>
+      {commentBoxInfo.replies.length > 0 && (
+        <Styled.Reply>
+          <FoldButton onClick={handleClickFold}>
+            <Styled.ArrowUp isFold={isFold} width="10px" />
+            {`답글 ${commentBoxInfo.replies.length}개 ${isFold ? '더보기' : '숨기기'}`}
+          </FoldButton>
+
+          <Styled.ReplyWrapper isFold={isFold} replyCount={commentBoxInfo.replies.length}>
+            {commentBoxInfo.replies.map((reply) => (
+              <Comment comment={reply} />
+            ))}
+          </Styled.ReplyWrapper>
+        </Styled.Reply>
+      )}
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import { customRenderHook } from 'test-util';
-import useRecentFeeds from 'hooks/queries/useRecentFeeds';
+import useRecentFeeds from 'hooks/queries/feed/useRecentFeeds';
 import { FilterType } from 'types';
 import { MOCK_FEEDS } from '__mocks__/fixture/Feeds';
 

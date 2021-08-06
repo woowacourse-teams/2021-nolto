@@ -8,7 +8,7 @@ import ROUTE from 'constants/routes';
 import { ALERT_MSG } from 'constants/message';
 import useDialog from 'context/dialog/useDialog';
 import useSnackBar from 'context/snackBar/useSnackBar';
-import useFeedModify from 'hooks/mutations/useFeedModify';
+import useFeedModify from 'hooks/queries/feed/useFeedModify';
 import Styled from './Modify.styles';
 import { FeedDetail } from 'types';
 

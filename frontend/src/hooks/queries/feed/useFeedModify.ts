@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 
 import api from 'constants/api';
 import HttpError from 'utils/HttpError';
-import { resolveHttpErrorResponse } from 'utils/error';
+import { resolveHttpError } from 'utils/error';
 
 interface Args {
   feedId: number;
@@ -16,8 +16,8 @@ const uploadFeed = async ({ feedId, formData }: Args) => {
 
     return data;
   } catch (error) {
-    resolveHttpErrorResponse({
-      errorResponse: error.response,
+    resolveHttpError({
+      error,
       defaultErrorMessage: '피드 수정에 에러가 발생했습니다',
     });
   }

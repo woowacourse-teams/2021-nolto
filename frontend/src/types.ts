@@ -109,6 +109,11 @@ export interface HttpErrorResponse extends ErrorResponse {
   };
 }
 
+export interface CommentRequest {
+  content: string;
+  helper?: boolean;
+}
+
 export interface CommentBase {
   id: number;
   content: string;
