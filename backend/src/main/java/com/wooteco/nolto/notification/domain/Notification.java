@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @AllArgsConstructor
@@ -31,6 +32,7 @@ public class Notification extends BaseEntity {
     private User publisher;
 
     @Enumerated(EnumType.STRING)
+    @NotNull
     private NotificationType notificationType;
 
     public Notification(User listener, Feed feed, User publisher, NotificationType notificationType) {
