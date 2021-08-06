@@ -6,6 +6,7 @@ import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.image.application.ImageKind;
 import com.wooteco.nolto.image.application.ImageService;
 import com.wooteco.nolto.notification.application.NotificationService;
+import com.wooteco.nolto.notification.domain.Notification;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.domain.UserRepository;
 import com.wooteco.nolto.user.ui.dto.*;
@@ -13,6 +14,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 
 import static com.wooteco.nolto.exception.ErrorType.ALREADY_EXIST_NICKNAME;
@@ -60,7 +62,9 @@ public class MemberService {
     }
 
     public List<NotificationResponse> findNotifications(User user) {
-        return NotificationResponse.toList(notificationService.findAllByUser(user));
+        List<Notification> notifications = notificationService.findAllByUser(user);
+        notifications.sort(Comparator.comparing(Notification::getCreatedDate, Comparator.reverseOrder()));
+        return NotificationResponse.toList(notifications);
     }
 
     public void deleteNotification(User user, Long notificationId) {

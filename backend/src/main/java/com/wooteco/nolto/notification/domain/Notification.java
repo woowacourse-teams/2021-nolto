@@ -1,5 +1,6 @@
 package com.wooteco.nolto.notification.domain;
 
+import com.wooteco.nolto.BaseEntity;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.user.domain.User;
 import lombok.AllArgsConstructor;
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class Notification {
+public class Notification extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
