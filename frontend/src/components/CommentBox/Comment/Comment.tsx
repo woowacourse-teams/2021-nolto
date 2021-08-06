@@ -14,20 +14,41 @@ import CommentForm from '../CommentForm/CommentForm';
 import useMember from 'hooks/queries/useMember';
 import Styled, { CommentTextButton, ModifyTextInput } from './Comment.styles';
 import { ButtonStyle, CommentBase } from 'types';
+import useCommentDelete from 'hooks/queries/comment/useCommentDelete';
+import useCommentsModule from 'context/comment/useCommentsModule';
+import useSnackBar from 'context/snackBar/useSnackBar';
+import useDialog from 'context/dialog/useDialog';
 
 interface Props {
   comment: CommentBase;
-  isHelper?: boolean;
 }
 
 const Comment = ({ comment }: Props) => {
   const [isReplyToggled, setIsReplyToggled] = useState(false);
   const [isModifying, setIsModifying] = useState(false);
   const member = useMember();
+  const snackBar = useSnackBar();
+  const dialog = useDialog();
+  const { feedId, reloadComment } = useCommentsModule();
+  const commentDeleteMutation = useCommentDelete(
+    { feedId, commentId: comment.id },
+    {
+      onSuccess: () => {
+        snackBar.addSnackBar('success', '댓글 삭제에 성공했습니다.');
+        reloadComment();
+      },
+    },
+  );
   const isMyComment = member.userData?.id === comment.author.id;
 
   const handleClickReply = () => {
     setIsReplyToggled(!isReplyToggled);
+  };
+
+  const handleClickDelete = () => {
+    dialog.confirm('정말 댓글을 삭제하시겠습니까?', () => {
+      commentDeleteMutation.mutate();
+    });
   };
 
   return (
@@ -82,7 +103,7 @@ const Comment = ({ comment }: Props) => {
                   <IconButton onClick={() => setIsModifying(true)} isShadow={false}>
                     <PencilIcon width="20px" fill={PALETTE.BLACK_200} />
                   </IconButton>
-                  <IconButton isShadow={false}>
+                  <IconButton onClick={handleClickDelete} isShadow={false}>
                     <TrashIcon width="20px" />
                   </IconButton>
                 </>
@@ -92,7 +113,7 @@ const Comment = ({ comment }: Props) => {
       </Styled.Body>
       {isReplyToggled && (
         <Styled.ReplyFromWrapper>
-          <CommentForm author={member.userData} />
+          <CommentForm />
         </Styled.ReplyFromWrapper>
       )}
     </div>

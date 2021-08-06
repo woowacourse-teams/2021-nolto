@@ -19,6 +19,7 @@ import useCommentLoad from 'hooks/queries/comment/useCommentLoad';
 import CommentBox from 'components/CommentBox/CommentBox';
 import useDialog from 'context/dialog/useDialog';
 import useCommentWrite from 'hooks/queries/comment/useCommentWrite';
+import CommentsProviderModule from 'context/comment/CommentsProviderModule';
 
 interface Props {
   feedId: number;
@@ -27,24 +28,7 @@ interface Props {
 const FeedDetailContent = ({ feedId }: Props) => {
   const history = useHistory();
   const snackBar = useSnackBar();
-  const dialog = useDialog();
   const member = useMember();
-  const { data: comments, refetch } = useCommentLoad({ feedId });
-
-  const commentWriteMutation = useCommentWrite(feedId, {
-    onSuccess: () => {
-      snackBar.addSnackBar('success', '댓글 등록에 성공했습니다');
-      refetch();
-    },
-    onError: (error) => {
-      //TODO: 에러처리 추가적으로 해줘야함
-      dialog.alert(error.message);
-    },
-  });
-
-  const handleSubmitComment = (commentRequest: CommentRequest) => {
-    commentWriteMutation.mutate(commentRequest);
-  };
 
   const { data: feedDetail } = useFeedDetail({
     errorHandler: (error) => {
@@ -155,16 +139,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
         <Styled.Description>{feedDetail.content}</Styled.Description>
       </div>
 
-      <div>
-        <h3>댓글 {comments.length}개</h3>
-        <hr />
-        <Styled.CommentContainer>
-          <CommentForm onSubmit={handleSubmitComment} isRoot={true} />
-          {comments.map((comment) => (
-            <CommentBox key={comment.id} commentBoxInfo={comment} />
-          ))}
-        </Styled.CommentContainer>
-      </div>
+      <CommentsProviderModule feedId={feedDetail.id} />
     </Styled.Root>
   );
 };
