@@ -7,8 +7,10 @@ import com.wooteco.nolto.feed.domain.Comment;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.repository.CommentRepository;
 import com.wooteco.nolto.feed.ui.dto.*;
+import com.wooteco.nolto.notification.application.NotificationEvent;
 import com.wooteco.nolto.user.domain.User;
 import lombok.AllArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,12 +24,14 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
     private final FeedService feedService;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     public CommentResponse createComment(User user, Long feedId, CommentRequest request) {
         Feed findFeed = feedService.findEntityById(feedId);
         Comment comment = new Comment(request.getContent(), request.isHelper()).writtenBy(user);
         findFeed.addComment(comment);
         commentRepository.save(comment);
+        applicationEventPublisher.publishEvent(NotificationEvent.commentOf(findFeed, user, request.isHelper()));
         return CommentResponse.of(comment, user);
     }
 
@@ -41,9 +45,17 @@ public class CommentService {
 
     public CommentResponse updateComment(Long commentId, CommentRequest request, User user) {
         Comment findComment = findEntityById(commentId);
+        notifyWhenChangedToHelper(request, findComment, user);
         findComment.update(request.getContent(), request.isHelper());
         commentRepository.flush();
         return CommentResponse.of(findComment, user);
+    }
+
+    private void notifyWhenChangedToHelper(CommentRequest request, Comment findComment, User user) {
+        boolean isChanged = findComment.changedToHelper(request.isHelper());
+        if (isChanged) {
+            applicationEventPublisher.publishEvent(NotificationEvent.commentOf(findComment.getFeed(), user, request.isHelper()));
+        }
     }
 
     public void deleteComment(Long commentId) {

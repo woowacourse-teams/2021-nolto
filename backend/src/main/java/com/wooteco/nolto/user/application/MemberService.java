@@ -5,16 +5,16 @@ import com.wooteco.nolto.feed.domain.Comment;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.image.application.ImageKind;
 import com.wooteco.nolto.image.application.ImageService;
+import com.wooteco.nolto.notification.application.NotificationService;
+import com.wooteco.nolto.notification.domain.Notification;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.domain.UserRepository;
-import com.wooteco.nolto.user.ui.dto.MemberHistoryResponse;
-import com.wooteco.nolto.user.ui.dto.NicknameValidationResponse;
-import com.wooteco.nolto.user.ui.dto.ProfileRequest;
-import com.wooteco.nolto.user.ui.dto.ProfileResponse;
+import com.wooteco.nolto.user.ui.dto.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 
 import static com.wooteco.nolto.exception.ErrorType.ALREADY_EXIST_NICKNAME;
@@ -25,6 +25,7 @@ import static com.wooteco.nolto.exception.ErrorType.ALREADY_EXIST_NICKNAME;
 public class MemberService {
 
     private final ImageService imageService;
+    private final NotificationService notificationService;
     private final UserRepository userRepository;
 
     public MemberHistoryResponse findHistory(User user) {
@@ -40,8 +41,8 @@ public class MemberService {
     }
 
     public ProfileResponse findProfile(User user) {
-        // TODO user의 notifications 수 구하는 로직 필요, user도 가지고 있으면 Service 레이어까지 오지 않을 수 있음
-        return ProfileResponse.of(user, 0);
+        long notificationCount = notificationService.findNotificationCount(user);
+        return ProfileResponse.of(user, notificationCount);
     }
 
     public ProfileResponse updateProfile(User user, ProfileRequest request) {
@@ -58,5 +59,24 @@ public class MemberService {
 
         String updateImageUrl = imageService.update(user.getImageUrl(), request.getImage(), ImageKind.USER);
         user.changeImageUrl(updateImageUrl);
+    }
+
+    public List<NotificationResponse> findNotifications(User user) {
+        List<Notification> notifications = notificationService.findAllByUser(user);
+        notifications.sort(Comparator.comparing(Notification::getCreatedDate, Comparator.reverseOrder()));
+        return NotificationResponse.toList(notifications);
+    }
+
+    public void deleteNotification(User user, Long notificationId) {
+        notificationService.delete(user, notificationId);
+    }
+
+    public void deleteAllNotifications(User user) {
+        notificationService.deleteAll(user);
+    }
+
+    public MemberResponse findMemberOfMine(User user) {
+        long notificationCount = notificationService.findNotificationCount(user);
+        return MemberResponse.of(user, notificationCount);
     }
 }

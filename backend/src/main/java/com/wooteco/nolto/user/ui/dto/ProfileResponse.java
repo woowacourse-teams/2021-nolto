@@ -15,10 +15,10 @@ public class ProfileResponse {
     private String nickname;
     private String bio;
     private String imageUrl;
-    private int notifications;
+    private long notifications;
     private LocalDateTime createdAt;
 
-    public static ProfileResponse of(User user, int notifications) {
+    public static ProfileResponse of(User user, long notifications) {
         return new ProfileResponse(user.getId(), user.getNickName(), user.getBio(), user.getImageUrl(),
                 notifications, user.getCreatedDate());
     }

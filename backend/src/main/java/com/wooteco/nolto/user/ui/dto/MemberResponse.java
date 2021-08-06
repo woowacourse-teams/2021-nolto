@@ -10,9 +10,9 @@ public class MemberResponse {
     private final Long id;
     private final String nickname;
     private final String imageUrl;
-    private final int notifications;
+    private final long notifications;
 
-    public static MemberResponse of(User user) {
-        return new MemberResponse(user.getId(), user.getNickName(), user.getImageUrl(), 0);
+    public static MemberResponse of(User user, long notificationCount) {
+        return new MemberResponse(user.getId(), user.getNickName(), user.getImageUrl(), notificationCount);
     }
 }
