@@ -62,4 +62,18 @@ public class MemberController {
         List<NotificationResponse> notificationResponses = memberService.findNotifications(user);
         return ResponseEntity.ok(notificationResponses);
     }
+
+    @ValidTokenRequired
+    @DeleteMapping("/notifications/{notificationId:[\\d]+}")
+    public ResponseEntity<Void> deleteNotification(@MemberAuthenticationPrincipal User user, @PathVariable Long notificationId) {
+        memberService.deleteNotification(user, notificationId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @ValidTokenRequired
+    @DeleteMapping("/notifications")
+    public ResponseEntity<Void> deleteAllNotifications(@MemberAuthenticationPrincipal User user) {
+        memberService.deleteAllNotifications(user);
+        return ResponseEntity.noContent().build();
+    }
 }

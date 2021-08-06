@@ -1,5 +1,8 @@
 package com.wooteco.nolto.notification.application;
 
+import com.wooteco.nolto.exception.BadRequestException;
+import com.wooteco.nolto.exception.ErrorType;
+import com.wooteco.nolto.exception.NotFoundException;
 import com.wooteco.nolto.notification.domain.Notification;
 import com.wooteco.nolto.notification.domain.NotificationRepository;
 import com.wooteco.nolto.user.domain.User;
@@ -23,5 +26,20 @@ public class NotificationService {
 
     public List<Notification> findAllByUser(User user) {
         return notificationRepository.findAllByListener(user);
+    }
+
+    public void delete(User user, Long notificationId) {
+        Notification notification = notificationRepository.findById(notificationId)
+                .orElseThrow(() -> new NotFoundException(ErrorType.NOTIFICATION_NOT_FOUND));
+
+        if (!notification.isListener(user)) {
+            throw new BadRequestException(ErrorType.UNAUTHORIZED_DELETE_NOTIFICATION);
+        }
+
+        notificationRepository.delete(notification);
+    }
+
+    public void deleteAll(User user) {
+        notificationRepository.deleteAllByListener(user);
     }
 }

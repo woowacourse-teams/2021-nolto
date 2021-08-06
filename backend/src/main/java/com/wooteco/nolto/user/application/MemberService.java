@@ -62,4 +62,12 @@ public class MemberService {
     public List<NotificationResponse> findNotifications(User user) {
         return NotificationResponse.toList(notificationService.findAllByUser(user));
     }
+
+    public void deleteNotification(User user, Long notificationId) {
+        notificationService.delete(user, notificationId);
+    }
+
+    public void deleteAllNotifications(User user) {
+        notificationService.deleteAll(user);
+    }
 }

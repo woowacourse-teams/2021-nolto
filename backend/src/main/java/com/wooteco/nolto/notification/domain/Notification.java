@@ -38,4 +38,8 @@ public class Notification {
         this.publisher = publisher;
         this.notificationType = notificationType;
     }
+
+    public boolean isListener(User user) {
+        return this.listener.sameAs(user);
+    }
 }
