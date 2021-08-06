@@ -8,6 +8,7 @@ import Avatar from 'components/@common/Avatar/Avatar';
 import IconButtonComponent from 'components/@common/IconButton/IconButton';
 import ArrowIcon from 'assets/carouselArrow.svg';
 import Z_INDEX from 'constants/zIndex';
+import { hoverUnderline } from 'commonStyles';
 
 const Root = styled.div`
   position: relative;
@@ -64,9 +65,7 @@ const TrendTag = styled.span`
   cursor: pointer;
 
   > .trends-text {
-    &:hover {
-      text-decoration: underline;
-    }
+    ${hoverUnderline};
   }
 
   > .trends-bar {
