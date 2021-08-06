@@ -10,7 +10,7 @@ interface CustomQueryOption extends UseQueryOptions<RootComment[], HttpError> {
   errorHandler?: ErrorHandler;
 }
 
-const loadComment = async (feedId: number, errorHandler?: ErrorHandler) => {
+const loadComments = async (feedId: number, errorHandler?: ErrorHandler) => {
   try {
     const { data } = await api.get(`/feeds/${feedId}/comments`);
 
@@ -24,12 +24,12 @@ const loadComment = async (feedId: number, errorHandler?: ErrorHandler) => {
   }
 };
 
-const useCommentLoad = ({ feedId, errorHandler, ...option }: CustomQueryOption) => {
+const useCommentsLoad = ({ feedId, errorHandler, ...option }: CustomQueryOption) => {
   return useQuery<RootComment[], HttpError>(
-    ['comment', feedId],
-    () => loadComment(feedId, errorHandler),
+    ['comments', feedId],
+    () => loadComments(feedId, errorHandler),
     option,
   );
 };
 
-export default useCommentLoad;
+export default useCommentsLoad;

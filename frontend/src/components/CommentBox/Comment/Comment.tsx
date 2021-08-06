@@ -13,12 +13,14 @@ import { isRootComment } from 'utils/typeGuard';
 import CommentForm from '../CommentForm/CommentForm';
 import useMember from 'hooks/queries/useMember';
 import Styled, { CommentTextButton, ModifyTextInput } from './Comment.styles';
-import { ButtonStyle, CommentBase } from 'types';
+import { ButtonStyle, CommentBase, CommentRequest } from 'types';
 import useCommentDelete from 'hooks/queries/comment/useCommentDelete';
 import useCommentsModule from 'context/comment/useCommentsModule';
 import useSnackBar from 'context/snackBar/useSnackBar';
 import useDialog from 'context/dialog/useDialog';
 import useCommentModify from 'hooks/queries/comment/useCommentModify';
+import useReplyWrite from 'hooks/queries/comment/reply/useReplyWrite';
+import useRepliesProvider from 'context/comment/reply/useRepliesProvider';
 
 interface Props {
   comment: CommentBase;
@@ -31,13 +33,23 @@ const Comment = ({ comment }: Props) => {
   const member = useMember();
   const snackBar = useSnackBar();
   const dialog = useDialog();
-  const { feedId, reloadComment } = useCommentsModule();
+  const { feedId, reloadComments } = useCommentsModule();
+  const { reloadReplies } = useRepliesProvider();
+  const replyWriteMutation = useReplyWrite(
+    { feedId, commentId: comment.id },
+    {
+      onSuccess: () => {
+        snackBar.addSnackBar('success', '답글 작성에 성공했습니다.');
+        reloadReplies();
+      },
+    },
+  );
   const commentModifyMutation = useCommentModify(
     { feedId, commentId: comment.id },
     {
       onSuccess: () => {
         snackBar.addSnackBar('success', '댓글 수정에 성공했습니다.');
-        reloadComment();
+        reloadComments();
       },
       //TODO: 에러처리 해야됨
     },
@@ -47,7 +59,7 @@ const Comment = ({ comment }: Props) => {
     {
       onSuccess: () => {
         snackBar.addSnackBar('success', '댓글 삭제에 성공했습니다.');
-        reloadComment();
+        reloadComments();
       },
     },
   );
@@ -78,6 +90,10 @@ const Comment = ({ comment }: Props) => {
     dialog.confirm('정말 댓글을 삭제하시겠습니까?', () => {
       commentDeleteMutation.mutate();
     });
+  };
+
+  const handleSubmitReply = (commentRequest: CommentRequest) => {
+    replyWriteMutation.mutate(commentRequest);
   };
 
   return (
@@ -143,7 +159,7 @@ const Comment = ({ comment }: Props) => {
       </Styled.Body>
       {isReplyToggled && (
         <Styled.ReplyFromWrapper>
-          <CommentForm />
+          <CommentForm onSubmit={handleSubmitReply} />
         </Styled.ReplyFromWrapper>
       )}
     </div>

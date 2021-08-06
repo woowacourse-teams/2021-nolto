@@ -128,6 +128,7 @@ export interface CommentBase {
 export interface RootComment extends CommentBase {
   helper: boolean;
   replies: CommentBase[];
+  //TODO: replies 어떻게 할지 고민 ⇒ CommentBox에서만 지금 쓰이고있음
 }
 
 export interface UserHistory {

@@ -13,7 +13,7 @@ const Root = styled.div`
   width: 50vw;
 
   & h3 {
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.25rem;
   }
 `;
 

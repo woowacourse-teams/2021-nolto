@@ -22,11 +22,15 @@ const CommentForm = ({ onSubmit, isRoot = false }: Props) => {
     event.preventDefault();
     setContent('');
 
-    onSubmit({ content, helper: isHelper });
+    onSubmit({ content, helper: isRoot ? isHelper : undefined });
   };
 
   const handleChangeContent = (event: ChangeEvent<HTMLInputElement>) => {
     setContent(event.target.value);
+  };
+
+  const handleChangeHelper = (event: ChangeEvent<HTMLInputElement>) => {
+    setIsHelper(event.target.checked);
   };
 
   return (
@@ -49,7 +53,7 @@ const CommentForm = ({ onSubmit, isRoot = false }: Props) => {
         </Styled.FormInputWrapper>
         {isRoot && (
           <Styled.Help>
-            <Toggle labelText="도와줄게요 🙌" />
+            <Toggle onChange={handleChangeHelper} checked={isHelper} labelText="도와줄게요 🙌" />
           </Styled.Help>
         )}
       </Form>

@@ -9,16 +9,11 @@ import LikeButton from 'components/LikeButton/LikeButton';
 import { STEP_CONVERTER } from 'constants/common';
 import { PALETTE } from 'constants/palette';
 import ROUTE from 'constants/routes';
-import { ButtonStyle, CommentRequest } from 'types';
+import { ButtonStyle } from 'types';
 import useSnackBar from 'context/snackBar/useSnackBar';
 import useMember from 'hooks/queries/useMember';
 import Styled, { Tag } from './FeedDetailContent.styles';
 import ToggleList from 'components/@common/ToggleList/ToggleList';
-import CommentForm from 'components/CommentBox/CommentForm/CommentForm';
-import useCommentLoad from 'hooks/queries/comment/useCommentLoad';
-import CommentBox from 'components/CommentBox/CommentBox';
-import useDialog from 'context/dialog/useDialog';
-import useCommentWrite from 'hooks/queries/comment/useCommentWrite';
 import CommentsProviderModule from 'context/comment/CommentsProviderModule';
 
 interface Props {

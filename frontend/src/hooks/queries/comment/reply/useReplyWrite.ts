@@ -6,13 +6,17 @@ import HttpError from 'utils/HttpError';
 import { resolveHttpError } from 'utils/error';
 import { CommentRequest } from 'types';
 
-const writeComment =
-  (feedId: number) =>
-  async ({ content, helper }: CommentRequest) => {
+interface Args {
+  feedId: number;
+  commentId: number;
+}
+
+const writeReply =
+  ({ feedId, commentId }: Args) =>
+  async ({ content }: CommentRequest) => {
     try {
-      const { data } = await api.post(`/feeds/${feedId}/comments`, {
+      const { data } = await api.post(`/feeds/${feedId}/comments/${commentId}/replies`, {
         content,
-        helper,
       });
 
       return data;
@@ -23,14 +27,15 @@ const writeComment =
       });
     }
   };
-const useCommentWrite = (
-  feedId: number,
+
+const useReplyWrite = (
+  { feedId, commentId }: Args,
   option?: UseMutationOptions<AxiosResponse<unknown>, HttpError, CommentRequest>,
 ) => {
   return useMutation<AxiosResponse<unknown>, HttpError, CommentRequest>(
-    writeComment(feedId),
+    writeReply({ feedId, commentId }),
     option,
   );
 };
 
-export default useCommentWrite;
+export default useReplyWrite;
