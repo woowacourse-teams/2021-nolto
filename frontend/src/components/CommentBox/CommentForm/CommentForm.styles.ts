@@ -10,7 +10,7 @@ const Author = styled.div`
 
 export const Form = styled.form`
   display: flex;
-  margin: 0.7rem 0 0 2rem;
+  margin: 0.25rem 2rem;
   flex-direction: column;
   gap: 0.5rem;
 
@@ -30,10 +30,13 @@ const FormInputWrapper = styled.div`
 
 export const CommentFormInput = styled(TextInput)`
   border-color: ${PALETTE.GRAY_300};
-  font-size: 14px;
+  font-size: 1rem;
+  padding: 0;
+  padding-bottom: 2px;
+  transition: border-color 0.1s ease;
 
   &:focus {
-    border-color: ${PALETTE.GRAY_300};
+    border-color: ${PALETTE.GRAY_400};
   }
 `;
 
