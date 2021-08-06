@@ -10,7 +10,7 @@ interface CustomQueryOption extends UseQueryOptions<Feed[], HttpError> {
   errorHandler?: ErrorHandler;
 }
 
-const getRecentFeeds = async (filter: FilterType, errorHandler: ErrorHandler) => {
+const loadRecentFeeds = async (filter: FilterType, errorHandler: ErrorHandler) => {
   try {
     const { data } = await api.get('/feeds/recent', { params: { filter } });
 
@@ -24,12 +24,12 @@ const getRecentFeeds = async (filter: FilterType, errorHandler: ErrorHandler) =>
   }
 };
 
-const useRecentFeeds = ({ filter, errorHandler, ...option }: CustomQueryOption) => {
+const useRecentFeedsLoad = ({ filter, errorHandler, ...option }: CustomQueryOption) => {
   return useQuery<Feed[]>(
     ['recentFeeds', filter],
-    () => getRecentFeeds(filter, errorHandler),
+    () => loadRecentFeeds(filter, errorHandler),
     option,
   );
 };
 
-export default useRecentFeeds;
+export default useRecentFeedsLoad;

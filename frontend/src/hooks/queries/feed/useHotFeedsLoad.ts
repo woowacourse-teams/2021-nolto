@@ -9,7 +9,7 @@ interface CustomQueryOption extends UseQueryOptions<Feed[], HttpError> {
   errorHandler?: ErrorHandler;
 }
 
-const getHotFeeds = async (errorHandler?: ErrorHandler) => {
+const loadHotFeeds = async (errorHandler?: ErrorHandler) => {
   try {
     const { data } = await api.get('/feeds/hot');
 
@@ -23,8 +23,8 @@ const getHotFeeds = async (errorHandler?: ErrorHandler) => {
   }
 };
 
-const useHotFeeds = ({ errorHandler, ...option }: CustomQueryOption) => {
-  return useQuery<Feed[], HttpError>(['hotFeeds'], () => getHotFeeds(errorHandler), option);
+const useHotFeedsLoad = ({ errorHandler, ...option }: CustomQueryOption) => {
+  return useQuery<Feed[], HttpError>(['hotFeeds'], () => loadHotFeeds(errorHandler), option);
 };
 
-export default useHotFeeds;
+export default useHotFeedsLoad;

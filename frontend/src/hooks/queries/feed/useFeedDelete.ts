@@ -22,6 +22,8 @@ const deleteFeed = async ({ feedId }: Args) => {
   }
 };
 
-export default function useFeedDelete() {
+const useFeedDelete = () => {
   return useMutation<AxiosResponse<unknown>, HttpError, Args>(deleteFeed);
-}
+};
+
+export default useFeedDelete;

@@ -24,12 +24,14 @@ const writeComment =
     }
   };
 
-export default function useCommentWrite(
+const useCommentWrite = (
   feedId: number,
   option?: UseMutationOptions<AxiosResponse<unknown>, HttpError, CommentRequest>,
-) {
+) => {
   return useMutation<AxiosResponse<unknown>, HttpError, CommentRequest>(
     writeComment(feedId),
     option,
   );
-}
+};
+
+export default useCommentWrite;

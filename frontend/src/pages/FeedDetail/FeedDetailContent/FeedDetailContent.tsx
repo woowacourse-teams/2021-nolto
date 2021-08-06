@@ -15,7 +15,7 @@ import useMember from 'hooks/queries/useMember';
 import Styled, { Tag } from './FeedDetailContent.styles';
 import ToggleList from 'components/@common/ToggleList/ToggleList';
 import CommentForm from 'components/CommentBox/CommentForm/CommentForm';
-import useCommentRead from 'hooks/queries/comment/useCommentRead';
+import useCommentLoad from 'hooks/queries/comment/useCommentLoad';
 import CommentBox from 'components/CommentBox/CommentBox';
 import useDialog from 'context/dialog/useDialog';
 import useCommentWrite from 'hooks/queries/comment/useCommentWrite';
@@ -29,7 +29,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
   const snackBar = useSnackBar();
   const dialog = useDialog();
   const member = useMember();
-  const { data: comments, refetch } = useCommentRead({ feedId });
+  const { data: comments, refetch } = useCommentLoad({ feedId });
 
   const commentWriteMutation = useCommentWrite(feedId, {
     onSuccess: () => {

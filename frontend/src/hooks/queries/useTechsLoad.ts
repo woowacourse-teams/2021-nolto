@@ -10,7 +10,7 @@ interface CustomQueryOption extends UseQueryOptions<Tech[], HttpError> {
   techs: string;
 }
 
-const getTechs = async (techs: string, errorHandler: ErrorHandler) => {
+const loadTechs = async (techs: string, errorHandler: ErrorHandler) => {
   try {
     const { data } = await api.get(`tags/techs/search?names=${techs}`);
 
@@ -24,8 +24,8 @@ const getTechs = async (techs: string, errorHandler: ErrorHandler) => {
   }
 };
 
-const useTechs = ({ techs, errorHandler, ...option }: CustomQueryOption) => {
-  return useQuery<Tech[]>(['techs', techs], () => getTechs(techs, errorHandler), option);
+const useTechsLoad = ({ techs, errorHandler, ...option }: CustomQueryOption) => {
+  return useQuery<Tech[]>(['techs', techs], () => loadTechs(techs, errorHandler), option);
 };
 
-export default useTechs;
+export default useTechsLoad;
