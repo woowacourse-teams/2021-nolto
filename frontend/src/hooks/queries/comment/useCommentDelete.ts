@@ -18,7 +18,7 @@ const deleteComment = async ({ feedId, commentId }: Args) => {
   } catch (error) {
     resolveHttpError({
       error,
-      defaultErrorMessage: '댓글 작성 과정에서 에러가 발생했습니다',
+      defaultErrorMessage: '댓글 삭제 과정에서 에러가 발생했습니다',
     });
   }
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 
 import Avatar from 'components/@common/Avatar/Avatar';
 import IconButton from 'components/@common/IconButton/IconButton';
@@ -18,6 +18,7 @@ import useCommentDelete from 'hooks/queries/comment/useCommentDelete';
 import useCommentsModule from 'context/comment/useCommentsModule';
 import useSnackBar from 'context/snackBar/useSnackBar';
 import useDialog from 'context/dialog/useDialog';
+import useCommentModify from 'hooks/queries/comment/useCommentModify';
 
 interface Props {
   comment: CommentBase;
@@ -26,10 +27,21 @@ interface Props {
 const Comment = ({ comment }: Props) => {
   const [isReplyToggled, setIsReplyToggled] = useState(false);
   const [isModifying, setIsModifying] = useState(false);
+  const [modifyInput, setModifyInput] = useState('');
   const member = useMember();
   const snackBar = useSnackBar();
   const dialog = useDialog();
   const { feedId, reloadComment } = useCommentsModule();
+  const commentModifyMutation = useCommentModify(
+    { feedId, commentId: comment.id },
+    {
+      onSuccess: () => {
+        snackBar.addSnackBar('success', '댓글 수정에 성공했습니다.');
+        reloadComment();
+      },
+      //TODO: 에러처리 해야됨
+    },
+  );
   const commentDeleteMutation = useCommentDelete(
     { feedId, commentId: comment.id },
     {
@@ -43,6 +55,23 @@ const Comment = ({ comment }: Props) => {
 
   const handleClickReply = () => {
     setIsReplyToggled(!isReplyToggled);
+  };
+
+  const handleModifyComment = () => {
+    commentModifyMutation.mutate({
+      content: modifyInput,
+      helper: isRootComment(comment) && comment.helper,
+    });
+    setIsModifying(false);
+  };
+
+  const handleChangeModifyInput = (event: ChangeEvent<HTMLInputElement>) => {
+    setModifyInput(event.target.value);
+  };
+
+  const handleChangeToModifyMode = () => {
+    setModifyInput(comment.content);
+    setIsModifying(true);
   };
 
   const handleClickDelete = () => {
@@ -63,9 +92,36 @@ const Comment = ({ comment }: Props) => {
       <Styled.Body isModifying={isModifying}>
         <Styled.Content isFeedAuthor={comment.feedAuthor}>
           {isModifying ? (
-            <ModifyTextInput type="text" value={comment.content} />
+            <form onSubmit={handleModifyComment}>
+              <ModifyTextInput type="text" value={modifyInput} onChange={handleChangeModifyInput} />
+              <Styled.RightBottomWrapper>
+                <CommentTextButton buttonStyle={ButtonStyle.SOLID} reverse={true}>
+                  수정
+                </CommentTextButton>
+                <CommentTextButton
+                  type="button"
+                  onClick={() => setIsModifying(false)}
+                  buttonStyle={ButtonStyle.SOLID}
+                  reverse={true}
+                >
+                  취소
+                </CommentTextButton>
+              </Styled.RightBottomWrapper>
+            </form>
           ) : (
-            <span>{comment.content}</span>
+            <>
+              <span>{comment.content}</span>
+              {isMyComment && (
+                <Styled.RightBottomWrapper>
+                  <IconButton onClick={handleChangeToModifyMode} isShadow={false}>
+                    <PencilIcon width="20px" fill={PALETTE.BLACK_200} />
+                  </IconButton>
+                  <IconButton onClick={handleClickDelete} isShadow={false}>
+                    <TrashIcon width="20px" />
+                  </IconButton>
+                </Styled.RightBottomWrapper>
+              )}
+            </>
           )}
         </Styled.Content>
         <Styled.Detail>
@@ -82,32 +138,6 @@ const Comment = ({ comment }: Props) => {
                 <ReplyIcon width="20px" />
               </IconButton>
             )}
-          </FlexContainer>
-          <FlexContainer gap="4px" alignItems="center">
-            {isMyComment &&
-              (isModifying ? (
-                <>
-                  <CommentTextButton buttonStyle={ButtonStyle.SOLID} reverse={true}>
-                    수정
-                  </CommentTextButton>
-                  <CommentTextButton
-                    onClick={() => setIsModifying(false)}
-                    buttonStyle={ButtonStyle.SOLID}
-                    reverse={true}
-                  >
-                    취소
-                  </CommentTextButton>
-                </>
-              ) : (
-                <>
-                  <IconButton onClick={() => setIsModifying(true)} isShadow={false}>
-                    <PencilIcon width="20px" fill={PALETTE.BLACK_200} />
-                  </IconButton>
-                  <IconButton onClick={handleClickDelete} isShadow={false}>
-                    <TrashIcon width="20px" />
-                  </IconButton>
-                </>
-              ))}
           </FlexContainer>
         </Styled.Detail>
       </Styled.Body>

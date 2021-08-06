@@ -35,6 +35,7 @@ const Body = styled.span<{ isModifying: boolean }>`
 `;
 
 const Content = styled.span<{ isFeedAuthor: boolean }>`
+  position: relative;
   display: inline-block;
   padding: 0 1.5rem;
   box-shadow: 2px 2px 4px 2px rgba(85, 85, 85, 0.1);
@@ -56,6 +57,14 @@ export const ModifyTextInput = styled(TextInput)`
   &:focus {
     border-color: ${PALETTE.GRAY_400};
   }
+`;
+
+const RightBottomWrapper = styled.div`
+  display: flex;
+  gap: 4px;
+  position: absolute;
+  right: 0;
+  top: 2.7rem;
 `;
 
 const Detail = styled.div`
@@ -86,4 +95,12 @@ CommentTextButton.defaultProps = {
   reverse: true,
 };
 
-export default { Author, Content, Detail, Body, ThumbUpWrapper, ReplyFromWrapper };
+export default {
+  Author,
+  Content,
+  Detail,
+  Body,
+  RightBottomWrapper,
+  ThumbUpWrapper,
+  ReplyFromWrapper,
+};
