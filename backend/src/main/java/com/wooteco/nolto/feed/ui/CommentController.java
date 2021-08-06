@@ -26,7 +26,7 @@ public class CommentController {
     @PostMapping
     public ResponseEntity<CommentResponse> createComment(@MemberAuthenticationPrincipal User user, @PathVariable Long feedId,
                                                          @RequestBody CommentRequest request) {
-        CommentResponse response = commentService.create(user, feedId, request);
+        CommentResponse response = commentService.createComment(user, feedId, request);
         return ResponseEntity.created(URI.create("/feeds/" + feedId + "/comments/" + response.getId())).body(response);
     }
 

@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -63,7 +64,7 @@ class CommentServiceTest extends CommentServiceFixture {
     @Test
     void create() {
         // when
-        CommentResponse response = commentService.create(찰리, 찰리가_쓴_피드.getId(), COMMENT_REQUEST_WITHOUT_HELPER);
+        CommentResponse response = commentService.createComment(찰리, 찰리가_쓴_피드.getId(), COMMENT_REQUEST_WITHOUT_HELPER);
 
         // then
         assertThat(response.getId()).isNotNull();
@@ -74,7 +75,7 @@ class CommentServiceTest extends CommentServiceFixture {
         assertThat(response.isLiked()).isFalse();
         assertThat(response.isModified()).isFalse();
         assertThat(response.isFeedAuthor()).isTrue();
-        assertThat(response.getCreateAt()).isNotNull();
+        assertThat(response.getCreatedAt()).isNotNull();
     }
 
     @DisplayName("특정 피드에 대한 댓글과 대댓글 전체를 조회한다. 댓글은 좋아요 + 최신 순, 대댓글은 최신 순 정렬")
@@ -98,7 +99,7 @@ class CommentServiceTest extends CommentServiceFixture {
     @Test
     void updateComment() {
         // given
-        CommentResponse response = commentService.create(찰리, 찰리가_쓴_피드.getId(), COMMENT_REQUEST_WITHOUT_HELPER);
+        CommentResponse response = commentService.createComment(찰리, 찰리가_쓴_피드.getId(), COMMENT_REQUEST_WITHOUT_HELPER);
         String updateContent = "수정된 댓글 내용";
         boolean updateHelper = true;
 
@@ -158,7 +159,7 @@ class CommentServiceTest extends CommentServiceFixture {
         assertThat(response.getLikes()).isEqualTo(responseFromComment.getLikes());
         assertThat(response.isLiked()).isEqualTo(responseFromComment.isLiked());
         assertThat(response.isFeedAuthor()).isEqualTo(responseFromComment.isFeedAuthor());
-        assertThat(response.getCreateAt()).isEqualTo(responseFromComment.getCreateAt());
+        assertThat(response.getCreatedAt()).isEqualTo(responseFromComment.getCreatedAt());
         assertThat(response.getId()).isEqualTo(responseFromComment.getId());
         assertThat(response.isModified()).isEqualTo(responseFromComment.isModified());
         assertThat(response.getAuthor().getId()).isEqualTo(responseFromComment.getAuthor().getId());
@@ -216,17 +217,25 @@ class CommentServiceTest extends CommentServiceFixture {
 
     @DisplayName("대댓글을 조회한다. 최신 순으로 대댓글이 나열 (아마찌 -> 포모 -> 조엘)")
     @Test
-    void findAllById() {
+    void findAllById() throws InterruptedException {
         // given
         Comment 찰리_댓글 = 댓글_생성("내일 젠킨스 강의 있습니다. 제 강의 듣고 배포 자동화 해보시죠", false, 찰리1, 아마찌의_개쩌는_지하철_미션);
+        commentRepository.saveAndFlush(찰리_댓글);
+        Thread.sleep(1);
+
         Comment 조엘_대댓글 = 댓글_생성("저 듣고 싶어요!!! 도커도 알려주세요 우테코는 왜 도커를 안 알려주는 거야!!!!!!!", false, 조엘, 아마찌의_개쩌는_지하철_미션);
         조엘_대댓글.addParentComment(찰리_댓글);
+        commentRepository.saveAndFlush(조엘_대댓글);
+        Thread.sleep(1);
+
         Comment 포모_대댓글 = 댓글_생성("오오 젠킨스 강의 탑승해봅니다", false, 포모1, 아마찌의_개쩌는_지하철_미션);
         포모_대댓글.addParentComment(찰리_댓글);
+        commentRepository.saveAndFlush(포모_대댓글);
+        Thread.sleep(1);
+
         Comment 아마찌_대댓글 = 댓글_생성("내 글에서 광고하지마!!!", false, 아마찌, 아마찌의_개쩌는_지하철_미션);
         아마찌_대댓글.addParentComment(찰리_댓글);
-        List<Comment> saveReplies = commentRepository.saveAllAndFlush(Arrays.asList(찰리_댓글, 조엘_대댓글, 포모_대댓글, 아마찌_대댓글));
-        entityManager.clear();
+        commentRepository.saveAndFlush(아마찌_대댓글);
 
         // when
         List<ReplyResponse> findReplies = commentService.findAllRepliesById(찰리1, 아마찌의_개쩌는_지하철_미션.getId(), 찰리_댓글.getId());
