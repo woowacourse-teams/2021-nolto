@@ -41,8 +41,8 @@ class MemberControllerTest extends ControllerTest {
     private static final User LOGIN_USER =
             new User(1L, "11111", SocialType.GOOGLE, "아마찌", "imageUrl", "");
 
-    private static final int NOTIFICATIONS = 0;
-    private static final MemberResponse MEMBER_RESPONSE = MemberResponse.of(LOGIN_USER);
+    private static final long NOTIFICATIONS = 0L;
+    private static final MemberResponse MEMBER_RESPONSE = MemberResponse.of(LOGIN_USER, NOTIFICATIONS);
     private static final NicknameValidationResponse NICKNAME_VALIDATION_RESPONSE = new NicknameValidationResponse(true);
     private static final MockMultipartFile MOCK_MULTIPART_FILE =
             new MockMultipartFile("thumbnailImage", "thumbnailImage.png", "image/png", "<<png data>>".getBytes());
@@ -70,6 +70,7 @@ class MemberControllerTest extends ControllerTest {
     @Test
     void findMemberOfMine() throws Exception {
         given(authService.findUserByToken(ACCESS_TOKEN)).willReturn(LOGIN_USER);
+        given(memberService.findMemberOfMine(LOGIN_USER)).willReturn(MEMBER_RESPONSE);
 
         mockMvc.perform(
                 get("/members/me")

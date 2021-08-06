@@ -42,4 +42,8 @@ public class NotificationService {
     public void deleteAll(User user) {
         notificationRepository.deleteAllByListener(user);
     }
+
+    public long findNotificationCount(User user) {
+        return notificationRepository.countByListener(user);
+    }
 }

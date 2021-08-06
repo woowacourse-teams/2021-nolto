@@ -9,4 +9,6 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
     List<Notification> findAllByListener(User listener);
 
     void deleteAllByListener(User listener);
+
+    long countByListener(User user);
 }

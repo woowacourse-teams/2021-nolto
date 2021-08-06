@@ -41,8 +41,8 @@ public class MemberService {
     }
 
     public ProfileResponse findProfile(User user) {
-        // TODO user의 notifications 수 구하는 로직 필요, user도 가지고 있으면 Service 레이어까지 오지 않을 수 있음
-        return ProfileResponse.of(user, 0);
+        long notificationCount = notificationService.findNotificationCount(user);
+        return ProfileResponse.of(user, notificationCount);
     }
 
     public ProfileResponse updateProfile(User user, ProfileRequest request) {
@@ -73,5 +73,10 @@ public class MemberService {
 
     public void deleteAllNotifications(User user) {
         notificationService.deleteAll(user);
+    }
+
+    public MemberResponse findMemberOfMine(User user) {
+        long notificationCount = notificationService.findNotificationCount(user);
+        return MemberResponse.of(user, notificationCount);
     }
 }

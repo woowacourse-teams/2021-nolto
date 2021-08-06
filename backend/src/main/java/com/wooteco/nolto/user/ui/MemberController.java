@@ -23,8 +23,8 @@ public class MemberController {
     @ValidTokenRequired
     @GetMapping
     public ResponseEntity<MemberResponse> findMemberOfMine(@MemberAuthenticationPrincipal User user) {
-        // TODO user의 notifications 수 구하는 로직 필요, user안에서 notifications 가지고 있게 할것인과
-        return ResponseEntity.ok(MemberResponse.of(user));
+        MemberResponse response = memberService.findMemberOfMine(user);
+        return ResponseEntity.ok(response);
     }
 
     @ValidTokenRequired
