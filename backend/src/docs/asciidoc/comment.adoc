@@ -6,6 +6,8 @@
 
 include::{snippets}/comment-create/http-request.adoc[]
 include::{snippets}/comment-create/path-parameters.adoc[]
+include::{snippets}/comment-create/request-fields.adoc[]
+
 
 ==== Response
 
@@ -21,6 +23,7 @@ include::{snippets}/comment-create/response-fields.adoc[]
 
 include::{snippets}/comment-update/http-request.adoc[]
 include::{snippets}/comment-update/path-parameters.adoc[]
+include::{snippets}/comment-update/request-fields.adoc[]
 
 ==== Response
 

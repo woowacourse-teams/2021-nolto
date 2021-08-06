@@ -6,6 +6,8 @@
 
 include::{snippets}/reply-create/http-request.adoc[]
 include::{snippets}/reply-create/path-parameters.adoc[]
+include::{snippets}/reply-create/request-fields.adoc[]
+
 
 ==== Response
 
@@ -21,6 +23,7 @@ include::{snippets}/reply-create/response-fields.adoc[]
 
 include::{snippets}/reply-update/http-request.adoc[]
 include::{snippets}/reply-update/path-parameters.adoc[]
+include::{snippets}/reply-update/request-fields.adoc[]
 
 ==== Response
 

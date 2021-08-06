@@ -25,8 +25,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -118,7 +117,7 @@ public class CommentControllerTest extends ControllerTest {
     private CommentLikeService commentLikeService;
 
 
-    @DisplayName("멤버 사용자가 작성한 댓글을 등록한다.")
+    @DisplayName("유저가 작성한 댓글을 등록한다.")
     @Test
     void createComment() throws Exception {
         given(authService.findUserByToken(ACCESS_TOKEN)).willReturn(LOGIN_USER);
@@ -135,6 +134,10 @@ public class CommentControllerTest extends ControllerTest {
                         getDocumentResponse(),
                         pathParameters(
                                 parameterWithName("feedId").description("피드 ID")
+                        ),
+                        requestFields(
+                                fieldWithPath("content").type(JsonFieldType.STRING).description("댓글 내용"),
+                                fieldWithPath("helper").type(JsonFieldType.BOOLEAN).description("도와줄게요 여부")
                         ),
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("댓글 ID"),
@@ -172,6 +175,10 @@ public class CommentControllerTest extends ControllerTest {
                         pathParameters(
                                 parameterWithName("feedId").description("피드 ID"),
                                 parameterWithName("commentId").description("댓글 ID")
+                        ),
+                        requestFields(
+                                fieldWithPath("content").type(JsonFieldType.STRING).description("댓글 내용"),
+                                fieldWithPath("helper").type(JsonFieldType.BOOLEAN).description("도와줄게요 여부")
                         ),
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("댓글 ID"),
@@ -268,6 +275,7 @@ public class CommentControllerTest extends ControllerTest {
                         )));
     }
 
+    @DisplayName("유저가 작성한 대댓글을 등록한다.")
     @Test
     void createReply() throws Exception {
         given(authService.findUserByToken(ACCESS_TOKEN)).willReturn(LOGIN_USER);
@@ -275,7 +283,7 @@ public class CommentControllerTest extends ControllerTest {
 
         mockMvc.perform(post("/feeds/{feedId}/comments/{commentId}/replies", FEED_ID, COMMENT_ID)
                         .header("Authorization", BEARER + ACCESS_TOKEN)
-                        .content(new ObjectMapper().writeValueAsString(new CommentRequest("작성된 댓글입니다.", false)))
+                        .content(new ObjectMapper().writeValueAsString(new ReplyRequest("작성된 대댓글입니다.")))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isCreated())
                 .andExpect(content().json(objectMapper.writeValueAsString(REPLY_RESPONSE)))
@@ -285,6 +293,9 @@ public class CommentControllerTest extends ControllerTest {
                         pathParameters(
                                 parameterWithName("feedId").description("피드 ID"),
                                 parameterWithName("commentId").description("댓글 ID")
+                        ),
+                        requestFields(
+                                fieldWithPath("content").type(JsonFieldType.STRING).description("대댓글 내용")
                         ),
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("대댓글 ID"),
@@ -302,6 +313,7 @@ public class CommentControllerTest extends ControllerTest {
                         )));
     }
 
+    @DisplayName("댓글을 등록했던 유저가 대댓글 수정 요청을 보낼 수 있다.")
     @Test
     void updateReply() throws Exception {
         ReplyRequest updateReplyRequest = new ReplyRequest("수정된 대댓글입니다.");
@@ -325,6 +337,9 @@ public class CommentControllerTest extends ControllerTest {
                                 parameterWithName("commentId").description("댓글 ID"),
                                 parameterWithName("replyId").description("대댓글 ID")
                         ),
+                        requestFields(
+                                fieldWithPath("content").type(JsonFieldType.STRING).description("대댓글 내용")
+                        ),
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("대댓글 ID"),
                                 fieldWithPath("content").type(JsonFieldType.STRING).description("수정된 대댓글 내용"),
@@ -341,6 +356,7 @@ public class CommentControllerTest extends ControllerTest {
                         )));
     }
 
+    @DisplayName("댓글을 등록했던 유저가 대댓글 삭제 요청을 보낼 수 있다.")
     @Test
     void deleteReply() throws Exception {
         given(authService.findUserByToken(ACCESS_TOKEN)).willReturn(LOGIN_USER);
@@ -358,6 +374,7 @@ public class CommentControllerTest extends ControllerTest {
                         )));
     }
 
+    @DisplayName("댓글에 대한 대댓글 전체를 조회한다.")
     @Test
     void findAllReplies() throws Exception {
         ReplyResponse firstResponse = new ReplyResponse(REPLY_ID, "처음 작성된 대댓글입니다.", 0, false,
