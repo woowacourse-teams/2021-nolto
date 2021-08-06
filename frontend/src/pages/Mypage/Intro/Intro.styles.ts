@@ -1,9 +1,9 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
 import { hoverLayer } from 'commonStyles';
 
-const Root = styled.div`
+const Root = styled.form`
   display: flex;
   align-items: center;
   padding: 1rem 2rem;
@@ -14,18 +14,20 @@ const Root = styled.div`
   box-shadow: 4px 4px 8px 4px rgba(85, 85, 85, 0.2);
 `;
 
-const ImageWrapper = styled.form`
+const ImageWrapper = styled.div`
   position: relative;
 `;
 
 const UserImage = styled.img`
   width: 6rem;
+  height: 6rem;
+  object-fit: cover;
   border-radius: 50%;
 `;
 
 const CameraLabel = styled.label`
   position: absolute;
-  left: 0.75rem;
+  left: 0.35rem;
   bottom: 0.75rem;
   background: ${PALETTE.WHITE_400};
   width: 1.25rem;
@@ -55,25 +57,42 @@ const TopContainer = styled.div`
   gap: 1rem;
 `;
 
-const Name = styled.div<{ isEditing: boolean }>`
+const nameStyle = css`
   font-size: 18px;
   font-weight: 700;
   width: 100%;
   padding-bottom: 0.25rem;
-  border-bottom: ${({ isEditing }) => isEditing && `1px solid ${PALETTE.BLACK_100}`};
+`;
+
+const Name = styled.div`
+  ${nameStyle};
+`;
+
+const NameInput = styled.input`
+  ${nameStyle};
+  border: none;
+  border-bottom: 1px solid ${PALETTE.BLACK_100};
 
   &:focus {
     outline: none;
   }
 `;
 
-const EditButton = styled.button`
+const editButtonStyle = css`
   background: transparent;
   border: none;
   flex-shrink: 0;
   color: ${PALETTE.GRAY_500};
 
   ${hoverLayer({})};
+`;
+
+const EditButton = styled.button`
+  ${editButtonStyle};
+`;
+
+const EditDoneButton = styled.button`
+  ${editButtonStyle};
 `;
 
 const ValidationMessage = styled.span<{ isValid: boolean }>`
@@ -85,15 +104,23 @@ const DetailContainer = styled.div`
   margin-top: 1rem;
 `;
 
-const DetailText = styled.div<{ isEditing?: boolean }>`
-  font-size: 0.75rem;
+const detailStyle = css`
+  font-size: 0.85rem;
   color: ${PALETTE.BLACK_200};
   padding-bottom: 0.25rem;
-  border-bottom: ${({ isEditing }) => isEditing && `1px solid ${PALETTE.BLACK_100}`};
+`;
+
+const DetailText = styled.div`
+  ${detailStyle};
+`;
+
+const BioInput = styled.input`
+  ${detailStyle};
+  border: none;
+  border-bottom: 1px solid ${PALETTE.BLACK_200};
 
   &:focus {
     outline: none;
-    border-bottom: 1px solid ${PALETTE.BLACK_200};
   }
 `;
 
@@ -105,8 +132,11 @@ export default {
   Content,
   TopContainer,
   Name,
+  NameInput,
   EditButton,
+  EditDoneButton,
   ValidationMessage,
   DetailContainer,
   DetailText,
+  BioInput,
 };

@@ -79,6 +79,12 @@ export interface UserInfo extends Author {
   socialType: 'GOOGLE' | 'GITHUB';
 }
 
+export interface Profile extends Author {
+  bio: string;
+  notifications: number;
+  createdAt: string;
+}
+
 export type OAuthType = 'google' | 'github';
 
 export type SnackBarType = 'error' | 'success' | null;
