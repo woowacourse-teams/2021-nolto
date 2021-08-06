@@ -45,9 +45,17 @@ public class CommentService {
 
     public CommentResponse updateComment(Long commentId, CommentRequest request, User user) {
         Comment findComment = findEntityById(commentId);
+        notifyWhenChangedToHelper(request, findComment, user);
         findComment.update(request.getContent(), request.isHelper());
         commentRepository.flush();
         return CommentResponse.of(findComment, user);
+    }
+
+    private void notifyWhenChangedToHelper(CommentRequest request, Comment findComment, User user) {
+        boolean isChanged = findComment.changedToHelper(request.isHelper());
+        if (isChanged) {
+            applicationEventPublisher.publishEvent(NotificationEvent.commentOf(findComment.getFeed(), user, request.isHelper()));
+        }
     }
 
     public void deleteComment(Long commentId) {

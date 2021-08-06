@@ -122,4 +122,8 @@ public class Comment extends BaseEntity {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    public boolean changedToHelper(boolean helper) {
+        return !this.helper && this.helper != helper;
+    }
 }
