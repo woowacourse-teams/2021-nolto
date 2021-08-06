@@ -19,7 +19,11 @@ const Mypage = () => {
           <Intro />
         </AsyncBoundary>
         <Notification />
-        <History />
+        <AsyncBoundary
+          rejectedFallback={<ErrorFallback message="사용자 히스토리를 가져올 수 없습니다." />}
+        >
+          <History />
+        </AsyncBoundary>
       </Styled.Root>
     </>
   );

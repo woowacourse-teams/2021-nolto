@@ -11,7 +11,7 @@ interface Args {
 
 const editProfile = async ({ formData }: Args) => {
   try {
-    const { data } = await api.put('members/me/profile', formData);
+    const { data } = await api.put('/members/me/profile', formData);
 
     return data;
   } catch (error) {

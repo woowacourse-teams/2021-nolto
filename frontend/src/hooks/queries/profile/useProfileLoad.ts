@@ -11,7 +11,7 @@ interface CustomQueryOption extends UseQueryOptions<Profile, HttpError> {
 
 const getProfile = async (errorHandler?: ErrorHandler) => {
   try {
-    const { data } = await api.get('members/me/profile');
+    const { data } = await api.get('/members/me/profile');
 
     return data;
   } catch (error) {

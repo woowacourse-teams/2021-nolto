@@ -124,3 +124,9 @@ export interface RootComment extends CommentBase {
   helper: boolean;
   replies: CommentBase[];
 }
+
+export interface UserHistory {
+  likedFeeds: Omit<Feed, 'author'>[];
+  myFeeds: Omit<Feed, 'author'>[];
+  myComments: FeedWithComment[];
+}
