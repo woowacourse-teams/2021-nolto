@@ -363,6 +363,38 @@ public class FeedAcceptanceTest extends AcceptanceTest {
         assertThat(response.getMessage()).isEqualTo(NOT_LIKED.getMessage());
     }
 
+    @DisplayName("놀토 회원이 좋아요를 취소하고 다시 좋아요를 누른다.")
+    @Test
+    void deleteLikeAndAgain() {
+        // given
+        FeedRequest request = new FeedRequest(
+                "Amazing Project",
+                Arrays.asList(JAVA.getId(), SPRING.getId()),
+                "This is my Project. follow me if you want my other projects",
+                Step.PROGRESS.name(),
+                true,
+                "https://github.com/woowacourse-teams/2021-nolto",
+                "",
+                null
+        );
+        String token = 가입된_유저의_토큰을_받는다().getAccessToken();
+        ExtractableResponse<Response> saveResponse = 피드를_작성한다(request, token);
+        Long feedId = Long.valueOf(saveResponse.header("Location").replace("/feeds/", ""));
+        좋아요를_누른다(token, feedId);
+        given().log().all()
+                .auth().oauth2(token)
+                .when()
+                .post("/feeds/{feedId}/unlike", feedId)
+                .then().log().all()
+                .extract();
+
+        // when
+        ExtractableResponse<Response> likeResponse = 좋아요를_누른다(token, feedId);
+
+        // then
+        assertThat(likeResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
     @DisplayName("인기순으로 피드를 조회한다.")
     @Test
     void hotResponse() {
