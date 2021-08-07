@@ -30,6 +30,7 @@ const Root = styled(Card)`
 const Thumbnail = styled.img`
   width: 5.5rem;
   height: 5.5rem;
+  flex-shrink: 0;
   border-radius: 0.5rem;
 `;
 

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import LevelButton from 'components/LevelButton/LevelButton';
 import StretchCard from 'components/StretchCard/StretchCard';
+import Skeleton from 'components/Skeleton/Skeleton';
 import useRecentFeeds from 'hooks/queries/useRecentFeeds';
 import useSnackBar from 'context/snackBar/useSnackBar';
 import ROUTE from 'constants/routes';
@@ -17,15 +18,18 @@ const RecentFeedsContent = ({ feedsCountToShow }: Props) => {
   const [filter, setFilter] = useState<FilterType>();
 
   const snackbar = useSnackBar();
-  const { data: recentFeeds } = useRecentFeeds({
+  const { data: recentFeeds, isLoading } = useRecentFeeds({
     filter,
     errorHandler: (error) => snackbar.addSnackBar('error', error.message),
+    suspense: false,
   });
 
   const toggleLevel = (filterType: FilterType) => {
     if (filter === filterType) setFilter(null);
     else setFilter(filterType);
   };
+
+  const DEFAULT_FEED_LENGTH = 4;
 
   return (
     <Styled.Root>
@@ -45,15 +49,16 @@ const RecentFeedsContent = ({ feedsCountToShow }: Props) => {
       </Styled.LevelButtonsContainer>
       <Styled.CardsContainer>
         <Styled.ScrollableContainer>
-          {recentFeeds &&
-            recentFeeds.slice(0, feedsCountToShow).map((feed) => (
-              <li key={feed.id}>
-                <Link to={`${ROUTE.FEEDS}/${feed.id}`}>
-                  <Styled.VerticalAvatar user={feed.author} />
-                  <StretchCard feed={feed} />
-                </Link>
-              </li>
-            ))}
+          {isLoading
+            ? Array.from({ length: feedsCountToShow || DEFAULT_FEED_LENGTH }, () => <Skeleton />)
+            : recentFeeds.slice(0, feedsCountToShow).map((feed) => (
+                <li key={feed.id}>
+                  <Link to={`${ROUTE.FEEDS}/${feed.id}`}>
+                    <Styled.VerticalAvatar user={feed.author} />
+                    <StretchCard feed={feed} />
+                  </Link>
+                </li>
+              ))}
         </Styled.ScrollableContainer>
         {!feedsCountToShow && (
           <Styled.MoreButton>
