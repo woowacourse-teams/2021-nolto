@@ -297,6 +297,43 @@ class CommentServiceTest extends CommentServiceFixture {
         assertThat(삭제후_조회한_아마찌의_개쩌는_지하철_미션.getComments().size()).isOne();
     }
 
+    @DisplayName("댓글 작성자가 대댓글이 존재하는 댓글을 삭제한다.")
+    @Test
+    void deleteCommentExistReply() {
+        // given
+        Comment 포모_댓글 = 댓글_생성("영 차 영 차 영 차 영 차 영 차 영 차", false, 포모1, 아마찌의_개쩌는_지하철_미션);
+        Comment 아마찌_대댓글 = 댓글_생성("영 차 영 차 영 차", false, 아마찌, 아마찌의_개쩌는_지하철_미션);
+        아마찌_대댓글.addParentComment(포모_댓글);
+        commentRepository.save(포모_댓글);
+        commentRepository.save(아마찌_대댓글);
+        Long 포모_댓글_ID = 포모_댓글.getId();
+        Long 아마찌_대댓글_ID = 아마찌_대댓글.getId();
+        entityManager.clear();
+
+        // when
+        assertThat(포모1.getComments().size()).isOne();
+        assertThat(아마찌.getComments().size()).isOne();
+        User 조회한_포모2 = userRepository.findById(포모1.getId()).get();
+        commentService.deleteComment(조회한_포모2, 포모_댓글.getId());
+        entityManager.flush();
+        entityManager.clear();
+        Feed 삭제후_조회한_아마찌의_개쩌는_지하철_미션 = feedRepository.findById(아마찌의_개쩌는_지하철_미션.getId()).get();
+        User 조회한_포모1 = userRepository.findById(포모1.getId()).get();
+        User 조회한_아마찌 = userRepository.findById(아마찌.getId()).get();
+
+
+        // then
+        assertThatThrownBy(() -> commentService.findEntityById(포모_댓글_ID))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("존재하지 않는 댓글입니다.");
+        assertThatThrownBy(() -> commentService.findEntityById(아마찌_대댓글_ID))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("존재하지 않는 댓글입니다.");
+        assertThat(조회한_포모1.getComments().size()).isZero();
+        assertThat(조회한_아마찌.getComments().size()).isZero();
+        assertThat(삭제후_조회한_아마찌의_개쩌는_지하철_미션.getComments().size()).isZero();
+    }
+
     private Comment 댓글_생성(String 댓글_내용, boolean 도움, User 댓글_유저, Feed 피드) {
         Comment 댓글 = new Comment(댓글_내용, 도움).writtenBy(댓글_유저, 피드);
         return 댓글;
