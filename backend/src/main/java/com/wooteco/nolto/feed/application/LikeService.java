@@ -4,6 +4,7 @@ import com.wooteco.nolto.exception.BadRequestException;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.Like;
+import com.wooteco.nolto.feed.domain.repository.LikeRepository;
 import com.wooteco.nolto.notification.application.NotificationEvent;
 import com.wooteco.nolto.notification.domain.NotificationType;
 import com.wooteco.nolto.user.domain.User;
@@ -18,6 +19,7 @@ import javax.transaction.Transactional;
 @Service
 public class LikeService {
 
+    private final LikeRepository likeRepository;
     private final FeedService feedService;
     private final ApplicationEventPublisher applicationEventPublisher;
 
@@ -35,5 +37,6 @@ public class LikeService {
         Like findLike = findFeed.findLikeBy(user)
                 .orElseThrow(() -> new BadRequestException(ErrorType.NOT_LIKED));
         user.delete(findLike);
+        likeRepository.delete(findLike);
     }
 }
