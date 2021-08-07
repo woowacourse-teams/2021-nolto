@@ -59,8 +59,9 @@ public class FeedAcceptanceTest extends AcceptanceTest {
     private FeedRequest 전시중_단계의_SOS_피드_요청 = new FeedRequest("title4", new ArrayList<>(), "content4", "COMPLETE", true,
             "www.github.com/woowacourse", "www.github.com/woowacourse", null);
 
-    private final String defaultImageUrl = "nolto-default-thumbnail.png";
-    private final File thumbnail = new File(new File("").getAbsolutePath() + "/src/test/resources/static/" + defaultImageUrl);
+    public static final String DEFAULT_IMAGE = "nolto-default-thumbnail.png";
+    public static final String DEFAULT_IMAGE_URL = "https://dksykemwl00pf.cloudfront.net/" + "nolto-default-thumbnail.png";
+    public static final File THUMBNAIL_IMAGE = new File(new File("").getAbsolutePath() + "/src/test/resources/static/" + DEFAULT_IMAGE);
 
     @Autowired
     private TechRepository techRepository;
@@ -72,10 +73,10 @@ public class FeedAcceptanceTest extends AcceptanceTest {
     private final Tech SPRING = new Tech("Spring");
     private final Tech REACT = new Tech("React");
 
-    @Override
     @BeforeEach
-    public void setUp() {
-        BDDMockito.given(imageService.upload(any(MultipartFile.class), any(ImageKind.class))).willReturn("https://dksykemwl00pf.cloudfront.net/" + defaultImageUrl);
+    void setUpOnFeedAcceptance() {
+        super.setUp();
+        BDDMockito.given(imageService.upload(any(MultipartFile.class), any(ImageKind.class))).willReturn("https://dksykemwl00pf.cloudfront.net/" + DEFAULT_IMAGE_URL);
         techRepository.saveAll(Arrays.asList(JAVA, SPRING, REACT));
 
         진행중_좋아요3개_1번째_피드_ID = 피드_업로드되어_있음(진행중_단계의_피드_요청);
@@ -206,7 +207,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
                 .formParam("sos", false)
                 .formParam("StorageUrl", "https://github.com/woowacourse-teams/2021-nolto")
                 .formParam("DeployedUrl", "https://github.com/woowacourse-teams/2021-nolto")
-                .multiPart("thumbnailImage", thumbnail)
+                .multiPart("thumbnailImage", THUMBNAIL_IMAGE)
                 .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
                 .when()
                 .put("/feeds/{feedId}", feedId)
@@ -603,7 +604,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
                 .formParam("sos", feedRequest.isSos())
                 .formParam("StorageUrl", feedRequest.getStorageUrl())
                 .formParam("DeployedUrl", feedRequest.getDeployedUrl())
-                .multiPart("thumbnailImage", thumbnail);
+                .multiPart("thumbnailImage", THUMBNAIL_IMAGE);
 
         feedRequest.getTechs().stream()
                 .forEach(techId -> requestSpecification.formParam("techs", techId));
