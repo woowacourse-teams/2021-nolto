@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
 import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
@@ -71,14 +72,7 @@ public class NotificationAcceptanceTest extends AcceptanceTest {
         좋아요를_누른다(좋아요를_누를_유저의_토큰, 엄청난_유저의_1번째_피드_ID);
 
         // when
-        ExtractableResponse<Response> response = given().log().all()
-                .auth().oauth2(피드_작성자의_토큰)
-                .when()
-                .get("/members/me/notifications")
-                .then()
-                .log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .extract();
+        ExtractableResponse<Response> response = 작성자의_알림을_조회한다(피드_작성자의_토큰);
 
         // then
         List<NotificationResponse> notificationResponses = response.jsonPath().getList(".", NotificationResponse.class);
@@ -98,16 +92,7 @@ public class NotificationAcceptanceTest extends AcceptanceTest {
         피드에_댓글을_남긴다(댓글을_남길_유저의_토큰, 엄청난_유저의_1번째_피드_ID, 댓글);
 
         // when
-        ExtractableResponse<Response> response = given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .accept(MediaType.APPLICATION_JSON_VALUE)
-                .auth().oauth2(피드_작성자의_토큰)
-                .when()
-                .get("/members/me/notifications")
-                .then()
-                .log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .extract();
+        ExtractableResponse<Response> response = 작성자의_알림을_조회한다(피드_작성자의_토큰);
 
         // then
         List<NotificationResponse> notificationResponses = response.jsonPath().getList(".", NotificationResponse.class);
@@ -125,7 +110,75 @@ public class NotificationAcceptanceTest extends AcceptanceTest {
         피드에_댓글을_남긴다(댓글을_남길_유저의_토큰, 엄청난_유저의_1번째_피드_ID, 댓글);
 
         // when
-        ExtractableResponse<Response> response = given().log().all()
+        ExtractableResponse<Response> response = 작성자의_알림을_조회한다(피드_작성자의_토큰);
+
+        // then
+        List<NotificationResponse> notificationResponses = response.jsonPath().getList(".", NotificationResponse.class);
+        assertThat(notificationResponses).hasSize(1);
+        알림이_같은지_조회한다(notificationResponses.get(0), 댓글을_남긴_유저, 엄청난_유저의_1번째_피드_ID, NotificationType.COMMENT_SOS);
+    }
+
+    @DisplayName("알림을 단일 삭제한다 (알림 2개 중 1개만 삭제)")
+    @Test
+    void deleteNotification() throws JsonProcessingException {
+        // given
+        String 피드_작성자의_토큰 = 가입된_유저의_토큰을_받는다().getAccessToken();
+
+        String 댓글을_남길_유저의_토큰 = 가입된_유저의_토큰을_받는다(댓글을_남긴_유저).getAccessToken();
+        CommentRequest 댓글 = new CommentRequest("댓글 내용", true);
+        피드에_댓글을_남긴다(댓글을_남길_유저의_토큰, 엄청난_유저의_1번째_피드_ID, 댓글);
+
+        String 좋아요를_누를_유저의_토큰 = 가입된_유저의_토큰을_받는다(좋아요_1개_누를_유저).getAccessToken();
+        좋아요를_누른다(좋아요를_누를_유저의_토큰, 엄청난_유저의_1번째_피드_ID);
+
+        // when
+        List<NotificationResponse> notificationResponse = 작성자의_알림을_조회한다(피드_작성자의_토큰).jsonPath().getList(".", NotificationResponse.class);
+        ExtractableResponse<Response> deleteResponse = given().log().all()
+                .auth().oauth2(피드_작성자의_토큰)
+                .when()
+                .delete("/members/me/notifications/{notificationId}", notificationResponse.get(0).getId())
+                .then()
+                .log().all()
+                .extract();
+
+        // then
+        assertThat(deleteResponse.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
+        deleteResponse = 작성자의_알림을_조회한다(피드_작성자의_토큰);
+        List<NotificationResponse> notificationResponses = deleteResponse.jsonPath().getList(".", NotificationResponse.class);
+        assertThat(notificationResponses).hasSize(1);
+    }
+
+    @DisplayName("알림을 일괄 삭제한다 (알림 2개 중 2개 모두 삭제)")
+    @Test
+    void deleteAllNotification() throws JsonProcessingException {
+        // given
+        String 피드_작성자의_토큰 = 가입된_유저의_토큰을_받는다().getAccessToken();
+
+        String 댓글을_남길_유저의_토큰 = 가입된_유저의_토큰을_받는다(댓글을_남긴_유저).getAccessToken();
+        CommentRequest 댓글 = new CommentRequest("댓글 내용", true);
+        피드에_댓글을_남긴다(댓글을_남길_유저의_토큰, 엄청난_유저의_1번째_피드_ID, 댓글);
+
+        String 좋아요를_누를_유저의_토큰 = 가입된_유저의_토큰을_받는다(좋아요_1개_누를_유저).getAccessToken();
+        좋아요를_누른다(좋아요를_누를_유저의_토큰, 엄청난_유저의_1번째_피드_ID);
+
+        // when
+        ExtractableResponse<Response> deleteResponse = given().log().all()
+                .auth().oauth2(피드_작성자의_토큰)
+                .when()
+                .delete("/members/me/notifications")
+                .then()
+                .log().all()
+                .extract();
+
+        // then
+        assertThat(deleteResponse.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
+        deleteResponse = 작성자의_알림을_조회한다(피드_작성자의_토큰);
+        List<NotificationResponse> notificationResponses = deleteResponse.jsonPath().getList(".", NotificationResponse.class);
+        assertThat(notificationResponses).hasSize(0);
+    }
+
+    private ExtractableResponse<Response> 작성자의_알림을_조회한다(String 피드_작성자의_토큰) {
+        return given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .auth().oauth2(피드_작성자의_토큰)
@@ -135,11 +188,6 @@ public class NotificationAcceptanceTest extends AcceptanceTest {
                 .log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .extract();
-
-        // then
-        List<NotificationResponse> notificationResponses = response.jsonPath().getList(".", NotificationResponse.class);
-        assertThat(notificationResponses).hasSize(1);
-        알림이_같은지_조회한다(notificationResponses.get(0), 댓글을_남긴_유저, 엄청난_유저의_1번째_피드_ID, NotificationType.COMMENT_SOS);
     }
 
     private void 알림이_같은지_조회한다(NotificationResponse response, User publisher, Long feedId, NotificationType type) {
@@ -177,7 +225,7 @@ public class NotificationAcceptanceTest extends AcceptanceTest {
                 .formParam("DeployedUrl", feedRequest.getDeployedUrl())
                 .multiPart("thumbnailImage", thumbnail);
 
-        feedRequest.getTechs().stream()
+        feedRequest.getTechs()
                 .forEach(techId -> requestSpecification.formParam("techs", techId));
 
         return requestSpecification
