@@ -3,6 +3,8 @@ package com.wooteco.nolto.api;
 import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.feed.domain.Comment;
 import com.wooteco.nolto.feed.domain.Feed;
+import com.wooteco.nolto.notification.domain.Notification;
+import com.wooteco.nolto.notification.domain.NotificationType;
 import com.wooteco.nolto.user.application.MemberService;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.ui.MemberController;
@@ -26,6 +28,7 @@ import static com.wooteco.nolto.api.FeedControllerTest.FEED2;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
@@ -42,6 +45,8 @@ class MemberControllerTest extends ControllerTest {
             new User(1L, "11111", SocialType.GOOGLE, "아마찌", "imageUrl", "");
 
     private static final long NOTIFICATIONS = 0L;
+    private static final long NOTIFICATION_ID = 1L;
+
     private static final MemberResponse MEMBER_RESPONSE = MemberResponse.of(LOGIN_USER, NOTIFICATIONS);
     private static final NicknameValidationResponse NICKNAME_VALIDATION_RESPONSE = new NicknameValidationResponse(true);
     private static final MockMultipartFile MOCK_MULTIPART_FILE =
@@ -61,6 +66,19 @@ class MemberControllerTest extends ControllerTest {
     private static final FieldDescriptor[] COMMENT_RESPONSE = new FieldDescriptor[]{
             fieldWithPath("text").type(JsonFieldType.STRING).description("댓글 내용")
     };
+
+    private static final FieldDescriptor[] NOTIFICATION_RESPONSE = new FieldDescriptor[]{
+            fieldWithPath("id").type(JsonFieldType.NUMBER).description("알림 ID"),
+            fieldWithPath("user").type(JsonFieldType.OBJECT).description("알림을 보낸 유저"),
+            fieldWithPath("user.id").type(JsonFieldType.NUMBER).description("알림을 보낸 유저 ID"),
+            fieldWithPath("user.nickname").type(JsonFieldType.STRING).description("알림을 보낸 유저 닉네임"),
+            fieldWithPath("user.imageUrl").type(JsonFieldType.STRING).description("알림을 보낸 유저 이미지 URL"),
+            fieldWithPath("feed").type(JsonFieldType.OBJECT).description("알림을 받은 피드"),
+            fieldWithPath("feed.id").type(JsonFieldType.NUMBER).description("알림을 받은 피드 ID"),
+            fieldWithPath("feed.title").type(JsonFieldType.STRING).description("알림을 받은 피드 제목"),
+            fieldWithPath("type").type(JsonFieldType.STRING).description("알림 타입(도움 댓글, 댓글, 좋아요)")
+    };
+
     private MemberHistoryResponse memberHistoryResponse;
 
     @MockBean
@@ -219,5 +237,62 @@ class MemberControllerTest extends ControllerTest {
         List<Comment> myComments = Arrays.asList(comment1, comment2);
 
         memberHistoryResponse = MemberHistoryResponse.of(likedFeeds, myFeeds, myComments);
+    }
+
+    @DisplayName("멤버가 자신의 알림을 조회한다.")
+    @Test
+    void findNotifications() throws Exception {
+        given(authService.findUserByToken("accessToken")).willReturn(LOGIN_USER);
+        List<NotificationResponse> notificationResponses = NotificationResponse.toList(Arrays.asList(
+                new Notification(1L, LOGIN_USER, FEED1, LOGIN_USER, NotificationType.COMMENT),
+                new Notification(2L, LOGIN_USER, FEED2, LOGIN_USER, NotificationType.LIKE)));
+        given(memberService.findNotifications(LOGIN_USER)).willReturn(notificationResponses);
+
+        mockMvc.perform(
+                get("/members/me/notifications")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer accessToken"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(notificationResponses)))
+                .andDo(document("member-findNotification",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        responseFields(
+                                fieldWithPath("[]").type(JsonFieldType.ARRAY).description("알림 목록")
+                        ).andWithPrefix("[].", NOTIFICATION_RESPONSE)
+                ));
+    }
+
+    @DisplayName("멤버가 자신의 알림 중 알림 ID에 해당하는 알림을 제거한다.")
+    @Test
+    void deleteNotification() throws Exception {
+        given(authService.findUserByToken("accessToken")).willReturn(LOGIN_USER);
+
+        mockMvc.perform(
+                delete("/members/me/notifications/{notificationId}", NOTIFICATION_ID)
+                        .header("Authorization", "Bearer accessToken"))
+                .andExpect(status().isNoContent())
+                .andDo(document("member-deleteNotification",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("notificationId").description("삭제할 알림 ID")
+                        )
+                ));
+    }
+
+    @DisplayName("멤버가 자신의 알림을 모두 제거한다.")
+    @Test
+    void deleteAllNotifications() throws Exception {
+        given(authService.findUserByToken("accessToken")).willReturn(LOGIN_USER);
+
+        mockMvc.perform(
+                delete("/members/me/notifications")
+                        .header("Authorization", "Bearer accessToken"))
+                .andExpect(status().isNoContent())
+                .andDo(document("member-deleteAllNotifications",
+                        getDocumentRequest(),
+                        getDocumentResponse()
+                ));
     }
 }
