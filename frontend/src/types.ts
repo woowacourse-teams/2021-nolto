@@ -130,3 +130,13 @@ export interface UserHistory {
   myFeeds: Omit<Feed, 'author'>[];
   myComments: FeedWithComment[];
 }
+
+export interface Notification {
+  id: number;
+  user: Author;
+  feed: {
+    id: number;
+    title: string;
+  };
+  type: NotiType;
+}
