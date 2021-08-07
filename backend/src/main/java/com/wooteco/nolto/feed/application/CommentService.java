@@ -28,8 +28,7 @@ public class CommentService {
 
     public CommentResponse createComment(User user, Long feedId, CommentRequest request) {
         Feed findFeed = feedService.findEntityById(feedId);
-        Comment comment = new Comment(request.getContent(), request.isHelper()).writtenBy(user);
-        findFeed.addComment(comment);
+        Comment comment = new Comment(request.getContent(), request.isHelper()).writtenBy(user, findFeed);
         commentRepository.save(comment);
         applicationEventPublisher.publishEvent(NotificationEvent.commentOf(findFeed, user, request.isHelper()));
         return CommentResponse.of(comment, user);
@@ -37,18 +36,18 @@ public class CommentService {
 
     public List<CommentWithReplyResponse> findAllByFeedId(Long feedId, User user) {
         List<Comment> comments = commentRepository.findAllByFeedId(feedId);
-        for (Comment comment : comments) {
-            comment.sortReplies();
-        }
         return CommentWithReplyResponse.toList(comments, user);
     }
 
     public CommentResponse updateComment(Long commentId, CommentRequest request, User user) {
         Comment findComment = findEntityById(commentId);
+        if (!findComment.isAuthor(user)) {
+            throw new UnauthorizedException(ErrorType.UNAUTHORIZED_UPDATE_COMMENT);
+        }
         notifyWhenChangedToHelper(request, findComment, user);
         findComment.update(request.getContent(), request.isHelper());
-        commentRepository.flush();
-        return CommentResponse.of(findComment, user);
+        Comment updatedComment = commentRepository.saveAndFlush(findComment);
+        return CommentResponse.of(updatedComment, user);
     }
 
     private void notifyWhenChangedToHelper(CommentRequest request, Comment findComment, User user) {
@@ -58,8 +57,13 @@ public class CommentService {
         }
     }
 
-    public void deleteComment(Long commentId) {
-        commentRepository.delete(findEntityById(commentId));
+    public void deleteComment(User user, Long commentId) {
+        Comment comment = findEntityById(commentId);
+        if (!comment.isAuthor(user)) {
+            throw new UnauthorizedException(ErrorType.UNAUTHORIZED_DELETE_COMMENT);
+        }
+        user.deleteComment(comment);
+        commentRepository.delete(comment);
     }
 
     public Comment findEntityById(Long commentId) {
@@ -67,42 +71,19 @@ public class CommentService {
                 .orElseThrow(() -> new NotFoundException(ErrorType.COMMENT_NOT_FOUND));
     }
 
-    public ReplyResponse createReply(User user, Long feedId, Long commentId, ReplyRequest request) {
+    public CommentResponse createReply(User user, Long feedId, Long commentId, CommentRequest request) {
+        Feed findFeed = feedService.findEntityById(feedId);
         Comment comment = findEntityById(commentId);
-        Comment reply = new Comment(request.getContent(), false).writtenBy(user);
+        Comment reply = new Comment(request.getContent(), false).writtenBy(user, findFeed);
         reply.addParentComment(comment);
-        reply.setFeed(feedService.findEntityById(feedId));
 
         Comment saveReply = commentRepository.save(reply);
-        return ReplyResponse.of(saveReply, false);
+        return CommentResponse.of(saveReply, user);
     }
 
     public List<ReplyResponse> findAllRepliesById(User user, Long feedId, Long commentId) {
         List<Comment> replies = commentRepository.findAllByFeedIdAndParentCommentId(feedId, commentId);
         replies.sort(Comparator.comparing(Comment::getCreatedDate, Comparator.reverseOrder()));
         return ReplyResponse.toList(replies, user);
-    }
-
-    public ReplyResponse updateReply(User user, Long feedId, Long commentId, Long replyId, ReplyRequest request) {
-        Comment reply = findEntityById(replyId);
-        if (!reply.getAuthor().sameAs(user)) {
-            throw new UnauthorizedException(ErrorType.UNAUTHORIZED_UPDATE_COMMENT);
-        }
-
-        reply.changeContent(request.getContent());
-        Comment newReply = commentRepository.saveAndFlush(reply);
-        return ReplyResponse.of(newReply, user.isCommentLiked(newReply));
-    }
-
-    public void deleteReply(User user, Long feedId, Long commentId, Long replyId) {
-        Feed feed = feedService.findEntityById(feedId);
-        Comment reply = findEntityById(replyId);
-        if (!reply.getAuthor().sameAs(user)) {
-            throw new UnauthorizedException(ErrorType.UNAUTHORIZED_DELETE_COMMENT);
-        }
-        reply.getParentComment().getReplies().remove(reply);
-        user.deleteComment(reply);
-        feed.deleteComment(reply);
-        commentRepository.delete(reply);
     }
 }
