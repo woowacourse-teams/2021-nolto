@@ -97,13 +97,14 @@ class CommentServiceTest extends CommentServiceFixture {
 
     @DisplayName("댓글을 수정할 수 있다.")
     @Test
-    void updateComment() {
+    void updateComment() throws InterruptedException {
         // given
         CommentResponse response = commentService.createComment(찰리, 찰리가_쓴_피드.getId(), COMMENT_REQUEST_WITHOUT_HELPER);
         String updateContent = "수정된 댓글 내용";
         boolean updateHelper = true;
 
         // when
+        Thread.sleep(1);
         CommentResponse commentResponse = commentService.updateComment(response.getId(), new CommentRequest(updateContent, updateHelper), 찰리);
 
         // then
@@ -252,7 +253,7 @@ class CommentServiceTest extends CommentServiceFixture {
 
     @DisplayName("대댓글의 내용을 수정한다.")
     @Test
-    void update() {
+    void update() throws InterruptedException {
         // given
         Comment 조엘_댓글 = 댓글_생성("조엘의 웹 호스팅을 통해 배포해보실 생각은 없으신가요?", false, 조엘, 아마찌의_개쩌는_지하철_미션);
         Comment 아마찌_대댓글 = 댓글_생성("내 글에서 광고하지마!!!", false, 아마찌, 아마찌의_개쩌는_지하철_미션);
@@ -260,6 +261,7 @@ class CommentServiceTest extends CommentServiceFixture {
         commentRepository.saveAllAndFlush(Arrays.asList(조엘_댓글, 아마찌_대댓글));
 
         // when
+        Thread.sleep(1);
         ReplyRequest 아마찌_대댓글_수정_요청 = new ReplyRequest("다시 생각해보니 괜찮은 거 같기도?");
         ReplyResponse updateReply = commentService.updateReply(아마찌, 아마찌의_개쩌는_지하철_미션.getId(), 조엘_댓글.getId(), 아마찌_대댓글.getId(), 아마찌_대댓글_수정_요청);
 

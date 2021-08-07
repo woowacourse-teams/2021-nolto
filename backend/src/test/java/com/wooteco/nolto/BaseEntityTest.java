@@ -71,12 +71,13 @@ class BaseEntityTest {
 
     @DisplayName("데이터 변경 시 lastModifiedDate가 수정된다")
     @Test
-    void update() {
+    void update() throws InterruptedException {
         // given
         Feed savedFeed2 = feedRepository.save(feed2);
         LocalDateTime modifiedDate = savedFeed2.getModifiedDate(); // 생성 시점
 
         // when
+        Thread.sleep(1);
         savedFeed2.writtenBy(user1);
         entityManager.flush();
         entityManager.clear();
@@ -89,10 +90,10 @@ class BaseEntityTest {
 
     @DisplayName("객체가 수정됐는지 확인할 수 있다.")
     @Test
-    void isModified() {
+    void isModified() throws InterruptedException {
         // given
+        Thread.sleep(1);
         feed1.update("수정된 제목", feed1.getContent(), feed1.getStep(), feed1.isSos(), feed1.getStorageUrl(), feed1.getDeployedUrl());
-        ;
 
         // when
         entityManager.flush();
