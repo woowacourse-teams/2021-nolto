@@ -53,10 +53,10 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private final List<Like> likes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<CommentLike> commentLikes = new ArrayList<>();
 
     public User(Long id, String socialId, SocialType socialType, String nickName) {
@@ -143,10 +143,7 @@ public class User extends BaseEntity {
 
     public void deleteComment(Comment comment) {
         this.comments.remove(comment);
-        comment.getFeed().deleteComment(comment);
-        if (comment.isReply()) {
-            comment.getParentComment().removeReply(comment);
-        }
+        comment.delete();
     }
 
     @Override

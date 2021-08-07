@@ -40,10 +40,10 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "parent_id")
     private Comment parentComment;
 
-    @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<CommentLike> likes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "parentComment", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "parentComment", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Comment> replies = new ArrayList<>();
 
     public Comment() {
@@ -126,6 +126,23 @@ public class Comment extends BaseEntity {
 
     public boolean changedToHelper(boolean helper) {
         return !this.helper && this.helper != helper;
+    }
+
+    public void delete() {
+        this.feed.deleteComment(this);
+        this.feed = null;
+        if (this.isReply()) {
+            this.parentComment.removeReply(this);
+            this.parentComment = null;
+        }
+        this.author = null;
+        for (Comment reply : replies) {
+            reply.parentComment = null;
+            reply.getAuthor().deleteComment(reply);
+        }
+        this.replies = null;
+        likes.forEach(like -> like.deleteByCommit(this));
+        this.likes = null;
     }
 
     @Override
