@@ -31,7 +31,7 @@ public class CommentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CommentWithReplyResponse>> findAllByFeedId(@UserAuthenticationPrincipal User user, @PathVariable Long feedId) {
+    public ResponseEntity<List<CommentWithReplyResponse>> findAllCommentsByFeedId(@UserAuthenticationPrincipal User user, @PathVariable Long feedId) {
         List<CommentWithReplyResponse> responses = commentService.findAllByFeedId(feedId, user);
         return ResponseEntity.ok(responses);
     }
@@ -48,7 +48,7 @@ public class CommentController {
     @DeleteMapping("/{commentId:[\\d]+}")
     public ResponseEntity<Void> deleteComment(@MemberAuthenticationPrincipal User user,
                                               @PathVariable Long feedId, @PathVariable Long commentId) {
-        commentService.deleteComment(commentId);
+        commentService.deleteComment(user, commentId);
         return ResponseEntity.noContent().build();
     }
 
@@ -69,63 +69,22 @@ public class CommentController {
     }
 
     @ValidTokenRequired
-    @PostMapping("/{commentId}/replies")
-    public ResponseEntity<ReplyResponse> createReply(@MemberAuthenticationPrincipal User user,
+    @PostMapping("/{commentId:[\\d]+}/replies")
+    public ResponseEntity<CommentResponse> createReply(@MemberAuthenticationPrincipal User user,
                                                      @PathVariable Long feedId,
                                                      @PathVariable Long commentId,
-                                                     @RequestBody ReplyRequest request) {
-        ReplyResponse replyResponse = commentService.createReply(user, feedId, commentId, request);
+                                                     @RequestBody CommentRequest request) {
+        CommentResponse replyResponse = commentService.createReply(user, feedId, commentId, request);
         return ResponseEntity
                 .created(URI.create("/feeds/" + feedId + "/comments/" + commentId + "/replies/" + replyResponse.getId()))
                 .body(replyResponse);
     }
 
-    @GetMapping("/{commentId}")
+    @GetMapping("/{commentId:[\\d]+}/replies")
     public ResponseEntity<List<ReplyResponse>> findAllRepliesById(@UserAuthenticationPrincipal User user,
                                                                   @PathVariable Long feedId,
                                                                   @PathVariable Long commentId) {
         List<ReplyResponse> replyResponses = commentService.findAllRepliesById(user, feedId, commentId);
         return ResponseEntity.ok(replyResponses);
-    }
-
-    @ValidTokenRequired
-    @PutMapping("/{commentId}/replies/{replyId}")
-    public ResponseEntity<ReplyResponse> updateReply(@MemberAuthenticationPrincipal User user,
-                                                     @PathVariable Long feedId,
-                                                     @PathVariable Long commentId,
-                                                     @PathVariable Long replyId,
-                                                     @RequestBody ReplyRequest request) {
-        ReplyResponse updateReplyResponse = commentService.updateReply(user, feedId, commentId, replyId, request);
-        return ResponseEntity.ok(updateReplyResponse);
-    }
-
-    @ValidTokenRequired
-    @DeleteMapping("/{commentId}/replies/{replyId}")
-    public ResponseEntity<Void> deleteReply(@MemberAuthenticationPrincipal User user,
-                                            @PathVariable Long feedId,
-                                            @PathVariable Long commentId,
-                                            @PathVariable Long replyId) {
-        commentService.deleteReply(user, feedId, commentId, replyId);
-        return ResponseEntity.noContent().build();
-    }
-
-    @ValidTokenRequired
-    @PostMapping("/{commentId:[\\d]+}/replies/{replyId}/like")
-    public ResponseEntity<Void> addReplyLike(@MemberAuthenticationPrincipal User user,
-                                             @PathVariable Long feedId,
-                                             @PathVariable Long replyId,
-                                             @PathVariable Long commentId) {
-        commentLikeService.addCommentLike(replyId, user);
-        return ResponseEntity.ok().build();
-    }
-
-    @ValidTokenRequired
-    @PostMapping("/{commentId:[\\d]+}/replies/{replyId}/unlike")
-    public ResponseEntity<Void> deleteReplyLike(@MemberAuthenticationPrincipal User user,
-                                                  @PathVariable Long feedId,
-                                                @PathVariable Long replyId,
-                                                @PathVariable Long commentId) {
-        commentLikeService.deleteCommentLike(replyId, user);
-        return ResponseEntity.ok().build();
     }
 }

@@ -19,6 +19,7 @@ import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -63,8 +64,12 @@ class CommentServiceTest extends CommentServiceFixture {
     @DisplayName("댓글을 1개 저장한다.")
     @Test
     void create() {
+        // given
+        User 조회해온_찰리 = userRepository.findById(찰리.getId()).get();
+        Feed 조회해온_찰리가_쓴_피드 = feedRepository.findById(찰리가_쓴_피드.getId()).get();
+
         // when
-        CommentResponse response = commentService.createComment(찰리, 찰리가_쓴_피드.getId(), COMMENT_REQUEST_WITHOUT_HELPER);
+        CommentResponse response = commentService.createComment(조회해온_찰리, 조회해온_찰리가_쓴_피드.getId(), COMMENT_REQUEST_WITHOUT_HELPER);
 
         // then
         assertThat(response.getId()).isNotNull();
@@ -129,7 +134,7 @@ class CommentServiceTest extends CommentServiceFixture {
     @Test
     void deleteComment() {
         // when
-        commentService.deleteComment(찰리가_쓴_피드에_찰리가_쓴_댓글.getId());
+        commentService.deleteComment(찰리, 찰리가_쓴_피드에_찰리가_쓴_댓글.getId());
 
         // then
         assertThatThrownBy(() -> commentService.findEntityById(찰리가_쓴_피드에_찰리가_쓴_댓글.getId()))
@@ -146,7 +151,7 @@ class CommentServiceTest extends CommentServiceFixture {
     @Test
     void deleteCommentWithNonExistCommentId() {
         // when then
-        assertThatThrownBy(() -> commentService.deleteComment(Long.MAX_VALUE))
+        assertThatThrownBy(() -> commentService.deleteComment(찰리, Long.MAX_VALUE))
                 .isInstanceOf(NotFoundException.class)
                 .hasMessage("존재하지 않는 댓글입니다.");
     }
@@ -163,7 +168,6 @@ class CommentServiceTest extends CommentServiceFixture {
         assertThat(response.getId()).isEqualTo(responseFromComment.getId());
         assertThat(response.isModified()).isEqualTo(responseFromComment.isModified());
         assertThat(response.getAuthor().getId()).isEqualTo(responseFromComment.getAuthor().getId());
-        assertThat(response.getReplies()).hasSize(responseFromComment.getReplies().size());
     }
 
     @DisplayName("대댓글을 작성한다. (글 작성자가 아닌 유저)")
@@ -175,8 +179,8 @@ class CommentServiceTest extends CommentServiceFixture {
         entityManager.clear();
 
         // when
-        ReplyRequest 조엘_대댓글 = new ReplyRequest("찰리 나는..?");
-        ReplyResponse replyResponse = commentService.createReply(조엘, 아마찌의_개쩌는_지하철_미션.getId(), 찰리_댓글.getId(), 조엘_대댓글);
+        CommentRequest 조엘_대댓글 = new CommentRequest("찰리 나는..?", false);
+        CommentResponse replyResponse = commentService.createReply(조엘, 아마찌의_개쩌는_지하철_미션.getId(), 찰리_댓글.getId(), 조엘_대댓글);
 
         // then
         assertThat(replyResponse.getId()).isNotNull();
@@ -185,7 +189,6 @@ class CommentServiceTest extends CommentServiceFixture {
         assertThat(replyResponse.isFeedAuthor()).isFalse();
         assertThat(replyResponse.getCreatedAt()).isNotNull();
         assertThat(replyResponse.isModified()).isFalse();
-        assertThat(replyResponse.getCommentId()).isEqualTo(찰리_댓글.getId());
         assertThat(replyResponse.getAuthor().getId()).isEqualTo(조엘.getId());
     }
 
@@ -197,8 +200,8 @@ class CommentServiceTest extends CommentServiceFixture {
         commentRepository.saveAndFlush(포모_댓글);
 
         // when
-        ReplyRequest 아마찌_대댓글 = new ReplyRequest("내 글에서 나가~~");
-        ReplyResponse replyResponse = commentService.createReply(
+        CommentRequest 아마찌_대댓글 = new CommentRequest("내 글에서 나가~~", false);
+        CommentResponse replyResponse = commentService.createReply(
                 아마찌,
                 아마찌의_개쩌는_지하철_미션.getId(),
                 포모_댓글.getId(),
@@ -211,7 +214,6 @@ class CommentServiceTest extends CommentServiceFixture {
         assertThat(replyResponse.isFeedAuthor()).isTrue();
         assertThat(replyResponse.getCreatedAt()).isNotNull();
         assertThat(replyResponse.isModified()).isFalse();
-        assertThat(replyResponse.getCommentId()).isEqualTo(포모_댓글.getId());
         assertThat(replyResponse.getAuthor().getId()).isEqualTo(아마찌.getId());
     }
 
@@ -260,8 +262,8 @@ class CommentServiceTest extends CommentServiceFixture {
         commentRepository.saveAllAndFlush(Arrays.asList(조엘_댓글, 아마찌_대댓글));
 
         // when
-        ReplyRequest 아마찌_대댓글_수정_요청 = new ReplyRequest("다시 생각해보니 괜찮은 거 같기도?");
-        ReplyResponse updateReply = commentService.updateReply(아마찌, 아마찌의_개쩌는_지하철_미션.getId(), 조엘_댓글.getId(), 아마찌_대댓글.getId(), 아마찌_대댓글_수정_요청);
+        CommentRequest 아마찌_대댓글_수정_요청 = new CommentRequest("다시 생각해보니 괜찮은 거 같기도?", false);
+        CommentResponse updateReply = commentService.updateComment(아마찌_대댓글.getId(), 아마찌_대댓글_수정_요청, 아마찌);
 
         // then
         assertThat(updateReply.getId()).isNotNull();
@@ -270,7 +272,6 @@ class CommentServiceTest extends CommentServiceFixture {
         assertThat(updateReply.isFeedAuthor()).isTrue();
         assertThat(updateReply.getCreatedAt()).isNotNull();
         assertThat(updateReply.isModified()).isTrue();
-        assertThat(updateReply.getCommentId()).isEqualTo(조엘_댓글.getId());
         assertThat(updateReply.getAuthor().getId()).isEqualTo(아마찌.getId());
     }
 
@@ -285,21 +286,19 @@ class CommentServiceTest extends CommentServiceFixture {
         entityManager.clear();
 
         // when
-        commentService.deleteReply(아마찌, 아마찌의_개쩌는_지하철_미션.getId(), 포모_댓글.getId(), 아마찌_대댓글.getId());
-        entityManager.flush();
-        entityManager.clear();
+        commentService.deleteComment(아마찌, 아마찌_대댓글.getId());
+        Feed 삭제후_조회한_아마찌의_개쩌는_지하철_미션 = feedRepository.findById(아마찌의_개쩌는_지하철_미션.getId()).get();
 
         // then
         assertThatThrownBy(() -> commentService.findEntityById(아마찌_대댓글.getId()))
                 .isInstanceOf(NotFoundException.class)
                 .hasMessage("존재하지 않는 댓글입니다.");
         assertThat(아마찌.getComments().size()).isZero();
-        assertThat(아마찌의_개쩌는_지하철_미션.getComments().size()).isOne();
+        assertThat(삭제후_조회한_아마찌의_개쩌는_지하철_미션.getComments().size()).isOne();
     }
 
     private Comment 댓글_생성(String 댓글_내용, boolean 도움, User 댓글_유저, Feed 피드) {
-        Comment 댓글 = new Comment(댓글_내용, 도움).writtenBy(댓글_유저);
-        댓글.setFeed(피드);
+        Comment 댓글 = new Comment(댓글_내용, 도움).writtenBy(댓글_유저, 피드);
         return 댓글;
     }
 }

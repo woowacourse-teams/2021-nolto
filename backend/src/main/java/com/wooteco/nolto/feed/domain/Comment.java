@@ -58,18 +58,22 @@ public class Comment extends BaseEntity {
 
     public void update(String content, boolean helper) {
         this.content = content;
+        if (this.isReply()) {
+            helper = false;
+        }
         this.helper = helper;
     }
 
     public void addReply(Comment reply) {
         this.replies.add(reply);
         reply.parentComment = this;
-        feed.addComment(reply);
     }
 
-    public Comment writtenBy(User user) {
+    public Comment writtenBy(User user, Feed feed) {
         this.author = user;
-        user.getComments().add(this);
+        this.feed = feed;
+        feed.addComment(this);
+        user.addComment(this);
         return this;
     }
 
@@ -102,12 +106,24 @@ public class Comment extends BaseEntity {
         comment.addReply(this);
     }
 
-    public void sortReplies() {
-        this.replies.sort((o1, o2) -> o2.getCreatedDate().compareTo(o1.getCreatedDate()));
-    }
-
     public void changeContent(String content) {
         this.content = content;
+    }
+
+    public boolean isReply() {
+        return Objects.nonNull(this.parentComment);
+    }
+
+    public void removeReply(Comment reply) {
+        this.replies.remove(reply);
+    }
+
+    public boolean isAuthor(User user) {
+        return this.author.sameAs(user);
+    }
+
+    public boolean changedToHelper(boolean helper) {
+        return !this.helper && this.helper != helper;
     }
 
     @Override
@@ -121,9 +137,5 @@ public class Comment extends BaseEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id);
-    }
-
-    public boolean changedToHelper(boolean helper) {
-        return !this.helper && this.helper != helper;
     }
 }

@@ -137,19 +137,15 @@ public class User extends BaseEntity {
         this.bio = bio;
     }
 
-    public void deleteComment(Comment reply) {
-        this.comments.remove(reply);
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
     }
 
-    private static class GuestUser extends User {
-        @Override
-        public boolean isLiked(Feed feed) {
-            return false;
-        }
-
-        @Override
-        public boolean isCommentLiked(Comment comment) {
-            return false;
+    public void deleteComment(Comment comment) {
+        this.comments.remove(comment);
+        comment.getFeed().deleteComment(comment);
+        if (comment.isReply()) {
+            comment.getParentComment().removeReply(comment);
         }
     }
 
@@ -164,5 +160,17 @@ public class User extends BaseEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    private static class GuestUser extends User {
+        @Override
+        public boolean isLiked(Feed feed) {
+            return false;
+        }
+
+        @Override
+        public boolean isCommentLiked(Comment comment) {
+            return false;
+        }
     }
 }
