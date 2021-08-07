@@ -2,6 +2,7 @@ import styled, { keyframes, css } from 'styled-components';
 import { Link as LinkElement } from 'react-router-dom';
 
 import { PALETTE } from 'constants/palette';
+import { hoverLayer } from 'commonStyles';
 
 const open = keyframes`
   from {
@@ -65,7 +66,6 @@ const Greeting = styled.div`
 
 const buttonStyle = css`
   width: 100%;
-  position: relative;
   border: none;
   border-top: 1px solid ${PALETTE.PRIMARY_400};
   background-color: ${PALETTE.WHITE_400};
@@ -77,17 +77,7 @@ const buttonStyle = css`
     border-radius: 0 0 4px 4px;
   }
 
-  &:hover::after {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: ${PALETTE.BLACK_400};
-    opacity: 0.1;
-  }
+  ${hoverLayer({})};
 `;
 
 export const Link = styled(LinkElement)`

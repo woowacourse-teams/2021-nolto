@@ -6,6 +6,7 @@ import IconButtonComponent from 'components/@common/IconButton/IconButton';
 import SearchBarComponent from 'components/SearchBar/SearchBar';
 import Z_INDEX from 'constants/zIndex';
 import UserProfileComponent from 'components/UserProfile/UserProfile';
+import { hoverUnderline } from 'commonStyles';
 
 const Root = styled.header<{ isFolded: boolean }>`
   position: sticky;
@@ -47,9 +48,7 @@ const NavContainer = styled.ul`
     color: ${PALETTE.WHITE_400};
     display: inline;
 
-    &:hover {
-      border-bottom: 2px solid ${PALETTE.WHITE_400};
-    }
+    ${hoverUnderline};
   }
 
   & .nav-link {

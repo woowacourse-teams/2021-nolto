@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
-import { Card } from 'commonStyles';
+import { Card, hoverLayer } from 'commonStyles';
 
 const Root = styled(Card)<{ imageUrl: string }>`
-  position: relative;
   width: 15.75rem;
   height: 19.75rem;
   background-image: url(${({ imageUrl }) => imageUrl});
@@ -12,17 +11,7 @@ const Root = styled(Card)<{ imageUrl: string }>`
   cursor: pointer;
   overflow: hidden;
 
-  &:hover::after {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0.3;
-    background-color: ${PALETTE.BLACK_400};
-  }
+  ${hoverLayer({})};
 `;
 
 const ContentArea = styled.div`

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Avatar from 'components/@common/Avatar/Avatar';
 import DownPolygon from 'assets/downPolygon.svg';
 import { PALETTE } from 'constants/palette';
+import { hoverLayer } from 'commonStyles';
 
 const Root = styled.div`
   display: flex;
@@ -58,17 +59,7 @@ const MoreButton = styled.button`
   filter: drop-shadow(0 0 0.25rem rgba(0, 0, 0, 0.25));
   overflow: hidden;
 
-  &:hover::after {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0.1;
-    background-color: ${PALETTE.BLACK_400};
-  }
+  ${hoverLayer({})};
 `;
 
 export const MoreFeedsArrow = styled(DownPolygon)`

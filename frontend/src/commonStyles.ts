@@ -1,4 +1,6 @@
-import styled from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
+
+import { PALETTE } from 'constants/palette';
 
 export interface FlexContainerProps {
   children: React.ReactNode;
@@ -35,3 +37,56 @@ FlexContainer.defaultProps = {
   justifyContent: 'start',
   alignItems: 'start',
 };
+
+const hoverLayerAnimation = keyframes`
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity : 0.2;
+  }
+`;
+
+interface hoverLayerProps {
+  borderRadius?: string;
+}
+
+export const hoverLayer = ({ borderRadius }: hoverLayerProps) => css`
+  position: relative;
+
+  &:hover::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: ${PALETTE.BLACK_400};
+    border-radius: ${borderRadius};
+    opacity: 0.2;
+    animation: ${hoverLayerAnimation} 0.2s ease;
+  }
+`;
+
+export const hoverUnderline = css`
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: ${PALETTE.WHITE_400};
+    transform-origin: bottom center;
+    transition: transform 0.1s ease-out;
+  }
+
+  &:hover::after {
+    transform: scaleX(1);
+  }
+`;
