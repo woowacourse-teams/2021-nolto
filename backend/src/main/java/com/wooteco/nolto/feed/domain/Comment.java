@@ -141,7 +141,10 @@ public class Comment extends BaseEntity {
             reply.getAuthor().deleteComment(reply);
         }
         this.replies = null;
-        likes.forEach(like -> like.deleteByCommit(this));
+        likes.forEach(like -> like.deleteByComment(this));
+        for (CommentLike like : likes) {
+            like.deleteByComment(this);
+        }
         this.likes = null;
     }
 

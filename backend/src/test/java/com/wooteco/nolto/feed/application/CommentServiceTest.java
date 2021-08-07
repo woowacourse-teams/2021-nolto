@@ -133,8 +133,16 @@ class CommentServiceTest extends CommentServiceFixture {
     @DisplayName("댓글 삭제시 댓글의 대댓글도 함께 삭제된다.")
     @Test
     void deleteComment() {
+        // given
+        entityManager.clear();
+
         // when
-        commentService.deleteComment(찰리, 찰리가_쓴_피드에_찰리가_쓴_댓글.getId());
+        User user = userRepository.findById(찰리.getId()).get();
+        entityManager.flush();
+        commentService.deleteComment(user, 찰리가_쓴_피드에_찰리가_쓴_댓글.getId());
+        entityManager.flush();
+        entityManager.clear();
+        Feed 삭제_후_조회한_찰리가_쓴_피드 = feedRepository.findById(찰리가_쓴_피드.getId()).get();
 
         // then
         assertThatThrownBy(() -> commentService.findEntityById(찰리가_쓴_피드에_찰리가_쓴_댓글.getId()))
@@ -145,6 +153,7 @@ class CommentServiceTest extends CommentServiceFixture {
                 .isInstanceOf(NotFoundException.class);
         assertThatThrownBy(() -> commentService.findEntityById(찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_두번째_대댓글.getId()))
                 .isInstanceOf(NotFoundException.class);
+        assertThat(삭제_후_조회한_찰리가_쓴_피드.getComments().size()).isOne();
     }
 
     @DisplayName("존재하지 않는 댓글 ID로 삭제를 요청하면 예외가 발생한다.")
@@ -320,7 +329,6 @@ class CommentServiceTest extends CommentServiceFixture {
         Feed 삭제후_조회한_아마찌의_개쩌는_지하철_미션 = feedRepository.findById(아마찌의_개쩌는_지하철_미션.getId()).get();
         User 조회한_포모1 = userRepository.findById(포모1.getId()).get();
         User 조회한_아마찌 = userRepository.findById(아마찌.getId()).get();
-
 
         // then
         assertThatThrownBy(() -> commentService.findEntityById(포모_댓글_ID))
