@@ -1,6 +1,8 @@
 package com.wooteco.nolto.feed.domain;
 
 import com.wooteco.nolto.BaseEntity;
+import com.wooteco.nolto.exception.BadRequestException;
+import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -58,8 +60,8 @@ public class Comment extends BaseEntity {
 
     public void update(String content, boolean helper) {
         this.content = content;
-        if (this.isReply()) {
-            helper = false;
+        if (this.isReply() && helper) {
+            throw new BadRequestException(ErrorType.REPLY_NOT_SUPPORTED_HELPER);
         }
         this.helper = helper;
     }
