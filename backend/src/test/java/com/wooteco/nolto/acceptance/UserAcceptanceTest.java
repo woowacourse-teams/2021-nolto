@@ -132,14 +132,12 @@ public class UserAcceptanceTest extends AcceptanceTest {
     }
 
     private void 알맞은_피드_조회됨(List<FeedHistoryResponse> feedHistoryResponses, List<Feed> feeds) {
-        List<String> responseTitles = feedHistoryResponses.stream().map(FeedHistoryResponse::getTitle).collect(Collectors.toList());
         List<String> feedTitles = feeds.stream().map(Feed::getTitle).collect(Collectors.toList());
-        assertThat(responseTitles).isEqualTo(feedTitles);
+        assertThat(feedHistoryResponses).extracting("title").isEqualTo(feedTitles);
     }
 
     private void 알맞은_댓글_조회됨(List<CommentHistoryResponse> commentHistoryResponses, List<Comment> comments) {
-        List<String> responseTexts = commentHistoryResponses.stream().map(CommentHistoryResponse::getText).collect(Collectors.toList());
         List<String> contents = comments.stream().map(Comment::getContent).collect(Collectors.toList());
-        assertThat(responseTexts).isEqualTo(contents);
+        assertThat(commentHistoryResponses).extracting("text").isEqualTo(contents);
     }
 }
