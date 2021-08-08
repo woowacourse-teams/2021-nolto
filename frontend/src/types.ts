@@ -76,7 +76,7 @@ export interface FeedWithComment {
   text: string;
 }
 export interface UserInfo extends Author {
-  socialType: 'GOOGLE' | 'GITHUB';
+  notifications: number;
 }
 
 export interface Profile extends Author {

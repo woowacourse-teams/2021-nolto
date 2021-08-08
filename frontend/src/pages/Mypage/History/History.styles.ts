@@ -6,7 +6,7 @@ import { hoverLayer } from 'commonStyles';
 
 const Root = styled.div`
   padding: 1rem 2rem;
-  width: 32rem;
+  width: 34rem;
   height: 24rem;
   border-radius: 0.75rem;
   box-shadow: 4px 4px 8px 4px rgba(85, 85, 85, 0.2);

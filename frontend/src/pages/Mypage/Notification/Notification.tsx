@@ -6,6 +6,7 @@ import { PALETTE } from 'constants/palette';
 import useSnackbar from 'context/snackBar/useSnackBar';
 import useNotiLoad from 'hooks/queries/profile/useNotiLoad';
 import useNotiDelete from 'hooks/queries/profile/useNotiDelete';
+import useMember from 'hooks/queries/useMember';
 import { NotiType } from 'types';
 import Styled, { MoreNotiIcon } from './Notification.styles';
 
@@ -26,13 +27,18 @@ const Notification = () => {
     },
   });
 
+  const { refetchMember } = useMember();
+
   const deleteMutation = useNotiDelete();
 
   const deleteNoti = (notificationId?: number) => {
     deleteMutation.mutate(
       { notificationId },
       {
-        onSuccess: () => refetchNoti(),
+        onSuccess: () => {
+          refetchMember();
+          refetchNoti();
+        },
         onError: (error) => {
           snackbar.addSnackBar('error', error.message);
         },
