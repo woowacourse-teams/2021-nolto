@@ -46,11 +46,12 @@ public class MemberService {
     }
 
     public ProfileResponse updateProfile(User user, ProfileRequest request) {
-        if (userRepository.existsByNickName(request.getNickname())) {
+        String nicknameToChange = request.getNickname();
+        if (!user.sameAsNickname(nicknameToChange) && userRepository.existsByNickName(nicknameToChange)) {
             throw new BadRequestException(ALREADY_EXIST_NICKNAME);
         }
         updateIfImageExist(request, user);
-        user.updateProfile(request.getNickname(), request.getBio());
+        user.updateProfile(nicknameToChange, request.getBio());
         return ProfileResponse.of(user, 0);
     }
 

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
+import { hoverLayer } from 'commonStyles';
 
 const Root = styled.button`
   background: transparent;
@@ -21,6 +22,8 @@ const Button = styled.div<{ selected: boolean }>`
   font-size: 3rem;
   box-shadow: ${({ selected }) => selected && 'inset'} 4px 4px 8px rgba(85, 85, 85, 0.25);
   cursor: pointer;
+
+  ${hoverLayer({ borderRadius: '50%' })};
 `;
 
 const Progress = styled(Button)`

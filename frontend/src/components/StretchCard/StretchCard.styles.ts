@@ -1,10 +1,8 @@
 import styled from 'styled-components';
 
-import { Card } from 'commonStyles';
-import { PALETTE } from 'constants/palette';
+import { Card, hoverLayer } from 'commonStyles';
 
 const Root = styled(Card)`
-  position: relative;
   width: 40rem;
   height: 8rem;
   padding: 0.5rem 1.25rem;
@@ -14,22 +12,13 @@ const Root = styled(Card)`
   cursor: pointer;
   overflow: hidden;
 
-  &:hover::after {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0.3;
-    background-color: ${PALETTE.BLACK_400};
-  }
+  ${hoverLayer({})};
 `;
 
 const Thumbnail = styled.img`
   width: 5.5rem;
   height: 5.5rem;
+  flex-shrink: 0;
   border-radius: 0.5rem;
 `;
 

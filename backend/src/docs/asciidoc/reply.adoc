@@ -1,4 +1,4 @@
-== reply (대댓글)
+== Reply (대댓글)
 
 === 대댓글 등록
 
@@ -17,33 +17,6 @@ include::{snippets}/reply-create/http-response.adoc[]
 
 include::{snippets}/reply-create/response-fields.adoc[]
 
-=== 대댓글 수정
-
-==== Request
-
-include::{snippets}/reply-update/http-request.adoc[]
-include::{snippets}/reply-update/path-parameters.adoc[]
-include::{snippets}/reply-update/request-fields.adoc[]
-
-==== Response
-
-include::{snippets}/reply-update/http-response.adoc[]
-
-==== Response Fields
-
-include::{snippets}/reply-update/response-fields.adoc[]
-
-=== 대댓글 삭제
-
-==== Request
-
-include::{snippets}/reply-delete/http-request.adoc[]
-include::{snippets}/reply-delete/path-parameters.adoc[]
-
-==== Response
-
-include::{snippets}/reply-delete/http-response.adoc[]
-
 === 대댓글 전체 조회
 
 ==== Request
@@ -58,23 +31,3 @@ include::{snippets}/reply-findAllReplies/http-response.adoc[]
 ==== Response Fields
 
 include::{snippets}/reply-findAllReplies/response-fields.adoc[]
-
-=== 대댓글 좋아요
-
-==== Request
-
-include::{snippets}/reply-like/http-request.adoc[]
-
-==== Response
-
-include::{snippets}/reply-like/http-response.adoc[]
-
-=== 대댓글 좋아요 취소
-
-==== Request
-
-include::{snippets}/reply-unlike/http-request.adoc[]
-
-==== Response
-
-include::{snippets}/reply-unlike/http-response.adoc[]

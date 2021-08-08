@@ -214,10 +214,8 @@ class MemberControllerTest extends ControllerTest {
     void setMemberHistoryResponse() {
         List<Feed> likedFeeds = Arrays.asList(FEED1, FEED2);
         List<Feed> myFeeds = Arrays.asList(FEED1, FEED2);
-        Comment comment1 = new Comment("comment1", true).writtenBy(LOGIN_USER);
-        comment1.setFeed(FEED1);
-        Comment comment2 = new Comment("comment2", true).writtenBy(LOGIN_USER);
-        comment2.setFeed(FEED2);
+        Comment comment1 = new Comment("comment1", true).writtenBy(LOGIN_USER, FEED1);
+        Comment comment2 = new Comment("comment2", true).writtenBy(LOGIN_USER, FEED2);
         List<Comment> myComments = Arrays.asList(comment1, comment2);
 
         memberHistoryResponse = MemberHistoryResponse.of(likedFeeds, myFeeds, myComments);

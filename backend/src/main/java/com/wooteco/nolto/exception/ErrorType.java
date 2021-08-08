@@ -31,6 +31,7 @@ public enum ErrorType {
     UNAUTHORIZED_DELETE_COMMENT("comment-003", "댓글은 작성자만 삭제할 수 있습니다."),
     ALREADY_LIKED_COMMENT("comment-004", "이미 좋아요 누른 댓글 입니다."),
     NOT_LIKED_COMMENT("comment-005", "좋아요를 누르지 않은 댓글입니다."),
+    REPLY_NOT_SUPPORTED_HELPER("comment-006", "대댓글은 도와줄게요로 설정할 수 없습니다."),
 
     ALREADY_EXIST_NICKNAME("member-001", "이미 존재하는 닉네임입니다."),
     NOTIFICATION_NOT_FOUND("member-002", "존재하지 않는 알림입니다."),

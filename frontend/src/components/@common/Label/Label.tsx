@@ -6,9 +6,9 @@ interface Props extends LabelHTMLAttributes<HTMLLabelElement> {
   required?: boolean;
 }
 
-const Label = ({ text, required = false, className }: Props) => {
+const Label = ({ text, required = false, className, ...options }: Props) => {
   return (
-    <Styled.Root className={className} required={required}>
+    <Styled.Root className={className} required={required} {...options}>
       {text}
     </Styled.Root>
   );

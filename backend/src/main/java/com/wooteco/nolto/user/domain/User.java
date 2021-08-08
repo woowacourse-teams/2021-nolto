@@ -53,10 +53,10 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private final List<Like> likes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<CommentLike> commentLikes = new ArrayList<>();
 
     public User(Long id, String socialId, SocialType socialType, String nickName) {
@@ -104,6 +104,10 @@ public class User extends BaseEntity {
         return this.equals(user);
     }
 
+    public boolean sameAsNickname(String nickName) {
+        return this.nickName.equals(nickName);
+    }
+
     public void delete(Like like) {
         this.likes.remove(like);
     }
@@ -137,20 +141,13 @@ public class User extends BaseEntity {
         this.bio = bio;
     }
 
-    public void deleteComment(Comment reply) {
-        this.comments.remove(reply);
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
     }
 
-    private static class GuestUser extends User {
-        @Override
-        public boolean isLiked(Feed feed) {
-            return false;
-        }
-
-        @Override
-        public boolean isCommentLiked(Comment comment) {
-            return false;
-        }
+    public void deleteComment(Comment comment) {
+        this.comments.remove(comment);
+        comment.delete();
     }
 
     @Override
@@ -164,5 +161,17 @@ public class User extends BaseEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    private static class GuestUser extends User {
+        @Override
+        public boolean isLiked(Feed feed) {
+            return false;
+        }
+
+        @Override
+        public boolean isCommentLiked(Comment comment) {
+            return false;
+        }
     }
 }
