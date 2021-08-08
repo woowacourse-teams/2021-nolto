@@ -16,6 +16,8 @@ import { refineDate } from 'utils/common';
 import Styled, { CommentTextButton, ModifyTextInput } from './Comment.styles';
 import SubCommentModule from 'components/CommentModule/SubCommentModule/SubCommentModule';
 import { CommentModuleContext } from 'components/CommentModule/CommentModule';
+import useLike from 'hooks/@common/useLike';
+import useSnackBar from 'contexts/snackBar/useSnackBar';
 
 interface Props {
   commentBody: CommentType;
@@ -28,13 +30,42 @@ const Comment = ({ commentBody, parentCommentId }: Props) => {
   const [modifyInput, setModifyInput] = useState('');
   const dialog = useDialog();
   const member = useMember();
+  const snackbar = useSnackBar();
   const { feedId } = useContext(CommentModuleContext);
   const comment = useComment({ feedId, commentId: commentBody.id, parentCommentId });
+  const { setLiked, isLiked, likeCount } = useLike({
+    initialIsLiked: commentBody.liked,
+    likeCount: commentBody.likes,
+  });
 
   //TODO: 지금 commentBody.feedAuthor가 로그인된 사용자 정보랑 댓글 작성자랑 같을 때 true가 되고있음
   //로그인된 사용자 정보와 관계없이 피드 작성자 기준으로 feedAuthor가 설정되어야함
   const isMyComment = member.userData?.id === commentBody.author.id;
   const isRootComment = parentCommentId === undefined ? true : false;
+
+  const handleToggleLiked = () => {
+    if (!member.userData) {
+      snackbar.addSnackBar('error', '로그인이 필요한 서비스입니다.');
+      return;
+    }
+
+    if (isLiked) {
+      //TODO: 첫번째 인자로 null 넣는 것이 어색함
+      comment.unlike(null, {
+        onSuccess: () => {
+          setLiked(false);
+        },
+      });
+
+      return;
+    }
+
+    comment.like(null, {
+      onSuccess: () => {
+        setLiked(true);
+      },
+    });
+  };
 
   const handleClickReply = () => {
     setIsReplyFormVisible(!isReplyFormVisible);
@@ -111,10 +142,10 @@ const Comment = ({ commentBody, parentCommentId }: Props) => {
           <FlexContainer gap="4px" alignItems="center">
             <span>{refineDate(commentBody.createdAt)}</span>
             <Styled.ThumbUpWrapper>
-              <IconButton isShadow={false}>
-                <ThumbIcon width="20px" />
+              <IconButton onClick={handleToggleLiked} isShadow={false}>
+                <ThumbIcon fill={isLiked ? PALETTE.GRAY_500 : 'none'} width="20px" />
               </IconButton>
-              <span>{commentBody.likes}</span>
+              <span>{likeCount}</span>
             </Styled.ThumbUpWrapper>
             {isRootComment && (
               <IconButton onClick={handleClickReply} isShadow={false}>

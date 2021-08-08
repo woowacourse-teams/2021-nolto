@@ -1,4 +1,4 @@
-import React, { FormEvent } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 
 import useFeedDetail from 'hooks/queries/feed/useFeedDetail';

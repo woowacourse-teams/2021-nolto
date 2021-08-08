@@ -1,7 +1,9 @@
 import useSubCommentsLoad from 'hooks/queries/comment/subComment/useSubCommentsLoad';
 import useCommentDelete from 'hooks/queries/comment/useCommentDelete';
+import useCommentLike from 'hooks/queries/comment/useCommentLike';
 import useCommentModify from 'hooks/queries/comment/useCommentModify';
 import useCommentsLoad from 'hooks/queries/comment/useCommentsLoad';
+import useCommentUnlike from 'hooks/queries/comment/useCommentUnlike';
 
 interface Props {
   feedId: number;
@@ -34,11 +36,16 @@ const useComment = ({ feedId, commentId, parentCommentId }: Props) => {
     },
   );
 
+  const commentLikeMutation = useCommentLike({ feedId, commentId });
+  const commentUnlikeMutation = useCommentUnlike({ feedId, commentId });
+
   if (parentCommentId === undefined) {
     return {
       reload: reloadComments,
       modify: commentModifyMutation.mutate,
       delete: commentDeleteMutation.mutate,
+      like: commentLikeMutation.mutate,
+      unlike: commentUnlikeMutation.mutate,
     };
   }
 
@@ -72,6 +79,8 @@ const useComment = ({ feedId, commentId, parentCommentId }: Props) => {
     reload: reloadSubComments,
     modify: subCommentModifyMutation.mutate,
     delete: subCommentDeleteMutation.mutate,
+    like: commentLikeMutation.mutate,
+    unlike: commentUnlikeMutation.mutate,
   };
 };
 
