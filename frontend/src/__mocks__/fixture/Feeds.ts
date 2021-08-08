@@ -1,4 +1,4 @@
-import { Feed, FeedDetail, FeedStatus } from 'types';
+import { Feed, FeedDetail, FeedStatus, FeedToUpload } from 'types';
 
 export const MOCK_FEEDS: Feed[] = [
   {
@@ -77,4 +77,28 @@ export const MOCK_FEED_DETAIL: FeedDetail = {
   likes: 7,
   views: 97,
   liked: false,
+};
+
+export const MOCK_FEED_TO_UPLOAD: FeedToUpload = {
+  title: '아진짜요? 토이게임',
+  content: '아진짜요? 토이게임 진짜 재밌어요',
+  step: FeedStatus.PROGRESS,
+  sos: false,
+  techs: [
+    {
+      id: 655,
+      text: 'JavaScript',
+    },
+    {
+      id: 983,
+      text: 'HTML',
+    },
+    {
+      id: 1243,
+      text: 'ML Kit',
+    },
+  ],
+  storageUrl: 'https://github.com/zigsong/Ah-Really',
+  deployedUrl: 'https://zigsong.github.io/Ah-Really/',
+  thumbnailImage: null,
 };
