@@ -171,6 +171,35 @@ class TechServiceTest {
 
         //then
         assertThat(techResponses).extracting("text")
-                .contains(TECH1_JAVA.getName(), TECH2_JAVASCRIPT.getName(), TECH3_SPRING.getName(), TECH4_JPA.getName());
+                .containsExactly(TECH1_JAVA.getName(), TECH2_JAVASCRIPT.getName(), TECH3_SPRING.getName(), TECH4_JPA.getName());
+    }
+
+    @DisplayName("전체 피드에서 사용된 테크가 4개 미만이라면, 그것만 반환한다.")
+    @Test
+    void findTrendTechsUnderFourTechs() {
+        //given
+        feedTechRepository.saveAll(Arrays.asList(new FeedTech(FEED3, TECH1_JAVA), new FeedTech(FEED3, TECH2_JAVASCRIPT),
+                new FeedTech(FEED3, TECH3_SPRING)));
+
+        feedTechRepository.saveAll(Arrays.asList(new FeedTech(FEED4, TECH1_JAVA), new FeedTech(FEED4, TECH2_JAVASCRIPT)));
+
+        feedTechRepository.saveAll(Arrays.asList(new FeedTech(FEED5, TECH1_JAVA)));
+
+        //when
+        List<TechResponse> techResponses = techService.findTrendTechs();
+
+        //then
+        assertThat(techResponses).extracting("text")
+                .containsExactly(TECH1_JAVA.getName(), TECH2_JAVASCRIPT.getName(), TECH3_SPRING.getName());
+    }
+
+    @DisplayName("기술을 사용한 피드가 전혀 없으면 빈 리스트를 반환한다.")
+    @Test
+    void findTrendTechsWhenFeedDontUseAnyTech() {
+        //when
+        List<TechResponse> techResponses = techService.findTrendTechs();
+
+        //then
+        assertThat(techResponses).isEmpty();
     }
 }
