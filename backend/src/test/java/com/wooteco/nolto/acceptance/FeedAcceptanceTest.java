@@ -403,12 +403,12 @@ public class FeedAcceptanceTest extends AcceptanceTest {
         TokenResponse 좋아요_1개_누를_유저_토큰 = 가입된_유저의_토큰을_받는다(좋아요_1개_누를_유저);
         TokenResponse 좋아요_2개_누를_유저_토큰 = 가입된_유저의_토큰을_받는다(좋아요_2개_누를_유저);
         TokenResponse 좋아요_3개_누를_유저_토큰 = 가입된_유저의_토큰을_받는다(좋아요_3개_누를_유저);
-        피드에_좋아요_눌러져있음(좋아요_1개_누를_유저_토큰, 진행중_좋아요3개_1번째_피드_ID);
-        피드에_좋아요_눌러져있음(좋아요_2개_누를_유저_토큰, 진행중_좋아요3개_1번째_피드_ID);
-        피드에_좋아요_눌러져있음(좋아요_3개_누를_유저_토큰, 진행중_좋아요3개_1번째_피드_ID);
-        피드에_좋아요_눌러져있음(좋아요_2개_누를_유저_토큰, 전시중_좋아요2개_2번째_피드_ID);
-        피드에_좋아요_눌러져있음(좋아요_3개_누를_유저_토큰, 전시중_좋아요2개_2번째_피드_ID);
-        피드에_좋아요_눌러져있음(좋아요_3개_누를_유저_토큰, 진행중_SOS_좋아요1개_3번째_피드_ID);
+        피드에_좋아요_눌러져있음(좋아요_1개_누를_유저_토큰.getAccessToken(), 진행중_좋아요3개_1번째_피드_ID);
+        피드에_좋아요_눌러져있음(좋아요_2개_누를_유저_토큰.getAccessToken(), 진행중_좋아요3개_1번째_피드_ID);
+        피드에_좋아요_눌러져있음(좋아요_3개_누를_유저_토큰.getAccessToken(), 진행중_좋아요3개_1번째_피드_ID);
+        피드에_좋아요_눌러져있음(좋아요_2개_누를_유저_토큰.getAccessToken(), 전시중_좋아요2개_2번째_피드_ID);
+        피드에_좋아요_눌러져있음(좋아요_3개_누를_유저_토큰.getAccessToken(), 전시중_좋아요2개_2번째_피드_ID);
+        피드에_좋아요_눌러져있음(좋아요_3개_누를_유저_토큰.getAccessToken(), 진행중_SOS_좋아요1개_3번째_피드_ID);
 
         // when
         ExtractableResponse<Response> response = 인기순_피드_목록_조회_요청();
@@ -718,9 +718,9 @@ public class FeedAcceptanceTest extends AcceptanceTest {
         return Long.valueOf(피드를_작성한다(request, tokenResponse.getAccessToken()).header("Location").replace("/feeds/", ""));
     }
 
-    public void 피드에_좋아요_눌러져있음(TokenResponse tokenResponse, Long feedId) {
+    public void 피드에_좋아요_눌러져있음(String token, Long feedId) {
         given().log().all()
-                .auth().oauth2(tokenResponse.getAccessToken())
+                .auth().oauth2(token)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .when().post("/feeds/{feedId}/like", feedId)
                 .then().log().all()

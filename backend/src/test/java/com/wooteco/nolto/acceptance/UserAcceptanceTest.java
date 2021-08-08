@@ -154,7 +154,6 @@ public class UserAcceptanceTest extends AcceptanceTest {
                 .extract();
     }
 
-
     private ExtractableResponse<Response> 유효하지_않은_토큰으로_회원_정보_요청() {
         return given().log().all()
                 .auth().oauth2("유효하지 않은 토큰")
