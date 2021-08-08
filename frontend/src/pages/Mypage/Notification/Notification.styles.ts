@@ -6,14 +6,14 @@ import ArrowIcon from 'assets/carouselArrow.svg';
 const Root = styled.div<{ isFolded: boolean; notiCount: number }>`
   position: relative;
   padding: 1rem 2rem;
-  width: 32rem;
+  width: 34rem;
   height: ${({ isFolded, notiCount }) =>
-    isFolded ? '12rem' : `calc(12rem + ${notiCount - 3} * 1rem)`};
+    isFolded ? '11rem' : `calc(11rem + ${notiCount - 3} * 1.75rem)`};
   border-radius: 0.75rem;
   box-shadow: 4px 4px 8px 4px rgba(85, 85, 85, 0.2);
   display: flex;
   flex-direction: column;
-  transition: height 0.3s ease;
+  transition: height 0.2s ease;
 `;
 
 const TopContainer = styled.div`
@@ -120,6 +120,14 @@ const MoreNotiButton = styled.button`
   }
 `;
 
+const NoNotiContent = styled.div`
+  display: flex;
+
+  > span {
+    margin: auto;
+  }
+`;
+
 export default {
   Root,
   TopContainer,
@@ -134,4 +142,5 @@ export default {
   NotiBold,
   DeleteNotiButton,
   MoreNotiButton,
+  NoNotiContent,
 };

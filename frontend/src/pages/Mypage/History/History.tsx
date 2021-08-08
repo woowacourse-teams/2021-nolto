@@ -1,86 +1,38 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
+import useUserHistory from 'hooks/queries/userHistory/useUserHistory';
+import useSnackBar from 'context/snackBar/useSnackBar';
+import ROUTE from 'constants/routes';
 import ReturnArrow from 'assets/arrowReturnRight.svg';
-import catImage from 'assets/catError.png';
-import charlieIcon from 'assets/team/charlie.png';
 import { Feed, FeedWithComment, UserHistoryType } from 'types';
 import Styled from './History.styles';
-
-const mockData = {
-  likedFeeds: [
-    {
-      id: 1,
-      title: 'title1',
-      content: 'content1',
-      step: 'PROGRESS',
-      sos: true,
-      thumbnailUrl: catImage,
-    },
-    {
-      id: 2,
-      title: 'title2',
-      content: 'content2',
-      step: 'COMPLETE',
-      sos: false,
-      thumbnailUrl: catImage,
-    },
-  ],
-  myFeeds: [
-    {
-      id: 1,
-      title: 'title1',
-      content: 'content1',
-      step: 'PROGRESS',
-      sos: true,
-      thumbnailUrl: charlieIcon,
-    },
-    {
-      id: 2,
-      title: 'title2',
-      content: 'content2',
-      step: 'COMPLETE',
-      sos: false,
-      thumbnailUrl: charlieIcon,
-    },
-  ],
-  myComments: [
-    {
-      feed: {
-        id: 1,
-        title: 'title1',
-        content: 'content1',
-        step: 'PROGRESS',
-        sos: true,
-        thumbnailUrl: catImage,
-      },
-      text: '댓글',
-    },
-    {
-      feed: {
-        id: 2,
-        title: 'title2',
-        content: 'content1',
-        step: 'PROGRESS',
-        sos: true,
-        thumbnailUrl: catImage,
-      },
-      text: '댓글2',
-    },
-  ],
-};
 
 const History = () => {
   const [tab, setTab] = useState<UserHistoryType>(UserHistoryType.MY_LIKED);
   const selectedTab = useRef(null);
+  const history = useHistory();
 
-  const { likedFeeds, myFeeds, myComments } = mockData;
+  const snackbar = useSnackBar();
+
+  const { data: historyData } = useUserHistory({
+    errorHandler: (error) => {
+      snackbar.addSnackBar('error', error.message);
+    },
+  });
+
+  const goFeedDetail = (feedId: Feed['id']) => {
+    history.push(`${ROUTE.FEEDS}/${feedId}`);
+  };
+
+  const { likedFeeds, myFeeds, myComments } = historyData;
 
   useEffect(() => {
-    selectedTab?.current?.scrollIntoView();
-  }, [selectedTab.current]);
+    selectedTab.current.scrollIntoView();
+  }, [tab]);
 
   const feedWithContent = (feed: Omit<Feed, 'author'>): React.ReactNode => (
-    <Styled.FeedWrapper key={feed.id}>
+    <Styled.FeedWrapper key={feed.id} onClick={() => goFeedDetail(feed.id)}>
       <Styled.FeedThumbnail src={feed.thumbnailUrl} />
       <Styled.FeedContentWrapper>
         <Styled.FeedTitle>{feed.title}</Styled.FeedTitle>
@@ -90,7 +42,7 @@ const History = () => {
   );
 
   const feedWithComment = (feed: FeedWithComment): React.ReactNode => (
-    <Styled.FeedWrapper key={feed.feed.id}>
+    <Styled.FeedWrapper key={feed.feed.id} onClick={() => goFeedDetail(feed.feed.id)}>
       <Styled.FeedThumbnail src={feed.feed.thumbnailUrl} />
       <Styled.FeedContentWrapper>
         <Styled.FeedTitle>{feed.feed.title}</Styled.FeedTitle>
@@ -100,6 +52,12 @@ const History = () => {
         </Styled.FeedComment>
       </Styled.FeedContentWrapper>
     </Styled.FeedWrapper>
+  );
+
+  const noFeedContent: React.ReactNode = (
+    <Styled.NoFeedContent>
+      <span>🧐 게시글이 없습니다.</span>
+    </Styled.NoFeedContent>
   );
 
   return (
@@ -130,19 +88,25 @@ const History = () => {
           id={UserHistoryType.MY_LIKED}
           ref={tab === UserHistoryType.MY_LIKED ? selectedTab : null}
         >
-          {likedFeeds.map((feed) => feedWithContent(feed as Omit<Feed, 'author'>))}
+          {likedFeeds.length > 0
+            ? likedFeeds.map((feed: Omit<Feed, 'author'>) => feedWithContent(feed))
+            : noFeedContent}
         </Styled.FeedContainer>
         <Styled.FeedContainer
           id={UserHistoryType.MY_FEED}
           ref={tab === UserHistoryType.MY_FEED ? selectedTab : null}
         >
-          {myFeeds.map((feed) => feedWithContent(feed as Omit<Feed, 'author'>))}
+          {myFeeds.length > 0
+            ? myFeeds.map((feed: Omit<Feed, 'author'>) => feedWithContent(feed))
+            : noFeedContent}
         </Styled.FeedContainer>
         <Styled.FeedContainer
           id={UserHistoryType.MY_COMMENT}
           ref={tab === UserHistoryType.MY_COMMENT ? selectedTab : null}
         >
-          {myComments.map((feed) => feedWithComment(feed as FeedWithComment))}
+          {myComments.length > 0
+            ? myComments.map((feed: FeedWithComment) => feedWithComment(feed))
+            : noFeedContent}
         </Styled.FeedContainer>
       </Styled.FeedsSwipeArea>
     </Styled.Root>
