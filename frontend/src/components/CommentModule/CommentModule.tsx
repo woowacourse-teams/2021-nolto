@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 
-import { CommentRequest } from 'types';
+import { Author, CommentRequest } from 'types';
 import Styled from './CommentModule.styles';
 import Comment from './@common/Comment/Comment';
 import CommentForm from './@common/CommentForm/CommentForm';
