@@ -20,12 +20,12 @@ const Blur = styled.div`
   filter: blur(4px);
   position: absolute;
   width: 100%;
-  height: 100%;
 `;
 
 const Message = styled.div`
   color: inherit;
   position: absolute;
+  text-align: center;
   top: 40%;
 `;
 

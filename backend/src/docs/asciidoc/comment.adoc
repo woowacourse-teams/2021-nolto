@@ -48,16 +48,16 @@ include::{snippets}/comment-delete/http-response.adoc[]
 
 ==== Request
 
-include::{snippets}/comment-findAllByFeedId/http-request.adoc[]
-include::{snippets}/comment-findAllByFeedId/path-parameters.adoc[]
+include::{snippets}/comment-findAllCommentsByFeedId/http-request.adoc[]
+include::{snippets}/comment-findAllCommentsByFeedId/path-parameters.adoc[]
 
 ==== Response
 
-include::{snippets}/comment-findAllByFeedId/http-response.adoc[]
+include::{snippets}/comment-findAllCommentsByFeedId/http-response.adoc[]
 
 ==== Response Fields
 
-include::{snippets}/comment-findAllByFeedId/response-fields.adoc[]
+include::{snippets}/comment-findAllCommentsByFeedId/response-fields.adoc[]
 
 === 댓글 좋아요
 

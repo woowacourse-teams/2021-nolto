@@ -60,7 +60,7 @@ public class Feed extends BaseEntity {
     @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FeedTech> feedTechs = new ArrayList<>();
 
-    @OneToMany(mappedBy = "feed", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "feed", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
     public Feed(String title, String content, Step step, boolean isSos, String storageUrl, String deployedUrl, String thumbnailUrl) {
@@ -140,11 +140,14 @@ public class Feed extends BaseEntity {
 
     public void addComment(Comment comment) {
         this.comments.add(comment);
-        comment.setFeed(this);
     }
 
     public void addLike(Like like) {
         this.likes.add(like);
+    }
+
+    public void delete(Like like) {
+        this.likes.remove(like);
     }
 
     public Optional<Like> findLikeBy(User user) {
@@ -153,8 +156,8 @@ public class Feed extends BaseEntity {
                 .findAny();
     }
 
-    public void delete(Like like) {
-        this.likes.remove(like);
+    public void deleteComment(Comment comment) {
+        this.comments.remove(comment);
     }
 
     @Override
@@ -168,9 +171,5 @@ public class Feed extends BaseEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id);
-    }
-
-    public void deleteComment(Comment comment) {
-        this.comments.remove(comment);
     }
 }

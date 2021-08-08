@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class CommentTest {
 
-    public static final Comment COMMENT1 = new Comment("첫 댓글", false).writtenBy(UserTest.USER);
+    public static final Comment COMMENT1 = new Comment("첫 댓글", false).writtenBy(UserTest.USER, FeedTest.FEED1);
 
     private Comment comment1;
     private Comment comment2;
@@ -28,10 +28,8 @@ class CommentTest {
                 "https://github.com/woowacourse-teams/2021-nolto",
                 "https://github.com/woowacourse-teams/2021-nolto",
                 "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png").writtenBy(user1);
-        comment1 = new Comment("첫 댓글", false).writtenBy(user1);
-        comment1.setFeed(feed);
-        comment2 = new Comment("두 번째 댓글", false).writtenBy(user2);
-        comment2.setFeed(feed);
+        comment1 = new Comment("첫 댓글", false).writtenBy(user1, feed);
+        comment2 = new Comment("두 번째 댓글", false).writtenBy(user2, feed);
     }
 
     @DisplayName("피드의 작성자와 댓글의 작성자가 같은지 확인한다.")

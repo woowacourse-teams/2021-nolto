@@ -1,5 +1,7 @@
-import { PALETTE } from 'constants/palette';
 import styled from 'styled-components';
+
+import { hoverLayer } from 'commonStyles';
+import { PALETTE } from 'constants/palette';
 
 const Root = styled.div`
   display: flex;
@@ -21,7 +23,6 @@ const Label = styled.label`
 
   & > span {
     display: flex;
-    position: relative;
     justify-content: center;
     align-items: center;
     color: ${PALETTE.WHITE_400};
@@ -31,15 +32,7 @@ const Label = styled.label`
     border-radius: 4px;
     overflow: hidden;
 
-    &:hover::after {
-      content: '';
-      display: block;
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background-color: ${PALETTE.BLACK_400};
-      opacity: 0.1;
-    }
+    ${hoverLayer({})};
   }
 
   cursor: pointer;

@@ -38,6 +38,12 @@ public class CommentLike {
         return this.user.sameAs(user);
     }
 
+    public void deleteByComment(Comment comment) {
+        this.comment = null;
+        user.delete(this);
+        this.user = null;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

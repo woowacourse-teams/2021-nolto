@@ -1,40 +1,18 @@
 import React, { useRef } from 'react';
-import { useHistory } from 'react-router-dom';
 
 import AsyncBoundary from 'components/AsyncBoundary';
 import CroppedEllipse from 'components/CroppedEllipse/CroppedEllipse';
 import Header from 'components/Header/Header';
 import RecentFeedsContent from 'components/RecentFeedsContent/RecentFeedsContent';
 import HotFeedsContent from 'components/HotFeedsContent/HotFeedsContent';
-import useOnScreen from 'hooks/@common/useOnScreen';
 import ErrorFallback from 'components/ErrorFallback/ErrorFallback';
+import TrendTechs from 'components/TrendTechs/TrendTechs';
+import useOnScreen from 'hooks/@common/useOnScreen';
 import ROUTE from 'constants/routes';
 import Styled, { ScrollUpButton, SearchBar, MoreButton } from './Home.styles';
 import MoreArrow from 'assets/moreArrow.svg';
-import { Tech } from 'types';
-
-const tags: Tech[] = [
-  {
-    id: 25,
-    text: 'ReactJS',
-  },
-  {
-    id: 882,
-    text: 'Java',
-  },
-  {
-    id: 655,
-    text: 'JavaScript',
-  },
-  {
-    id: 67,
-    text: 'Spring',
-  },
-];
 
 const Home = () => {
-  const history = useHistory();
-
   const ellipseRef = useRef();
   const isEllipseVisible = useOnScreen(ellipseRef);
 
@@ -42,19 +20,6 @@ const Home = () => {
 
   const scrollTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const searchByTrend = (tech: Tech) => {
-    const queryParams = new URLSearchParams({
-      query: '',
-      techs: tech.text,
-    });
-
-    history.push({
-      pathname: ROUTE.SEARCH,
-      search: '?' + queryParams,
-      state: { techs: [tech] },
-    });
   };
 
   return (
@@ -67,15 +32,16 @@ const Home = () => {
         <Styled.SearchContainer>
           <Styled.SearchTitle>Search for Ideas?</Styled.SearchTitle>
           <SearchBar selectable />
-          <Styled.TrendContainer>
-            <span className="trends">💎 Trends</span>
-            {tags.map((tag) => (
-              <Styled.TrendTag key={tag.id} onClick={() => searchByTrend(tag)}>
-                <span className="trends-bar">|</span>
-                <span className="trends-text">{tag.text}</span>
-              </Styled.TrendTag>
-            ))}
-          </Styled.TrendContainer>
+          <AsyncBoundary
+            rejectedFallback={
+              <ErrorFallback
+                message="트렌드 기술 스택을 불러올 수 없습니다."
+                queryKey="trendTechs"
+              />
+            }
+          >
+            <TrendTechs />
+          </AsyncBoundary>
         </Styled.SearchContainer>
 
         <Styled.ContentArea>

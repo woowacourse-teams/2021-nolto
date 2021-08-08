@@ -63,17 +63,15 @@ public class DataLoader implements ApplicationRunner {
         Feed saveFeed1 = feedRepository.save(feed1);
         Feed saveFeed2 = feedRepository.save(feed2);
 
-        Comment comment1 = new Comment("첫 댓글", false).writtenBy(mickey);
-        Comment comment2 = new Comment("2등 댓글", false).writtenBy(mickey);
-        Comment comment3 = new Comment("첫 댓글의 대댓글111", false).writtenBy(mickey);
-        Comment comment4 = new Comment("첫 댓글의 대댓글222", false).writtenBy(mickey);
-        Comment comment5 = new Comment("첫 댓글의 대댓글333", false).writtenBy(mickey);
-        Comment comment6 = new Comment("2등 댓글의 대댓글111", false).writtenBy(mickey);
+        Comment comment1 = new Comment("첫 댓글", false).writtenBy(mickey, feed1);
+        Comment comment2 = new Comment("2등 댓글", false).writtenBy(mickey, feed1);
+        Comment comment3 = new Comment("첫 댓글의 대댓글111", false).writtenBy(mickey, feed1);
+        Comment comment4 = new Comment("첫 댓글의 대댓글222", false).writtenBy(mickey, feed1);
+        Comment comment5 = new Comment("첫 댓글의 대댓글333", false).writtenBy(mickey, feed1);
+        Comment comment6 = new Comment("2등 댓글의 대댓글111", false).writtenBy(mickey, feed1);
 
-        comment1.setFeed(feed1);
         commentRepository.save(comment1);
 
-        comment2.setFeed(feed1);
         commentRepository.save(comment2);
 
         comment1.addReply(comment3);

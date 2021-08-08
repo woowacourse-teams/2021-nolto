@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import { UserHistoryType } from 'types';
 import { PALETTE } from 'constants/palette';
+import { hoverLayer } from 'commonStyles';
 
 const Root = styled.div`
   padding: 1rem 2rem;
@@ -88,24 +89,13 @@ const FeedWrapper = styled.div`
   gap: 1rem;
   padding: 1rem;
   cursor: pointer;
-  position: relative;
   overflow: hidden;
 
   &:not(:last-of-type) {
     border-bottom: 1px solid ${PALETTE.GRAY_400};
   }
 
-  &:hover::after {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0.1;
-    background-color: ${PALETTE.BLACK_400};
-  }
+  ${hoverLayer({})};
 `;
 
 const FeedThumbnail = styled.img`

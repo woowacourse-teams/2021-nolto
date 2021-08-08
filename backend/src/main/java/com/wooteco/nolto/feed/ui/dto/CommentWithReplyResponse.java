@@ -22,7 +22,6 @@ public class CommentWithReplyResponse {
     private LocalDateTime createdAt;
     private boolean modified;
     private AuthorResponse author;
-    private List<ReplyResponse> replies;
 
     public static CommentWithReplyResponse of(Comment comment, User user) {
         return new CommentWithReplyResponse(
@@ -34,8 +33,7 @@ public class CommentWithReplyResponse {
                 comment.isFeedAuthor(),
                 comment.getCreatedDate(),
                 comment.isModified(),
-                AuthorResponse.of(comment.getAuthor()),
-                ReplyResponse.toList(comment.getReplies(), user)
+                AuthorResponse.of(comment.getAuthor())
         );
     }
 
