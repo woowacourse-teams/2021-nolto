@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useContext, useState } from 'react';
+import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
 
 import PencilIcon from 'assets/pencil.svg';
 import ReplyIcon from 'assets/reply.svg';
@@ -31,7 +31,7 @@ const Comment = ({ commentBody, parentCommentId }: Props) => {
   const dialog = useDialog();
   const member = useMember();
   const snackbar = useSnackBar();
-  const { feedId } = useContext(CommentModuleContext);
+  const { feedId, addCommentCount } = useContext(CommentModuleContext);
   const comment = useComment({ feedId, commentId: commentBody.id, parentCommentId });
   const { setLiked, isLiked, likeCount } = useLike({
     initialIsLiked: commentBody.liked,
@@ -93,6 +93,14 @@ const Comment = ({ commentBody, parentCommentId }: Props) => {
       comment.delete();
     });
   };
+
+  useEffect(() => {
+    addCommentCount(1);
+
+    return () => {
+      addCommentCount(-1);
+    };
+  }, []);
 
   return (
     <Styled.Root>

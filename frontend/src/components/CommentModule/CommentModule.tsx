@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 
-import { Author, CommentRequest } from 'types';
+import { CommentRequest } from 'types';
 import Styled from './CommentModule.styles';
 import Comment from './@common/Comment/Comment';
 import CommentForm from './@common/CommentForm/CommentForm';
@@ -12,23 +12,29 @@ interface Props {
 
 interface CommentsContext {
   feedId: number;
+  addCommentCount: (count: number) => void;
 }
 
 export const CommentModuleContext = React.createContext<CommentsContext>(null);
 
 const CommentModule = ({ feedId }: Props) => {
   const commentModule = useCommentModule({ feedId });
+  const [commentCount, setCommentCount] = useState(0);
 
   const handleSubmitComment = (commentRequest: CommentRequest) => {
     commentModule.write(commentRequest);
   };
 
-  const commentsContext = useMemo(() => ({ feedId }), []);
+  const addCommentCount = (count: number) => {
+    setCommentCount((prevCount) => prevCount + count);
+  };
+
+  const commentsContext = useMemo(() => ({ feedId, addCommentCount }), []);
 
   return (
     <CommentModuleContext.Provider value={commentsContext}>
       <div>
-        <h3>댓글 {commentModule.data.length}개</h3>
+        <h3>댓글 {commentCount}개</h3>
         <hr />
         <Styled.CommentContainer>
           <CommentForm onSubmit={handleSubmitComment} isRootComment={true} />
