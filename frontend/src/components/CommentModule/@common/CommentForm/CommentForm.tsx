@@ -1,19 +1,18 @@
-import React, { ChangeEvent, FormEvent, FormEventHandler, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useState } from 'react';
 
 import SendIcon from 'assets/send.svg';
-import { CommentFormInput, Form, SendButton } from './CommentForm.styles';
-import Styled from './CommentForm.styles';
+import Styled, { CommentFormInput, Form, SendButton } from './CommentForm.styles';
 import Avatar from 'components/@common/Avatar/Avatar';
 import Toggle from 'components/@common/Toggle/Toggle';
 import useMember from 'hooks/queries/useMember';
 import { CommentRequest } from 'types';
 
 interface Props {
-  onSubmit: ({ content, helper }: CommentRequest) => void;
-  isRoot?: boolean;
+  onSubmit: ({ content }: CommentRequest) => void;
+  isRootComment?: boolean;
 }
 
-const CommentForm = ({ onSubmit, isRoot = false }: Props) => {
+const CommentForm = ({ onSubmit, isRootComment = false }: Props) => {
   const [content, setContent] = useState('');
   const [isHelper, setIsHelper] = useState(false);
   const { userData, isLogin } = useMember();
@@ -22,7 +21,7 @@ const CommentForm = ({ onSubmit, isRoot = false }: Props) => {
     event.preventDefault();
     setContent('');
 
-    onSubmit({ content, helper: isRoot ? isHelper : undefined });
+    onSubmit({ content, helper: isHelper });
   };
 
   const handleChangeContent = (event: ChangeEvent<HTMLInputElement>) => {
@@ -51,7 +50,7 @@ const CommentForm = ({ onSubmit, isRoot = false }: Props) => {
             <SendIcon width="21px" height="21px" />
           </SendButton>
         </Styled.FormInputWrapper>
-        {isRoot && (
+        {isRootComment && (
           <Styled.Help>
             <Toggle onChange={handleChangeHelper} checked={isHelper} labelText="도와줄게요 🙌" />
           </Styled.Help>

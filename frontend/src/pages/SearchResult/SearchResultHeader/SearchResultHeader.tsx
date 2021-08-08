@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { TechChips } from 'components/SearchBar/SearchBar.styles';
-import TechTagProvider from 'context/techTag/TechTagProvider';
-import useSnackBar from 'context/snackBar/useSnackBar';
+import TechTagProvider from 'contexts/techTag/TechTagProvider';
+import useSnackBar from 'contexts/snackBar/useSnackBar';
 import ROUTE from 'constants/routes';
 import useTechsLoad from 'hooks/queries/useTechsLoad';
 import SearchIcon from 'assets/search.svg';

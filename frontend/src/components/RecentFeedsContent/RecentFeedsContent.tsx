@@ -5,7 +5,7 @@ import LevelButton from 'components/LevelButton/LevelButton';
 import StretchCard from 'components/StretchCard/StretchCard';
 import Skeleton from 'components/Skeleton/Skeleton';
 import useRecentFeedsLoad from 'hooks/queries/feed/useRecentFeedsLoad';
-import useSnackBar from 'context/snackBar/useSnackBar';
+import useSnackBar from 'contexts/snackBar/useSnackBar';
 import ROUTE from 'constants/routes';
 import Styled, { MoreFeedsArrow } from './RecentFeedsContent.styles';
 import { FilterType } from 'types';

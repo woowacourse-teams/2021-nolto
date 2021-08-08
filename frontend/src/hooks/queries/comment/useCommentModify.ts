@@ -4,7 +4,7 @@ import { AxiosResponse } from 'axios';
 import api from 'constants/api';
 import HttpError from 'utils/HttpError';
 import { resolveHttpError } from 'utils/error';
-import { CommentRequest } from 'types';
+import { CommentRequest, CommentType } from 'types';
 
 interface Args {
   feedId: number;
@@ -31,9 +31,9 @@ const modifyComment =
 
 const useCommentModify = (
   { feedId, commentId }: Args,
-  option?: UseMutationOptions<AxiosResponse<unknown>, HttpError, CommentRequest>,
+  option?: UseMutationOptions<AxiosResponse<CommentType>, HttpError, CommentRequest>,
 ) => {
-  return useMutation<AxiosResponse<unknown>, HttpError, CommentRequest>(
+  return useMutation<AxiosResponse<CommentType>, HttpError, CommentRequest>(
     modifyComment({ feedId, commentId }),
     option,
   );

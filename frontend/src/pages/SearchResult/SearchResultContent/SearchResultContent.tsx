@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import StretchCard from 'components/StretchCard/StretchCard';
 import ROUTE from 'constants/routes';
-import useSnackBar from 'context/snackBar/useSnackBar';
+import useSnackBar from 'contexts/snackBar/useSnackBar';
 import useSearch from 'hooks/queries/useSearch';
 import Styled, { MoreFeedsArrow } from './SearchResultContent.styles';
 import { FilterType } from 'types';

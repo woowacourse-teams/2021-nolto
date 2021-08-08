@@ -5,9 +5,9 @@ import { render, RenderOptions } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
 import { RenderHookOptions } from '@testing-library/react-hooks/lib/types';
 
-import DialogProvider from 'context/dialog/DialogProvider';
-import ModalProvider from 'context/modal/ModalProvider';
-import SnackBarProvider from 'context/snackBar/SnackBarProvider';
+import DialogProvider from 'contexts/dialog/DialogProvider';
+import ModalProvider from 'contexts/modal/ModalProvider';
+import SnackBarProvider from 'contexts/snackBar/SnackBarProvider';
 import AsyncBoundary from 'components/AsyncBoundary';
 import ErrorFallback from 'components/ErrorFallback/ErrorFallback';
 

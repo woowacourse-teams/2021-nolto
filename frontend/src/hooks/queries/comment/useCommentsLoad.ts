@@ -2,10 +2,10 @@ import { useQuery, UseQueryOptions } from 'react-query';
 
 import api from 'constants/api';
 import HttpError from 'utils/HttpError';
-import { ErrorHandler, RootComment } from 'types';
+import { ErrorHandler, CommentType } from 'types';
 import { resolveHttpError } from 'utils/error';
 
-interface CustomQueryOption extends UseQueryOptions<RootComment[], HttpError> {
+interface CustomQueryOption extends UseQueryOptions<CommentType[], HttpError> {
   feedId: number;
   errorHandler?: ErrorHandler;
 }
@@ -25,7 +25,7 @@ const loadComments = async (feedId: number, errorHandler?: ErrorHandler) => {
 };
 
 const useCommentsLoad = ({ feedId, errorHandler, ...option }: CustomQueryOption) => {
-  return useQuery<RootComment[], HttpError>(
+  return useQuery<CommentType[], HttpError>(
     ['comments', feedId],
     () => loadComments(feedId, errorHandler),
     option,

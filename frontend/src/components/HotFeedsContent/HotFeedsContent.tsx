@@ -5,7 +5,7 @@ import useHotFeedsLoad from 'hooks/queries/feed/useHotFeedsLoad';
 import RegularCard from 'components/RegularCard/RegularCard';
 import ROUTE from 'constants/routes';
 import Styled, { CarouselArrowButton } from './HotFeedsContent.styles';
-import useSnackBar from 'context/snackBar/useSnackBar';
+import useSnackBar from 'contexts/snackBar/useSnackBar';
 
 const HotFeedsContent = () => {
   const [hotToyCardIdx, setHotToyCardIdx] = useState(3);

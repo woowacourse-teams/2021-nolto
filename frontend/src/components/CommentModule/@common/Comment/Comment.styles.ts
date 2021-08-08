@@ -93,11 +93,6 @@ const ThumbUpWrapper = styled.div`
   gap: 2px;
 `;
 
-const ReplyFromWrapper = styled.div`
-  margin-top: 0.5rem;
-  padding: 0 1.5rem;
-`;
-
 export const CommentTextButton = styled(TextButton.Regular)`
   color: ${PALETTE.BLACK_400};
   padding: 2px;
@@ -116,5 +111,4 @@ export default {
   Body,
   RightBottomWrapper,
   ThumbUpWrapper,
-  ReplyFromWrapper,
 };

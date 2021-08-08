@@ -2,8 +2,8 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 
 import Dropdown from 'components/@common/Dropdown/Dropdown';
-import useDialog from 'context/dialog/useDialog';
-import useSnackBar from 'context/snackBar/useSnackBar';
+import useDialog from 'contexts/dialog/useDialog';
+import useSnackBar from 'contexts/snackBar/useSnackBar';
 import useFeedDelete from 'hooks/queries/feed/useFeedDelete';
 import ROUTE from 'constants/routes';
 import { FeedDetail } from 'types';

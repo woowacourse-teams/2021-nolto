@@ -8,9 +8,9 @@ import useFeedLike from 'hooks/queries/feed/useFeedLike';
 import useFeedUnlike from 'hooks/queries/feed/useFeedUnlike';
 import useMember from 'hooks/queries/useMember';
 import LoginModal from 'components/LoginModal/LoginModal';
-import useSnackBar from 'context/snackBar/useSnackBar';
-import useModal from 'context/modal/useModal';
-import useDialog from 'context/dialog/useDialog';
+import useSnackBar from 'contexts/snackBar/useSnackBar';
+import useModal from 'contexts/modal/useModal';
+import useDialog from 'contexts/dialog/useDialog';
 import { ERROR_CODE_KEY, FeedDetail } from 'types';
 import Styled from './LikeButton.styles';
 

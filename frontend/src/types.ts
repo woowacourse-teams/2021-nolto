@@ -111,10 +111,10 @@ export interface HttpErrorResponse extends ErrorResponse {
 
 export interface CommentRequest {
   content: string;
-  helper?: boolean;
+  helper: boolean;
 }
 
-export interface CommentBase {
+export interface CommentType {
   id: number;
   content: string;
   likes: number;
@@ -123,12 +123,7 @@ export interface CommentBase {
   createdAt: string;
   modified: boolean;
   author: Author;
-}
-
-export interface RootComment extends CommentBase {
   helper: boolean;
-  replies: CommentBase[];
-  //TODO: replies 어떻게 할지 고민 ⇒ CommentBox에서만 지금 쓰이고있음
 }
 
 export interface UserHistory {

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { PALETTE } from 'constants/palette';
 import ArrowIcon from 'assets/carouselArrow.svg';
 
-const Reply = styled.div`
+const Root = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -29,7 +29,7 @@ const ArrowUp = styled(ArrowIcon)<{ isFold: boolean }>`
   transition: all 0.2s ease;
 `;
 
-const ReplyWrapper = styled.div<{ isFold: boolean; replyCount: number }>`
+const SubCommentWrapper = styled.div<{ isFold: boolean; replyCount: number }>`
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -39,4 +39,4 @@ const ReplyWrapper = styled.div<{ isFold: boolean; replyCount: number }>`
   height: ${({ isFold, replyCount }) => (isFold ? '0' : `calc(7.5rem * ${replyCount})`)};
 `;
 
-export default { Reply, ArrowUp, ReplyWrapper };
+export default { Root, ArrowUp, SubCommentWrapper };

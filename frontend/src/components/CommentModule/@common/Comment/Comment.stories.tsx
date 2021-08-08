@@ -1,16 +1,16 @@
 import React from 'react';
 
-import { CommentBase, RootComment } from 'types';
+import { CommentType } from 'types';
 import { MOCK_USER } from '__mocks__/fixture/User';
 import Comment from './Comment';
 
 export default {
-  title: 'components/CommentBox/Comment',
+  title: 'components/CommentModule/Comment',
   component: Comment,
   argTypes: {},
 };
 
-const authorComment: CommentBase = {
+const authorComment: CommentType = {
   id: 1,
   content: '댓글 내용 아마찌 댓글 내용 아마찌',
   likes: 0,
@@ -19,9 +19,10 @@ const authorComment: CommentBase = {
   createdAt: '2021-08-01T06:46:10.724',
   modified: false,
   author: MOCK_USER.JOEL,
+  helper: false,
 };
 
-const helperComment: CommentBase = {
+const helperComment: CommentType = {
   id: 1,
   content: '댓글 내용',
   likes: 0,
@@ -30,9 +31,10 @@ const helperComment: CommentBase = {
   createdAt: '2021-08-01T06:46:10.724',
   modified: false,
   author: MOCK_USER.MICKEY,
+  helper: true,
 };
 
-const rootComment: RootComment = {
+const rootComment: CommentType = {
   id: 1,
   content: '댓글 내용 엄청나게 긴글씨 엄청나게 긴글씨 엄청나게 긴글씨',
   likes: 0,
@@ -42,9 +44,8 @@ const rootComment: RootComment = {
   modified: false,
   author: MOCK_USER.MAZZI,
   helper: true,
-  replies: [],
 };
 
-export const CommentAuthor = () => <Comment comment={authorComment} />;
-export const CommentHelper = () => <Comment comment={helperComment} />;
-export const commentRoot = () => <Comment comment={rootComment} />;
+export const CommentAuthor = () => <Comment commentBody={authorComment} />;
+export const CommentHelper = () => <Comment commentBody={helperComment} />;
+export const commentRoot = () => <Comment commentBody={rootComment} />;

@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect, InputHTMLAttributes } from 'react';
 
 import useTechAutoComplete from 'hooks/queries/useTechAutoComplete';
 import useQueryDebounce from 'hooks/@common/useQueryDebounce';
-import useSnackBar from 'context/snackBar/useSnackBar';
+import useSnackBar from 'contexts/snackBar/useSnackBar';
 import FormInput from 'components/@common/FormInput/FormInput';
 import { Tech } from 'types';
 import Styled from './TechInput.styles';

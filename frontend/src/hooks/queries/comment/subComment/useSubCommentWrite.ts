@@ -8,14 +8,14 @@ import { CommentRequest } from 'types';
 
 interface Args {
   feedId: number;
-  commentId: number;
+  parentCommentId: number;
 }
 
-const writeReply =
-  ({ feedId, commentId }: Args) =>
+const writeSubComment =
+  ({ feedId, parentCommentId }: Args) =>
   async ({ content }: CommentRequest) => {
     try {
-      const { data } = await api.post(`/feeds/${feedId}/comments/${commentId}/replies`, {
+      const { data } = await api.post(`/feeds/${feedId}/comments/${parentCommentId}/replies`, {
         content,
       });
 
@@ -23,19 +23,19 @@ const writeReply =
     } catch (error) {
       resolveHttpError({
         error,
-        defaultErrorMessage: '댓글 작성 과정에서 에러가 발생했습니다',
+        defaultErrorMessage: '답글 작성 과정에서 에러가 발생했습니다',
       });
     }
   };
 
-const useReplyWrite = (
-  { feedId, commentId }: Args,
+const useSubCommentWrite = (
+  { feedId, parentCommentId }: Args,
   option?: UseMutationOptions<AxiosResponse<unknown>, HttpError, CommentRequest>,
 ) => {
   return useMutation<AxiosResponse<unknown>, HttpError, CommentRequest>(
-    writeReply({ feedId, commentId }),
+    writeSubComment({ feedId, parentCommentId }),
     option,
   );
 };
 
-export default useReplyWrite;
+export default useSubCommentWrite;

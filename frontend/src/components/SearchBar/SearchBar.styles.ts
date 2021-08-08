@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
-import TechChipsComponent from 'context/techTag/chip/TechChips';
-import TechInputComponent from 'context/techTag/input/TechInput';
+import TechChipsComponent from 'contexts/techTag/chip/TechChips';
+import TechInputComponent from 'contexts/techTag/input/TechInput';
 
 const Root = styled.form<{ selectable: boolean }>`
   position: relative;

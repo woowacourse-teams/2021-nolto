@@ -10,11 +10,11 @@ import { STEP_CONVERTER } from 'constants/common';
 import { PALETTE } from 'constants/palette';
 import ROUTE from 'constants/routes';
 import { ButtonStyle } from 'types';
-import useSnackBar from 'context/snackBar/useSnackBar';
+import useSnackBar from 'contexts/snackBar/useSnackBar';
 import useMember from 'hooks/queries/useMember';
 import Styled, { Tag } from './FeedDetailContent.styles';
 import ToggleList from 'components/@common/ToggleList/ToggleList';
-import CommentsProviderModule from 'context/comment/CommentsProviderModule';
+import CommentModule from 'components/CommentModule/CommentModule';
 
 interface Props {
   feedId: number;
@@ -134,7 +134,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
         <Styled.Description>{feedDetail.content}</Styled.Description>
       </div>
 
-      <CommentsProviderModule feedId={feedDetail.id} />
+      <CommentModule feedId={feedDetail.id} />
     </Styled.Root>
   );
 };
