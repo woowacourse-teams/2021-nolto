@@ -47,6 +47,9 @@ class MemberControllerTest extends ControllerTest {
     private static final long NOTIFICATIONS = 0L;
     private static final long NOTIFICATION_ID = 1L;
 
+    private static Comment COMMENT1;
+    private static Comment COMMENT2;
+
     private static final MemberResponse MEMBER_RESPONSE = MemberResponse.of(LOGIN_USER, NOTIFICATIONS);
     private static final NicknameValidationResponse NICKNAME_VALIDATION_RESPONSE = new NicknameValidationResponse(true);
     private static final MockMultipartFile MOCK_MULTIPART_FILE =
@@ -69,17 +72,18 @@ class MemberControllerTest extends ControllerTest {
 
     private static final FieldDescriptor[] NOTIFICATION_RESPONSE = new FieldDescriptor[]{
             fieldWithPath("id").type(JsonFieldType.NUMBER).description("알림 ID"),
-            fieldWithPath("user").type(JsonFieldType.OBJECT).description("알림을 보낸 유저"),
-            fieldWithPath("user.id").type(JsonFieldType.NUMBER).description("알림을 보낸 유저 ID"),
-            fieldWithPath("user.nickname").type(JsonFieldType.STRING).description("알림을 보낸 유저 닉네임"),
-            fieldWithPath("user.imageUrl").type(JsonFieldType.STRING).description("알림을 보낸 유저 이미지 URL"),
-            fieldWithPath("feed").type(JsonFieldType.OBJECT).description("알림을 받은 피드"),
-            fieldWithPath("feed.id").type(JsonFieldType.NUMBER).description("알림을 받은 피드 ID"),
-            fieldWithPath("feed.title").type(JsonFieldType.STRING).description("알림을 받은 피드 제목"),
-            fieldWithPath("type").type(JsonFieldType.STRING).description("알림 타입(도움 댓글, 댓글, 좋아요)")
+            fieldWithPath("user").type(JsonFieldType.OBJECT).description("반응을 보낸 유저"),
+            fieldWithPath("user.id").type(JsonFieldType.NUMBER).description("반응을 보낸 유저 ID"),
+            fieldWithPath("user.nickname").type(JsonFieldType.STRING).description("반응을 보낸 유저 닉네임"),
+            fieldWithPath("user.imageUrl").type(JsonFieldType.STRING).description("반응을 보낸 유저 이미지 URL"),
+            fieldWithPath("feed").type(JsonFieldType.OBJECT).description("반응 받은 자신의 피드(COMMENT, COMMENT_SOS, LIKE) 자신이 댓글을 단 피드(REPLY)"),
+            fieldWithPath("feed.id").type(JsonFieldType.NUMBER).description("반응 받은 자신의 피드 ID(COMMENT, COMMENT_SOS, LIKE) 자신이 댓글을 단 피드 ID(REPLY)"),
+            fieldWithPath("feed.title").type(JsonFieldType.STRING).description("반응 받은 자신의 피드 제목(COMMENT, COMMENT_SOS, LIKE) 자신이 댓글을 단 피드 제목(REPLY)"),
+            fieldWithPath("comment").type(JsonFieldType.OBJECT).optional().description("새로 달린 댓글(COMMENT, COMMENT_SOS) 반응 받은 자신의 댓글(REPLY)"),
+            fieldWithPath("comment.id").type(JsonFieldType.NUMBER).optional().description("새로 달린 댓글 ID(COMMENT, COMMENT_SOS) 반응 받은 자신의 댓글 ID(REPLY)"),
+            fieldWithPath("comment.text").type(JsonFieldType.STRING).optional().description("새로 달린 댓글 내용(COMMENT, COMMENT_SOS) 반응 받은 자신의 댓글 내용(REPLY)"),
+            fieldWithPath("type").type(JsonFieldType.STRING).description("반응 타입(COMMENT, COMMENT_SOS, LIKE, REPLY)")
     };
-
-    private MemberHistoryResponse memberHistoryResponse;
 
     @MockBean
     private MemberService memberService;
@@ -206,7 +210,7 @@ class MemberControllerTest extends ControllerTest {
     @Test
     void findHistory() throws Exception {
         given(authService.findUserByToken("accessToken")).willReturn(LOGIN_USER);
-        setMemberHistoryResponse();
+        MemberHistoryResponse memberHistoryResponse = setMemberHistoryResponse();
         given(memberService.findHistory(LOGIN_USER)).willReturn(memberHistoryResponse);
 
         mockMvc.perform(
@@ -229,23 +233,21 @@ class MemberControllerTest extends ControllerTest {
                 ));
     }
 
-    void setMemberHistoryResponse() {
+    public MemberHistoryResponse setMemberHistoryResponse() {
         List<Feed> likedFeeds = Arrays.asList(FEED1, FEED2);
         List<Feed> myFeeds = Arrays.asList(FEED1, FEED2);
-        Comment comment1 = new Comment("comment1", true).writtenBy(LOGIN_USER, FEED1);
-        Comment comment2 = new Comment("comment2", true).writtenBy(LOGIN_USER, FEED2);
-        List<Comment> myComments = Arrays.asList(comment1, comment2);
+        COMMENT1 = new Comment("comment1", true).writtenBy(LOGIN_USER, FEED1);
+        COMMENT2 = new Comment("comment2", true).writtenBy(LOGIN_USER, FEED2);
+        List<Comment> myComments = Arrays.asList(COMMENT1, COMMENT2);
 
-        memberHistoryResponse = MemberHistoryResponse.of(likedFeeds, myFeeds, myComments);
+        return MemberHistoryResponse.of(likedFeeds, myFeeds, myComments);
     }
 
     @DisplayName("멤버가 자신의 알림을 조회한다.")
     @Test
     void findNotifications() throws Exception {
         given(authService.findUserByToken("accessToken")).willReturn(LOGIN_USER);
-        List<NotificationResponse> notificationResponses = NotificationResponse.toList(Arrays.asList(
-                new Notification(1L, LOGIN_USER, FEED1, LOGIN_USER, NotificationType.COMMENT),
-                new Notification(2L, LOGIN_USER, FEED2, LOGIN_USER, NotificationType.LIKE)));
+        List<NotificationResponse> notificationResponses = setMemberNotificationResponse();
         given(memberService.findNotifications(LOGIN_USER)).willReturn(notificationResponses);
 
         mockMvc.perform(
@@ -261,6 +263,15 @@ class MemberControllerTest extends ControllerTest {
                                 fieldWithPath("[]").type(JsonFieldType.ARRAY).description("알림 목록")
                         ).andWithPrefix("[].", NOTIFICATION_RESPONSE)
                 ));
+    }
+
+    public List<NotificationResponse> setMemberNotificationResponse() {
+        COMMENT1 = new Comment(1L, "comment1", true).writtenBy(LOGIN_USER, FEED1);
+        COMMENT2 = new Comment(2L, "comment2", true).writtenBy(LOGIN_USER, FEED2);
+        return NotificationResponse.toList(Arrays.asList(
+                new Notification(1L, LOGIN_USER, FEED1, COMMENT1, LOGIN_USER, NotificationType.COMMENT),
+                new Notification(2L, LOGIN_USER, FEED1, COMMENT1, LOGIN_USER, NotificationType.REPLY),
+                new Notification(3L, LOGIN_USER, FEED2, null, LOGIN_USER, NotificationType.LIKE)));
     }
 
     @DisplayName("멤버가 자신의 알림 중 알림 ID에 해당하는 알림을 제거한다.")
