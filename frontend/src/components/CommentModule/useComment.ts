@@ -1,3 +1,4 @@
+import useSnackBar from 'contexts/snackBar/useSnackBar';
 import useSubCommentsLoad from 'hooks/queries/comment/subComment/useSubCommentsLoad';
 import useCommentDelete from 'hooks/queries/comment/useCommentDelete';
 import useCommentLike from 'hooks/queries/comment/useCommentLike';
@@ -12,6 +13,8 @@ interface Props {
 }
 
 const useComment = ({ feedId, commentId, parentCommentId }: Props) => {
+  const snackbar = useSnackBar();
+
   const { refetch: reloadComments } = useCommentsLoad({
     feedId,
     refetchOnWindowFocus: false,
@@ -23,7 +26,9 @@ const useComment = ({ feedId, commentId, parentCommentId }: Props) => {
       onSuccess: () => {
         reloadComments();
       },
-      //TODO: 에러처리 해야됨
+      onError: (error) => {
+        snackbar.addSnackBar('error', error.message);
+      },
     },
   );
 
@@ -33,11 +38,27 @@ const useComment = ({ feedId, commentId, parentCommentId }: Props) => {
       onSuccess: () => {
         reloadComments();
       },
+      onError: (error) => {
+        snackbar.addSnackBar('error', error.message);
+      },
     },
   );
 
-  const commentLikeMutation = useCommentLike({ feedId, commentId });
-  const commentUnlikeMutation = useCommentUnlike({ feedId, commentId });
+  const commentLikeMutation = useCommentLike({
+    feedId,
+    commentId,
+    onError: (error) => {
+      snackbar.addSnackBar('error', error.message);
+    },
+  });
+
+  const commentUnlikeMutation = useCommentUnlike({
+    feedId,
+    commentId,
+    onError: (error) => {
+      snackbar.addSnackBar('error', error.message);
+    },
+  });
 
   if (parentCommentId === undefined) {
     return {
@@ -62,7 +83,9 @@ const useComment = ({ feedId, commentId, parentCommentId }: Props) => {
       onSuccess: () => {
         reloadSubComments();
       },
-      //TODO: 에러처리 해야됨
+      onError: (error) => {
+        snackbar.addSnackBar('error', error.message);
+      },
     },
   );
 
@@ -71,6 +94,9 @@ const useComment = ({ feedId, commentId, parentCommentId }: Props) => {
     {
       onSuccess: () => {
         reloadSubComments();
+      },
+      onError: (error) => {
+        snackbar.addSnackBar('error', error.message);
       },
     },
   );

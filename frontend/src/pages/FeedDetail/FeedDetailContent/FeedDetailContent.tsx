@@ -15,6 +15,8 @@ import useMember from 'hooks/queries/useMember';
 import Styled, { Tag } from './FeedDetailContent.styles';
 import ToggleList from 'components/@common/ToggleList/ToggleList';
 import CommentModule from 'components/CommentModule/CommentModule';
+import AsyncBoundary from 'components/AsyncBoundary';
+import ErrorFallback from 'components/ErrorFallback/ErrorFallback';
 
 interface Props {
   feedId: number;
@@ -46,6 +48,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
 
   const isMyFeed = member.userData?.id === feedDetail.author.id;
 
+  //TODO: 댓글 로딩 부분 스켈레톤으로 하면 좋을듯
   return (
     <Styled.Root>
       <Styled.IntroContainer>
@@ -127,14 +130,19 @@ const FeedDetailContent = ({ feedId }: Props) => {
           </Styled.DetailsContent>
         </Styled.FeedSummaryContainer>
       </Styled.IntroContainer>
-
       <div>
         <h3>프로젝트 소개</h3>
         <hr />
         <Styled.Description>{feedDetail.content}</Styled.Description>
       </div>
 
-      <CommentModule feedId={feedDetail.id} />
+      <AsyncBoundary
+        rejectedFallback={
+          <ErrorFallback message="댓글 불러오기에 실패했습니다." queryKey="comments" />
+        }
+      >
+        <CommentModule feedId={feedDetail.id} />
+      </AsyncBoundary>
     </Styled.Root>
   );
 };
