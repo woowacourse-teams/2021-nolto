@@ -3,6 +3,10 @@ package com.wooteco.nolto.notification.application;
 import com.wooteco.nolto.exception.BadRequestException;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.NotFoundException;
+import com.wooteco.nolto.feed.domain.Comment;
+import com.wooteco.nolto.feed.domain.Feed;
+import com.wooteco.nolto.feed.domain.repository.CommentRepository;
+import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.notification.domain.Notification;
 import com.wooteco.nolto.notification.domain.NotificationRepository;
 import com.wooteco.nolto.user.domain.User;
@@ -47,5 +51,15 @@ public class NotificationService {
 
     public long findNotificationCount(User user) {
         return notificationRepository.countByListener(user);
+    }
+
+    public void deleteNotificationRelatedToFeed(NotificationFeedDeleteEvent notificationFeedDeleteEvent) {
+        Feed feed = notificationFeedDeleteEvent.getFeed();
+        notificationRepository.deleteAllByFeed(feed);
+    }
+
+    public void deleteNotificationRelatedToComment(NotificationCommentDeleteEvent notificationCommentDeleteEvent) {
+        Comment comment = notificationCommentDeleteEvent.getComment();
+        notificationRepository.deleteAllByComment(comment);
     }
 }

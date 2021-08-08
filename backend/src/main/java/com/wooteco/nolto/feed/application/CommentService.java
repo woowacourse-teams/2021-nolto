@@ -7,6 +7,7 @@ import com.wooteco.nolto.feed.domain.Comment;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.repository.CommentRepository;
 import com.wooteco.nolto.feed.ui.dto.*;
+import com.wooteco.nolto.notification.application.NotificationCommentDeleteEvent;
 import com.wooteco.nolto.notification.application.NotificationEvent;
 import com.wooteco.nolto.user.domain.User;
 import lombok.AllArgsConstructor;
@@ -61,6 +62,9 @@ public class CommentService {
         Comment comment = findEntityById(commentId);
         if (!comment.isAuthor(user)) {
             throw new UnauthorizedException(ErrorType.UNAUTHORIZED_DELETE_COMMENT);
+        }
+        if (!comment.isReply()) {
+            applicationEventPublisher.publishEvent(new NotificationCommentDeleteEvent(comment));
         }
         user.deleteComment(comment);
         commentRepository.delete(comment);

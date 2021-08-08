@@ -2,6 +2,7 @@ package com.wooteco.nolto.notification.application;
 
 import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.feed.application.LikeService;
+import com.wooteco.nolto.feed.domain.Comment;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
@@ -37,6 +38,7 @@ public class NotificationEventTest {
 
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private FeedRepository feedRepository;
 
@@ -68,7 +70,7 @@ public class NotificationEventTest {
     @DisplayName("피드에 좋아요를 받은 경우 알림을 저장한다.")
     @Test
     void saveWhenFeedLike() {
-        NotificationEvent 피드_좋아요_이벤트 = new NotificationEvent(찰리가_쓴_피드, 포모, NotificationType.LIKE);
+        NotificationEvent 피드_좋아요_이벤트 = NotificationEvent.likeOf(찰리가_쓴_피드, 포모);
         NotificationEventHandler notificationEventHandler = new NotificationEventHandler(notificationService);
         notificationEventHandler.saveNotification(피드_좋아요_이벤트);
         verify(notificationService, times(1)).save(피드_좋아요_이벤트);
@@ -77,7 +79,8 @@ public class NotificationEventTest {
     @DisplayName("피드에 댓글이 등록된 경우 알림을 저장한다.")
     @Test
     void saveWhenComment() {
-        NotificationEvent 댓글_이벤트 = new NotificationEvent(찰리가_쓴_피드, 포모, NotificationType.COMMENT);
+        Comment 포모_도움_아닌_댓글 = new Comment("첫 댓글", false).writtenBy(포모, 찰리가_쓴_피드);
+        NotificationEvent 댓글_이벤트 = NotificationEvent.commentOf(찰리가_쓴_피드, 포모_도움_아닌_댓글, 포모_도움_아닌_댓글.isHelper());
         NotificationEventHandler notificationEventHandler = new NotificationEventHandler(notificationService);
         notificationEventHandler.saveNotification(댓글_이벤트);
         verify(notificationService, times(1)).save(댓글_이벤트);
@@ -86,7 +89,8 @@ public class NotificationEventTest {
     @DisplayName("피드에 도움 댓글이 등록된 경우 알림을 저장한다.")
     @Test
     void saveWhenCommentSOS() {
-        NotificationEvent 도움_댓글_이벤트 = new NotificationEvent(찰리가_쓴_피드, 포모, NotificationType.COMMENT_SOS);
+        Comment 포모_도움_댓글 = new Comment("첫 댓글", true).writtenBy(포모, 찰리가_쓴_피드);
+        NotificationEvent 도움_댓글_이벤트 = NotificationEvent.commentOf(찰리가_쓴_피드, 포모_도움_댓글, 포모_도움_댓글.isHelper());
         NotificationEventHandler notificationEventHandler = new NotificationEventHandler(notificationService);
         notificationEventHandler.saveNotification(도움_댓글_이벤트);
         verify(notificationService, times(1)).save(도움_댓글_이벤트);
