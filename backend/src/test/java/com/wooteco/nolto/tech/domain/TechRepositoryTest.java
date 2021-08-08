@@ -197,7 +197,7 @@ class TechRepositoryTest {
         assertThat(TopFourTrendTechs).containsExactly(TECH1_JAVA, TECH2_JAVASCRIPT, TECH3_SPRING, TECH4_JPA);
     }
 
-    @DisplayName("트렌트 테크 조회 시, tech_id 오름차순으로 결과를 조회해 올 수 있다.")
+    @DisplayName("트렌트 테크 조회 시, 동점의 경우 tech_id의 오름차순으로 결과를 정렬해 조회해 올 수 있다.")
     @Test
     void findTrendTechWhenEven() {
         //given
@@ -219,5 +219,28 @@ class TechRepositoryTest {
 
         //then
         assertThat(TopFourTrendTechs).containsExactly(TECH1_JAVA, TECH2_JAVASCRIPT, TECH3_SPRING, TECH4_JPA);
+    }
+
+    @DisplayName("트렌트 테크 조회 시, 동점의 경우 tech_id의 오름차순으로 결과를 조회해 올 수 있다2.")
+    @Test
+    void findTrendTechWhenEven2() {
+        //given (JAVA - 3개 | JAVASCRIPT - 4개 | SPRING - 2개 | JPA - 3개)
+        feedTechRepository.saveAll(Arrays.asList(new FeedTech(FEED1, TECH1_JAVA), new FeedTech(FEED1, TECH2_JAVASCRIPT),
+                new FeedTech(FEED1, TECH3_SPRING), new FeedTech(FEED1, TECH4_JPA)));
+
+        feedTechRepository.saveAll(Arrays.asList(new FeedTech(FEED2, TECH1_JAVA), new FeedTech(FEED2, TECH2_JAVASCRIPT),
+                new FeedTech(FEED2, TECH3_SPRING), new FeedTech(FEED2, TECH4_JPA)));
+
+        feedTechRepository.saveAll(Arrays.asList(new FeedTech(FEED3, TECH1_JAVA), new FeedTech(FEED3, TECH2_JAVASCRIPT),
+                new FeedTech(FEED3, TECH4_JPA)));
+
+        feedTechRepository.saveAll(Arrays.asList(new FeedTech(FEED4, TECH2_JAVASCRIPT)));
+
+        //when
+        Pageable topFourTechs = PageRequest.of(0, 4, Sort.by("tech").ascending());
+        List<Tech> TopFourTrendTechs = techRepository.findTrendTech(topFourTechs);
+
+        //then
+        assertThat(TopFourTrendTechs).containsExactly(TECH2_JAVASCRIPT, TECH1_JAVA, TECH4_JPA, TECH3_SPRING);
     }
 }
