@@ -54,6 +54,13 @@ public class Comment extends BaseEntity {
         this.helper = helper;
     }
 
+    public static Comment createReply(String content, boolean helper) {
+        if (helper) {
+            throw new BadRequestException(ErrorType.REPLY_NOT_SUPPORTED_HELPER);
+        }
+        return new Comment(content, false);
+    }
+
     public int likesCount() {
         return likes.size();
     }

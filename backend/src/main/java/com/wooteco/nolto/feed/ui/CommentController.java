@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class CommentController {
     @ValidTokenRequired
     @PostMapping
     public ResponseEntity<CommentResponse> createComment(@MemberAuthenticationPrincipal User user, @PathVariable Long feedId,
-                                                         @RequestBody CommentRequest request) {
+                                                         @RequestBody @Valid CommentRequest request) {
         CommentResponse response = commentService.createComment(user, feedId, request);
         return ResponseEntity.created(URI.create("/feeds/" + feedId + "/comments/" + response.getId())).body(response);
     }
@@ -39,7 +40,7 @@ public class CommentController {
     @ValidTokenRequired
     @PatchMapping("/{commentId:[\\d]+}")
     public ResponseEntity<CommentResponse> update(@MemberAuthenticationPrincipal User user,
-                                                  @PathVariable Long feedId, @PathVariable Long commentId, @RequestBody CommentRequest request) {
+                                                  @PathVariable Long feedId, @PathVariable Long commentId, @RequestBody @Valid CommentRequest request) {
         CommentResponse updatedComment = commentService.updateComment(commentId, request, user);
         return ResponseEntity.ok(updatedComment);
     }
@@ -73,7 +74,7 @@ public class CommentController {
     public ResponseEntity<CommentResponse> createReply(@MemberAuthenticationPrincipal User user,
                                                      @PathVariable Long feedId,
                                                      @PathVariable Long commentId,
-                                                     @RequestBody CommentRequest request) {
+                                                     @RequestBody @Valid CommentRequest request) {
         CommentResponse replyResponse = commentService.createReply(user, feedId, commentId, request);
         return ResponseEntity
                 .created(URI.create("/feeds/" + feedId + "/comments/" + commentId + "/replies/" + replyResponse.getId()))

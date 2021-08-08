@@ -89,7 +89,7 @@ class CommentLikeServiceTest extends CommentServiceFixture {
         // then
         assertThatThrownBy(() -> commentLikeService.deleteCommentLike(findComment2.getId(), 찰리))
                 .isInstanceOf(BadRequestException.class)
-                .hasMessage("좋아요를 누르지 않았습니다.");
+                .hasMessage("좋아요를 누르지 않은 댓글입니다.");
     }
 
     @DisplayName("대댓글에 좋아요 추가할 수 있다.")
@@ -158,6 +158,6 @@ class CommentLikeServiceTest extends CommentServiceFixture {
         // then
         assertThatThrownBy(() -> commentLikeService.deleteCommentLike(findComment2.getId(), 찰리))
                 .isInstanceOf(BadRequestException.class)
-                .hasMessage("좋아요를 누르지 않았습니다.");
+                .hasMessage("좋아요를 누르지 않은 댓글입니다.");
     }
 }
