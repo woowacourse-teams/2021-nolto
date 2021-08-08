@@ -1,8 +1,16 @@
 package com.wooteco.nolto.acceptance;
 
+import com.wooteco.nolto.auth.domain.SocialType;
+import com.wooteco.nolto.feed.domain.Feed;
+import com.wooteco.nolto.feed.domain.FeedTech;
+import com.wooteco.nolto.feed.domain.Step;
+import com.wooteco.nolto.feed.domain.repository.FeedRepository;
+import com.wooteco.nolto.feed.domain.repository.FeedTechRepository;
 import com.wooteco.nolto.tech.domain.Tech;
 import com.wooteco.nolto.tech.domain.TechRepository;
 import com.wooteco.nolto.tech.ui.dto.TechResponse;
+import com.wooteco.nolto.user.domain.User;
+import com.wooteco.nolto.user.domain.UserRepository;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -11,6 +19,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -24,22 +33,36 @@ public class TechAcceptanceTest extends AcceptanceTest {
     @Autowired
     private TechRepository techRepository;
 
+    @Autowired
+    private FeedTechRepository feedTechRepository;
+
+    @Autowired
+    private FeedRepository feedRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
     private TechResponse 자바;
     private TechResponse 자바스크립트;
     private TechResponse 리액트;
     private TechResponse 리액트_네이티브;
 
+    private Tech JAVA;
+    private Tech JAVASCRIPT;
+    private Tech REACT;
+    private Tech REACT_NATIVE;
+
     @BeforeEach
     void setUpOnTechAcceptance() {
-        Tech java = techRepository.save(new Tech("Java"));
-        Tech javaScript = techRepository.save(new Tech("JavaScript"));
-        Tech react = techRepository.save(new Tech("React"));
-        Tech react_native = techRepository.save(new Tech("React Native"));
+        JAVA = techRepository.save(new Tech("Java"));
+        JAVASCRIPT = techRepository.save(new Tech("JavaScript"));
+        REACT = techRepository.save(new Tech("React"));
+        REACT_NATIVE = techRepository.save(new Tech("React Native"));
 
-        자바 = new TechResponse(java.getId(), java.getName());
-        자바스크립트 = new TechResponse(javaScript.getId(), javaScript.getName());
-        리액트 = new TechResponse(react.getId(), react.getName());
-        리액트_네이티브 = new TechResponse(react_native.getId(), react_native.getName());
+        자바 = new TechResponse(JAVA.getId(), JAVA.getName());
+        자바스크립트 = new TechResponse(JAVASCRIPT.getId(), JAVASCRIPT.getName());
+        리액트 = new TechResponse(REACT.getId(), REACT.getName());
+        리액트_네이티브 = new TechResponse(REACT_NATIVE.getId(), REACT_NATIVE.getName());
     }
 
     @DisplayName("auto_complete 파라미터로 기술 태그의 자동 완성 기능을 사용할 수 있다.")
@@ -126,9 +149,41 @@ public class TechAcceptanceTest extends AcceptanceTest {
         기술_태그_조회_된다(response, Arrays.asList(자바));
     }
 
+    @DisplayName("현재 피드들 중에서 가장 많이 쓰이는 트렌드 테크를 조회할 수 있다.")
+    @Test
+    void findTrendTechs() {
+        //given
+        setUpFeedAndFeedTech();
+
+        //when
+        ExtractableResponse<Response> response = 트렌드_기술_태그_조회한다();
+
+        //then
+        기술_태그_조회_된다(response, Arrays.asList(자바, 자바스크립트, 리액트, 리액트_네이티브));
+    }
+
+    private void setUpFeedAndFeedTech() {
+        User user = new User("1L", SocialType.GOOGLE, "JOEL", "imageUrl");
+        Feed feed = new Feed("title", "content", Step.PROGRESS, true, "storageUrl",
+                "", "http://thumbnailUrl.png").writtenBy(user);
+        userRepository.save(user);
+        feedRepository.save(feed);
+        feedTechRepository.saveAll(Arrays.asList(new FeedTech(feed, JAVA), new FeedTech(feed, JAVASCRIPT),
+                new FeedTech(feed, REACT), new FeedTech(feed, REACT_NATIVE)));
+    }
+
+    @DisplayName("기술 태그들이 피드에서 사용되지 않았다면, 빈 리스트가 반환된다.")
+    @Test
+    void foundTrendTechIsEmpty() {
+        //when
+        ExtractableResponse<Response> response = 트렌드_기술_태그_조회한다();
+
+        //then
+        기술_태그_조회_된다(response, Collections.emptyList());
+    }
+
     public ExtractableResponse<Response> 기술_태그_조회한다(String autoComplete) {
-        return RestAssured
-                .given().log().all()
+        return given().log().all()
                 .param("auto_complete", autoComplete)
                 .when().get("/tags/techs")
                 .then().log().all()
@@ -136,10 +191,16 @@ public class TechAcceptanceTest extends AcceptanceTest {
     }
 
     public ExtractableResponse<Response> 기술_태그_이름과_정확히_일치하는_기술만_조회한다(String searchWord) {
-        return RestAssured
-                .given().log().all()
+        return given().log().all()
                 .param("names", searchWord)
                 .when().get("/tags/techs/search")
+                .then().log().all()
+                .extract();
+    }
+
+    private ExtractableResponse<Response> 트렌드_기술_태그_조회한다() {
+        return given().log().all()
+                .when().get("/tags/techs/trend")
                 .then().log().all()
                 .extract();
     }
