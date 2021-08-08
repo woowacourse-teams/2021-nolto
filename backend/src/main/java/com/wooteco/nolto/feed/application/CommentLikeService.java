@@ -31,7 +31,7 @@ public class CommentLikeService {
     public void deleteCommentLike(Long commentId, User user) {
         Comment findComment = commentService.findEntityById(commentId);
         CommentLike findCommentLike = findComment.findLikeBy(user)
-                .orElseThrow(() -> new BadRequestException(ErrorType.NOT_LIKED));
+                .orElseThrow(() -> new BadRequestException(ErrorType.NOT_LIKED_COMMENT));
         user.delete(findCommentLike);
         commentLikeRepository.delete(findCommentLike);
     }

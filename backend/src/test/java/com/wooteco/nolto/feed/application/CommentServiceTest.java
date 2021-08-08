@@ -299,6 +299,7 @@ class CommentServiceTest extends CommentServiceFixture {
 
         // when
         commentService.deleteComment(아마찌, 아마찌_대댓글.getId());
+        entityManager.flush();
         Feed 삭제후_조회한_아마찌의_개쩌는_지하철_미션 = feedRepository.findById(아마찌의_개쩌는_지하철_미션.getId()).get();
 
         // then
@@ -318,30 +319,24 @@ class CommentServiceTest extends CommentServiceFixture {
         아마찌_대댓글.addParentComment(포모_댓글);
         commentRepository.save(포모_댓글);
         commentRepository.save(아마찌_대댓글);
-        Long 포모_댓글_ID = 포모_댓글.getId();
-        Long 아마찌_대댓글_ID = 아마찌_대댓글.getId();
-        entityManager.clear();
+        entityManager.flush();
 
         // when
         assertThat(포모1.getComments().size()).isOne();
         assertThat(아마찌.getComments().size()).isOne();
-        User 조회한_포모2 = userRepository.findById(포모1.getId()).get();
-        commentService.deleteComment(조회한_포모2, 포모_댓글.getId());
+        commentService.deleteComment(포모1, 포모_댓글.getId());
         entityManager.flush();
-        entityManager.clear();
         Feed 삭제후_조회한_아마찌의_개쩌는_지하철_미션 = feedRepository.findById(아마찌의_개쩌는_지하철_미션.getId()).get();
-        User 조회한_포모1 = userRepository.findById(포모1.getId()).get();
-        User 조회한_아마찌 = userRepository.findById(아마찌.getId()).get();
 
         // then
-        assertThatThrownBy(() -> commentService.findEntityById(포모_댓글_ID))
+        assertThatThrownBy(() -> commentService.findEntityById(포모_댓글.getId()))
                 .isInstanceOf(NotFoundException.class)
                 .hasMessage("존재하지 않는 댓글입니다.");
-        assertThatThrownBy(() -> commentService.findEntityById(아마찌_대댓글_ID))
+        assertThatThrownBy(() -> commentService.findEntityById(아마찌_대댓글.getId()))
                 .isInstanceOf(NotFoundException.class)
                 .hasMessage("존재하지 않는 댓글입니다.");
-        assertThat(조회한_포모1.getComments().size()).isZero();
-        assertThat(조회한_아마찌.getComments().size()).isZero();
+        assertThat(포모1.getComments().size()).isZero();
+        assertThat(아마찌.getComments().size()).isZero();
         assertThat(삭제후_조회한_아마찌의_개쩌는_지하철_미션.getComments().size()).isZero();
     }
 
