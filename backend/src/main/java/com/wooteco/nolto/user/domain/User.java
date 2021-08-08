@@ -104,6 +104,10 @@ public class User extends BaseEntity {
         return this.equals(user);
     }
 
+    public boolean sameAsNickname(String nickName) {
+        return this.nickName.equals(nickName);
+    }
+
     public void delete(Like like) {
         this.likes.remove(like);
     }
