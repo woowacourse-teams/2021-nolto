@@ -71,7 +71,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
     @Test
     void cannotGetMemberInfoWithoutToken() {
         //when
-        ExtractableResponse<Response> response = 토큰_없이_회원_정보_요청();
+        ExtractableResponse<Response> response = 토큰_없이_회원_정보_요청("/members/me");
 
         //then
         토큰_예외_발생(response, ErrorType.TOKEN_NEEDED);
