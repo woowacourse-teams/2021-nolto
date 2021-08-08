@@ -15,6 +15,7 @@ public class NotificationResponse {
     private final Long id;
     private final AuthorResponse user;
     private final FeedNotificationResponse feed;
+    private final CommentNotificationResponse comment;
     private final String type;
 
     public static List<NotificationResponse> toList(List<Notification> notifications) {
@@ -28,6 +29,7 @@ public class NotificationResponse {
                 notification.getId(),
                 AuthorResponse.of(notification.getPublisher()),
                 FeedNotificationResponse.of(notification.getFeed()),
+                CommentNotificationResponse.of(notification.getComment()),
                 notification.getNotificationType().name()
         );
     }

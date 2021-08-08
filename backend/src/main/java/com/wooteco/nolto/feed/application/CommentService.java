@@ -7,6 +7,7 @@ import com.wooteco.nolto.feed.domain.Comment;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.repository.CommentRepository;
 import com.wooteco.nolto.feed.ui.dto.*;
+import com.wooteco.nolto.notification.application.NotificationCommentDeleteEvent;
 import com.wooteco.nolto.notification.application.NotificationEvent;
 import com.wooteco.nolto.user.domain.User;
 import lombok.AllArgsConstructor;
@@ -30,7 +31,7 @@ public class CommentService {
         Feed findFeed = feedService.findEntityById(feedId);
         Comment comment = new Comment(request.getContent(), request.isHelper()).writtenBy(user, findFeed);
         commentRepository.save(comment);
-        applicationEventPublisher.publishEvent(NotificationEvent.commentOf(findFeed, user, request.isHelper()));
+        applicationEventPublisher.publishEvent(NotificationEvent.commentOf(findFeed, comment, request.isHelper()));
         return CommentResponse.of(comment, user);
     }
 
@@ -44,16 +45,16 @@ public class CommentService {
         if (!findComment.isAuthor(user)) {
             throw new UnauthorizedException(ErrorType.UNAUTHORIZED_UPDATE_COMMENT);
         }
-        notifyWhenChangedToHelper(request, findComment, user);
+        notifyWhenChangedToHelper(request, findComment);
         findComment.update(request.getContent(), request.isHelper());
         Comment updatedComment = commentRepository.saveAndFlush(findComment);
         return CommentResponse.of(updatedComment, user);
     }
 
-    private void notifyWhenChangedToHelper(CommentRequest request, Comment findComment, User user) {
+    private void notifyWhenChangedToHelper(CommentRequest request, Comment findComment) {
         boolean isChanged = findComment.changedToHelper(request.isHelper());
         if (isChanged) {
-            applicationEventPublisher.publishEvent(NotificationEvent.commentOf(findComment.getFeed(), user, request.isHelper()));
+            applicationEventPublisher.publishEvent(NotificationEvent.commentOf(findComment.getFeed(), findComment, request.isHelper()));
         }
     }
 
@@ -61,6 +62,9 @@ public class CommentService {
         Comment comment = findEntityById(commentId);
         if (!comment.isAuthor(user)) {
             throw new UnauthorizedException(ErrorType.UNAUTHORIZED_DELETE_COMMENT);
+        }
+        if (!comment.isReply()) {
+            applicationEventPublisher.publishEvent(new NotificationCommentDeleteEvent(comment));
         }
         user.deleteComment(comment);
         commentRepository.delete(comment);
@@ -78,6 +82,7 @@ public class CommentService {
         reply.addParentComment(comment);
 
         Comment saveReply = commentRepository.save(reply);
+        applicationEventPublisher.publishEvent(NotificationEvent.replyOf(comment, saveReply));
         return CommentResponse.of(saveReply, user);
     }
 

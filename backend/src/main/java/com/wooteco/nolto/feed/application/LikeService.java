@@ -29,7 +29,7 @@ public class LikeService {
             throw new BadRequestException(ErrorType.ALREADY_LIKED);
         }
         user.addLike(new Like(user, findFeed));
-        applicationEventPublisher.publishEvent(new NotificationEvent(findFeed, user, NotificationType.LIKE));
+        applicationEventPublisher.publishEvent(NotificationEvent.likeOf(findFeed, user));
     }
 
     public void deleteLike(User user, Long feedId) {

@@ -49,6 +49,12 @@ public class Comment extends BaseEntity {
     public Comment() {
     }
 
+    public Comment(Long id, String content, boolean helper) {
+        this.id = id;
+        this.content = content;
+        this.helper = helper;
+    }
+
     public Comment(String content, boolean helper) {
         this.content = content;
         this.helper = helper;

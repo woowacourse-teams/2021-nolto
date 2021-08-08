@@ -1,6 +1,7 @@
 package com.wooteco.nolto.notification.domain;
 
 import com.wooteco.nolto.BaseEntity;
+import com.wooteco.nolto.feed.domain.Comment;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.user.domain.User;
 import lombok.AllArgsConstructor;
@@ -28,6 +29,10 @@ public class Notification extends BaseEntity {
     private Feed feed;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = true)
+    private Comment comment;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private User publisher;
 
@@ -35,9 +40,10 @@ public class Notification extends BaseEntity {
     @NotNull
     private NotificationType notificationType;
 
-    public Notification(User listener, Feed feed, User publisher, NotificationType notificationType) {
+    public Notification(User listener, Feed feed, Comment comment, User publisher, NotificationType notificationType) {
         this.listener = listener;
         this.feed = feed;
+        this.comment = comment;
         this.publisher = publisher;
         this.notificationType = notificationType;
     }

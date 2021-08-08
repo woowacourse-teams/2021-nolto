@@ -13,9 +13,12 @@ import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
 import com.wooteco.nolto.image.application.ImageKind;
 import com.wooteco.nolto.image.application.ImageService;
+import com.wooteco.nolto.notification.application.NotificationCommentDeleteEvent;
+import com.wooteco.nolto.notification.application.NotificationFeedDeleteEvent;
 import com.wooteco.nolto.tech.domain.TechRepository;
 import com.wooteco.nolto.user.domain.User;
 import lombok.AllArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +36,7 @@ public class FeedService {
     private final FeedRepository feedRepository;
     private final TechRepository techRepository;
     private final FeedTechRepository feedTechRepository;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     public Long create(User user, FeedRequest request) {
         String thumbnailUrl = imageService.upload(request.getThumbnailImage(), ImageKind.FEED);
@@ -102,7 +106,7 @@ public class FeedService {
         if (findFeed.notSameAuthor(user)) {
             throw new UnauthorizedException(ErrorType.UNAUTHORIZED_DELETE_FEED);
         }
-
+        applicationEventPublisher.publishEvent(new NotificationFeedDeleteEvent(findFeed));
         feedRepository.delete(findFeed);
     }
 
