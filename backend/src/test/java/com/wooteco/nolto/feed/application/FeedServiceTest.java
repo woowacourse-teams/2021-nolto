@@ -537,24 +537,14 @@ class FeedServiceTest {
         Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
         Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
         Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
-        System.out.println("-------------------");
-        System.out.println(firstFeedId);
-        System.out.println(secondFeedId);
-        System.out.println(thirdFeedId);
         em.flush();
         em.clear();
         String query = "content";
         List<Feed> feeds = feedRepository.findAll();
-        System.out.println("1++++++++++++++++++++++++");
-        System.out.println(feeds);
 
         //when
         List<FeedCardResponse> searchFeeds = feedService.search(query, "", "all");
         List<Feed> feeds2 = feedRepository.findAll();
-        System.out.println("2++++++++++++++++++++++++");
-        System.out.println(feeds2);
-        System.out.println("3++++++++++++++++");
-        System.out.println("searchFeeds: " + searchFeeds);
         List<Long> feedIds = searchFeeds.stream()
                 .map(FeedCardResponse::getId)
                 .collect(Collectors.toList());
@@ -798,8 +788,5 @@ class FeedServiceTest {
         assertThat(request.getContent()).isEqualTo(response.getContent());
         assertThat(request.getStep()).isEqualTo(response.getStep());
         assertThat(request.isSos()).isEqualTo(response.isSos());
-
-        System.out.println();
-        System.out.println();
     }
 }
