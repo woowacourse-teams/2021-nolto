@@ -1,6 +1,7 @@
 package com.wooteco.nolto.acceptance;
 
 import com.wooteco.nolto.auth.ui.dto.TokenResponse;
+import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.dto.ExceptionResponse;
 import com.wooteco.nolto.image.application.ImageKind;
 import com.wooteco.nolto.image.application.ImageService;
@@ -61,10 +62,20 @@ public class UserAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = 토큰_없이_회원_정보_요청();
 
         //then
-        토큰_필요_예외_발생(response);
+        토큰_예외_발생(response, ErrorType.TOKEN_NEEDED);
     }
 
-    @DisplayName("멤버가 닉네임 사용 여부를 확인한다. - 중복인 경우")
+    @DisplayName("유효하지 않은 토큰을 가진 사용자라면 회원 정보를 받아올 수 없다.")
+    @Test
+    void cannotGetMemberInfoWithoutInvalidToken() {
+        //when
+        ExtractableResponse<Response> response = 유효하지_않은_토큰으로_회원_정보_요청();
+
+        //then
+        토큰_예외_발생(response, ErrorType.INVALID_TOKEN);
+    }
+
+    @DisplayName("멤버가 닉네임 사용 여부를 확인한다.")
     @Test
     void validateDuplicatedNickname() {
         // given
@@ -137,14 +148,27 @@ public class UserAcceptanceTest extends AcceptanceTest {
                 .get("/members/me")
                 .then()
                 .log().all()
-                .statusCode(HttpStatus.UNAUTHORIZED.value())
                 .extract();
     }
 
-    public void 토큰_필요_예외_발생(ExtractableResponse<Response> response) {
+
+    private ExtractableResponse<Response> 유효하지_않은_토큰으로_회원_정보_요청() {
+        return given().log().all()
+                .auth().oauth2("유효하지 않은 토큰")
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .when()
+                .get("/members/me")
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    public void 토큰_예외_발생(ExtractableResponse<Response> response, ErrorType errorType) {
         ExceptionResponse exceptionResponse = response.as(ExceptionResponse.class);
-        assertThat(exceptionResponse.getErrorCode()).isEqualTo("auth-002");
-        assertThat(exceptionResponse.getMessage()).isEqualTo("토큰이 필요합니다.");
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
+        assertThat(exceptionResponse.getErrorCode()).isEqualTo(errorType.getErrorCode());
+        assertThat(exceptionResponse.getMessage()).isEqualTo(errorType.getMessage());
     }
 
     private ExtractableResponse<Response> 닉네임_사용_가능_여부_조회_요청(String token, String nickName) {
