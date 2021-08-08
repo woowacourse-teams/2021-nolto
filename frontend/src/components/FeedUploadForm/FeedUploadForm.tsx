@@ -106,8 +106,9 @@ const FeedUploadForm = ({ onFeedSubmit, initialFormValue }: Props) => {
     <Form onSubmit={handleSubmit(submitFeed)}>
       <Styled.FormContainer>
         <Styled.VerticalWrapper>
-          <Label text="제목" required={true} />
+          <Label text="제목" htmlFor="title" required={true} />
           <FormInput
+            id="title"
             {...register('title', {
               required: UPLOAD_VALIDATION_MSG.TITLE_REQUIRED,
             })}
@@ -116,17 +117,18 @@ const FeedUploadForm = ({ onFeedSubmit, initialFormValue }: Props) => {
         </Styled.VerticalWrapper>
 
         <Styled.VerticalWrapper>
-          <Label text="사용 스택" />
+          <Label text="사용 스택" htmlFor="techs" />
           <TechTagProvider initialTechs={techs}>
             <TechChip />
-            <TechInput onUpdateTechs={(techs: Tech[]) => setTechs(techs)} />
+            <TechInput id="techs" onUpdateTechs={(techs: Tech[]) => setTechs(techs)} />
           </TechTagProvider>
         </Styled.VerticalWrapper>
 
         <Styled.VerticalWrapper>
-          <Label text="내용" required={true} />
+          <Label text="내용" htmlFor="content" required={true} />
           <Toybox width="32px" />
           <ContentTextArea
+            id="content"
             {...register('content', { required: UPLOAD_VALIDATION_MSG.CONTENT_REQUIRED })}
           />
           <ErrorMessage targetError={errors.content} />
@@ -187,9 +189,15 @@ const FeedUploadForm = ({ onFeedSubmit, initialFormValue }: Props) => {
         {watchStep === FeedStatus.COMPLETE && (
           <div>
             <Styled.StretchWrapper>
-              <Label className="stretch-label" text="배포 URL" required={true} />
+              <Label
+                className="stretch-label"
+                htmlFor="deployed-url"
+                text="배포 URL"
+                required={true}
+              />
               <div>
                 <FormInput
+                  id="deployed-url"
                   {...register('deployedUrl', {
                     required: UPLOAD_VALIDATION_MSG.DEPLOY_URL_REQUIRED,
                     pattern: {
@@ -208,9 +216,10 @@ const FeedUploadForm = ({ onFeedSubmit, initialFormValue }: Props) => {
         )}
         <div>
           <Styled.StretchWrapper>
-            <Label className="stretch-label" text="github URL" />
+            <Label className="stretch-label" htmlFor="github-url" text="github URL" />
             <div>
               <FormInput
+                id="github-url"
                 {...register('storageUrl', {
                   pattern: {
                     value: REGEX.URL,
@@ -225,9 +234,10 @@ const FeedUploadForm = ({ onFeedSubmit, initialFormValue }: Props) => {
         </div>
 
         <Styled.StretchWrapper>
-          <Label className="stretch-label" text="대표 이미지" />
+          <Label className="stretch-label" htmlFor="thumbnail-image" text="대표 이미지" />
           <div>
             <FileInput
+              id="thumbnail-image"
               fileName={watchThumbnailImage?.name}
               onChange={setFileInput}
               accept={THUMBNAIL_EXTENSION.join(',')}
