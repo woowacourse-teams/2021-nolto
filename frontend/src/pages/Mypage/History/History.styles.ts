@@ -18,6 +18,7 @@ const SlideBar = styled.div`
   color: ${PALETTE.ORANGE_400};
   display: flex;
   border-bottom: 1px solid ${PALETTE.ORANGE_400};
+  margin: 0 auto;
 
   /* for slide */
   overflow-x: auto;

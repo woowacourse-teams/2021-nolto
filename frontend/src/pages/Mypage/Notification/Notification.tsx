@@ -37,7 +37,7 @@ const Notification = () => {
       {
         onSuccess: () => {
           refetchMember();
-          refetchNoti();
+          refetchNoti({ throwOnError: true });
         },
         onError: (error) => {
           snackbar.addSnackBar('error', error.message);

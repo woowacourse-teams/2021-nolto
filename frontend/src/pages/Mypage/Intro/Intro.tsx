@@ -84,7 +84,7 @@ const Intro = () => {
       {
         onSuccess: () => {
           snackbar.addSnackBar('success', ALERT_MSG.SUCCESS_EDIT_PROFILE);
-          refetchProfile();
+          refetchProfile({ throwOnError: true });
           refetchMember();
         },
         onError: () => snackbar.addSnackBar('error', ALERT_MSG.FAIL_EDIT_PROFILE),
@@ -95,31 +95,31 @@ const Intro = () => {
   };
 
   const nicknameValidation = () => {
-    if (nicknameCheck?.isUsable) {
-      if (watch('nickname').length >= 10) {
-        return {
-          isValid: false,
-          message: '닉네임을 10글자 미만으로 입력해주세요.',
-        };
-      } else {
-        return {
-          isValid: true,
-          message: '사용 가능한 닉네임입니다.',
-        };
-      }
-    } else {
-      if (watch('nickname').length < 2) {
-        return {
-          isValid: false,
-          message: '닉네임을 2글자 이상 입력해주세요.',
-        };
-      } else {
-        return {
-          isValid: false,
-          message: '이미 사용중인 닉네임입니다.',
-        };
-      }
+    if (watch('nickname').length >= 10) {
+      return {
+        isValid: false,
+        message: '닉네임을 10글자 미만으로 입력해주세요.',
+      };
     }
+
+    if (watch('nickname').length < 2) {
+      return {
+        isValid: false,
+        message: '닉네임을 2글자 이상 입력해주세요.',
+      };
+    }
+
+    if (!nicknameCheck?.isUsable) {
+      return {
+        isValid: false,
+        message: '이미 사용중인 닉네임입니다.',
+      };
+    }
+
+    return {
+      isValid: true,
+      message: '사용 가능한 닉네임입니다',
+    };
   };
 
   const createdAt = new Date(profile.createdAt);

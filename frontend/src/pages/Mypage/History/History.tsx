@@ -28,8 +28,8 @@ const History = () => {
   const { likedFeeds, myFeeds, myComments } = historyData;
 
   useEffect(() => {
-    selectedTab?.current?.scrollIntoView();
-  }, [selectedTab.current]);
+    selectedTab.current.scrollIntoView();
+  }, [tab]);
 
   const feedWithContent = (feed: Omit<Feed, 'author'>): React.ReactNode => (
     <Styled.FeedWrapper key={feed.id} onClick={() => goFeedDetail(feed.id)}>
@@ -89,7 +89,7 @@ const History = () => {
           ref={tab === UserHistoryType.MY_LIKED ? selectedTab : null}
         >
           {likedFeeds.length > 0
-            ? likedFeeds.map((feed) => feedWithContent(feed as Omit<Feed, 'author'>))
+            ? likedFeeds.map((feed: Omit<Feed, 'author'>) => feedWithContent(feed))
             : noFeedContent}
         </Styled.FeedContainer>
         <Styled.FeedContainer
@@ -97,7 +97,7 @@ const History = () => {
           ref={tab === UserHistoryType.MY_FEED ? selectedTab : null}
         >
           {myFeeds.length > 0
-            ? myFeeds.map((feed) => feedWithContent(feed as Omit<Feed, 'author'>))
+            ? myFeeds.map((feed: Omit<Feed, 'author'>) => feedWithContent(feed))
             : noFeedContent}
         </Styled.FeedContainer>
         <Styled.FeedContainer
@@ -105,7 +105,7 @@ const History = () => {
           ref={tab === UserHistoryType.MY_COMMENT ? selectedTab : null}
         >
           {myComments.length > 0
-            ? myComments.map((feed) => feedWithComment(feed as FeedWithComment))
+            ? myComments.map((feed: FeedWithComment) => feedWithComment(feed))
             : noFeedContent}
         </Styled.FeedContainer>
       </Styled.FeedsSwipeArea>
