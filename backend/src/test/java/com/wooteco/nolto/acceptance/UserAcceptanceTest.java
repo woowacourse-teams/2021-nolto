@@ -6,8 +6,16 @@ import com.wooteco.nolto.exception.dto.ExceptionResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.image.application.ImageKind;
 import com.wooteco.nolto.image.application.ImageService;
+import com.wooteco.nolto.feed.domain.Comment;
+import com.wooteco.nolto.feed.domain.Feed;
+import com.wooteco.nolto.feed.domain.Like;
+import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.ui.dto.*;
+import com.wooteco.nolto.user.ui.dto.CommentHistoryResponse;
+import com.wooteco.nolto.user.ui.dto.FeedHistoryResponse;
+import com.wooteco.nolto.user.ui.dto.MemberHistoryResponse;
+import com.wooteco.nolto.user.ui.dto.MemberResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -19,6 +27,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.wooteco.nolto.acceptance.FeedAcceptanceTest.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -125,6 +136,33 @@ public class UserAcceptanceTest extends AcceptanceTest {
         프로필_수정_응답됨(response, PROFILE_REQUEST);
     }
 
+    @DisplayName("로그인 된 사용자는 자신의 히스토리(좋아요 한 글, 내가 작성한 글, 내가 남긴 댓글)를 조회할 수 있다.")
+    @Test
+    void findMemberHistory() {
+        //given
+        Feed feed = new Feed("title", "content", Step.PROGRESS, true, "https://github.com/nolto", "", "https://cloudfront.net/image.png").writtenBy(엄청난_유저);
+        Comment comment = new Comment("comment", true).writtenBy(엄청난_유저, feed);
+        엄청난_유저.addLike(new Like(엄청난_유저, feed));
+        userRepository.saveAndFlush(엄청난_유저);
+        TokenResponse userToken = 가입된_유저의_토큰을_받는다(엄청난_유저);
+
+        //when
+        ExtractableResponse<Response> response = 내_히스토리_조회_요청(userToken);
+
+        //then
+        회원_히스토리_조회됨(response, 엄청난_유저);
+    }
+
+    @DisplayName("로그인 되지 않은 사용자라면 회원의 히스토리를 받아올 수 없다.")
+    @Test
+    void cannotFindMemberHistoryWithoutToken() {
+        //when
+        ExtractableResponse<Response> response = 토큰_없이_회원_정보_요청("/members/me/history");
+
+        //then
+        토큰_예외_발생(response, ErrorType.TOKEN_NEEDED);
+    }
+
     public ExtractableResponse<Response> 내_회원_정보_조회_요청(TokenResponse tokenResponse) {
         return given().log().all()
                 .auth().oauth2(tokenResponse.getAccessToken())
@@ -144,11 +182,11 @@ public class UserAcceptanceTest extends AcceptanceTest {
         assertThat(memberResponse.getImageUrl()).isEqualTo(expectedUser.getImageUrl());
     }
 
-    public ExtractableResponse<Response> 토큰_없이_회원_정보_요청() {
+    public ExtractableResponse<Response> 토큰_없이_회원_정보_요청(String urlPath) {
         return given().log().all()
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .when()
-                .get("/members/me")
+                .get(urlPath)
                 .then()
                 .log().all()
                 .extract();
@@ -273,10 +311,20 @@ public class UserAcceptanceTest extends AcceptanceTest {
                 .extract();
     }
 
-    private void 알맞은_회원_히스토리_조회됨(ExtractableResponse<Response> response, User expectedUser) {
+    private void 회원_히스토리_조회됨(ExtractableResponse<Response> response, User expectedUser) {
         MemberHistoryResponse memberHistoryResponse = response.as(MemberHistoryResponse.class);
-        assertThat(memberHistoryResponse.getLikedFeeds()).isNotNull();
-        assertThat(memberHistoryResponse.getMyFeeds()).isNotNull();
-        assertThat(memberHistoryResponse.getMyComments()).isNotNull();
+        알맞은_피드_조회됨(memberHistoryResponse.getLikedFeeds(), expectedUser.findLikedFeeds());
+        알맞은_피드_조회됨(memberHistoryResponse.getMyFeeds(), expectedUser.getFeeds());
+        알맞은_댓글_조회됨(memberHistoryResponse.getMyComments(), expectedUser.getComments());
+    }
+
+    private void 알맞은_피드_조회됨(List<FeedHistoryResponse> feedHistoryResponses, List<Feed> feeds) {
+        List<String> feedTitles = feeds.stream().map(Feed::getTitle).collect(Collectors.toList());
+        assertThat(feedHistoryResponses).extracting("title").isEqualTo(feedTitles);
+    }
+
+    private void 알맞은_댓글_조회됨(List<CommentHistoryResponse> commentHistoryResponses, List<Comment> comments) {
+        List<String> contents = comments.stream().map(Comment::getContent).collect(Collectors.toList());
+        assertThat(commentHistoryResponses).extracting("text").isEqualTo(contents);
     }
 }

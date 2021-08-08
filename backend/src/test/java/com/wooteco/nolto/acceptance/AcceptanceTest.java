@@ -22,7 +22,7 @@ public class AcceptanceTest {
     int port;
 
     @Autowired
-    private UserRepository userRepository;
+    public UserRepository userRepository;
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
