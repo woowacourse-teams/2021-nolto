@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import useUserHistory from 'hooks/queries/userHistory/useUserHistory';
-import useSnackBar from 'context/snackBar/useSnackBar';
+import useSnackBar from 'contexts/snackBar/useSnackBar';
 import ROUTE from 'constants/routes';
 import ReturnArrow from 'assets/arrowReturnRight.svg';
 import { Feed, FeedWithComment, UserHistoryType } from 'types';

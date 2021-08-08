@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 
 import api from 'constants/api';
 import HttpError from 'utils/HttpError';
-import { resolveHttpErrorResponse } from 'utils/error';
+import { resolveHttpError } from 'utils/error';
 
 interface Args {
   formData: FormData;
@@ -15,8 +15,8 @@ const editProfile = async ({ formData }: Args) => {
 
     return data;
   } catch (error) {
-    resolveHttpErrorResponse({
-      errorResponse: error.response,
+    resolveHttpError({
+      error,
       defaultErrorMessage: '프로필 수정 과정에서 에러가 발생했습니다',
     });
   }

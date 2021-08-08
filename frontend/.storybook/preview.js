@@ -3,10 +3,11 @@ import { MemoryRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import GlobalStyle from '../src/Global.styles';
-import ModalProvider from '../src/context/modal/ModalProvider';
 import AsyncBoundary from '../src/components/AsyncBoundary';
-import DialogProvider from '../src/context/dialog/DialogProvider';
-import SnackBarProvider from '../src/context/snackBar/SnackBarProvider';
+import ModalProvider from '../src/contexts/modal/ModalProvider';
+import DialogProvider from '../src/contexts/dialog/DialogProvider';
+import SnackBarProvider from '../src/contexts/snackBar/SnackBarProvider';
+import { CommentModuleContext } from '../src/components/CommentModule/CommentModule';
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
@@ -35,7 +36,11 @@ addDecorator((story) => (
         <DialogProvider>
           <SnackBarProvider>
             <AsyncBoundary rejectedFallback={<div>에러났어용 🚨</div>}>
-              <ModalProvider>{story()}</ModalProvider>
+              <ModalProvider>
+                <CommentModuleContext.Provider value={{ feedId: 1, addCommentCount: () => {} }}>
+                  {story()}
+                </CommentModuleContext.Provider>
+              </ModalProvider>
             </AsyncBoundary>
           </SnackBarProvider>
         </DialogProvider>

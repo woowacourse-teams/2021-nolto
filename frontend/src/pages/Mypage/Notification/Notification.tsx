@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import CheckMark from 'assets/check.svg';
 import CrossMark from 'assets/crossMark.svg';
 import { PALETTE } from 'constants/palette';
-import useSnackbar from 'context/snackBar/useSnackBar';
+import useSnackbar from 'contexts/snackBar/useSnackBar';
 import useNotiLoad from 'hooks/queries/profile/useNotiLoad';
 import useNotiDelete from 'hooks/queries/profile/useNotiDelete';
 import useMember from 'hooks/queries/useMember';

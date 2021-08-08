@@ -3,7 +3,7 @@ import { useQuery, UseQueryOptions } from 'react-query';
 import api from 'constants/api';
 import { ErrorHandler, Notification } from 'types';
 import HttpError from 'utils/HttpError';
-import { resolveHttpErrorResponse } from 'utils/error';
+import { resolveHttpError } from 'utils/error';
 
 interface CustomQueryOption extends UseQueryOptions<Notification[], HttpError> {
   errorHandler?: ErrorHandler;
@@ -15,8 +15,8 @@ const getNotifications = async (errorHandler?: ErrorHandler) => {
 
     return data;
   } catch (error) {
-    resolveHttpErrorResponse({
-      errorResponse: error.response,
+    resolveHttpError({
+      error,
       defaultErrorMessage: '알림 목록을 불러오는 과정에서 에러가 발생했습니다',
       errorHandler,
     });

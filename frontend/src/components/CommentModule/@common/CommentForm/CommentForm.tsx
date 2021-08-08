@@ -22,7 +22,7 @@ const CommentForm = ({ onSubmit, isRootComment = false }: Props) => {
   const { data: feedDetail } = useFeedDetail({ feedId, suspense: false });
   const member = useMember();
 
-  const isMyComment = member.userData?.id === feedDetail.author?.id;
+  const isMyComment = member.userData?.id === feedDetail?.author.id;
 
   const handleSubmitComment = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
