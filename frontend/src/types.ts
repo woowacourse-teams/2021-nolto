@@ -76,7 +76,13 @@ export interface FeedWithComment {
   text: string;
 }
 export interface UserInfo extends Author {
-  socialType: 'GOOGLE' | 'GITHUB';
+  notifications: number;
+}
+
+export interface Profile extends Author {
+  bio: string;
+  notifications: number;
+  createdAt: string;
 }
 
 export type OAuthType = 'google' | 'github';
@@ -117,4 +123,20 @@ export interface CommentBase {
 export interface RootComment extends CommentBase {
   helper: boolean;
   replies: CommentBase[];
+}
+
+export interface UserHistory {
+  likedFeeds: Omit<Feed, 'author'>[];
+  myFeeds: Omit<Feed, 'author'>[];
+  myComments: FeedWithComment[];
+}
+
+export interface Notification {
+  id: number;
+  user: Author;
+  feed: {
+    id: number;
+    title: string;
+  };
+  type: NotiType;
 }

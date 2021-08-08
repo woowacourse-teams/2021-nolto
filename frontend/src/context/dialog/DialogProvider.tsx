@@ -76,7 +76,7 @@ const DialogProvider = ({ children }: Props) => {
         <Styled.TopBar>
           <Styled.AlertTitle>알림</Styled.AlertTitle>
         </Styled.TopBar>
-        <div>{message}</div>
+        <div className="message">{message}</div>
         <Styled.ButtonsContainer>{dialogButtonMap[dialogType]}</Styled.ButtonsContainer>
       </Styled.DialogInner>
     </Styled.DialogContainer>

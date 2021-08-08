@@ -52,10 +52,10 @@ class MemberServiceTest {
     public static final ProfileRequest 존재하는_닉네임으로_프로필_수정_요청 = new ProfileRequest(존재하는_백신_영상_닉네임, "안녕하세용", null);
 
     private final User 존재하는_백신_영상이 = new User(null, "1", SocialType.GITHUB, 존재하는_백신_영상_닉네임, "joel.jpg");
-    private final User 아마찌 = new User(null, "2", SocialType.GITHUB, "AMAZZI", "ama.jpg");
+    private final User 존재하는_아마찌 = new User(null, "2", SocialType.GITHUB, "AMAZZI", "ama.jpg");
 
     private final Feed 영상이_피드 = new Feed("joelFeed", "joelFeed", Step.PROGRESS, true, "", "", "").writtenBy(존재하는_백신_영상이);
-    private final Feed 아마찌_피드 = new Feed("amaFeed", "amaFeed", Step.PROGRESS, true, "", "", "").writtenBy(아마찌);
+    private final Feed 아마찌_피드 = new Feed("amaFeed", "amaFeed", Step.PROGRESS, true, "", "", "").writtenBy(존재하는_아마찌);
 
     private final Comment 영상이_피드에_영상이_댓글 = new Comment("joelCommentJoelFeed", true).writtenBy(존재하는_백신_영상이, 영상이_피드);
     private final Comment 영상이_피드에_아마찌_댓글 = new Comment("joelCommentAmaFeed", true).writtenBy(존재하는_백신_영상이, 영상이_피드);
@@ -71,7 +71,7 @@ class MemberServiceTest {
         아마찌_피드.addComment(영상이_피드에_아마찌_댓글);
         존재하는_백신_영상이.addLike(영상이_좋아요_영상이_피드);
         존재하는_백신_영상이.addLike(영상이_좋아요_아마찌_피드);
-        userRepository.save(아마찌);
+        userRepository.save(존재하는_아마찌);
         userRepository.save(존재하는_백신_영상이);
     }
 
@@ -120,10 +120,18 @@ class MemberServiceTest {
         멤버_프로필_정보가_같은지_확인(프로필_수정_요청, 프로필_수정_응답);
     }
 
-    @DisplayName("멤버의 프로필을 수정하는 경우 이미 존재하는 닉네임일 경우 예외가 발생한다..")
+    @DisplayName("멤버의 프로필을 수정하는 경우 자신의 기존 닉네임과 동일하면 정상으로 동작한다.")
     @Test
     void updateProfileException() {
-        assertThatThrownBy(() -> memberService.updateProfile(존재하는_백신_영상이, 존재하는_닉네임으로_프로필_수정_요청))
+        ProfileResponse 프로필_수정_응답 = memberService.updateProfile(존재하는_백신_영상이, 존재하는_닉네임으로_프로필_수정_요청);
+
+        멤버_프로필_정보가_같은지_확인(존재하는_닉네임으로_프로필_수정_요청, 프로필_수정_응답);
+    }
+
+    @DisplayName("멤버의 프로필을 수정하는 경우 이미 존재하는 닉네임일 경우 예외가 발생한다.")
+    @Test
+    void updateProfileNotException() {
+        assertThatThrownBy(() -> memberService.updateProfile(존재하는_아마찌, 존재하는_닉네임으로_프로필_수정_요청))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage(ErrorType.ALREADY_EXIST_NICKNAME.getMessage());
     }

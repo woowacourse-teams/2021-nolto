@@ -54,8 +54,8 @@ public class CommentServiceFixture {
     void setUp() {
         찰리 = new User("SOCIAL_ID", SocialType.GITHUB, "찰리", "IMAGE");
         포모 = new User("SOCIAL_ID2", SocialType.GITHUB, "포모", "IMAGE2");
-        userRepository.save(찰리);
-        userRepository.save(포모);
+        userRepository.saveAndFlush(찰리);
+        userRepository.saveAndFlush(포모);
 
         찰리가_쓴_피드 = new Feed(
                 "title",
@@ -65,17 +65,17 @@ public class CommentServiceFixture {
                 "https://github.com/woowacourse-teams/2021-nolto",
                 "https://github.com/woowacourse-teams/2021-nolto",
                 "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png").writtenBy(찰리);
-        feedRepository.save(찰리가_쓴_피드);
+        feedRepository.saveAndFlush(찰리가_쓴_피드);
 
         찰리가_쓴_피드에_찰리가_쓴_댓글 = new Comment("첫 댓글", false).writtenBy(찰리, 찰리가_쓴_피드);
         찰리가_쓴_피드에_포모가_쓴_댓글 = new Comment("두 번째 댓글", true).writtenBy(포모, 찰리가_쓴_피드);
-        commentRepository.saveAll(Arrays.asList(찰리가_쓴_피드에_찰리가_쓴_댓글, 찰리가_쓴_피드에_포모가_쓴_댓글));
+        commentRepository.saveAllAndFlush(Arrays.asList(찰리가_쓴_피드에_찰리가_쓴_댓글, 찰리가_쓴_피드에_포모가_쓴_댓글));
         찰리가_쓴_피드에_찰리가_쓴_댓글에_찰리가_쓴_대댓글 = new Comment("첫 대댓글", false).writtenBy(찰리, 찰리가_쓴_피드);
-        찰리가_쓴_피드에_찰리가_쓴_댓글.addReply(찰리가_쓴_피드에_찰리가_쓴_댓글에_찰리가_쓴_대댓글);
+        찰리가_쓴_피드에_찰리가_쓴_댓글에_찰리가_쓴_대댓글.addParentComment(찰리가_쓴_피드에_찰리가_쓴_댓글);
         찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_대댓글 = new Comment("두 번째 대댓글", false).writtenBy(포모, 찰리가_쓴_피드);
-        찰리가_쓴_피드에_찰리가_쓴_댓글.addReply(찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_대댓글);
+        찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_대댓글.addParentComment(찰리가_쓴_피드에_찰리가_쓴_댓글);
         찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_두번째_대댓글 = new Comment("세 번째 대댓글", false).writtenBy(포모, 찰리가_쓴_피드);
-        찰리가_쓴_피드에_찰리가_쓴_댓글.addReply(찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_두번째_대댓글);
-        commentRepository.saveAll(Arrays.asList(찰리가_쓴_피드에_찰리가_쓴_댓글에_찰리가_쓴_대댓글, 찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_대댓글, 찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_두번째_대댓글));
+        찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_두번째_대댓글.addParentComment(찰리가_쓴_피드에_찰리가_쓴_댓글);
+        commentRepository.saveAllAndFlush(Arrays.asList(찰리가_쓴_피드에_찰리가_쓴_댓글에_찰리가_쓴_대댓글, 찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_대댓글, 찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_두번째_대댓글));
     }
 }

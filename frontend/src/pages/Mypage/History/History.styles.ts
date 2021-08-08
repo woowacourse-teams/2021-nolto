@@ -6,7 +6,7 @@ import { hoverLayer } from 'commonStyles';
 
 const Root = styled.div`
   padding: 1rem 2rem;
-  width: 32rem;
+  width: 34rem;
   height: 24rem;
   border-radius: 0.75rem;
   box-shadow: 4px 4px 8px 4px rgba(85, 85, 85, 0.2);
@@ -18,6 +18,7 @@ const SlideBar = styled.div`
   color: ${PALETTE.ORANGE_400};
   display: flex;
   border-bottom: 1px solid ${PALETTE.ORANGE_400};
+  margin: 0 auto;
 
   /* for slide */
   overflow-x: auto;
@@ -55,17 +56,14 @@ const SlideTitle = styled.span<{ selected: boolean }>`
 
 const FeedsSwipeArea = styled.div`
   display: flex;
+  height: calc(100% - 3rem);
   overflow-x: auto;
-  scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
 
   &::-webkit-scrollbar {
     display: none;
   }
 
-  /* Hide scrollbar for IE, Edge and Firefox */
-  -ms-overflow-style: none;
-  scrollbar-width: none;
   pointer-events: none;
 
   * {
@@ -75,11 +73,13 @@ const FeedsSwipeArea = styled.div`
 
 const FeedContainer = styled.div`
   width: 100%;
-  display: flex;
-  flex-direction: column;
   margin-top: 0.5rem;
+  overflow-y: scroll;
 
-  scroll-snap-align: start;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
   flex-shrink: 0;
 `;
 
@@ -105,6 +105,7 @@ const FeedThumbnail = styled.img`
 `;
 
 const FeedContentWrapper = styled.div`
+  width: calc(100% - 2rem);
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -116,12 +117,25 @@ const FeedTitle = styled.div`
 
 const FeedContent = styled.div`
   font-size: 14px;
+  width: calc(100% - 2rem);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 const FeedComment = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+`;
+
+const NoFeedContent = styled.div`
+  display: flex;
+  height: 100%;
+
+  > span {
+    margin: auto;
+  }
 `;
 
 export default {
@@ -137,4 +151,5 @@ export default {
   FeedTitle,
   FeedContent,
   FeedComment,
+  NoFeedContent,
 };
