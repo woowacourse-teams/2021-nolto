@@ -39,7 +39,7 @@ const useMember = () => {
     queryClient.resetQueries('member');
   };
 
-  const { data: userData } = useQuery<UserInfo>('member', getMember, {
+  const { data: userData, refetch: refetchMember } = useQuery<UserInfo>('member', getMember, {
     suspense: false,
     useErrorBoundary: false,
     onError: (error) => {
@@ -61,6 +61,7 @@ const useMember = () => {
     userData,
     isLogin,
     logout,
+    refetchMember,
   };
 };
 

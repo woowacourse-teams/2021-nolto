@@ -40,6 +40,10 @@ const DialogInner = styled.div`
   text-align: center;
   position: relative;
   overflow: hidden;
+
+  & .message {
+    padding: 0 1.5rem;
+  }
 `;
 
 const TopBar = styled.div`

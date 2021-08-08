@@ -10,6 +10,7 @@ import RadioButton from 'components/@common/RadioButton/RadioButton';
 import ErrorMessage from 'components/@common/ErrorMessage/ErrorMessage';
 import { FlexContainer } from 'commonStyles';
 import REGEX from 'constants/regex';
+import { THUMBNAIL_EXTENSION } from 'constants/common';
 import { CONFIRM_MSG, UPLOAD_VALIDATION_MSG } from 'constants/message';
 import TechInput from 'context/techTag/input/TechInput';
 import TechTagProvider from 'context/techTag/TechTagProvider';
@@ -33,17 +34,6 @@ interface Props {
   onFeedSubmit: (formData: FormData) => void;
   initialFormValue?: Omit<FeedToUpload, 'thumbnailImage'>;
 }
-
-const THUMBNAIL_EXTENSION = [
-  'image/apng',
-  'image/bmp',
-  'image/gif',
-  'image/jpg',
-  'image/jpeg',
-  'image/pjpeg',
-  'image/png',
-  'image/svg+xml',
-];
 
 const FeedUploadForm = ({ onFeedSubmit, initialFormValue }: Props) => {
   const {
