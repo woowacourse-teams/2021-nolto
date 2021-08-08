@@ -7,7 +7,7 @@ import { RenderHookOptions } from '@testing-library/react-hooks/lib/types';
 
 import DialogProvider from 'context/dialog/DialogProvider';
 import ModalProvider from 'context/modal/ModalProvider';
-import SnackBarProvider from 'context/snackBar/SnackBarProvider';
+import SnackbarProvider from 'context/snackbar/SnackbarProvider';
 import AsyncBoundary from 'components/AsyncBoundary';
 import ErrorFallback from 'components/ErrorFallback/ErrorFallback';
 
@@ -28,7 +28,7 @@ const queryClient = new QueryClient({
 const Wrapper = ({ children }: WrapperProps) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <SnackBarProvider>
+      <SnackbarProvider>
         <DialogProvider>
           <ModalProvider>
             <MemoryRouter>
@@ -38,7 +38,7 @@ const Wrapper = ({ children }: WrapperProps) => {
             </MemoryRouter>
           </ModalProvider>
         </DialogProvider>
-      </SnackBarProvider>
+      </SnackbarProvider>
     </QueryClientProvider>
   );
 };

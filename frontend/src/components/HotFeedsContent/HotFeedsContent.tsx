@@ -5,16 +5,16 @@ import useHotFeeds from 'hooks/queries/useHotFeeds';
 import RegularCard from 'components/RegularCard/RegularCard';
 import ROUTE from 'constants/routes';
 import Styled, { CarouselArrowButton } from './HotFeedsContent.styles';
-import useSnackBar from 'context/snackBar/useSnackBar';
+import useSnackbar from 'context/snackbar/useSnackbar';
 
 const HotFeedsContent = () => {
   const [hotToyCardIdx, setHotToyCardIdx] = useState(3);
 
-  const snackbar = useSnackBar();
+  const snackbar = useSnackbar();
 
   const { data: hotFeeds } = useHotFeeds({
     errorHandler: (error) => {
-      snackbar.addSnackBar('error', error.message);
+      snackbar.addSnackbar('error', error.message);
     },
   });
 

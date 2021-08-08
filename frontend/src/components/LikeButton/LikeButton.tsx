@@ -8,7 +8,7 @@ import useFeedLike from 'hooks/mutations/useFeedLike';
 import useFeedUnlike from 'hooks/mutations/useFeedUnlike';
 import useMember from 'hooks/queries/useMember';
 import LoginModal from 'components/LoginModal/LoginModal';
-import useSnackBar from 'context/snackBar/useSnackBar';
+import useSnackbar from 'context/snackbar/useSnackbar';
 import useModal from 'context/modal/useModal';
 import useDialog from 'context/dialog/useDialog';
 import { ERROR_CODE_KEY, FeedDetail } from 'types';
@@ -22,7 +22,7 @@ const LikeButton = ({ feedDetail }: Props) => {
   const [isLiked, setIsLiked] = useState(feedDetail.liked);
   const [likeCount, setLikeCount] = useState(0);
 
-  const snackBar = useSnackBar();
+  const snackbar = useSnackbar();
   const member = useMember();
   const modal = useModal();
   const dialog = useDialog();
@@ -78,7 +78,7 @@ const LikeButton = ({ feedDetail }: Props) => {
 
   const handleToggleLike = () => {
     if (!member.userData) {
-      snackBar.addSnackBar('error', '로그인이 필요한 서비스입니다.');
+      snackbar.addSnackbar('error', '로그인이 필요한 서비스입니다.');
       return;
     }
 

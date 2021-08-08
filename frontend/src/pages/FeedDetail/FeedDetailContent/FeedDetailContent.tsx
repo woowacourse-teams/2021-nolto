@@ -10,7 +10,7 @@ import { STEP_CONVERTER } from 'constants/common';
 import { PALETTE } from 'constants/palette';
 import ROUTE from 'constants/routes';
 import { ButtonStyle } from 'types';
-import useSnackBar from 'context/snackBar/useSnackBar';
+import useSnackbar from 'context/snackbar/useSnackbar';
 import useMember from 'hooks/queries/useMember';
 import Styled, { Tag } from './FeedDetailContent.styles';
 import ToggleList from 'components/@common/ToggleList/ToggleList';
@@ -21,13 +21,13 @@ interface Props {
 
 const FeedDetailContent = ({ id }: Props) => {
   const history = useHistory();
-  const snackbar = useSnackBar();
+  const snackbar = useSnackbar();
 
   const member = useMember();
 
   const { data: feedDetail } = useFeedDetail({
     errorHandler: (error) => {
-      snackbar.addSnackBar('error', error.message);
+      snackbar.addSnackbar('error', error.message);
     },
     id,
   });
