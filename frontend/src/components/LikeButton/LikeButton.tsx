@@ -13,19 +13,21 @@ import useModal from 'contexts/modal/useModal';
 import useDialog from 'contexts/dialog/useDialog';
 import { ERROR_CODE_KEY, FeedDetail } from 'types';
 import Styled from './LikeButton.styles';
+import useLike from 'hooks/@common/useLike';
 
 interface Props {
   feedDetail: FeedDetail;
 }
 
 const LikeButton = ({ feedDetail }: Props) => {
-  const [isLiked, setIsLiked] = useState(feedDetail.liked);
-  const [likeCount, setLikeCount] = useState(0);
-
   const snackBar = useSnackBar();
   const member = useMember();
   const modal = useModal();
   const dialog = useDialog();
+  const { setLiked, isLiked, likeCount } = useLike({
+    initialIsLiked: feedDetail.liked,
+    likeCount: feedDetail.likes,
+  });
 
   const handleUnauthorizeError = () => {
     member.logout();
@@ -34,8 +36,7 @@ const LikeButton = ({ feedDetail }: Props) => {
 
   const likeMutation = useFeedLike({
     onSuccess: () => {
-      setIsLiked(true);
-      setLikeCount(likeCount + 1);
+      setLiked(true);
     },
     onError: (error) => {
       dialog.alert(error.message);
@@ -50,8 +51,7 @@ const LikeButton = ({ feedDetail }: Props) => {
 
   const unlikeMutation = useFeedUnlike({
     onSuccess: () => {
-      setIsLiked(false);
-      setLikeCount(likeCount - 1);
+      setLiked(false);
     },
     onError: (error) => {
       dialog.alert(error.message);
@@ -63,18 +63,6 @@ const LikeButton = ({ feedDetail }: Props) => {
       errorHandleMap[error.errorCode]?.();
     },
   });
-
-  useEffect(() => {
-    if (feedDetail.liked === undefined) return;
-
-    setIsLiked(feedDetail.liked);
-  }, [feedDetail.liked]);
-
-  useEffect(() => {
-    if (feedDetail.likes === undefined) return;
-
-    setLikeCount(feedDetail.likes);
-  }, [feedDetail.likes]);
 
   const handleToggleLike = () => {
     if (!member.userData) {
