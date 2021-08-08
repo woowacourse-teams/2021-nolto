@@ -4,7 +4,7 @@ import DialogProvider from './DialogProvider';
 import useDialog from './useDialog';
 
 export default {
-  title: 'context/DialogProvider',
+  title: 'contexts/DialogProvider',
   component: DialogProvider,
   argTypes: {},
 };

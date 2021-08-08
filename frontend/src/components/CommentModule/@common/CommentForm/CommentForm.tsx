@@ -4,10 +4,10 @@ import SendIcon from 'assets/send.svg';
 import Styled, { CommentFormInput, Form, SendButton } from './CommentForm.styles';
 import Avatar from 'components/@common/Avatar/Avatar';
 import Toggle from 'components/@common/Toggle/Toggle';
-import useMember from 'hooks/queries/useMember';
-import { CommentRequest } from 'types';
 import { CommentModuleContext } from 'components/CommentModule/CommentModule';
+import useMember from 'hooks/queries/useMember';
 import useFeedDetail from 'hooks/queries/feed/useFeedDetail';
+import { CommentRequest } from 'types';
 
 interface Props {
   onSubmit: ({ content }: CommentRequest) => void;

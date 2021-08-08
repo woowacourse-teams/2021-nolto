@@ -5,7 +5,7 @@ import TechInput from './input/TechInput';
 import TechTagProvider from './TechTagProvider';
 
 export default {
-  title: 'context/TechInput',
+  title: 'contexts/TechInput',
   component: TechInput,
   argTypes: {},
 };

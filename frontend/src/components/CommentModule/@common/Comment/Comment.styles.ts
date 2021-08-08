@@ -72,7 +72,7 @@ export const ModifyTextInput = styled(TextInput)`
   }
 `;
 
-const RightBottomWrapper = styled.div`
+const EditDeleteContainer = styled.div`
   display: flex;
   gap: 4px;
   position: absolute;
@@ -109,6 +109,6 @@ export default {
   Content,
   Detail,
   Body,
-  RightBottomWrapper,
+  EditDeleteContainer,
   ThumbUpWrapper,
 };

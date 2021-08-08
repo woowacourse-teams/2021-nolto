@@ -1,18 +1,18 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
-import useFeedDetail from 'hooks/queries/feed/useFeedDetail';
+import { ButtonStyle } from 'types';
+import Styled, { Tag } from './FeedDetailContent.styles';
 import ViewCountIcon from 'assets/viewCount.svg';
-import Chip from 'components/@common/Chip/Chip';
-import FeedDropdown from 'components/FeedDropdown/FeedDropdown';
-import LikeButton from 'components/LikeButton/LikeButton';
+import useSnackBar from 'contexts/snackBar/useSnackBar';
+import useFeedDetail from 'hooks/queries/feed/useFeedDetail';
+import useMember from 'hooks/queries/useMember';
 import { STEP_CONVERTER } from 'constants/common';
 import { PALETTE } from 'constants/palette';
 import ROUTE from 'constants/routes';
-import { ButtonStyle } from 'types';
-import useSnackBar from 'contexts/snackBar/useSnackBar';
-import useMember from 'hooks/queries/useMember';
-import Styled, { Tag } from './FeedDetailContent.styles';
+import Chip from 'components/@common/Chip/Chip';
+import FeedDropdown from 'components/FeedDropdown/FeedDropdown';
+import LikeButton from 'components/LikeButton/LikeButton';
 import ToggleList from 'components/@common/ToggleList/ToggleList';
 import CommentModule from 'components/CommentModule/CommentModule';
 import AsyncBoundary from 'components/AsyncBoundary';

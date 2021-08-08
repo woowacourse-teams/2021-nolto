@@ -7,17 +7,17 @@ import TrashIcon from 'assets/trash.svg';
 import { FlexContainer } from 'commonStyles';
 import Avatar from 'components/@common/Avatar/Avatar';
 import IconButton from 'components/@common/IconButton/IconButton';
-import { PALETTE } from 'constants/palette';
-import useDialog from 'contexts/dialog/useDialog';
 import useComment from 'components/CommentModule/useComment';
+import SubCommentModule from 'components/CommentModule/SubCommentModule/SubCommentModule';
+import { CommentModuleContext } from 'components/CommentModule/CommentModule';
+import useSnackBar from 'contexts/snackBar/useSnackBar';
+import useDialog from 'contexts/dialog/useDialog';
 import useMember from 'hooks/queries/useMember';
+import useLike from 'hooks/@common/useLike';
+import { PALETTE } from 'constants/palette';
 import { ButtonStyle, CommentType } from 'types';
 import { refineDate } from 'utils/common';
 import Styled, { CommentTextButton, ModifyTextInput } from './Comment.styles';
-import SubCommentModule from 'components/CommentModule/SubCommentModule/SubCommentModule';
-import { CommentModuleContext } from 'components/CommentModule/CommentModule';
-import useLike from 'hooks/@common/useLike';
-import useSnackBar from 'contexts/snackBar/useSnackBar';
 
 interface Props {
   commentBody: CommentType;
@@ -102,6 +102,41 @@ const Comment = ({ commentBody, parentCommentId }: Props) => {
     };
   }, []);
 
+  const modifyingMode: React.ReactNode = (
+    <form onSubmit={handleModifyComment}>
+      <ModifyTextInput type="text" value={modifyInput} onChange={handleChangeModifyInput} />
+      <Styled.EditDeleteContainer>
+        <CommentTextButton buttonStyle={ButtonStyle.SOLID} reverse={true}>
+          수정
+        </CommentTextButton>
+        <CommentTextButton
+          type="button"
+          onClick={() => setIsModifying(false)}
+          buttonStyle={ButtonStyle.SOLID}
+          reverse={true}
+        >
+          취소
+        </CommentTextButton>
+      </Styled.EditDeleteContainer>
+    </form>
+  );
+
+  const exhibitMode: React.ReactNode = (
+    <>
+      <span>{commentBody.content}</span>
+      {isMyComment && (
+        <Styled.EditDeleteContainer>
+          <IconButton onClick={handleChangeToModifyMode} isShadow={false}>
+            <PencilIcon width="20px" fill={PALETTE.BLACK_200} />
+          </IconButton>
+          <IconButton onClick={handleClickDelete} isShadow={false}>
+            <TrashIcon width="20px" />
+          </IconButton>
+        </Styled.EditDeleteContainer>
+      )}
+    </>
+  );
+
   return (
     <Styled.Root>
       <Styled.Author>
@@ -113,38 +148,7 @@ const Comment = ({ commentBody, parentCommentId }: Props) => {
       </Styled.Author>
       <Styled.Body isModifying={isModifying}>
         <Styled.Content isFeedAuthor={commentBody.feedAuthor}>
-          {isModifying ? (
-            <form onSubmit={handleModifyComment}>
-              <ModifyTextInput type="text" value={modifyInput} onChange={handleChangeModifyInput} />
-              <Styled.RightBottomWrapper>
-                <CommentTextButton buttonStyle={ButtonStyle.SOLID} reverse={true}>
-                  수정
-                </CommentTextButton>
-                <CommentTextButton
-                  type="button"
-                  onClick={() => setIsModifying(false)}
-                  buttonStyle={ButtonStyle.SOLID}
-                  reverse={true}
-                >
-                  취소
-                </CommentTextButton>
-              </Styled.RightBottomWrapper>
-            </form>
-          ) : (
-            <>
-              <span>{commentBody.content}</span>
-              {isMyComment && (
-                <Styled.RightBottomWrapper>
-                  <IconButton onClick={handleChangeToModifyMode} isShadow={false}>
-                    <PencilIcon width="20px" fill={PALETTE.BLACK_200} />
-                  </IconButton>
-                  <IconButton onClick={handleClickDelete} isShadow={false}>
-                    <TrashIcon width="20px" />
-                  </IconButton>
-                </Styled.RightBottomWrapper>
-              )}
-            </>
-          )}
+          {isModifying ? modifyingMode : exhibitMode}
         </Styled.Content>
         <Styled.Detail>
           <FlexContainer gap="4px" alignItems="center">

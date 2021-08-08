@@ -3,9 +3,9 @@ import React from 'react';
 import SubCommentModule from './SubCommentModule';
 
 export default {
-  title: 'components/RootCommentModule/RootComment/SubCommentModule',
+  title: 'components/CommentModule/SubCommentModule',
   component: SubCommentModule,
   argTypes: {},
 };
 
-export const Default = () => <SubCommentModule commentId={1} isReplyFormVisible={false} />;
+export const Default = () => <SubCommentModule parentCommentId={2} isReplyFormVisible={true} />;

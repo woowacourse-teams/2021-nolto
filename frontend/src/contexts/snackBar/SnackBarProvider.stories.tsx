@@ -4,7 +4,7 @@ import SnackBarProvider from './SnackBarProvider';
 import useSnackBar from './useSnackBar';
 
 export default {
-  title: 'context/SnackBarProvider',
+  title: 'contexts/SnackBarProvider',
   component: SnackBarProvider,
   argTypes: {},
 };
