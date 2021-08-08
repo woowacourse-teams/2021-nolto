@@ -73,8 +73,8 @@ public class CommentService {
 
     public CommentResponse createReply(User user, Long feedId, Long commentId, CommentRequest request) {
         Feed findFeed = feedService.findEntityById(feedId);
+        Comment reply = Comment.createReply(request.getContent(), request.isHelper()).writtenBy(user, findFeed);
         Comment comment = findEntityById(commentId);
-        Comment reply = new Comment(request.getContent(), false).writtenBy(user, findFeed);
         reply.addParentComment(comment);
 
         Comment saveReply = commentRepository.save(reply);

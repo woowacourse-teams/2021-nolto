@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ErrorType {
+    DATA_BINDING_ERROR("common-001", "필수 요청값이 비었습니다"),
     LOGIC_ERROR("common-002", "서버 내부의 에러입니다."),
 
     INVALID_TOKEN("auth-001", "유효하지 않은 토큰입니다."),

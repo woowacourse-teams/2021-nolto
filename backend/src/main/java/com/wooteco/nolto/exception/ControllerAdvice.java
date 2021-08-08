@@ -20,14 +20,14 @@ public class ControllerAdvice {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ExceptionResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         String defaultMessage = Objects.requireNonNull(e.getBindingResult().getFieldError()).getDefaultMessage();
-        ExceptionResponse errorResponse = new ExceptionResponse("common-001", defaultMessage);
+        ExceptionResponse errorResponse = new ExceptionResponse(ErrorType.DATA_BINDING_ERROR.getErrorCode(), defaultMessage);
         log.info(e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
     @ExceptionHandler(BindException.class)
     public ResponseEntity<ExceptionResponse> handleBindExceptionException(BindException e) {
-        ExceptionResponse errorResponse = new ExceptionResponse("common-001", "필수 요청값이 비었습니다");
+        ExceptionResponse errorResponse = new ExceptionResponse(ErrorType.DATA_BINDING_ERROR.getErrorCode(), ErrorType.DATA_BINDING_ERROR.getMessage());
         log.info(e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }

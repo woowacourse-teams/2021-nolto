@@ -5,6 +5,7 @@ spring:
       local: console-logging
       prod: real-db,real-oauth,file-error-logging,file-info-logging,slack-prod-error-logging
       dev: dev-db,dev-oauth,file-error-logging,file-info-logging,slack-dev-error-logging
+      test: console-logging
   servlet:
     multipart:
       enabled: true

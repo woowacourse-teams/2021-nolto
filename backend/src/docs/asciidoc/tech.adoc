@@ -1,3 +1,5 @@
+== Tech (기술 스택)
+
 === 기술 스택 목록 조회
 
 ==== Request
@@ -13,7 +15,7 @@ include::{snippets}/tech-findByTechsContains/http-response.adoc[]
 
 include::{snippets}/tech-findByTechsContains/response-fields.adoc[]
 
-=== 기술 스택 목록 조회 2
+=== 기술 스택 목록 검색
 
 ==== Request
 
@@ -28,7 +30,7 @@ include::{snippets}/tech-findAllByNameInIgnoreCase/http-response.adoc[]
 
 include::{snippets}/tech-findAllByNameInIgnoreCase/response-fields.adoc[]
 
-=== 최신 스택 목록 조회
+=== 트렌드 기술 스택 목록 조회
 
 ==== Request
 
