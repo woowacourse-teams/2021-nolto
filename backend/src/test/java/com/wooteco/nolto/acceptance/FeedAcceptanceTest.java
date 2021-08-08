@@ -50,13 +50,13 @@ public class FeedAcceptanceTest extends AcceptanceTest {
     private Long 진행중_SOS_좋아요1개_3번째_피드_ID;
     private Long 전시중_SOS_좋아요0개_4번째_피드_ID;
 
-    private FeedRequest 진행중_단계의_피드_요청 = new FeedRequest("title1", new ArrayList<>(), "content1", "PROGRESS", false,
+    public static final FeedRequest 진행중_단계의_피드_요청 = new FeedRequest("title1", new ArrayList<>(), "content1", "PROGRESS", false,
             "www.github.com/woowacourse", null, null);
-    private FeedRequest 전시중_단계의_피드_요청 = new FeedRequest("title2", new ArrayList<>(), "content2", "COMPLETE", false,
+    public static final FeedRequest 전시중_단계의_피드_요청 = new FeedRequest("title2", new ArrayList<>(), "content2", "COMPLETE", false,
             "www.github.com/woowacourse", "www.github.com/woowacourse", null);
-    private FeedRequest 진행중_단계의_SOS_피드_요청 = new FeedRequest("title3", new ArrayList<>(), "content3", "PROGRESS", true,
+    public static final FeedRequest 진행중_단계의_SOS_피드_요청 = new FeedRequest("title3", new ArrayList<>(), "content3", "PROGRESS", true,
             "www.github.com/woowacourse", "www.github.com/woowacourse", null);
-    private FeedRequest 전시중_단계의_SOS_피드_요청 = new FeedRequest("title4", new ArrayList<>(), "content4", "COMPLETE", true,
+    public static final FeedRequest 전시중_단계의_SOS_피드_요청 = new FeedRequest("title4", new ArrayList<>(), "content4", "COMPLETE", true,
             "www.github.com/woowacourse", "www.github.com/woowacourse", null);
 
     public static final String DEFAULT_IMAGE = "nolto-default-thumbnail.png";

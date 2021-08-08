@@ -3,12 +3,14 @@ package com.wooteco.nolto.acceptance;
 import com.wooteco.nolto.auth.ui.dto.TokenResponse;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.dto.ExceptionResponse;
+import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.image.application.ImageKind;
 import com.wooteco.nolto.image.application.ImageService;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.ui.dto.*;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,15 +20,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
 
-import static com.wooteco.nolto.acceptance.FeedAcceptanceTest.DEFAULT_IMAGE_URL;
-import static com.wooteco.nolto.acceptance.FeedAcceptanceTest.THUMBNAIL_IMAGE;
+import static com.wooteco.nolto.acceptance.FeedAcceptanceTest.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 
 @DisplayName("회원 관련 기능")
 public class UserAcceptanceTest extends AcceptanceTest {
 
-    private final ProfileRequest PROFILE_REQUEST = new ProfileRequest(
+    private static final ProfileRequest PROFILE_REQUEST = new ProfileRequest(
             "edited nickname",
             "edited bio",
             null
@@ -36,7 +37,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
     private ImageService imageService;
 
     @BeforeEach
-    void setUpOnUserAcceptance(){
+    void setUpOnUserAcceptance() {
         super.setUp();
         BDDMockito.given(imageService.upload(any(MultipartFile.class), any(ImageKind.class))).willReturn(DEFAULT_IMAGE_URL);
         BDDMockito.given(imageService.update(any(String.class), any(MultipartFile.class), any(ImageKind.class))).willReturn(DEFAULT_IMAGE_URL);
@@ -101,12 +102,14 @@ public class UserAcceptanceTest extends AcceptanceTest {
     void findProfileOfMine() {
         // given
         String token = 가입된_유저의_토큰을_받는다(엄청난_유저).getAccessToken();
+        Long 업로드된_피드_ID = 피드_업로드되어_있음(진행중_단계의_피드_요청, token);
+        피드에_좋아요_눌러져있음(token, 업로드된_피드_ID);
 
         // when
         ExtractableResponse<Response> response = 프로필_조회_요청(token);
 
         // then
-        프로필_조회_응답됨(response, 엄청난_유저);
+        프로필_조회_응답됨(response, 엄청난_유저, 1);
     }
 
     @DisplayName("멤버가 자신의 프로필을 수정한다.")
@@ -191,7 +194,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
                 .extract();
     }
 
-    private void 프로필_조회_응답됨(ExtractableResponse<Response> response, User expectUser) {
+    private void 프로필_조회_응답됨(ExtractableResponse<Response> response, User expectUser, int expectedNotifications) {
         ProfileResponse profileResponse = response.as(ProfileResponse.class);
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
@@ -199,6 +202,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
         assertThat(profileResponse.getNickname()).isEqualTo(expectUser.getNickName());
         assertThat(profileResponse.getBio()).isEqualTo(expectUser.getBio());
         assertThat(profileResponse.getCreatedAt()).isEqualTo(expectUser.getCreatedDate());
+        assertThat(profileResponse.getNotifications()).isEqualTo(expectedNotifications);
     }
 
     private ExtractableResponse<Response> 프로필_수정_요청(String token, ProfileRequest profileRequest) {
@@ -221,6 +225,41 @@ public class UserAcceptanceTest extends AcceptanceTest {
         assertThat(profileResponse.getNickname()).isEqualTo(profileRequest.getNickname());
         assertThat(profileResponse.getBio()).isEqualTo(profileRequest.getBio());
         assertThat(profileResponse.getImageUrl()).isEqualTo(DEFAULT_IMAGE_URL);
+    }
+
+    public Long 피드_업로드되어_있음(FeedRequest request, String token) {
+        return Long.valueOf(피드를_작성한다(request, token).header("Location").replace("/feeds/", ""));
+    }
+
+    private ExtractableResponse<Response> 피드를_작성한다(FeedRequest feedRequest, String token) {
+        RequestSpecification requestSpecification = given().log().all()
+                .auth().oauth2(token)
+                .formParam("title", feedRequest.getTitle())
+                .formParam("content", feedRequest.getContent())
+                .formParam("step", feedRequest.getStep())
+                .formParam("sos", feedRequest.isSos())
+                .formParam("StorageUrl", feedRequest.getStorageUrl())
+                .formParam("DeployedUrl", feedRequest.getDeployedUrl())
+                .multiPart("thumbnailImage", THUMBNAIL_IMAGE);
+
+        feedRequest.getTechs().stream()
+                .forEach(techId -> requestSpecification.formParam("techs", techId));
+
+        return requestSpecification
+                .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
+                .when()
+                .post("/feeds")
+                .then().log().all()
+                .extract();
+    }
+
+    public void 피드에_좋아요_눌러져있음(String token, Long feedId) {
+        given().log().all()
+                .auth().oauth2(token)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when().post("/feeds/{feedId}/like", feedId)
+                .then().log().all()
+                .extract();
     }
 
     private ExtractableResponse<Response> 내_히스토리_조회_요청(TokenResponse tokenResponse) {
