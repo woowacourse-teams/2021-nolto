@@ -14,10 +14,10 @@ public class OAuthRedirectResponse {
 
     public static OAuthRedirectResponse of(SocialOAuthInfo socialOAuthInfo) {
         return new OAuthRedirectResponse(
-                socialOAuthInfo.getClient_id(),
-                socialOAuthInfo.getRedirect_uri(),
+                socialOAuthInfo.getClientId(),
+                socialOAuthInfo.getRedirectUri(),
                 socialOAuthInfo.getScope(),
-                socialOAuthInfo.getResponse_type()
+                socialOAuthInfo.getResponseType()
         );
     }
 }

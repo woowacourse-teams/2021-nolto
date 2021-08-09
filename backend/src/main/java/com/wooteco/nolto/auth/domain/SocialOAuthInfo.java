@@ -3,15 +3,15 @@ package com.wooteco.nolto.auth.domain;
 import org.springframework.util.MultiValueMap;
 
 public interface SocialOAuthInfo {
-    String getClient_id();
+    String getClientId();
 
-    String getClient_secret();
+    String getClientSecret();
 
-    String getRedirect_uri();
+    String getRedirectUri();
 
     String getScope();
 
-    String getResponse_type();
+    String getResponseType();
 
     boolean checkType(SocialType type);
 

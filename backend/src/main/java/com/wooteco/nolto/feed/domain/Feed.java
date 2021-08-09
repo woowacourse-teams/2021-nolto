@@ -152,7 +152,7 @@ public class Feed extends BaseEntity {
 
     public Optional<Like> findLikeBy(User user) {
         return likes.stream()
-                .filter(like -> like.SameAs(user))
+                .filter(like -> like.sameAs(user))
                 .findAny();
     }
 

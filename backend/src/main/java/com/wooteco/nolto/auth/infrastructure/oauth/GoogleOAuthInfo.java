@@ -13,19 +13,24 @@ import org.springframework.util.MultiValueMap;
 public class GoogleOAuthInfo implements SocialOAuthInfo {
 
     @Value("${oauth.google.client.id}")
-    private String client_id;
+    private String clientId;
 
     @Value("${oauth.google.client.secret}")
-    private String client_secret;
+    private String clientSecret;
 
     @Value("${oauth.google.scope}")
     private String scope;
 
     @Value("${oauth.google.redirect-uri}")
-    private String redirect_uri;
+    private String redirectUri;
 
-    private final String response_type = "code";
-    private final String grant_type = "authorization_code";
+    private static final String RESPONSE_TYPE = "code";
+    private static final String GRANT_TYPE = "authorization_code";
+
+    @Override
+    public String getResponseType() {
+        return RESPONSE_TYPE;
+    }
 
     @Override
     public boolean checkType(SocialType type) {
@@ -34,11 +39,11 @@ public class GoogleOAuthInfo implements SocialOAuthInfo {
 
     public MultiValueMap<String, String> generateAccessTokenRequestParam(String code) {
         MultiValueMap<String, String> param = new LinkedMultiValueMap<>();
-        param.add("client_id", client_id);
-        param.add("client_secret", client_secret);
+        param.add("client_id", clientId);
+        param.add("client_secret", clientSecret);
         param.add("code", code);
-        param.add("redirect_uri", redirect_uri);
-        param.add("grant_type", grant_type);
+        param.add("redirect_uri", redirectUri);
+        param.add("grant_type", GRANT_TYPE);
         return param;
     }
 }
