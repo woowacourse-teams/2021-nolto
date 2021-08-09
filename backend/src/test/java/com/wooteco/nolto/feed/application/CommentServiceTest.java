@@ -104,7 +104,7 @@ class CommentServiceTest extends CommentServiceFixture {
         // when
         commentLikeService.addCommentLike(찰리가_쓴_피드에_찰리가_쓴_댓글.getId(), 찰리);
 
-        List<CommentWithReplyResponse> allByFeedId = commentService.findAllByFeedId(찰리가_쓴_피드.getId(), 찰리);
+        List<CommentResponse> allByFeedId = commentService.findAllByFeedId(찰리가_쓴_피드.getId(), 찰리);
 
         // then
         checkSameCommentWithReplyResponse(allByFeedId.get(0), 찰리가_쓴_피드에_포모가_쓴_댓글, 찰리);
