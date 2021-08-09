@@ -9,7 +9,6 @@ import com.wooteco.nolto.feed.domain.repository.CommentRepository;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.feed.ui.dto.CommentRequest;
 import com.wooteco.nolto.feed.ui.dto.CommentResponse;
-import com.wooteco.nolto.feed.ui.dto.CommentWithReplyResponse;
 import com.wooteco.nolto.feed.ui.dto.ReplyResponse;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.domain.UserRepository;
@@ -92,11 +91,7 @@ class CommentServiceTest extends CommentServiceFixture {
         // when
         commentLikeService.addCommentLike(찰리가_쓴_피드에_찰리가_쓴_댓글.getId(), 찰리);
 
-        List<CommentWithReplyResponse> allByFeedId = commentService.findAllByFeedId(찰리가_쓴_피드.getId(), 찰리);
-
-        for (CommentWithReplyResponse commentWithReplyResponse : allByFeedId) {
-            System.out.println(commentWithReplyResponse);
-        }
+        List<CommentResponse> allByFeedId = commentService.findAllByFeedId(찰리가_쓴_피드.getId(), 찰리);
 
         // then
         checkSameCommentWithReplyResponse(allByFeedId.get(0), 찰리가_쓴_피드에_찰리가_쓴_댓글, 찰리);
@@ -173,6 +168,32 @@ class CommentServiceTest extends CommentServiceFixture {
         assertThat(삭제_후_조회한_찰리가_쓴_피드.getComments().size()).isOne();
     }
 
+    @DisplayName("댓글 삭제시 댓글의 좋아요도 함께 삭제된다.")
+    @Test
+    void deleteCommentWithLike() {
+        // given
+        commentLikeService.addCommentLike(찰리가_쓴_피드에_찰리가_쓴_댓글.getId(), 찰리);
+        entityManager.flush();
+        entityManager.clear();
+        User 조회한_찰리 = userRepository.findById(찰리.getId()).get();
+
+        // when
+        commentService.deleteComment(조회한_찰리, 찰리가_쓴_피드에_찰리가_쓴_댓글.getId());
+        entityManager.flush();
+        Feed 삭제_후_조회한_찰리가_쓴_피드 = feedRepository.findById(찰리가_쓴_피드.getId()).get();
+
+        // then
+        assertThatThrownBy(() -> commentService.findEntityById(찰리가_쓴_피드에_찰리가_쓴_댓글.getId()))
+                .isInstanceOf(NotFoundException.class);
+        assertThatThrownBy(() -> commentService.findEntityById(찰리가_쓴_피드에_찰리가_쓴_댓글에_찰리가_쓴_대댓글.getId()))
+                .isInstanceOf(NotFoundException.class);
+        assertThatThrownBy(() -> commentService.findEntityById(찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_대댓글.getId()))
+                .isInstanceOf(NotFoundException.class);
+        assertThatThrownBy(() -> commentService.findEntityById(찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_두번째_대댓글.getId()))
+                .isInstanceOf(NotFoundException.class);
+        assertThat(삭제_후_조회한_찰리가_쓴_피드.getComments().size()).isOne();
+    }
+
     @DisplayName("존재하지 않는 댓글 ID로 삭제를 요청하면 예외가 발생한다.")
     @Test
     void deleteCommentWithNonExistCommentId() {
@@ -182,8 +203,8 @@ class CommentServiceTest extends CommentServiceFixture {
                 .hasMessage("존재하지 않는 댓글입니다.");
     }
 
-    private void checkSameCommentWithReplyResponse(CommentWithReplyResponse response, Comment comment, User user) {
-        CommentWithReplyResponse responseFromComment = CommentWithReplyResponse.of(comment, user);
+    private void checkSameCommentWithReplyResponse(CommentResponse response, Comment comment, User user) {
+        CommentResponse responseFromComment = CommentResponse.of(comment, user.isCommentLiked(comment));
         assertThat(response.getId()).isEqualTo(responseFromComment.getId());
         assertThat(response.getContent()).isEqualTo(responseFromComment.getContent());
         assertThat(response.isHelper()).isEqualTo(responseFromComment.isHelper());

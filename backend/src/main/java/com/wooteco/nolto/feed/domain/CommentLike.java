@@ -38,10 +38,10 @@ public class CommentLike {
         return this.user.sameAs(user);
     }
 
-    public void deleteByComment(Comment comment) {
-        this.comment = null;
-        user.delete(this);
+    public void deleteByComment() {
+        this.user.delete(this);
         this.user = null;
+        this.comment = null;
     }
 
     @Override

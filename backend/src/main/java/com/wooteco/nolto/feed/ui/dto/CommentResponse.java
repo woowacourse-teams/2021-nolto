@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @AllArgsConstructor
@@ -21,17 +23,23 @@ public class CommentResponse {
     private boolean modified;
     private AuthorResponse author;
 
-    public static CommentResponse of(Comment comment, User user) {
+    public static CommentResponse of(Comment comment, boolean isCommentLiked) {
         return new CommentResponse(
                 comment.getId(),
                 comment.getContent(),
                 comment.isHelper(),
                 comment.likesCount(),
-                user.isCommentLiked(comment),
+                isCommentLiked,
                 comment.isFeedAuthor(),
                 comment.getCreatedDate(),
                 comment.isModified(),
                 AuthorResponse.of(comment.getAuthor())
         );
+    }
+
+    public static List<CommentResponse> toList(List<Comment> comments, User user) {
+        return comments.stream()
+                .map(comment -> CommentResponse.of(comment, user.isCommentLiked(comment)))
+                .collect(Collectors.toList());
     }
 }

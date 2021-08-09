@@ -3,6 +3,7 @@ package com.wooteco.nolto.feed.domain;
 import com.wooteco.nolto.BaseEntity;
 import com.wooteco.nolto.exception.BadRequestException;
 import com.wooteco.nolto.exception.ErrorType;
+import com.wooteco.nolto.exception.UnauthorizedException;
 import com.wooteco.nolto.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,14 +37,14 @@ public class Comment extends BaseEntity {
     @JoinColumn(nullable = false)
     private User author;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Comment parentComment;
 
     @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<CommentLike> likes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "parentComment", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "parentComment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> replies = new ArrayList<>();
 
     public Comment() {
@@ -121,20 +122,10 @@ public class Comment extends BaseEntity {
         comment.addReply(this);
     }
 
-    public void changeContent(String content) {
-        this.content = content;
-    }
-
-    public boolean isReply() {
-        return Objects.nonNull(this.parentComment);
-    }
-
-    public void removeReply(Comment reply) {
-        this.replies.remove(reply);
-    }
-
-    public boolean isAuthor(User user) {
-        return this.author.sameAs(user);
+    public void checkAuthority(User user, ErrorType errorType) {
+        if (!this.author.sameAs(user)) {
+            throw new UnauthorizedException(errorType);
+        }
     }
 
     public boolean changedToHelper(boolean helper) {
@@ -142,23 +133,36 @@ public class Comment extends BaseEntity {
     }
 
     public void delete() {
+        if (isComment()) {
+            deleteReplies();
+        }
+        this.parentComment = null;
+        this.author = null;
         this.feed.deleteComment(this);
         this.feed = null;
-        if (this.isReply()) {
-            this.parentComment.removeReply(this);
-            this.parentComment = null;
-        }
-        this.author = null;
+        deleteLikes();
+    }
+
+    private void deleteReplies() {
         for (Comment reply : replies) {
-            reply.parentComment = null;
             reply.getAuthor().deleteComment(reply);
         }
-        this.replies = null;
-        likes.forEach(like -> like.deleteByComment(this));
-        for (CommentLike like : likes) {
-            like.deleteByComment(this);
+        this.replies.clear();
+    }
+
+    private void deleteLikes() {
+        for (CommentLike like : this.likes) {
+            like.deleteByComment();
         }
-        this.likes = null;
+        this.likes.clear();
+    }
+
+    public boolean isComment() {
+        return Objects.isNull(parentComment);
+    }
+
+    public boolean isReply() {
+        return Objects.nonNull(this.parentComment);
     }
 
     @Override
