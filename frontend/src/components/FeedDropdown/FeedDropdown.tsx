@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 
 import Dropdown from 'components/@common/Dropdown/Dropdown';
 import useDialog from 'context/dialog/useDialog';
-import useSnackbar from 'context/snackbar/useSnackbar';
+import useSnackBar from 'context/snackBar/useSnackBar';
 import useFeedDelete from 'hooks/mutations/useFeedDelete';
 import ROUTE from 'constants/routes';
 import { FeedDetail } from 'types';
@@ -15,7 +15,7 @@ interface Props {
 
 const FeedDropdown = ({ feedDetail }: Props) => {
   const dialog = useDialog();
-  const snackbar = useSnackbar();
+  const snackBar = useSnackBar();
   const deleteMutation = useFeedDelete();
   const history = useHistory();
 
@@ -29,11 +29,11 @@ const FeedDropdown = ({ feedDetail }: Props) => {
         { feedId: feedDetail.id },
         {
           onSuccess: () => {
-            snackbar.addSnackbar('success', '토이 프로젝트가 삭제되었습니다.');
+            snackBar.addSnackBar('success', '토이 프로젝트가 삭제되었습니다.');
             history.push(ROUTE.HOME);
           },
           onError: (error) => {
-            snackbar.addSnackbar('error', error.message);
+            snackBar.addSnackBar('error', error.message);
           },
         },
       );

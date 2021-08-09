@@ -87,9 +87,9 @@ export interface Profile extends Author {
 
 export type OAuthType = 'google' | 'github';
 
-export type SnackbarType = 'error' | 'success' | null;
+export type SnackBarType = 'error' | 'success' | null;
 
-export type AddSnackbar = (type: SnackbarType, text: string) => void;
+export type AddSnackBar = (type: SnackBarType, text: string) => void;
 
 export type DialogType = 'alert' | 'confirm';
 

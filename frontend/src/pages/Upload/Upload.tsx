@@ -5,7 +5,7 @@ import HighLightedText from 'components/@common/HighlightedText/HighlightedText'
 import FeedUploadForm from 'components/FeedUploadForm/FeedUploadForm';
 import Header from 'components/Header/Header';
 import useFeedUpload from 'hooks/mutations/useFeedUpload';
-import useSnackbar from 'context/snackbar/useSnackbar';
+import useSnackBar from 'context/snackBar/useSnackBar';
 import { ALERT_MSG } from 'constants/message';
 import ROUTE from 'constants/routes';
 import Styled from './Upload.styles';
@@ -13,12 +13,12 @@ import Styled from './Upload.styles';
 const Upload = () => {
   const uploadMutation = useFeedUpload();
   const history = useHistory();
-  const snackbar = useSnackbar();
+  const snackbar = useSnackBar();
 
   const uploadFeed = (formData: FormData) => {
     uploadMutation.mutate(formData, {
       onSuccess: () => {
-        snackbar.addSnackbar('success', ALERT_MSG.SUCCESS_UPLOAD_FEED);
+        snackbar.addSnackBar('success', ALERT_MSG.SUCCESS_UPLOAD_FEED);
         history.push(ROUTE.HOME);
       },
     });

@@ -15,7 +15,7 @@ import Mypage from 'pages/Mypage/Mypage';
 import PrivateRoute from 'components/PrivateRoute';
 import DialogProvider from 'context/dialog/DialogProvider';
 import ModalProvider from 'context/modal/ModalProvider';
-import SnackbarProvider from 'context/snackbar/SnackbarProvider';
+import SnackBarProvider from 'context/snackBar/SnackBarProvider';
 import ROUTE from 'constants/routes';
 import GlobalStyle from './Global.styles';
 
@@ -35,7 +35,7 @@ const App = () => {
       <GlobalStyle />
       <Router>
         <Switch>
-          <SnackbarProvider>
+          <SnackBarProvider>
             <DialogProvider>
               <ModalProvider>
                 <main>
@@ -69,7 +69,7 @@ const App = () => {
                 </main>
               </ModalProvider>
             </DialogProvider>
-          </SnackbarProvider>
+          </SnackBarProvider>
         </Switch>
       </Router>
       <ReactQueryDevtools panelProps={{ className: 'query-dev-tools' }} initialIsOpen={false} />

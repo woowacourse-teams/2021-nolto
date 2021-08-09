@@ -1,7 +1,7 @@
 import styled, { css, keyframes } from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
-import { SnackbarType } from 'types';
+import { SnackBarType } from 'types';
 import Z_INDEX from 'constants/zIndex';
 
 const show = keyframes`
@@ -18,17 +18,17 @@ const hide = css`
   transform: translateX(-120%);
 `;
 
-const SnackbarWrapper = styled.div`
+const SnackBarWrapper = styled.div`
   position: fixed;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   bottom: 1rem;
   left: 1rem;
-  z-index: ${Z_INDEX.snackbar};
+  z-index: ${Z_INDEX.SNACKBAR};
 `;
 
-const Snackbar = styled.div<{ type: SnackbarType }>`
+const SnackBar = styled.div<{ type: SnackBarType }>`
   animation: ${show} 0.5s ease;
 
   display: flex;
@@ -49,4 +49,4 @@ const Snackbar = styled.div<{ type: SnackbarType }>`
   }
 `;
 
-export default { SnackbarWrapper, Snackbar };
+export default { SnackBarWrapper, SnackBar };
