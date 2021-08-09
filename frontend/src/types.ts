@@ -25,6 +25,7 @@ export enum SearchType {
 export enum NotiType {
   COMMENT_SOS = 'COMMENT_SOS',
   COMMENT = 'COMMENT',
+  REPLY = 'REPLY',
   LIKE = 'LIKE',
 }
 
@@ -132,12 +133,16 @@ export interface UserHistory {
   myComments: FeedWithComment[];
 }
 
-export interface Notification {
+export interface NotificationType {
   id: number;
   user: Author;
   feed: {
     id: number;
     title: string;
+  };
+  comment: {
+    id: number;
+    text: string;
   };
   type: NotiType;
 }

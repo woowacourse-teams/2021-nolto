@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import { ButtonStyle } from 'types';
 import Styled, { Tag } from './FeedDetailContent.styles';
@@ -24,12 +24,14 @@ interface Props {
 
 const FeedDetailContent = ({ feedId }: Props) => {
   const history = useHistory();
+  const location = useLocation<{ commentId: number }>();
+
   const snackbar = useSnackbar();
   const member = useMember();
 
   const { data: feedDetail } = useFeedDetail({
     errorHandler: (error) => {
-      snackBar.addSnackbar('error', error.message);
+      snackbar.addSnackbar('error', error.message);
     },
     feedId,
   });
@@ -141,7 +143,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
           <ErrorFallback message="댓글 불러오기에 실패했습니다." queryKey="comments" />
         }
       >
-        <CommentModule feedId={feedDetail.id} />
+        <CommentModule feedId={feedDetail.id} focusedCommentId={location.state?.commentId} />
       </AsyncBoundary>
     </Styled.Root>
   );

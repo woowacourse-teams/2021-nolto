@@ -8,6 +8,7 @@ import useCommentModule from './useCommentModule';
 
 interface Props {
   feedId: number;
+  focusedCommentId: number;
 }
 
 interface CommentsContext {
@@ -17,7 +18,7 @@ interface CommentsContext {
 
 export const CommentModuleContext = React.createContext<CommentsContext>(null);
 
-const CommentModule = ({ feedId }: Props) => {
+const CommentModule = ({ feedId, focusedCommentId }: Props) => {
   const commentModule = useCommentModule({ feedId });
   const [commentCount, setCommentCount] = useState(0);
 
@@ -39,7 +40,11 @@ const CommentModule = ({ feedId }: Props) => {
         <Styled.CommentContainer>
           <CommentForm onSubmit={handleSubmitComment} isRootComment={true} />
           {commentModule.data.map((comment) => (
-            <Comment key={comment.id} commentBody={comment} />
+            <Comment
+              key={comment.id}
+              commentBody={comment}
+              isFocused={comment.id === focusedCommentId}
+            />
           ))}
         </Styled.CommentContainer>
       </div>
