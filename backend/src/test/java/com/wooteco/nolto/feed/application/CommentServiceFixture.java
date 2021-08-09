@@ -51,7 +51,7 @@ public class CommentServiceFixture {
     }
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws InterruptedException {
         찰리 = new User("SOCIAL_ID", SocialType.GITHUB, "찰리", "IMAGE");
         포모 = new User("SOCIAL_ID2", SocialType.GITHUB, "포모", "IMAGE2");
         userRepository.saveAndFlush(찰리);
@@ -68,8 +68,10 @@ public class CommentServiceFixture {
         feedRepository.saveAndFlush(찰리가_쓴_피드);
 
         찰리가_쓴_피드에_찰리가_쓴_댓글 = new Comment("첫 댓글", false).writtenBy(찰리, 찰리가_쓴_피드);
+        commentRepository.save(찰리가_쓴_피드에_찰리가_쓴_댓글);
         찰리가_쓴_피드에_포모가_쓴_댓글 = new Comment("두 번째 댓글", true).writtenBy(포모, 찰리가_쓴_피드);
-        commentRepository.saveAllAndFlush(Arrays.asList(찰리가_쓴_피드에_찰리가_쓴_댓글, 찰리가_쓴_피드에_포모가_쓴_댓글));
+        commentRepository.save(찰리가_쓴_피드에_포모가_쓴_댓글);
+        commentRepository.flush();
         찰리가_쓴_피드에_찰리가_쓴_댓글에_찰리가_쓴_대댓글 = new Comment("첫 대댓글", false).writtenBy(찰리, 찰리가_쓴_피드);
         찰리가_쓴_피드에_찰리가_쓴_댓글에_찰리가_쓴_대댓글.addParentComment(찰리가_쓴_피드에_찰리가_쓴_댓글);
         찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_대댓글 = new Comment("두 번째 대댓글", false).writtenBy(포모, 찰리가_쓴_피드);

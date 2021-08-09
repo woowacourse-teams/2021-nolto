@@ -14,6 +14,7 @@ import com.wooteco.nolto.feed.ui.dto.ReplyResponse;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.domain.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ class CommentServiceTest extends CommentServiceFixture {
     );
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws InterruptedException {
         super.setUp();
         userRepository.save(찰리1);
         userRepository.save(아마찌);
@@ -84,6 +85,7 @@ class CommentServiceTest extends CommentServiceFixture {
         assertThat(response.getCreatedAt()).isNotNull();
     }
 
+    @Disabled
     @DisplayName("특정 피드에 대한 댓글과 대댓글 전체를 조회한다. 댓글은 좋아요 + 최신 순, 대댓글은 최신 순 정렬")
     @Test
     void findAllByFeedId() {
@@ -99,6 +101,19 @@ class CommentServiceTest extends CommentServiceFixture {
         // then
         checkSameCommentWithReplyResponse(allByFeedId.get(0), 찰리가_쓴_피드에_찰리가_쓴_댓글, 찰리);
         checkSameCommentWithReplyResponse(allByFeedId.get(1), 찰리가_쓴_피드에_포모가_쓴_댓글, 찰리);
+    }
+
+    @DisplayName("특정 피드에 대한 댓글과 대댓글 전체를 조회한다. 댓글, 대댓글은 최신 순 정렬")
+    @Test
+    void findAllByFeedId2() {
+        // when
+        commentLikeService.addCommentLike(찰리가_쓴_피드에_찰리가_쓴_댓글.getId(), 찰리);
+
+        List<CommentWithReplyResponse> allByFeedId = commentService.findAllByFeedId(찰리가_쓴_피드.getId(), 찰리);
+
+        // then
+        checkSameCommentWithReplyResponse(allByFeedId.get(0), 찰리가_쓴_피드에_포모가_쓴_댓글, 찰리);
+        checkSameCommentWithReplyResponse(allByFeedId.get(1), 찰리가_쓴_피드에_찰리가_쓴_댓글, 찰리);
     }
 
     @DisplayName("댓글을 수정할 수 있다.")
