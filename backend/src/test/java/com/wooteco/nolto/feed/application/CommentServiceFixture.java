@@ -69,6 +69,7 @@ public class CommentServiceFixture {
 
         찰리가_쓴_피드에_찰리가_쓴_댓글 = new Comment("첫 댓글", false).writtenBy(찰리, 찰리가_쓴_피드);
         commentRepository.save(찰리가_쓴_피드에_찰리가_쓴_댓글);
+        Thread.sleep(1);
         찰리가_쓴_피드에_포모가_쓴_댓글 = new Comment("두 번째 댓글", true).writtenBy(포모, 찰리가_쓴_피드);
         commentRepository.save(찰리가_쓴_피드에_포모가_쓴_댓글);
         commentRepository.flush();
