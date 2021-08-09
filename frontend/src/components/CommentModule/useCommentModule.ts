@@ -2,7 +2,7 @@ import useCommentsLoad from 'hooks/queries/comment/useCommentsLoad';
 import useCommentWrite from 'hooks/queries/comment/useCommentWrite';
 import useSubCommentWrite from 'hooks/queries/comment/subComment/useSubCommentWrite';
 import useSubCommentsLoad from 'hooks/queries/comment/subComment/useSubCommentsLoad';
-import useSnackBar from 'contexts/snackBar/useSnackBar';
+import useSnackbar from 'contexts/snackbar/useSnackbar';
 
 interface Props {
   feedId: number;
@@ -10,7 +10,7 @@ interface Props {
 }
 
 const useCommentModule = ({ feedId, parentCommentId }: Props) => {
-  const snackbar = useSnackBar();
+  const snackbar = useSnackbar();
 
   const { data: commentData, refetch: reloadComments } = useCommentsLoad({
     feedId,
@@ -22,7 +22,7 @@ const useCommentModule = ({ feedId, parentCommentId }: Props) => {
       reloadComments();
     },
     onError: (error) => {
-      snackbar.addSnackBar('error', error.message);
+      snackbar.addSnackbar('error', error.message);
     },
   });
 
@@ -48,7 +48,7 @@ const useCommentModule = ({ feedId, parentCommentId }: Props) => {
         reloadSubComments();
       },
       onError: (error) => {
-        snackbar.addSnackBar('error', error.message);
+        snackbar.addSnackbar('error', error.message);
       },
     },
   );

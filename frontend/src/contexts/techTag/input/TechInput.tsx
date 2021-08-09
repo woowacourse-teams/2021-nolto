@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect, InputHTMLAttributes } from 'react';
 
 import useTechAutoComplete from 'hooks/queries/useTechAutoComplete';
 import useQueryDebounce from 'hooks/@common/useQueryDebounce';
-import useSnackBar from 'contexts/snackBar/useSnackBar';
+import useSnackbar from 'contexts/snackbar/useSnackbar';
 import FormInput from 'components/@common/FormInput/FormInput';
 import { Tech } from 'types';
 import Styled from './TechInput.styles';
@@ -21,11 +21,11 @@ const TechInput = ({ onUpdateTechs, className, ...options }: Props) => {
   const focusedOption = useRef(null);
 
   const techTag = useTechTag();
-  const snackbar = useSnackBar();
+  const snackbar = useSnackbar();
   const debouncedSearchInput = useQueryDebounce(searchInput, 200);
   const { data: techs } = useTechAutoComplete({
     autoComplete: debouncedSearchInput,
-    errorHandler: (error) => snackbar.addSnackBar('error', error.message),
+    errorHandler: (error) => snackbar.addSnackbar('error', error.message),
   });
 
   const moveFocusedOption = (event: React.KeyboardEvent<HTMLInputElement>) => {

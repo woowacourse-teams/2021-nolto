@@ -6,7 +6,7 @@ import GlobalStyle from '../src/Global.styles';
 import AsyncBoundary from '../src/components/AsyncBoundary';
 import ModalProvider from '../src/contexts/modal/ModalProvider';
 import DialogProvider from '../src/contexts/dialog/DialogProvider';
-import SnackBarProvider from '../src/contexts/snackBar/SnackBarProvider';
+import SnackbarProvider from '../src/contexts/snackbar/SnackbarProvider';
 import { CommentModuleContext } from '../src/components/CommentModule/CommentModule';
 
 export const parameters = {
@@ -34,7 +34,7 @@ addDecorator((story) => (
       <MemoryRouter initialEntries={['/']}>
         <GlobalStyle />
         <DialogProvider>
-          <SnackBarProvider>
+          <SnackbarProvider>
             <AsyncBoundary rejectedFallback={<div>에러났어용 🚨</div>}>
               <ModalProvider>
                 <CommentModuleContext.Provider value={{ feedId: 1, addCommentCount: () => {} }}>
@@ -42,7 +42,7 @@ addDecorator((story) => (
                 </CommentModuleContext.Provider>
               </ModalProvider>
             </AsyncBoundary>
-          </SnackBarProvider>
+          </SnackbarProvider>
         </DialogProvider>
       </MemoryRouter>
     </QueryClientProvider>

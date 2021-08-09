@@ -5,7 +5,7 @@ import LevelButton from 'components/LevelButton/LevelButton';
 import StretchCard from 'components/StretchCard/StretchCard';
 import Skeleton from 'components/Skeleton/Skeleton';
 import useRecentFeedsLoad from 'hooks/queries/feed/useRecentFeedsLoad';
-import useSnackBar from 'contexts/snackBar/useSnackBar';
+import useSnackbar from 'contexts/snackbar/useSnackbar';
 import ROUTE from 'constants/routes';
 import Styled, { MoreFeedsArrow } from './RecentFeedsContent.styles';
 import { FilterType } from 'types';
@@ -17,10 +17,10 @@ interface Props {
 const RecentFeedsContent = ({ feedsCountToShow }: Props) => {
   const [filter, setFilter] = useState<FilterType>();
 
-  const snackbar = useSnackBar();
+  const snackbar = useSnackbar();
   const { data: recentFeeds, isLoading } = useRecentFeedsLoad({
     filter,
-    errorHandler: (error) => snackbar.addSnackBar('error', error.message),
+    errorHandler: (error) => snackbar.addSnackbar('error', error.message),
     suspense: false,
   });
 

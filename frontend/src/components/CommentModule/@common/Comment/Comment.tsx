@@ -10,7 +10,7 @@ import IconButton from 'components/@common/IconButton/IconButton';
 import useComment from 'components/CommentModule/useComment';
 import SubCommentModule from 'components/CommentModule/SubCommentModule/SubCommentModule';
 import { CommentModuleContext } from 'components/CommentModule/CommentModule';
-import useSnackBar from 'contexts/snackBar/useSnackBar';
+import useSnackbar from 'contexts/snackbar/useSnackbar';
 import useDialog from 'contexts/dialog/useDialog';
 import useMember from 'hooks/queries/useMember';
 import useLike from 'hooks/@common/useLike';
@@ -30,7 +30,7 @@ const Comment = ({ commentBody, parentCommentId }: Props) => {
   const [modifyInput, setModifyInput] = useState('');
   const dialog = useDialog();
   const member = useMember();
-  const snackbar = useSnackBar();
+  const snackbar = useSnackbar();
   const { feedId, addCommentCount } = useContext(CommentModuleContext);
   const comment = useComment({ feedId, commentId: commentBody.id, parentCommentId });
   const { setLiked, isLiked, likeCount } = useLike({
@@ -45,7 +45,7 @@ const Comment = ({ commentBody, parentCommentId }: Props) => {
 
   const handleToggleLiked = () => {
     if (!member.userData) {
-      snackbar.addSnackBar('error', '로그인이 필요한 서비스입니다.');
+      snackbar.addSnackbar('error', '로그인이 필요한 서비스입니다.');
       return;
     }
 
