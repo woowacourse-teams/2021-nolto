@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import HighLightedText from 'components/@common/HighlightedText/HighlightedText';
-import TechInputComponent from 'context/techTag/input/TechInput';
+import TechInputComponent from 'contexts/techTag/input/TechInput';
 
 const Root = styled.div`
   display: flex;

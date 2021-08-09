@@ -1,35 +1,37 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
-import useFeedDetail from 'hooks/queries/useFeedDetail';
+import { ButtonStyle } from 'types';
+import Styled, { Tag } from './FeedDetailContent.styles';
 import ViewCountIcon from 'assets/viewCount.svg';
-import Chip from 'components/@common/Chip/Chip';
-import FeedDropdown from 'components/FeedDropdown/FeedDropdown';
-import LikeButton from 'components/LikeButton/LikeButton';
+import useSnackBar from 'contexts/snackBar/useSnackBar';
+import useFeedDetail from 'hooks/queries/feed/useFeedDetail';
+import useMember from 'hooks/queries/useMember';
 import { STEP_CONVERTER } from 'constants/common';
 import { PALETTE } from 'constants/palette';
 import ROUTE from 'constants/routes';
-import { ButtonStyle } from 'types';
-import useSnackBar from 'context/snackBar/useSnackBar';
-import useMember from 'hooks/queries/useMember';
-import Styled, { Tag } from './FeedDetailContent.styles';
+import Chip from 'components/@common/Chip/Chip';
+import FeedDropdown from 'components/FeedDropdown/FeedDropdown';
+import LikeButton from 'components/LikeButton/LikeButton';
 import ToggleList from 'components/@common/ToggleList/ToggleList';
+import CommentModule from 'components/CommentModule/CommentModule';
+import AsyncBoundary from 'components/AsyncBoundary';
+import ErrorFallback from 'components/ErrorFallback/ErrorFallback';
 
 interface Props {
-  id: number;
+  feedId: number;
 }
 
-const FeedDetailContent = ({ id }: Props) => {
+const FeedDetailContent = ({ feedId }: Props) => {
   const history = useHistory();
-  const snackbar = useSnackBar();
-
+  const snackBar = useSnackBar();
   const member = useMember();
 
   const { data: feedDetail } = useFeedDetail({
     errorHandler: (error) => {
-      snackbar.addSnackBar('error', error.message);
+      snackBar.addSnackBar('error', error.message);
     },
-    id,
+    feedId,
   });
 
   const searchByTag = (tech: string) => {
@@ -46,6 +48,7 @@ const FeedDetailContent = ({ id }: Props) => {
 
   const isMyFeed = member.userData?.id === feedDetail.author.id;
 
+  //TODO: 댓글 로딩 부분 스켈레톤으로 하면 좋을듯
   return (
     <Styled.Root>
       <Styled.IntroContainer>
@@ -127,12 +130,19 @@ const FeedDetailContent = ({ id }: Props) => {
           </Styled.DetailsContent>
         </Styled.FeedSummaryContainer>
       </Styled.IntroContainer>
-
-      <Styled.DescriptionContainer>
+      <div>
         <h3>프로젝트 소개</h3>
         <hr />
         <Styled.Description>{feedDetail.content}</Styled.Description>
-      </Styled.DescriptionContainer>
+      </div>
+
+      <AsyncBoundary
+        rejectedFallback={
+          <ErrorFallback message="댓글 불러오기에 실패했습니다." queryKey="comments" />
+        }
+      >
+        <CommentModule feedId={feedDetail.id} />
+      </AsyncBoundary>
     </Styled.Root>
   );
 };

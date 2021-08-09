@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 import LoginModal from './LoginModal';
-import useModal from 'context/modal/useModal';
+import useModal from 'contexts/modal/useModal';
 
 export default {
   title: 'components/LoginModal',

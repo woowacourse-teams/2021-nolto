@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { TechChips } from 'components/SearchBar/SearchBar.styles';
-import TechTagProvider from 'context/techTag/TechTagProvider';
-import useSnackBar from 'context/snackBar/useSnackBar';
+import TechTagProvider from 'contexts/techTag/TechTagProvider';
+import useSnackBar from 'contexts/snackBar/useSnackBar';
 import ROUTE from 'constants/routes';
-import useTechs from 'hooks/queries/useTechs';
+import useTechsLoad from 'hooks/queries/useTechsLoad';
 import SearchIcon from 'assets/search.svg';
 import Styled, { TechInput } from './SearchResultHeader.styles';
 import { Tech } from 'types';
@@ -25,7 +25,7 @@ const SearchResultHeader = ({ searchParams, query, setQuery, techs, setTechs }: 
 
   const snackbar = useSnackBar();
   // TODO: 네이밍 고려하기
-  const { data: techsData } = useTechs({
+  const { data: techsData } = useTechsLoad({
     techs,
     errorHandler: (error) => snackbar.addSnackBar('error', error.message),
   });

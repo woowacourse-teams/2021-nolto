@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 
 import api from 'constants/api';
 import HttpError from 'utils/HttpError';
-import { resolveHttpErrorResponse } from 'utils/error';
+import { resolveHttpError } from 'utils/error';
 
 interface Args {
   notificationId?: number;
@@ -19,8 +19,8 @@ const deleteNoti = async ({ notificationId }: Args) => {
 
     return data;
   } catch (error) {
-    resolveHttpErrorResponse({
-      errorResponse: error.response,
+    resolveHttpError({
+      error,
       defaultErrorMessage: '알림 삭제 과정에서 에러가 발생했습니다',
     });
   }

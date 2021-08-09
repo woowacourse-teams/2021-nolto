@@ -6,7 +6,7 @@ import Search from 'assets/search.svg';
 import Pencil from 'assets/pencil.svg';
 import { PALETTE } from 'constants/palette';
 import ROUTE from 'constants/routes';
-import useModal from 'context/modal/useModal';
+import useModal from 'contexts/modal/useModal';
 import LoginModal from 'components/LoginModal/LoginModal';
 import { ButtonStyle } from 'types';
 import useMember from 'hooks/queries/useMember';

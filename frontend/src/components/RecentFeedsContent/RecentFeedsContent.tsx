@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import LevelButton from 'components/LevelButton/LevelButton';
 import StretchCard from 'components/StretchCard/StretchCard';
 import Skeleton from 'components/Skeleton/Skeleton';
-import useRecentFeeds from 'hooks/queries/useRecentFeeds';
-import useSnackBar from 'context/snackBar/useSnackBar';
+import useRecentFeedsLoad from 'hooks/queries/feed/useRecentFeedsLoad';
+import useSnackBar from 'contexts/snackBar/useSnackBar';
 import ROUTE from 'constants/routes';
 import Styled, { MoreFeedsArrow } from './RecentFeedsContent.styles';
 import { FilterType } from 'types';
@@ -18,7 +18,7 @@ const RecentFeedsContent = ({ feedsCountToShow }: Props) => {
   const [filter, setFilter] = useState<FilterType>();
 
   const snackbar = useSnackBar();
-  const { data: recentFeeds, isLoading } = useRecentFeeds({
+  const { data: recentFeeds, isLoading } = useRecentFeedsLoad({
     filter,
     errorHandler: (error) => snackbar.addSnackBar('error', error.message),
     suspense: false,

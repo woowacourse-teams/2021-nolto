@@ -4,28 +4,30 @@ import { PALETTE } from 'constants/palette';
 import { Button } from './LikeButton.styles';
 import LikeHeartIcon from 'assets/likeHeart.svg';
 import FilledLikeHeart from 'assets/filledLikeHeart.svg';
-import useFeedLike from 'hooks/mutations/useFeedLike';
-import useFeedUnlike from 'hooks/mutations/useFeedUnlike';
+import useFeedLike from 'hooks/queries/feed/useFeedLike';
+import useFeedUnlike from 'hooks/queries/feed/useFeedUnlike';
 import useMember from 'hooks/queries/useMember';
 import LoginModal from 'components/LoginModal/LoginModal';
-import useSnackBar from 'context/snackBar/useSnackBar';
-import useModal from 'context/modal/useModal';
-import useDialog from 'context/dialog/useDialog';
+import useSnackBar from 'contexts/snackBar/useSnackBar';
+import useModal from 'contexts/modal/useModal';
+import useDialog from 'contexts/dialog/useDialog';
 import { ERROR_CODE_KEY, FeedDetail } from 'types';
 import Styled from './LikeButton.styles';
+import useLike from 'hooks/@common/useLike';
 
 interface Props {
   feedDetail: FeedDetail;
 }
 
 const LikeButton = ({ feedDetail }: Props) => {
-  const [isLiked, setIsLiked] = useState(feedDetail.liked);
-  const [likeCount, setLikeCount] = useState(0);
-
   const snackBar = useSnackBar();
   const member = useMember();
   const modal = useModal();
   const dialog = useDialog();
+  const { setLiked, isLiked, likeCount } = useLike({
+    initialIsLiked: feedDetail.liked,
+    likeCount: feedDetail.likes,
+  });
 
   const handleUnauthorizeError = () => {
     member.logout();
@@ -34,8 +36,7 @@ const LikeButton = ({ feedDetail }: Props) => {
 
   const likeMutation = useFeedLike({
     onSuccess: () => {
-      setIsLiked(true);
-      setLikeCount(likeCount + 1);
+      setLiked(true);
     },
     onError: (error) => {
       dialog.alert(error.message);
@@ -50,8 +51,7 @@ const LikeButton = ({ feedDetail }: Props) => {
 
   const unlikeMutation = useFeedUnlike({
     onSuccess: () => {
-      setIsLiked(false);
-      setLikeCount(likeCount - 1);
+      setLiked(false);
     },
     onError: (error) => {
       dialog.alert(error.message);
@@ -63,18 +63,6 @@ const LikeButton = ({ feedDetail }: Props) => {
       errorHandleMap[error.errorCode]?.();
     },
   });
-
-  useEffect(() => {
-    if (feedDetail.liked === undefined) return;
-
-    setIsLiked(feedDetail.liked);
-  }, [feedDetail.liked]);
-
-  useEffect(() => {
-    if (feedDetail.likes === undefined) return;
-
-    setLikeCount(feedDetail.likes);
-  }, [feedDetail.likes]);
 
   const handleToggleLike = () => {
     if (!member.userData) {

@@ -109,7 +109,12 @@ export interface HttpErrorResponse extends ErrorResponse {
   };
 }
 
-export interface CommentBase {
+export interface CommentRequest {
+  content: string;
+  helper: boolean;
+}
+
+export interface CommentType {
   id: number;
   content: string;
   likes: number;
@@ -118,11 +123,7 @@ export interface CommentBase {
   createdAt: string;
   modified: boolean;
   author: Author;
-}
-
-export interface RootComment extends CommentBase {
   helper: boolean;
-  replies: CommentBase[];
 }
 
 export interface UserHistory {

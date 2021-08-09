@@ -2,8 +2,9 @@ import { rest } from 'msw';
 
 import { BASE_URL } from 'constants/api';
 import { MOCK_FEEDS, MOCK_FEED_DETAIL } from '__mocks__/fixture/Feeds';
-import { UserInfo } from 'types';
+import { CommentType, FeedDetail, UserInfo } from 'types';
 import { MOCK_USER } from '__mocks__/fixture/User';
+import { MOCK_COMMENTS, MOCK_SUB_COMMENTS } from '__mocks__/fixture/Comments';
 
 export const handlers = [
   rest.get(`${BASE_URL.development}/login/oauth/:type/token`, (req, res, ctx) => {
@@ -24,7 +25,7 @@ export const handlers = [
     return res(ctx.status(201));
   }),
   rest.put(`${BASE_URL.development}/feeds/:feedId`, (req, res, ctx) => {
-    return res(ctx.status(200));
+    return res(ctx.status(200), ctx.json<FeedDetail>(MOCK_FEED_DETAIL));
   }),
   rest.delete(`${BASE_URL.development}/feeds/:feedId`, (req, res, ctx) => {
     return res(ctx.status(204));
@@ -37,5 +38,13 @@ export const handlers = [
   }),
   rest.get(`${BASE_URL.development}/members/me`, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json<UserInfo>(MOCK_USER.MAZZI));
+  }),
+
+  //Comments
+  rest.get(`${BASE_URL.development}/feeds/:feedId/comments`, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json<CommentType[]>(MOCK_COMMENTS));
+  }),
+  rest.get(`${BASE_URL.development}/feeds/:feedId/comments/:commentId/replies`, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json<CommentType[]>(MOCK_SUB_COMMENTS));
   }),
 ];

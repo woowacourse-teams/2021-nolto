@@ -2,8 +2,8 @@ import React from 'react';
 import { Redirect, Route, RouteProps } from 'react-router-dom';
 
 import useMember from 'hooks/queries/useMember';
-import useModal from 'context/modal/useModal';
-import useDialog from 'context/dialog/useDialog';
+import useModal from 'contexts/modal/useModal';
+import useDialog from 'contexts/dialog/useDialog';
 import ROUTE from 'constants/routes';
 import LoginModal from './LoginModal/LoginModal';
 

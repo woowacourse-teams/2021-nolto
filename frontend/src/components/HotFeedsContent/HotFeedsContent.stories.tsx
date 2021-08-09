@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SnackBarProvider from 'context/snackBar/SnackBarProvider';
+import SnackBarProvider from 'contexts/snackBar/SnackBarProvider';
 import HotFeedsContent from './HotFeedsContent';
 
 export default {

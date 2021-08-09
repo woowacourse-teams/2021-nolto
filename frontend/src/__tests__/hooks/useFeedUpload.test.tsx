@@ -1,5 +1,5 @@
 import { customRenderHook } from 'test-util';
-import useFeedUpload from 'hooks/mutations/useFeedUpload';
+import useFeedUpload from 'hooks/queries/feed/useFeedUpload';
 
 describe('useFeedUpload 테스트', () => {
   it('새로운 피드를 등록할 수 있다.', async () => {

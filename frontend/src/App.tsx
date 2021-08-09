@@ -13,9 +13,9 @@ import OAuth from 'pages/OAuth/OAuth';
 import Modify from 'pages/Modify/Modify';
 import Mypage from 'pages/Mypage/Mypage';
 import PrivateRoute from 'components/PrivateRoute';
-import DialogProvider from 'context/dialog/DialogProvider';
-import ModalProvider from 'context/modal/ModalProvider';
-import SnackBarProvider from 'context/snackBar/SnackBarProvider';
+import DialogProvider from 'contexts/dialog/DialogProvider';
+import ModalProvider from 'contexts/modal/ModalProvider';
+import SnackBarProvider from 'contexts/snackBar/SnackBarProvider';
 import ROUTE from 'constants/routes';
 import GlobalStyle from './Global.styles';
 

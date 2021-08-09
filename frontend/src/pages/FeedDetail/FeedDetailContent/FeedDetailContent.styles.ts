@@ -6,13 +6,19 @@ import SOSFlag from 'assets/sosFlag.svg';
 import StacksMoreIcon from 'assets/stacksMore.svg';
 
 const Root = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
   min-width: 54.375rem;
   width: 50vw;
+
+  & h3 {
+    margin-bottom: 0.25rem;
+  }
 `;
 
 const IntroContainer = styled.div`
   display: flex;
-  margin-bottom: 2.5rem;
   width: 100%;
   gap: 3.75rem;
 `;
@@ -148,19 +154,20 @@ export const StacksMoreButton = styled(StacksMoreIcon)`
   cursor: pointer;
 `;
 
-const DescriptionContainer = styled.div`
-  & > h3 {
-    margin-bottom: 0.75rem;
-  }
-`;
-
 const Description = styled.pre`
-  margin: 4rem auto 0 auto;
+  margin: 4rem auto;
   width: 52rem;
   font-size: 1rem;
   line-height: 1.5rem;
   text-align: justify;
   white-space: pre-wrap;
+`;
+
+const CommentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 1rem;
 `;
 
 export default {
@@ -182,6 +189,6 @@ export default {
   DetailsKeyWrapper,
   DetailsKey,
   DetailsValue,
-  DescriptionContainer,
   Description,
+  CommentContainer,
 };

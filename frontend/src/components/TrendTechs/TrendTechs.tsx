@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 
 import ROUTE from 'constants/routes';
-import useSnackBar from 'context/snackBar/useSnackBar';
+import useSnackBar from 'contexts/snackBar/useSnackBar';
 import useTrendTechs from 'hooks/queries/useTrendTechs';
 import Styled from './TrendTechs.styles';
 import { Tech } from 'types';
