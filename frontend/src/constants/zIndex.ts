@@ -7,7 +7,7 @@ const Z_INDEX = {
   HEADER: 50,
   MODAL: 110,
   DIALOG: 120,
-  SNACKBAR: 120,
+  snackbar: 120,
 };
 
 export default Z_INDEX;

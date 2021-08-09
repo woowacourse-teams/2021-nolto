@@ -6,7 +6,7 @@ import useProfileEdit from 'hooks/queries/profile/useProfileEdit';
 import useMember from 'hooks/queries/useMember';
 import useNicknameCheck from 'hooks/queries/profile/useNicknameCheck';
 import useQueryDebounce from 'hooks/@common/useQueryDebounce';
-import useSnackBar from 'context/snackBar/useSnackBar';
+import useSnackbar from 'context/snackbar/useSnackbar';
 import useDialog from 'context/dialog/useDialog';
 import { ALERT_MSG } from 'constants/message';
 import Camera from 'assets/camera.svg';
@@ -23,14 +23,14 @@ type ProfileToUpload = {
 const Intro = () => {
   const [isEditing, setIsEditing] = useState(false);
 
-  const snackbar = useSnackBar();
+  const snackbar = useSnackbar();
   const dialog = useDialog();
 
   const { refetchMember } = useMember();
 
   const { data: profile, refetch: refetchProfile } = useProfileLoad({
     errorHandler: (error) => {
-      snackbar.addSnackBar('error', error.message);
+      snackbar.addSnackbar('error', error.message);
     },
   });
 
@@ -47,7 +47,7 @@ const Intro = () => {
   const debouncedNickname = useQueryDebounce(watch('nickname'), 200);
   const { data: nicknameCheck } = useNicknameCheck({
     nickname: debouncedNickname,
-    errorHandler: (error) => snackbar.addSnackBar('error', error.message),
+    errorHandler: (error) => snackbar.addSnackbar('error', error.message),
   });
 
   const setFileInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,11 +83,11 @@ const Intro = () => {
       { formData },
       {
         onSuccess: () => {
-          snackbar.addSnackBar('success', ALERT_MSG.SUCCESS_EDIT_PROFILE);
+          snackbar.addSnackbar('success', ALERT_MSG.SUCCESS_EDIT_PROFILE);
           refetchProfile({ throwOnError: true });
           refetchMember();
         },
-        onError: () => snackbar.addSnackBar('error', ALERT_MSG.FAIL_EDIT_PROFILE),
+        onError: () => snackbar.addSnackbar('error', ALERT_MSG.FAIL_EDIT_PROFILE),
       },
     );
 
