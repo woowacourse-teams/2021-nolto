@@ -1,11 +1,11 @@
 import { useQuery, UseQueryOptions } from 'react-query';
 
 import api from 'constants/api';
-import { ErrorHandler, Notification } from 'types';
+import { ErrorHandler, NotificationType } from 'types';
 import HttpError from 'utils/HttpError';
 import { resolveHttpError } from 'utils/error';
 
-interface CustomQueryOption extends UseQueryOptions<Notification[], HttpError> {
+interface CustomQueryOption extends UseQueryOptions<NotificationType[], HttpError> {
   errorHandler?: ErrorHandler;
 }
 
@@ -24,7 +24,7 @@ const getNotifications = async (errorHandler?: ErrorHandler) => {
 };
 
 const useNotiLoad = ({ errorHandler, ...option }: CustomQueryOption) => {
-  return useQuery<Notification[]>('notification', () => getNotifications(errorHandler), option);
+  return useQuery<NotificationType[]>('notification', () => getNotifications(errorHandler), option);
 };
 
 export default useNotiLoad;

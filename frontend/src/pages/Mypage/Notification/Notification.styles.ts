@@ -67,6 +67,11 @@ const NotiContainer = styled.ul`
 const NotiWrapper = styled.li`
   display: flex;
   align-items: center;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const NotiUserImage = styled.img`

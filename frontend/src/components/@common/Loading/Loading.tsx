@@ -6,7 +6,7 @@ import Styled from './Loading.styles';
 const Loading = () => {
   return (
     <Styled.Root>
-      <img src={loading} />;
+      <img src={loading} />
     </Styled.Root>
   );
 };

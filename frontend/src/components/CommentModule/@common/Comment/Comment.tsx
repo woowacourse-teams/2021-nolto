@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
+import React, { ChangeEvent, useContext, useEffect, useState, useRef } from 'react';
 
 import PencilIcon from 'assets/pencil.svg';
 import ReplyIcon from 'assets/reply.svg';
@@ -22,15 +22,20 @@ import Styled, { CommentTextButton, ModifyTextInput } from './Comment.styles';
 interface Props {
   commentBody: CommentType;
   parentCommentId?: number;
+  isFocused?: boolean;
 }
 
-const Comment = ({ commentBody, parentCommentId }: Props) => {
+const Comment = ({ commentBody, parentCommentId, isFocused }: Props) => {
   const [isReplyFormVisible, setIsReplyFormVisible] = useState(false);
   const [isModifying, setIsModifying] = useState(false);
   const [modifyInput, setModifyInput] = useState('');
+
+  const scrollRef = useRef(null);
+
   const dialog = useDialog();
-  const member = useMember();
   const snackbar = useSnackbar();
+  const member = useMember();
+
   const { feedId, addCommentCount } = useContext(CommentModuleContext);
   const comment = useComment({ feedId, commentId: commentBody.id, parentCommentId });
   const { setLiked, isLiked, likeCount } = useLike({
@@ -95,6 +100,10 @@ const Comment = ({ commentBody, parentCommentId }: Props) => {
   };
 
   useEffect(() => {
+    if (isFocused) scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+  }, [isFocused]);
+
+  useEffect(() => {
     addCommentCount(1);
 
     return () => {
@@ -138,7 +147,7 @@ const Comment = ({ commentBody, parentCommentId }: Props) => {
   );
 
   return (
-    <Styled.Root>
+    <Styled.Root ref={scrollRef}>
       <Styled.Author>
         <div>
           <Avatar user={commentBody.author} />
