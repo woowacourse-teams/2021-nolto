@@ -36,7 +36,8 @@ public class CommentService {
     }
 
     public List<CommentWithReplyResponse> findAllByFeedId(Long feedId, User user) {
-        List<Comment> comments = commentRepository.findAllByFeedId(feedId);
+        List<Comment> comments = commentRepository.findAllByFeedIdAndParentCommentIdIsNull(feedId);
+        comments.sort(Comparator.comparing(Comment::getCreatedDate, Comparator.reverseOrder()));
         return CommentWithReplyResponse.toList(comments, user);
     }
 
