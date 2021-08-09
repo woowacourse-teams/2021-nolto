@@ -2,7 +2,7 @@ import React, { InputHTMLAttributes, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import SearchIcon from 'assets/search.svg';
-import TechTagProvider from 'context/techTag/TechTagProvider';
+import TechTagProvider from 'contexts/techTag/TechTagProvider';
 import ROUTE from 'constants/routes';
 import SearchOption from 'components/SearchOption/SearchOption';
 import Styled, { TechChips, TechInput } from './SearchBar.styles';

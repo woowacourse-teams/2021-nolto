@@ -1,5 +1,5 @@
 import { customRenderHook } from 'test-util';
-import useFeedLike from 'hooks/mutations/useFeedLike';
+import useFeedLike from 'hooks/queries/feed/useFeedLike';
 
 describe('useFeedLike 테스트', () => {
   it('피드에 좋아요를 누를 수 있다.', async () => {

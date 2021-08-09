@@ -9,6 +9,10 @@ interface Props {
 }
 
 const Avatar = ({ user, className }: Props) => {
+  if (!user) {
+    return null;
+  }
+
   return (
     <Styled.Root className={className}>
       <Styled.Image src={user.imageUrl} alt={`닉네임 ${user.nickname}`} />

@@ -3,7 +3,7 @@ import { useQuery, UseQueryOptions } from 'react-query';
 import api from 'constants/api';
 import { ErrorHandler, Tech } from 'types';
 import HttpError from 'utils/HttpError';
-import { resolveHttpErrorResponse } from 'utils/error';
+import { resolveHttpError } from 'utils/error';
 
 interface CustomQueryOption extends UseQueryOptions<Tech[], HttpError> {
   nickname: string;
@@ -16,8 +16,8 @@ const checkNicknameUsable = async (nickname: string, errorHandler: ErrorHandler)
 
     return data;
   } catch (error) {
-    resolveHttpErrorResponse({
-      errorResponse: error.response,
+    resolveHttpError({
+      error,
       defaultErrorMessage: '닉네임 중복검사 과정에서 에러가 발생했습니다',
       errorHandler,
     });

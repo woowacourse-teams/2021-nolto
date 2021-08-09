@@ -5,16 +5,19 @@ import HttpError from './HttpError';
 import { isHttpErrorResponse } from './typeGuard';
 
 interface ResolveHttpErrorResponseArgs {
-  errorResponse: unknown;
+  error: { response: unknown };
   defaultErrorMessage: string;
   errorHandler?: ErrorHandler;
 }
 
-export const resolveHttpErrorResponse = ({
-  errorResponse,
+export const resolveHttpError = ({
+  error,
   defaultErrorMessage,
   errorHandler,
 }: ResolveHttpErrorResponseArgs) => {
+  const errorResponse = error.response;
+
+  console.error(error);
   if (!isHttpErrorResponse(errorResponse)) {
     console.error('에러 응답이 ErrorResponse 타입이 아닙니다');
 

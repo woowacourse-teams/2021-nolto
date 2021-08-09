@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import useHotFeeds from 'hooks/queries/useHotFeeds';
+import useHotFeedsLoad from 'hooks/queries/feed/useHotFeedsLoad';
 import RegularCard from 'components/RegularCard/RegularCard';
 import ROUTE from 'constants/routes';
 import Styled, { CarouselArrowButton } from './HotFeedsContent.styles';
-import useSnackBar from 'context/snackBar/useSnackBar';
+import useSnackBar from 'contexts/snackBar/useSnackBar';
 
 const HotFeedsContent = () => {
   const [hotToyCardIdx, setHotToyCardIdx] = useState(3);
 
   const snackbar = useSnackBar();
 
-  const { data: hotFeeds } = useHotFeeds({
+  const { data: hotFeeds } = useHotFeedsLoad({
     errorHandler: (error) => {
       snackbar.addSnackBar('error', error.message);
     },

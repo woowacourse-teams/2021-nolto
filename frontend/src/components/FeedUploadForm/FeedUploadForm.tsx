@@ -12,10 +12,10 @@ import { FlexContainer } from 'commonStyles';
 import REGEX from 'constants/regex';
 import { THUMBNAIL_EXTENSION } from 'constants/common';
 import { CONFIRM_MSG, UPLOAD_VALIDATION_MSG } from 'constants/message';
-import TechInput from 'context/techTag/input/TechInput';
-import TechTagProvider from 'context/techTag/TechTagProvider';
-import TechChip from 'context/techTag/chip/TechChips';
-import useDialog from 'context/dialog/useDialog';
+import TechInput from 'contexts/techTag/input/TechInput';
+import TechTagProvider from 'contexts/techTag/TechTagProvider';
+import TechChip from 'contexts/techTag/chip/TechChips';
+import useDialog from 'contexts/dialog/useDialog';
 import { except } from 'utils/common';
 import QuestionIcon from 'assets/questionMark.svg';
 import Styled, {
