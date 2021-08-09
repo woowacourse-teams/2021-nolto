@@ -116,7 +116,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
         요청_실패함(실패한_댓글_작성_응답, HttpStatus.BAD_REQUEST, ErrorType.DATA_BINDING_ERROR);
     }
 
-    @DisplayName("로그인 하지않고 피드에 있는 모든 댓글을 좋아요순 + 최신순으로 조회한다. (대댓글은 응답에 포함되지 않음)")
+    @DisplayName("로그인 하지않고 피드에 있는 모든 댓글을 최신순으로 조회한다. (대댓글은 응답에 포함되지 않음)")
     @Test
     public void findAllCommentsByFeedId() {
         // given
@@ -132,7 +132,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = 로그인_하지않고_댓글_목록_조회한다(업로드한_피드의_ID);
 
         // then
-        댓글_목록_조회_성공(response, 2, commentResponse2, commentResponse1);
+        댓글_목록_조회_성공(response, 2, commentResponse2, 0);
     }
 
     @DisplayName("로그인한 유저가 이미 좋아요를 누른 댓글을 조회시 liked가 true다")
@@ -492,15 +492,14 @@ public class CommentAcceptanceTest extends AcceptanceTest {
         assertThat(exceptionResponse.getErrorCode()).isEqualTo(errorType.getErrorCode());
     }
 
-    private void 댓글_목록_조회_성공(ExtractableResponse<Response> response, int commentCount, CommentResponse firstComment, CommentResponse secondComment) {
+    private void 댓글_목록_조회_성공(ExtractableResponse<Response> response, int commentCount, CommentResponse firstComment, int order) {
         CommentResponse[] commentResponses = response.as(CommentResponse[].class);
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         assertThat(commentResponses).hasSize(commentCount);
-        assertThat(commentResponses[0].getId()).isEqualTo(firstComment.getId());
-        assertThat(commentResponses[0].isFeedAuthor()).isTrue();
-        assertThat(commentResponses[1].getId()).isEqualTo(secondComment.getId());
-        assertThat(commentResponses[1].isFeedAuthor()).isTrue();
+        CommentResponse 댓글_응답 =  commentResponses[order];
+        assertThat(댓글_응답.getId()).isEqualTo(firstComment.getId());
+        assertThat(댓글_응답.isFeedAuthor()).isTrue();
     }
 
     private void 댓글_목록_조회시_이미_좋아요누른_댓글은_좋아요를_누른것으로_표시된다(ExtractableResponse<Response> response, int commentCount, CommentResponse commentResponse, int order) {
