@@ -6,7 +6,7 @@ import GlobalStyle from '../src/Global.styles';
 import ModalProvider from '../src/context/modal/ModalProvider';
 import AsyncBoundary from '../src/components/AsyncBoundary';
 import DialogProvider from '../src/context/dialog/DialogProvider';
-import SnackbarProvider from '../src/context/snackbar/SnackbarProvider';
+import SnackBarProvider from '../src/context/snackBar/SnackBarProvider';
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
@@ -33,11 +33,11 @@ addDecorator((story) => (
       <MemoryRouter initialEntries={['/']}>
         <GlobalStyle />
         <DialogProvider>
-          <SnackbarProvider>
+          <SnackBarProvider>
             <AsyncBoundary rejectedFallback={<div>에러났어용 🚨</div>}>
               <ModalProvider>{story()}</ModalProvider>
             </AsyncBoundary>
-          </SnackbarProvider>
+          </SnackBarProvider>
         </DialogProvider>
       </MemoryRouter>
     </QueryClientProvider>
