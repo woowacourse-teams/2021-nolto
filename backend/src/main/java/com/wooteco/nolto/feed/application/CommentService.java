@@ -2,11 +2,12 @@ package com.wooteco.nolto.feed.application;
 
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.NotFoundException;
-import com.wooteco.nolto.exception.UnauthorizedException;
 import com.wooteco.nolto.feed.domain.Comment;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.repository.CommentRepository;
-import com.wooteco.nolto.feed.ui.dto.*;
+import com.wooteco.nolto.feed.ui.dto.CommentRequest;
+import com.wooteco.nolto.feed.ui.dto.CommentResponse;
+import com.wooteco.nolto.feed.ui.dto.ReplyResponse;
 import com.wooteco.nolto.notification.application.NotificationCommentDeleteEvent;
 import com.wooteco.nolto.notification.application.NotificationEvent;
 import com.wooteco.nolto.user.domain.User;
@@ -32,23 +33,21 @@ public class CommentService {
         Comment comment = new Comment(request.getContent(), request.isHelper()).writtenBy(user, findFeed);
         commentRepository.save(comment);
         applicationEventPublisher.publishEvent(NotificationEvent.commentOf(findFeed, comment, request.isHelper()));
-        return CommentResponse.of(comment, user);
+        return CommentResponse.of(comment, user.isCommentLiked(comment));
     }
 
-    public List<CommentWithReplyResponse> findAllByFeedId(Long feedId, User user) {
+    public List<CommentResponse> findAllByFeedId(Long feedId, User user) {
         List<Comment> comments = commentRepository.findAllByFeedId(feedId);
-        return CommentWithReplyResponse.toList(comments, user);
+        return CommentResponse.toList(comments, user);
     }
 
     public CommentResponse updateComment(Long commentId, CommentRequest request, User user) {
         Comment findComment = findEntityById(commentId);
-        if (!findComment.isAuthor(user)) {
-            throw new UnauthorizedException(ErrorType.UNAUTHORIZED_UPDATE_COMMENT);
-        }
+        findComment.checkAuthority(user, ErrorType.UNAUTHORIZED_UPDATE_COMMENT);
         notifyWhenChangedToHelper(request, findComment);
         findComment.update(request.getContent(), request.isHelper());
         Comment updatedComment = commentRepository.saveAndFlush(findComment);
-        return CommentResponse.of(updatedComment, user);
+        return CommentResponse.of(updatedComment, user.isCommentLiked(updatedComment));
     }
 
     private void notifyWhenChangedToHelper(CommentRequest request, Comment findComment) {
@@ -59,15 +58,13 @@ public class CommentService {
     }
 
     public void deleteComment(User user, Long commentId) {
-        Comment comment = findEntityById(commentId);
-        if (!comment.isAuthor(user)) {
-            throw new UnauthorizedException(ErrorType.UNAUTHORIZED_DELETE_COMMENT);
+        Comment findComment = findEntityById(commentId);
+        findComment.checkAuthority(user, ErrorType.UNAUTHORIZED_DELETE_COMMENT);
+        if (!findComment.isReply()) {
+            applicationEventPublisher.publishEvent(new NotificationCommentDeleteEvent(findComment));
         }
-        if (!comment.isReply()) {
-            applicationEventPublisher.publishEvent(new NotificationCommentDeleteEvent(comment));
-        }
-        user.deleteComment(comment);
-        commentRepository.delete(comment);
+        user.deleteComment(findComment);
+        commentRepository.delete(findComment);
     }
 
     public Comment findEntityById(Long commentId) {
@@ -83,7 +80,7 @@ public class CommentService {
 
         Comment saveReply = commentRepository.save(reply);
         applicationEventPublisher.publishEvent(NotificationEvent.replyOf(comment, saveReply));
-        return CommentResponse.of(saveReply, user);
+        return CommentResponse.of(saveReply, user.isCommentLiked(saveReply));
     }
 
     public List<ReplyResponse> findAllRepliesById(User user, Long feedId, Long commentId) {

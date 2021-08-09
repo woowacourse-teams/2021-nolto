@@ -498,7 +498,9 @@ public class CommentAcceptanceTest extends AcceptanceTest {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         assertThat(commentResponses).hasSize(commentCount);
         assertThat(commentResponses[0].getId()).isEqualTo(firstComment.getId());
+        assertThat(commentResponses[0].isFeedAuthor()).isTrue();
         assertThat(commentResponses[1].getId()).isEqualTo(secondComment.getId());
+        assertThat(commentResponses[1].isFeedAuthor()).isTrue();
     }
 
     private void 댓글_목록_조회시_이미_좋아요누른_댓글은_좋아요를_누른것으로_표시된다(ExtractableResponse<Response> response, int commentCount, CommentResponse commentResponse) {

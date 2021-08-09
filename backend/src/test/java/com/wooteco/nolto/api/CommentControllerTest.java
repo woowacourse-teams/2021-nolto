@@ -62,11 +62,11 @@ public class CommentControllerTest extends ControllerTest {
     private static final ReplyResponse REPLY_RESPONSE2 = new ReplyResponse(REPLY_ID_2, "작성된 대댓글입니다.", 0, false,
             false, LocalDateTime.now(), false, COMMENT_ID, AUTHOR_RESPONSE);
 
-    private static final CommentWithReplyResponse COMMENT_WITH_REPLY_RESPONSE = new CommentWithReplyResponse(COMMENT_ID,
+    private static final CommentResponse COMMENT_WITH_REPLY_RESPONSE = new CommentResponse(COMMENT_ID,
             "첫 번째 댓글", false, 3, true, true, LocalDateTime.now(), false,
             AUTHOR_RESPONSE);
 
-    private static final CommentWithReplyResponse COMMENT_WITH_REPLY_RESPONSE2 = new CommentWithReplyResponse(COMMENT_ID_2,
+    private static final CommentResponse COMMENT_WITH_REPLY_RESPONSE2 = new CommentResponse(COMMENT_ID_2,
             "두 번째 댓글", true, 0, false, false, LocalDateTime.now(), false,
             AUTHOR_RESPONSE);
 
@@ -206,7 +206,7 @@ public class CommentControllerTest extends ControllerTest {
     @DisplayName("요청한 피드에 대한 댓글 전체를 조회한다. 단, 대댓글을 함께 응답에 포함하지 않는다.")
     @Test
     void findAllCommentsByFeedId() throws Exception {
-        List<CommentWithReplyResponse> responses = Arrays.asList(COMMENT_WITH_REPLY_RESPONSE, COMMENT_WITH_REPLY_RESPONSE2);
+        List<CommentResponse> responses = Arrays.asList(COMMENT_WITH_REPLY_RESPONSE, COMMENT_WITH_REPLY_RESPONSE2);
 
         given(authService.findUserByToken(ACCESS_TOKEN)).willReturn(LOGIN_USER);
         given(commentService.findAllByFeedId(any(Long.class), any(User.class))).willReturn(responses);

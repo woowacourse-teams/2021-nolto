@@ -32,8 +32,8 @@ public class CommentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CommentWithReplyResponse>> findAllCommentsByFeedId(@UserAuthenticationPrincipal User user, @PathVariable Long feedId) {
-        List<CommentWithReplyResponse> responses = commentService.findAllByFeedId(feedId, user);
+    public ResponseEntity<List<CommentResponse>> findAllCommentsByFeedId(@UserAuthenticationPrincipal User user, @PathVariable Long feedId) {
+        List<CommentResponse> responses = commentService.findAllByFeedId(feedId, user);
         return ResponseEntity.ok(responses);
     }
 
