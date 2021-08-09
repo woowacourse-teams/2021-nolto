@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 
 import ROUTE from 'constants/routes';
-import useSnackBar from 'contexts/snackBar/useSnackBar';
+import useSnackbar from 'contexts/snackbar/useSnackbar';
 import useTrendTechs from 'hooks/queries/useTrendTechs';
 import Styled from './TrendTechs.styles';
 import { Tech } from 'types';
@@ -23,10 +23,10 @@ const TrendTechs = () => {
     });
   };
 
-  const snackbar = useSnackBar();
+  const snackbar = useSnackbar();
 
   const { data: tags } = useTrendTechs({
-    errorHandler: (error) => snackbar.addSnackBar('error', error.message),
+    errorHandler: (error) => snackbar.addSnackbar('error', error.message),
     suspense: false,
   });
 

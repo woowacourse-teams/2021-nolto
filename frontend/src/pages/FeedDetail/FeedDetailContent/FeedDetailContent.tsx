@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { ButtonStyle } from 'types';
 import Styled, { Tag } from './FeedDetailContent.styles';
 import ViewCountIcon from 'assets/viewCount.svg';
-import useSnackBar from 'contexts/snackBar/useSnackBar';
+import useSnackbar from 'contexts/snackbar/useSnackbar';
 import useFeedDetail from 'hooks/queries/feed/useFeedDetail';
 import useMember from 'hooks/queries/useMember';
 import { STEP_CONVERTER } from 'constants/common';
@@ -24,12 +24,12 @@ interface Props {
 
 const FeedDetailContent = ({ feedId }: Props) => {
   const history = useHistory();
-  const snackBar = useSnackBar();
+  const snackbar = useSnackbar();
   const member = useMember();
 
   const { data: feedDetail } = useFeedDetail({
     errorHandler: (error) => {
-      snackBar.addSnackBar('error', error.message);
+      snackBar.addSnackbar('error', error.message);
     },
     feedId,
   });

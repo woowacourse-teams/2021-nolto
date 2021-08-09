@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import useUserHistory from 'hooks/queries/userHistory/useUserHistory';
-import useSnackBar from 'contexts/snackBar/useSnackBar';
+import useSnackbar from 'contexts/snackbar/useSnackbar';
 import ROUTE from 'constants/routes';
 import ReturnArrow from 'assets/arrowReturnRight.svg';
 import { Feed, FeedWithComment, UserHistoryType } from 'types';
@@ -13,11 +13,11 @@ const History = () => {
   const selectedTab = useRef(null);
   const history = useHistory();
 
-  const snackbar = useSnackBar();
+  const snackbar = useSnackbar();
 
   const { data: historyData } = useUserHistory({
     errorHandler: (error) => {
-      snackbar.addSnackBar('error', error.message);
+      snackbar.addSnackbar('error', error.message);
     },
   });
 

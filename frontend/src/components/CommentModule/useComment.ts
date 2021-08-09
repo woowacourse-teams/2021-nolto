@@ -1,4 +1,4 @@
-import useSnackBar from 'contexts/snackBar/useSnackBar';
+import useSnackbar from 'contexts/snackbar/useSnackbar';
 import useSubCommentsLoad from 'hooks/queries/comment/subComment/useSubCommentsLoad';
 import useCommentDelete from 'hooks/queries/comment/useCommentDelete';
 import useCommentLike from 'hooks/queries/comment/useCommentLike';
@@ -13,7 +13,7 @@ interface Props {
 }
 
 const useComment = ({ feedId, commentId, parentCommentId }: Props) => {
-  const snackbar = useSnackBar();
+  const snackbar = useSnackbar();
 
   const { refetch: reloadComments } = useCommentsLoad({
     feedId,
@@ -27,7 +27,7 @@ const useComment = ({ feedId, commentId, parentCommentId }: Props) => {
         reloadComments();
       },
       onError: (error) => {
-        snackbar.addSnackBar('error', error.message);
+        snackbar.addSnackbar('error', error.message);
       },
     },
   );
@@ -39,7 +39,7 @@ const useComment = ({ feedId, commentId, parentCommentId }: Props) => {
         reloadComments();
       },
       onError: (error) => {
-        snackbar.addSnackBar('error', error.message);
+        snackbar.addSnackbar('error', error.message);
       },
     },
   );
@@ -48,7 +48,7 @@ const useComment = ({ feedId, commentId, parentCommentId }: Props) => {
     feedId,
     commentId,
     onError: (error) => {
-      snackbar.addSnackBar('error', error.message);
+      snackbar.addSnackbar('error', error.message);
     },
   });
 
@@ -56,7 +56,7 @@ const useComment = ({ feedId, commentId, parentCommentId }: Props) => {
     feedId,
     commentId,
     onError: (error) => {
-      snackbar.addSnackBar('error', error.message);
+      snackbar.addSnackbar('error', error.message);
     },
   });
 
@@ -84,7 +84,7 @@ const useComment = ({ feedId, commentId, parentCommentId }: Props) => {
         reloadSubComments();
       },
       onError: (error) => {
-        snackbar.addSnackBar('error', error.message);
+        snackbar.addSnackbar('error', error.message);
       },
     },
   );
@@ -96,7 +96,7 @@ const useComment = ({ feedId, commentId, parentCommentId }: Props) => {
         reloadSubComments();
       },
       onError: (error) => {
-        snackbar.addSnackBar('error', error.message);
+        snackbar.addSnackbar('error', error.message);
       },
     },
   );

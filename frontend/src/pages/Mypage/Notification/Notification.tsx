@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import CheckMark from 'assets/check.svg';
 import CrossMark from 'assets/crossMark.svg';
 import { PALETTE } from 'constants/palette';
-import useSnackbar from 'contexts/snackBar/useSnackBar';
+import useSnackbar from 'contexts/snackbar/useSnackbar';
 import useNotiLoad from 'hooks/queries/profile/useNotiLoad';
 import useNotiDelete from 'hooks/queries/profile/useNotiDelete';
 import useMember from 'hooks/queries/useMember';
@@ -23,7 +23,7 @@ const Notification = () => {
 
   const { data: notiData, refetch: refetchNoti } = useNotiLoad({
     errorHandler: (error) => {
-      snackbar.addSnackBar('error', error.message);
+      snackbar.addSnackbar('error', error.message);
     },
   });
 
@@ -40,7 +40,7 @@ const Notification = () => {
           refetchNoti({ throwOnError: true });
         },
         onError: (error) => {
-          snackbar.addSnackBar('error', error.message);
+          snackbar.addSnackbar('error', error.message);
         },
       },
     );

@@ -7,7 +7,7 @@ import Header from 'components/Header/Header';
 import ROUTE from 'constants/routes';
 import { ALERT_MSG } from 'constants/message';
 import useDialog from 'contexts/dialog/useDialog';
-import useSnackBar from 'contexts/snackBar/useSnackBar';
+import useSnackbar from 'contexts/snackbar/useSnackbar';
 import useFeedModify from 'hooks/queries/feed/useFeedModify';
 import Styled from './Modify.styles';
 import { FeedDetail } from 'types';
@@ -17,7 +17,7 @@ const Modify = () => {
   const history = useHistory();
 
   const dialog = useDialog();
-  const snackbar = useSnackBar();
+  const snackbar = useSnackbar();
 
   const modifyMutation = useFeedModify();
 
@@ -44,7 +44,7 @@ const Modify = () => {
       { feedId, formData },
       {
         onSuccess: () => {
-          snackbar.addSnackBar('success', ALERT_MSG.SUCCESS_MODIFY_FEED);
+          snackbar.addSnackbar('success', ALERT_MSG.SUCCESS_MODIFY_FEED);
 
           history.push(`${ROUTE.FEEDS}/${feedId}`);
         },
