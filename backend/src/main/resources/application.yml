@@ -44,17 +44,6 @@ spring:
   flyway:
     enabled: true
     baseline-on-migrate: true
-
-management:
-  metrics:
-    export:
-      cloudwatch:
-        namespace: DASHBOARD-nolto-dev
-        batch-size: 20
-  endpoints:
-    web:
-      exposure:
-        include: "*"
 ---
 spring:
   config:
@@ -129,17 +118,6 @@ spring:
   flyway:
     enabled: true
     baseline-on-migrate: true
-
-management:
-  metrics:
-    export:
-      cloudwatch:
-        namespace: DASHBOARD-nolto
-        batch-size: 20
-  endpoints:
-    web:
-      exposure:
-        include: "*"
 ---
 security:
   jwt:
@@ -162,7 +140,6 @@ cloud:
       static: ap-northeast-2
     stack:
       auto: false
-
 application:
   bucket:
     name: 2021-nolto
@@ -170,5 +147,3 @@ application:
     url: https://dksykemwl00pf.cloudfront.net/
   feed-default-image: nolto-default-thumbnail.png
   user-default-image: nolto-default-thumbnail.png
-
-
