@@ -1,7 +1,6 @@
 import React, { ChangeEvent, useContext, useEffect, useState, useRef } from 'react';
 
 import PencilIcon from 'assets/pencil.svg';
-import ReplyIcon from 'assets/reply.svg';
 import ThumbIcon from 'assets/thumb.svg';
 import TrashIcon from 'assets/trash.svg';
 import { FlexContainer } from 'commonStyles';
@@ -26,7 +25,6 @@ interface Props {
 }
 
 const Comment = ({ commentBody, parentCommentId, isFocused }: Props) => {
-  const [isReplyFormVisible, setIsReplyFormVisible] = useState(false);
   const [isModifying, setIsModifying] = useState(false);
   const [modifyInput, setModifyInput] = useState('');
 
@@ -70,10 +68,6 @@ const Comment = ({ commentBody, parentCommentId, isFocused }: Props) => {
         setLiked(true);
       },
     });
-  };
-
-  const handleClickReply = () => {
-    setIsReplyFormVisible(!isReplyFormVisible);
   };
 
   const handleChangeModifyInput = (event: ChangeEvent<HTMLInputElement>) => {
@@ -168,21 +162,11 @@ const Comment = ({ commentBody, parentCommentId, isFocused }: Props) => {
               </IconButton>
               <span>{likeCount}</span>
             </Styled.ThumbUpWrapper>
-            {isRootComment && (
-              <IconButton onClick={handleClickReply} isShadow={false}>
-                <ReplyIcon width="20px" />
-              </IconButton>
-            )}
           </FlexContainer>
         </Styled.Detail>
       </Styled.Body>
 
-      {isRootComment && (
-        <SubCommentModule
-          parentCommentId={commentBody.id}
-          isReplyFormVisible={isReplyFormVisible}
-        />
-      )}
+      {isRootComment && <SubCommentModule parentCommentId={commentBody.id} />}
     </Styled.Root>
   );
 };

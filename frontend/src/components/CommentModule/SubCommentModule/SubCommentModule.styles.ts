@@ -2,12 +2,20 @@ import styled from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
 import ArrowIcon from 'assets/carouselArrow.svg';
+import IconButton from 'components/@common/IconButton/IconButton';
 
 const Root = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin: 1rem 0 0 2rem;
+  padding: 1rem 0 0 2rem;
+`;
+
+export const ReplyIconButton = styled(IconButton)`
+  position: absolute;
+  top: -1.15rem;
+  left: 6.25rem;
 `;
 
 export const FoldButton = styled.button`
@@ -29,14 +37,24 @@ const ArrowUp = styled(ArrowIcon)<{ isFold: boolean }>`
   transition: all 0.2s ease;
 `;
 
-const SubCommentWrapper = styled.div<{ isFold: boolean; replyCount: number }>`
+const SubCommentWrapper = styled.div<{
+  isFold: boolean;
+  isReplyFormVisible: boolean;
+  replyCount: number;
+}>`
   display: flex;
   flex-direction: column;
   gap: 1rem;
   overflow: hidden;
   transition: height 0.2s ease;
 
-  height: ${({ isFold, replyCount }) => (isFold ? '0' : `calc(7.5rem * ${replyCount})`)};
+  height: ${({ isFold, isReplyFormVisible, replyCount }) => {
+    if (isFold) return 0;
+
+    if (!isReplyFormVisible) return `calc(7.5rem * ${replyCount})`;
+
+    return `calc(7.5rem * ${replyCount} + 4rem)`;
+  }};
 `;
 
 export default { Root, ArrowUp, SubCommentWrapper };
