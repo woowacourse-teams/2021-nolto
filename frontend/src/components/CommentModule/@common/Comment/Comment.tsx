@@ -127,6 +127,7 @@ const Comment = ({ commentBody, parentCommentId, isFocused }: Props) => {
   const exhibitMode: React.ReactNode = (
     <>
       <span>{commentBody.content}</span>
+      {commentBody.modified && <span className="modified-text"> (수정됨)</span>}
       {isMyComment && (
         <Styled.EditDeleteContainer>
           <IconButton onClick={handleChangeToModifyMode} isShadow={false}>

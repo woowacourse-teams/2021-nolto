@@ -58,6 +58,11 @@ const Content = styled.span<{ isFeedAuthor: boolean }>`
   line-height: 2.5rem;
 
   background-color: ${({ isFeedAuthor }) => isFeedAuthor && PALETTE.ORANGE_200};
+
+  & .modified-text {
+    color: ${PALETTE.GRAY_500};
+    font-size: 12px;
+  }
 `;
 
 export const ModifyTextInput = styled(TextInput)`
