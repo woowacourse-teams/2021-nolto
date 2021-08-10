@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.UUID;
 
 @Transactional
 @Service
@@ -51,9 +52,10 @@ public class ImageService {
 
     private String getFileName(File file) {
         String fileOriginName = file.getName();
+        String uuid = UUID.randomUUID().toString().replace("-", "");
         int pos = fileOriginName.lastIndexOf(FILENAME_EXTENSION_DOT);
-        String ext = FILENAME_EXTENSION_DOT + fileOriginName.substring(pos + 1);
-        return System.currentTimeMillis() + Base64.encodeAsString(file.getName().getBytes()) + ext;
+        String ext = FILENAME_EXTENSION_DOT + file.getName().substring(pos + 1);
+        return uuid + ext;
     }
 
     private File convertToFile(MultipartFile multipartFile) {
