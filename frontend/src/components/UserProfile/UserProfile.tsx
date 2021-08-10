@@ -34,7 +34,9 @@ const UserProfile = ({ className }: Props) => {
         {notiCount > 0 && <Styled.NotiAlert>{notiCount}</Styled.NotiAlert>}
       </Styled.UserThumbnail>
       <Styled.Dropdown isOpen={isProfileOpen}>
-        <Styled.Greeting>👋 Hello, {member.userData?.nickname}!</Styled.Greeting>
+        <Styled.Greeting>
+          👋 Hello, {<br />} {member.userData?.nickname}!
+        </Styled.Greeting>
         <NotiLink to={ROUTE.MYPAGE}>
           새 알림 {notiCount > 0 && <span className="noti-count">{notiCount}</span>}
         </NotiLink>

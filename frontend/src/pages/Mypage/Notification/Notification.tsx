@@ -46,7 +46,9 @@ const Notification = () => {
     deleteNoti(id);
   };
 
-  const deleteNoti = (notificationId?: number) => {
+  const deleteNoti = (notificationId?: number, event?: React.MouseEvent) => {
+    event?.stopPropagation();
+
     deleteMutation.mutate(
       { notificationId },
       {
@@ -97,7 +99,7 @@ const Notification = () => {
                   <Styled.NotiBold className="feed-title">{data.feed.title}&nbsp;</Styled.NotiBold>
                   프로젝트{NotiTypeText[data.type]}
                 </Styled.NotiText>
-                <Styled.DeleteNotiButton onClick={() => deleteNoti(data.id)}>
+                <Styled.DeleteNotiButton onClick={(event) => deleteNoti(data.id, event)}>
                   <CrossMark width="12px" fill={PALETTE.BLACK_200} />
                 </Styled.DeleteNotiButton>
               </Styled.NotiWrapper>
