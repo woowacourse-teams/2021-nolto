@@ -44,6 +44,17 @@ spring:
   flyway:
     enabled: true
     baseline-on-migrate: true
+
+management:
+  metrics:
+    export:
+      cloudwatch:
+        namespace: DASHBOARD-nolto-dev
+        batch-size: 20
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 ---
 spring:
   config:
@@ -118,6 +129,17 @@ spring:
   flyway:
     enabled: true
     baseline-on-migrate: true
+
+management:
+  metrics:
+    export:
+      cloudwatch:
+        namespace: DASHBOARD-nolto
+        batch-size: 20
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 ---
 security:
   jwt:
@@ -140,16 +162,6 @@ cloud:
       static: ap-northeast-2
     stack:
       auto: false
-management:
-  metrics:
-    export:
-      cloudwatch:
-        namespace: DASHBOARD-nolto-dev
-        batch-size: 20
-    endpoints:
-      web:
-        exposure:
-          include: *
 
 application:
   bucket:
