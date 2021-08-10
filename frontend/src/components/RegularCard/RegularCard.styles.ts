@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
 import { Card, hoverLayer } from 'commonStyles';
+import { MEDIA_QUERY } from 'constants/mediaQuery';
 
 const Root = styled(Card)<{ imageUrl: string }>`
   width: 15.75rem;
@@ -12,6 +13,16 @@ const Root = styled(Card)<{ imageUrl: string }>`
   overflow: hidden;
 
   ${hoverLayer({})};
+
+  @media ${MEDIA_QUERY.TABLET} {
+    width: 12.5rem;
+    height: 15.75rem;
+  }
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    width: 9.75rem;
+    height: 12rem;
+  }
 `;
 
 const ContentArea = styled.div`
@@ -24,12 +35,20 @@ const ContentArea = styled.div`
   color: ${PALETTE.WHITE_400};
   background: rgba(51, 51, 51, 0.25);
   border-radius: 0px 0px 0.75rem 0.75rem;
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    height: 4.5rem;
+  }
 `;
 
 const Title = styled.h3`
   font-size: 1.5rem;
   color: inherit;
   margin-bottom: 8px;
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    font-size: 1rem;
+  }
 `;
 
 const Content = styled.p`
@@ -39,6 +58,10 @@ const Content = styled.p`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    display: none;
+  }
 `;
 
 export default { Root, ContentArea, Title, Content };

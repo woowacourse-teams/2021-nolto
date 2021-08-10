@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { Card, hoverLayer } from 'commonStyles';
+import { MEDIA_QUERY } from 'constants/mediaQuery';
 
 const Root = styled(Card)`
   width: 40rem;
@@ -13,6 +14,18 @@ const Root = styled(Card)`
   overflow: hidden;
 
   ${hoverLayer({})};
+
+  @media ${MEDIA_QUERY.TABLET} {
+    width: 32rem;
+    height: 6.5rem;
+    padding: 0.35rem 1rem;
+  }
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    width: 18rem;
+    height: 5rem;
+    padding: 0.2rem 0.65rem;
+  }
 `;
 
 const Thumbnail = styled.img`
@@ -20,12 +33,26 @@ const Thumbnail = styled.img`
   height: 5.5rem;
   flex-shrink: 0;
   border-radius: 0.5rem;
+
+  @media ${MEDIA_QUERY.TABLET} {
+    width: 4.5rem;
+    height: 4.5rem;
+  }
+
+  @media ${MEDIA_QUERY.TABLET} {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
 `;
 
 const ChipWrapper = styled.div`
   position: absolute;
   top: 0.75rem;
   right: 0.75rem;
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    display: none;
+  }
 `;
 
 const ContentArea = styled.div`
