@@ -16,9 +16,9 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Objects;
 
 public abstract class OAuthClientDetail implements OAuthClient {
-    private final static String HEADER_NAME_AUTHORIZATION = "Authorization";
-    private final static String HEADER_NAME_CONTENT_TYPE = "Content-type";
-    private final static String HEADER_VALUE_CONTENT_TYPE = "application/x-www-form-urlencoded;charset-utf-8";
+    private static final String HEADER_NAME_AUTHORIZATION = "Authorization";
+    private static final String HEADER_NAME_CONTENT_TYPE = "Content-type";
+    private static final String HEADER_VALUE_CONTENT_TYPE = "application/x-www-form-urlencoded;charset-utf-8";
 
     protected abstract MultiValueMap<String, String> generateAccessTokenRequestParam(String code);
 

@@ -12,8 +12,8 @@ import org.springframework.util.MultiValueMap;
 @RequiredArgsConstructor
 public class GithubClient extends OAuthClientDetail {
 
-    private final static String GITHUB_USERINFO_REQUEST_URL = "https://api.github.com/user";
-    private final static String GITHUB_TOKEN_REQUEST_URL = "https://github.com/login/oauth/access_token";
+    private static final String GITHUB_USERINFO_REQUEST_URL = "https://api.github.com/user";
+    private static final String GITHUB_TOKEN_REQUEST_URL = "https://github.com/login/oauth/access_token";
 
     private final GithubOAuthInfo githubOAuthInfo;
 

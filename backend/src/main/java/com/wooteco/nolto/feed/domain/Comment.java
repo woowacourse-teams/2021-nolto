@@ -109,10 +109,6 @@ public class Comment extends BaseEntity {
                 .findAny();
     }
 
-    public boolean isModified() {
-        return getModifiedDate().isAfter(getCreatedDate());
-    }
-
     public boolean isFeedAuthor() {
         return this.author.sameAs(feed.getAuthor());
     }

@@ -12,8 +12,8 @@ import org.springframework.util.MultiValueMap;
 @RequiredArgsConstructor
 public class GoogleClient extends OAuthClientDetail {
 
-    private final static String GOOGLE_USERINFO_REQUEST_URL = "https://openidconnect.googleapis.com/v1/userinfo";
-    private final static String GOOGLE_TOKEN_REQUEST_URL = "https://oauth2.googleapis.com/token";
+    private static final String GOOGLE_USERINFO_REQUEST_URL = "https://openidconnect.googleapis.com/v1/userinfo";
+    private static final String GOOGLE_TOKEN_REQUEST_URL = "https://oauth2.googleapis.com/token";
 
     private final GoogleOAuthInfo googleOAuthInfo;
 

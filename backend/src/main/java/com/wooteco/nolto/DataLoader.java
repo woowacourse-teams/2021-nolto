@@ -29,23 +29,24 @@ import java.util.List;
 @Transactional
 public class DataLoader implements ApplicationRunner {
 
-    private final UserRepository userRepository;
     private final FeedRepository feedRepository;
     private final TechRepository techRepository;
     private final LikeRepository likeRepository;
     private final CommentRepository commentRepository;
-    private final EntityManager entityManager;
+    private final UserRepository userRepository;
+
+    private final String defaultImage = "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg";
 
     @Override
     public void run(ApplicationArguments args) {
-        User mickey = new User("1", SocialType.GITHUB, "미키", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg");
+        User mickey = new User("1", SocialType.GITHUB, "미키", defaultImage);
         List<User> users = Arrays.asList(
                 mickey,
-                new User("2", SocialType.GITHUB, "아마찌", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"),
-                new User("3", SocialType.GITHUB, "지그", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"),
-                new User("4", SocialType.GITHUB, "포모", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"),
-                new User("5", SocialType.GITHUB, "조엘", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"),
-                new User("6", SocialType.GITHUB, "찰리", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg")
+                new User("2", SocialType.GITHUB, "아마찌", defaultImage),
+                new User("3", SocialType.GITHUB, "지그", defaultImage),
+                new User("4", SocialType.GITHUB, "포모", defaultImage),
+                new User("5", SocialType.GITHUB, "조엘", defaultImage),
+                new User("6", SocialType.GITHUB, "찰리", defaultImage)
         );
         userRepository.saveAll(users);
 
@@ -61,7 +62,7 @@ public class DataLoader implements ApplicationRunner {
         feed2.changeTechs(Arrays.asList(saveTech2));
 
         Feed saveFeed1 = feedRepository.save(feed1);
-        Feed saveFeed2 = feedRepository.save(feed2);
+        feedRepository.save(feed2);
 
         Comment comment1 = new Comment("첫 댓글", false).writtenBy(mickey, feed1);
         Comment comment2 = new Comment("2등 댓글", false).writtenBy(mickey, feed1);

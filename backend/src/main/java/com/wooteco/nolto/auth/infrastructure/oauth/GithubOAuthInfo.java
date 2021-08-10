@@ -13,19 +13,19 @@ import org.springframework.util.MultiValueMap;
 public class GithubOAuthInfo implements SocialOAuthInfo {
 
     @Value("${oauth.github.client.id}")
-    private String client_id;
+    private String clientId;
 
     @Value("${oauth.github.client.secret}")
-    private String client_secret;
+    private String clientSecret;
 
     @Value("${oauth.github.scope}")
     private String scope;
 
     @Value("${oauth.github.redirect-uri}")
-    private String redirect_uri;
+    private String redirectUri;
 
     @Override
-    public String getResponse_type() {
+    public String getResponseType() {
         return "";
     }
 
@@ -37,9 +37,9 @@ public class GithubOAuthInfo implements SocialOAuthInfo {
     @Override
     public MultiValueMap<String, String> generateAccessTokenRequestParam(String code) {
         MultiValueMap<String, String> param = new LinkedMultiValueMap<>();
-        param.add("client_id", client_id);
-        param.add("client_secret", client_secret);
-        param.add("redirect_uri", redirect_uri);
+        param.add("client_id", clientId);
+        param.add("client_secret", clientSecret);
+        param.add("redirect_uri", redirectUri);
         param.add("code", code);
         return param;
     }
