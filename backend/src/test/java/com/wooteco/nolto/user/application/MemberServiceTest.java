@@ -89,7 +89,7 @@ class MemberServiceTest {
         assertThat(myFeedsTitle).containsExactly(영상이_피드.getTitle());
 
         List<String> myComments = getCommentResponseComment(memberHistoryResponse.getMyComments());
-        assertThat(myComments).containsExactly(영상이_피드에_영상이_댓글.getContent(), 영상이_피드에_아마찌_댓글.getContent());
+        assertThat(myComments).containsExactly(영상이_피드에_아마찌_댓글.getContent(), 영상이_피드에_영상이_댓글.getContent());
     }
 
     @DisplayName("닉네임의 중복 여부를 검사한다.")
