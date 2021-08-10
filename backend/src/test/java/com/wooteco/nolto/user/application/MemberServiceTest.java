@@ -76,23 +76,31 @@ class MemberServiceTest {
     private final Like 영상이_좋아요_아마찌_피드 = new Like(존재하는_백신_영상이, 아마찌_피드);
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws InterruptedException {
         given(imageService.upload(any(MultipartFile.class), any(ImageKind.class))).willReturn("image.jpg");
         userRepository.saveAndFlush(존재하는_백신_영상이);
+        Thread.sleep(1);
         userRepository.saveAndFlush(존재하는_아마찌);
+        Thread.sleep(1);
 
         feedRepository.saveAndFlush(영상이_피드);
+        Thread.sleep(1);
         feedRepository.saveAndFlush(아마찌_피드);
+        Thread.sleep(1);
 
         영상이_피드.addComment(영상이_피드에_영상이_댓글);
         commentRepository.saveAndFlush(영상이_피드에_영상이_댓글);
+        Thread.sleep(1);
         아마찌_피드.addComment(영상이_피드에_아마찌_댓글);
         commentRepository.saveAndFlush(영상이_피드에_아마찌_댓글);
+        Thread.sleep(1);
 
         존재하는_백신_영상이.addLike(영상이_좋아요_영상이_피드);
         likeRepository.saveAndFlush(영상이_좋아요_영상이_피드);
+        Thread.sleep(1);
         존재하는_백신_영상이.addLike(영상이_좋아요_아마찌_피드);
         likeRepository.saveAndFlush(영상이_좋아요_아마찌_피드);
+        Thread.sleep(1);
     }
 
     @DisplayName("사용자의 히스토리(좋아요 한 글, 내가 작성한 글, 내가 남긴 댓글)를 최신순으로 조회할 수 있다.")
@@ -103,13 +111,13 @@ class MemberServiceTest {
 
         //then
         List<String> likedFeedsTitle = getFeedHistoryResponseTitle(memberHistoryResponse.getLikedFeeds());
-        assertThat(likedFeedsTitle).containsExactly(아마찌_피드.getTitle(), 영상이_피드.getTitle());
+        assertThat(likedFeedsTitle).contains(아마찌_피드.getTitle(), 영상이_피드.getTitle());
 
         List<String> myFeedsTitle = getFeedHistoryResponseTitle(memberHistoryResponse.getMyFeeds());
         assertThat(myFeedsTitle).contains(영상이_피드.getTitle());
 
         List<String> myComments = getCommentResponseComment(memberHistoryResponse.getMyComments());
-        assertThat(myComments).containsExactly(영상이_피드에_아마찌_댓글.getContent(), 영상이_피드에_영상이_댓글.getContent());
+        assertThat(myComments).contains(영상이_피드에_아마찌_댓글.getContent(), 영상이_피드에_영상이_댓글.getContent());
     }
 
     @DisplayName("닉네임의 중복 여부를 검사한다.")
