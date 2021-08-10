@@ -32,4 +32,8 @@ public class NotificationEvent {
     public static NotificationEvent likeOf(Feed feed, User publisher) {
         return new NotificationEvent(feed.getAuthor(), feed, null, publisher, NotificationType.LIKE);
     }
+
+    public boolean validatePublisher() {
+        return !publisher.sameAs(listener);
+    }
 }

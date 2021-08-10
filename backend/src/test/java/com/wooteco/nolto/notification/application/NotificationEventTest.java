@@ -67,7 +67,7 @@ public class NotificationEventTest {
         feedRepository.save(찰리가_쓴_피드);
     }
 
-    @DisplayName("피드에 좋아요를 받은 경우 알림을 저장한다.")
+    @DisplayName("피드에 좋아요를 받은 경우 알림을 저장한다.(본인 유무는 이벤트 발생과 무관)")
     @Test
     void saveWhenFeedLike() {
         NotificationEvent 피드_좋아요_이벤트 = NotificationEvent.likeOf(찰리가_쓴_피드, 포모);

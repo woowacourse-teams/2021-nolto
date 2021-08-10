@@ -5,8 +5,6 @@ import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.NotFoundException;
 import com.wooteco.nolto.feed.domain.Comment;
 import com.wooteco.nolto.feed.domain.Feed;
-import com.wooteco.nolto.feed.domain.repository.CommentRepository;
-import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.notification.domain.Notification;
 import com.wooteco.nolto.notification.domain.NotificationRepository;
 import com.wooteco.nolto.user.domain.User;
@@ -27,7 +25,9 @@ public class NotificationService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void save(NotificationEvent notificationEvent) {
         Notification notification = notificationEvent.toEntity();
-        notificationRepository.save(notification);
+        if (notificationEvent.validatePublisher()) {
+            notificationRepository.save(notification);
+        }
     }
 
     public List<Notification> findAllByUser(User user) {

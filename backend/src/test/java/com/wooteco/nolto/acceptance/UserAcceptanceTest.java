@@ -108,7 +108,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
         assertThat(닉네임_사용_불가능_응답.isIsUsable()).isFalse();
     }
 
-    @DisplayName("멤버가 자신의 프로필을 조회한다.")
+    @DisplayName("멤버가 자신의 프로필을 조회한다. 자신이 좋아요를 누른 경우 알림 X")
     @Test
     void findProfileOfMine() {
         // given
@@ -120,7 +120,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = 프로필_조회_요청(token);
 
         // then
-        프로필_조회_응답됨(response, 엄청난_유저, 1);
+        프로필_조회_응답됨(response, 엄청난_유저, 0);
     }
 
     @DisplayName("멤버가 자신의 프로필을 수정한다.")
