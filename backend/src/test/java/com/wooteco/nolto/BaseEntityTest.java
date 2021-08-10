@@ -77,7 +77,6 @@ class BaseEntityTest {
         LocalDateTime modifiedDate = savedFeed2.getModifiedDate(); // 생성 시점
 
         // when
-        Thread.sleep(1);
         savedFeed2.writtenBy(user1);
         entityManager.flush();
         entityManager.clear();
@@ -92,7 +91,6 @@ class BaseEntityTest {
     @Test
     void isModified() throws InterruptedException {
         // given
-        Thread.sleep(1);
         feed1.update("수정된 제목", feed1.getContent(), feed1.getStep(), feed1.isSos(), feed1.getStorageUrl(), feed1.getDeployedUrl());
 
         // when

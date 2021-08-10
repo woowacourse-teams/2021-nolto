@@ -226,7 +226,6 @@ class FeedServiceTest {
         // when
         Feed feed = feedService.findEntityById(feedId);
         List<FeedTech> feedTechs = feed.getFeedTechs();
-//        feedTechs.forEach(feedTech -> feedTechRepository.delete(feedTech));
         em.flush();
 
         // then
@@ -418,9 +417,7 @@ class FeedServiceTest {
     void findHotFeedsBySameDate() throws InterruptedException {
         // given
         Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
-        Thread.sleep(1);
         Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
-        Thread.sleep(1);
         Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
 
         likeService.addLike(user2, secondFeedId);
@@ -446,10 +443,11 @@ class FeedServiceTest {
         // given
         String defaultFilter = "all";
         feedService.create(user1, FEED_REQUEST1);
-        Thread.sleep(1);
+        feedRepository.flush();
         feedService.create(user1, FEED_REQUEST2);
-        Thread.sleep(1);
+        feedRepository.flush();
         feedService.create(user1, FEED_REQUEST3);
+        feedRepository.flush();
 
         // when
         List<FeedCardResponse> allFeeds = feedService.findAll(defaultFilter);
@@ -471,10 +469,11 @@ class FeedServiceTest {
 
         String defaultFilter = "sos";
         feedService.create(user1, FEED_REQUEST1);
-        Thread.sleep(1);
+        feedRepository.flush();
         feedService.create(user1, FEED_REQUEST2);
-        Thread.sleep(1);
+        feedRepository.flush();
         feedService.create(user1, FEED_REQUEST3);
+        feedRepository.flush();
 
         // when
         List<FeedCardResponse> allFeeds = feedService.findAll(defaultFilter);
@@ -494,10 +493,11 @@ class FeedServiceTest {
         FEED_REQUEST3.setStep(Step.PROGRESS.name());
 
         feedService.create(user1, FEED_REQUEST1);
-        Thread.sleep(1);
+        feedRepository.flush();
         feedService.create(user1, FEED_REQUEST2);
-        Thread.sleep(1);
+        feedRepository.flush();
         feedService.create(user1, FEED_REQUEST3);
+        feedRepository.flush();
 
         // when
         List<FeedCardResponse> allFeeds = feedService.findAll(Step.PROGRESS.name());
@@ -517,10 +517,11 @@ class FeedServiceTest {
         FEED_REQUEST3.setStep(Step.PROGRESS.name());
 
         feedService.create(user1, FEED_REQUEST1);
-        Thread.sleep(1);
+        feedRepository.flush();
         feedService.create(user1, FEED_REQUEST2);
-        Thread.sleep(1);
+        feedRepository.flush();
         feedService.create(user1, FEED_REQUEST3);
+        feedRepository.flush();
 
         // when
         List<FeedCardResponse> allFeeds = feedService.findAll(Step.COMPLETE.name());

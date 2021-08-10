@@ -23,7 +23,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
             "join fetch com.author " +
             "join fetch com.feed " +
             "where com.feed.id = :feedId and com.parentComment.id is null " +
-            "order by com.createdDate desc")
+            "order by com.createdDate desc, com.id desc")
     List<Comment> findAllByFeedIdAndParentCommentIdIsNull(@Param("feedId") Long feedId);
 
     @Query(value = "select com " +
@@ -31,7 +31,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
             "join fetch com.author " +
             "join fetch com.feed " +
             "where com.feed.id = :feedId and com.parentComment.id = :parentCommentId " +
-            "order by com.createdDate desc")
+            "order by com.createdDate desc, com.id desc")
     List<Comment> findAllByFeedIdAndParentCommentIdWithFetchJoin(@Param("feedId") Long feedId, @Param("parentCommentId") Long parentCommentId);
 
     @Modifying(clearAutomatically = true, flushAutomatically = true)
