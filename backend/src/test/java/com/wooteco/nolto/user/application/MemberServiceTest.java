@@ -57,15 +57,19 @@ class MemberServiceTest {
     private final Feed 영상이_피드 = new Feed("joelFeed", "joelFeed", Step.PROGRESS, true, "", "", "").writtenBy(존재하는_백신_영상이);
     private final Feed 아마찌_피드 = new Feed("amaFeed", "amaFeed", Step.PROGRESS, true, "", "", "").writtenBy(존재하는_아마찌);
 
-    private final Comment 영상이_피드에_영상이_댓글 = new Comment("joelCommentJoelFeed", true).writtenBy(존재하는_백신_영상이, 영상이_피드);
-    private final Comment 영상이_피드에_아마찌_댓글 = new Comment("joelCommentAmaFeed", true).writtenBy(존재하는_백신_영상이, 영상이_피드);
+    private Comment 영상이_피드에_영상이_댓글;
+    private Comment 영상이_피드에_아마찌_댓글;
 
     private final Like 영상이_좋아요_영상이_피드 = new Like(존재하는_백신_영상이, 영상이_피드);
     private final Like 영상이_좋아요_아마찌_피드 = new Like(존재하는_백신_영상이, 아마찌_피드);
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws InterruptedException {
         given(imageService.upload(any(MultipartFile.class), any(ImageKind.class))).willReturn("image.jpg");
+
+        영상이_피드에_영상이_댓글 = new Comment("joelCommentJoelFeed", true).writtenBy(존재하는_백신_영상이, 영상이_피드);
+        Thread.sleep(1);
+        영상이_피드에_아마찌_댓글 = new Comment("joelCommentAmaFeed", true).writtenBy(존재하는_백신_영상이, 영상이_피드);
 
         영상이_피드.addComment(영상이_피드에_영상이_댓글);
         아마찌_피드.addComment(영상이_피드에_아마찌_댓글);
