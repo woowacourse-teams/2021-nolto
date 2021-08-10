@@ -639,11 +639,11 @@ public class CommentAcceptanceTest extends AcceptanceTest {
         assertThat(commentResponses).hasSize(replyCount);
         assertThat(commentResponses[0].getId()).isEqualTo(firstReply.getId());
         assertThat(commentResponses[0].isLiked()).isFalse();
-        assertThat(commentResponses[0].isFeedAuthor()).isFalse();
+        assertThat(commentResponses[0].isFeedAuthor()).isTrue();
 
         assertThat(commentResponses[1].getId()).isEqualTo(secondReply.getId());
         assertThat(commentResponses[1].isLiked()).isFalse();
-        assertThat(commentResponses[1].isFeedAuthor()).isFalse();
+        assertThat(commentResponses[1].isFeedAuthor()).isTrue();
     }
 
     private void 로그인_하고_대댓글_목록_조회_성공(ExtractableResponse<Response> response, int replyCount, CommentResponse firstReply, CommentResponse secondReply) {

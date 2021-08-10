@@ -16,7 +16,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Comparator;
 import java.util.List;
 
 @Transactional
@@ -38,7 +37,6 @@ public class CommentService {
 
     public List<CommentResponse> findAllByFeedId(Long feedId, User user) {
         List<Comment> comments = commentRepository.findAllByFeedIdAndParentCommentIdIsNull(feedId);
-        comments.sort(Comparator.comparing(Comment::getCreatedDate, Comparator.reverseOrder()));
         return CommentResponse.toList(comments, user);
     }
 
@@ -85,8 +83,7 @@ public class CommentService {
     }
 
     public List<ReplyResponse> findAllRepliesById(User user, Long feedId, Long commentId) {
-        List<Comment> replies = commentRepository.findAllByFeedIdAndParentCommentId(feedId, commentId);
-        replies.sort(Comparator.comparing(Comment::getCreatedDate, Comparator.reverseOrder()));
+        List<Comment> replies = commentRepository.findAllByFeedIdAndParentCommentIdWithFetchJoin(feedId, commentId);
         return ReplyResponse.toList(replies, user);
     }
 }
