@@ -78,6 +78,7 @@ const Dropdown = styled.div<{ isOpen: boolean }>`
 `;
 
 const Greeting = styled.div`
+  width: 100%;
   background-color: ${PALETTE.PRIMARY_400};
   color: ${PALETTE.WHITE_400};
 `;

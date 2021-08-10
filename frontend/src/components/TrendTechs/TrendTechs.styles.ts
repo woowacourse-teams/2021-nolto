@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
+import { hoverUnderline } from 'commonStyles';
 
 const Root = styled.div`
   display: flex;
@@ -21,9 +22,7 @@ const Tag = styled.span`
   cursor: pointer;
 
   > .trends-text {
-    &:hover {
-      text-decoration: underline;
-    }
+    ${hoverUnderline};
   }
 
   > .trends-bar {

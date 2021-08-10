@@ -23,6 +23,16 @@ const SearchBar = ({ className, selectable = false, ...options }: Props) => {
   const search = (event: React.FormEvent) => {
     event.preventDefault();
 
+    // 아무것도 검색하지 않았을 때
+    if (
+      (searchType === SearchType.CONTENT && query === '') ||
+      (searchType === SearchType.TECH && techs.length === 0)
+    ) {
+      history.push(ROUTE.RECENT);
+
+      return;
+    }
+
     const queryParams = new URLSearchParams({
       query,
       techs: techs.map((tech) => tech.text).join(','),
