@@ -8,7 +8,7 @@ const Root = styled.form`
   align-items: center;
   padding: 1rem 2rem;
   gap: 2rem;
-  width: 34rem;
+  width: 36rem;
   height: 10rem;
   border-radius: 0.75rem;
   box-shadow: 4px 4px 8px 4px rgba(85, 85, 85, 0.2);

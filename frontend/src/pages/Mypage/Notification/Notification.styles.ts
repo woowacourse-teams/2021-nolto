@@ -6,7 +6,7 @@ import ArrowIcon from 'assets/carouselArrow.svg';
 const Root = styled.div<{ isFolded: boolean; notiCount: number }>`
   position: relative;
   padding: 1rem 2rem;
-  width: 34rem;
+  width: 36rem;
   height: ${({ isFolded, notiCount }) =>
     isFolded ? '12.5em' : `calc(12.5rem + ${notiCount - 3} * 2.25rem)`};
   border-radius: 0.75rem;

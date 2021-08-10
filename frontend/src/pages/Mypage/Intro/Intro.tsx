@@ -109,7 +109,7 @@ const Intro = () => {
       };
     }
 
-    if (!nicknameCheck?.isUsable) {
+    if (nicknameCheck?.isUsable === false) {
       return {
         isValid: false,
         message: '이미 사용중인 닉네임입니다.',

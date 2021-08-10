@@ -5,6 +5,7 @@ import useUserHistory from 'hooks/queries/userHistory/useUserHistory';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
 import ROUTE from 'constants/routes';
 import ReturnArrow from 'assets/arrowReturnRight.svg';
+import { genNewId } from 'utils/common';
 import { Feed, FeedWithComment, UserHistoryType } from 'types';
 import Styled from './History.styles';
 
@@ -32,7 +33,7 @@ const History = () => {
   }, [tab]);
 
   const feedWithContent = (feed: Omit<Feed, 'author'>): React.ReactNode => (
-    <Styled.FeedWrapper key={feed.id} onClick={() => goFeedDetail(feed.id)}>
+    <Styled.FeedWrapper key={genNewId()} onClick={() => goFeedDetail(feed.id)}>
       <Styled.FeedThumbnail src={feed.thumbnailUrl} />
       <Styled.FeedContentWrapper>
         <Styled.FeedTitle>{feed.title}</Styled.FeedTitle>
@@ -42,7 +43,7 @@ const History = () => {
   );
 
   const feedWithComment = (feed: FeedWithComment): React.ReactNode => (
-    <Styled.FeedWrapper key={feed.feed.id} onClick={() => goFeedDetail(feed.feed.id)}>
+    <Styled.FeedWrapper key={genNewId()} onClick={() => goFeedDetail(feed.feed.id)}>
       <Styled.FeedThumbnail src={feed.feed.thumbnailUrl} />
       <Styled.FeedContentWrapper>
         <Styled.FeedTitle>{feed.feed.title}</Styled.FeedTitle>

@@ -13,9 +13,9 @@ import { NotiType, NotificationType } from 'types';
 import Styled, { MoreNotiIcon } from './Notification.styles';
 
 const NotiTypeText = {
-  [NotiType.COMMENT_SOS]: '에 도움을 제안했어요! 🙌',
-  [NotiType.COMMENT]: '에 댓글을 남겼습니다. 📮',
-  [NotiType.REPLY]: '의 댓글에 답글을 남겼습니다. 💌',
+  [NotiType.COMMENT_SOS]: '에 도움🙌 을 제안했어요! ',
+  [NotiType.COMMENT]: '에 댓글📮 을 남겼습니다. ',
+  [NotiType.REPLY]: '의 댓글에 답글💌 을 남겼습니다. ',
   [NotiType.LIKE]: '를 좋아합니다. 👍',
 };
 
