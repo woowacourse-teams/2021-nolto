@@ -3,7 +3,6 @@ package com.wooteco.nolto.image.application;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.amazonaws.util.Base64;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.InternalServerErrorException;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +13,8 @@ import javax.transaction.Transactional;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -42,7 +43,11 @@ public class ImageService {
         File file = convertToFile(multipartFile);
         String fileName = getFileName(file);
         amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, file));
-        file.delete();
+        try {
+            Files.delete(Paths.get(file.getPath()));
+        } catch (Exception e) {
+            return cloudfrontUrl + fileName;
+        }
         return cloudfrontUrl + fileName;
     }
 
