@@ -29,7 +29,7 @@ const Upload = () => {
       <Header />
       <Styled.Root>
         <Styled.TitleWrapper>
-          <HighLightedText fontSize="1.75rem">🦄 Upload Your Toy</HighLightedText>
+          <HighLightedText fontSize="1.75rem">🦄 Upload Your Toy Project</HighLightedText>
         </Styled.TitleWrapper>
 
         <FeedUploadForm onFeedSubmit={uploadFeed} />

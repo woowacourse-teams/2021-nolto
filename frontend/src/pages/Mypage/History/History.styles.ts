@@ -27,9 +27,9 @@ const SlideBar = styled.div`
 `;
 
 const highlightPixels = {
-  [UserHistoryType.MY_LIKED]: '0rem',
-  [UserHistoryType.MY_FEED]: '9rem',
-  [UserHistoryType.MY_COMMENT]: '18rem',
+  [UserHistoryType.MY_FEED]: '0rem',
+  [UserHistoryType.MY_COMMENT]: '9rem',
+  [UserHistoryType.MY_LIKED]: '18rem',
 };
 
 const SlideHighlight = styled.span<{ tab: UserHistoryType }>`

@@ -61,7 +61,7 @@ const Header = ({ isFolded = false }: Props) => {
           <Styled.NavContainer>
             <li>
               <NavLink to={ROUTE.RECENT} activeStyle={navLinkActiveStyle}>
-                Feeds
+                Toy Projects
               </NavLink>
             </li>
             <li>

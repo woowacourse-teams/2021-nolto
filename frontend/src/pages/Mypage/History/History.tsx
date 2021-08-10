@@ -9,7 +9,7 @@ import { Feed, FeedWithComment, UserHistoryType } from 'types';
 import Styled from './History.styles';
 
 const History = () => {
-  const [tab, setTab] = useState<UserHistoryType>(UserHistoryType.MY_LIKED);
+  const [tab, setTab] = useState<UserHistoryType>(UserHistoryType.MY_FEED);
   const selectedTab = useRef(null);
   const history = useHistory();
 
@@ -65,12 +65,6 @@ const History = () => {
       <Styled.SlideBar id="slide-title">
         <Styled.SlideHighlight tab={tab} />
         <Styled.SlideTitle
-          selected={tab === UserHistoryType.MY_LIKED}
-          onClick={() => setTab(UserHistoryType.MY_LIKED)}
-        >
-          좋아요한 글
-        </Styled.SlideTitle>
-        <Styled.SlideTitle
           selected={tab === UserHistoryType.MY_FEED}
           onClick={() => setTab(UserHistoryType.MY_FEED)}
         >
@@ -82,16 +76,14 @@ const History = () => {
         >
           내가 남긴 댓글
         </Styled.SlideTitle>
+        <Styled.SlideTitle
+          selected={tab === UserHistoryType.MY_LIKED}
+          onClick={() => setTab(UserHistoryType.MY_LIKED)}
+        >
+          좋아요한 글
+        </Styled.SlideTitle>
       </Styled.SlideBar>
       <Styled.FeedsSwipeArea>
-        <Styled.FeedContainer
-          id={UserHistoryType.MY_LIKED}
-          ref={tab === UserHistoryType.MY_LIKED ? selectedTab : null}
-        >
-          {likedFeeds.length > 0
-            ? likedFeeds.map((feed: Omit<Feed, 'author'>) => feedWithContent(feed))
-            : noFeedContent}
-        </Styled.FeedContainer>
         <Styled.FeedContainer
           id={UserHistoryType.MY_FEED}
           ref={tab === UserHistoryType.MY_FEED ? selectedTab : null}
@@ -100,12 +92,22 @@ const History = () => {
             ? myFeeds.map((feed: Omit<Feed, 'author'>) => feedWithContent(feed))
             : noFeedContent}
         </Styled.FeedContainer>
+
         <Styled.FeedContainer
           id={UserHistoryType.MY_COMMENT}
           ref={tab === UserHistoryType.MY_COMMENT ? selectedTab : null}
         >
           {myComments.length > 0
             ? myComments.map((feed: FeedWithComment) => feedWithComment(feed))
+            : noFeedContent}
+        </Styled.FeedContainer>
+
+        <Styled.FeedContainer
+          id={UserHistoryType.MY_LIKED}
+          ref={tab === UserHistoryType.MY_LIKED ? selectedTab : null}
+        >
+          {likedFeeds.length > 0
+            ? likedFeeds.map((feed: Omit<Feed, 'author'>) => feedWithContent(feed))
             : noFeedContent}
         </Styled.FeedContainer>
       </Styled.FeedsSwipeArea>
