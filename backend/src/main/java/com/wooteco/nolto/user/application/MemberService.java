@@ -30,8 +30,11 @@ public class MemberService {
 
     public MemberHistoryResponse findHistory(User user) {
         List<Feed> likedFeeds = user.findLikedFeeds();
+        likedFeeds.sort(Comparator.comparing(Feed::getCreatedDate, Comparator.reverseOrder()));
         List<Feed> myFeeds = user.getFeeds();
+        myFeeds.sort(Comparator.comparing(Feed::getCreatedDate, Comparator.reverseOrder()));
         List<Comment> myComments = user.getComments();
+        myComments.sort(Comparator.comparing(Comment::getCreatedDate, Comparator.reverseOrder()));
         return MemberHistoryResponse.of(likedFeeds, myFeeds, myComments);
     }
 
