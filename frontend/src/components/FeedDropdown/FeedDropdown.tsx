@@ -29,11 +29,11 @@ const FeedDropdown = ({ feedDetail }: Props) => {
         { feedId: feedDetail.id },
         {
           onSuccess: () => {
-            snackBar.addSnackbar('success', '토이 프로젝트가 삭제되었습니다.');
+            snackbar.addSnackbar('success', '토이 프로젝트가 삭제되었습니다.');
             history.push(ROUTE.HOME);
           },
           onError: (error) => {
-            snackBar.addSnackbar('error', error.message);
+            snackbar.addSnackbar('error', error.message);
           },
         },
       );

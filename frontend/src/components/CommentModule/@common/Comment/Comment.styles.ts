@@ -90,6 +90,7 @@ const Detail = styled.div`
 
 const ThumbUpWrapper = styled.div`
   display: flex;
+  align-items: center;
   gap: 2px;
 `;
 
