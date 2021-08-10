@@ -30,11 +30,11 @@ public class MemberService {
 
     public MemberHistoryResponse findHistory(User user) {
         List<Feed> likedFeeds = user.findLikedFeeds();
-        likedFeeds.sort(Comparator.comparing(Feed::getCreatedDate, Comparator.reverseOrder()));
+        likedFeeds.sort(Comparator.comparing(Feed::getCreatedDate, Comparator.reverseOrder()).thenComparing(Feed::getId, Comparator.reverseOrder()));
         List<Feed> myFeeds = user.getFeeds();
-        myFeeds.sort(Comparator.comparing(Feed::getCreatedDate, Comparator.reverseOrder()));
+        myFeeds.sort(Comparator.comparing(Feed::getCreatedDate, Comparator.reverseOrder()).thenComparing(Feed::getId, Comparator.reverseOrder()));
         List<Comment> myComments = user.getComments();
-        myComments.sort(Comparator.comparing(Comment::getCreatedDate, Comparator.reverseOrder()));
+        myComments.sort(Comparator.comparing(Comment::getCreatedDate, Comparator.reverseOrder()).thenComparing(Comment::getId, Comparator.reverseOrder()));
         return MemberHistoryResponse.of(likedFeeds, myFeeds, myComments);
     }
 
@@ -67,7 +67,7 @@ public class MemberService {
 
     public List<NotificationResponse> findNotifications(User user) {
         List<Notification> notifications = notificationService.findAllByUser(user);
-        notifications.sort(Comparator.comparing(Notification::getCreatedDate, Comparator.reverseOrder()));
+        notifications.sort(Comparator.comparing(Notification::getCreatedDate, Comparator.reverseOrder()).thenComparing(Notification::getId, Comparator.reverseOrder()));
         return NotificationResponse.toList(notifications);
     }
 

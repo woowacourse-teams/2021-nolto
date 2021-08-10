@@ -15,8 +15,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-
 @ActiveProfiles("test")
 @SpringBootTest
 @Transactional
@@ -68,17 +66,18 @@ public class CommentServiceFixture {
         feedRepository.saveAndFlush(찰리가_쓴_피드);
 
         찰리가_쓴_피드에_찰리가_쓴_댓글 = new Comment("첫 댓글", false).writtenBy(찰리, 찰리가_쓴_피드);
-        commentRepository.save(찰리가_쓴_피드에_찰리가_쓴_댓글);
-        Thread.sleep(1);
+        commentRepository.saveAndFlush(찰리가_쓴_피드에_찰리가_쓴_댓글);
+//        Thread.sleep(1);
         찰리가_쓴_피드에_포모가_쓴_댓글 = new Comment("두 번째 댓글", true).writtenBy(포모, 찰리가_쓴_피드);
-        commentRepository.save(찰리가_쓴_피드에_포모가_쓴_댓글);
-        commentRepository.flush();
+        commentRepository.saveAndFlush(찰리가_쓴_피드에_포모가_쓴_댓글);
         찰리가_쓴_피드에_찰리가_쓴_댓글에_찰리가_쓴_대댓글 = new Comment("첫 대댓글", false).writtenBy(찰리, 찰리가_쓴_피드);
         찰리가_쓴_피드에_찰리가_쓴_댓글에_찰리가_쓴_대댓글.addParentComment(찰리가_쓴_피드에_찰리가_쓴_댓글);
+        commentRepository.saveAndFlush(찰리가_쓴_피드에_찰리가_쓴_댓글에_찰리가_쓴_대댓글);
         찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_대댓글 = new Comment("두 번째 대댓글", false).writtenBy(포모, 찰리가_쓴_피드);
         찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_대댓글.addParentComment(찰리가_쓴_피드에_찰리가_쓴_댓글);
+        commentRepository.saveAndFlush(찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_대댓글);
         찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_두번째_대댓글 = new Comment("세 번째 대댓글", false).writtenBy(포모, 찰리가_쓴_피드);
         찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_두번째_대댓글.addParentComment(찰리가_쓴_피드에_찰리가_쓴_댓글);
-        commentRepository.saveAllAndFlush(Arrays.asList(찰리가_쓴_피드에_찰리가_쓴_댓글에_찰리가_쓴_대댓글, 찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_대댓글, 찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_두번째_대댓글));
+        commentRepository.saveAndFlush(찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_두번째_대댓글);
     }
 }
