@@ -45,7 +45,7 @@ const SlideTitle = styled.span<{ selected: boolean }>`
   color: inherit;
   text-align: center;
   width: 9rem;
-  padding: 0.75rem 1.5rem;
+  padding: 0.75rem 1rem;
   font-weight: ${({ selected }) => selected && '700'};
   cursor: pointer;
 
