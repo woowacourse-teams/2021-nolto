@@ -24,9 +24,15 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
             "join fetch com.feed " +
             "where com.feed.id = :feedId and com.parentComment.id is null " +
             "order by com.createdDate desc")
-    List<Comment> findAllByFeedIdAndParentCommentIdIsNull(Long feedId);
+    List<Comment> findAllByFeedIdAndParentCommentIdIsNull(@Param("feedId") Long feedId);
 
-    List<Comment> findAllByFeedIdAndParentCommentId(Long feedId, Long parentCommentId);
+    @Query(value = "select com " +
+            "from Comment as com " +
+            "join fetch com.author " +
+            "join fetch com.feed " +
+            "where com.feed.id = :feedId and com.parentComment.id = :parentCommentId " +
+            "order by com.createdDate desc")
+    List<Comment> findAllByFeedIdAndParentCommentIdWithFetchJoin(@Param("feedId") Long feedId, @Param("parentCommentId") Long parentCommentId);
 
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query(value = "delete from Comment c where c.id = :commentId or c.parentComment.id = :commentId")
