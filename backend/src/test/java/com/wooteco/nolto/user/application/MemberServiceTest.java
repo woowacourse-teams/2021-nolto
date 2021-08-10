@@ -7,6 +7,9 @@ import com.wooteco.nolto.feed.domain.Comment;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.Like;
 import com.wooteco.nolto.feed.domain.Step;
+import com.wooteco.nolto.feed.domain.repository.CommentRepository;
+import com.wooteco.nolto.feed.domain.repository.FeedRepository;
+import com.wooteco.nolto.feed.domain.repository.LikeRepository;
 import com.wooteco.nolto.image.application.ImageKind;
 import com.wooteco.nolto.image.application.ImageService;
 import com.wooteco.nolto.user.domain.User;
@@ -41,6 +44,15 @@ class MemberServiceTest {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    CommentRepository commentRepository;
+
+    @Autowired
+    FeedRepository feedRepository;
+
+    @Autowired
+    LikeRepository likeRepository;
+
     @MockBean
     private ImageService imageService;
 
@@ -57,29 +69,33 @@ class MemberServiceTest {
     private final Feed 영상이_피드 = new Feed("joelFeed", "joelFeed", Step.PROGRESS, true, "", "", "").writtenBy(존재하는_백신_영상이);
     private final Feed 아마찌_피드 = new Feed("amaFeed", "amaFeed", Step.PROGRESS, true, "", "", "").writtenBy(존재하는_아마찌);
 
-    private Comment 영상이_피드에_영상이_댓글;
-    private Comment 영상이_피드에_아마찌_댓글;
+    private Comment 영상이_피드에_영상이_댓글 = new Comment("joelCommentJoelFeed", true).writtenBy(존재하는_백신_영상이, 영상이_피드);
+    private Comment 영상이_피드에_아마찌_댓글 = new Comment("joelCommentAmaFeed", true).writtenBy(존재하는_백신_영상이, 영상이_피드);
 
     private final Like 영상이_좋아요_영상이_피드 = new Like(존재하는_백신_영상이, 영상이_피드);
     private final Like 영상이_좋아요_아마찌_피드 = new Like(존재하는_백신_영상이, 아마찌_피드);
 
     @BeforeEach
-    void setUp() throws InterruptedException {
+    void setUp() {
         given(imageService.upload(any(MultipartFile.class), any(ImageKind.class))).willReturn("image.jpg");
+        userRepository.saveAndFlush(존재하는_백신_영상이);
+        userRepository.saveAndFlush(존재하는_아마찌);
 
-        영상이_피드에_영상이_댓글 = new Comment("joelCommentJoelFeed", true).writtenBy(존재하는_백신_영상이, 영상이_피드);
-        Thread.sleep(1);
-        영상이_피드에_아마찌_댓글 = new Comment("joelCommentAmaFeed", true).writtenBy(존재하는_백신_영상이, 영상이_피드);
+        feedRepository.saveAndFlush(영상이_피드);
+        feedRepository.saveAndFlush(아마찌_피드);
 
         영상이_피드.addComment(영상이_피드에_영상이_댓글);
+        commentRepository.saveAndFlush(영상이_피드에_영상이_댓글);
         아마찌_피드.addComment(영상이_피드에_아마찌_댓글);
+        commentRepository.saveAndFlush(영상이_피드에_아마찌_댓글);
+
         존재하는_백신_영상이.addLike(영상이_좋아요_영상이_피드);
+        likeRepository.saveAndFlush(영상이_좋아요_영상이_피드);
         존재하는_백신_영상이.addLike(영상이_좋아요_아마찌_피드);
-        userRepository.save(존재하는_아마찌);
-        userRepository.save(존재하는_백신_영상이);
+        likeRepository.saveAndFlush(영상이_좋아요_아마찌_피드);
     }
 
-    @DisplayName("사용자의 히스토리(좋아요 한 글, 내가 작성한 글, 내가 남긴 댓글)를 조회할 수 있다.")
+    @DisplayName("사용자의 히스토리(좋아요 한 글, 내가 작성한 글, 내가 남긴 댓글)를 최신순으로 조회할 수 있다.")
     @Test
     void findHistory() {
         //when
@@ -87,10 +103,10 @@ class MemberServiceTest {
 
         //then
         List<String> likedFeedsTitle = getFeedHistoryResponseTitle(memberHistoryResponse.getLikedFeeds());
-        assertThat(likedFeedsTitle).containsExactly(영상이_피드.getTitle(), 아마찌_피드.getTitle());
+        assertThat(likedFeedsTitle).containsExactly(아마찌_피드.getTitle(), 영상이_피드.getTitle());
 
         List<String> myFeedsTitle = getFeedHistoryResponseTitle(memberHistoryResponse.getMyFeeds());
-        assertThat(myFeedsTitle).containsExactly(영상이_피드.getTitle());
+        assertThat(myFeedsTitle).contains(영상이_피드.getTitle());
 
         List<String> myComments = getCommentResponseComment(memberHistoryResponse.getMyComments());
         assertThat(myComments).containsExactly(영상이_피드에_아마찌_댓글.getContent(), 영상이_피드에_영상이_댓글.getContent());
