@@ -13,10 +13,10 @@ import { NotiType, NotificationType } from 'types';
 import Styled, { MoreNotiIcon } from './Notification.styles';
 
 const NotiTypeText = {
-  [NotiType.COMMENT_SOS]: '에 도움을 제안했어요!',
-  [NotiType.COMMENT]: '에 댓글을 남겼습니다.',
-  [NotiType.REPLY]: '의 댓글에 답글을 남겼습니다.',
-  [NotiType.LIKE]: '를 좋아합니다.',
+  [NotiType.COMMENT_SOS]: '에 도움🙌 을 제안했어요! ',
+  [NotiType.COMMENT]: '에 댓글📮 을 남겼습니다. ',
+  [NotiType.REPLY]: '의 댓글에 답글💌 을 남겼습니다. ',
+  [NotiType.LIKE]: '를 좋아합니다. 👍',
 };
 
 const Notification = () => {
@@ -94,7 +94,9 @@ const Notification = () => {
               <Styled.NotiWrapper key={data.id} onClick={() => handleClickNoti(data)}>
                 <Styled.NotiUserImage src={data.user.imageUrl} />
                 <Styled.NotiText>
-                  <Styled.NotiBold>{data.user.nickname}&nbsp;</Styled.NotiBold>
+                  <Styled.NotiBold className="user-name">
+                    {data.user.nickname}&nbsp;
+                  </Styled.NotiBold>
                   님이&nbsp;
                   <Styled.NotiBold className="feed-title">{data.feed.title}&nbsp;</Styled.NotiBold>
                   프로젝트{NotiTypeText[data.type]}

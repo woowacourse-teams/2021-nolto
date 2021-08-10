@@ -62,6 +62,7 @@ const Dropdown = styled.div<{ isOpen: boolean }>`
   display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
   position: absolute;
   width: fit-content;
+  min-width: 6.5rem;
   max-width: 8rem;
   top: 120%;
   flex-direction: column;
@@ -77,6 +78,7 @@ const Dropdown = styled.div<{ isOpen: boolean }>`
 `;
 
 const Greeting = styled.div`
+  width: 100%;
   background-color: ${PALETTE.PRIMARY_400};
   color: ${PALETTE.WHITE_400};
 `;

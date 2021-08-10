@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 import TextArea from 'components/@common/TextArea/TextArea';
 import TextButton from 'components/@common/TextButton/TextButton';
@@ -90,11 +90,23 @@ const ButtonsWrapper = styled.div`
 
 const QuestionMark = styled.span``;
 
+const show = keyframes`
+  from {
+    opacity: 0;
+  }
+  
+  to {
+    opacity: 1;
+  }
+`;
+
 export const LevelTooltip = styled(Tooltip)<{ visible: boolean }>`
   display: ${({ visible }) => !visible && 'none'};
   position: absolute;
   top: 10%;
   left: 70%;
+
+  animation: ${show} 0.2s ease;
 `;
 
 export const SOSTooltip = styled(Tooltip)<{ visible: boolean }>`
@@ -102,6 +114,8 @@ export const SOSTooltip = styled(Tooltip)<{ visible: boolean }>`
   position: absolute;
   top: 15%;
   right: 105%;
+
+  animation: ${show} 0.2s ease;
 `;
 
 const InputCaption = styled.span`

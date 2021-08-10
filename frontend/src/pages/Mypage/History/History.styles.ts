@@ -6,7 +6,7 @@ import { hoverLayer } from 'commonStyles';
 
 const Root = styled.div`
   padding: 1rem 2rem;
-  width: 34rem;
+  width: 36rem;
   height: 24rem;
   border-radius: 0.75rem;
   box-shadow: 4px 4px 8px 4px rgba(85, 85, 85, 0.2);
@@ -14,7 +14,7 @@ const Root = styled.div`
 
 const SlideBar = styled.div`
   position: relative;
-  width: 27rem;
+  width: 30rem;
   color: ${PALETTE.ORANGE_400};
   display: flex;
   border-bottom: 1px solid ${PALETTE.ORANGE_400};
@@ -27,13 +27,13 @@ const SlideBar = styled.div`
 `;
 
 const highlightPixels = {
-  [UserHistoryType.MY_LIKED]: '0rem',
-  [UserHistoryType.MY_FEED]: '9rem',
-  [UserHistoryType.MY_COMMENT]: '18rem',
+  [UserHistoryType.MY_FEED]: '0rem',
+  [UserHistoryType.MY_COMMENT]: '10rem',
+  [UserHistoryType.MY_LIKED]: '20rem',
 };
 
 const SlideHighlight = styled.span<{ tab: UserHistoryType }>`
-  width: 9rem;
+  width: 10rem;
   border-bottom: 3px solid ${PALETTE.ORANGE_400};
   position: absolute;
   bottom: 0;
@@ -44,7 +44,7 @@ const SlideHighlight = styled.span<{ tab: UserHistoryType }>`
 const SlideTitle = styled.span<{ selected: boolean }>`
   color: inherit;
   text-align: center;
-  width: 9rem;
+  width: 10rem;
   padding: 0.75rem 1rem;
   font-weight: ${({ selected }) => selected && '700'};
   cursor: pointer;

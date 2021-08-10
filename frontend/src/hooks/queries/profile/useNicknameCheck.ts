@@ -1,11 +1,11 @@
 import { useQuery, UseQueryOptions } from 'react-query';
 
 import api from 'constants/api';
-import { ErrorHandler, Tech } from 'types';
+import { ErrorHandler } from 'types';
 import HttpError from 'utils/HttpError';
 import { resolveHttpError } from 'utils/error';
 
-interface CustomQueryOption extends UseQueryOptions<Tech[], HttpError> {
+interface CustomQueryOption extends UseQueryOptions<{ isUsable: boolean }, HttpError> {
   nickname: string;
   errorHandler?: ErrorHandler;
 }

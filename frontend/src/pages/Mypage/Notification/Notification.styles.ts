@@ -6,9 +6,9 @@ import ArrowIcon from 'assets/carouselArrow.svg';
 const Root = styled.div<{ isFolded: boolean; notiCount: number }>`
   position: relative;
   padding: 1rem 2rem;
-  width: 34rem;
+  width: 36rem;
   height: ${({ isFolded, notiCount }) =>
-    isFolded ? '11rem' : `calc(11rem + ${notiCount - 3} * 1.75rem)`};
+    isFolded ? '12.5em' : `calc(12.5rem + ${notiCount - 3} * 2.25rem)`};
   border-radius: 0.75rem;
   box-shadow: 4px 4px 8px 4px rgba(85, 85, 85, 0.2);
   display: flex;
@@ -59,8 +59,8 @@ const AllReadButton = styled.button`
 const NotiContainer = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  margin-top: 0.5rem;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
   padding: 0.25rem;
 `;
 
@@ -90,6 +90,13 @@ const NotiText = styled.div`
 const NotiBold = styled.span`
   display: inline-block;
   font-weight: 700;
+
+  &.user-name {
+    max-width: 3rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 
   &.feed-title {
     width: 5.5rem;

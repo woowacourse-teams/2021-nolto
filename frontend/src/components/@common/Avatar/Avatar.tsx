@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { User } from 'types';
+import { Author } from 'types';
 import Styled from './Avatar.styles';
 
 interface Props {
-  user: User;
+  user: Author;
   className?: string;
 }
 

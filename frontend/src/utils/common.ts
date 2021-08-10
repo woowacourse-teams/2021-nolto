@@ -28,3 +28,9 @@ export const refineDate = (date: string) => {
     .replace(/-/g, '/')
     .replace(/[0-9]+\//, '');
 };
+
+export const genNewId = () => {
+  let lastId = 0;
+
+  return () => lastId++;
+};

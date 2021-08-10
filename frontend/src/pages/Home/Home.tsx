@@ -45,7 +45,7 @@ const Home = () => {
         </Styled.SearchContainer>
 
         <Styled.ContentArea>
-          <Styled.SectionTitle fontSize="1.75rem">Hot Toys</Styled.SectionTitle>
+          <Styled.SectionTitle fontSize="1.75rem">Hot Toy Project</Styled.SectionTitle>
           <Styled.HotToysContainer>
             <AsyncBoundary
               rejectedFallback={
@@ -56,7 +56,7 @@ const Home = () => {
             </AsyncBoundary>
           </Styled.HotToysContainer>
 
-          <Styled.SectionTitle fontSize="1.75rem">Recent Toys</Styled.SectionTitle>
+          <Styled.SectionTitle fontSize="1.75rem">Recent Toy Project</Styled.SectionTitle>
           <Styled.RecentToysContainer>
             <AsyncBoundary
               rejectedFallback={

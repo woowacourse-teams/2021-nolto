@@ -30,9 +30,9 @@ export enum NotiType {
 }
 
 export enum UserHistoryType {
-  MY_LIKED = 'MY_LIKED',
   MY_FEED = 'MY_FEED',
   MY_COMMENT = 'MY_COMMENT',
+  MY_LIKED = 'MY_LIKED',
 }
 
 export interface Author {

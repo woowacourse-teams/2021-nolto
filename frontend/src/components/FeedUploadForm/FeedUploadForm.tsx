@@ -138,7 +138,7 @@ const FeedUploadForm = ({ onFeedSubmit, initialFormValue }: Props) => {
                 <pre>
                   <strong>프로젝트 단계</strong> <br />
                   <br />
-                  🎈조립중: 프로젝트가 완성되지 않았어요 <br />
+                  🧩 조립중: 프로젝트가 완성되지 않았어요 <br />
                   🦄 전시중: 프로젝트가 완성됐어요
                 </pre>
               </LevelTooltip>
