@@ -2,6 +2,7 @@ import styled, { keyframes } from 'styled-components';
 
 import DownPolygon from 'assets/downPolygon.svg';
 import { PALETTE } from 'constants/palette';
+import { MEDIA_QUERY } from 'constants/mediaQuery';
 
 const opacityAnimation = keyframes`
   from {
@@ -23,6 +24,16 @@ const Root = styled.div<{ isOpen: boolean }>`
   border-radius: 25px;
   filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.25));
   transition: height 0.3s ease;
+
+  @media ${MEDIA_QUERY.TABLET} {
+    height: ${({ isOpen }) => (isOpen ? '7rem' : '2.25rem')};
+  }
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    min-width: 92px;
+    font-size: 0.85rem;
+    height: ${({ isOpen }) => (isOpen ? '6rem' : '2rem')};
+  }
 `;
 
 const DefaultSelector = styled.span`
@@ -32,6 +43,12 @@ const DefaultSelector = styled.span`
   gap: 0.4rem;
   line-height: 1rem;
   cursor: pointer;
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    gap: 0.2rem;
+    font-size: 0.85rem;
+    line-height: 0.85rem;
+  }
 `;
 
 export const SearchMorePolygon = styled(DownPolygon)<{ isOpen: boolean }>`
@@ -52,6 +69,10 @@ const SearchOptionText = styled.div`
     &:hover {
       text-decoration: underline;
     }
+  }
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    line-height: 1rem;
   }
 `;
 

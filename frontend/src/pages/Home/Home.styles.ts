@@ -1,14 +1,15 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import { PALETTE } from 'constants/palette';
 import SearchBarComponent from 'components/SearchBar/SearchBar';
 import HighLightedText from 'components/@common/HighlightedText/HighlightedText';
 import Avatar from 'components/@common/Avatar/Avatar';
 import IconButtonComponent from 'components/@common/IconButton/IconButton';
-import ArrowIcon from 'assets/carouselArrow.svg';
+import { PALETTE } from 'constants/palette';
 import Z_INDEX from 'constants/zIndex';
+import { MEDIA_QUERY } from 'constants/mediaQuery';
 import { hoverUnderline } from 'commonStyles';
+import ArrowIcon from 'assets/carouselArrow.svg';
 
 const Root = styled.div`
   position: relative;
@@ -30,6 +31,14 @@ const SearchContainer = styled.div`
   align-items: center;
   margin-top: 3.75rem;
   z-index: ${Z_INDEX.HOME_SEARCHBAR};
+
+  @media ${MEDIA_QUERY.TABLET} {
+    margin-top: 2rem;
+  }
+
+  @media ${MEDIA_QUERY.TABLET} {
+    margin-top: 1rem;
+  }
 `;
 
 const SearchTitle = styled.div`
@@ -37,6 +46,14 @@ const SearchTitle = styled.div`
   font-weight: 500;
   color: ${PALETTE.WHITE_400};
   margin-bottom: 18px;
+
+  @media ${MEDIA_QUERY.TABLET} {
+    font-size: 1.5rem;
+  }
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    font-size: 1rem;
+  }
 `;
 
 export const SearchBar = styled(SearchBarComponent)`
@@ -44,6 +61,18 @@ export const SearchBar = styled(SearchBarComponent)`
   width: 32rem;
   height: 2.5rem;
   margin-bottom: 18px;
+
+  @media ${MEDIA_QUERY.TABLET} {
+    width: 28rem;
+    height: 2.25rem;
+    margin-bottom: 14px;
+  }
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    width: 20rem;
+    height: 2rem;
+    margin-bottom: 8px;
+  }
 `;
 
 const TrendContainer = styled.div`
@@ -79,12 +108,24 @@ const ContentArea = styled.div`
   flex-direction: column;
   align-items: center;
   top: -6.75rem;
-  padding: 3rem 10rem;
+  padding: 3rem 0;
   text-align: center;
+
+  @media ${MEDIA_QUERY.TABLET} {
+    padding: 2rem;
+  }
 `;
 
 const SectionTitle = styled(HighLightedText)`
   margin-bottom: 48px;
+
+  @media ${MEDIA_QUERY.TABLET} {
+    margin-bottom: 32px;
+  }
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    font-size: 1.25rem;
+  }
 `;
 
 const HotToysContainer = styled.div`
@@ -93,6 +134,10 @@ const HotToysContainer = styled.div`
   align-items: center;
   justify-content: center;
   margin-bottom: 128px;
+
+  @media ${MEDIA_QUERY.TABLET} {
+    margin-bottom: 72px;
+  }
 `;
 
 const VerticalAvatar = styled(Avatar)`
@@ -109,6 +154,7 @@ export const MoreButton = styled(Link)`
   border: none;
   background: transparent;
   font-size: 1rem;
+  padding: 0 1rem;
   margin-top: 36px;
   margin-left: auto;
 `;

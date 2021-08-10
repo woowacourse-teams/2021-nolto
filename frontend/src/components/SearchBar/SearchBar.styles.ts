@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
+import { MEDIA_QUERY } from 'constants/mediaQuery';
 import TechChipsComponent from 'contexts/techTag/chip/TechChips';
 import TechInputComponent from 'contexts/techTag/input/TechInput';
 
@@ -28,8 +29,18 @@ const Input = styled.input`
 const Button = styled.button`
   border: none;
   background-color: transparent;
-  width: 2em;
-  height: 2em;
+  width: 2rem;
+  height: 2rem;
+
+  @media ${MEDIA_QUERY.TABLET} {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
 `;
 
 const SelectedChips = styled.div`

@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import Avatar from 'components/@common/Avatar/Avatar';
 import DownPolygon from 'assets/downPolygon.svg';
+import { MEDIA_QUERY } from 'constants/mediaQuery';
 import { PALETTE } from 'constants/palette';
 import { hoverLayer } from 'commonStyles';
 
@@ -46,6 +47,10 @@ const LevelButtonsContainer = styled.div`
   justify-content: center;
   gap: 2rem;
   margin-bottom: 3.5rem;
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    margin-bottom: 1.5rem;
+  }
 `;
 
 const MoreButton = styled.button`

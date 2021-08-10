@@ -1,6 +1,7 @@
 import styled, { css, keyframes } from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
+import { MEDIA_QUERY } from 'constants/mediaQuery';
 
 export interface FlexContainerProps {
   children: React.ReactNode;
@@ -17,6 +18,10 @@ export interface FlexContainerProps {
 export const Card = styled.div`
   box-shadow: 4px 4px 8px 4px rgba(85, 85, 85, 0.2);
   border-radius: 0.75rem;
+
+  @media ${MEDIA_QUERY.TABLET} {
+    box-shadow: 2px 2px 4px 2px rgba(85, 85, 85, 0.2);
+  }
 `;
 
 export const FlexContainer = styled.div<FlexContainerProps>`

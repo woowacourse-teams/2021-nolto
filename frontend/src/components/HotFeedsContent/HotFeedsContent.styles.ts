@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 
 import IconButtonComponent from 'components/@common/IconButton/IconButton';
-import ArrowIcon from 'assets/carouselArrow.svg';
 import Avatar from 'components/@common/Avatar/Avatar';
+import { MEDIA_QUERY } from 'constants/mediaQuery';
+import ArrowIcon from 'assets/carouselArrow.svg';
 
 const HotToyCardsContainer = styled.ul<{ position: number }>`
   grid-row: 1 / 2;
@@ -20,6 +21,14 @@ const HotToyCardsContainer = styled.ul<{ position: number }>`
   --items: 5;
   --middle: 3;
   --position: ${({ position }) => position};
+
+  @media ${MEDIA_QUERY.TABLET} {
+    height: 20rem;
+  }
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    height: 15rem;
+  }
 `;
 
 const HotToyCardWrapper = styled.li<{ offset: number; position: number }>`
@@ -31,10 +40,6 @@ const HotToyCardWrapper = styled.li<{ offset: number; position: number }>`
   z-index: calc((var(--position) - var(--abs)));
   --offset: ${({ offset }) => offset};
   cursor: pointer;
-
-  & .card-content {
-    backdrop-filter: ${({ offset, position }) => offset === position && 'blur(2px)'};
-  }
 `;
 
 const VerticalAvatar = styled(Avatar)`
@@ -44,6 +49,14 @@ const VerticalAvatar = styled(Avatar)`
 export const CarouselArrowButton = styled(IconButtonComponent)`
   width: 1.85rem;
   height: 1.85rem;
+
+  @media ${MEDIA_QUERY.TABLET} {
+    margin: 0 1.5rem;
+  }
+
+  @media ${MEDIA_QUERY.TABLET} {
+    margin: 0 1rem;
+  }
 `;
 
 const CarouselLeft = styled(ArrowIcon)`

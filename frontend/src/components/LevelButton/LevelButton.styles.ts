@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
+import { MEDIA_QUERY } from 'constants/mediaQuery';
 import { hoverLayer } from 'commonStyles';
 
 const Root = styled.button`
@@ -24,6 +25,12 @@ const Button = styled.div<{ selected: boolean }>`
   cursor: pointer;
 
   ${hoverLayer({ borderRadius: '50%' })};
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    width: 4.5rem;
+    height: 4.5rem;
+    font-size: 2.25rem;
+  }
 `;
 
 const Progress = styled(Button)`
