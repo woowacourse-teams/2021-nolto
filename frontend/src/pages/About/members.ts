@@ -40,7 +40,7 @@ const charlie = {
 const amazzi = {
   image: amazziIcon,
   name: 'AMAZZI',
-  introduction: '감솨감솨 감솨해룡〰️〰️🎶 너무 감솨해서 이리갔다👈 저리갔다👉',
+  introduction: '감솨감솨 감솨해룡〰️〰️🎶 감솨해서 이리갔다👈 저리갔다👉',
   github: 'https://github.com/NewWisdom',
   site: 'https://newwisdom.tistory.com/',
 };
