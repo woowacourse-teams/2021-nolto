@@ -50,7 +50,9 @@ const RecentFeedsContent = ({ feedsCountToShow }: Props) => {
       <Styled.CardsContainer>
         <Styled.ScrollableContainer>
           {isLoading
-            ? Array.from({ length: feedsCountToShow || DEFAULT_FEED_LENGTH }, () => <Skeleton />)
+            ? [...Array(feedsCountToShow || DEFAULT_FEED_LENGTH)].map((_, index) => (
+                <Skeleton key={index} />
+              ))
             : recentFeeds.slice(0, feedsCountToShow).map((feed) => (
                 <li key={feed.id}>
                   <Link to={`${ROUTE.FEEDS}/${feed.id}`}>

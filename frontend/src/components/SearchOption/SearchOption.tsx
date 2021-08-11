@@ -18,10 +18,10 @@ const SearchOption = ({ searchType, setSearchType }: Props) => {
   };
 
   return (
-    <Styled.Root isOpen={isOptionOpened}>
+    <Styled.Root $isOpen={isOptionOpened}>
       <Styled.DefaultSelector onClick={() => setIsOptionOpened(!isOptionOpened)}>
         <Styled.SearchOptionText>{searchType}</Styled.SearchOptionText>
-        <SearchMorePolygon width="12px" fill={PALETTE.PRIMARY_400} isOpen={isOptionOpened} />
+        <SearchMorePolygon width="12px" fill={PALETTE.PRIMARY_400} $isOpen={isOptionOpened} />
       </Styled.DefaultSelector>
       {isOptionOpened && (
         <>

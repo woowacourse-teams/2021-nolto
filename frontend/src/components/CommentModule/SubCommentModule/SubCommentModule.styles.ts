@@ -31,14 +31,14 @@ export const FoldButton = styled.button`
   font-size: 14px;
 `;
 
-const ArrowUp = styled(ArrowIcon)<{ isFold: boolean }>`
-  transform: ${({ isFold }) => (isFold ? 'rotate(90deg)' : 'rotate(-90deg)')};
+const ArrowUp = styled(ArrowIcon)<{ $isFold: boolean }>`
+  transform: ${({ $isFold }) => ($isFold ? 'rotate(90deg)' : 'rotate(-90deg)')};
 
   transition: all 0.2s ease;
 `;
 
 const SubCommentWrapper = styled.div<{
-  isFold: boolean;
+  $isFold: boolean;
   isReplyFormVisible: boolean;
   replyCount: number;
 }>`
@@ -46,10 +46,10 @@ const SubCommentWrapper = styled.div<{
   flex-direction: column;
   gap: 1rem;
   overflow: hidden;
-  transition: max-height ${({ isFold }) => (isFold ? '0.35s ease' : '0.85s ease')};
+  transition: max-height ${({ $isFold }) => ($isFold ? '0.35s ease' : '0.85s ease')};
 
-  max-height: ${({ isFold, isReplyFormVisible, replyCount }) => {
-    if (isFold) return 0;
+  max-height: ${({ $isFold, isReplyFormVisible, replyCount }) => {
+    if ($isFold) return 0;
 
     let height = 0;
 

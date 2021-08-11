@@ -25,7 +25,7 @@ const getFeedDetail = async (feedId: number, errorHandler: ErrorHandler) => {
 };
 
 const useFeedDetail = ({ errorHandler, feedId, ...option }: CustomQueryOption) => {
-  return useQuery<FeedDetail>(
+  return useQuery<FeedDetail, HttpError>(
     ['feedDetail', feedId],
     () => getFeedDetail(feedId, errorHandler),
     option,

@@ -46,13 +46,13 @@ const SubCommentModule = ({ parentCommentId }: Props) => {
       </ReplyIconButton>
       {isSubCommentExist && (
         <FoldButton onClick={handleClickFold}>
-          <Styled.ArrowUp isFold={isFold} width="10px" />
+          <Styled.ArrowUp $isFold={isFold} width="10px" />
           {`답글 ${subCommentModule.data.length}개 ${isFold ? '더보기' : '숨기기'}`}
         </FoldButton>
       )}
 
       <Styled.SubCommentWrapper
-        isFold={isFold}
+        $isFold={isFold}
         isReplyFormVisible={isReplyFormVisible}
         replyCount={isSubCommentExist ? subCommentModule.data.length : 0}
       >
