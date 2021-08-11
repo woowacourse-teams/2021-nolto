@@ -1,5 +1,8 @@
 package com.wooteco.nolto.feed.domain;
 
+import com.wooteco.nolto.exception.BadRequestException;
+import com.wooteco.nolto.exception.ErrorType;
+
 import java.util.Arrays;
 
 public enum Step {
@@ -9,6 +12,6 @@ public enum Step {
     public static Step of(String value) {
         return Arrays.stream(values())
                 .filter(step -> step.name().equalsIgnoreCase(value))
-                .findAny().orElseThrow(() -> new IllegalArgumentException("존재하지 않는 Step 입니다."));
+                .findAny().orElseThrow(() -> new BadRequestException(ErrorType.NOT_SUPPORTED_STEP));
     }
 }

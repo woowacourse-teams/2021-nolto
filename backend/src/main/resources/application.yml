@@ -1,13 +1,16 @@
 spring:
   profiles:
-    active: dev
+    active: local
     group:
-      prod: realdb
+      local: console-logging
+      prod: real-db,real-oauth,file-error-logging,file-info-logging,slack-prod-error-logging
+      dev: dev-db,dev-oauth,file-error-logging,file-info-logging,slack-dev-error-logging
+      test: console-logging
   servlet:
     multipart:
       enabled: true
       file-size-threshold: 2MB
-      max-file-size: 5MB
+      max-file-size: 10MB
       max-request-size: 10MB
   jpa:
     hibernate:
@@ -17,6 +20,11 @@ spring:
         format_sql: true
         dialect: org.hibernate.dialect.H2Dialect
     show-sql: true
+  output:
+    ansi:
+      enabled: always
+  main:
+    allow-bean-definition-overriding: true
 ---
 spring:
   config:
@@ -30,6 +38,43 @@ spring:
   h2:
     console:
       enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:nolto
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: create
+  flyway:
+    enabled: false
+oauth:
+  github:
+    scope: localScope
+    redirect-uri: localRedirectUri
+    client:
+      id: localCilentId
+      secret: localCilentSecret
+  google:
+    scope: localScope
+    redirect-uri: localRedirectUri
+    client:
+      id: localCilentId
+      secret: localCilentSecret
 ---
 spring:
   config:
@@ -43,6 +88,21 @@ spring:
   h2:
     console:
       enabled: true
+  flyway:
+    enabled: false
+oauth:
+  github:
+    scope: testScope
+    redirect-uri: testRedirectUri
+    client:
+      id: testCilentId
+      secret: testCilentSecret
+  google:
+    scope: testScope
+    redirect-uri: testRedirectUri
+    client:
+      id: testCilentId
+      secret: testCilentSecret
 ---
 spring:
   config:
@@ -50,10 +110,14 @@ spring:
       on-profile: prod
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
+    generate-ddl: false
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
 ---
 security:
   jwt:
@@ -61,6 +125,8 @@ security:
       secret-key: my_secret_is_secret
       expire-length: 3600000
 logging:
+  file:
+    path: /home/ubuntu/nolto2021
   level:
     org:
       hibernate:
@@ -78,5 +144,6 @@ application:
   bucket:
     name: 2021-nolto
   cloudfront:
-    url: https://dksykemwl00pf.cloudfront.net
-
+    url: https://dksykemwl00pf.cloudfront.net/
+  feed-default-image: nolto-default-thumbnail.png
+  user-default-image: nolto-default-thumbnail.png

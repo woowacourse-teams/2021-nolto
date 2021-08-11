@@ -1,0 +1,33 @@
+== Reply (대댓글)
+
+=== 대댓글 등록
+
+==== Request
+
+include::{snippets}/reply-create/http-request.adoc[]
+include::{snippets}/reply-create/path-parameters.adoc[]
+include::{snippets}/reply-create/request-fields.adoc[]
+
+
+==== Response
+
+include::{snippets}/reply-create/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/reply-create/response-fields.adoc[]
+
+=== 대댓글 전체 조회
+
+==== Request
+
+include::{snippets}/reply-findAllReplies/http-request.adoc[]
+include::{snippets}/reply-findAllReplies/path-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/reply-findAllReplies/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/reply-findAllReplies/response-fields.adoc[]

@@ -1,0 +1,1 @@
+alter table feed MODIFY content text;

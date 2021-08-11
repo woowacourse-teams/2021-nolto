@@ -11,5 +11,4 @@ public class NoltoApplication {
     public static void main(String[] args) {
         SpringApplication.run(NoltoApplication.class, args);
     }
-
 }

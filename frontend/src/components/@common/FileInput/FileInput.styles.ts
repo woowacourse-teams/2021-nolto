@@ -1,5 +1,7 @@
-import { PALETTE } from 'constants/palette';
 import styled from 'styled-components';
+
+import { hoverLayer } from 'commonStyles';
+import { PALETTE } from 'constants/palette';
 
 const Root = styled.div`
   display: flex;
@@ -28,6 +30,9 @@ const Label = styled.label`
     height: 2rem;
     background-color: ${PALETTE.PRIMARY_400};
     border-radius: 4px;
+    overflow: hidden;
+
+    ${hoverLayer({})};
   }
 
   cursor: pointer;

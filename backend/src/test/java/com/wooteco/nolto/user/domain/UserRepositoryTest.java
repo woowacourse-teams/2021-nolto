@@ -1,6 +1,8 @@
 package com.wooteco.nolto.user.domain;
 
-import com.wooteco.nolto.NotFoundException;
+import com.wooteco.nolto.auth.domain.SocialType;
+import com.wooteco.nolto.exception.ErrorType;
+import com.wooteco.nolto.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,9 +23,12 @@ class UserRepositoryTest {
 
     private User user1;
 
+    public static final String EXIST_NICKNAME = "찰리";
+    public static final String NOT_EXIST_NICKNAME = "존재하지 않는 닉네임";
+
     @BeforeEach
     void setUp() {
-        user1 = new User("user1@email.com", "pass1", "찰리", "charlie.png");
+        user1 = new User("1111", SocialType.GOOGLE, EXIST_NICKNAME, "charlie.png");
     }
 
     @DisplayName("context가 제대로 생성되고 설정이 됐는지 확인한다.")
@@ -42,27 +47,16 @@ class UserRepositoryTest {
         checkSameInfo(savedUser, user1);
     }
 
-    @DisplayName("이미 존재하는 email을 가진 User를 저장하려고 하면 예외가 발생한다.")
-    @Test
-    public void saveWithDuplicatedEmail() {
-        // given
-        userRepository.save(user1);
-        User duplcatedEmailUser = new User(user1.getEmail(), "password", "포모", "image_sample.png");
-
-        // when then
-        assertThatThrownBy(() -> userRepository.save(duplcatedEmailUser))
-                .isInstanceOf(DataIntegrityViolationException.class);
-    }
 
     @DisplayName("이미 존재하는 nickname을 가진 User를 저장하려고 하면 예외가 발생한다.")
     @Test
     public void saveWithDuplicatedNickname() {
         // given
         userRepository.save(user1);
-        User duplcatedNicknameUser = new User("joel@test.com", "password", user1.getNickName(), "image_sample.png");
+        User duplicatedNicknameUser = new User("2222", SocialType.GOOGLE, user1.getNickName(), "image_sample.png");
 
         // when then
-        assertThatThrownBy(() -> userRepository.save(duplcatedNicknameUser))
+        assertThatThrownBy(() -> userRepository.save(duplicatedNicknameUser))
                 .isInstanceOf(DataIntegrityViolationException.class);
     }
 
@@ -73,7 +67,7 @@ class UserRepositoryTest {
         User savedUser = userRepository.save(user1);
 
         // when
-        User findUser = userRepository.findById(savedUser.getId()).orElseThrow(NotFoundException::new);
+        User findUser = userRepository.findById(savedUser.getId()).orElseThrow(() -> new NotFoundException(ErrorType.USER_NOT_FOUND));
 
         // then
         assertThat(savedUser.getId()).isEqualTo(findUser.getId());
@@ -96,7 +90,8 @@ class UserRepositoryTest {
         User savedUser = userRepository.save(user1);
 
         // when
-        User findUser = userRepository.findByEmail(savedUser.getEmail()).orElseThrow(NotFoundException::new);
+        User findUser = userRepository.findBySocialIdAndSocialType(savedUser.getSocialId(), savedUser.getSocialType())
+                .orElseThrow(() -> new NotFoundException(ErrorType.USER_NOT_FOUND));
 
         // then
         assertThat(savedUser.getId()).isEqualTo(findUser.getId());
@@ -107,32 +102,10 @@ class UserRepositoryTest {
     @Test
     public void findByNonExistsEmail() {
         // when
-        Optional<User> optionalUser = userRepository.findByEmail("NonExistsEmail");
+        Optional<User> optionalUser = userRepository.findBySocialIdAndSocialType("NonExistsSocialId", null);
 
         // then
         assertThat(optionalUser).isEmpty();
-    }
-
-    @DisplayName("저장된 유저 정보를 수정할 수 있다.")
-    @Test
-    public void update() {
-        // given
-        User savedUser = userRepository.save(user1);
-        String newEmail = "update@test.com";
-        String newNickName = "updateNickName";
-        String newPassword = "newPassword";
-        String newImageUrl = "updateImageUrl";
-
-        // when
-        savedUser.update(newEmail, newPassword, newNickName, newImageUrl);
-        User updatedUser = userRepository.findById(savedUser.getId()).orElseThrow(NotFoundException::new);
-
-        // then
-        assertThat(updatedUser.getId()).isEqualTo(savedUser.getId());
-        assertThat(updatedUser.getEmail()).isEqualTo(newEmail);
-        assertThat(updatedUser.getPassword()).isEqualTo(newPassword);
-        assertThat(updatedUser.getNickName()).isEqualTo(newNickName);
-        assertThat(updatedUser.getImageUrl()).isEqualTo(newImageUrl);
     }
 
     @DisplayName("유저와 같은 Id를 가진 유저를 생성해서 저장하면 저장소의 데이터가 수정된다.")
@@ -140,11 +113,11 @@ class UserRepositoryTest {
     public void updateOtherCase() {
         // given
         User savedUser = userRepository.save(user1);
-        String newEmail = "update@test.com";
-        String newNickName = "updateNickName";
-        String newPassword = "newPassword";
+        String newSocialId = "2222";
+        SocialType newSocialType = SocialType.GITHUB;
+        String newNickname = "Gomding";
         String newImageUrl = "updateImageUrl";
-        User updatedUser = new User(savedUser.getId(), newEmail, newPassword, newNickName, newImageUrl);
+        User updatedUser = new User(savedUser.getId(), newSocialId, newSocialType, newNickname, newImageUrl, null);
 
         // when
         userRepository.save(updatedUser);
@@ -170,7 +143,7 @@ class UserRepositoryTest {
     public void deleteWithSameIdAndDiffInfoObject() {
         // given
         userRepository.save(user1);
-        User otherUser = new User(user1.getId(), "1234", "1234", "1234");
+        User otherUser = new User(user1.getId(), "1234", SocialType.GOOGLE, "Gomding");
 
         // when
         userRepository.delete(otherUser);
@@ -190,9 +163,26 @@ class UserRepositoryTest {
         assertThatNoException();
     }
 
+    @DisplayName("nickname이 존재하는지 여부를 확인한다.")
+    @Test
+    void existsByNickName() {
+        // given
+        User savedUser = userRepository.save(user1);
+
+        // when
+        boolean existNicknameResult = userRepository.existsByNickName(EXIST_NICKNAME);
+        boolean notExistNicknameResult = userRepository.existsByNickName(NOT_EXIST_NICKNAME);
+
+        assertThat(existNicknameResult).isTrue();
+        assertThat(notExistNicknameResult).isFalse();
+    }
+
     private void checkSameInfo(User user1, User user2) {
-        assertThat(user1.getEmail()).isEqualTo(user2.getEmail());
-        assertThat(user1.getPassword()).isEqualTo(user2.getPassword());
+        assertThat(user1.getSocialId()).isEqualTo(user2.getSocialId());
+        assertThat(user1.getSocialType()).isEqualTo(user2.getSocialType());
         assertThat(user1.getNickName()).isEqualTo(user2.getNickName());
+        assertThat(user1.getImageUrl()).isEqualTo(user2.getImageUrl());
+        assertThat(user1.getBio()).isEqualTo(user2.getBio());
+        assertThat(user1.getCreatedDate()).isEqualTo(user2.getCreatedDate());
     }
 }

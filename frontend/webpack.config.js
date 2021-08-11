@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -17,7 +18,7 @@ module.exports = {
             loader: 'babel-loader',
             options: {
               presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
-              plugins: ['@babel/plugin-transform-runtime'],
+              plugins: ['@babel/plugin-transform-runtime', 'babel-plugin-styled-components'],
             },
           },
         ],
@@ -26,6 +27,14 @@ module.exports = {
       {
         test: /\.svg$/,
         use: ['@svgr/webpack'],
+      },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
       },
     ],
   },
@@ -37,6 +46,9 @@ module.exports = {
     new HtmlWebPackPlugin({
       template: './public/index.html',
     }),
+    new CopyPlugin({
+      patterns: [path.resolve(__dirname, 'public', '_redirects')],
+    }),
   ],
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
@@ -46,5 +58,4 @@ module.exports = {
     historyApiFallback: true,
     publicPath: '/',
   },
-  mode: 'development',
 };

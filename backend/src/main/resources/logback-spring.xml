@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <springProperty name="SLACK_WEBHOOK_URI" source="logging.slack.webhook-uri"/>
+    <springProfile name="console-logging">
+        <appender name="LOCAL_CONSOLE_POLICY" class="ch.qos.logback.core.ConsoleAppender">
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <Pattern>%d{HH:mm:ss.SSS} %highlight([%-5level]) [%thread] %cyan([%logger{36}]) - %m%n</Pattern>
+            </layout>
+        </appender>
+    </springProfile>
+
+    <springProfile name="file-info-logging">
+        <appender name="INFO_FILE_POLICY" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                <level>INFO</level>
+            </filter>
+            <file>${LOG_PATH}/logs/nolto-info.log</file>
+            <encoder>
+                <Pattern>%d{HH:mm:ss.SSS} [%-5level] [%thread] [%logger{36}] - %m%n</Pattern>
+            </encoder>
+            <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+                <fileNamePattern>${LOG_PATH}/logs/dateLog/%d{yyyy_MM_dd}_%i.nolto-info.log
+                </fileNamePattern>
+                <maxFileSize>50MB</maxFileSize>
+                <maxHistory>14</maxHistory>
+                <totalSizeCap>1GB</totalSizeCap>
+            </rollingPolicy>
+        </appender>
+    </springProfile>
+
+    <springProfile name="file-error-logging">
+        <appender name="ERROR_FILE_POLICY" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                <level>ERROR</level>
+            </filter>
+            <file>${LOG_PATH}/logs/nolto-error.log</file>
+            <encoder>
+                <Pattern>%d{HH:mm:ss.SSS} [%-5level] [%thread] [%logger{36}] - %m%n</Pattern>
+            </encoder>
+            <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+                <fileNamePattern>${LOG_PATH}/logs/dateLog/%d{yyyy_MM_dd}_%i.nolto-error.log
+                </fileNamePattern>
+                <maxFileSize>50MB</maxFileSize>
+                <maxHistory>14</maxHistory>
+                <totalSizeCap>1GB</totalSizeCap>
+            </rollingPolicy>
+        </appender>
+    </springProfile>
+
+    <springProfile name="slack-dev-error-logging">
+        <appender name="SLACK" class="com.github.maricn.logback.SlackAppender">
+            <webhookUri>${SLACK_WEBHOOK_URI}</webhookUri>
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>[DEV] %-4relative [%thread] %-5level %class - %msg%n</pattern>
+            </layout>
+            <colorCoding>true</colorCoding>
+        </appender>
+        <appender name="ASYNC_SLACK" class="ch.qos.logback.classic.AsyncAppender">
+            <appender-ref ref="SLACK" />
+            <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                <level>ERROR</level>
+            </filter>
+        </appender>
+    </springProfile>
+
+    <springProfile name="slack-prod-error-logging">
+        <appender name="PROD-SLACK" class="com.github.maricn.logback.SlackAppender">
+            <webhookUri>${SLACK_WEBHOOK_URI}</webhookUri>
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>[PROD] %-4relative [%thread] %-5level %class - %msg%n</pattern>
+            </layout>
+            <colorCoding>true</colorCoding>
+        </appender>
+        <appender name="PROD_ASYNC_SLACK" class="ch.qos.logback.classic.AsyncAppender">
+            <appender-ref ref="PROD-SLACK" />
+            <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                <level>ERROR</level>
+            </filter>
+        </appender>
+    </springProfile>
+
+
+    <root level="INFO">
+        <springProfile name="console-logging">
+            <appender-ref ref="LOCAL_CONSOLE_POLICY"/>
+        </springProfile>
+
+        <springProfile name="file-info-logging">
+            <appender-ref ref="INFO_FILE_POLICY"/>
+        </springProfile>
+
+        <springProfile name="file-error-logging">
+            <appender-ref ref="ERROR_FILE_POLICY"/>
+        </springProfile>
+
+        <springProfile name="slack-dev-error-logging">
+            <appender-ref ref="ASYNC_SLACK" />
+        </springProfile>
+
+        <springProfile name="slack-prod-error-logging">
+            <appender-ref ref="PROD_ASYNC_SLACK" />
+        </springProfile>
+    </root>
+</configuration>

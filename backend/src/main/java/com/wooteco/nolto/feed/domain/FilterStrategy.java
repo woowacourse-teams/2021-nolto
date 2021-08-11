@@ -1,5 +1,8 @@
 package com.wooteco.nolto.feed.domain;
 
+import com.wooteco.nolto.exception.BadRequestException;
+import com.wooteco.nolto.exception.ErrorType;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
@@ -21,7 +24,7 @@ public enum FilterStrategy {
         return Arrays.stream(FilterStrategy.values())
                 .filter(filterStrategy -> filterStrategy.name().equalsIgnoreCase(value))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("잘못된 필터링 값입니다."));
+                .orElseThrow(() -> new BadRequestException(ErrorType.NOT_SUPPORTED_FILTERING));
     }
 
     public List<Feed> execute(List<Feed> feedCards) {

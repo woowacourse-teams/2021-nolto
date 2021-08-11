@@ -1,0 +1,1 @@
+alter table feed modify column modified_date datetime not null;

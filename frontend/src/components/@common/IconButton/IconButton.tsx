@@ -4,11 +4,12 @@ import Styled from './IconButton.styles';
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
+  isShadow?: boolean;
 }
 
-const IconButton = ({ children, className, ...options }: Props) => {
+const IconButton = ({ children, isShadow = true, ...options }: Props) => {
   return (
-    <Styled.Root className={className} {...options}>
+    <Styled.Root isShadow={isShadow} {...options}>
       {children}
     </Styled.Root>
   );

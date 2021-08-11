@@ -20,6 +20,10 @@ public abstract class BaseEntity {
     private LocalDateTime createdDate;
 
     @LastModifiedDate
+    @Column(nullable = false)
     private LocalDateTime modifiedDate;
 
+    public boolean isModified() {
+        return this.modifiedDate.isAfter(this.createdDate);
+    }
 }

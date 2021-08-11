@@ -1,11 +1,15 @@
 package com.wooteco.nolto.feed.application;
 
-import com.wooteco.nolto.NotFoundException;
+import com.wooteco.nolto.exception.BadRequestException;
+import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.Like;
 import com.wooteco.nolto.feed.domain.repository.LikeRepository;
+import com.wooteco.nolto.notification.application.NotificationEvent;
+import com.wooteco.nolto.notification.domain.NotificationType;
 import com.wooteco.nolto.user.domain.User;
 import lombok.AllArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -14,22 +18,25 @@ import javax.transaction.Transactional;
 @AllArgsConstructor
 @Service
 public class LikeService {
+
     private final LikeRepository likeRepository;
     private final FeedService feedService;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     public void addLike(User user, Long feedId) {
         Feed findFeed = feedService.findEntityById(feedId);
         if (user.isLiked(findFeed)) {
-            throw new IllegalStateException("해당 유저가 이미 좋아요를 눌렀습니다");
+            throw new BadRequestException(ErrorType.ALREADY_LIKED);
         }
-
-        likeRepository.save(new Like(user, findFeed));
+        user.addLike(new Like(user, findFeed));
+        applicationEventPublisher.publishEvent(NotificationEvent.likeOf(findFeed, user));
     }
 
     public void deleteLike(User user, Long feedId) {
         Feed findFeed = feedService.findEntityById(feedId);
-        Like findLike = likeRepository.findByUserAndFeed(user, findFeed)
-                .orElseThrow(() -> new NotFoundException("해당 유저가 좋아요를 누르지 않았습니다"));
+        Like findLike = findFeed.findLikeBy(user)
+                .orElseThrow(() -> new BadRequestException(ErrorType.NOT_LIKED));
+        user.delete(findLike);
         likeRepository.delete(findLike);
     }
 }

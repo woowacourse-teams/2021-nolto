@@ -1,6 +1,7 @@
 import React, { InputHTMLAttributes } from 'react';
 
 import Styled from './FileInput.styles';
+
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   fileName: string;
 }

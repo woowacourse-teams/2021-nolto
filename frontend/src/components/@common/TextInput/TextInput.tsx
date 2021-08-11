@@ -4,8 +4,8 @@ import Styled from './TextInput.styles';
 
 type Props = InputHTMLAttributes<HTMLInputElement>;
 
-const TextInput = ({ ...options }: Props) => {
-  return <Styled.Root {...options} />;
-};
+const TextInput = React.forwardRef<HTMLInputElement, Props>(({ ...options }, ref) => {
+  return <Styled.Root ref={ref} {...options} />;
+});
 
 export default TextInput;

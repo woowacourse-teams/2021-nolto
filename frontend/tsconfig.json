@@ -8,7 +8,8 @@
     "allowJs": true,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
-    "baseUrl": "src"
+    "baseUrl": "src",
+    "esModuleInterop": true
   },
   "includes": ["src", "custom.d.ts"]
 }

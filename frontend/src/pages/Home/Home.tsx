@@ -1,85 +1,79 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useRef } from 'react';
 
+import AsyncBoundary from 'components/AsyncBoundary';
 import CroppedEllipse from 'components/CroppedEllipse/CroppedEllipse';
-import RegularCard from 'components/RegularCard/RegularCard';
-import StretchCard from 'components/StretchCard/StretchCard';
-import LevelLinkButton from 'components/LevelLinkButton/LevelLinkButton';
 import Header from 'components/Header/Header';
-import useHotFeeds from 'hooks/queries/useHotFeeds';
-import useRecentFeeds from 'hooks/queries/useRecentFeeds';
+import RecentFeedsContent from 'components/RecentFeedsContent/RecentFeedsContent';
+import HotFeedsContent from 'components/HotFeedsContent/HotFeedsContent';
+import ErrorFallback from 'components/ErrorFallback/ErrorFallback';
+import TrendTechs from 'components/TrendTechs/TrendTechs';
+import useOnScreen from 'hooks/@common/useOnScreen';
 import ROUTE from 'constants/routes';
-import Styled from './Home.styles';
+import Styled, { ScrollUpButton, SearchBar, MoreButton } from './Home.styles';
 import MoreArrow from 'assets/moreArrow.svg';
-import { ButtonStyle } from 'types';
-
-const tags = ['JavaScript', 'Java', 'React.js', 'Spring'];
 
 const Home = () => {
-  const { data: hotFeeds } = useHotFeeds();
-  const { data: recentFeeds } = useRecentFeeds();
+  const ellipseRef = useRef();
+  const isEllipseVisible = useOnScreen(ellipseRef);
+
+  const RECENT_FEED_LENGTH = 4;
+
+  const scrollTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <>
-      <Header isFolded={true} />
+      <Header isFolded={isEllipseVisible} />
       <Styled.Root>
-        <Styled.EllipseWrapper>
+        <Styled.EllipseWrapper ref={ellipseRef}>
           <CroppedEllipse />
         </Styled.EllipseWrapper>
         <Styled.SearchContainer>
           <Styled.SearchTitle>Search for Ideas?</Styled.SearchTitle>
-          <Styled.MainSearchbar />
-          <Styled.TagsContainer>
-            {tags.map((tag) => (
-              <Styled.TagButton buttonStyle={ButtonStyle.SOLID} reverse={true} key={tag}>
-                {tag}
-              </Styled.TagButton>
-            ))}
-          </Styled.TagsContainer>
+          <SearchBar selectable />
+          <AsyncBoundary
+            rejectedFallback={
+              <ErrorFallback
+                message="트렌드 기술 스택을 불러올 수 없습니다."
+                queryKey="trendTechs"
+              />
+            }
+          >
+            <TrendTechs />
+          </AsyncBoundary>
         </Styled.SearchContainer>
 
         <Styled.ContentArea>
-          <Styled.SectionTitle fontSize="32px">Hot Toys</Styled.SectionTitle>
+          <Styled.SectionTitle fontSize="1.75rem">Hot Toy Project</Styled.SectionTitle>
           <Styled.HotToysContainer>
-            <Styled.CarouselLeft width="24" />
-            <Styled.HotToyCardsContainer>
-              {hotFeeds &&
-                hotFeeds.map((feed) => (
-                  <li key={feed.id}>
-                    <Link to={`${ROUTE.FEEDS}/${feed.id}`}>
-                      <Styled.VerticalAvatar user={feed.author} />
-                      <RegularCard feed={feed} />
-                    </Link>
-                  </li>
-                ))}
-            </Styled.HotToyCardsContainer>
-            <Styled.CarouselRight width="24" />
+            <AsyncBoundary
+              rejectedFallback={
+                <ErrorFallback message="데이터를 불러올 수 없습니다." queryKey="hotFeeds" />
+              }
+            >
+              <HotFeedsContent />
+            </AsyncBoundary>
           </Styled.HotToysContainer>
 
-          <Styled.SectionTitle fontSize="32px">Recent Toys</Styled.SectionTitle>
+          <Styled.SectionTitle fontSize="1.75rem">Recent Toy Project</Styled.SectionTitle>
           <Styled.RecentToysContainer>
-            <Styled.LevelButtonsContainer>
-              <LevelLinkButton.Progress />
-              <LevelLinkButton.Complete />
-              <LevelLinkButton.SOS />
-            </Styled.LevelButtonsContainer>
-            <Styled.RecentToyCardsContainer>
-              {recentFeeds &&
-                recentFeeds.map((feed) => (
-                  <li key={feed.id}>
-                    <Link to={`${ROUTE.FEEDS}/${feed.id}`}>
-                      <Styled.VerticalAvatar user={feed.author} />
-                      <StretchCard feed={feed} />
-                    </Link>
-                  </li>
-                ))}
-            </Styled.RecentToyCardsContainer>
-            <Styled.MoreButton>
+            <AsyncBoundary
+              rejectedFallback={
+                <ErrorFallback message="데이터를 불러올 수 없습니다." queryKey="recentFeeds" />
+              }
+            >
+              <RecentFeedsContent feedsCountToShow={RECENT_FEED_LENGTH} />
+            </AsyncBoundary>
+            <MoreButton to={ROUTE.RECENT}>
               MORE&nbsp;
-              <MoreArrow width="10" />
-            </Styled.MoreButton>
+              <MoreArrow width="10px" />
+            </MoreButton>
           </Styled.RecentToysContainer>
         </Styled.ContentArea>
+        <ScrollUpButton onClick={scrollTop}>
+          <Styled.ArrowUp width="14px" />
+        </ScrollUpButton>
       </Styled.Root>
     </>
   );

@@ -1,11 +1,23 @@
 import axios from 'axios';
 
+export const BASE_URL: { [key: string]: string } = {
+  development: 'https://nolto-dev.kro.kr',
+  production: 'https://nolto.kro.kr',
+};
+
 const api = axios.create({
-  baseURL: 'https://nolto.kro.kr',
-  headers: {
-    Authorization:
-      'bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMUBlbWFpbC5jb20iLCJpYXQiOjE2MjYzNTM5MzMsImV4cCI6MTYyNjM1NzUzM30.FV6rawx-3CY3ETvIp1tmBsbS1vcKq4pcuzk4aBC8Kcg',
-  },
+  baseURL: BASE_URL[process.env.NODE_ENV] || BASE_URL.development,
 });
+
+api.interceptors.request.use(
+  (config) => {
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+      config.headers['Authorization'] = 'Bearer ' + accessToken;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error),
+);
 
 export default api;

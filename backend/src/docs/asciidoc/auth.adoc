@@ -1,12 +1,33 @@
 == Auth (인증)
 
-=== 로그인 성공
+=== 소셜 로그인 요청 파라미터 정보 조회
 
 ==== Request
-include::{snippets}/auth-login/http-request.adoc[]
-==== Request Fields
-include::{snippets}/auth-login/request-fields.adoc[]
+
+include::{snippets}/auth-requestSocialRedirect/http-request.adoc[]
+
 ==== Response
-include::{snippets}/auth-login/http-response.adoc[]
+
+include::{snippets}/auth-requestSocialRedirect/http-response.adoc[]
+
 ==== Response Fields
-include::{snippets}/auth-login/response-fields.adoc[]
+
+include::{snippets}/auth-requestSocialRedirect/response-fields.adoc[]
+
+=== 소셜 로그인 요청
+
+==== Request
+
+include::{snippets}/auth-oAuthSignIn/http-request.adoc[]
+
+include::{snippets}/auth-oAuthSignIn/path-parameters.adoc[]
+
+include::{snippets}/auth-oAuthSignIn/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/auth-oAuthSignIn/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/auth-oAuthSignIn/response-fields.adoc[]

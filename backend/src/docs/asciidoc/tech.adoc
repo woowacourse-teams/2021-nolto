@@ -1,9 +1,45 @@
+== Tech (기술 스택)
+
 === 기술 스택 목록 조회
 
 ==== Request
+
 include::{snippets}/tech-findByTechsContains/http-request.adoc[]
 include::{snippets}/tech-findByTechsContains/request-parameters.adoc[]
+
 ==== Response
+
 include::{snippets}/tech-findByTechsContains/http-response.adoc[]
+
 ==== Response Fields
+
 include::{snippets}/tech-findByTechsContains/response-fields.adoc[]
+
+=== 기술 스택 목록 검색
+
+==== Request
+
+include::{snippets}/tech-findAllByNameInIgnoreCase/http-request.adoc[]
+include::{snippets}/tech-findAllByNameInIgnoreCase/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/tech-findAllByNameInIgnoreCase/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/tech-findAllByNameInIgnoreCase/response-fields.adoc[]
+
+=== 트렌드 기술 스택 목록 조회
+
+==== Request
+
+include::{snippets}/tech-findTrendTechs/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/tech-findTrendTechs/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/tech-findTrendTechs/response-fields.adoc[]

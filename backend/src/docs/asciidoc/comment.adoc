@@ -1,0 +1,83 @@
+== Comment (댓글)
+
+=== 댓글 등록
+
+==== Request
+
+include::{snippets}/comment-create/http-request.adoc[]
+include::{snippets}/comment-create/path-parameters.adoc[]
+include::{snippets}/comment-create/request-fields.adoc[]
+
+
+==== Response
+
+include::{snippets}/comment-create/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/comment-create/response-fields.adoc[]
+
+=== 댓글 수정
+
+==== Request
+
+include::{snippets}/comment-update/http-request.adoc[]
+include::{snippets}/comment-update/path-parameters.adoc[]
+include::{snippets}/comment-update/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/comment-update/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/comment-update/response-fields.adoc[]
+
+=== 댓글 삭제
+
+==== Request
+
+include::{snippets}/comment-delete/http-request.adoc[]
+include::{snippets}/comment-delete/path-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/comment-delete/http-response.adoc[]
+
+=== 댓글&대댓글 전체 조회
+
+==== Request
+
+include::{snippets}/comment-findAllCommentsByFeedId/http-request.adoc[]
+include::{snippets}/comment-findAllCommentsByFeedId/path-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/comment-findAllCommentsByFeedId/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/comment-findAllCommentsByFeedId/response-fields.adoc[]
+
+=== 댓글 좋아요
+
+==== Request
+
+include::{snippets}/comment-addLike/http-request.adoc[]
+include::{snippets}/comment-addLike/path-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/comment-addLike/http-response.adoc[]
+
+=== 댓글 좋아요 취소
+
+==== Request
+
+include::{snippets}/comment-deleteLike/http-request.adoc[]
+include::{snippets}/comment-deleteLike/path-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/comment-deleteLike/http-response.adoc[]
+
