@@ -31,7 +31,7 @@ const Home = () => {
         </Styled.EllipseWrapper>
         <Styled.SearchContainer>
           <Styled.SearchTitle>Search for Ideas?</Styled.SearchTitle>
-          <SearchBar selectable />
+          <SearchBar className="search-bar" selectable />
           <AsyncBoundary
             rejectedFallback={
               <ErrorFallback
