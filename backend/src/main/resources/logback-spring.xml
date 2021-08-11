@@ -16,7 +16,7 @@
             </filter>
             <file>${LOG_PATH}/logs/nolto-info.log</file>
             <encoder>
-                <Pattern>%d{HH:mm:ss.SSS} %highlight([%-5level]) [%thread] %cyan([%logger{36}]) - %m%n</Pattern>
+                <Pattern>%d{HH:mm:ss.SSS} [%-5level] [%thread] [%logger{36}] - %m%n</Pattern>
             </encoder>
             <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
                 <fileNamePattern>${LOG_PATH}/logs/dateLog/%d{yyyy_MM_dd}_%i.nolto-info.log
@@ -35,7 +35,7 @@
             </filter>
             <file>${LOG_PATH}/logs/nolto-error.log</file>
             <encoder>
-                <Pattern>%d{HH:mm:ss.SSS} %highlight([%-5level]) [%thread] %cyan([%logger{36}]) - %m%n</Pattern>
+                <Pattern>%d{HH:mm:ss.SSS} [%-5level] [%thread] [%logger{36}] - %m%n</Pattern>
             </encoder>
             <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
                 <fileNamePattern>${LOG_PATH}/logs/dateLog/%d{yyyy_MM_dd}_%i.nolto-error.log
