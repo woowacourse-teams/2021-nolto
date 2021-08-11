@@ -19,7 +19,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,18 +34,18 @@ public class DataLoader implements ApplicationRunner {
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
 
-    private final String defaultImage = "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg";
+    private static final String DEFAULT_IMAGE = "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg";
 
     @Override
     public void run(ApplicationArguments args) {
-        User mickey = new User("1", SocialType.GITHUB, "미키", defaultImage);
+        User mickey = new User("1", SocialType.GITHUB, "미키", DEFAULT_IMAGE);
         List<User> users = Arrays.asList(
                 mickey,
-                new User("2", SocialType.GITHUB, "아마찌", defaultImage),
-                new User("3", SocialType.GITHUB, "지그", defaultImage),
-                new User("4", SocialType.GITHUB, "포모", defaultImage),
-                new User("5", SocialType.GITHUB, "조엘", defaultImage),
-                new User("6", SocialType.GITHUB, "찰리", defaultImage)
+                new User("2", SocialType.GITHUB, "아마찌", DEFAULT_IMAGE),
+                new User("3", SocialType.GITHUB, "지그", DEFAULT_IMAGE),
+                new User("4", SocialType.GITHUB, "포모", DEFAULT_IMAGE),
+                new User("5", SocialType.GITHUB, "조엘", DEFAULT_IMAGE),
+                new User("6", SocialType.GITHUB, "찰리", DEFAULT_IMAGE)
         );
         userRepository.saveAll(users);
 
