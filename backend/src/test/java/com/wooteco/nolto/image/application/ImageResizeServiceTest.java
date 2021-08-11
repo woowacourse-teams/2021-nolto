@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 class ImageResizeServiceTest {
-    private ImageResizeService imageResizeService = new ImageResizeService();
+    private final ImageResizeService imageResizeService = new ImageResizeService();
 
     public static final String CAR_PIC_1920X1080 = "car-picture.jpg";
     public static final String PRETTY_CAT_PIC_400X400 = "pretty_cat.png";
