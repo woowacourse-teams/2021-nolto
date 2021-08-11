@@ -1,7 +1,6 @@
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
-const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -9,7 +8,6 @@ module.exports = {
     path: path.resolve(__dirname, './dist'),
     filename: 'bundle.js',
     publicPath: '/',
-    clean: true,
   },
   module: {
     rules: [
@@ -51,7 +49,6 @@ module.exports = {
     new CopyPlugin({
       patterns: [path.resolve(__dirname, 'public', '_redirects')],
     }),
-    new CompressionPlugin(),
   ],
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
