@@ -57,9 +57,6 @@ class FeedAcceptanceTest extends AcceptanceTest {
     private Long 진행중_SOS_좋아요1개_3번째_피드_ID;
     private Long 전시중_SOS_좋아요0개_4번째_피드_ID;
 
-    @Autowired
-    private TechRepository techRepository;
-
     private final Tech JAVA = new Tech("Java");
     private final Tech SPRING = new Tech("Spring");
     private final Tech REACT = new Tech("React");
@@ -217,9 +214,9 @@ class FeedAcceptanceTest extends AcceptanceTest {
     @Test
     void hotResponse() {
         // given
-        TokenResponse 좋아요_1개_누를_유저_토큰 = 존재하는_유저의_토큰을_받는다(좋아요_1개_누를_유저);
-        TokenResponse 좋아요_2개_누를_유저_토큰 = 존재하는_유저의_토큰을_받는다(좋아요_2개_누를_유저);
-        TokenResponse 좋아요_3개_누를_유저_토큰 = 존재하는_유저의_토큰을_받는다(좋아요_3개_누를_유저);
+        TokenResponse 좋아요_1개_누를_유저_토큰 = 유저의_토큰을_받는다(좋아요_1개_누를_유저);
+        TokenResponse 좋아요_2개_누를_유저_토큰 = 유저의_토큰을_받는다(좋아요_2개_누를_유저);
+        TokenResponse 좋아요_3개_누를_유저_토큰 = 유저의_토큰을_받는다(좋아요_3개_누를_유저);
         좋아요_요청(좋아요_1개_누를_유저_토큰.getAccessToken(), 진행중_좋아요3개_1번째_피드_ID);
         좋아요_요청(좋아요_2개_누를_유저_토큰.getAccessToken(), 진행중_좋아요3개_1번째_피드_ID);
         좋아요_요청(좋아요_3개_누를_유저_토큰.getAccessToken(), 진행중_좋아요3개_1번째_피드_ID);
@@ -592,10 +589,5 @@ class FeedAcceptanceTest extends AcceptanceTest {
                 .collect(Collectors.toList());
 
         assertThat(resultLineIds).isEqualTo(expectedLineIds);
-    }
-
-    private Long 피드_업로드되어_있음(FeedRequest request) {
-        TokenResponse tokenResponse = 존재하는_유저의_토큰을_받는다();
-        return Long.valueOf(피드_작성_요청(request, tokenResponse.getAccessToken()).header("Location").replace("/feeds/", ""));
     }
 }

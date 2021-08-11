@@ -28,19 +28,13 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("기술 태그 관련 기능")
-public class TechAcceptanceTest extends AcceptanceTest {
-
-    @Autowired
-    private TechRepository techRepository;
+class TechAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private FeedTechRepository feedTechRepository;
 
     @Autowired
     private FeedRepository feedRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     private TechResponse 자바;
     private TechResponse 자바스크립트;

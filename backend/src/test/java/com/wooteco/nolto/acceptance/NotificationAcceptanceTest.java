@@ -4,8 +4,6 @@ import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.auth.ui.dto.TokenResponse;
 import com.wooteco.nolto.feed.ui.dto.CommentRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
-import com.wooteco.nolto.image.application.ImageKind;
-import com.wooteco.nolto.image.application.ImageService;
 import com.wooteco.nolto.notification.domain.NotificationType;
 import com.wooteco.nolto.tech.domain.Tech;
 import com.wooteco.nolto.tech.domain.TechRepository;
@@ -17,12 +15,9 @@ import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.multipart.MultipartFile;
 import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -30,30 +25,23 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.wooteco.nolto.acceptance.FeedAcceptanceTest.THUMBNAIL_IMAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 
 @DisplayName("알림 관련 기능")
-public class NotificationAcceptanceTest extends AcceptanceTest {
+class NotificationAcceptanceTest extends AcceptanceTest {
 
     private Long 엄청난_유저의_1번째_피드_ID;
 
     private User 좋아요_1개_누를_유저;
     private User 댓글을_남긴_유저;
 
-    private final String defaultImageUrl = "nolto-default-thumbnail.png";
-    private final File thumbnail = new File(new File("").getAbsolutePath() + "/src/test/resources/static/" + defaultImageUrl);
-
-    @Autowired
-    private TechRepository techRepository;
-
     @Override
     @BeforeEach
     public void setUp() {
         Tech java = techRepository.save(new Tech("Java"));
         FeedRequest 진행중_단계의_피드_요청 = new FeedRequest("title1", Arrays.asList(java.getId()), "content1", "PROGRESS", false, "www.github.com/woowacourse", null, null);
-
-//        BDDMockito.given(imageService.upload(any(MultipartFile.class), any(ImageKind.class))).willReturn("https://dksykemwl00pf.cloudfront.net/" + defaultImageUrl);
 
         엄청난_유저의_1번째_피드_ID = 피드_업로드되어_있음(진행중_단계의_피드_요청);
         좋아요_1개_누를_유저 = 회원_등록되어_있음(new User("2", SocialType.GITHUB, "찰리", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"));
@@ -65,7 +53,7 @@ public class NotificationAcceptanceTest extends AcceptanceTest {
     void notifyWhenFeedLike() {
         // given
         String 피드_작성자의_토큰 = 존재하는_유저의_토큰을_받는다().getAccessToken();
-        String 좋아요를_누를_유저의_토큰 = 존재하는_유저의_토큰을_받는다(좋아요_1개_누를_유저).getAccessToken();
+        String 좋아요를_누를_유저의_토큰 = 유저의_토큰을_받는다(좋아요_1개_누를_유저).getAccessToken();
         좋아요를_누른다(좋아요를_누를_유저의_토큰, 엄청난_유저의_1번째_피드_ID);
 
         // when
@@ -84,7 +72,7 @@ public class NotificationAcceptanceTest extends AcceptanceTest {
     void notifyWhenComment() throws JsonProcessingException {
         // given
         String 피드_작성자의_토큰 = 존재하는_유저의_토큰을_받는다().getAccessToken();
-        String 댓글을_남길_유저의_토큰 = 존재하는_유저의_토큰을_받는다(댓글을_남긴_유저).getAccessToken();
+        String 댓글을_남길_유저의_토큰 = 유저의_토큰을_받는다(댓글을_남긴_유저).getAccessToken();
         CommentRequest 댓글 = new CommentRequest("댓글 내용", false);
         피드에_댓글을_남긴다(댓글을_남길_유저의_토큰, 엄청난_유저의_1번째_피드_ID, 댓글);
 
@@ -102,7 +90,7 @@ public class NotificationAcceptanceTest extends AcceptanceTest {
     void notifyWhenCommentWithHelp() throws JsonProcessingException {
         // given
         String 피드_작성자의_토큰 = 존재하는_유저의_토큰을_받는다().getAccessToken();
-        String 댓글을_남길_유저의_토큰 = 존재하는_유저의_토큰을_받는다(댓글을_남긴_유저).getAccessToken();
+        String 댓글을_남길_유저의_토큰 = 유저의_토큰을_받는다(댓글을_남긴_유저).getAccessToken();
         CommentRequest 댓글 = new CommentRequest("댓글 내용", true);
         피드에_댓글을_남긴다(댓글을_남길_유저의_토큰, 엄청난_유저의_1번째_피드_ID, 댓글);
 
@@ -121,11 +109,11 @@ public class NotificationAcceptanceTest extends AcceptanceTest {
         // given
         String 피드_작성자의_토큰 = 존재하는_유저의_토큰을_받는다().getAccessToken();
 
-        String 댓글을_남길_유저의_토큰 = 존재하는_유저의_토큰을_받는다(댓글을_남긴_유저).getAccessToken();
+        String 댓글을_남길_유저의_토큰 = 유저의_토큰을_받는다(댓글을_남긴_유저).getAccessToken();
         CommentRequest 댓글 = new CommentRequest("댓글 내용", true);
         피드에_댓글을_남긴다(댓글을_남길_유저의_토큰, 엄청난_유저의_1번째_피드_ID, 댓글);
 
-        String 좋아요를_누를_유저의_토큰 = 존재하는_유저의_토큰을_받는다(좋아요_1개_누를_유저).getAccessToken();
+        String 좋아요를_누를_유저의_토큰 = 유저의_토큰을_받는다(좋아요_1개_누를_유저).getAccessToken();
         좋아요를_누른다(좋아요를_누를_유저의_토큰, 엄청난_유저의_1번째_피드_ID);
 
         // when
@@ -151,11 +139,11 @@ public class NotificationAcceptanceTest extends AcceptanceTest {
         // given
         String 피드_작성자의_토큰 = 존재하는_유저의_토큰을_받는다().getAccessToken();
 
-        String 댓글을_남길_유저의_토큰 = 존재하는_유저의_토큰을_받는다(댓글을_남긴_유저).getAccessToken();
+        String 댓글을_남길_유저의_토큰 = 유저의_토큰을_받는다(댓글을_남긴_유저).getAccessToken();
         CommentRequest 댓글 = new CommentRequest("댓글 내용", true);
         피드에_댓글을_남긴다(댓글을_남길_유저의_토큰, 엄청난_유저의_1번째_피드_ID, 댓글);
 
-        String 좋아요를_누를_유저의_토큰 = 존재하는_유저의_토큰을_받는다(좋아요_1개_누를_유저).getAccessToken();
+        String 좋아요를_누를_유저의_토큰 = 유저의_토큰을_받는다(좋아요_1개_누를_유저).getAccessToken();
         좋아요를_누른다(좋아요를_누를_유저의_토큰, 엄청난_유저의_1번째_피드_ID);
 
         // when
@@ -171,7 +159,7 @@ public class NotificationAcceptanceTest extends AcceptanceTest {
         assertThat(deleteResponse.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
         deleteResponse = 작성자의_알림을_조회한다(피드_작성자의_토큰);
         List<NotificationResponse> notificationResponses = deleteResponse.jsonPath().getList(".", NotificationResponse.class);
-        assertThat(notificationResponses).hasSize(0);
+        assertThat(notificationResponses).isEmpty();
     }
 
     private ExtractableResponse<Response> 작성자의_알림을_조회한다(String 피드_작성자의_토큰) {
@@ -220,7 +208,7 @@ public class NotificationAcceptanceTest extends AcceptanceTest {
                 .formParam("sos", feedRequest.isSos())
                 .formParam("StorageUrl", feedRequest.getStorageUrl())
                 .formParam("DeployedUrl", feedRequest.getDeployedUrl())
-                .multiPart("thumbnailImage", thumbnail);
+                .multiPart("thumbnailImage", THUMBNAIL_IMAGE);
 
         feedRequest.getTechs()
                 .forEach(techId -> requestSpecification.formParam("techs", techId));
