@@ -2,14 +2,14 @@ import styled from 'styled-components';
 
 import { UserHistoryType } from 'types';
 import { PALETTE } from 'constants/palette';
-import { hoverLayer } from 'commonStyles';
+import { hoverLayer, defaultShadow } from 'commonStyles';
 
 const Root = styled.div`
   padding: 1rem 2rem;
   width: 36rem;
   height: 24rem;
   border-radius: 0.75rem;
-  box-shadow: 4px 4px 8px 4px rgba(85, 85, 85, 0.2);
+  ${defaultShadow};
 `;
 
 const SlideBar = styled.div`

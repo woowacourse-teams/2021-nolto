@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import IconButton from 'components/@common/IconButton/IconButton';
 import { PALETTE } from 'constants/palette';
 import Z_INDEX from 'constants/zIndex';
+import { defaultShadow } from 'commonStyles';
 
 const ModalContainer = styled.div`
   position: fixed;
@@ -23,7 +24,7 @@ const ModalInner = styled.div`
   background-color: ${PALETTE.WHITE_400};
   border-radius: 25px;
   padding: 4.75rem;
-  box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.2);
+  ${defaultShadow};
 `;
 
 const CrossMarkButton = styled(IconButton)`

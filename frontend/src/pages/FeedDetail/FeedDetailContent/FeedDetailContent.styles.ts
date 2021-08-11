@@ -4,6 +4,7 @@ import HighlightedText from 'components/@common/HighlightedText/HighlightedText'
 import TextButton from 'components/@common/TextButton/TextButton';
 import SOSFlag from 'assets/sosFlag.svg';
 import StacksMoreIcon from 'assets/stacksMore.svg';
+import { defaultShadow } from 'commonStyles';
 
 const Root = styled.div`
   display: flex;
@@ -49,7 +50,7 @@ const Thumbnail = styled.div`
   border-radius: 0.5rem;
   width: 100%;
   overflow: hidden;
-  box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.2);
+  ${defaultShadow};
 
   &::after {
     content: '';

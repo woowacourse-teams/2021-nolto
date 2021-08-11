@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
-import { hoverLayer } from 'commonStyles';
+import { defaultShadow, hoverLayer } from 'commonStyles';
 
 const Root = styled.form`
   display: flex;
@@ -11,7 +11,7 @@ const Root = styled.form`
   width: 36rem;
   height: 10rem;
   border-radius: 0.75rem;
-  box-shadow: 4px 4px 8px 4px rgba(85, 85, 85, 0.2);
+  ${defaultShadow};
 `;
 
 const ImageWrapper = styled.div`
