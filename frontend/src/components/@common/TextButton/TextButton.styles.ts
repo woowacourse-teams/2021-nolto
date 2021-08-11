@@ -5,20 +5,20 @@ import { hoverLayer } from 'commonStyles';
 import { ButtonStyle } from 'types';
 
 interface RootProps {
-  buttonStyle: ButtonStyle;
-  reverse?: boolean;
+  $buttonStyle: ButtonStyle;
+  $reverse?: boolean;
 }
 
-const solid = (reverse: boolean) => css`
-  background-color: ${reverse ? PALETTE.WHITE_400 : PALETTE.PRIMARY_400};
+const solid = ($reverse: boolean) => css`
+  background-color: ${$reverse ? PALETTE.WHITE_400 : PALETTE.PRIMARY_400};
   border: none;
-  color: ${reverse ? PALETTE.PRIMARY_400 : PALETTE.WHITE_400};
+  color: ${$reverse ? PALETTE.PRIMARY_400 : PALETTE.WHITE_400};
 `;
 
-const outline = (reverse: boolean) => css`
+const outline = ($reverse: boolean) => css`
   background-color: transparent;
-  border: 2px solid ${reverse ? PALETTE.WHITE_400 : PALETTE.PRIMARY_400};
-  color: ${reverse ? PALETTE.WHITE_400 : PALETTE.PRIMARY_400};
+  border: 2px solid ${$reverse ? PALETTE.WHITE_400 : PALETTE.PRIMARY_400};
+  color: ${$reverse ? PALETTE.WHITE_400 : PALETTE.PRIMARY_400};
 `;
 
 const styleMap = {
@@ -27,7 +27,7 @@ const styleMap = {
 };
 
 const Root = styled.button<RootProps>`
-  ${({ buttonStyle, reverse }) => styleMap[buttonStyle](reverse)}
+  ${({ $buttonStyle, $reverse }) => styleMap[$buttonStyle]($reverse)}
   overflow: hidden;
 
   ${hoverLayer({})};

@@ -27,7 +27,7 @@ const TechChips = ({ className, reverse = false }: Props) => {
           onClick={() => deleteTech(tech.id)}
         >
           {tech.text}
-          <Styled.DeleteMark width="10px" reverse={reverse} />
+          <Styled.DeleteMark width="10px" $reverse={reverse} />
         </TechButton>
       ))}
     </Styled.Root>
