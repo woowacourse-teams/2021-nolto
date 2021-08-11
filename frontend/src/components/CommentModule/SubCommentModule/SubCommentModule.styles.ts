@@ -46,14 +46,16 @@ const SubCommentWrapper = styled.div<{
   flex-direction: column;
   gap: 1rem;
   overflow: hidden;
-  transition: height 0.2s ease;
+  transition: max-height ${({ isFold }) => (isFold ? '0.35s ease' : '0.85s ease')};
 
-  height: ${({ isFold, isReplyFormVisible, replyCount }) => {
+  max-height: ${({ isFold, isReplyFormVisible, replyCount }) => {
     if (isFold) return 0;
 
-    if (!isReplyFormVisible) return `calc(7.5rem * ${replyCount})`;
+    let height = 0;
 
-    return `calc(7.5rem * ${replyCount} + 4rem)`;
+    if (isReplyFormVisible) height += 30;
+
+    return `${replyCount * 50 + height}rem`;
   }};
 `;
 

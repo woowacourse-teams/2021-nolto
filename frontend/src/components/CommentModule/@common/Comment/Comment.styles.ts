@@ -4,6 +4,8 @@ import TextButton from 'components/@common/TextButton/TextButton';
 import TextInput from 'components/@common/TextInput/TextInput';
 import { PALETTE } from 'constants/palette';
 import { ButtonStyle } from 'types';
+import TextArea from 'components/@common/TextArea/TextArea';
+import AutoHeightTextArea from 'components/@common/AutoHeightTextArea/AutoHeightTextArea';
 
 const show = keyframes`
   from {
@@ -16,6 +18,7 @@ const show = keyframes`
 
 const Root = styled.div`
   animation: ${show} 0.5s ease;
+  padding-bottom: 0.5rem;
 `;
 
 const Author = styled.div`
@@ -50,12 +53,12 @@ const Body = styled.span<{ isModifying: boolean }>`
 const Content = styled.span<{ isFeedAuthor: boolean }>`
   position: relative;
   display: inline-block;
-  padding: 0 1.5rem;
+  padding: 0.5rem 1.5rem;
   box-shadow: 2px 2px 4px 2px rgba(85, 85, 85, 0.1);
   border-radius: 0.75rem;
   min-width: 12rem;
-  height: 2.5rem;
-  line-height: 2.5rem;
+  min-height: 2.5rem;
+  line-height: 1.5rem;
 
   background-color: ${({ isFeedAuthor }) => isFeedAuthor && PALETTE.ORANGE_200};
 
@@ -65,16 +68,20 @@ const Content = styled.span<{ isFeedAuthor: boolean }>`
   }
 `;
 
-export const ModifyTextInput = styled(TextInput)`
+export const ModifyTextArea = styled(AutoHeightTextArea)`
   font-size: 1rem;
-  border-color: ${PALETTE.GRAY_300};
+  border-bottom: 1px solid ${PALETTE.GRAY_400};
   padding: 0;
   padding-bottom: 2px;
   transition: border-color 0.1s ease;
 
   &:focus {
-    border-color: ${PALETTE.GRAY_400};
+    border-color: ${PALETTE.GRAY_500};
   }
+`;
+
+const ExhibitText = styled.pre`
+  white-space: pre-wrap;
 `;
 
 const EditDeleteContainer = styled.div`
@@ -82,7 +89,7 @@ const EditDeleteContainer = styled.div`
   gap: 4px;
   position: absolute;
   right: 0;
-  top: 2.7rem;
+  bottom: -1.7rem;
 `;
 
 const Detail = styled.div`
@@ -115,6 +122,7 @@ export default {
   Content,
   Detail,
   Body,
+  ExhibitText,
   EditDeleteContainer,
   ThumbUpWrapper,
 };

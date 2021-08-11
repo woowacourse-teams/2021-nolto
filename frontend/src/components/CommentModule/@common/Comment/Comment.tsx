@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useContext, useEffect, useState, useRef } from 'react';
+import React, { useContext, useEffect, useState, useRef, FormEvent } from 'react';
 
 import PencilIcon from 'assets/pencil.svg';
 import ThumbIcon from 'assets/thumb.svg';
@@ -16,7 +16,7 @@ import useLike from 'hooks/@common/useLike';
 import { PALETTE } from 'constants/palette';
 import { ButtonStyle, CommentType } from 'types';
 import { refineDate } from 'utils/common';
-import Styled, { CommentTextButton, ModifyTextInput } from './Comment.styles';
+import Styled, { CommentTextButton, ModifyTextArea } from './Comment.styles';
 
 interface Props {
   commentBody: CommentType;
@@ -70,11 +70,11 @@ const Comment = ({ commentBody, parentCommentId, isFocused }: Props) => {
     });
   };
 
-  const handleChangeModifyInput = (event: ChangeEvent<HTMLInputElement>) => {
-    setModifyInput(event.target.value);
+  const handleChangeModifyInput = (inputValue: string) => {
+    setModifyInput(inputValue);
   };
 
-  const handleChangeToModifyMode = () => {
+  const handleClickModifyMode = () => {
     setModifyInput(commentBody.content);
     setIsModifying(true);
   };
@@ -106,10 +106,15 @@ const Comment = ({ commentBody, parentCommentId, isFocused }: Props) => {
   }, []);
 
   const modifyingMode: React.ReactNode = (
-    <form onSubmit={handleModifyComment}>
-      <ModifyTextInput type="text" value={modifyInput} onChange={handleChangeModifyInput} />
+    <>
+      <ModifyTextArea initialValue={modifyInput} onChange={handleChangeModifyInput} />
       <Styled.EditDeleteContainer>
-        <CommentTextButton buttonStyle={ButtonStyle.SOLID} reverse={true}>
+        <CommentTextButton
+          onClick={handleModifyComment}
+          type="button"
+          buttonStyle={ButtonStyle.SOLID}
+          reverse={true}
+        >
           수정
         </CommentTextButton>
         <CommentTextButton
@@ -121,16 +126,16 @@ const Comment = ({ commentBody, parentCommentId, isFocused }: Props) => {
           취소
         </CommentTextButton>
       </Styled.EditDeleteContainer>
-    </form>
+    </>
   );
 
   const exhibitMode: React.ReactNode = (
     <>
-      <span>{commentBody.content}</span>
+      <Styled.ExhibitText>{commentBody.content}</Styled.ExhibitText>
       {commentBody.modified && <span className="modified-text"> (수정됨)</span>}
       {isMyComment && (
         <Styled.EditDeleteContainer>
-          <IconButton onClick={handleChangeToModifyMode} isShadow={false}>
+          <IconButton onClick={handleClickModifyMode} isShadow={false}>
             <PencilIcon width="20px" fill={PALETTE.BLACK_200} />
           </IconButton>
           <IconButton onClick={handleClickDelete} isShadow={false}>
