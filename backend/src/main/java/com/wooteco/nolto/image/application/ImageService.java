@@ -5,6 +5,7 @@ import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.InternalServerErrorException;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,9 +32,11 @@ public class ImageService {
     private String cloudfrontUrl;
 
     private final AmazonS3 amazonS3Client;
+    private final ImageResizeService imageResizeService;
 
-    public ImageService(AmazonS3 amazonS3Client) {
+    public ImageService(AmazonS3 amazonS3Client, ImageResizeService imageResizeService) {
         this.amazonS3Client = amazonS3Client;
+        this.imageResizeService = imageResizeService;
     }
 
     public String upload(MultipartFile multipartFile, ImageKind imageKind) {
@@ -42,7 +45,8 @@ public class ImageService {
         }
         File file = convertToFile(multipartFile);
         String fileName = getFileName(file);
-        amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, file));
+        File resizedFile = imageResizeService.resize(file, fileName);
+        amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, resizedFile));
         try {
             Files.delete(Paths.get(file.getPath()));
         } catch (Exception e) {
@@ -55,14 +59,6 @@ public class ImageService {
         return Objects.isNull(multipartFile) || multipartFile.isEmpty();
     }
 
-    private String getFileName(File file) {
-        String fileOriginName = file.getName();
-        String uuid = UUID.randomUUID().toString().replace("-", "");
-        int pos = fileOriginName.lastIndexOf(FILENAME_EXTENSION_DOT);
-        String ext = FILENAME_EXTENSION_DOT + file.getName().substring(pos + 1);
-        return uuid + ext;
-    }
-
     private File convertToFile(MultipartFile multipartFile) {
         File convertedFile = new File(Objects.requireNonNull(multipartFile.getOriginalFilename()));
         try (FileOutputStream fos = new FileOutputStream(convertedFile)) {
@@ -71,6 +67,13 @@ public class ImageService {
             throw new InternalServerErrorException(ErrorType.MULTIPART_CONVERT_FAIL);
         }
         return convertedFile;
+    }
+
+    private String getFileName(File file) {
+        String fileOriginName = file.getName();
+        String uuid = UUID.randomUUID().toString().replace("-", "");
+        String extension = FilenameUtils.getExtension(fileOriginName);
+        return uuid + FILENAME_EXTENSION_DOT + extension;
     }
 
     public String update(String oldImageUrl, MultipartFile updateImage, ImageKind imageKind) {
