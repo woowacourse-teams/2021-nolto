@@ -29,7 +29,7 @@ import static org.mockito.BDDMockito.given;
 public abstract class AcceptanceTest {
 
     public static final String DEFAULT_IMAGE = "nolto-default-thumbnail.png";
-    public static final String DEFAULT_IMAGE_URL = "https://dksykemwl00pf.cloudfront.net/" + "nolto-default-thumbnail.png";
+    public static final String DEFAULT_IMAGE_URL = "https://dksykemwl00pf.cloudfront.net/" + DEFAULT_IMAGE;
 
     @LocalServerPort
     int port;
@@ -50,7 +50,7 @@ public abstract class AcceptanceTest {
             "1",
             SocialType.GITHUB,
             "엄청난 유저",
-            "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png");
+            DEFAULT_IMAGE_URL);
 
     @BeforeEach
     public void setUp() {
