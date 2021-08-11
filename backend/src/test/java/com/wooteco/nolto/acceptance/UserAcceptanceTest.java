@@ -3,7 +3,6 @@ package com.wooteco.nolto.acceptance;
 import com.wooteco.nolto.auth.ui.dto.TokenResponse;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.dto.ExceptionResponse;
-import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.ui.dto.*;
 import io.restassured.RestAssured;
