@@ -87,14 +87,10 @@ const NavContainer = styled.ul`
   }
 
   & a {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     color: ${PALETTE.WHITE_400};
     display: inline;
     ${hoverUnderline};
-
-    &:hover {
-      border-bottom: 2px solid ${PALETTE.WHITE_400};
-    }
 
     @media ${MEDIA_QUERY.TABLET} {
       font-size: 1rem;

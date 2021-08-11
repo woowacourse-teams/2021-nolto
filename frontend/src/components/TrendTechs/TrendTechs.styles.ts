@@ -32,10 +32,6 @@ const Tag = styled.span`
     @media ${MEDIA_QUERY.MOBILE} {
       font-size: 0.75rem;
     }
-
-    &:hover {
-      text-decoration: underline;
-    }
   }
 
   > .trends-bar {
