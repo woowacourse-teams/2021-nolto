@@ -17,8 +17,6 @@ class ImageResizeServiceTest {
     private ImageResizeService imageResizeService = new ImageResizeService();
 
     public static final String CAR_PIC_1920X1080 = "car-picture.jpg";
-    public static final String AMAZZI_PIC_567X560 = "amazzi.jpeg";
-    public static final String NOLTO_PIC_512X512 = "nolto-default-thumbnail.png";
     public static final String PRETTY_CAT_PIC_400X400 = "pretty_cat.png";
 
     @DisplayName("width나 height 둘 중 하나라도 400px이 넘어가는 이미지 파일의 경우, 긴 쪽을 400px로 사이즈를 조정한다.")
