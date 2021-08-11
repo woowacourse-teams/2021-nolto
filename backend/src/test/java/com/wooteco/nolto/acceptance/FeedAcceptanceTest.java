@@ -87,7 +87,7 @@ class FeedAcceptanceTest extends AcceptanceTest {
         assertThat(response.header("Location")).isNotBlank();
     }
 
-    @DisplayName("로그인 되지 않은 유저가 피드를 조회한다.")
+    @DisplayName("게스트가 피드를 조회한다.")
     @Test
     void findByIdWithGuest() {
         // given
@@ -125,7 +125,7 @@ class FeedAcceptanceTest extends AcceptanceTest {
         assertThat(updateResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 
-    @DisplayName("놀토의 회원이 자신의 피드를 삭제한다.")
+    @DisplayName("멤버가 자신의 피드를 삭제한다.")
     @Test
     void delete() {
         // given

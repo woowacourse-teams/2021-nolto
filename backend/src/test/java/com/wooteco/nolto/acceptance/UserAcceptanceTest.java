@@ -48,7 +48,7 @@ class UserAcceptanceTest extends AcceptanceTest {
         알맞은_회원_정보_조회됨(response, 존재하는_유저);
     }
 
-    @DisplayName("로그인 되지 않은 유저라면 회원 정보를 받아올 수 없다.")
+    @DisplayName("게스트라면 회원 정보를 받아올 수 없다.")
     @Test
     void cannotGetMemberInfoWithoutToken() {
         //when
@@ -58,7 +58,7 @@ class UserAcceptanceTest extends AcceptanceTest {
         토큰_예외_발생(response, ErrorType.TOKEN_NEEDED);
     }
 
-    @DisplayName("유효하지 않은 토큰을 가진 유저라면 회원 정보를 받아올 수 없다.")
+    @DisplayName("유효하지 않은 토큰을 가진 멤버라면 회원 정보를 받아올 수 없다.")
     @Test
     void cannotGetMemberInfoWithoutInvalidToken() {
         //when
@@ -125,7 +125,7 @@ class UserAcceptanceTest extends AcceptanceTest {
         멤버_히스토리_조회됨(response, 작성과_좋아요한_피드_ID, 등록한_댓글_내용);
     }
 
-    @DisplayName("로그인 되지 않은 사용자라면 회원의 히스토리를 받아올 수 없다.")
+    @DisplayName("게스트라면 회원의 히스토리를 받아올 수 없다.")
     @Test
     void cannotFindMemberHistoryWithoutToken() {
         //when

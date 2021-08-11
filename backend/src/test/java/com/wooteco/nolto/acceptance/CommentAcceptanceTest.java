@@ -42,7 +42,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         업로드한_피드의_ID = 피드_업로드되어_있음(진행중_단계의_피드_요청, 로그인된_댓글_작성자의_토큰.getAccessToken());
     }
 
-    @DisplayName("로그인 하지않은 유저가 댓글 작성을 요청하면 예외가 발생한다.")
+    @DisplayName("게스트가 댓글 작성을 요청하면 예외가 발생한다.")
     @Test
     void createCommentWithoutLogin() {
         // given
@@ -68,7 +68,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         요청_실패함(실패한_댓글_작성_응답, HttpStatus.UNAUTHORIZED, ErrorType.INVALID_TOKEN);
     }
 
-    @DisplayName("로그인하고 피드에 도와줄게요가 아닌 일반 댓글을 작성한다.")
+    @DisplayName("멤버가 피드에 도와줄게요가 아닌 일반 댓글을 작성한다.")
     @Test
     void createComment() {
         // given
@@ -97,7 +97,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         요청_실패함(댓글내용이_비어있어_작성_실패한_응답, HttpStatus.BAD_REQUEST, ErrorType.DATA_BINDING_ERROR);
     }
 
-    @DisplayName("로그인 하지않은 유저가 피드에 있는 모든 댓글을 최신순으로 조회한다. (대댓글은 응답에 포함되지 않음)")
+    @DisplayName("게스트가 피드에 있는 모든 댓글을 최신순으로 조회한다. (대댓글은 응답에 포함되지 않음)")
     @Test
     void findAllCommentsByFeedId() {
         // given
@@ -150,7 +150,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         요청_실패함(댓글내용_빈값으로_수정_응답, HttpStatus.BAD_REQUEST, ErrorType.DATA_BINDING_ERROR);
     }
 
-    @DisplayName("댓글 작성자가 아닌 유저가 댓글을_수정한다 수정하려고 하면 예외가 발생한다.")
+    @DisplayName("댓글 작성자가 아닌 멤버가 댓글을_수정한다 수정하려고 하면 예외가 발생한다.")
     @Test
     void updateCommentWithOtherUser() {
         // given
@@ -199,7 +199,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         요청_실패함(도와드릴게요로_대댓글_수정_응답, HttpStatus.BAD_REQUEST, ErrorType.REPLY_NOT_SUPPORTED_HELPER);
     }
 
-    @DisplayName("댓글을 작성한 유저가 자신의 댓글을 삭제할 수 있다.")
+    @DisplayName("댓글을 작성한 멤버가 자신의 댓글을 삭제할 수 있다.")
     @Test
     void deleteCommentWithAuthor() {
         // given
@@ -230,7 +230,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         댓글_삭제_성공함(대댓글_삭제_응답);
     }
 
-    @DisplayName("작성자 이외의 다른 유저가 댓글을 삭제하려고 하면 예외가 발생한다.")
+    @DisplayName("작성자 이외의 다른 멤버가 댓글을 삭제하려고 하면 예외가 발생한다.")
     @Test
     void deleteCommentWithOtherUser() {
         // given
@@ -276,7 +276,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         요청_실패함(이미_좋아요_누른_댓글에_댓글_좋아요_추가_응답, HttpStatus.BAD_REQUEST, ErrorType.ALREADY_LIKED_COMMENT);
     }
 
-    @DisplayName("로그인 하지않은 유저가 댓글에 좋아요를 추가하려고 하면 예외가 발생한다.")
+    @DisplayName("게스트가 댓글에 좋아요를 추가하려고 하면 예외가 발생한다.")
     @Test
     void addCommentLikeWithoutLogin() {
         // given
@@ -305,7 +305,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         댓글에_좋아요_취소_성공(댓글에_좋아요_취소_응답);
     }
 
-    @DisplayName("로그인 하지않은 유저가 좋아요를 취소를 요청하면 예외가 발생한다.")
+    @DisplayName("게스트가 좋아요를 취소를 요청하면 예외가 발생한다.")
     @Test
     void deleteCommentLikeWithoutLogin() {
         // given
@@ -334,7 +334,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         요청_실패함(댓글에_좋아요_취소_응답, HttpStatus.BAD_REQUEST, ErrorType.NOT_LIKED_COMMENT);
     }
 
-    @DisplayName("로그인 하지않은 유저가 댓글에 대댓글 작성을 요청하면 예외가 발생한다.")
+    @DisplayName("게스트가 댓글에 대댓글 작성을 요청하면 예외가 발생한다.")
     @Test
     void createReplyWithoutLogin() {
         // given
@@ -366,7 +366,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         요청_실패함(대댓글_내용이_빈_값인_작성, HttpStatus.BAD_REQUEST, ErrorType.DATA_BINDING_ERROR);
     }
 
-    @DisplayName("로그인 하지않은 유저가 댓글에 있는 모든 대댓글을 최신순으로 조회한다.")
+    @DisplayName("게스트가 댓글에 있는 모든 대댓글을 최신순으로 조회한다.")
     @Test
     void findAllRepliesByCommentIdWithoutLogin() {
         // given
