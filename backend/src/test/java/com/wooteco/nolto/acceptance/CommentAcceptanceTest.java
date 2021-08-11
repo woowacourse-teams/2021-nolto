@@ -36,7 +36,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
     private TokenResponse 현재_로그인된_댓글_작성자의_토큰;
 
     @BeforeEach
-    public void setUp() {
+    void setUpOnCommentAcceptanceTest() {
         super.setUp();
         로그인된_댓글_작성자의_토큰 = 댓글_작성자_로그인_되어있음();
         업로드한_피드의_ID = 피드_업로드되어_있음(진행중_단계의_피드_요청, 로그인된_댓글_작성자의_토큰.getAccessToken());
