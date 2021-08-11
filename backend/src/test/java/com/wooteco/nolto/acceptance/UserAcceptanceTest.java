@@ -39,7 +39,7 @@ class UserAcceptanceTest extends AcceptanceTest {
         존재하는_유저의_토큰 = 존재하는_유저의_토큰을_받는다().getAccessToken();
     }
 
-    @DisplayName("로그인 된 사용자라면 회원 정보를 받아올 수 있다.")
+    @DisplayName("멤버 자신의 정보를 확인한다.")
     @Test
     void getMemberInfoWithToken() {
         //when
@@ -49,7 +49,7 @@ class UserAcceptanceTest extends AcceptanceTest {
         알맞은_회원_정보_조회됨(response, 존재하는_유저);
     }
 
-    @DisplayName("로그인 되지 않은 사용자라면 회원 정보를 받아올 수 없다.")
+    @DisplayName("로그인 되지 않은 유저라면 회원 정보를 받아올 수 없다.")
     @Test
     void cannotGetMemberInfoWithoutToken() {
         //when
@@ -59,7 +59,7 @@ class UserAcceptanceTest extends AcceptanceTest {
         토큰_예외_발생(response, ErrorType.TOKEN_NEEDED);
     }
 
-    @DisplayName("유효하지 않은 토큰을 가진 사용자라면 회원 정보를 받아올 수 없다.")
+    @DisplayName("유효하지 않은 토큰을 가진 유저라면 회원 정보를 받아올 수 없다.")
     @Test
     void cannotGetMemberInfoWithoutInvalidToken() {
         //when
