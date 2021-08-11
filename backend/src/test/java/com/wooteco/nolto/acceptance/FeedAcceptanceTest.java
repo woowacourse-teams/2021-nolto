@@ -13,6 +13,7 @@ import com.wooteco.nolto.tech.domain.Tech;
 import com.wooteco.nolto.tech.domain.TechRepository;
 import com.wooteco.nolto.tech.ui.dto.TechResponse;
 import com.wooteco.nolto.user.domain.User;
+import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -66,9 +67,6 @@ public class FeedAcceptanceTest extends AcceptanceTest {
     @Autowired
     private TechRepository techRepository;
 
-    @MockBean
-    private ImageService imageService;
-
     private final Tech JAVA = new Tech("Java");
     private final Tech SPRING = new Tech("Spring");
     private final Tech REACT = new Tech("React");
@@ -76,7 +74,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
     @BeforeEach
     void setUpOnFeedAcceptance() {
         super.setUp();
-        BDDMockito.given(imageService.upload(any(MultipartFile.class), any(ImageKind.class))).willReturn("https://dksykemwl00pf.cloudfront.net/" + DEFAULT_IMAGE_URL);
+//        BDDMockito.given(imageService.upload(any(MultipartFile.class), any(ImageKind.class))).willReturn("https://dksykemwl00pf.cloudfront.net/" + DEFAULT_IMAGE_URL);
         techRepository.saveAll(Arrays.asList(JAVA, SPRING, REACT));
 
         진행중_좋아요3개_1번째_피드_ID = 피드_업로드되어_있음(진행중_단계의_피드_요청);
@@ -105,7 +103,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
         );
 
         // when
-        ExtractableResponse<Response> response = 피드를_작성한다(feedRequest, 존재하는_유저의_토큰을_받는다().getAccessToken());
+        ExtractableResponse<Response> response = 피드_작성_요청(feedRequest, 존재하는_유저의_토큰을_받는다().getAccessToken());
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
@@ -126,7 +124,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
                 "",
                 null
         );
-        ExtractableResponse<Response> saveResponse = 피드를_작성한다(request, 존재하는_유저의_토큰을_받는다().getAccessToken());
+        ExtractableResponse<Response> saveResponse = 피드_작성_요청(request, 존재하는_유저의_토큰을_받는다().getAccessToken());
         Long feedId = Long.valueOf(saveResponse.header("Location").replace("/feeds/", ""));
 
         // when
@@ -158,7 +156,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
                 null
         );
         String token = 존재하는_유저의_토큰을_받는다().getAccessToken();
-        ExtractableResponse<Response> saveResponse = 피드를_작성한다(request, token);
+        ExtractableResponse<Response> saveResponse = 피드_작성_요청(request, token);
         Long feedId = Long.valueOf(saveResponse.header("Location").replace("/feeds/", ""));
 
         // when
@@ -193,7 +191,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
                 null
         );
         String token = 존재하는_유저의_토큰을_받는다().getAccessToken();
-        ExtractableResponse<Response> saveResponse = 피드를_작성한다(request, token);
+        ExtractableResponse<Response> saveResponse = 피드_작성_요청(request, token);
         Long feedId = Long.valueOf(saveResponse.header("Location").replace("/feeds/", ""));
 
         // when
@@ -233,7 +231,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
                 null
         );
         String token = 존재하는_유저의_토큰을_받는다().getAccessToken();
-        ExtractableResponse<Response> saveResponse = 피드를_작성한다(request, token);
+        ExtractableResponse<Response> saveResponse = 피드_작성_요청(request, token);
         Long feedId = Long.valueOf(saveResponse.header("Location").replace("/feeds/", ""));
 
         // when
@@ -263,11 +261,11 @@ public class FeedAcceptanceTest extends AcceptanceTest {
                 null
         );
         String token = 존재하는_유저의_토큰을_받는다().getAccessToken();
-        ExtractableResponse<Response> saveResponse = 피드를_작성한다(request, token);
+        ExtractableResponse<Response> saveResponse = 피드_작성_요청(request, token);
         Long feedId = Long.valueOf(saveResponse.header("Location").replace("/feeds/", ""));
 
         // when
-        ExtractableResponse<Response> likeResponse = 좋아요를_누른다(token, feedId);
+        ExtractableResponse<Response> likeResponse = 좋아요_요청(token, feedId);
 
         // then
         assertThat(likeResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
@@ -288,12 +286,12 @@ public class FeedAcceptanceTest extends AcceptanceTest {
                 null
         );
         String token = 존재하는_유저의_토큰을_받는다().getAccessToken();
-        ExtractableResponse<Response> saveResponse = 피드를_작성한다(request, token);
+        ExtractableResponse<Response> saveResponse = 피드_작성_요청(request, token);
         Long feedId = Long.valueOf(saveResponse.header("Location").replace("/feeds/", ""));
-        좋아요를_누른다(token, feedId);
+        좋아요_요청(token, feedId);
 
         // when
-        ExtractableResponse<Response> likeResponse = 좋아요를_누른다(token, feedId);
+        ExtractableResponse<Response> likeResponse = 좋아요_요청(token, feedId);
 
         // then
         ExceptionResponse response = likeResponse.as(ExceptionResponse.class);
@@ -316,9 +314,9 @@ public class FeedAcceptanceTest extends AcceptanceTest {
                 null
         );
         String token = 존재하는_유저의_토큰을_받는다().getAccessToken();
-        ExtractableResponse<Response> saveResponse = 피드를_작성한다(request, token);
+        ExtractableResponse<Response> saveResponse = 피드_작성_요청(request, token);
         Long feedId = Long.valueOf(saveResponse.header("Location").replace("/feeds/", ""));
-        좋아요를_누른다(token, feedId);
+        좋아요_요청(token, feedId);
 
         // when
         ExtractableResponse<Response> likeResponse = given().log().all()
@@ -347,7 +345,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
                 null
         );
         String token = 존재하는_유저의_토큰을_받는다().getAccessToken();
-        ExtractableResponse<Response> saveResponse = 피드를_작성한다(request, token);
+        ExtractableResponse<Response> saveResponse = 피드_작성_요청(request, token);
         Long feedId = Long.valueOf(saveResponse.header("Location").replace("/feeds/", ""));
 
         // when
@@ -379,9 +377,9 @@ public class FeedAcceptanceTest extends AcceptanceTest {
                 null
         );
         String token = 존재하는_유저의_토큰을_받는다().getAccessToken();
-        ExtractableResponse<Response> saveResponse = 피드를_작성한다(request, token);
+        ExtractableResponse<Response> saveResponse = 피드_작성_요청(request, token);
         Long feedId = Long.valueOf(saveResponse.header("Location").replace("/feeds/", ""));
-        좋아요를_누른다(token, feedId);
+        좋아요_요청(token, feedId);
         given().log().all()
                 .auth().oauth2(token)
                 .when()
@@ -390,7 +388,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
                 .extract();
 
         // when
-        ExtractableResponse<Response> likeResponse = 좋아요를_누른다(token, feedId);
+        ExtractableResponse<Response> likeResponse = 좋아요_요청(token, feedId);
 
         // then
         assertThat(likeResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
@@ -586,8 +584,8 @@ public class FeedAcceptanceTest extends AcceptanceTest {
         피드_목록_포함됨(COMPLETE_필터링값_응답, Collections.emptyList());
     }
 
-    private ExtractableResponse<Response> 좋아요를_누른다(String token, Long feedId) {
-        return given().log().all()
+    public static ExtractableResponse<Response> 좋아요_요청 (String token, Long feedId) {
+        return RestAssured.given().log().all()
                 .auth().oauth2(token)
                 .when()
                 .post("/feeds/{feedId}/like", feedId)
@@ -595,8 +593,8 @@ public class FeedAcceptanceTest extends AcceptanceTest {
                 .extract();
     }
 
-    private ExtractableResponse<Response> 피드를_작성한다(FeedRequest feedRequest, String token) {
-        RequestSpecification requestSpecification = given().log().all()
+    public static ExtractableResponse<Response> 피드_작성_요청(FeedRequest feedRequest, String token) {
+        RequestSpecification requestSpecification = RestAssured.given().log().all()
                 .auth().oauth2(token)
                 .formParam("title", feedRequest.getTitle())
                 .formParam("content", feedRequest.getContent())
@@ -715,7 +713,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
 
     public Long 피드_업로드되어_있음(FeedRequest request) {
         TokenResponse tokenResponse = 존재하는_유저의_토큰을_받는다();
-        return Long.valueOf(피드를_작성한다(request, tokenResponse.getAccessToken()).header("Location").replace("/feeds/", ""));
+        return Long.valueOf(피드_작성_요청(request, tokenResponse.getAccessToken()).header("Location").replace("/feeds/", ""));
     }
 
     public void 피드에_좋아요_눌러져있음(String token, Long feedId) {

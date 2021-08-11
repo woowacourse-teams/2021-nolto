@@ -3,21 +3,29 @@ package com.wooteco.nolto.acceptance;
 import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.auth.infrastructure.JwtTokenProvider;
 import com.wooteco.nolto.auth.ui.dto.TokenResponse;
+import com.wooteco.nolto.image.application.ImageKind;
+import com.wooteco.nolto.image.application.ImageService;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.domain.UserRepository;
 import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.BeforeEach;
+import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.web.multipart.MultipartFile;
+
+import static com.wooteco.nolto.acceptance.FeedAcceptanceTest.DEFAULT_IMAGE_URL;
+import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @ActiveProfiles("test")
-public class AcceptanceTest {
+public abstract class AcceptanceTest {
     @LocalServerPort
     int port;
 
@@ -26,6 +34,9 @@ public class AcceptanceTest {
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+
+    @MockBean
+    private ImageService imageService;
 
     public User 존재하는_유저 = new User(
             "1",
@@ -36,6 +47,8 @@ public class AcceptanceTest {
     @BeforeEach
     public void setUp() {
         RestAssured.port = port;
+        BDDMockito.given(imageService.upload(any(MultipartFile.class), any(ImageKind.class))).willReturn(DEFAULT_IMAGE_URL);
+        BDDMockito.given(imageService.update(any(String.class), any(MultipartFile.class), any(ImageKind.class))).willReturn(DEFAULT_IMAGE_URL);
     }
 
     public RequestSpecification given() {

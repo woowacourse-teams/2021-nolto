@@ -44,9 +44,6 @@ public class NotificationAcceptanceTest extends AcceptanceTest {
     private final String defaultImageUrl = "nolto-default-thumbnail.png";
     private final File thumbnail = new File(new File("").getAbsolutePath() + "/src/test/resources/static/" + defaultImageUrl);
 
-    @MockBean
-    private ImageService imageService;
-
     @Autowired
     private TechRepository techRepository;
 
@@ -56,7 +53,7 @@ public class NotificationAcceptanceTest extends AcceptanceTest {
         Tech java = techRepository.save(new Tech("Java"));
         FeedRequest 진행중_단계의_피드_요청 = new FeedRequest("title1", Arrays.asList(java.getId()), "content1", "PROGRESS", false, "www.github.com/woowacourse", null, null);
 
-        BDDMockito.given(imageService.upload(any(MultipartFile.class), any(ImageKind.class))).willReturn("https://dksykemwl00pf.cloudfront.net/" + defaultImageUrl);
+//        BDDMockito.given(imageService.upload(any(MultipartFile.class), any(ImageKind.class))).willReturn("https://dksykemwl00pf.cloudfront.net/" + defaultImageUrl);
 
         엄청난_유저의_1번째_피드_ID = 피드_업로드되어_있음(진행중_단계의_피드_요청);
         좋아요_1개_누를_유저 = 회원_등록되어_있음(new User("2", SocialType.GITHUB, "찰리", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"));

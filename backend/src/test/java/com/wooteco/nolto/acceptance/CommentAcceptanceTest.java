@@ -11,6 +11,7 @@ import com.wooteco.nolto.feed.ui.dto.ReplyResponse;
 import com.wooteco.nolto.image.application.ImageKind;
 import com.wooteco.nolto.image.application.ImageService;
 import com.wooteco.nolto.user.domain.User;
+import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -40,20 +41,17 @@ class CommentAcceptanceTest extends AcceptanceTest {
     private TokenResponse 로그인된_댓글_작성자의_토큰;
     private TokenResponse 현재_로그인된_댓글_작성자의_토큰;
 
-    private static final CommentRequest 일반_댓글_작성요청 = new CommentRequest("첫 댓글 달았어요 :)", false);
+    public static final CommentRequest 일반_댓글_작성요청 = new CommentRequest("첫 댓글 달았어요 :)", false);
     private static final CommentRequest 도와줄게요_댓글_작성요청 = new CommentRequest("1등 아깝다..", true);
     private static final CommentRequest 내용이_비어있는_댓글_작성요청 = new CommentRequest("", true);
 
     private static final CommentRequest 대댓글_작성_요청1 = new CommentRequest("첫 댓글 1등 대댓글임", false);
     private static final CommentRequest 대댓글_작성_요청2 = new CommentRequest("2등 대댓글 오히려 좋아", false);
 
-    @MockBean
-    private ImageService imageService;
-
     @BeforeEach
     public void setUp() {
         super.setUp();
-        BDDMockito.given(imageService.upload(any(MultipartFile.class), any(ImageKind.class))).willReturn("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png");
+//        BDDMockito.given(imageService.upload(any(MultipartFile.class), any(ImageKind.class))).willReturn("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png");
         로그인된_댓글_작성자의_토큰 = 댓글_작성자_로그인_되어있음();
         업로드한_피드의_ID = 피드_업로드되어있음(진행중_단계의_피드_요청);
     }
@@ -78,7 +76,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         CommentRequest 일반_댓글_작성요청 = new CommentRequest("로그인 하지 않고 댓글을 쓰고싶어요", false);
 
         // when
-        ExtractableResponse<Response> 실패한_댓글_작성_응답 = 댓글을_작성한다(일반_댓글_작성요청, "유통기한이 지난 쉰내나는 토큰");
+        ExtractableResponse<Response> 실패한_댓글_작성_응답 = 댓글을_작성한다(일반_댓글_작성요청, "유통기한이 지난 쉰내나는 토큰", 업로드한_피드의_ID);
 
         // then
         요청_실패함(실패한_댓글_작성_응답, HttpStatus.UNAUTHORIZED, ErrorType.INVALID_TOKEN);
@@ -92,7 +90,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         CommentRequest 일반_댓글_작성요청 = new CommentRequest("와 너무 멋진 프로젝트네요", false);
 
         // when
-        ExtractableResponse<Response> 일반_댓글_작성_응답 = 댓글을_작성한다(일반_댓글_작성요청, 현재_로그인된_댓글_작성자의_토큰.getAccessToken());
+        ExtractableResponse<Response> 일반_댓글_작성_응답 = 댓글을_작성한다(일반_댓글_작성요청, 현재_로그인된_댓글_작성자의_토큰.getAccessToken(), 업로드한_피드의_ID);
 
         // then
         댓글_작성_성공함(일반_댓글_작성_응답, 일반_댓글_작성요청);
@@ -105,8 +103,8 @@ class CommentAcceptanceTest extends AcceptanceTest {
         현재_로그인된_댓글_작성자의_토큰 = 댓글_작성자_로그인_되어있음();
 
         // when
-        ExtractableResponse<Response> 도와줄게요_댓글_작성_응답 = 댓글을_작성한다(도와줄게요_댓글_작성요청, 현재_로그인된_댓글_작성자의_토큰.getAccessToken());
-        ExtractableResponse<Response> 댓글내용이_비어있어_작성_실패한_응답 = 댓글을_작성한다(내용이_비어있는_댓글_작성요청, 현재_로그인된_댓글_작성자의_토큰.getAccessToken());
+        ExtractableResponse<Response> 도와줄게요_댓글_작성_응답 = 댓글을_작성한다(도와줄게요_댓글_작성요청, 현재_로그인된_댓글_작성자의_토큰.getAccessToken(), 업로드한_피드의_ID);
+        ExtractableResponse<Response> 댓글내용이_비어있어_작성_실패한_응답 = 댓글을_작성한다(내용이_비어있는_댓글_작성요청, 현재_로그인된_댓글_작성자의_토큰.getAccessToken(), 업로드한_피드의_ID);
 
         // then
         댓글_작성_성공함(도와줄게요_댓글_작성_응답, 도와줄게요_댓글_작성요청);
@@ -484,12 +482,12 @@ class CommentAcceptanceTest extends AcceptanceTest {
         assertThat(commentResponse.isHelper()).isEqualTo(request.isHelper());
     }
 
-    public ExtractableResponse<Response> 댓글을_작성한다(CommentRequest request, String accessToken) {
-        return given().log().all()
+    public static ExtractableResponse<Response> 댓글을_작성한다(CommentRequest request, String accessToken, Long feedId) {
+        return RestAssured.given().log().all()
                 .auth().oauth2(accessToken)
                 .body(request)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .pathParam("feedId", 업로드한_피드의_ID)
+                .pathParam("feedId", feedId)
                 .when().post("/feeds/{feedId}/comments")
                 .then().log().all()
                 .extract();
@@ -662,7 +660,11 @@ class CommentAcceptanceTest extends AcceptanceTest {
     }
 
     public CommentResponse 댓글_등록되어_있음(CommentRequest request) {
-        return 댓글을_작성한다(request, 로그인된_댓글_작성자의_토큰.getAccessToken()).as(CommentResponse.class);
+        return 댓글을_작성한다(request, 로그인된_댓글_작성자의_토큰.getAccessToken(), 업로드한_피드의_ID).as(CommentResponse.class);
+    }
+
+    public static CommentResponse 댓글_등록되어_있음(CommentRequest request, String token, Long feedId) {
+        return 댓글을_작성한다(request, token, feedId).as(CommentResponse.class);
     }
 
     public void 댓글에_좋아요_추가_되어있음(Long 등록된_댓글_ID) {
