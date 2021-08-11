@@ -9,5 +9,4 @@ public class ExceptionResponse {
 
     private final String errorCode;
     private final String message;
-
 }

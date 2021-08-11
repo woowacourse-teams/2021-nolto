@@ -15,7 +15,7 @@ public abstract class SearchStrategy {
     private final FeedRepository feedRepository;
     private final FeedTechService feedTechService;
 
-    public SearchStrategy(FeedRepository feedRepository, FeedTechService feedTechService) {
+    protected SearchStrategy(FeedRepository feedRepository, FeedTechService feedTechService) {
         this.feedRepository = feedRepository;
         this.feedTechService = feedTechService;
     }
