@@ -14,15 +14,15 @@ const SectionTitle = styled(HighLightedText)`
   margin-bottom: 1rem;
 `;
 
-const LevelButtonsContainer = styled.div`
+const StepChipsContainer = styled.div`
   display: flex;
   justify-content: center;
-  gap: 2rem;
+  gap: 0.85rem;
   margin-bottom: 3.5rem;
 `;
 
 const RecentToysContainer = styled.div`
-  height: 48vh;
+  height: 60vh;
 `;
 
 export const TechInput = styled(TechInputComponent)``;
@@ -30,6 +30,6 @@ export const TechInput = styled(TechInputComponent)``;
 export default {
   Root,
   SectionTitle,
-  LevelButtonsContainer,
+  StepChipsContainer,
   RecentToysContainer,
 };

@@ -58,6 +58,7 @@ interface hoverLayerProps {
 
 export const hoverLayer = ({ borderRadius }: hoverLayerProps) => css`
   position: relative;
+  overflow: hidden;
 
   &:hover::after {
     content: '';

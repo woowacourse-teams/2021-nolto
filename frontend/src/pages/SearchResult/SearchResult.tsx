@@ -5,9 +5,9 @@ import Header from 'components/Header/Header';
 import AsyncBoundary from 'components/AsyncBoundary';
 import SearchResultContent from 'pages/SearchResult/SearchResultContent/SearchResultContent';
 import SearchResultHeader from 'pages/SearchResult/SearchResultHeader/SearchResultHeader';
-import LevelButton from 'components/LevelButton/LevelButton';
+import StepChip from 'components/StepChip/StepChip';
 import Styled from './SearchResult.styles';
-import { FilterType, Tech } from 'types';
+import { FeedStatus, FilterType, Tech } from 'types';
 
 interface LocationState {
   query: string;
@@ -41,20 +41,23 @@ const SearchResult = () => {
           />
         </AsyncBoundary>
 
-        <Styled.LevelButtonsContainer>
-          <LevelButton.Progress
-            onClick={() => toggleLevel(FilterType.PROGRESS)}
+        <Styled.StepChipsContainer>
+          <StepChip
+            step={FeedStatus.PROGRESS}
+            onSelect={() => toggleLevel(FilterType.PROGRESS)}
             selected={filter === FilterType.PROGRESS}
           />
-          <LevelButton.Complete
-            onClick={() => toggleLevel(FilterType.COMPLETE)}
+          <StepChip
+            step={FeedStatus.COMPLETE}
+            onSelect={() => toggleLevel(FilterType.COMPLETE)}
             selected={filter === FilterType.COMPLETE}
           />
-          <LevelButton.SOS
-            onClick={() => toggleLevel(FilterType.SOS)}
+          <StepChip
+            step={FeedStatus.SOS}
+            onSelect={() => toggleLevel(FilterType.SOS)}
             selected={filter === FilterType.SOS}
           />
-        </Styled.LevelButtonsContainer>
+        </Styled.StepChipsContainer>
 
         <Styled.RecentToysContainer>
           <AsyncBoundary rejectedFallback={<div>게시물 검색에 실패했습니다.</div>}>
