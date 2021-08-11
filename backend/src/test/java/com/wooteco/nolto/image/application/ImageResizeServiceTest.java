@@ -8,6 +8,8 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import static com.wooteco.nolto.image.application.ImageServiceTest.FILE_PATH;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -29,6 +31,7 @@ class ImageResizeServiceTest {
         assertThat(resizedImage.getWidth()).isLessThanOrEqualTo(400);
         assertThat(resizedImage.getHeight()).isLessThanOrEqualTo(400);
         assertThat(resizedFile.length()).isLessThan(originalFile.length());
+        Files.delete(Paths.get(resizedFile.getPath()));
     }
 
     @DisplayName("width와 height 둘 모두 400px 이하라면, 리사이징이 되지 않는다.")
