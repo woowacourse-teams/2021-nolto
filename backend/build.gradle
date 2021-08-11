@@ -61,11 +61,6 @@ dependencies {
 
     // slack
     implementation 'com.github.maricn:logback-slack-appender:1.4.0'
-
-    // cloud watch
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
-    implementation("org.springframework.cloud:spring-cloud-starter-aws:2.2.1.RELEASE")
-    implementation("io.micrometer:micrometer-registry-cloudwatch")
 }
 
 ext {
