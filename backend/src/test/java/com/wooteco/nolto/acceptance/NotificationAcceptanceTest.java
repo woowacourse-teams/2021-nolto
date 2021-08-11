@@ -1,6 +1,5 @@
 package com.wooteco.nolto.acceptance;
 
-
 import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.auth.ui.dto.TokenResponse;
 import com.wooteco.nolto.feed.ui.dto.CommentRequest;
@@ -34,6 +33,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 
+@DisplayName("알림 관련 기능")
 public class NotificationAcceptanceTest extends AcceptanceTest {
 
     private Long 엄청난_유저의_1번째_피드_ID;
@@ -67,8 +67,8 @@ public class NotificationAcceptanceTest extends AcceptanceTest {
     @Test
     void notifyWhenFeedLike() {
         // given
-        String 피드_작성자의_토큰 = 가입된_유저의_토큰을_받는다().getAccessToken();
-        String 좋아요를_누를_유저의_토큰 = 가입된_유저의_토큰을_받는다(좋아요_1개_누를_유저).getAccessToken();
+        String 피드_작성자의_토큰 = 존재하는_유저의_토큰을_받는다().getAccessToken();
+        String 좋아요를_누를_유저의_토큰 = 존재하는_유저의_토큰을_받는다(좋아요_1개_누를_유저).getAccessToken();
         좋아요를_누른다(좋아요를_누를_유저의_토큰, 엄청난_유저의_1번째_피드_ID);
 
         // when
@@ -86,8 +86,8 @@ public class NotificationAcceptanceTest extends AcceptanceTest {
     @Test
     void notifyWhenComment() throws JsonProcessingException {
         // given
-        String 피드_작성자의_토큰 = 가입된_유저의_토큰을_받는다().getAccessToken();
-        String 댓글을_남길_유저의_토큰 = 가입된_유저의_토큰을_받는다(댓글을_남긴_유저).getAccessToken();
+        String 피드_작성자의_토큰 = 존재하는_유저의_토큰을_받는다().getAccessToken();
+        String 댓글을_남길_유저의_토큰 = 존재하는_유저의_토큰을_받는다(댓글을_남긴_유저).getAccessToken();
         CommentRequest 댓글 = new CommentRequest("댓글 내용", false);
         피드에_댓글을_남긴다(댓글을_남길_유저의_토큰, 엄청난_유저의_1번째_피드_ID, 댓글);
 
@@ -104,8 +104,8 @@ public class NotificationAcceptanceTest extends AcceptanceTest {
     @Test
     void notifyWhenCommentWithHelp() throws JsonProcessingException {
         // given
-        String 피드_작성자의_토큰 = 가입된_유저의_토큰을_받는다().getAccessToken();
-        String 댓글을_남길_유저의_토큰 = 가입된_유저의_토큰을_받는다(댓글을_남긴_유저).getAccessToken();
+        String 피드_작성자의_토큰 = 존재하는_유저의_토큰을_받는다().getAccessToken();
+        String 댓글을_남길_유저의_토큰 = 존재하는_유저의_토큰을_받는다(댓글을_남긴_유저).getAccessToken();
         CommentRequest 댓글 = new CommentRequest("댓글 내용", true);
         피드에_댓글을_남긴다(댓글을_남길_유저의_토큰, 엄청난_유저의_1번째_피드_ID, 댓글);
 
@@ -122,13 +122,13 @@ public class NotificationAcceptanceTest extends AcceptanceTest {
     @Test
     void deleteNotification() throws JsonProcessingException {
         // given
-        String 피드_작성자의_토큰 = 가입된_유저의_토큰을_받는다().getAccessToken();
+        String 피드_작성자의_토큰 = 존재하는_유저의_토큰을_받는다().getAccessToken();
 
-        String 댓글을_남길_유저의_토큰 = 가입된_유저의_토큰을_받는다(댓글을_남긴_유저).getAccessToken();
+        String 댓글을_남길_유저의_토큰 = 존재하는_유저의_토큰을_받는다(댓글을_남긴_유저).getAccessToken();
         CommentRequest 댓글 = new CommentRequest("댓글 내용", true);
         피드에_댓글을_남긴다(댓글을_남길_유저의_토큰, 엄청난_유저의_1번째_피드_ID, 댓글);
 
-        String 좋아요를_누를_유저의_토큰 = 가입된_유저의_토큰을_받는다(좋아요_1개_누를_유저).getAccessToken();
+        String 좋아요를_누를_유저의_토큰 = 존재하는_유저의_토큰을_받는다(좋아요_1개_누를_유저).getAccessToken();
         좋아요를_누른다(좋아요를_누를_유저의_토큰, 엄청난_유저의_1번째_피드_ID);
 
         // when
@@ -152,13 +152,13 @@ public class NotificationAcceptanceTest extends AcceptanceTest {
     @Test
     void deleteAllNotification() throws JsonProcessingException {
         // given
-        String 피드_작성자의_토큰 = 가입된_유저의_토큰을_받는다().getAccessToken();
+        String 피드_작성자의_토큰 = 존재하는_유저의_토큰을_받는다().getAccessToken();
 
-        String 댓글을_남길_유저의_토큰 = 가입된_유저의_토큰을_받는다(댓글을_남긴_유저).getAccessToken();
+        String 댓글을_남길_유저의_토큰 = 존재하는_유저의_토큰을_받는다(댓글을_남긴_유저).getAccessToken();
         CommentRequest 댓글 = new CommentRequest("댓글 내용", true);
         피드에_댓글을_남긴다(댓글을_남길_유저의_토큰, 엄청난_유저의_1번째_피드_ID, 댓글);
 
-        String 좋아요를_누를_유저의_토큰 = 가입된_유저의_토큰을_받는다(좋아요_1개_누를_유저).getAccessToken();
+        String 좋아요를_누를_유저의_토큰 = 존재하는_유저의_토큰을_받는다(좋아요_1개_누를_유저).getAccessToken();
         좋아요를_누른다(좋아요를_누를_유저의_토큰, 엄청난_유저의_1번째_피드_ID);
 
         // when
@@ -210,7 +210,7 @@ public class NotificationAcceptanceTest extends AcceptanceTest {
     }
 
     public Long 피드_업로드되어_있음(FeedRequest request) {
-        TokenResponse tokenResponse = 가입된_유저의_토큰을_받는다();
+        TokenResponse tokenResponse = 존재하는_유저의_토큰을_받는다();
         return Long.valueOf(피드를_작성한다(request, tokenResponse.getAccessToken()).header("Location").replace("/feeds/", ""));
     }
 

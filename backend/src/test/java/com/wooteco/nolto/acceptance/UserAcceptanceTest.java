@@ -58,13 +58,13 @@ public class UserAcceptanceTest extends AcceptanceTest {
     @Test
     void getMemberInfoWithToken() {
         //given
-        TokenResponse userToken = 가입된_유저의_토큰을_받는다();
+        TokenResponse userToken = 존재하는_유저의_토큰을_받는다();
 
         //when
         ExtractableResponse<Response> response = 내_회원_정보_조회_요청(userToken);
 
         //then
-        알맞은_회원_정보_조회됨(response, 엄청난_유저);
+        알맞은_회원_정보_조회됨(response, 존재하는_유저);
     }
 
     @DisplayName("로그인 되지 않은 사용자라면 회원 정보를 받아올 수 없다.")
@@ -91,7 +91,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
     @Test
     void validateDuplicatedNickname() {
         // given
-        String token = 가입된_유저의_토큰을_받는다().getAccessToken();
+        String token = 존재하는_유저의_토큰을_받는다().getAccessToken();
         String 존재하는_유저의_닉네임 = "엄청난 유저";
         String 존재하지_않는_유저의_닉네임 = "엄청나지 않은 유저";
 
@@ -112,7 +112,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
     @Test
     void findProfileOfMine() {
         // given
-        String token = 가입된_유저의_토큰을_받는다(엄청난_유저).getAccessToken();
+        String token = 존재하는_유저의_토큰을_받는다(존재하는_유저).getAccessToken();
         Long 업로드된_피드_ID = 피드_업로드되어_있음(진행중_단계의_피드_요청, token);
         피드에_좋아요_눌러져있음(token, 업로드된_피드_ID);
 
@@ -120,14 +120,14 @@ public class UserAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = 프로필_조회_요청(token);
 
         // then
-        프로필_조회_응답됨(response, 엄청난_유저, 0);
+        프로필_조회_응답됨(response, 존재하는_유저, 0);
     }
 
     @DisplayName("멤버가 자신의 프로필을 수정한다.")
     @Test
     void updateProfileOfMine() {
         // given
-        String token = 가입된_유저의_토큰을_받는다().getAccessToken();
+        String token = 존재하는_유저의_토큰을_받는다().getAccessToken();
 
         // when
         ExtractableResponse<Response> response = 프로필_수정_요청(token, PROFILE_REQUEST);
@@ -140,17 +140,17 @@ public class UserAcceptanceTest extends AcceptanceTest {
     @Test
     void findMemberHistory() {
         //given
-        Feed feed = new Feed("title", "content", Step.PROGRESS, true, "https://github.com/nolto", "", "https://cloudfront.net/image.png").writtenBy(엄청난_유저);
-        Comment comment = new Comment("comment", true).writtenBy(엄청난_유저, feed);
-        엄청난_유저.addLike(new Like(엄청난_유저, feed));
-        userRepository.saveAndFlush(엄청난_유저);
-        TokenResponse userToken = 가입된_유저의_토큰을_받는다(엄청난_유저);
+        Feed feed = new Feed("title", "content", Step.PROGRESS, true, "https://github.com/nolto", "", "https://cloudfront.net/image.png").writtenBy(존재하는_유저);
+        Comment comment = new Comment("comment", true).writtenBy(존재하는_유저, feed);
+        존재하는_유저.addLike(new Like(존재하는_유저, feed));
+        userRepository.saveAndFlush(존재하는_유저);
+        TokenResponse userToken = 존재하는_유저의_토큰을_받는다(존재하는_유저);
 
         //when
         ExtractableResponse<Response> response = 내_히스토리_조회_요청(userToken);
 
         //then
-        회원_히스토리_조회됨(response, 엄청난_유저);
+        회원_히스토리_조회됨(response, 존재하는_유저);
     }
 
     @DisplayName("로그인 되지 않은 사용자라면 회원의 히스토리를 받아올 수 없다.")

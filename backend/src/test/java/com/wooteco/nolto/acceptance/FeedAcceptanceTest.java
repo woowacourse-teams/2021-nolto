@@ -38,7 +38,7 @@ import static com.wooteco.nolto.exception.ErrorType.NOT_LIKED;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 
-
+@DisplayName("피드 관련 기능")
 public class FeedAcceptanceTest extends AcceptanceTest {
 
     private User 좋아요_1개_누를_유저;
@@ -105,7 +105,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
         );
 
         // when
-        ExtractableResponse<Response> response = 피드를_작성한다(feedRequest, 가입된_유저의_토큰을_받는다().getAccessToken());
+        ExtractableResponse<Response> response = 피드를_작성한다(feedRequest, 존재하는_유저의_토큰을_받는다().getAccessToken());
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
@@ -126,7 +126,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
                 "",
                 null
         );
-        ExtractableResponse<Response> saveResponse = 피드를_작성한다(request, 가입된_유저의_토큰을_받는다().getAccessToken());
+        ExtractableResponse<Response> saveResponse = 피드를_작성한다(request, 존재하는_유저의_토큰을_받는다().getAccessToken());
         Long feedId = Long.valueOf(saveResponse.header("Location").replace("/feeds/", ""));
 
         // when
@@ -157,7 +157,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
                 "",
                 null
         );
-        String token = 가입된_유저의_토큰을_받는다().getAccessToken();
+        String token = 존재하는_유저의_토큰을_받는다().getAccessToken();
         ExtractableResponse<Response> saveResponse = 피드를_작성한다(request, token);
         Long feedId = Long.valueOf(saveResponse.header("Location").replace("/feeds/", ""));
 
@@ -192,7 +192,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
                 "",
                 null
         );
-        String token = 가입된_유저의_토큰을_받는다().getAccessToken();
+        String token = 존재하는_유저의_토큰을_받는다().getAccessToken();
         ExtractableResponse<Response> saveResponse = 피드를_작성한다(request, token);
         Long feedId = Long.valueOf(saveResponse.header("Location").replace("/feeds/", ""));
 
@@ -232,7 +232,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
                 "",
                 null
         );
-        String token = 가입된_유저의_토큰을_받는다().getAccessToken();
+        String token = 존재하는_유저의_토큰을_받는다().getAccessToken();
         ExtractableResponse<Response> saveResponse = 피드를_작성한다(request, token);
         Long feedId = Long.valueOf(saveResponse.header("Location").replace("/feeds/", ""));
 
@@ -262,7 +262,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
                 "",
                 null
         );
-        String token = 가입된_유저의_토큰을_받는다().getAccessToken();
+        String token = 존재하는_유저의_토큰을_받는다().getAccessToken();
         ExtractableResponse<Response> saveResponse = 피드를_작성한다(request, token);
         Long feedId = Long.valueOf(saveResponse.header("Location").replace("/feeds/", ""));
 
@@ -287,7 +287,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
                 "",
                 null
         );
-        String token = 가입된_유저의_토큰을_받는다().getAccessToken();
+        String token = 존재하는_유저의_토큰을_받는다().getAccessToken();
         ExtractableResponse<Response> saveResponse = 피드를_작성한다(request, token);
         Long feedId = Long.valueOf(saveResponse.header("Location").replace("/feeds/", ""));
         좋아요를_누른다(token, feedId);
@@ -315,7 +315,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
                 "",
                 null
         );
-        String token = 가입된_유저의_토큰을_받는다().getAccessToken();
+        String token = 존재하는_유저의_토큰을_받는다().getAccessToken();
         ExtractableResponse<Response> saveResponse = 피드를_작성한다(request, token);
         Long feedId = Long.valueOf(saveResponse.header("Location").replace("/feeds/", ""));
         좋아요를_누른다(token, feedId);
@@ -346,7 +346,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
                 "",
                 null
         );
-        String token = 가입된_유저의_토큰을_받는다().getAccessToken();
+        String token = 존재하는_유저의_토큰을_받는다().getAccessToken();
         ExtractableResponse<Response> saveResponse = 피드를_작성한다(request, token);
         Long feedId = Long.valueOf(saveResponse.header("Location").replace("/feeds/", ""));
 
@@ -378,7 +378,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
                 "",
                 null
         );
-        String token = 가입된_유저의_토큰을_받는다().getAccessToken();
+        String token = 존재하는_유저의_토큰을_받는다().getAccessToken();
         ExtractableResponse<Response> saveResponse = 피드를_작성한다(request, token);
         Long feedId = Long.valueOf(saveResponse.header("Location").replace("/feeds/", ""));
         좋아요를_누른다(token, feedId);
@@ -400,9 +400,9 @@ public class FeedAcceptanceTest extends AcceptanceTest {
     @Test
     void hotResponse() {
         // given
-        TokenResponse 좋아요_1개_누를_유저_토큰 = 가입된_유저의_토큰을_받는다(좋아요_1개_누를_유저);
-        TokenResponse 좋아요_2개_누를_유저_토큰 = 가입된_유저의_토큰을_받는다(좋아요_2개_누를_유저);
-        TokenResponse 좋아요_3개_누를_유저_토큰 = 가입된_유저의_토큰을_받는다(좋아요_3개_누를_유저);
+        TokenResponse 좋아요_1개_누를_유저_토큰 = 존재하는_유저의_토큰을_받는다(좋아요_1개_누를_유저);
+        TokenResponse 좋아요_2개_누를_유저_토큰 = 존재하는_유저의_토큰을_받는다(좋아요_2개_누를_유저);
+        TokenResponse 좋아요_3개_누를_유저_토큰 = 존재하는_유저의_토큰을_받는다(좋아요_3개_누를_유저);
         피드에_좋아요_눌러져있음(좋아요_1개_누를_유저_토큰.getAccessToken(), 진행중_좋아요3개_1번째_피드_ID);
         피드에_좋아요_눌러져있음(좋아요_2개_누를_유저_토큰.getAccessToken(), 진행중_좋아요3개_1번째_피드_ID);
         피드에_좋아요_눌러져있음(좋아요_3개_누를_유저_토큰.getAccessToken(), 진행중_좋아요3개_1번째_피드_ID);
@@ -714,7 +714,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
     }
 
     public Long 피드_업로드되어_있음(FeedRequest request) {
-        TokenResponse tokenResponse = 가입된_유저의_토큰을_받는다();
+        TokenResponse tokenResponse = 존재하는_유저의_토큰을_받는다();
         return Long.valueOf(피드를_작성한다(request, tokenResponse.getAccessToken()).header("Location").replace("/feeds/", ""));
     }
 

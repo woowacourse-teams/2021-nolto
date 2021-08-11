@@ -26,14 +26,15 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.util.ArrayList;
 
+import static com.wooteco.nolto.acceptance.FeedAcceptanceTest.THUMBNAIL_IMAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 
-public class CommentAcceptanceTest extends AcceptanceTest {
+@DisplayName("댓글 관련 기능")
+class CommentAcceptanceTest extends AcceptanceTest {
 
-    public FeedRequest 진행중_단계의_피드_요청 = new FeedRequest("title1", new ArrayList<>(), "content1", "PROGRESS", false,
+    public static FeedRequest 진행중_단계의_피드_요청 = new FeedRequest("title1", new ArrayList<>(), "content1", "PROGRESS", false,
             "www.github.com/woowacourse", null, null);
-    private final File thumbnail = new File(new File("").getAbsolutePath() + "/src/test/resources/static/nolto-default-thumbnail.png");
     private User 댓글_작성자 = new User("멋진 GITHUB ID", SocialType.GITHUB, "찰리", "초콜릿 먹고있는 프로필.jpg");
     private Long 업로드한_피드의_ID;
     private TokenResponse 로그인된_댓글_작성자의_토큰;
@@ -59,7 +60,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("로그인 하지않은 상태에서 댓글 작성을 요청하면 예외가 발생한다.")
     @Test
-    public void createCommentWithoutLogin() {
+    void createCommentWithoutLogin() {
         // given
         CommentRequest 일반_댓글_작성요청 = new CommentRequest("로그인 하지 않고 댓글을 쓰고싶어요", false);
 
@@ -72,7 +73,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("유효하지 않은 토큰으로 댓글 작성을 요청하면 예외가 발생한다.")
     @Test
-    public void createCommentWithInvalidToken() {
+    void createCommentWithInvalidToken() {
         // given
         CommentRequest 일반_댓글_작성요청 = new CommentRequest("로그인 하지 않고 댓글을 쓰고싶어요", false);
 
@@ -85,7 +86,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("로그인하고 피드에 도와줄게요가 아닌 일반 댓글을 작성한다.")
     @Test
-    public void createComment() {
+    void createComment() {
         // given
         현재_로그인된_댓글_작성자의_토큰 = 댓글_작성자_로그인_되어있음();
         CommentRequest 일반_댓글_작성요청 = new CommentRequest("와 너무 멋진 프로젝트네요", false);
@@ -99,7 +100,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("로그인하고 피드에 도와줄게요 댓글을 작성한다. (댓글 내용은 1글자 이상이어야 한다.)")
     @Test
-    public void createCommentIsHelper() {
+    void createCommentIsHelper() {
         // given
         현재_로그인된_댓글_작성자의_토큰 = 댓글_작성자_로그인_되어있음();
 
@@ -114,7 +115,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("로그인 하지않고 피드에 있는 모든 댓글을 최신순으로 조회한다. (대댓글은 응답에 포함되지 않음)")
     @Test
-    public void findAllCommentsByFeedId() {
+    void findAllCommentsByFeedId() {
         // given
         CommentResponse commentResponse1 = 댓글_등록되어_있음(일반_댓글_작성요청);
         CommentResponse commentResponse2 = 댓글_등록되어_있음(도와줄게요_댓글_작성요청);
@@ -130,7 +131,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("로그인한 유저가 이미 좋아요를 누른 댓글을 조회시 liked가 true다")
     @Test
-    public void findAllCommentsByFeedIdWithLikedComment() {
+    void findAllCommentsByFeedIdWithLikedComment() {
         // given
         CommentResponse commentResponse1 = 댓글_등록되어_있음(일반_댓글_작성요청);
         댓글_등록되어_있음(도와줄게요_댓글_작성요청);
@@ -148,7 +149,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("댓글 작성자가 자신의 댓글(또는 대댓글)을 수정한다.")
     @Test
-    public void updateCommentWithAuthor() {
+    void updateCommentWithAuthor() {
         // given
         CommentResponse 등록된_댓글 = 댓글_등록되어_있음(일반_댓글_작성요청);
 
@@ -167,7 +168,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("댓글 작성자가 아닌 유저가 댓글을_수정한다 수정하려고 하면 예외가 발생한다.")
     @Test
-    public void updateCommentWithOtherUser() {
+    void updateCommentWithOtherUser() {
         // given
         final CommentRequest 댓글_수정_요청 = new CommentRequest("천천히 보다보니 수정할 부분이 보이네요", true);
         CommentResponse 등록된_댓글 = 댓글_등록되어_있음(일반_댓글_작성요청);
@@ -182,7 +183,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("대댓글 작성자가 대댓글을 수정할 수 있다.")
     @Test
-    public void updateReplyWithAuthor() {
+    void updateReplyWithAuthor() {
         // given
         CommentResponse 등록된_댓글 = 댓글_등록되어_있음(일반_댓글_작성요청);
         CommentResponse 등록된_대댓글 = 대댓글_등록되어_있음(대댓글_작성_요청1, 등록된_댓글.getId());
@@ -199,7 +200,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("대댓글을 '도와드릴게요'로 수정하려고 하면 예외가 발생한다.")
     @Test
-    public void updateReplyWithHelperIsTrue() {
+    void updateReplyWithHelperIsTrue() {
         // given
         CommentResponse 등록된_댓글 = 댓글_등록되어_있음(일반_댓글_작성요청);
         CommentResponse 등록된_대댓글 = 대댓글_등록되어_있음(대댓글_작성_요청1, 등록된_댓글.getId());
@@ -216,7 +217,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("댓글을 작성한 유저가 자신의 댓글을 삭제할 수 있다.")
     @Test
-    public void deleteCommentWithAuthor() {
+    void deleteCommentWithAuthor() {
         // given
         CommentResponse 등록된_댓글 = 댓글_등록되어_있음(일반_댓글_작성요청);
 
@@ -231,7 +232,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("대댓글을 작성한 유저가 자신의 대댓글을 삭제할 수 있다.")
     @Test
-    public void deleteReplyWithAuthor() {
+    void deleteReplyWithAuthor() {
         // given
         CommentResponse 등록된_댓글 = 댓글_등록되어_있음(일반_댓글_작성요청);
         CommentResponse 등록된_대댓글 = 대댓글_등록되어_있음(대댓글_작성_요청1, 등록된_댓글.getId());
@@ -247,7 +248,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("작성자 이외의 다른 유저가 댓글을 삭제하려고 하면 예외가 발생한다.")
     @Test
-    public void deleteCommentWithOtherUser() {
+    void deleteCommentWithOtherUser() {
         // given
         CommentResponse 등록된_댓글 = 댓글_등록되어_있음(일반_댓글_작성요청);
 
@@ -262,7 +263,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("로그인한 유저가 댓글에 좋아요를 추가할 수 있다.")
     @Test
-    public void addCommentLikeWithLoginUser() {
+    void addCommentLikeWithLoginUser() {
         // given
         CommentResponse 등록된_댓글 = 댓글_등록되어_있음(일반_댓글_작성요청);
 
@@ -277,7 +278,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("로그인한 유저가 이미 좋아요를 누른 글에 좋아요를 추가하려고 하면 예외가 발생한다.")
     @Test
-    public void addCommentLikeWithAlreadyLiked() {
+    void addCommentLikeWithAlreadyLiked() {
         // given
         CommentResponse 등록된_댓글 = 댓글_등록되어_있음(일반_댓글_작성요청);
         댓글에_좋아요_추가_되어있음(등록된_댓글.getId());
@@ -293,7 +294,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("로그인 하지않은 유저가 댓글에 좋아요를 추가하려고 하면 예외가 발생한다.")
     @Test
-    public void addCommentLikeWithoutLogin() {
+    void addCommentLikeWithoutLogin() {
         // given
         CommentResponse 등록된_댓글 = 댓글_등록되어_있음(일반_댓글_작성요청);
 
@@ -306,7 +307,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("로그인한 유저가 좋아요를 눌렀던 댓글에 좋아요를 취소할 수 있다.")
     @Test
-    public void deleteCommentLikeWithLoginUser() {
+    void deleteCommentLikeWithLoginUser() {
         // given
         CommentResponse 등록된_댓글 = 댓글_등록되어_있음(일반_댓글_작성요청);
         댓글에_좋아요_추가_되어있음(등록된_댓글.getId());
@@ -322,7 +323,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("로그인 하지않은 유저가 좋아요를 취소를 요청하면 예외가 발생한다.")
     @Test
-    public void deleteCommentLikeWithoutLogin() {
+    void deleteCommentLikeWithoutLogin() {
         // given
         CommentResponse 등록된_댓글 = 댓글_등록되어_있음(일반_댓글_작성요청);
         댓글에_좋아요_추가_되어있음(등록된_댓글.getId());
@@ -336,7 +337,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("로그인한 유저가 좋아요를 누르지 않은 댓글에 좋아요 취소를 요청하면 예외가 발생한다.")
     @Test
-    public void deleteCommentLikeWithoutLiked() {
+    void deleteCommentLikeWithoutLiked() {
         // given
         CommentResponse 등록된_댓글 = 댓글_등록되어_있음(일반_댓글_작성요청);
 
@@ -351,7 +352,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("로그인 하지않고 댓글에 대댓글 작성을 요청하면 예외가 발생한다.")
     @Test
-    public void createReplyWithoutLogin() {
+    void createReplyWithoutLogin() {
         // given
         CommentResponse 등록된_댓글 = 댓글_등록되어_있음(일반_댓글_작성요청);
 
@@ -364,7 +365,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("로그인한 유저가 댓글에 대댓글을 작성한다. (대댓글 내용이 빈값이면 예외가 발생)")
     @Test
-    public void createReplyWithLoginUser() {
+    void createReplyWithLoginUser() {
         // given
         CommentResponse 등록된_댓글 = 댓글_등록되어_있음(일반_댓글_작성요청);
 
@@ -383,7 +384,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("로그인 하지않고 댓글에 있는 모든 대댓글을 최신순으로 조회한다.")
     @Test
-    public void findAllRepliesByCommentIdWithoutLogin() {
+    void findAllRepliesByCommentIdWithoutLogin() {
         // given
         CommentResponse 등록된_댓글 = 댓글_등록되어_있음(일반_댓글_작성요청);
         CommentResponse 등록된_대댓글1 = 대댓글_등록되어_있음(대댓글_작성_요청1, 등록된_댓글.getId());
@@ -399,7 +400,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("로그인 하고 피드에 있는 모든 댓글을 최신순으로 조회한다.")
     @Test
-    public void findAllRepliesByCommentIdWithLoginUser() {
+    void findAllRepliesByCommentIdWithLoginUser() {
         // given
         CommentResponse 등록된_댓글 = 댓글_등록되어_있음(일반_댓글_작성요청);
         CommentResponse 등록된_대댓글1 = 대댓글_등록되어_있음(대댓글_작성_요청1, 등록된_댓글.getId());
@@ -682,12 +683,12 @@ public class CommentAcceptanceTest extends AcceptanceTest {
 
     public TokenResponse 댓글_작성자_로그인_되어있음() {
         User 회원_등록된_댓글_작성자 = 회원_등록되어_있음(댓글_작성자);
-        return 가입된_유저의_토큰을_받는다(회원_등록된_댓글_작성자);
+        return 존재하는_유저의_토큰을_받는다(회원_등록된_댓글_작성자);
     }
 
     public TokenResponse 댓글_작성자가_아닌_유저_로그인_되어있음() {
         User 댓글_작성자가_아닌_유저 = 회원_등록되어_있음(new User("악마같은 GITHUB ID", SocialType.GITHUB, "김악질", "사탄.jpg"));
-        return 가입된_유저의_토큰을_받는다(댓글_작성자가_아닌_유저);
+        return 존재하는_유저의_토큰을_받는다(댓글_작성자가_아닌_유저);
     }
 
     public Long 피드_업로드되어있음(FeedRequest request) {
@@ -703,7 +704,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
                 .formParam("sos", feedRequest.isSos())
                 .formParam("StorageUrl", feedRequest.getStorageUrl())
                 .formParam("DeployedUrl", feedRequest.getDeployedUrl())
-                .multiPart("thumbnailImage", thumbnail);
+                .multiPart("thumbnailImage", THUMBNAIL_IMAGE);
 
         feedRequest.getTechs()
                 .forEach(techId -> requestSpecification.formParam("techs", techId));
