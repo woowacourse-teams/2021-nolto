@@ -8,7 +8,6 @@ import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
 import com.wooteco.nolto.tech.domain.Tech;
-import com.wooteco.nolto.tech.domain.TechRepository;
 import com.wooteco.nolto.tech.ui.dto.TechResponse;
 import com.wooteco.nolto.user.domain.User;
 import io.restassured.RestAssured;
@@ -18,7 +17,6 @@ import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
@@ -46,7 +44,7 @@ class FeedAcceptanceTest extends AcceptanceTest {
             "www.github.com/woowacourse", "www.github.com/woowacourse", null);
     public static final File THUMBNAIL_IMAGE = new File(new File("").getAbsolutePath() + "/src/test/resources/static/" + DEFAULT_IMAGE);
 
-    private String 존재하는_유저의_토큰;
+    private String 멤버의_토큰;
 
     private User 좋아요_1개_누를_유저;
     private User 좋아요_2개_누를_유저;
@@ -66,7 +64,7 @@ class FeedAcceptanceTest extends AcceptanceTest {
         super.setUp();
         techRepository.saveAll(Arrays.asList(JAVA, SPRING, REACT));
 
-        존재하는_유저의_토큰 = 존재하는_유저의_토큰을_받는다().getAccessToken();
+        멤버의_토큰 = 존재하는_유저의_토큰을_받는다().getAccessToken();
 
         진행중_좋아요3개_1번째_피드_ID = 피드_업로드되어_있음(진행중_단계의_피드_요청);
         전시중_좋아요2개_2번째_피드_ID = 피드_업로드되어_있음(전시중_단계의_피드_요청);
@@ -82,7 +80,7 @@ class FeedAcceptanceTest extends AcceptanceTest {
     @Test
     void create() {
         // when
-        ExtractableResponse<Response> response = 피드_작성_요청(진행중_단계의_피드_요청, 존재하는_유저의_토큰);
+        ExtractableResponse<Response> response = 피드_작성_요청(진행중_단계의_피드_요청, 멤버의_토큰);
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
@@ -108,7 +106,7 @@ class FeedAcceptanceTest extends AcceptanceTest {
         Long 업로드되어_있는_피드_ID = 피드_업로드되어_있음(전시중_단계의_피드_요청);
 
         // when
-        ExtractableResponse<Response> response = 피드_조회_요청(업로드되어_있는_피드_ID, 존재하는_유저의_토큰);
+        ExtractableResponse<Response> response = 피드_조회_요청(업로드되어_있는_피드_ID, 멤버의_토큰);
 
         // then
         피드_정보가_같은지_조회(response, 전시중_단계의_피드_요청);
@@ -121,7 +119,7 @@ class FeedAcceptanceTest extends AcceptanceTest {
         Long 업로드되어_있는_피드_ID = 피드_업로드되어_있음(전시중_단계의_피드_요청);
 
         // when
-        ExtractableResponse<Response> updateResponse = 피드_수정_요청(존재하는_유저의_토큰, 업로드되어_있는_피드_ID, 전시중_단계의_SOS_피드_요청);
+        ExtractableResponse<Response> updateResponse = 피드_수정_요청(멤버의_토큰, 업로드되어_있는_피드_ID, 전시중_단계의_SOS_피드_요청);
 
         // then
         assertThat(updateResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
@@ -134,7 +132,7 @@ class FeedAcceptanceTest extends AcceptanceTest {
         Long 업로드되어_있는_피드_ID = 피드_업로드되어_있음(전시중_단계의_피드_요청);
 
         // when
-        ExtractableResponse<Response> updateResponse = 피드_삭제_요청(존재하는_유저의_토큰, 업로드되어_있는_피드_ID);
+        ExtractableResponse<Response> updateResponse = 피드_삭제_요청(멤버의_토큰, 업로드되어_있는_피드_ID);
 
         // then
         assertThat(updateResponse.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
@@ -148,7 +146,7 @@ class FeedAcceptanceTest extends AcceptanceTest {
         Long 업로드되어_있는_피드_ID = 피드_업로드되어_있음(전시중_단계의_피드_요청);
 
         // when
-        ExtractableResponse<Response> likeResponse = 좋아요_요청(존재하는_유저의_토큰, 업로드되어_있는_피드_ID);
+        ExtractableResponse<Response> likeResponse = 좋아요_요청(멤버의_토큰, 업로드되어_있는_피드_ID);
 
         // then
         assertThat(likeResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
@@ -159,10 +157,10 @@ class FeedAcceptanceTest extends AcceptanceTest {
     void canNotAddLike() {
         // given
         Long 업로드되어_있는_피드_ID = 피드_업로드되어_있음(전시중_단계의_피드_요청);
-        좋아요_요청(존재하는_유저의_토큰, 업로드되어_있는_피드_ID);
+        좋아요_요청(멤버의_토큰, 업로드되어_있는_피드_ID);
 
         // when
-        ExtractableResponse<Response> response = 좋아요_요청(존재하는_유저의_토큰, 업로드되어_있는_피드_ID);
+        ExtractableResponse<Response> response = 좋아요_요청(멤버의_토큰, 업로드되어_있는_피드_ID);
 
         // then
         좋아요_예외_발생(response, ALREADY_LIKED);
@@ -173,10 +171,10 @@ class FeedAcceptanceTest extends AcceptanceTest {
     void deleteLike() {
         // given
         Long 업로드되어_있는_피드_ID = 피드_업로드되어_있음(전시중_단계의_피드_요청);
-        좋아요_요청(존재하는_유저의_토큰, 업로드되어_있는_피드_ID);
+        좋아요_요청(멤버의_토큰, 업로드되어_있는_피드_ID);
 
         // when
-        ExtractableResponse<Response> likeResponse = 좋아요_취소_요청(존재하는_유저의_토큰, 업로드되어_있는_피드_ID);
+        ExtractableResponse<Response> likeResponse = 좋아요_취소_요청(멤버의_토큰, 업로드되어_있는_피드_ID);
 
         // then
         assertThat(likeResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
@@ -189,7 +187,7 @@ class FeedAcceptanceTest extends AcceptanceTest {
         Long 업로드되어_있는_피드_ID = 피드_업로드되어_있음(전시중_단계의_피드_요청);
 
         // when
-        ExtractableResponse<Response> response = 좋아요_취소_요청(존재하는_유저의_토큰, 업로드되어_있는_피드_ID);
+        ExtractableResponse<Response> response = 좋아요_취소_요청(멤버의_토큰, 업로드되어_있는_피드_ID);
 
         // then
         좋아요_예외_발생(response, NOT_LIKED);
@@ -200,11 +198,11 @@ class FeedAcceptanceTest extends AcceptanceTest {
     void deleteLikeAndAgain() {
         // given
         Long 업로드되어_있는_피드_ID = 피드_업로드되어_있음(전시중_단계의_피드_요청);
-        좋아요_요청(존재하는_유저의_토큰, 업로드되어_있는_피드_ID);
-        좋아요_취소_요청(존재하는_유저의_토큰, 업로드되어_있는_피드_ID);
+        좋아요_요청(멤버의_토큰, 업로드되어_있는_피드_ID);
+        좋아요_취소_요청(멤버의_토큰, 업로드되어_있는_피드_ID);
 
         // when
-        ExtractableResponse<Response> likeResponse = 좋아요_요청(존재하는_유저의_토큰, 업로드되어_있는_피드_ID);
+        ExtractableResponse<Response> likeResponse = 좋아요_요청(멤버의_토큰, 업로드되어_있는_피드_ID);
 
         // then
         assertThat(likeResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
