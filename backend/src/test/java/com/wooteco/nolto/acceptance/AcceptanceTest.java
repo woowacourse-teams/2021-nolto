@@ -26,6 +26,10 @@ import static org.mockito.ArgumentMatchers.any;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @ActiveProfiles("test")
 public abstract class AcceptanceTest {
+
+    public static final String DEFAULT_IMAGE = "nolto-default-thumbnail.png";
+    public static final String DEFAULT_IMAGE_URL = "https://dksykemwl00pf.cloudfront.net/" + "nolto-default-thumbnail.png";
+
     @LocalServerPort
     int port;
 
@@ -47,6 +51,7 @@ public abstract class AcceptanceTest {
     @BeforeEach
     public void setUp() {
         RestAssured.port = port;
+
         BDDMockito.given(imageService.upload(any(MultipartFile.class), any(ImageKind.class))).willReturn(DEFAULT_IMAGE_URL);
         BDDMockito.given(imageService.update(any(String.class), any(MultipartFile.class), any(ImageKind.class))).willReturn(DEFAULT_IMAGE_URL);
     }
