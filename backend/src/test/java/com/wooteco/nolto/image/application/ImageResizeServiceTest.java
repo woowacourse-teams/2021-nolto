@@ -18,8 +18,8 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 class ImageResizeServiceTest {
     private final ImageResizeService imageResizeService = new ImageResizeService();
 
-    public static final String CAR_PIC_1920X1080 = "car-picture.jpg";
-    public static final String PRETTY_CAT_PIC_400X400 = "pretty_cat.png";
+    private static final String CAR_PIC_1920X1080 = "car-picture.jpg";
+    private static final String PRETTY_CAT_PIC_400X400 = "pretty_cat.png";
 
     @DisplayName("width나 height 둘 중 하나라도 400px이 넘어가는 이미지 파일의 경우, 긴 쪽을 400px로 사이즈를 조정한다.")
     @Test
@@ -36,7 +36,7 @@ class ImageResizeServiceTest {
 
     @DisplayName("width와 height 둘 모두 400px 이하라면, 리사이징이 되지 않는다.")
     @Test
-    void resizeImageLessThanOrEqualTo400px() throws IOException {
+    void resizeImageLessThanOrEqualTo400px() {
         File originalFile = new File(new File("").getAbsolutePath() + FILE_PATH + PRETTY_CAT_PIC_400X400);
         File resizedFile = imageResizeService.resize(originalFile, originalFile.getName());
         assertThat(originalFile).isEqualTo(resizedFile);
