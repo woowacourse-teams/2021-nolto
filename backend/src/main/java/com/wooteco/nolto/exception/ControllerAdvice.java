@@ -40,19 +40,20 @@ public class ControllerAdvice {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleException(Exception e) {
-        log.error("༼;´༎ຶ \u06DD ༎ຶ༽ \uD835\uDE52\uD835\uDE5D\uD835\uDE6E\uD835\uDE67\uD835\uDE56\uD835\uDE63\uD835\uDE64...");
-        log.error("༼;´༎ຶ \u06DD ༎ຶ༽ 에러 로그 시작 ༼;´༎ຶ \u06DD ༎ຶ༽");
-        log.error("༼;´༎ຶ \u06DD ༎ຶ༽ 에러 메세지 : " + e.getMessage());
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format("༼;´༎ຶ \u06DD ༎ຶ༽ 에러 메세지 : %s\n", e.getMessage()));
+        sb.append("༼;´༎ຶ \u06DD ༎ຶ༽ \uD835\uDE52\uD835\uDE5D\uD835\uDE6E\uD835\uDE67\uD835\uDE56\uD835\uDE63\uD835\uDE64...\n");
+        sb.append("༼;´༎ຶ \u06DD ༎ຶ༽ 에러 로그 시작 ༼;´༎ຶ \u06DD ༎ຶ༽\n");
         String[] spiltMessages = Arrays.toString(e.getStackTrace()).split(",");
 
-        StringBuilder sb = new StringBuilder();
         for (String splitMessage : spiltMessages) {
             sb.append(splitMessage).append("\n");
         }
-        log.error(sb.toString());
 
-        log.error("༼;´༎ຶ \u06DD ༎ຶ༽ 에러 로그 끝 ༼;´༎ຶ \u06DD ༎ຶ༽");
-        log.error("༼;´༎ຶ \u06DD ༎ຶ༽ \uD835\uDE52\uD835\uDE5D\uD835\uDE6E\uD835\uDE67\uD835\uDE56\uD835\uDE63\uD835\uDE64...");
+        sb.append("༼;´༎ຶ \u06DD ༎ຶ༽ 에러 로그 끝 ༼;´༎ຶ \u06DD ༎ຶ༽\n");
+        sb.append("༼;´༎ຶ \u06DD ༎ຶ༽ \uD835\uDE52\uD835\uDE5D\uD835\uDE6E\uD835\uDE67\uD835\uDE56\uD835\uDE63\uD835\uDE64...");
+        log.error(sb.toString());
         return ResponseEntity.internalServerError().body("놀토 관리자에게 문의하세요");
     }
 }
