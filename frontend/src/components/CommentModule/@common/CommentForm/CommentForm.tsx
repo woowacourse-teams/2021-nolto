@@ -26,6 +26,9 @@ const CommentForm = ({ onSubmit, isRootComment = false }: Props) => {
 
   const handleSubmitComment = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (content === '') return;
+
     setContent('');
 
     onSubmit({ content, helper: isHelper });

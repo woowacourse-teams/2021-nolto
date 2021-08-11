@@ -1,10 +1,8 @@
 import styled, { css, keyframes } from 'styled-components';
 
 import TextButton from 'components/@common/TextButton/TextButton';
-import TextInput from 'components/@common/TextInput/TextInput';
 import { PALETTE } from 'constants/palette';
 import { ButtonStyle } from 'types';
-import TextArea from 'components/@common/TextArea/TextArea';
 import AutoHeightTextArea from 'components/@common/AutoHeightTextArea/AutoHeightTextArea';
 
 const show = keyframes`

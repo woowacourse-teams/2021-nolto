@@ -34,6 +34,8 @@ const SubCommentModule = ({ parentCommentId }: Props) => {
   };
 
   const handleWriteSubComment = (subCommentRequest: CommentRequest) => {
+    if (subCommentRequest.content === '') return;
+
     subCommentModule.write(subCommentRequest);
   };
 
