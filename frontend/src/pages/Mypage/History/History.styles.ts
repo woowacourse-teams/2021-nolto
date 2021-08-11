@@ -89,7 +89,6 @@ const FeedWrapper = styled.div`
   gap: 1rem;
   padding: 1rem;
   cursor: pointer;
-  overflow: hidden;
 
   &:not(:last-of-type) {
     border-bottom: 1px solid ${PALETTE.GRAY_400};

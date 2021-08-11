@@ -90,7 +90,6 @@ const buttonStyle = css`
   background-color: ${PALETTE.WHITE_400};
   text-align: center;
   font-size: 1rem;
-  overflow: hidden;
 
   &:last-child {
     border-radius: 0 0 4px 4px;

@@ -30,7 +30,6 @@ const Label = styled.label`
     height: 2rem;
     background-color: ${PALETTE.PRIMARY_400};
     border-radius: 4px;
-    overflow: hidden;
 
     ${hoverLayer({})};
   }

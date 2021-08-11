@@ -62,7 +62,6 @@ const MoreButton = styled.button`
   border-radius: 0.25rem;
   background-color: ${PALETTE.WHITE_400};
   filter: drop-shadow(0 0 0.25rem rgba(0, 0, 0, 0.25));
-  overflow: hidden;
 
   ${hoverLayer({})};
 `;

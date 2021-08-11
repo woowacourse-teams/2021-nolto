@@ -13,7 +13,6 @@ const Root = styled.button<{ isShadow: boolean }>`
   border: none;
   border-radius: 50%;
   filter: ${({ isShadow }) => isShadow && 'drop-shadow(0 0 4px rgba(0, 0, 0, 0.25))'};
-  overflow: hidden;
 
   & > * {
     padding: 15%;

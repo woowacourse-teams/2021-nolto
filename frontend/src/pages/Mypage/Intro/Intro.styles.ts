@@ -84,7 +84,7 @@ const editButtonStyle = css`
   flex-shrink: 0;
   color: ${PALETTE.GRAY_500};
 
-  ${hoverLayer({})};
+  ${hoverLayer({ borderRadius: '25%' })};
 `;
 
 const EditButton = styled.button`

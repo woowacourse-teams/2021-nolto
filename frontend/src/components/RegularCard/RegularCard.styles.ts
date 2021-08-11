@@ -10,7 +10,6 @@ const Root = styled(Card)<{ imageUrl: string }>`
   background-image: url(${({ imageUrl }) => imageUrl});
   background-size: cover;
   cursor: pointer;
-  overflow: hidden;
 
   ${hoverLayer({})};
 
