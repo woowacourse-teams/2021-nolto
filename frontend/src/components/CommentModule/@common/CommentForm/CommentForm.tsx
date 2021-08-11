@@ -26,6 +26,9 @@ const CommentForm = ({ onSubmit, isRootComment = false }: Props) => {
 
   const handleSubmitComment = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (content === '') return;
+
     setContent('');
 
     onSubmit({ content, helper: isHelper });
@@ -40,7 +43,7 @@ const CommentForm = ({ onSubmit, isRootComment = false }: Props) => {
   };
 
   return (
-    <Styled.Root>
+    <div>
       {isLogin && (
         <Styled.Author>
           <Avatar user={userData} />
@@ -61,7 +64,7 @@ const CommentForm = ({ onSubmit, isRootComment = false }: Props) => {
           <Toggle onChange={handleChangeHelper} checked={isHelper} labelText="도와줄게요 🙌" />
         )}
       </Form>
-    </Styled.Root>
+    </div>
   );
 };
 

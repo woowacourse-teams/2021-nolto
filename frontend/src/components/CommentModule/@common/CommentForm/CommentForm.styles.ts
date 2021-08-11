@@ -4,10 +4,6 @@ import { PALETTE } from 'constants/palette';
 import TextInput from 'components/@common/TextInput/TextInput';
 import IconButton from 'components/@common/IconButton/IconButton';
 
-const Root = styled.div`
-  padding-bottom: 1rem;
-`;
-
 const Author = styled.div`
   font-weight: 600;
 `;
@@ -49,4 +45,4 @@ export const SendButton = styled(IconButton)`
   padding: 0.25rem;
 `;
 
-export default { Root, Author, FormInputWrapper };
+export default { Author, FormInputWrapper };

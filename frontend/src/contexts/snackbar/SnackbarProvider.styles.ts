@@ -26,6 +26,7 @@ const SnackbarWrapper = styled.div`
   bottom: 1rem;
   left: 1rem;
   z-index: ${Z_INDEX.SNACKBAR};
+  pointer-events: none;
 `;
 
 const Snackbar = styled.div<{ type: SnackbarType }>`
