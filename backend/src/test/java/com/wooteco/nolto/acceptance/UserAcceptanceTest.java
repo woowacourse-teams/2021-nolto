@@ -136,8 +136,8 @@ class UserAcceptanceTest extends AcceptanceTest {
         토큰_예외_발생(response, ErrorType.TOKEN_NEEDED);
     }
 
-    public ExtractableResponse<Response> 멤버_자신의_정보_조회_요청(String token) {
-        return given().log().all()
+    private static ExtractableResponse<Response> 멤버_자신의_정보_조회_요청(String token) {
+        return RestAssured.given().log().all()
                 .auth().oauth2(token)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .when()
@@ -155,8 +155,8 @@ class UserAcceptanceTest extends AcceptanceTest {
         assertThat(memberResponse.getImageUrl()).isEqualTo(expectedUser.getImageUrl());
     }
 
-    private ExtractableResponse<Response> 토큰_없이_회원_정보_요청(String urlPath) {
-        return given().log().all()
+    private static ExtractableResponse<Response> 토큰_없이_회원_정보_요청(String urlPath) {
+        return RestAssured.given().log().all()
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .when()
                 .get(urlPath)
@@ -165,8 +165,8 @@ class UserAcceptanceTest extends AcceptanceTest {
                 .extract();
     }
 
-    private ExtractableResponse<Response> 유효하지_않은_토큰으로_회원_정보_요청() {
-        return given().log().all()
+    private static ExtractableResponse<Response> 유효하지_않은_토큰으로_회원_정보_요청() {
+        return RestAssured.given().log().all()
                 .auth().oauth2("유효하지 않은 토큰")
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .when()
@@ -184,8 +184,8 @@ class UserAcceptanceTest extends AcceptanceTest {
         assertThat(exceptionResponse.getMessage()).isEqualTo(errorType.getMessage());
     }
 
-    private ExtractableResponse<Response> 닉네임_사용_가능_여부_조회_요청(String token, String nickName) {
-        return given().log().all()
+    private static ExtractableResponse<Response> 닉네임_사용_가능_여부_조회_요청(String token, String nickName) {
+        return RestAssured.given().log().all()
                 .auth().oauth2(token)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .when()
@@ -201,8 +201,8 @@ class UserAcceptanceTest extends AcceptanceTest {
         assertThat(nicknameResponse.isIsUsable()).isEqualTo(expected);
     }
 
-    private ExtractableResponse<Response> 프로필_조회_요청(String token) {
-        return given().log().all()
+    private static ExtractableResponse<Response> 프로필_조회_요청(String token) {
+        return RestAssured.given().log().all()
                 .auth().oauth2(token)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .when()
@@ -222,8 +222,8 @@ class UserAcceptanceTest extends AcceptanceTest {
         assertThat(profileResponse.getNotifications()).isEqualTo(expectedNotifications);
     }
 
-    private ExtractableResponse<Response> 프로필_수정_요청(String token, ProfileRequest profileRequest) {
-        return given().log().all()
+    private static ExtractableResponse<Response> 프로필_수정_요청(String token, ProfileRequest profileRequest) {
+        return RestAssured.given().log().all()
                 .auth().oauth2(token)
                 .formParam("nickname", profileRequest.getNickname())
                 .formParam("bio", profileRequest.getBio())
