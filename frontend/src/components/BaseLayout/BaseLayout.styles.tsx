@@ -4,9 +4,7 @@ const Root = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 8rem 0rem;
+  padding-top: 92px;
 `;
 
-export default {
-  Root,
-};
+export default { Root };

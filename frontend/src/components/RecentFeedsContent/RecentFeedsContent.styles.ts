@@ -9,11 +9,36 @@ import { hoverLayer } from 'commonStyles';
 const Root = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   height: 100%;
 `;
 
-const CardsContainer = styled.div`
-  height: 100%;
+const TopContainer = styled.div`
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  background: ${PALETTE.WHITE_400};
+  width: 100%;
+  padding-top: 4rem;
+  padding-bottom: 2rem;
+  z-index: 10;
+`;
+
+const LevelButtonsContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  z-index: 10;
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    gap: 1rem;
+  }
+`;
+
+const CardsContainer = styled.div<{ scrollable: boolean }>`
+  padding-top: ${({ scrollable }) => scrollable && '20rem'};
   position: relative;
   display: flex;
   flex-direction: column;
@@ -27,30 +52,14 @@ const ScrollableContainer = styled.ul`
   align-items: center;
   height: 100%;
   padding: 1rem;
-  overflow: scroll;
 
-  &::-webkit-scrollbar {
-    display: none;
+  & li {
+    margin-bottom: 0.25rem;
   }
-
-  /* Hide scrollbar for IE, Edge and Firefox */
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 `;
 
 const VerticalAvatar = styled(Avatar)`
   margin-bottom: 12px;
-`;
-
-const LevelButtonsContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-bottom: 3.5rem;
-
-  @media ${MEDIA_QUERY.MOBILE} {
-    margin-bottom: 1.5rem;
-  }
 `;
 
 const MoreButton = styled.button`
@@ -62,7 +71,6 @@ const MoreButton = styled.button`
   border-radius: 0.25rem;
   background-color: ${PALETTE.WHITE_400};
   filter: drop-shadow(0 0 0.25rem rgba(0, 0, 0, 0.25));
-  overflow: hidden;
 
   ${hoverLayer({})};
 `;
@@ -73,9 +81,10 @@ export const MoreFeedsArrow = styled(DownPolygon)`
 
 export default {
   Root,
+  TopContainer,
+  LevelButtonsContainer,
   CardsContainer,
   ScrollableContainer,
   VerticalAvatar,
-  LevelButtonsContainer,
   MoreButton,
 };

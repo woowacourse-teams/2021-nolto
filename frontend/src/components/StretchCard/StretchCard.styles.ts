@@ -11,7 +11,6 @@ const Root = styled(Card)`
   align-items: center;
   gap: 1rem;
   cursor: pointer;
-  overflow: hidden;
 
   ${hoverLayer({})};
 

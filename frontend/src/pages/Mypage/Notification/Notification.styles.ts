@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
 import ArrowIcon from 'assets/carouselArrow.svg';
+import { defaultShadow } from 'commonStyles';
 
 const Root = styled.div<{ isFolded: boolean; notiCount: number }>`
   position: relative;
@@ -10,10 +11,10 @@ const Root = styled.div<{ isFolded: boolean; notiCount: number }>`
   height: ${({ isFolded, notiCount }) =>
     isFolded ? '12.5em' : `calc(12.5rem + ${notiCount - 3} * 2.25rem)`};
   border-radius: 0.75rem;
-  box-shadow: 4px 4px 8px 4px rgba(85, 85, 85, 0.2);
   display: flex;
   flex-direction: column;
   transition: height 0.2s ease;
+  ${defaultShadow};
 `;
 
 const TopContainer = styled.div`

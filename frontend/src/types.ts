@@ -9,6 +9,7 @@ export enum ButtonStyle {
 export enum FeedStatus {
   PROGRESS = 'PROGRESS',
   COMPLETE = 'COMPLETE',
+  SOS = 'SOS',
 }
 
 export enum FilterType {

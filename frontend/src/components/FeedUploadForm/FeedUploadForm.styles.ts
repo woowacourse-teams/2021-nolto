@@ -4,6 +4,7 @@ import TextArea from 'components/@common/TextArea/TextArea';
 import TextButton from 'components/@common/TextButton/TextButton';
 import Tooltip from 'components/@common/Tooltip/Tooltip';
 import ToyboxIcon from 'assets/toybox.svg';
+import { defaultShadow } from 'commonStyles';
 
 export const Form = styled.form`
   margin-bottom: 5rem;
@@ -14,9 +15,9 @@ const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  box-shadow: 4px 4px 8px 4px rgba(85, 85, 85, 0.2);
   border-radius: 1.5rem;
   margin-bottom: 2.5rem;
+  ${defaultShadow};
 `;
 
 const VerticalWrapper = styled.div`

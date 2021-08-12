@@ -6,10 +6,15 @@ import Styled from './StepChip.styles';
 
 interface Props {
   step: FeedStatus;
+  selected?: boolean;
 }
 
-const StepChip = ({ step }: Props) => {
-  return <Styled.Root step={step}>{STEP_CONVERTER[step]}</Styled.Root>;
+const StepChip = ({ step, selected }: Props) => {
+  return (
+    <Styled.Root step={step} selected={selected}>
+      {STEP_CONVERTER[step]}
+    </Styled.Root>
+  );
 };
 
 export default StepChip;

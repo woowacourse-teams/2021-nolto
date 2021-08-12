@@ -12,7 +12,7 @@ const SearchBarContainer = styled.form`
   padding: 0 12px;
   width: 18rem;
   height: 2.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 
   background-color: ${PALETTE.WHITE_400};
   border-radius: 25px;
@@ -39,7 +39,7 @@ const TechTagContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 24rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 `;
 
 const TechInputWrapper = styled.div`

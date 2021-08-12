@@ -1,20 +1,19 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
-import Header from 'components/Header/Header';
 import FeedDetailContent from 'pages/FeedDetail/FeedDetailContent/FeedDetailContent';
 import AsyncBoundary from 'components/AsyncBoundary';
 import ErrorFallback from 'components/ErrorFallback/ErrorFallback';
-import Styled from './FeedDetail.styles';
+import BaseLayout from 'components/BaseLayout/BaseLayout';
+import { DefaultPageRoot } from 'commonStyles';
 
 const FeedDetail = () => {
   const params = useParams<{ id: string }>();
   const feedId = Number(params.id);
 
   return (
-    <>
-      <Header />
-      <Styled.Root>
+    <BaseLayout>
+      <DefaultPageRoot>
         <AsyncBoundary
           rejectedFallback={
             <ErrorFallback message="데이터를 불러올 수 없습니다." queryKey="feedDetail" />
@@ -22,8 +21,8 @@ const FeedDetail = () => {
         >
           <FeedDetailContent feedId={feedId} />
         </AsyncBoundary>
-      </Styled.Root>
-    </>
+      </DefaultPageRoot>
+    </BaseLayout>
   );
 };
 

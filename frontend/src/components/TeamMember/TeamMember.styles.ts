@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import HighLightedTextComponent from 'components/@common/HighlightedText/HighlightedText';
 import { PALETTE } from 'constants/palette';
+import { defaultShadow } from 'commonStyles';
 
 const Root = styled.div<{ reverse: boolean }>`
   display: flex;
@@ -13,7 +14,7 @@ const Root = styled.div<{ reverse: boolean }>`
   gap: 1.5rem;
 
   border-radius: 25px;
-  box-shadow: 4px 4px 8px 4px rgba(85, 85, 85, 0.2);
+  ${defaultShadow};
 `;
 
 const Image = styled.img`

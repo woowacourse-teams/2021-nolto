@@ -1,15 +1,15 @@
 import React from 'react';
 
-import Header from 'components/Header/Header';
 import TeamMember from 'components/TeamMember/TeamMember';
+import BaseLayout from 'components/BaseLayout/BaseLayout';
+import { DefaultPageRoot } from 'commonStyles';
 import member from './members';
 import Styled from './About.styles';
 
 const About = () => {
   return (
-    <>
-      <Header />
-      <Styled.Root>
+    <BaseLayout>
+      <DefaultPageRoot>
         <Styled.SectionTitle fontSize="1.75rem">We Make Nolto 🚀</Styled.SectionTitle>
         <Styled.MembersContainer>
           <TeamMember {...member.amazzi} />
@@ -19,8 +19,8 @@ const About = () => {
           <TeamMember {...member.mickey} />
           <TeamMember {...member.charlie} reverse />
         </Styled.MembersContainer>
-      </Styled.Root>
-    </>
+      </DefaultPageRoot>
+    </BaseLayout>
   );
 };
 
