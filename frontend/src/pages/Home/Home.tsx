@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import AsyncBoundary from 'components/AsyncBoundary';
 import CroppedEllipse from 'components/CroppedEllipse/CroppedEllipse';
@@ -22,6 +22,10 @@ const Home = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       <Header isFolded={isEllipseVisible} />
@@ -31,7 +35,7 @@ const Home = () => {
         </Styled.EllipseWrapper>
         <Styled.SearchContainer>
           <Styled.SearchTitle>Search for Ideas?</Styled.SearchTitle>
-          <SearchBar selectable />
+          <SearchBar className="search-bar" selectable />
           <AsyncBoundary
             rejectedFallback={
               <ErrorFallback

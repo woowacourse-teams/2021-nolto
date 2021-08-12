@@ -1,23 +1,17 @@
 import React from 'react';
 
-import Header from 'components/Header/Header';
+import BaseLayout from 'components/BaseLayout/BaseLayout';
 import RecentFeedsContent from 'components/RecentFeedsContent/RecentFeedsContent';
 import AsyncBoundary from 'components/AsyncBoundary';
-import Styled from './RecentFeeds.styles';
+import ErrorFallback from 'components/ErrorFallback/ErrorFallback';
 
 const RecentFeeds = () => {
   return (
-    <>
-      <Header />
-      <Styled.Root>
-        <Styled.SectionTitle fontSize="1.75rem">Recent Toys</Styled.SectionTitle>
-        <Styled.RecentToysContainer>
-          <AsyncBoundary rejectedFallback={<h1>임시 에러 페이지</h1>}>
-            <RecentFeedsContent />
-          </AsyncBoundary>
-        </Styled.RecentToysContainer>
-      </Styled.Root>
-    </>
+    <BaseLayout>
+      <AsyncBoundary rejectedFallback={<ErrorFallback message="최신 피드를 불러올 수 없습니다" />}>
+        <RecentFeedsContent />
+      </AsyncBoundary>
+    </BaseLayout>
   );
 };
 

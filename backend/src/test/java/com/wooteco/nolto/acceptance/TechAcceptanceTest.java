@@ -7,10 +7,8 @@ import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.feed.domain.repository.FeedTechRepository;
 import com.wooteco.nolto.tech.domain.Tech;
-import com.wooteco.nolto.tech.domain.TechRepository;
 import com.wooteco.nolto.tech.ui.dto.TechResponse;
 import com.wooteco.nolto.user.domain.User;
-import com.wooteco.nolto.user.domain.UserRepository;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -19,7 +17,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -28,19 +25,13 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("기술 태그 관련 기능")
-public class TechAcceptanceTest extends AcceptanceTest {
-
-    @Autowired
-    private TechRepository techRepository;
+class TechAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private FeedTechRepository feedTechRepository;
 
     @Autowired
     private FeedRepository feedRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     private TechResponse 자바;
     private TechResponse 자바스크립트;
@@ -182,30 +173,30 @@ public class TechAcceptanceTest extends AcceptanceTest {
         기술_태그_조회_된다(response, Collections.emptyList());
     }
 
-    public ExtractableResponse<Response> 기술_태그_조회한다(String autoComplete) {
-        return given().log().all()
+    private static ExtractableResponse<Response> 기술_태그_조회한다(String autoComplete) {
+        return RestAssured.given().log().all()
                 .param("auto_complete", autoComplete)
                 .when().get("/tags/techs")
                 .then().log().all()
                 .extract();
     }
 
-    public ExtractableResponse<Response> 기술_태그_이름과_정확히_일치하는_기술만_조회한다(String searchWord) {
-        return given().log().all()
+    private static ExtractableResponse<Response> 기술_태그_이름과_정확히_일치하는_기술만_조회한다(String searchWord) {
+        return RestAssured.given().log().all()
                 .param("names", searchWord)
                 .when().get("/tags/techs/search")
                 .then().log().all()
                 .extract();
     }
 
-    private ExtractableResponse<Response> 트렌드_기술_태그_조회한다() {
-        return given().log().all()
+    private static ExtractableResponse<Response> 트렌드_기술_태그_조회한다() {
+        return RestAssured.given().log().all()
                 .when().get("/tags/techs/trend")
                 .then().log().all()
                 .extract();
     }
 
-    public void 기술_태그_조회_된다(ExtractableResponse<Response> response, List<TechResponse> techResponses) {
+    private void 기술_태그_조회_된다(ExtractableResponse<Response> response, List<TechResponse> techResponses) {
         List<TechResponse> findResponses = response.jsonPath().getList(".", TechResponse.class);
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());

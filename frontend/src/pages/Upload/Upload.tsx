@@ -3,11 +3,12 @@ import { useHistory } from 'react-router-dom';
 
 import HighLightedText from 'components/@common/HighlightedText/HighlightedText';
 import FeedUploadForm from 'components/FeedUploadForm/FeedUploadForm';
-import Header from 'components/Header/Header';
+import BaseLayout from 'components/BaseLayout/BaseLayout';
 import useFeedUpload from 'hooks/queries/feed/useFeedUpload';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
 import { ALERT_MSG } from 'constants/message';
 import ROUTE from 'constants/routes';
+import { DefaultPageRoot } from 'commonStyles';
 import Styled from './Upload.styles';
 
 const Upload = () => {
@@ -25,16 +26,15 @@ const Upload = () => {
   };
 
   return (
-    <>
-      <Header />
-      <Styled.Root>
+    <BaseLayout>
+      <DefaultPageRoot>
         <Styled.TitleWrapper>
           <HighLightedText fontSize="1.75rem">🦄 Upload Your Toy Project</HighLightedText>
         </Styled.TitleWrapper>
 
         <FeedUploadForm onFeedSubmit={uploadFeed} />
-      </Styled.Root>
-    </>
+      </DefaultPageRoot>
+    </BaseLayout>
   );
 };
 

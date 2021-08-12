@@ -4,7 +4,7 @@ spring:
     group:
       local: console-logging
       prod: real-db,real-oauth,file-error-logging,file-info-logging,slack-prod-error-logging
-      dev: dev-db,dev-oauth,file-error-logging,file-info-logging,slack-dev-error-logging
+      dev: dev-db,dev-oauth,file-error-logging,file-info-logging,slack-dev-error-logging, file-sql-logging
       test: console-logging
   servlet:
     multipart:

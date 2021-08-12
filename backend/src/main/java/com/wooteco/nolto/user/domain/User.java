@@ -60,15 +60,15 @@ public class User extends BaseEntity {
     private final List<CommentLike> commentLikes = new ArrayList<>();
 
     public User(Long id, String socialId, SocialType socialType, String nickName) {
-        this(id, socialId, socialType, nickName, null, null);
+        this(id, socialId, socialType, nickName, null, "");
     }
 
     public User(String socialId, SocialType socialType, String nickName, String imageUrl) {
-        this(null, socialId, socialType, nickName, imageUrl, null);
+        this(null, socialId, socialType, nickName, imageUrl, "");
     }
 
     public User(Long id, String socialId, SocialType socialType, String nickName, String imageUrl) {
-        this(id, socialId, socialType, nickName, imageUrl, null);
+        this(id, socialId, socialType, nickName, imageUrl, "");
     }
 
     public void update(String nickName, String imageUrl) {

@@ -23,6 +23,7 @@ public enum ErrorType {
     NOT_SUPPORTED_FILTERING("feed-005", "지원하지 않는 피드의 필터링 값입니다."),
     NOT_SUPPORTED_STEP("feed-006", "지원하지 않는 피드의 Step입니다."),
     MULTIPART_CONVERT_FAIL("feed-007", "MultipartFile 변환에 실패하였습니다."),
+    IMAGE_RESIZING_FAIL("feed-008", "이미지 리사이징에 실패하였습니다."),
 
     ALREADY_LIKED("like-001", "이미 좋아요 누른 글 입니다."),
     NOT_LIKED("like-002", "좋아요를 누르지 않았습니다."),

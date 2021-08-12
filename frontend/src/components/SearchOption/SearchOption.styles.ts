@@ -16,8 +16,8 @@ const opacityAnimation = keyframes`
 
 const OPACITY_ANIMATION_TIME = '0.5s';
 
-const Root = styled.div<{ isOpen: boolean }>`
-  height: ${({ isOpen }) => (isOpen ? '7rem' : '2.5rem')};
+const Root = styled.div<{ $isOpen: boolean }>`
+  height: ${({ $isOpen }) => ($isOpen ? '7rem' : '2.5rem')};
   min-width: 108px;
   background-color: ${PALETTE.WHITE_400};
   align-self: flex-start;
@@ -26,13 +26,13 @@ const Root = styled.div<{ isOpen: boolean }>`
   transition: height 0.3s ease;
 
   @media ${MEDIA_QUERY.TABLET} {
-    height: ${({ isOpen }) => (isOpen ? '7rem' : '2.25rem')};
+    height: ${({ $isOpen }) => ($isOpen ? '7rem' : '2.25rem')};
   }
 
   @media ${MEDIA_QUERY.MOBILE} {
     min-width: 92px;
     font-size: 0.85rem;
-    height: ${({ isOpen }) => (isOpen ? '6rem' : '2rem')};
+    height: ${({ $isOpen }) => ($isOpen ? '6rem' : '2rem')};
   }
 `;
 
@@ -51,9 +51,9 @@ const DefaultSelector = styled.span`
   }
 `;
 
-export const SearchMorePolygon = styled(DownPolygon)<{ isOpen: boolean }>`
-  transform: ${({ isOpen }) => isOpen && 'rotate(180deg)'};
-  margin-bottom: ${({ isOpen }) => (isOpen ? '0.5rem' : '0.25rem')};
+export const SearchMorePolygon = styled(DownPolygon)<{ $isOpen: boolean }>`
+  transform: ${({ $isOpen }) => $isOpen && 'rotate(180deg)'};
+  margin-bottom: ${({ $isOpen }) => ($isOpen ? '0.5rem' : '0.25rem')};
 `;
 
 const SearchOptionText = styled.div`

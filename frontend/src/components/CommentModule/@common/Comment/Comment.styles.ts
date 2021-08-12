@@ -1,9 +1,10 @@
 import styled, { css, keyframes } from 'styled-components';
 
 import TextButton from 'components/@common/TextButton/TextButton';
-import { PALETTE } from 'constants/palette';
-import { ButtonStyle } from 'types';
 import AutoHeightTextArea from 'components/@common/AutoHeightTextArea/AutoHeightTextArea';
+import { PALETTE } from 'constants/palette';
+import { defaultShadow } from 'commonStyles';
+import { ButtonStyle } from 'types';
 
 const show = keyframes`
   from {
@@ -52,13 +53,13 @@ const Content = styled.span<{ isFeedAuthor: boolean }>`
   position: relative;
   display: inline-block;
   padding: 0.5rem 1.5rem;
-  box-shadow: 2px 2px 4px 2px rgba(85, 85, 85, 0.1);
   border-radius: 0.75rem;
   min-width: 12rem;
   min-height: 2.5rem;
   line-height: 1.5rem;
-
   background-color: ${({ isFeedAuthor }) => isFeedAuthor && PALETTE.ORANGE_200};
+
+  ${defaultShadow};
 
   & .modified-text {
     color: ${PALETTE.GRAY_500};

@@ -77,25 +77,11 @@ class CommentServiceTest extends CommentServiceFixture {
         assertThat(response.getContent()).isEqualTo(COMMENT_REQUEST_WITHOUT_HELPER.getContent());
         assertThat(response.isHelper()).isEqualTo(COMMENT_REQUEST_WITHOUT_HELPER.isHelper());
         assertThat(response.getAuthor().getId()).isEqualTo(찰리.getId());
-        assertThat(response.getLikes()).isEqualTo(0);
+        assertThat(response.getLikes()).isZero();
         assertThat(response.isLiked()).isFalse();
         assertThat(response.isModified()).isFalse();
         assertThat(response.isFeedAuthor()).isTrue();
         assertThat(response.getCreatedAt()).isNotNull();
-    }
-
-    @Disabled
-    @DisplayName("특정 피드에 대한 댓글과 대댓글 전체를 조회한다. 댓글은 좋아요 + 최신 순, 대댓글은 최신 순 정렬")
-    @Test
-    void findAllByFeedId() {
-        // when
-        commentLikeService.addCommentLike(찰리가_쓴_피드에_찰리가_쓴_댓글.getId(), 찰리);
-
-        List<CommentResponse> allByFeedId = commentService.findAllByFeedId(찰리가_쓴_피드.getId(), 찰리);
-
-        // then
-        checkSameCommentWithReplyResponse(allByFeedId.get(0), 찰리가_쓴_피드에_찰리가_쓴_댓글, 찰리);
-        checkSameCommentWithReplyResponse(allByFeedId.get(1), 찰리가_쓴_피드에_포모가_쓴_댓글, 찰리);
     }
 
     @DisplayName("특정 피드에 대한 댓글과 대댓글 전체를 조회한다. 댓글, 대댓글은 최신 순 정렬")
@@ -116,11 +102,11 @@ class CommentServiceTest extends CommentServiceFixture {
     void updateComment() throws InterruptedException {
         // given
         CommentResponse response = commentService.createComment(찰리, 찰리가_쓴_피드.getId(), COMMENT_REQUEST_WITHOUT_HELPER);
+        entityManager.flush();
         String updateContent = "수정된 댓글 내용";
         boolean updateHelper = true;
 
         // when
-        Thread.sleep(1);
         CommentResponse commentResponse = commentService.updateComment(response.getId(), new CommentRequest(updateContent, updateHelper), 찰리);
 
         // then

@@ -3,12 +3,13 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 import HighLightedText from 'components/@common/HighlightedText/HighlightedText';
 import FeedUploadForm from 'components/FeedUploadForm/FeedUploadForm';
-import Header from 'components/Header/Header';
+import BaseLayout from 'components/BaseLayout/BaseLayout';
 import ROUTE from 'constants/routes';
 import { ALERT_MSG } from 'constants/message';
 import useDialog from 'contexts/dialog/useDialog';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
 import useFeedModify from 'hooks/queries/feed/useFeedModify';
+import { DefaultPageRoot } from 'commonStyles';
 import Styled from './Modify.styles';
 import { FeedDetail } from 'types';
 
@@ -53,9 +54,8 @@ const Modify = () => {
   };
 
   return (
-    <>
-      <Header />
-      <Styled.Root>
+    <BaseLayout>
+      <DefaultPageRoot>
         <Styled.TitleWrapper>
           <HighLightedText fontSize="1.75rem">🔧 Modify Your Toy</HighLightedText>
         </Styled.TitleWrapper>
@@ -72,8 +72,8 @@ const Modify = () => {
             storageUrl,
           }}
         />
-      </Styled.Root>
-    </>
+      </DefaultPageRoot>
+    </BaseLayout>
   );
 };
 

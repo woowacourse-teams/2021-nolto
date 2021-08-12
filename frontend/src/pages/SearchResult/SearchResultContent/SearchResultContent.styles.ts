@@ -9,6 +9,7 @@ const Root = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
+  margin-top: 16rem;
 `;
 
 const ScrollableContainer = styled.ul`
@@ -27,6 +28,10 @@ const ScrollableContainer = styled.ul`
   /* Hide scrollbar for IE, Edge and Firefox */
   -ms-overflow-style: none;
   scrollbar-width: none;
+
+  & li {
+    margin-bottom: 0.25rem;
+  }
 `;
 
 const VerticalAvatar = styled(Avatar)`
@@ -42,7 +47,6 @@ const MoreButton = styled.button`
   border-radius: 0.25rem;
   background-color: ${PALETTE.WHITE_400};
   filter: drop-shadow(0 0 0.25rem rgba(0, 0, 0, 0.25));
-  overflow: hidden;
 
   ${hoverLayer({})};
 `;

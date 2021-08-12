@@ -17,12 +17,12 @@ const Root = styled.div`
 
 const EllipseWrapper = styled.div`
   position: relative;
-  top: -6.75rem;
+  top: -1.5rem;
 `;
 
 const SearchContainer = styled.div`
   position: absolute;
-  top: 0;
+  top: 4%;
   /* TODO: center 수정 필요 */
   left: 50%;
   transform: translateX(-50%);
@@ -31,6 +31,10 @@ const SearchContainer = styled.div`
   align-items: center;
   margin-top: 3.75rem;
   z-index: ${Z_INDEX.HOME_SEARCHBAR};
+
+  & > .search-bar {
+    z-index: ${Z_INDEX.HOME_SEARCHBAR};
+  }
 
   @media ${MEDIA_QUERY.TABLET} {
     margin-top: 2rem;
@@ -107,7 +111,7 @@ const ContentArea = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  top: -6.75rem;
+  top: -1.5rem;
   padding: 3rem 0;
   text-align: center;
 

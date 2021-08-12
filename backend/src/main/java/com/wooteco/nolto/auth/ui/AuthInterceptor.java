@@ -6,6 +6,7 @@ import com.wooteco.nolto.auth.infrastructure.AuthorizationExtractor;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.UnauthorizedException;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -19,19 +20,23 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        if (request.getMethod().equals("OPTIONS")) {
-            return true;
-        }
+        return isOptionsMethod(request) || isHandlerMethod(handler) || validTokenRequired(handler) || validateToken(request);
+    }
 
-        if (!(handler instanceof HandlerMethod)) {
-            return true;
-        }
+    public boolean isOptionsMethod(HttpServletRequest request) {
+        return request.getMethod().equalsIgnoreCase(HttpMethod.OPTIONS.name());
+    }
 
+    public boolean isHandlerMethod(Object handler) {
+        return !(handler instanceof HandlerMethod);
+    }
+
+    public boolean validTokenRequired(Object handler) {
         ValidTokenRequired validTokenRequired = ((HandlerMethod) handler).getMethodAnnotation(ValidTokenRequired.class);
-        if (Objects.isNull(validTokenRequired)) {
-            return true;
-        }
+        return Objects.isNull(validTokenRequired);
+    }
 
+    public boolean validateToken(HttpServletRequest request) {
         String token = AuthorizationExtractor.extract(request);
         if (Objects.isNull(token)) {
             throw new UnauthorizedException(ErrorType.TOKEN_NEEDED);

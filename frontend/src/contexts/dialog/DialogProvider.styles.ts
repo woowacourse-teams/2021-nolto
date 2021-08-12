@@ -3,6 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import { PALETTE } from 'constants/palette';
 import TextButton from 'components/@common/TextButton/TextButton';
 import Z_INDEX from 'constants/zIndex';
+import { defaultShadow } from 'commonStyles';
 
 const show = keyframes`
   from {
@@ -33,13 +34,14 @@ const DialogInner = styled.div`
   height: 218px;
   border-radius: 8px;
   background-color: ${PALETTE.WHITE_400};
-  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
   justify-content: center;
   text-align: center;
   position: relative;
   overflow: hidden;
+
+  ${defaultShadow};
 
   & .message {
     padding: 0 1.5rem;

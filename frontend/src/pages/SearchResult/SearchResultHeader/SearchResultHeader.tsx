@@ -33,6 +33,8 @@ const SearchResultHeader = ({ searchParams, query, setQuery, techs, setTechs }: 
   const searchByQuery = (event: React.FormEvent) => {
     event.preventDefault();
 
+    if (queryValue === '') return;
+
     const queryParams = new URLSearchParams({
       query: queryValue,
       techs: '',
@@ -45,6 +47,8 @@ const SearchResultHeader = ({ searchParams, query, setQuery, techs, setTechs }: 
   };
 
   const searchByTechs = (techs: Tech[]) => {
+    if (techs.length === 0) return;
+
     const queryParams = new URLSearchParams({
       query: '',
       techs: techs.map((tech) => tech.text).join(','),
