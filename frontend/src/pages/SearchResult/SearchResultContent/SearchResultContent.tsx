@@ -41,7 +41,6 @@ const SearchResultContent = (searchParams: Props) => {
                 </Link>
               </li>
             ))}
-        {}
       </Styled.ScrollableContainer>
 
       {isOverflown && (
