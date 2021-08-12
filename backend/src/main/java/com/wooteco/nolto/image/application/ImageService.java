@@ -49,6 +49,7 @@ public class ImageService {
         amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, resizedFile));
         try {
             Files.delete(Paths.get(file.getPath()));
+            Files.delete(Paths.get(resizedFile.getPath()));
         } catch (Exception e) {
             return cloudfrontUrl + fileName;
         }
