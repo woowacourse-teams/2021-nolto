@@ -24,7 +24,11 @@ const StepChipsContainer = styled.div`
   display: flex;
   justify-content: center;
   gap: 0.85rem;
-  margin-bottom: 3.5rem;
+`;
+
+const Button = styled.button`
+  background: transparent;
+  border: none;
 `;
 
 export const TechInput = styled(TechInputComponent)``;
@@ -33,4 +37,5 @@ export default {
   TopContainer,
   SectionTitle,
   StepChipsContainer,
+  Button,
 };

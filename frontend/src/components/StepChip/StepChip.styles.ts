@@ -35,17 +35,7 @@ const chipStyleMap = {
   [FeedStatus.SOS]: sos,
 };
 
-const Button = styled.button`
-  background: transparent;
-  border: none;
-`;
-
-const DefaultRoot = styled(Chip.Solid)<{ step: FeedStatus }>`
-  color: ${PALETTE.BLACK_400};
-  ${({ step }) => chipStyleMap[step]};
-`;
-
-const ClickableRoot = styled(Chip.Solid)<{ step: FeedStatus; selected: boolean }>`
+const Root = styled(Chip.Solid)<{ step: FeedStatus; selected: boolean }>`
   color: ${PALETTE.BLACK_400};
   ${({ step }) => chipStyleMap[step]};
   box-shadow: ${({ selected }) => selected && 'inset'} 1px 1px 2px 1px rgba(0, 0, 0, 0.1);
@@ -53,4 +43,4 @@ const ClickableRoot = styled(Chip.Solid)<{ step: FeedStatus; selected: boolean }
   ${hoverLayer({})};
 `;
 
-export default { Button, DefaultRoot, ClickableRoot };
+export default { Root };

@@ -6,19 +6,14 @@ import Styled from './StepChip.styles';
 
 interface Props {
   step: FeedStatus;
-  onSelect?: () => void;
   selected?: boolean;
 }
 
-const StepChip = ({ step, onSelect, selected }: Props) => {
-  return onSelect ? (
-    <Styled.Button type="button" onClick={onSelect}>
-      <Styled.ClickableRoot step={step} selected={selected}>
-        {STEP_CONVERTER[step]}
-      </Styled.ClickableRoot>
-    </Styled.Button>
-  ) : (
-    <Styled.DefaultRoot step={step}>{STEP_CONVERTER[step]}</Styled.DefaultRoot>
+const StepChip = ({ step, selected }: Props) => {
+  return (
+    <Styled.Root step={step} selected={selected}>
+      {STEP_CONVERTER[step]}
+    </Styled.Root>
   );
 };
 

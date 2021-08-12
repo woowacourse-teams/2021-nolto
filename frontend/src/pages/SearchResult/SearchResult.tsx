@@ -41,21 +41,15 @@ const SearchResult = () => {
         </AsyncBoundary>
 
         <Styled.StepChipsContainer>
-          <StepChip
-            step={FeedStatus.PROGRESS}
-            onSelect={() => toggleLevel(FilterType.PROGRESS)}
-            selected={filter === FilterType.PROGRESS}
-          />
-          <StepChip
-            step={FeedStatus.COMPLETE}
-            onSelect={() => toggleLevel(FilterType.COMPLETE)}
-            selected={filter === FilterType.COMPLETE}
-          />
-          <StepChip
-            step={FeedStatus.SOS}
-            onSelect={() => toggleLevel(FilterType.SOS)}
-            selected={filter === FilterType.SOS}
-          />
+          <Styled.Button type="button" onClick={() => toggleLevel(FilterType.PROGRESS)}>
+            <StepChip step={FeedStatus.PROGRESS} selected={filter === FilterType.PROGRESS} />
+          </Styled.Button>
+          <Styled.Button type="button" onClick={() => toggleLevel(FilterType.COMPLETE)}>
+            <StepChip step={FeedStatus.COMPLETE} selected={filter === FilterType.COMPLETE} />
+          </Styled.Button>
+          <Styled.Button type="button" onClick={() => toggleLevel(FilterType.SOS)}>
+            <StepChip step={FeedStatus.SOS} selected={filter === FilterType.SOS} />
+          </Styled.Button>
         </Styled.StepChipsContainer>
       </Styled.TopContainer>
 

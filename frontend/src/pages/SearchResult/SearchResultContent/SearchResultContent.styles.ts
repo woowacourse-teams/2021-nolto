@@ -9,7 +9,7 @@ const Root = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  margin-top: 20rem;
+  margin-top: 16rem;
 `;
 
 const ScrollableContainer = styled.ul`
