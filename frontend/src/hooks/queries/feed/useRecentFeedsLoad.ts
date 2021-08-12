@@ -25,7 +25,7 @@ const loadRecentFeeds = async (filter: FilterType, errorHandler: ErrorHandler) =
 };
 
 const useRecentFeedsLoad = ({ filter, errorHandler, ...option }: CustomQueryOption) => {
-  return useQuery<Feed[]>(
+  return useQuery<Feed[], HttpError>(
     ['recentFeeds', filter],
     () => loadRecentFeeds(filter, errorHandler),
     option,

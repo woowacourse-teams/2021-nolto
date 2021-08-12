@@ -12,7 +12,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const TextButton = ({ buttonStyle, reverse = false, children, className, ...options }: Props) => {
   return (
-    <Styled.Root buttonStyle={buttonStyle} reverse={reverse} className={className} {...options}>
+    <Styled.Root $buttonStyle={buttonStyle} $reverse={reverse} className={className} {...options}>
       {children}
     </Styled.Root>
   );

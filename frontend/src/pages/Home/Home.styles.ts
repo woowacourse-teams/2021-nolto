@@ -32,6 +32,10 @@ const SearchContainer = styled.div`
   margin-top: 3.75rem;
   z-index: ${Z_INDEX.HOME_SEARCHBAR};
 
+  & > .search-bar {
+    z-index: ${Z_INDEX.HOME_SEARCHBAR};
+  }
+
   @media ${MEDIA_QUERY.TABLET} {
     margin-top: 2rem;
   }

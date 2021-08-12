@@ -17,13 +17,13 @@ const ToggleList = ({ children, width, height }: Props) => {
   };
 
   return (
-    <Styled.Root width={width} height={height} isToggled={isToggled}>
-      <Styled.ContentWrapper isToggled={isToggled}>
+    <Styled.Root width={width} height={height} $isToggled={isToggled}>
+      <Styled.ContentWrapper $isToggled={isToggled}>
         <Styled.Content>{children}</Styled.Content>
       </Styled.ContentWrapper>
       <Styled.ButtonWrapper>
         <IconButton onClick={handleClickToggle} isShadow={false}>
-          <Styled.StacksMoreIcon isToggled={isToggled} width={height} height={height} />
+          <Styled.StacksMoreIcon $isToggled={isToggled} width={height} height={height} />
         </IconButton>
       </Styled.ButtonWrapper>
     </Styled.Root>

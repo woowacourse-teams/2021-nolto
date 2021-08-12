@@ -2,25 +2,25 @@ import styled from 'styled-components';
 
 import StacksMoreSvg from 'assets/stacksMore.svg';
 
-const Root = styled.div<{ width: string; height: string; isToggled: boolean }>`
+const Root = styled.div<{ width: string; height: string; $isToggled: boolean }>`
   display: flex;
   gap: 1rem;
   overflow: hidden;
   transition: all 0.3s ease-in;
 
   width: ${({ width }) => width && width};
-  height: ${({ height, isToggled }) => {
+  height: ${({ height, $isToggled }) => {
     if (!height) return;
 
-    if (!isToggled) {
+    if (!$isToggled) {
       return height;
     }
     return `calc(${height} * 2.5)`;
   }};
 `;
 
-const ContentWrapper = styled.div<{ isToggled: boolean }>`
-  overflow-y: ${({ isToggled }) => isToggled && 'scroll'};
+const ContentWrapper = styled.div<{ $isToggled: boolean }>`
+  overflow-y: ${({ $isToggled }) => $isToggled && 'scroll'};
 
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -43,10 +43,10 @@ const ButtonWrapper = styled.div`
   align-items: center;
 `;
 
-const StacksMoreIcon = styled(StacksMoreSvg)<{ isToggled: boolean }>`
+const StacksMoreIcon = styled(StacksMoreSvg)<{ $isToggled: boolean }>`
   transition: all 0.3s ease;
 
-  transform: ${({ isToggled }) => isToggled && 'rotate(180deg)'};
+  transform: ${({ $isToggled }) => $isToggled && 'rotate(180deg)'};
 `;
 
 export default { Root, ContentWrapper, Content, ButtonWrapper, StacksMoreIcon };

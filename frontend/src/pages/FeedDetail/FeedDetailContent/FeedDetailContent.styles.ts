@@ -69,7 +69,7 @@ const Thumbnail = styled.div`
 
 const SOSFlagIcon = styled(SOSFlag)`
   position: absolute;
-  top: -40%;
+  top: 5%;
   right: -10%;
 `;
 

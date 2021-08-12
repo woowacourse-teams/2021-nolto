@@ -20,10 +20,10 @@ export const TechButton = styled(TextButton.Rounded)`
   margin: 0.125rem 0.125rem;
 `;
 
-const DeleteMark = styled(CrossMark)<{ reverse: boolean }>`
+const DeleteMark = styled(CrossMark)<{ $reverse: boolean }>`
   margin-left: 0.35rem;
   display: block;
-  fill: ${({ reverse }) => (reverse ? PALETTE.PRIMARY_400 : PALETTE.WHITE_400)};
+  fill: ${({ $reverse }) => ($reverse ? PALETTE.PRIMARY_400 : PALETTE.WHITE_400)};
 `;
 
 export default { Root, DeleteMark };
