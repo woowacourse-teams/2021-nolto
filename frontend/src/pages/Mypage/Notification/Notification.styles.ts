@@ -100,7 +100,7 @@ const NotiBold = styled.span`
   }
 
   &.feed-title {
-    width: 5.5rem;
+    max-width: 5.5rem;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

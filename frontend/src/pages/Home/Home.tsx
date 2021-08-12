@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import AsyncBoundary from 'components/AsyncBoundary';
 import CroppedEllipse from 'components/CroppedEllipse/CroppedEllipse';
@@ -21,6 +21,10 @@ const Home = () => {
   const scrollTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <>

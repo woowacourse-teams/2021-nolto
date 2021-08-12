@@ -50,7 +50,6 @@ const History = () => {
       <Styled.FeedContentWrapper>
         <Styled.FeedTitle>{feed.feed.title}</Styled.FeedTitle>
         <Styled.FeedComment>
-          s
           <ReturnArrow width="14px" />
           {feed.text}
         </Styled.FeedComment>

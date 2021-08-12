@@ -232,7 +232,7 @@ const FeedUploadForm = ({ onFeedSubmit, initialFormValue }: Props) => {
               onChange={setFileInput}
               accept={THUMBNAIL_EXTENSION.join(',')}
             />
-            <Styled.InputCaption>최대 n 바이트의 이미지를 업로드할 수 있습니다</Styled.InputCaption>
+            <Styled.InputCaption>최대 10MB의 이미지를 업로드할 수 있습니다</Styled.InputCaption>
           </div>
         </Styled.StretchWrapper>
       </Styled.FormContainer>

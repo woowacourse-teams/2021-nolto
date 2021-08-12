@@ -30,8 +30,8 @@ const Input = styled.input`
 const Button = styled.button`
   border: none;
   background-color: transparent;
-  width: 2em;
-  height: 2em;
+  width: 2rem;
+  height: 2rem;
 `;
 
 const TechTagContainer = styled.div`
