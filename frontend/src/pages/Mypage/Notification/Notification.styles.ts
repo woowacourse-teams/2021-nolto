@@ -49,7 +49,7 @@ const NotiMark = styled.div`
 `;
 
 const AllReadButton = styled.button`
-  flex-basis: 10rem;
+  flex-basis: 12rem;
   display: flex;
   align-items: center;
   gap: 0.25rem;
