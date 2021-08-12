@@ -1,5 +1,5 @@
 import { customRenderHook } from 'test-util';
-import useFeedDelete from 'hooks/mutations/useFeedDelete';
+import useFeedDelete from 'hooks/queries/feed/useFeedDelete';
 
 describe('useFeedDelete 테스트', () => {
   it('피드를 삭제할 수 있다.', async () => {
