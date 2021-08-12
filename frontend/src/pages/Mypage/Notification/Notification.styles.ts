@@ -52,6 +52,7 @@ const AllReadButton = styled.button`
   flex-basis: 12rem;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 0.25rem;
   background: transparent;
   border: none;
