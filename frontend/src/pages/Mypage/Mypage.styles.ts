@@ -5,7 +5,8 @@ const Root = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 2rem;
-  margin: 4rem 0;
+  padding: 4rem 0;
+  margin-bottom: 1rem;
 `;
 
 export default { Root };

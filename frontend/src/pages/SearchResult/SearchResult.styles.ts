@@ -2,12 +2,18 @@ import styled from 'styled-components';
 
 import HighLightedText from 'components/@common/HighlightedText/HighlightedText';
 import TechInputComponent from 'contexts/techTag/input/TechInput';
+import { PALETTE } from 'constants/palette';
 
-const Root = styled.div`
+const TopContainer = styled.div`
+  position: fixed;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 4rem 0;
+  background: ${PALETTE.WHITE_400};
+  width: 100%;
+  padding-top: 4rem;
+  padding-bottom: 2rem;
+  z-index: 10;
 `;
 
 const SectionTitle = styled(HighLightedText)`
@@ -21,15 +27,10 @@ const StepChipsContainer = styled.div`
   margin-bottom: 3.5rem;
 `;
 
-const RecentToysContainer = styled.div`
-  height: 60vh;
-`;
-
 export const TechInput = styled(TechInputComponent)``;
 
 export default {
-  Root,
+  TopContainer,
   SectionTitle,
   StepChipsContainer,
-  RecentToysContainer,
 };

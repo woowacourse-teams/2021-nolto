@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import Header from 'components/Header/Header';
-import AsyncBoundary from 'components/AsyncBoundary';
 import SearchResultContent from 'pages/SearchResult/SearchResultContent/SearchResultContent';
 import SearchResultHeader from 'pages/SearchResult/SearchResultHeader/SearchResultHeader';
+import AsyncBoundary from 'components/AsyncBoundary';
 import StepChip from 'components/StepChip/StepChip';
+import BaseLayout from 'components/BaseLayout/BaseLayout';
 import Styled from './SearchResult.styles';
 import { FeedStatus, FilterType, Tech } from 'types';
 
@@ -27,9 +27,8 @@ const SearchResult = () => {
   };
 
   return (
-    <>
-      <Header />
-      <Styled.Root>
+    <BaseLayout>
+      <Styled.TopContainer>
         <Styled.SectionTitle fontSize="1.75rem">Toys About</Styled.SectionTitle>
         <AsyncBoundary rejectedFallback={<div>게시물 검색에 실패했습니다.</div>}>
           <SearchResultHeader
@@ -58,14 +57,12 @@ const SearchResult = () => {
             selected={filter === FilterType.SOS}
           />
         </Styled.StepChipsContainer>
+      </Styled.TopContainer>
 
-        <Styled.RecentToysContainer>
-          <AsyncBoundary rejectedFallback={<div>게시물 검색에 실패했습니다.</div>}>
-            <SearchResultContent query={query} techs={techs} filter={filter} />
-          </AsyncBoundary>
-        </Styled.RecentToysContainer>
-      </Styled.Root>
-    </>
+      <AsyncBoundary rejectedFallback={<div>게시물 검색에 실패했습니다.</div>}>
+        <SearchResultContent query={query} techs={techs} filter={filter} />
+      </AsyncBoundary>
+    </BaseLayout>
   );
 };
 

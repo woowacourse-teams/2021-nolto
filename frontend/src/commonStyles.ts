@@ -95,3 +95,10 @@ export const hoverUnderline = css`
     transform: scaleX(1);
   }
 `;
+
+export const DefaultPageRoot = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 4rem;
+`;

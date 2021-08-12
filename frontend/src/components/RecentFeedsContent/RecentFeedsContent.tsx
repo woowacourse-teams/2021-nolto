@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import LevelButton from 'components/LevelButton/LevelButton';
 import StretchCard from 'components/StretchCard/StretchCard';
 import Skeleton from 'components/Skeleton/Skeleton';
+import { HighLightedText } from 'components/TeamMember/TeamMember.styles';
 import useRecentFeedsLoad from 'hooks/queries/feed/useRecentFeedsLoad';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
 import ROUTE from 'constants/routes';
@@ -31,23 +32,33 @@ const RecentFeedsContent = ({ feedsCountToShow }: Props) => {
 
   const DEFAULT_FEED_LENGTH = 4;
 
+  const levelButtons: React.ReactNode = (
+    <Styled.LevelButtonsContainer>
+      <LevelButton.Progress
+        onClick={() => toggleLevel(FilterType.PROGRESS)}
+        selected={filter === FilterType.PROGRESS}
+      />
+      <LevelButton.Complete
+        onClick={() => toggleLevel(FilterType.COMPLETE)}
+        selected={filter === FilterType.COMPLETE}
+      />
+      <LevelButton.SOS
+        onClick={() => toggleLevel(FilterType.SOS)}
+        selected={filter === FilterType.SOS}
+      />
+    </Styled.LevelButtonsContainer>
+  );
+
   return (
     <Styled.Root>
-      <Styled.LevelButtonsContainer>
-        <LevelButton.Progress
-          onClick={() => toggleLevel(FilterType.PROGRESS)}
-          selected={filter === FilterType.PROGRESS}
-        />
-        <LevelButton.Complete
-          onClick={() => toggleLevel(FilterType.COMPLETE)}
-          selected={filter === FilterType.COMPLETE}
-        />
-        <LevelButton.SOS
-          onClick={() => toggleLevel(FilterType.SOS)}
-          selected={filter === FilterType.SOS}
-        />
-      </Styled.LevelButtonsContainer>
-      <Styled.CardsContainer>
+      {!feedsCountToShow && (
+        <Styled.TopContainer>
+          <HighLightedText fontSize="1.75rem">Recent Toys</HighLightedText>
+          {levelButtons}
+        </Styled.TopContainer>
+      )}
+      <Styled.CardsContainer scrollable={!feedsCountToShow}>
+        {feedsCountToShow && levelButtons}
         <Styled.ScrollableContainer>
           {isLoading
             ? [...Array(feedsCountToShow || DEFAULT_FEED_LENGTH)].map((_, index) => (

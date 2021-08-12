@@ -12,7 +12,7 @@ import LogoIcon from 'assets/logo.svg';
 import LogoSimpleIcon from 'assets/logoSimple.svg';
 
 const Root = styled.header<{ isFolded: boolean }>`
-  position: sticky;
+  position: fixed;
   top: 0;
   height: 92px;
   width: 100%;
