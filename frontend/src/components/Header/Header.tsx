@@ -64,7 +64,7 @@ const Header = ({ isFolded = false }: Props) => {
                 Toy Projects
               </NavLink>
             </li>
-            <li>
+            <li className="web-hosting">
               <a href="https://joel-web-hosting.o-r.kr/" target="_blank">
                 Joel’s Hosting
               </a>

@@ -49,6 +49,7 @@ const LevelButtonsContainer = styled.div`
   margin-bottom: 3.5rem;
 
   @media ${MEDIA_QUERY.MOBILE} {
+    gap: 1rem;
     margin-bottom: 1.5rem;
   }
 `;

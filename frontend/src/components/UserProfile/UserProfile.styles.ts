@@ -2,6 +2,7 @@ import styled, { keyframes, css } from 'styled-components';
 import { Link as LinkElement } from 'react-router-dom';
 
 import { PALETTE } from 'constants/palette';
+import { MEDIA_QUERY } from 'constants/mediaQuery';
 import { hoverLayer } from 'commonStyles';
 
 const open = keyframes`
@@ -43,18 +44,34 @@ const NotiAlert = styled.div`
   background-color: ${PALETTE.RED_400};
   border: 1px solid ${PALETTE.PRIMARY_400};
   border-radius: 50%;
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    width: 0.85rem;
+    height: 0.85rem;
+    font-size: 0.5rem;
+    line-height: 0.75rem;
+  }
 `;
 
 const Image = styled.img`
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
 `;
 
 const MoreProfileButton = styled.button`
   border: none;
   background: transparent;
   padding-top: 0.25rem;
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    display: none;
+  }
 `;
 
 const Dropdown = styled.div<{ isOpen: boolean }>`

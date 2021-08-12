@@ -84,6 +84,10 @@ const NavContainer = styled.ul`
 
   @media ${MEDIA_QUERY.MOBILE} {
     gap: 12px;
+
+    & .web-hosting {
+      display: none;
+    }
   }
 
   & a {
@@ -119,6 +123,8 @@ const ButtonsContainer = styled.div`
   }
 
   @media ${MEDIA_QUERY.MOBILE} {
+    margin-left: 0;
+
     & .search,
     .upload {
       display: none;
