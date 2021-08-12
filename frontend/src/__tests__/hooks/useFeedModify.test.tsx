@@ -1,5 +1,5 @@
 import { customRenderHook } from 'test-util';
-import useFeedModify from 'hooks/mutations/useFeedModify';
+import useFeedModify from 'hooks/queries/feed/useFeedModify';
 
 describe('useFeedModify 테스트', () => {
   it('피드를 수정할 수 있다.', async () => {
