@@ -1,5 +1,5 @@
 import React from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClient, QueryClientProvider, setLogger } from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
 
 import { render, RenderOptions } from '@testing-library/react';
@@ -16,17 +16,23 @@ interface WrapperProps {
   children?: React.ReactNode;
 }
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      useErrorBoundary: true,
-      suspense: true,
-      retry: false,
-    },
-  },
+setLogger({
+  log: console.log,
+  warn: console.warn,
+  error: () => {},
 });
 
 const Wrapper = ({ children }: WrapperProps) => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        useErrorBoundary: true,
+        suspense: true,
+        retry: false,
+      },
+    },
+  });
+
   return (
     <QueryClientProvider client={queryClient}>
       <SnackbarProvider>

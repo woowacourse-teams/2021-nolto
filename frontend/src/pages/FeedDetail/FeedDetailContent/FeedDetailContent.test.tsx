@@ -2,7 +2,7 @@ import React from 'react';
 
 import { customRender, waitFor } from 'test-util';
 import FeedDetailContent from './FeedDetailContent';
-import { MOCK_FEED_DETAIL } from '__mocks__/fixture/Feeds';
+import { MOCK_FEED_DETAIL } from '__mocks__/fixture/feeds';
 
 describe('FeedDetailContent 테스트', () => {
   beforeAll(() => {
