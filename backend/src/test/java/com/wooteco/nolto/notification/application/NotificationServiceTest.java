@@ -106,7 +106,7 @@ public class NotificationServiceTest {
         // when
         commentService.createComment(포모, 댓글이_달릴_찰리가_쓴_피드.getId(), new CommentRequest("잘 보고 갑니다!", false));
         TestTransaction.flagForCommit();
-        TestTransaction.end();  // 트랜잭션 강제 종료시켜버리기!
+        TestTransaction.end();
 
         // then
         TestTransaction.start();
@@ -122,7 +122,7 @@ public class NotificationServiceTest {
         // when
         commentService.createComment(포모, 도움_댓글이_달릴_찰리가_쓴_피드.getId(), new CommentRequest("잘 보고 갑니다!", true));
         TestTransaction.flagForCommit();
-        TestTransaction.end();  // 트랜잭션 강제 종료시켜버리기!
+        TestTransaction.end();
 
         // then
         TestTransaction.start();
