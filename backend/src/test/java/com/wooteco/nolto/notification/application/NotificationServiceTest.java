@@ -57,30 +57,9 @@ public class NotificationServiceTest {
         userRepository.save(찰리);
         userRepository.save(포모);
 
-        좋아요를_받을_찰리가_쓴_피드 = new Feed(
-                "title",
-                "content",
-                Step.PROGRESS,
-                true,
-                "https://github.com/woowacourse-teams/2021-nolto",
-                "https://github.com/woowacourse-teams/2021-nolto",
-                "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png").writtenBy(찰리);
-        댓글이_달릴_찰리가_쓴_피드 = new Feed(
-                "title",
-                "content",
-                Step.PROGRESS,
-                true,
-                "https://github.com/woowacourse-teams/2021-nolto",
-                "https://github.com/woowacourse-teams/2021-nolto",
-                "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png").writtenBy(찰리);
-        도움_댓글이_달릴_찰리가_쓴_피드 = new Feed(
-                "title",
-                "content",
-                Step.PROGRESS,
-                true,
-                "https://github.com/woowacourse-teams/2021-nolto",
-                "https://github.com/woowacourse-teams/2021-nolto",
-                "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png").writtenBy(찰리);
+        좋아요를_받을_찰리가_쓴_피드 = 찰리가_쓴_피드를_생성();
+        댓글이_달릴_찰리가_쓴_피드 = 찰리가_쓴_피드를_생성();
+        도움_댓글이_달릴_찰리가_쓴_피드 = 찰리가_쓴_피드를_생성();
         feedRepository.saveAll(Arrays.asList(좋아요를_받을_찰리가_쓴_피드, 댓글이_달릴_찰리가_쓴_피드, 도움_댓글이_달릴_찰리가_쓴_피드));
     }
 
@@ -137,5 +116,16 @@ public class NotificationServiceTest {
         assertThat(response.getPublisher().getId()).isEqualTo(publisher.getId());
         assertThat(response.getNotificationType()).isEqualTo(type);
         assertThat(response.getFeed().getId()).isEqualTo(feedId);
+    }
+
+    private Feed 찰리가_쓴_피드를_생성() {
+        return new Feed(
+                "title",
+                "content",
+                Step.PROGRESS,
+                true,
+                "https://github.com/woowacourse-teams/2021-nolto",
+                "https://github.com/woowacourse-teams/2021-nolto",
+                "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png").writtenBy(찰리);
     }
 }
