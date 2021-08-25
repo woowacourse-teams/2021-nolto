@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import HighlightedText from 'components/@common/HighlightedText/HighlightedText';
 import TextButton from 'components/@common/TextButton/TextButton';
-import SOSFlag from 'assets/sosFlag.svg';
+import SOSFlagComponent from 'components/@common/SOSFlag/SOSFlag';
 import StacksMoreIcon from 'assets/stacksMore.svg';
 import { defaultShadow } from 'commonStyles';
 
@@ -68,10 +68,10 @@ const Thumbnail = styled.div`
   }
 `;
 
-const SOSFlagIcon = styled(SOSFlag)`
+export const SOSFlag = styled(SOSFlagComponent)`
   position: absolute;
-  top: 5%;
-  right: -10%;
+  left: -0.5rem;
+  top: 0.75rem;
 `;
 
 const FeedSummaryContainer = styled.div`
@@ -178,7 +178,6 @@ export default {
   IconWrapper,
   ThumbnailContainer,
   Thumbnail,
-  SOSFlagIcon,
   FeedSummaryContainer,
   TitleContainer,
   TitleWrapper,

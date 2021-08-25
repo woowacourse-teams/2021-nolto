@@ -2,21 +2,20 @@ import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import { ButtonStyle } from 'types';
-import Styled, { Tag } from './FeedDetailContent.styles';
 import ViewCountIcon from 'assets/viewCount.svg';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
 import useFeedDetail from 'hooks/queries/feed/useFeedDetail';
 import useMember from 'hooks/queries/useMember';
-import { STEP_CONVERTER } from 'constants/common';
 import { PALETTE } from 'constants/palette';
 import ROUTE from 'constants/routes';
-import Chip from 'components/@common/Chip/Chip';
+import ToggleList from 'components/@common/ToggleList/ToggleList';
 import FeedDropdown from 'components/FeedDropdown/FeedDropdown';
 import LikeButton from 'components/LikeButton/LikeButton';
-import ToggleList from 'components/@common/ToggleList/ToggleList';
 import CommentModule from 'components/CommentModule/CommentModule';
 import AsyncBoundary from 'components/AsyncBoundary';
 import ErrorFallback from 'components/ErrorFallback/ErrorFallback';
+import StepChip from 'components/StepChip/StepChip';
+import Styled, { Tag, SOSFlag } from './FeedDetailContent.styles';
 
 interface Props {
   feedId: number;
@@ -50,15 +49,15 @@ const FeedDetailContent = ({ feedId }: Props) => {
 
   const isMyFeed = member.userData?.id === feedDetail.author.id;
 
-  //TODO: 댓글 로딩 부분 스켈레톤으로 하면 좋을듯
+  // TODO: 댓글 로딩 부분 스켈레톤으로 리팩토링
   return (
     <Styled.Root>
       <Styled.IntroContainer>
         <Styled.ThumbnailContainer>
+          {feedDetail.sos && <SOSFlag />}
           <Styled.Thumbnail>
             <img src={feedDetail.thumbnailUrl} />
           </Styled.Thumbnail>
-          {feedDetail.sos && <Styled.SOSFlagIcon width="56px" />}
 
           <Styled.IconsContainer>
             <Styled.IconWrapper>
@@ -75,7 +74,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
           <Styled.TitleContainer>
             <Styled.TitleWrapper>
               <h2>{feedDetail.title}</h2>
-              <Chip.Solid>{STEP_CONVERTER[feedDetail.step]}</Chip.Solid>
+              <StepChip step={feedDetail.step} />
             </Styled.TitleWrapper>
 
             <Styled.UserWrapper>
