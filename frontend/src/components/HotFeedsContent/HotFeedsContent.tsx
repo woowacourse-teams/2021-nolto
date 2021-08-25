@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import useHotFeedsLoad from 'hooks/queries/feed/useHotFeedsLoad';
-import RegularCard from 'components/RegularCard/RegularCard';
+import LargeCard from 'components/LargeCard/LargeCard';
 import ROUTE from 'constants/routes';
 import Styled, { CarouselArrowButton } from './HotFeedsContent.styles';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
@@ -37,7 +37,7 @@ const HotFeedsContent = () => {
             <Styled.HotToyCardWrapper key={feed.id} offset={idx + 1} position={hotToyCardIdx}>
               <Link to={`${ROUTE.FEEDS}/${feed.id}`}>
                 <Styled.VerticalAvatar user={feed.author} />
-                <RegularCard feed={feed} />
+                <LargeCard feed={feed} />
               </Link>
             </Styled.HotToyCardWrapper>
           ))}

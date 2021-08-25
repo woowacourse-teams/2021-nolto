@@ -1,7 +1,6 @@
+import Avatar from 'components/@common/Avatar/Avatar';
 import React from 'react';
-
 import { Feed } from 'types';
-import Styled from './RegularCard.styles';
 
 interface Props {
   feed: Feed;
@@ -9,12 +8,9 @@ interface Props {
 
 const RegularCard = ({ feed }: Props) => {
   return (
-    <Styled.Root imageUrl={feed.thumbnailUrl}>
-      <Styled.ContentArea className="card-content">
-        <Styled.Title>{feed.title}</Styled.Title>
-        <Styled.Content>{feed.content}</Styled.Content>
-      </Styled.ContentArea>
-    </Styled.Root>
+    <div>
+      <Avatar user={feed.author} />
+    </div>
   );
 };
 

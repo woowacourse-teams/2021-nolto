@@ -2,11 +2,11 @@ import React from 'react';
 import { Feed, FeedStatus } from 'types';
 import { MOCK_USER } from '__mocks__/fixture/User';
 
-import RegularCard from './RegularCard';
+import LargeCard from './LargeCard';
 
 export default {
-  title: 'components/RegularCard',
-  component: RegularCard,
+  title: 'components/LargeCard',
+  component: LargeCard,
   argTypes: {},
 };
 
@@ -20,4 +20,4 @@ const mockFeed: Feed = {
   step: FeedStatus.COMPLETE,
 };
 
-export const Default = () => <RegularCard feed={mockFeed} />;
+export const Default = () => <LargeCard feed={mockFeed} />;
