@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useQueryClient } from 'react-query';
 
-import catError from 'assets/catError.png';
 import Styled from './ErrorFallback.styles';
 
 interface Props {
@@ -18,11 +17,12 @@ const ErrorFallback = ({ message, queryKey }: Props) => {
 
   return (
     <Styled.Root>
-      <Styled.Image width="480px" src={catError} alt="error" />
       <Styled.Message>
-        <Styled.ErrorText>ERROR</Styled.ErrorText>
-        <Styled.ErrorDetail>{message}</Styled.ErrorDetail>
+        <Styled.ErrorTitle>Oops!</Styled.ErrorTitle>
+        <Styled.Horse />
       </Styled.Message>
+      <Styled.Divider />
+      <Styled.ErrorText>ERROR | {message}</Styled.ErrorText>
     </Styled.Root>
   );
 };
