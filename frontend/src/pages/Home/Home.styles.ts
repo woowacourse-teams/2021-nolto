@@ -113,7 +113,6 @@ const ContentArea = styled.div`
   align-items: center;
   top: -1.5rem;
   padding: 3rem 0;
-  text-align: center;
 
   @media ${MEDIA_QUERY.TABLET} {
     padding: 2rem;
