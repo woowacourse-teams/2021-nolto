@@ -111,6 +111,7 @@ const ContentArea = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 2rem;
   top: -1.5rem;
   padding: 3rem 0;
 
@@ -119,9 +120,14 @@ const ContentArea = styled.div`
   }
 `;
 
-const SectionTitle = styled(HighLightedText)`
-  margin-bottom: 48px;
+const TitleWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+`;
 
+const SectionTitle = styled(HighLightedText)`
   @media ${MEDIA_QUERY.TABLET} {
     margin-bottom: 32px;
   }
@@ -136,7 +142,6 @@ const HotToysContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 128px;
 
   @media ${MEDIA_QUERY.TABLET} {
     margin-bottom: 72px;
@@ -147,9 +152,12 @@ const VerticalAvatar = styled(Avatar)`
   margin-bottom: 12px;
 `;
 
-const RecentToysContainer = styled.div`
+const ToysContainer = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
+  padding: 0 2rem;
+  gap: 2rem;
 `;
 
 export const MoreButton = styled(Link)`
@@ -157,9 +165,6 @@ export const MoreButton = styled(Link)`
   border: none;
   background: transparent;
   font-size: 1rem;
-  padding: 0 1rem;
-  margin-top: 36px;
-  margin-left: auto;
 `;
 
 const ArrowUp = styled(ArrowIcon)`
@@ -183,9 +188,10 @@ export default {
   TrendContainer,
   TrendTag,
   ContentArea,
+  TitleWrapper,
   SectionTitle,
   HotToysContainer,
   VerticalAvatar,
-  RecentToysContainer,
+  ToysContainer,
   ArrowUp,
 };
