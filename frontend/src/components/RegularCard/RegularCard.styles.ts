@@ -4,21 +4,26 @@ const Root = styled.div`
   display: flex;
   flex-direction: column;
   min-width: 12.5rem;
-  width: 12.5rem;
+  width: 100%;
   gap: 0.5rem;
 `;
 
 export const RegularCardImgWrapper = styled.div`
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 7px;
-  height: 12.5rem;
+  padding-top: 100%;
   overflow: hidden;
   background-color: rgba(0, 0, 0, 0.1);
 
   & > img {
+    position: absolute;
+    left: 0;
+    top: 0;
     height: 100%;
+    width: 100%;
   }
 `;
 

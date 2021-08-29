@@ -7,4 +7,9 @@ const Root = styled.div`
   padding-top: 92px;
 `;
 
-export default { Root };
+const BaseLayoutMain = styled.main`
+  max-width: 1180px;
+  padding-top: 2rem;
+`;
+
+export default { Root, BaseLayoutMain };

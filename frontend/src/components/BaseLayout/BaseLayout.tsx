@@ -11,7 +11,7 @@ const BaseLayout = ({ children }: Props) => {
   return (
     <Styled.Root>
       <Header />
-      {children}
+      <Styled.BaseLayoutMain>{children}</Styled.BaseLayoutMain>
     </Styled.Root>
   );
 };
