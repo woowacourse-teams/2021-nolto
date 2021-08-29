@@ -8,10 +8,10 @@ import Styled from './HomeFeedsContent.styles';
 
 interface Props {
   filter?: FilterType;
-  feedsCountToShow?: number;
+  feedsCountToShow: number;
 }
 
-const HomeFeedsContent = ({ filter, feedsCountToShow = 5 }: Props) => {
+const HomeFeedsContent = ({ filter, feedsCountToShow }: Props) => {
   const snackbar = useSnackbar();
   const { data: recentFeeds } = useRecentFeedsLoad({
     filter,

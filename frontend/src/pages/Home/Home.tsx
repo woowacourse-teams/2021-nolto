@@ -71,7 +71,7 @@ const Home = () => {
                 <ErrorFallback message="데이터를 불러올 수 없습니다." queryKey="recentFeeds" />
               }
             >
-              <HomeFeedsContent filter={FilterType.COMPLETE} />
+              <HomeFeedsContent feedsCountToShow={4} filter={FilterType.COMPLETE} />
             </AsyncBoundary>
           </Styled.ToysContainer>
 
@@ -88,7 +88,7 @@ const Home = () => {
                 <ErrorFallback message="데이터를 불러올 수 없습니다." queryKey="recentFeeds" />
               }
             >
-              <HomeFeedsContent filter={FilterType.PROGRESS} />
+              <HomeFeedsContent feedsCountToShow={5} filter={FilterType.PROGRESS} />
             </AsyncBoundary>
           </Styled.ToysContainer>
         </Styled.ContentArea>
