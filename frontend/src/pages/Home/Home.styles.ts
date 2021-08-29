@@ -15,22 +15,15 @@ const Root = styled.div`
   position: relative;
 `;
 
-const EllipseWrapper = styled.div`
-  position: relative;
-  top: -1.5rem;
-`;
-
 const SearchContainer = styled.div`
-  position: absolute;
-  top: 4%;
-  /* TODO: center 수정 필요 */
-  left: 50%;
-  transform: translateX(-50%);
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 3.75rem;
+  justify-content: center;
   z-index: ${Z_INDEX.HOME_SEARCHBAR};
+  width: 100%;
+  padding-bottom: 2rem;
 
   & > .search-bar {
     z-index: ${Z_INDEX.HOME_SEARCHBAR};
@@ -43,6 +36,13 @@ const SearchContainer = styled.div`
   @media ${MEDIA_QUERY.TABLET} {
     margin-top: 1rem;
   }
+`;
+
+const EllipseWrapper = styled.div`
+  position: absolute;
+  width: 100vw;
+  top: -1.5rem;
+  left: 0;
 `;
 
 const SearchTitle = styled.div`

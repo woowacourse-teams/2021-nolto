@@ -27,13 +27,17 @@ const Upload = () => {
 
   return (
     <BaseLayout>
-      <DefaultPageRoot>
-        <Styled.TitleWrapper>
-          <HighLightedText fontSize="1.75rem">🦄 Upload Your Toy Project</HighLightedText>
-        </Styled.TitleWrapper>
+      {{
+        main: (
+          <DefaultPageRoot>
+            <Styled.TitleWrapper>
+              <HighLightedText fontSize="1.75rem">🦄 Upload Your Toy Project</HighLightedText>
+            </Styled.TitleWrapper>
 
-        <FeedUploadForm onFeedSubmit={uploadFeed} />
-      </DefaultPageRoot>
+            <FeedUploadForm onFeedSubmit={uploadFeed} />
+          </DefaultPageRoot>
+        ),
+      }}
     </BaseLayout>
   );
 };

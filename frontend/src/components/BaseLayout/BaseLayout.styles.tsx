@@ -8,13 +8,15 @@ const Root = styled.div`
   padding-top: 92px;
 `;
 
-const BaseLayoutMain = styled.main`
+export const BaseLayoutMain = styled.main`
   max-width: ${BREAK_POINTS.LAPTOP};
   padding: 2rem 1rem 0;
+  margin-right: auto;
+  margin-left: auto;
 
   @media ${MEDIA_QUERY.LAPTOP} {
     width: 100%;
   }
 `;
 
-export default { Root, BaseLayoutMain };
+export default { Root };

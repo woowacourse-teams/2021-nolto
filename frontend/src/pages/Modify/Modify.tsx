@@ -55,24 +55,28 @@ const Modify = () => {
 
   return (
     <BaseLayout>
-      <DefaultPageRoot>
-        <Styled.TitleWrapper>
-          <HighLightedText fontSize="1.75rem">🔧 Modify Your Toy</HighLightedText>
-        </Styled.TitleWrapper>
+      {{
+        main: (
+          <DefaultPageRoot>
+            <Styled.TitleWrapper>
+              <HighLightedText fontSize="1.75rem">🔧 Modify Your Toy</HighLightedText>
+            </Styled.TitleWrapper>
 
-        <FeedUploadForm
-          onFeedSubmit={modifyFeed}
-          initialFormValue={{
-            title,
-            content,
-            sos,
-            step,
-            techs,
-            deployedUrl,
-            storageUrl,
-          }}
-        />
-      </DefaultPageRoot>
+            <FeedUploadForm
+              onFeedSubmit={modifyFeed}
+              initialFormValue={{
+                title,
+                content,
+                sos,
+                step,
+                techs,
+                deployedUrl,
+                storageUrl,
+              }}
+            />
+          </DefaultPageRoot>
+        ),
+      }}
     </BaseLayout>
   );
 };

@@ -1,17 +1,20 @@
 import React from 'react';
 
 import Header from 'components/Header/Header';
-import Styled from './BaseLayout.styles';
+import Styled, { BaseLayoutMain } from './BaseLayout.styles';
 
 interface Props {
-  children: React.ReactNode;
+  children: {
+    header?: React.ReactNode;
+    main: React.ReactNode;
+  };
 }
 
-const BaseLayout = ({ children }: Props) => {
+const BaseLayout = ({ children: { header = <Header />, main } }: Props) => {
   return (
     <Styled.Root>
-      <Header />
-      <Styled.BaseLayoutMain>{children}</Styled.BaseLayoutMain>
+      {header}
+      <BaseLayoutMain>{main}</BaseLayoutMain>
     </Styled.Root>
   );
 };
