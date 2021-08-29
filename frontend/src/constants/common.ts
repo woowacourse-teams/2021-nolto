@@ -16,3 +16,7 @@ export const THUMBNAIL_EXTENSION = [
   'image/png',
   'image/svg+xml',
 ];
+
+export const HEIGHT = {
+  HEADER: '4rem',
+};

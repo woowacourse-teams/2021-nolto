@@ -1,19 +1,17 @@
-import React, { useEffect, useRef } from 'react';
-
+import MoreArrow from 'assets/moreArrow.svg';
 import AsyncBoundary from 'components/AsyncBoundary';
+import BaseLayout from 'components/BaseLayout/BaseLayout';
 import CroppedEllipse from 'components/CroppedEllipse/CroppedEllipse';
+import ErrorFallback from 'components/ErrorFallback/ErrorFallback';
 import Header from 'components/Header/Header';
 import HotFeedsContent from 'components/HotFeedsContent/HotFeedsContent';
-import ErrorFallback from 'components/ErrorFallback/ErrorFallback';
 import TrendTechs from 'components/TrendTechs/TrendTechs';
-import useOnScreen from 'hooks/@common/useOnScreen';
 import ROUTE from 'constants/routes';
-import Styled, { ScrollUpButton, SearchBar, MoreButton } from './Home.styles';
-import MoreArrow from 'assets/moreArrow.svg';
-import HomeFeedsContent from './HomeFeedsContent/HomeFeedsContent';
+import useOnScreen from 'hooks/@common/useOnScreen';
+import React, { useEffect, useRef } from 'react';
 import { FilterType } from 'types';
-import { BaseLayoutMain } from 'components/BaseLayout/BaseLayout.styles';
-import BaseLayout from 'components/BaseLayout/BaseLayout';
+import Styled, { MoreButton, ScrollUpButton, SearchBar } from './Home.styles';
+import HomeFeedsContent from './HomeFeedsContent/HomeFeedsContent';
 
 const Home = () => {
   const ellipseRef = useRef();

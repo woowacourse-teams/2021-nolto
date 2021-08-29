@@ -23,7 +23,7 @@ const SearchContainer = styled.div`
   justify-content: center;
   z-index: ${Z_INDEX.HOME_SEARCHBAR};
   width: 100%;
-  padding-bottom: 2rem;
+  padding-bottom: 3.5rem;
 
   & > .search-bar {
     z-index: ${Z_INDEX.HOME_SEARCHBAR};

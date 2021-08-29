@@ -1,20 +1,20 @@
-import styled, { keyframes } from 'styled-components';
-
+import LogoIcon from 'assets/logo.svg';
+import LogoSimpleIcon from 'assets/logoSimple.svg';
+import { hoverUnderline } from 'commonStyles';
 import TextButton from 'components/@common/TextButton/TextButton';
 import IconButtonComponent from 'components/@common/IconButton/IconButton';
 import SearchBarComponent from 'components/SearchBar/SearchBar';
 import UserProfileComponent from 'components/UserProfile/UserProfile';
-import { hoverUnderline } from 'commonStyles';
-import Z_INDEX from 'constants/zIndex';
+import { HEIGHT } from 'constants/common';
 import { MEDIA_QUERY } from 'constants/mediaQuery';
 import { PALETTE } from 'constants/palette';
-import LogoIcon from 'assets/logo.svg';
-import LogoSimpleIcon from 'assets/logoSimple.svg';
+import Z_INDEX from 'constants/zIndex';
+import styled, { keyframes } from 'styled-components';
 
 const Root = styled.header<{ isFolded: boolean }>`
   position: fixed;
   top: 0;
-  height: 92px;
+  height: ${HEIGHT.HEADER};
   width: 100%;
   z-index: ${Z_INDEX.HEADER};
   box-shadow: ${({ isFolded }) => !isFolded && '0px 4px 4px rgba(0, 0, 0, 0.25)'};
@@ -36,7 +36,7 @@ const HeaderContent = styled.div`
   height: 100%;
   justify-content: flex-end;
   align-items: center;
-  padding: 0 30px;
+  padding: 10px 30px;
 
   @media ${MEDIA_QUERY.MOBILE} {
     padding: 0 18px;
@@ -44,10 +44,11 @@ const HeaderContent = styled.div`
 `;
 
 const LogoWrapper = styled.div`
-  width: 208px;
-  height: auto;
+  width: auto;
+  height: 100%;
   margin-right: auto;
   cursor: pointer;
+  flex-shrink: 0;
 
   & .logo-simple {
     display: none;
@@ -91,7 +92,7 @@ const NavContainer = styled.ul`
   }
 
   & a {
-    font-size: 1.25rem;
+    font-size: 18px;
     color: ${PALETTE.WHITE_400};
     display: inline;
     ${hoverUnderline};
@@ -115,6 +116,8 @@ const ButtonsContainer = styled.div`
   align-items: center;
   position: relative;
   margin-left: 40px;
+  padding: 8px 0;
+  height: 100%;
   gap: 1rem;
 
   @media ${MEDIA_QUERY.TABLET} {
@@ -133,35 +136,32 @@ const ButtonsContainer = styled.div`
 `;
 
 const AuthButton = styled(TextButton.Rounded)`
-  padding: 8px 32px;
-  font-size: 20px;
-  line-height: 20px;
+  padding: 4px 16px;
+  font-size: inherit;
+  line-height: inherit;
+  flex-shrink: 0;
 
   @media ${MEDIA_QUERY.TABLET} {
-    padding: 6px 24px;
-    font-size: 1rem;
-    line-height: 1rem;
+    padding: 3px 14px;
   }
 
   @media ${MEDIA_QUERY.MOBILE} {
-    padding: 4px 12px;
-    font-size: 0.85rem;
-    line-height: 0.85rem;
+    padding: 2px 12px;
   }
 `;
 
 export const IconButton = styled(IconButtonComponent)`
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2rem;
+  height: 2rem;
 
   @media ${MEDIA_QUERY.TABLET} {
-    width: 2rem;
-    height: 2rem;
+    width: 1.5rem;
+    height: 1.5rem;
   }
 
   @media ${MEDIA_QUERY.MOBILE} {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1rem;
+    height: 1rem;
   }
 `;
 

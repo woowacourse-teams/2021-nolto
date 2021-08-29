@@ -1,3 +1,4 @@
+import { HEIGHT } from 'constants/common';
 import { BREAK_POINTS, MEDIA_QUERY } from 'constants/mediaQuery';
 import styled from 'styled-components';
 
@@ -5,7 +6,7 @@ const Root = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 92px;
+  padding-top: ${HEIGHT.HEADER};
 `;
 
 export const BaseLayoutMain = styled.main`
