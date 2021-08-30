@@ -8,7 +8,7 @@ import Styled, { CarouselArrowButton } from './HotFeedsContent.styles';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
 
 const HotFeedsContent = () => {
-  const [hotToyCardIdx, setHotToyCardIdx] = useState(3);
+  const [hotToyCardIdx, setHotToyCardIdx] = useState(2);
 
   const snackbar = useSnackbar();
 
@@ -19,7 +19,7 @@ const HotFeedsContent = () => {
   });
 
   const showPreviousCards = () => {
-    if (hotToyCardIdx > 1) setHotToyCardIdx(hotToyCardIdx - 1);
+    if (hotToyCardIdx > 2) setHotToyCardIdx(hotToyCardIdx - 1);
   };
 
   const showFollowingCards = () => {
@@ -27,10 +27,7 @@ const HotFeedsContent = () => {
   };
 
   return (
-    <>
-      <CarouselArrowButton onClick={showPreviousCards}>
-        <Styled.CarouselLeft width="20px" height="20px" />
-      </CarouselArrowButton>
+    <Styled.Root>
       <Styled.HotToyCardsContainer position={hotToyCardIdx}>
         {hotFeeds &&
           hotFeeds.map((feed, idx) => (
@@ -42,11 +39,15 @@ const HotFeedsContent = () => {
             </Styled.HotToyCardWrapper>
           ))}
       </Styled.HotToyCardsContainer>
-
-      <CarouselArrowButton onClick={showFollowingCards}>
-        <Styled.CarouselRight width="20px" height="20px" />
-      </CarouselArrowButton>
-    </>
+      <Styled.ControlContainer>
+        <CarouselArrowButton className="carousel-button" onClick={showPreviousCards}>
+          <Styled.CarouselLeft width="1.5rem" />
+        </CarouselArrowButton>
+        <CarouselArrowButton className="carousel-button" onClick={showFollowingCards}>
+          <Styled.CarouselRight width="1.5rem" />
+        </CarouselArrowButton>
+      </Styled.ControlContainer>
+    </Styled.Root>
   );
 };
 

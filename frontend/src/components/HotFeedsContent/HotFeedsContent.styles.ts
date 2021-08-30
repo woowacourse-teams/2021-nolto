@@ -4,13 +4,46 @@ import IconButtonComponent from 'components/@common/IconButton/IconButton';
 import Avatar from 'components/@common/Avatar/Avatar';
 import { MEDIA_QUERY } from 'constants/mediaQuery';
 import ArrowIcon from 'assets/carouselArrow.svg';
+import { PALETTE } from 'constants/palette';
+
+const Root = styled.div`
+  position: relative;
+  width: 100%;
+
+  &:hover {
+    & .carousel-button {
+      opacity: 1;
+    }
+  }
+`;
+
+const ControlContainer = styled.div`
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0 3rem;
+
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    height: 100%;
+    width: 5rem;
+    background: linear-gradient(to right, transparent, ${PALETTE.WHITE_400});
+    top: 0;
+    right: 0;
+  }
+`;
 
 const HotToyCardsContainer = styled.ul<{ position: number }>`
   grid-row: 1 / 2;
   grid-column: 1 / 8;
-  width: 75rem;
   height: 25rem;
-  padding: 0 1rem;
 
   display: flex;
   align-items: center;
@@ -36,8 +69,7 @@ const HotToyCardWrapper = styled.li<{ offset: number; position: number }>`
   --r: calc(var(--position) - var(--offset));
   --abs: max(calc(var(--r) * -1), var(--r));
   transition: all 0.5s ease;
-  transform: rotateY(calc(-10deg * var(--r))) translateX(calc(-300px * var(--r)));
-  z-index: calc((var(--position) - var(--abs)));
+  transform: translateX(calc(-300px * var(--r) - 40px));
   --offset: ${({ offset }) => offset};
   cursor: pointer;
 `;
@@ -47,16 +79,10 @@ const VerticalAvatar = styled(Avatar)`
 `;
 
 export const CarouselArrowButton = styled(IconButtonComponent)`
-  width: 1.85rem;
-  height: 1.85rem;
-
-  @media ${MEDIA_QUERY.TABLET} {
-    margin: 0 1.5rem;
-  }
-
-  @media ${MEDIA_QUERY.TABLET} {
-    margin: 0 1rem;
-  }
+  width: 3rem;
+  height: 3rem;
+  opacity: 0;
+  transition: opacity 0.2s ease;
 `;
 
 const CarouselLeft = styled(ArrowIcon)`
@@ -66,6 +92,8 @@ const CarouselLeft = styled(ArrowIcon)`
 const CarouselRight = styled(ArrowIcon)``;
 
 export default {
+  Root,
+  ControlContainer,
   HotToyCardsContainer,
   HotToyCardWrapper,
   VerticalAvatar,

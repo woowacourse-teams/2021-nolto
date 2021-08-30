@@ -1,7 +1,7 @@
 export const BREAK_POINTS = {
   MOBILE: '375px',
   TABLET: '768px',
-  LAPTOP: '1180px',
+  LAPTOP: '1024px',
 };
 
 export const MEDIA_QUERY = {
