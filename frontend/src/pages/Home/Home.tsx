@@ -59,7 +59,7 @@ const Home = () => {
 
           <Styled.ToysContainer>
             <Styled.TitleWrapper>
-              <Styled.SectionTitle fontSize="1.75rem">Completed Toy Project</Styled.SectionTitle>
+              <Styled.SectionTitle fontSize="1.75rem">🦄 완성된 프로젝트</Styled.SectionTitle>
               <MoreButton to={ROUTE.RECENT}>
                 MORE&nbsp;
                 <MoreArrow width="10px" />
@@ -76,7 +76,7 @@ const Home = () => {
 
           <Styled.ToysContainer>
             <Styled.TitleWrapper>
-              <Styled.SectionTitle fontSize="1.75rem">Progressive Toy Project</Styled.SectionTitle>
+              <Styled.SectionTitle fontSize="1.75rem">🧩 진행중인 프로젝트</Styled.SectionTitle>
               <MoreButton to={ROUTE.RECENT}>
                 MORE&nbsp;
                 <MoreArrow width="10px" />
@@ -87,7 +87,7 @@ const Home = () => {
                 <ErrorFallback message="데이터를 불러올 수 없습니다." queryKey="recentFeeds" />
               }
             >
-              <HomeFeedsContent feedsCountToShow={5} filter={FilterType.PROGRESS} />
+              <HomeFeedsContent feedsCountToShow={4} filter={FilterType.PROGRESS} />
             </AsyncBoundary>
           </Styled.ToysContainer>
         </Styled.ContentArea>
