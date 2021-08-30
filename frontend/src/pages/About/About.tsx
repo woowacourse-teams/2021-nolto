@@ -9,21 +9,17 @@ import Styled from './About.styles';
 const About = () => {
   return (
     <BaseLayout>
-      {{
-        main: (
-          <DefaultPageRoot>
-            <Styled.SectionTitle fontSize="1.75rem">We Make Nolto 🚀</Styled.SectionTitle>
-            <Styled.MembersContainer>
-              <TeamMember {...member.amazzi} />
-              <TeamMember {...member.joel} reverse />
-              <TeamMember {...member.pomo} />
-              <TeamMember {...member.zig} reverse />
-              <TeamMember {...member.mickey} />
-              <TeamMember {...member.charlie} reverse />
-            </Styled.MembersContainer>
-          </DefaultPageRoot>
-        ),
-      }}
+      <DefaultPageRoot>
+        <Styled.SectionTitle fontSize="1.75rem">We Make Nolto 🚀</Styled.SectionTitle>
+        <Styled.MembersContainer>
+          <TeamMember {...member.amazzi} />
+          <TeamMember {...member.joel} reverse />
+          <TeamMember {...member.pomo} />
+          <TeamMember {...member.zig} reverse />
+          <TeamMember {...member.mickey} />
+          <TeamMember {...member.charlie} reverse />
+        </Styled.MembersContainer>
+      </DefaultPageRoot>
     </BaseLayout>
   );
 };

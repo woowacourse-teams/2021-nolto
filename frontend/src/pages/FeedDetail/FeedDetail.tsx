@@ -13,19 +13,15 @@ const FeedDetail = () => {
 
   return (
     <BaseLayout>
-      {{
-        main: (
-          <DefaultPageRoot>
-            <AsyncBoundary
-              rejectedFallback={
-                <ErrorFallback message="데이터를 불러올 수 없습니다." queryKey="feedDetail" />
-              }
-            >
-              <FeedDetailContent feedId={feedId} />
-            </AsyncBoundary>
-          </DefaultPageRoot>
-        ),
-      }}
+      <DefaultPageRoot>
+        <AsyncBoundary
+          rejectedFallback={
+            <ErrorFallback message="데이터를 불러올 수 없습니다." queryKey="feedDetail" />
+          }
+        >
+          <FeedDetailContent feedId={feedId} />
+        </AsyncBoundary>
+      </DefaultPageRoot>
     </BaseLayout>
   );
 };

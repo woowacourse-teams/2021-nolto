@@ -8,15 +8,9 @@ import ErrorFallback from 'components/ErrorFallback/ErrorFallback';
 const RecentFeeds = () => {
   return (
     <BaseLayout>
-      {{
-        main: (
-          <AsyncBoundary
-            rejectedFallback={<ErrorFallback message="최신 피드를 불러올 수 없습니다" />}
-          >
-            <RecentFeedsContent />
-          </AsyncBoundary>
-        ),
-      }}
+      <AsyncBoundary rejectedFallback={<ErrorFallback message="최신 피드를 불러올 수 없습니다" />}>
+        <RecentFeedsContent />
+      </AsyncBoundary>
     </BaseLayout>
   );
 };
