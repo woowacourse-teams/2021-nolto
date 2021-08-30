@@ -9,17 +9,12 @@ const Root = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  margin-top: 16rem;
 `;
 
 const ScrollableContainer = styled.ul`
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  align-items: center;
-  height: 100%;
-  padding: 0 1rem;
-  overflow: scroll;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 1rem;
 
   &::-webkit-scrollbar {
     display: none;
