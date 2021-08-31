@@ -14,7 +14,7 @@ const FeedContainer = styled(Card)`
     height: 100%;
   }
 
-  ${hoverLayer}
+  ${hoverLayer({})}
 
   @media ${MEDIA_QUERY.TABLET} {
     width: 12.5rem;

@@ -10,12 +10,12 @@ const Root = styled.div`
 `;
 
 export const BaseLayoutMain = styled.main`
-  max-width: ${BREAK_POINTS.LAPTOP};
+  max-width: ${BREAK_POINTS.DESKTOP};
   padding: 2rem 1rem 0;
   margin-right: auto;
   margin-left: auto;
 
-  @media ${MEDIA_QUERY.LAPTOP} {
+  @media ${MEDIA_QUERY.DESKTOP} {
     width: 100%;
   }
 `;

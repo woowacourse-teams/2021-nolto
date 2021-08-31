@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import { ButtonStyle } from 'types';
@@ -16,6 +16,7 @@ import AsyncBoundary from 'components/AsyncBoundary';
 import ErrorFallback from 'components/ErrorFallback/ErrorFallback';
 import StepChip from 'components/StepChip/StepChip';
 import Styled, { Tag, SOSFlag } from './FeedDetailContent.styles';
+import { DEFAULT_IMG } from 'constants/common';
 
 interface Props {
   feedId: number;
@@ -56,7 +57,12 @@ const FeedDetailContent = ({ feedId }: Props) => {
         <Styled.ThumbnailContainer>
           {feedDetail.sos && <SOSFlag />}
           <Styled.Thumbnail>
-            <img src={feedDetail.thumbnailUrl} />
+            <img
+              src={feedDetail.thumbnailUrl}
+              onError={(event: SyntheticEvent<HTMLImageElement>) => {
+                event.currentTarget.src = DEFAULT_IMG.FEED;
+              }}
+            />
           </Styled.Thumbnail>
 
           <Styled.IconsContainer>

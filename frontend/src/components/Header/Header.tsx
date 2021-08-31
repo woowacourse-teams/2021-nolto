@@ -1,3 +1,6 @@
+import React, { useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
+
 import Pencil from 'assets/pencil.svg';
 import Search from 'assets/search.svg';
 import LoginModal from 'components/LoginModal/LoginModal';
@@ -5,8 +8,6 @@ import { PALETTE } from 'constants/palette';
 import ROUTE from 'constants/routes';
 import useModal from 'contexts/modal/useModal';
 import useMember from 'hooks/queries/useMember';
-import React, { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
 import { ButtonStyle } from 'types';
 import Styled, { IconButton, Logo, LogoSimple, SearchBar, UserProfile } from './Header.styles';
 
