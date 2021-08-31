@@ -1,5 +1,6 @@
 import Avatar from 'components/@common/Avatar/Avatar';
-import React from 'react';
+import { DEFAULT_IMG } from 'constants/common';
+import React, { SyntheticEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { Feed } from 'types';
 import Styled, { RegularCardImgWrapper } from './RegularFeedCard.styles';
@@ -14,7 +15,13 @@ const RegularFeedCard = ({ feed }: Props) => {
       <Avatar user={feed.author} />
       <Link className="link" to={`feeds/${feed.id}`}>
         <RegularCardImgWrapper>
-          <img className="project-image" src={feed.thumbnailUrl} />
+          <img
+            className="project-image"
+            src={feed.thumbnailUrl}
+            onError={(event: SyntheticEvent<HTMLImageElement>) => {
+              event.currentTarget.src = DEFAULT_IMG.FEED;
+            }}
+          />
         </RegularCardImgWrapper>
         <Styled.Content>
           <h3>{feed.title}</h3>

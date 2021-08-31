@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import { Link } from 'react-router-dom';
 
 import Avatar from 'components/@common/Avatar/Avatar';
 import { Feed } from 'types';
 import Styled from './LargeFeedCard.styles';
 import { FlexContainer } from 'commonStyles';
+import { DEFAULT_IMG } from 'constants/common';
 
 interface Props {
   feed: Feed;
@@ -16,7 +17,12 @@ const LargeFeedCard = ({ feed }: Props) => {
       <Avatar user={feed.author} />
       <Link to={`feeds/${feed.id}`}>
         <Styled.FeedContainer>
-          <img src={feed.thumbnailUrl} />
+          <img
+            src={feed.thumbnailUrl}
+            onError={(event: SyntheticEvent<HTMLImageElement>) => {
+              event.currentTarget.src = DEFAULT_IMG.FEED;
+            }}
+          />
           <Styled.ContentWrapper className="card-content">
             <Styled.Title>{feed.title}</Styled.Title>
             <Styled.Content>{feed.content}</Styled.Content>
