@@ -6,6 +6,7 @@ import Toggle from 'components/@common/Toggle/Toggle';
 import { CommentModuleContext } from 'components/CommentModule/CommentModule';
 import useMember from 'hooks/queries/useMember';
 import useFeedDetail from 'hooks/queries/feed/useFeedDetail';
+import { MESSAGES } from 'constants/message';
 import { CommentRequest } from 'types';
 import Styled, { CommentFormInput, Form, SendButton } from './CommentForm.styles';
 
@@ -54,7 +55,7 @@ const CommentForm = ({ onSubmit, isRootComment = false }: Props) => {
           {isLogin ? (
             <CommentFormInput value={content} disabled={false} onChange={handleChangeContent} />
           ) : (
-            <CommentFormInput value="로그인이 필요한 서비스입니다." disabled={true} />
+            <CommentFormInput value={MESSAGES.NEED_LOGIN} disabled={true} />
           )}
           <SendButton isShadow={false} disabled={!isLogin}>
             <SendIcon width="21px" height="21px" />

@@ -30,7 +30,7 @@ const SearchResult = () => {
   return (
     <BaseLayout>
       <Styled.TopContainer>
-        <Styled.SectionTitle fontSize={FONT_SIZE.LARGE_200}>Toys About</Styled.SectionTitle>
+        <Styled.SectionTitle fontSize={FONT_SIZE.X_LARGE}>Toys About</Styled.SectionTitle>
         <AsyncBoundary rejectedFallback={<div>게시물 검색에 실패했습니다.</div>}>
           <SearchResultHeader
             searchParams={location.search}

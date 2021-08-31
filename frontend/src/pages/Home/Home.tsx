@@ -9,6 +9,8 @@ import Header from 'components/Header/Header';
 import HotFeedsContent from 'components/HotFeedsContent/HotFeedsContent';
 import TrendTechs from 'components/TrendTechs/TrendTechs';
 import ROUTE from 'constants/routes';
+import { ERROR_MSG } from 'constants/message';
+import QUERY_KEYS from 'constants/queryKeys';
 import useOnScreen from 'hooks/@common/useOnScreen';
 import { FilterType } from 'types';
 import HomeFeedsContent from './HomeFeedsContent/HomeFeedsContent';
@@ -36,7 +38,7 @@ const Home = () => {
         <SearchBar className="search-bar" selectable />
         <AsyncBoundary
           rejectedFallback={
-            <ErrorFallback message="트렌드 기술 스택을 불러올 수 없습니다." queryKey="trendTechs" />
+            <ErrorFallback message={ERROR_MSG.LOAD_TRENDS} queryKey={QUERY_KEYS.TREND_TECHS} />
           }
         >
           <TrendTechs />
@@ -47,7 +49,7 @@ const Home = () => {
         <Styled.HotToysContainer>
           <AsyncBoundary
             rejectedFallback={
-              <ErrorFallback message="데이터를 불러올 수 없습니다." queryKey="hotFeeds" />
+              <ErrorFallback message={ERROR_MSG.LOAD_DATA} queryKey={QUERY_KEYS.HOT_FEEDS} />
             }
           >
             <HotFeedsContent />
@@ -64,7 +66,7 @@ const Home = () => {
           </Styled.TitleWrapper>
           <AsyncBoundary
             rejectedFallback={
-              <ErrorFallback message="데이터를 불러올 수 없습니다." queryKey="recentFeeds" />
+              <ErrorFallback message={ERROR_MSG.LOAD_DATA} queryKey={QUERY_KEYS.RECENT_FEEDS} />
             }
           >
             <HomeFeedsContent feedsCountToShow={4} filter={FilterType.COMPLETE} />
@@ -81,7 +83,7 @@ const Home = () => {
           </Styled.TitleWrapper>
           <AsyncBoundary
             rejectedFallback={
-              <ErrorFallback message="데이터를 불러올 수 없습니다." queryKey="recentFeeds" />
+              <ErrorFallback message={ERROR_MSG.LOAD_DATA} queryKey={QUERY_KEYS.RECENT_FEEDS} />
             }
           >
             <HomeFeedsContent feedsCountToShow={4} filter={FilterType.PROGRESS} />

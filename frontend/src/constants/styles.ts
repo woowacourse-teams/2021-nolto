@@ -13,6 +13,6 @@ export const Z_INDEX = {
 export const FONT_SIZE = {
   SMALL: '0.75rem',
   MEDIUM: '1rem',
-  LARGE_100: '1.25rem',
-  LARGE_200: '1.5rem',
+  LARGE: '1.25rem',
+  X_LARGE: '1.5rem',
 };

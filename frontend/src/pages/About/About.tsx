@@ -11,7 +11,7 @@ const About = () => {
   return (
     <BaseLayout>
       <DefaultPageRoot>
-        <Styled.SectionTitle fontSize={FONT_SIZE.LARGE_200}>We Make Nolto 🚀</Styled.SectionTitle>
+        <Styled.SectionTitle fontSize={FONT_SIZE.X_LARGE}>We Make Nolto 🚀</Styled.SectionTitle>
         <Styled.MembersContainer>
           <TeamMember {...member.amazzi} />
           <TeamMember {...member.joel} reverse />

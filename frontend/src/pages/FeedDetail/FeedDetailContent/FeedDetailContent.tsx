@@ -8,6 +8,8 @@ import useFeedDetail from 'hooks/queries/feed/useFeedDetail';
 import useMember from 'hooks/queries/useMember';
 import { PALETTE } from 'constants/palette';
 import ROUTE from 'constants/routes';
+import QUERY_KEYS from 'constants/queryKeys';
+import { ERROR_MSG } from 'constants/message';
 import ToggleList from 'components/@common/ToggleList/ToggleList';
 import FeedDropdown from 'components/FeedDropdown/FeedDropdown';
 import LikeButton from 'components/LikeButton/LikeButton';
@@ -145,7 +147,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
 
       <AsyncBoundary
         rejectedFallback={
-          <ErrorFallback message="댓글 불러오기에 실패했습니다." queryKey="comments" />
+          <ErrorFallback message={ERROR_MSG.LOAD_COMMENTS} queryKey={QUERY_KEYS.COMMENTS} />
         }
       >
         <CommentModule feedId={feedDetail.id} focusedCommentId={location.state?.commentId} />
