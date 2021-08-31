@@ -1,6 +1,7 @@
 import { useQuery, UseQueryOptions } from 'react-query';
 
 import api from 'constants/api';
+import QUERY_KEYS from 'constants/queryKeys';
 import { ErrorHandler, Tech } from 'types';
 import HttpError from 'utils/HttpError';
 import { resolveHttpError } from 'utils/error';
@@ -24,7 +25,7 @@ const getTrendTechs = async (errorHandler: ErrorHandler) => {
 };
 
 const useTrendTechs = ({ errorHandler, ...option }: CustomQueryOption) => {
-  return useQuery<Tech[]>('trendTechs', () => getTrendTechs(errorHandler), option);
+  return useQuery<Tech[]>(QUERY_KEYS.TREND_TECHS, () => getTrendTechs(errorHandler), option);
 };
 
 export default useTrendTechs;

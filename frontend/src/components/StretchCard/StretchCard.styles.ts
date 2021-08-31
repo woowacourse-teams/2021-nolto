@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import { Card, hoverLayer } from 'commonStyles';
 import { MEDIA_QUERY } from 'constants/mediaQuery';
+import { FONT_SIZE } from 'constants/styles';
 
 const Root = styled(Card)`
   width: 40rem;
@@ -77,7 +78,7 @@ const Title = styled.h3`
 `;
 
 const Content = styled.div`
-  font-size: 0.75rem;
+  font-size: ${FONT_SIZE.SMALL};
   color: inherit;
 `;
 

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import IconButton from 'components/@common/IconButton/IconButton';
 import { PALETTE } from 'constants/palette';
-import Z_INDEX from 'constants/zIndex';
+import { Z_INDEX } from 'constants/styles';
 import { defaultShadow } from 'commonStyles';
 
 const ModalContainer = styled.div`

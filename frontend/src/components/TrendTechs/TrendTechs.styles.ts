@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
 import { MEDIA_QUERY } from 'constants/mediaQuery';
+import { FONT_SIZE } from 'constants/styles';
 import { hoverUnderline } from 'commonStyles';
 
 const Root = styled.div`
@@ -30,7 +31,7 @@ const Tag = styled.span`
     ${hoverUnderline};
 
     @media ${MEDIA_QUERY.MOBILE} {
-      font-size: 0.75rem;
+      font-size: ${FONT_SIZE.SMALL};
     }
   }
 

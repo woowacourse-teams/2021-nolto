@@ -6,6 +6,7 @@ import StepChip from 'components/StepChip/StepChip';
 import { HighLightedText } from 'components/TeamMember/TeamMember.styles';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
 import useRecentFeedsLoad from 'hooks/queries/feed/useRecentFeedsLoad';
+import { FONT_SIZE } from 'constants/styles';
 import { FeedStatus, FilterType } from 'types';
 import Styled from './RecentFeedsContent.styles';
 
@@ -26,7 +27,7 @@ const RecentFeedsContent = () => {
   return (
     <Styled.Root>
       <FlexContainer flexDirection="column" gap="1rem">
-        <HighLightedText fontSize="1.75rem">Recent Toys</HighLightedText>
+        <HighLightedText fontSize={FONT_SIZE.LARGE_200}>Recent Toys</HighLightedText>
         <Styled.StepChipsContainer>
           <Styled.Button type="button" onClick={() => toggleLevel(FilterType.PROGRESS)}>
             <StepChip step={FeedStatus.PROGRESS} selected={filter === FilterType.PROGRESS} />

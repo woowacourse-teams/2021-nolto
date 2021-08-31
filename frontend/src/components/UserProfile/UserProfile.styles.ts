@@ -3,6 +3,7 @@ import { Link as LinkElement } from 'react-router-dom';
 
 import { PALETTE } from 'constants/palette';
 import { MEDIA_QUERY } from 'constants/mediaQuery';
+import { FONT_SIZE } from 'constants/styles';
 import { hoverLayer } from 'commonStyles';
 
 const open = keyframes`
@@ -134,7 +135,7 @@ export const NotiLink = styled(LinkElement)`
     padding: 0;
     background-color: ${PALETTE.RED_400};
     color: ${PALETTE.WHITE_400};
-    font-size: 0.75rem;
+    font-size: ${FONT_SIZE.SMALL};
     line-height: 1.25rem;
     text-align: center;
   }

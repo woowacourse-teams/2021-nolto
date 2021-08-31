@@ -1,8 +1,8 @@
 import styled, { css, keyframes } from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
+import { Z_INDEX } from 'constants/styles';
 import { SnackbarType } from 'types';
-import Z_INDEX from 'constants/zIndex';
 
 const show = keyframes`
   from {

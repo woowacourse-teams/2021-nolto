@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
-import Z_INDEX from 'constants/zIndex';
+import { Z_INDEX } from 'constants/styles';
 
 const Root = styled.span<{ fontSize: string }>`
   position: relative;

@@ -8,6 +8,7 @@ import useFeedUpload from 'hooks/queries/feed/useFeedUpload';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
 import { ALERT_MSG } from 'constants/message';
 import ROUTE from 'constants/routes';
+import { FONT_SIZE } from 'constants/styles';
 import { DefaultPageRoot } from 'commonStyles';
 import Styled from './Upload.styles';
 
@@ -29,7 +30,9 @@ const Upload = () => {
     <BaseLayout>
       <DefaultPageRoot>
         <Styled.TitleWrapper>
-          <HighLightedText fontSize="1.75rem">🦄 Upload Your Toy Project</HighLightedText>
+          <HighLightedText fontSize={FONT_SIZE.LARGE_200}>
+            🦄 Upload Your Toy Project
+          </HighLightedText>
         </Styled.TitleWrapper>
 
         <FeedUploadForm onFeedSubmit={uploadFeed} />

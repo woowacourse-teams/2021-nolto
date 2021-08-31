@@ -95,7 +95,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
             {feedDetail.deployedUrl && (
               <Styled.DetailsPair>
                 <Styled.DetailsKeyWrapper>
-                  <Styled.DetailsKey fontSize="1.5rem">서비스 URL</Styled.DetailsKey>
+                  <Styled.DetailsKey>서비스 URL</Styled.DetailsKey>
                 </Styled.DetailsKeyWrapper>
                 <Styled.DetailsValue>
                   <a href={feedDetail.deployedUrl} target="_blank">
@@ -107,7 +107,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
             {feedDetail.storageUrl && (
               <Styled.DetailsPair>
                 <Styled.DetailsKeyWrapper>
-                  <Styled.DetailsKey fontSize="1.5rem">저장소 URL</Styled.DetailsKey>
+                  <Styled.DetailsKey>저장소 URL</Styled.DetailsKey>
                 </Styled.DetailsKeyWrapper>
                 <Styled.DetailsValue>
                   <a href={feedDetail.storageUrl} target="_blank">
@@ -119,7 +119,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
             {feedDetail.techs.length > 0 && (
               <Styled.DetailsPair>
                 <Styled.DetailsKeyWrapper>
-                  <Styled.DetailsKey fontSize="1.5rem">기술스택</Styled.DetailsKey>
+                  <Styled.DetailsKey>기술스택</Styled.DetailsKey>
                 </Styled.DetailsKeyWrapper>
                 <Styled.DetailsValue>
                   <ToggleList width="100%" height="1.75rem">

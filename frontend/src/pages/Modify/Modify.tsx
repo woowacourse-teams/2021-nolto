@@ -5,6 +5,7 @@ import HighLightedText from 'components/@common/HighlightedText/HighlightedText'
 import FeedUploadForm from 'components/FeedUploadForm/FeedUploadForm';
 import BaseLayout from 'components/BaseLayout/BaseLayout';
 import ROUTE from 'constants/routes';
+import { FONT_SIZE } from 'constants/styles';
 import { ALERT_MSG } from 'constants/message';
 import useDialog from 'contexts/dialog/useDialog';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
@@ -57,7 +58,7 @@ const Modify = () => {
     <BaseLayout>
       <DefaultPageRoot>
         <Styled.TitleWrapper>
-          <HighLightedText fontSize="1.75rem">🔧 Modify Your Toy</HighLightedText>
+          <HighLightedText fontSize={FONT_SIZE.LARGE_200}>🔧 Modify Your Toy</HighLightedText>
         </Styled.TitleWrapper>
 
         <FeedUploadForm

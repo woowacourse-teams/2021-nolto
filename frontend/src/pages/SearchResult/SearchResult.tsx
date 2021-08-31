@@ -6,6 +6,7 @@ import BaseLayout from 'components/BaseLayout/BaseLayout';
 import StepChip from 'components/StepChip/StepChip';
 import SearchResultContent from 'pages/SearchResult/SearchResultContent/SearchResultContent';
 import SearchResultHeader from 'pages/SearchResult/SearchResultHeader/SearchResultHeader';
+import { FONT_SIZE } from 'constants/styles';
 import { FeedStatus, FilterType, Tech } from 'types';
 import Styled from './SearchResult.styles';
 
@@ -29,7 +30,7 @@ const SearchResult = () => {
   return (
     <BaseLayout>
       <Styled.TopContainer>
-        <Styled.SectionTitle fontSize="1.75rem">Toys About</Styled.SectionTitle>
+        <Styled.SectionTitle fontSize={FONT_SIZE.LARGE_200}>Toys About</Styled.SectionTitle>
         <AsyncBoundary rejectedFallback={<div>게시물 검색에 실패했습니다.</div>}>
           <SearchResultHeader
             searchParams={location.search}

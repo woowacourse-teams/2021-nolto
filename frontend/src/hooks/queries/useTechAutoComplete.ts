@@ -1,6 +1,7 @@
 import { useQuery, UseQueryOptions } from 'react-query';
 
 import api from 'constants/api';
+import QUERY_KEYS from 'constants/queryKeys';
 import { ErrorHandler, Tech } from 'types';
 import HttpError from 'utils/HttpError';
 import { resolveHttpError } from 'utils/error';
@@ -25,7 +26,7 @@ const getTechs = async (autoComplete: string, errorHandler: ErrorHandler) => {
 
 const useTechAutoComplete = ({ autoComplete, errorHandler }: CustomQueryOption) => {
   return useQuery<Tech[]>(
-    ['techAutoComplete', autoComplete],
+    [QUERY_KEYS.TECH_AUTO_COMPLETE, autoComplete],
     () => getTechs(autoComplete, errorHandler),
     {
       enabled: !!autoComplete,
