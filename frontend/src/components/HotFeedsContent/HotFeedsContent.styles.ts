@@ -27,6 +27,7 @@ const ControlContainer = styled.div`
   width: 100%;
   height: 100%;
   padding: 0 3rem;
+  pointer-events: none;
 
   &::before {
     content: '';
@@ -83,6 +84,7 @@ export const CarouselArrowButton = styled(IconButtonComponent)`
   height: 3rem;
   opacity: 0;
   transition: opacity 0.2s ease;
+  pointer-events: visible;
 `;
 
 const CarouselLeft = styled(ArrowIcon)`

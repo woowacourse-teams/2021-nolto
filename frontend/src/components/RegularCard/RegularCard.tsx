@@ -12,7 +12,7 @@ const RegularCard = ({ feed }: Props) => {
     <Styled.Root>
       <Avatar user={feed.author} />
       <RegularCardImgWrapper>
-        <img src={feed.thumbnailUrl} />
+        <img className="project-image" src={feed.thumbnailUrl} />
       </RegularCardImgWrapper>
       <Styled.Content>
         <h3>{feed.title}</h3>

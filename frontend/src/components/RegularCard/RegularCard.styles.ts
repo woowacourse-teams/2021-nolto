@@ -6,6 +6,14 @@ const Root = styled.div`
   min-width: 12.5rem;
   width: 100%;
   gap: 0.5rem;
+
+  & .project-image {
+    transition: all 0.2s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
 `;
 
 export const RegularCardImgWrapper = styled.div`

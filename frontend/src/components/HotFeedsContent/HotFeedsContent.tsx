@@ -26,6 +26,7 @@ const HotFeedsContent = () => {
     if (hotToyCardIdx < hotFeeds?.length) setHotToyCardIdx(hotToyCardIdx + 1);
   };
 
+  //TODO: 지금 hotToy 클릭안됨
   return (
     <Styled.Root>
       <Styled.HotToyCardsContainer position={hotToyCardIdx}>
