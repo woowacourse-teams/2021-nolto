@@ -6,6 +6,7 @@ const Root = styled.div`
   width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
+  overflow: visible;
 `;
 
 export default { Root };

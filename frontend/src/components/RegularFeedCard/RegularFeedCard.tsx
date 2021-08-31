@@ -1,4 +1,5 @@
 import Avatar from 'components/@common/Avatar/Avatar';
+import SOSFlag from 'components/@common/SOSFlag/SOSFlag';
 import { DEFAULT_IMG } from 'constants/common';
 import React, { SyntheticEvent } from 'react';
 import { Link } from 'react-router-dom';
@@ -13,6 +14,7 @@ const RegularFeedCard = ({ feed }: Props) => {
   return (
     <Styled.Root>
       <Avatar user={feed.author} />
+      {feed.sos && <SOSFlag className="sos" />}
       <Link className="link" to={`feeds/${feed.id}`}>
         <RegularCardImgWrapper>
           <img

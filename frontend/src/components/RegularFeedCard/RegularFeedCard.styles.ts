@@ -3,8 +3,9 @@ import styled from 'styled-components';
 
 const Root = styled.div`
   display: flex;
+  position: relative;
   flex-direction: column;
-  min-width: 12.5rem;
+  min-width: 10rem;
   width: 100%;
   gap: 0.5rem;
 
@@ -16,10 +17,18 @@ const Root = styled.div`
     }
   }
 
-  & > .link:hover {
-    text-decoration: underline;
+  & > .sos {
+    position: absolute;
+    left: -0.5rem;
+    top: 2.5rem;
+  }
 
-    ${hoverZoomImg}
+  & > .link {
+    &:hover {
+      text-decoration: underline;
+
+      ${hoverZoomImg}
+    }
   }
 `;
 
