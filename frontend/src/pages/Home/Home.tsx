@@ -59,7 +59,7 @@ const Home = () => {
 
           <Styled.ToysContainer>
             <Styled.TitleWrapper>
-              <Styled.SectionTitle fontSize="1.75rem">🦄 완성된 프로젝트</Styled.SectionTitle>
+              <Styled.SectionTitle>🦄 완성된 프로젝트</Styled.SectionTitle>
               <MoreButton to={ROUTE.RECENT}>
                 MORE&nbsp;
                 <MoreArrow width="10px" />
@@ -76,7 +76,7 @@ const Home = () => {
 
           <Styled.ToysContainer>
             <Styled.TitleWrapper>
-              <Styled.SectionTitle fontSize="1.75rem">🧩 진행중인 프로젝트</Styled.SectionTitle>
+              <Styled.SectionTitle>🧩 진행중인 프로젝트</Styled.SectionTitle>
               <MoreButton to={ROUTE.RECENT}>
                 MORE&nbsp;
                 <MoreArrow width="10px" />

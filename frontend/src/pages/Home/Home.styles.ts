@@ -157,7 +157,7 @@ const ToysContainer = styled.div`
   flex-direction: column;
   width: 100%;
   padding: 0 2rem;
-  gap: 2rem;
+  gap: 1rem;
 `;
 
 export const MoreButton = styled(Link)`

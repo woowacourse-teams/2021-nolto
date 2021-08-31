@@ -96,6 +96,16 @@ export const hoverUnderline = css`
   }
 `;
 
+export const hoverZoomImg = css`
+  & img {
+    transition: all 0.2s ease;
+  }
+
+  &:hover img {
+    transform: scale(1.05);
+  }
+`;
+
 export const DefaultPageRoot = styled.div`
   display: flex;
   flex-direction: column;

@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 
 import useHotFeedsLoad from 'hooks/queries/feed/useHotFeedsLoad';
 import LargeFeedCard from 'components/LargeFeedCard/LargeFeedCard';
-import ROUTE from 'constants/routes';
 import Styled, { CarouselArrowButton } from './HotFeedsContent.styles';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
 
@@ -33,10 +31,7 @@ const HotFeedsContent = () => {
         {hotFeeds &&
           hotFeeds.map((feed, idx) => (
             <Styled.HotToyCardWrapper key={feed.id} offset={idx + 1} position={hotToyCardIdx}>
-              <Link to={`${ROUTE.FEEDS}/${feed.id}`}>
-                <Styled.VerticalAvatar user={feed.author} />
-                <LargeFeedCard feed={feed} />
-              </Link>
+              <LargeFeedCard feed={feed} />
             </Styled.HotToyCardWrapper>
           ))}
       </Styled.HotToyCardsContainer>

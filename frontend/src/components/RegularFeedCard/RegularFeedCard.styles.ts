@@ -1,3 +1,4 @@
+import { hoverZoomImg } from 'commonStyles';
 import styled from 'styled-components';
 
 const Root = styled.div`
@@ -13,6 +14,12 @@ const Root = styled.div`
     &:hover {
       transform: scale(1.05);
     }
+  }
+
+  & > .link:hover {
+    text-decoration: underline;
+
+    ${hoverZoomImg}
   }
 `;
 
