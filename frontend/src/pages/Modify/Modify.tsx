@@ -10,8 +10,8 @@ import useDialog from 'contexts/dialog/useDialog';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
 import useFeedModify from 'hooks/queries/feed/useFeedModify';
 import { DefaultPageRoot } from 'commonStyles';
-import Styled from './Modify.styles';
 import { FeedDetail } from 'types';
+import Styled from './Modify.styles';
 
 const Modify = () => {
   const location = useLocation<{ feedDetail: FeedDetail }>();

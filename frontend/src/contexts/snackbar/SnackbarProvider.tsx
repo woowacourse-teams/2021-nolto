@@ -1,11 +1,11 @@
 import React, { createContext, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 
-import Styled from './SnackbarProvider.styles';
 import ErrorSignIcon from 'assets/errorSign.svg';
 import SuccessSignIcon from 'assets/successSign.svg';
 import useSnackbarProvider from './useSnackbarProvider';
 import { AddSnackbar } from 'types';
+import Styled from './SnackbarProvider.styles';
 
 interface Props {
   children: React.ReactNode;

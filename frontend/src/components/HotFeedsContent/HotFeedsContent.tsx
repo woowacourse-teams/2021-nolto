@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 
 import useHotFeedsLoad from 'hooks/queries/feed/useHotFeedsLoad';
 import LargeFeedCard from 'components/LargeFeedCard/LargeFeedCard';
-import Styled, { CarouselArrowButton } from './HotFeedsContent.styles';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
 import { FlexContainer } from 'commonStyles';
+import Styled, { CarouselArrowButton } from './HotFeedsContent.styles';
 
 const HotFeedsContent = () => {
   const [hotToyCardIdx, setHotToyCardIdx] = useState(0);

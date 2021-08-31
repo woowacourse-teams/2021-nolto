@@ -18,6 +18,7 @@ import TechChip from 'contexts/techTag/chip/TechChips';
 import useDialog from 'contexts/dialog/useDialog';
 import { except } from 'utils/common';
 import QuestionIcon from 'assets/questionMark.svg';
+import { ButtonStyle, FeedStatus, Tech, FeedToUpload } from 'types';
 import Styled, {
   ContentTextArea,
   Form,
@@ -26,7 +27,6 @@ import Styled, {
   SOSTooltip,
   Toybox,
 } from './FeedUploadForm.styles';
-import { ButtonStyle, FeedStatus, Tech, FeedToUpload } from 'types';
 
 type FeedToUploadPartial = Omit<FeedToUpload, 'techs'>;
 

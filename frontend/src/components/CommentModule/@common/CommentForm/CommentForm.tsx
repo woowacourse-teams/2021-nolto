@@ -1,13 +1,13 @@
 import React, { ChangeEvent, FormEvent, useContext, useState } from 'react';
 
 import SendIcon from 'assets/send.svg';
-import Styled, { CommentFormInput, Form, SendButton } from './CommentForm.styles';
 import Avatar from 'components/@common/Avatar/Avatar';
 import Toggle from 'components/@common/Toggle/Toggle';
 import { CommentModuleContext } from 'components/CommentModule/CommentModule';
 import useMember from 'hooks/queries/useMember';
 import useFeedDetail from 'hooks/queries/feed/useFeedDetail';
 import { CommentRequest } from 'types';
+import Styled, { CommentFormInput, Form, SendButton } from './CommentForm.styles';
 
 interface Props {
   onSubmit: ({ content }: CommentRequest) => void;

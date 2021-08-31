@@ -5,8 +5,8 @@ import SearchIcon from 'assets/search.svg';
 import TechTagProvider from 'contexts/techTag/TechTagProvider';
 import ROUTE from 'constants/routes';
 import SearchOption from 'components/SearchOption/SearchOption';
-import Styled, { TechChips, TechInput } from './SearchBar.styles';
 import { Tech, SearchType } from 'types';
+import Styled, { TechChips, TechInput } from './SearchBar.styles';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;

@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { PALETTE } from 'constants/palette';
-import { Button } from './LikeButton.styles';
 import LikeHeartIcon from 'assets/likeHeart.svg';
 import FilledLikeHeart from 'assets/filledLikeHeart.svg';
+import useLike from 'hooks/@common/useLike';
 import useFeedLike from 'hooks/queries/feed/useFeedLike';
 import useFeedUnlike from 'hooks/queries/feed/useFeedUnlike';
 import useMember from 'hooks/queries/useMember';
@@ -12,9 +12,7 @@ import useSnackbar from 'contexts/snackbar/useSnackbar';
 import useModal from 'contexts/modal/useModal';
 import useDialog from 'contexts/dialog/useDialog';
 import { ERROR_CODE_KEY, FeedDetail } from 'types';
-import Styled from './LikeButton.styles';
-
-import useLike from 'hooks/@common/useLike';
+import Styled, { Button } from './LikeButton.styles';
 
 interface Props {
   feedDetail: FeedDetail;

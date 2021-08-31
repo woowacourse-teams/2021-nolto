@@ -1,10 +1,11 @@
+import React, { useState } from 'react';
+
 import { FlexContainer } from 'commonStyles';
 import RegularFeedCard from 'components/RegularFeedCard/RegularFeedCard';
 import StepChip from 'components/StepChip/StepChip';
 import { HighLightedText } from 'components/TeamMember/TeamMember.styles';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
 import useRecentFeedsLoad from 'hooks/queries/feed/useRecentFeedsLoad';
-import React, { useState } from 'react';
 import { FeedStatus, FilterType } from 'types';
 import Styled from './RecentFeedsContent.styles';
 

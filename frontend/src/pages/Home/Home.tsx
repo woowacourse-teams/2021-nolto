@@ -1,3 +1,5 @@
+import React, { useEffect, useRef } from 'react';
+
 import MoreArrow from 'assets/moreArrow.svg';
 import AsyncBoundary from 'components/AsyncBoundary';
 import BaseLayout from 'components/BaseLayout/BaseLayout';
@@ -8,10 +10,9 @@ import HotFeedsContent from 'components/HotFeedsContent/HotFeedsContent';
 import TrendTechs from 'components/TrendTechs/TrendTechs';
 import ROUTE from 'constants/routes';
 import useOnScreen from 'hooks/@common/useOnScreen';
-import React, { useEffect, useRef } from 'react';
 import { FilterType } from 'types';
-import Styled, { MoreButton, ScrollUpButton, SearchBar } from './Home.styles';
 import HomeFeedsContent from './HomeFeedsContent/HomeFeedsContent';
+import Styled, { MoreButton, ScrollUpButton, SearchBar } from './Home.styles';
 
 const Home = () => {
   const ellipseRef = useRef();

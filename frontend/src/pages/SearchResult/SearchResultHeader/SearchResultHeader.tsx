@@ -7,8 +7,8 @@ import useSnackbar from 'contexts/snackbar/useSnackbar';
 import ROUTE from 'constants/routes';
 import useTechsLoad from 'hooks/queries/useTechsLoad';
 import SearchIcon from 'assets/search.svg';
-import Styled, { TechInput } from './SearchResultHeader.styles';
 import { Tech } from 'types';
+import Styled, { TechInput } from './SearchResultHeader.styles';
 
 interface Props {
   searchParams: string;

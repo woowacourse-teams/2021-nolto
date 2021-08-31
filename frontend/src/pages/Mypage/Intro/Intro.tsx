@@ -11,8 +11,8 @@ import useDialog from 'contexts/dialog/useDialog';
 import { ALERT_MSG } from 'constants/message';
 import Camera from 'assets/camera.svg';
 import NoteEdit from 'assets/noteEdit.svg';
-import Styled from './Intro.styles';
 import { THUMBNAIL_EXTENSION } from 'constants/common';
+import Styled from './Intro.styles';
 
 type ProfileToUpload = {
   nickname: string;
