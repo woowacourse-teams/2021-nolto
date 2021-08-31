@@ -1,13 +1,13 @@
 import Avatar from 'components/@common/Avatar/Avatar';
 import React from 'react';
 import { Feed } from 'types';
-import Styled, { RegularCardImgWrapper } from './RegularCard.styles';
+import Styled, { RegularCardImgWrapper } from './RegularFeedCard.styles';
 
 interface Props {
   feed: Feed;
 }
 
-const RegularCard = ({ feed }: Props) => {
+const RegularFeedCard = ({ feed }: Props) => {
   return (
     <Styled.Root>
       <Avatar user={feed.author} />
@@ -22,4 +22,4 @@ const RegularCard = ({ feed }: Props) => {
   );
 };
 
-export default RegularCard;
+export default RegularFeedCard;

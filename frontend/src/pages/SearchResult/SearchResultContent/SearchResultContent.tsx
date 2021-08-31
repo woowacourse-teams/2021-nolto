@@ -7,7 +7,7 @@ import useSnackbar from 'contexts/snackbar/useSnackbar';
 import useSearch from 'hooks/queries/useSearch';
 import Styled, { MoreFeedsArrow } from './SearchResultContent.styles';
 import { FilterType } from 'types';
-import RegularCard from 'components/RegularCard/RegularCard';
+import RegularFeedCard from 'components/RegularFeedCard/RegularFeedCard';
 
 interface Props {
   query: string;
@@ -36,7 +36,7 @@ const SearchResultContent = (searchParams: Props) => {
           : feeds?.map((feed) => (
               <li key={feed.id}>
                 <Link to={`${ROUTE.FEEDS}/${feed.id}`}>
-                  <RegularCard feed={feed} />
+                  <RegularFeedCard feed={feed} />
                 </Link>
               </li>
             ))}

@@ -1,13 +1,13 @@
 import React from 'react';
 
 import { Feed } from 'types';
-import Styled from './LargeCard.styles';
+import Styled from './LargeFeedCard.styles';
 
 interface Props {
   feed: Feed;
 }
 
-const LargeCard = ({ feed }: Props) => {
+const LargeFeedCard = ({ feed }: Props) => {
   return (
     <Styled.Root imageUrl={feed.thumbnailUrl}>
       <Styled.ContentArea className="card-content">
@@ -18,4 +18,4 @@ const LargeCard = ({ feed }: Props) => {
   );
 };
 
-export default LargeCard;
+export default LargeFeedCard;

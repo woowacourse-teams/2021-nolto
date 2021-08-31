@@ -2,11 +2,11 @@ import React from 'react';
 import { Feed, FeedStatus } from 'types';
 import { MOCK_USER } from '__mocks__/fixture/User';
 
-import RegularCard from './RegularCard';
+import LargeFeedCard from './LargeFeedCard';
 
 export default {
-  title: 'components/RegularCard',
-  component: RegularCard,
+  title: 'components/LargeCard',
+  component: LargeFeedCard,
   argTypes: {},
 };
 
@@ -14,11 +14,10 @@ const mockFeed: Feed = {
   id: 1,
   author: MOCK_USER.ZIG,
   title: 'Good Toy',
-  content:
-    'Good Nice Perfect Gorgeous Wonderful! Good Nice Perfect Gorgeous Wonderful! Good Nice Perfect Gorgeous Wonderful! Good Nice Perfect Gorgeous Wonderful! ',
+  content: 'Good Nice Perfect Gorgeous Wonderful!',
   thumbnailUrl: 'https://i.pinimg.com/236x/f5/45/6e/f5456e14993cac65828e289048a89f3e.jpg',
   sos: false,
   step: FeedStatus.COMPLETE,
 };
 
-export const Default = () => <RegularCard feed={mockFeed} />;
+export const Default = () => <LargeFeedCard feed={mockFeed} />;

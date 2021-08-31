@@ -1,5 +1,5 @@
 import { FlexContainer } from 'commonStyles';
-import RegularCard from 'components/RegularCard/RegularCard';
+import RegularFeedCard from 'components/RegularFeedCard/RegularFeedCard';
 import StepChip from 'components/StepChip/StepChip';
 import { HighLightedText } from 'components/TeamMember/TeamMember.styles';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
@@ -40,7 +40,7 @@ const RecentFeedsContent = () => {
       </FlexContainer>
       <Styled.RecentFeedsContainer>
         {recentFeeds.map((feed) => (
-          <RegularCard feed={feed} />
+          <RegularFeedCard feed={feed} />
         ))}
       </Styled.RecentFeedsContainer>
     </Styled.Root>

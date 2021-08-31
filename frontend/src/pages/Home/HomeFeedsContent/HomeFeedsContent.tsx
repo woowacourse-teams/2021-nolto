@@ -1,4 +1,4 @@
-import RegularCard from 'components/RegularCard/RegularCard';
+import RegularFeedCard from 'components/RegularFeedCard/RegularFeedCard';
 import React from 'react';
 
 import useRecentFeedsLoad from 'hooks/queries/feed/useRecentFeedsLoad';
@@ -21,7 +21,7 @@ const HomeFeedsContent = ({ filter, feedsCountToShow }: Props) => {
   return (
     <Styled.Root>
       {recentFeeds.slice(0, feedsCountToShow).map((feed) => (
-        <RegularCard feed={feed} />
+        <RegularFeedCard feed={feed} />
       ))}
     </Styled.Root>
   );
