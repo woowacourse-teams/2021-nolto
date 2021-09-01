@@ -11,13 +11,13 @@ import com.wooteco.nolto.notification.domain.Notification;
 import com.wooteco.nolto.notification.domain.NotificationType;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.domain.UserRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.transaction.BeforeTransaction;
 import org.springframework.test.context.transaction.TestTransaction;
 
 import javax.transaction.Transactional;
@@ -30,7 +30,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @Transactional
-public class NotificationServiceTest {
+class NotificationServiceTest {
 
     @Autowired
     public FeedRepository feedRepository;
@@ -50,7 +50,7 @@ public class NotificationServiceTest {
     public Feed 댓글이_달릴_찰리가_쓴_피드;
     public Feed 도움_댓글이_달릴_찰리가_쓴_피드;
 
-    @BeforeTransaction
+    @BeforeEach
     public void setUp() {
         찰리 = new User("SOCIAL_ID", SocialType.GITHUB, "찰리", "IMAGE");
         포모 = new User("SOCIAL_ID2", SocialType.GITHUB, "포모", "IMAGE2");
@@ -65,7 +65,7 @@ public class NotificationServiceTest {
 
     @DisplayName("피드에 좋아요를 받은 경우 알림을 저장한다.")
     @Test
-    void saveWhenFeedLike() {
+    void saveWhenFeedLikeWithEventListener() {
         // when
         likeService.addLike(포모, 좋아요를_받을_찰리가_쓴_피드.getId());
         TestTransaction.flagForCommit();
@@ -81,7 +81,7 @@ public class NotificationServiceTest {
 
     @DisplayName("피드에 댓글을 받은 경우 알림을 저장한다.")
     @Test
-    void saveWhenComment() {
+    void saveWhenCommentWithEventListener() {
         // when
         commentService.createComment(포모, 댓글이_달릴_찰리가_쓴_피드.getId(), new CommentRequest("잘 보고 갑니다!", false));
         TestTransaction.flagForCommit();
@@ -97,7 +97,7 @@ public class NotificationServiceTest {
 
     @DisplayName("피드에 도움 댓글을 받은 경우 알림을 저장한다.")
     @Test
-    void saveWhenHelperComment() {
+    void saveWhenHelperCommentEventListener() {
         // when
         commentService.createComment(포모, 도움_댓글이_달릴_찰리가_쓴_피드.getId(), new CommentRequest("잘 보고 갑니다!", true));
         TestTransaction.flagForCommit();
