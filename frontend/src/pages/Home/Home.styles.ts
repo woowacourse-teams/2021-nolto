@@ -15,22 +15,15 @@ const Root = styled.div`
   position: relative;
 `;
 
-const EllipseWrapper = styled.div`
-  position: relative;
-  top: -1.5rem;
-`;
-
 const SearchContainer = styled.div`
-  position: absolute;
-  top: 4%;
-  /* TODO: center 수정 필요 */
-  left: 50%;
-  transform: translateX(-50%);
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 3.75rem;
+  justify-content: center;
   z-index: ${Z_INDEX.HOME_SEARCHBAR};
+  width: 100%;
+  padding-bottom: 3.5rem;
 
   & > .search-bar {
     z-index: ${Z_INDEX.HOME_SEARCHBAR};
@@ -43,6 +36,13 @@ const SearchContainer = styled.div`
   @media ${MEDIA_QUERY.TABLET} {
     margin-top: 1rem;
   }
+`;
+
+const EllipseWrapper = styled.div`
+  position: absolute;
+  width: 100vw;
+  top: -1.5rem;
+  left: 0;
 `;
 
 const SearchTitle = styled.div`
@@ -111,18 +111,23 @@ const ContentArea = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 2rem;
   top: -1.5rem;
-  padding: 3rem 0;
-  text-align: center;
+  padding: 5rem 0;
 
   @media ${MEDIA_QUERY.TABLET} {
     padding: 2rem;
   }
 `;
 
-const SectionTitle = styled(HighLightedText)`
-  margin-bottom: 48px;
+const TitleWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+`;
 
+const SectionTitle = styled(HighLightedText)`
   @media ${MEDIA_QUERY.TABLET} {
     margin-bottom: 32px;
   }
@@ -137,7 +142,6 @@ const HotToysContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 128px;
 
   @media ${MEDIA_QUERY.TABLET} {
     margin-bottom: 72px;
@@ -148,9 +152,11 @@ const VerticalAvatar = styled(Avatar)`
   margin-bottom: 12px;
 `;
 
-const RecentToysContainer = styled.div`
+const ToysContainer = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
+  gap: 1rem;
 `;
 
 export const MoreButton = styled(Link)`
@@ -158,9 +164,6 @@ export const MoreButton = styled(Link)`
   border: none;
   background: transparent;
   font-size: 1rem;
-  padding: 0 1rem;
-  margin-top: 36px;
-  margin-left: auto;
 `;
 
 const ArrowUp = styled(ArrowIcon)`
@@ -184,9 +187,10 @@ export default {
   TrendContainer,
   TrendTag,
   ContentArea,
+  TitleWrapper,
   SectionTitle,
   HotToysContainer,
   VerticalAvatar,
-  RecentToysContainer,
+  ToysContainer,
   ArrowUp,
 };

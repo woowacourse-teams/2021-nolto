@@ -13,7 +13,7 @@ const CroppedEllipse = () => {
             <stop offset="100%" stopColor={PALETTE.PRIMARY_400} stopOpacity="1" />
           </linearGradient>
         </defs>
-        <ellipse cx="50%" cy="20px" rx="80%" ry="360px" fill="url(#grad1)" />
+        <ellipse cx="50%" cy="20px" rx="80%" ry="300px" fill="url(#grad1)" />
       </Styled.SvgRoot>
       <Styled.Horse width="100%" />
     </Styled.Root>

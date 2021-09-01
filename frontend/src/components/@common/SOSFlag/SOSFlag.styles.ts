@@ -11,7 +11,7 @@ const Root = styled.div`
 `;
 
 const FrontSide = styled.div`
-  width: 4rem;
+  width: 5rem;
   height: 1.75rem;
   background-color: ${PALETTE.PRIMARY_400};
   border-radius: 0 4px 4px 0;

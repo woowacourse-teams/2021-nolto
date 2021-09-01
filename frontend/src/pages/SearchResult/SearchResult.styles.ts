@@ -5,7 +5,6 @@ import TechInputComponent from 'contexts/techTag/input/TechInput';
 import { PALETTE } from 'constants/palette';
 
 const TopContainer = styled.div`
-  position: fixed;
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -2,38 +2,41 @@ import styled from 'styled-components';
 
 import { UserHistoryType } from 'types';
 import { PALETTE } from 'constants/palette';
+import { MEDIA_QUERY } from 'constants/mediaQuery';
 import { hoverLayer, defaultShadow } from 'commonStyles';
 
 const Root = styled.div`
   padding: 1rem 2rem;
-  width: 36rem;
+  width: 100%;
   height: 24rem;
   border-radius: 0.75rem;
+  display: flex;
+  flex-direction: column;
   ${defaultShadow};
+
+  @media ${MEDIA_QUERY.TABLET} {
+    padding: 1rem;
+  }
 `;
 
 const SlideBar = styled.div`
   position: relative;
-  width: 30rem;
+  width: 100%;
   color: ${PALETTE.ORANGE_400};
   display: flex;
+  justify-content: space-evenly;
   border-bottom: 1px solid ${PALETTE.ORANGE_400};
   margin: 0 auto;
-
-  /* for slide */
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
 `;
 
 const highlightPixels = {
-  [UserHistoryType.MY_FEED]: '0rem',
-  [UserHistoryType.MY_COMMENT]: '10rem',
-  [UserHistoryType.MY_LIKED]: '20rem',
+  [UserHistoryType.MY_FEED]: '0%',
+  [UserHistoryType.MY_COMMENT]: '33.3%',
+  [UserHistoryType.MY_LIKED]: '66.6%',
 };
 
 const SlideHighlight = styled.span<{ tab: UserHistoryType }>`
-  width: 10rem;
+  width: 33.3%;
   border-bottom: 3px solid ${PALETTE.ORANGE_400};
   position: absolute;
   bottom: 0;
@@ -56,7 +59,6 @@ const SlideTitle = styled.span<{ selected: boolean }>`
 
 const FeedsSwipeArea = styled.div`
   display: flex;
-  height: calc(100% - 3rem);
   overflow-x: auto;
   scroll-behavior: smooth;
 

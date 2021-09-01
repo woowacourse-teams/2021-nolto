@@ -3,6 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import DownPolygon from 'assets/downPolygon.svg';
 import { PALETTE } from 'constants/palette';
 import { MEDIA_QUERY } from 'constants/mediaQuery';
+import { HEIGHT } from 'constants/common';
 
 const opacityAnimation = keyframes`
   from {
@@ -30,7 +31,7 @@ const Root = styled.div<{ $isOpen: boolean }>`
   }
 
   @media ${MEDIA_QUERY.MOBILE} {
-    min-width: 92px;
+    min-width: ${HEIGHT.HEADER};
     font-size: 0.85rem;
     height: ${({ $isOpen }) => ($isOpen ? '6rem' : '2rem')};
   }

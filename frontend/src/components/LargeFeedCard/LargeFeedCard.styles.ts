@@ -4,14 +4,30 @@ import { PALETTE } from 'constants/palette';
 import { Card, hoverLayer } from 'commonStyles';
 import { MEDIA_QUERY } from 'constants/mediaQuery';
 
-const Root = styled(Card)<{ imageUrl: string }>`
-  width: 15.75rem;
-  height: 19.75rem;
-  background-image: url(${({ imageUrl }) => imageUrl});
-  background-size: cover;
-  cursor: pointer;
+const Root = styled.div`
+  position: relative;
+  width: 100%;
+  min-width: 14rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  gap: 0.5rem;
+`;
 
-  ${hoverLayer({})};
+const FeedContainer = styled(Card)`
+  padding-top: 125%;
+  overflow: hidden;
+  position: relative;
+
+  & > img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+  }
+
+  ${hoverLayer({})}
 
   @media ${MEDIA_QUERY.TABLET} {
     width: 12.5rem;
@@ -24,7 +40,7 @@ const Root = styled(Card)<{ imageUrl: string }>`
   }
 `;
 
-const ContentArea = styled.div`
+const ContentWrapper = styled.div`
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -63,4 +79,4 @@ const Content = styled.p`
   }
 `;
 
-export default { Root, ContentArea, Title, Content };
+export default { Root, FeedContainer, ContentWrapper, Title, Content };

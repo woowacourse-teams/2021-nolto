@@ -22,7 +22,7 @@ const Root = styled.div`
 `;
 
 const SvgRoot = styled.svg`
-  height: 400px;
+  height: 330px;
 
   @media ${MEDIA_QUERY.TABLET} {
     height: 360px;
@@ -57,8 +57,8 @@ const Horse = styled(HorseIcon)`
   width: 84px;
   height: auto;
   position: absolute;
-  right: 20%;
-  bottom: 10%;
+  right: 10%;
+  bottom: 15%;
   transform: rotate(-12deg);
 
   &:hover {

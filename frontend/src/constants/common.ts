@@ -16,3 +16,11 @@ export const THUMBNAIL_EXTENSION = [
   'image/png',
   'image/svg+xml',
 ];
+
+export const HEIGHT = {
+  HEADER: '4rem',
+};
+
+export const DEFAULT_IMG = {
+  FEED: 'https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png',
+} as const;

@@ -97,9 +97,9 @@ const Notification = () => {
                   <Styled.NotiBold className="user-name">
                     {data.user.nickname}&nbsp;
                   </Styled.NotiBold>
-                  님이&nbsp;
+                  <span>님이&nbsp;</span>
                   <Styled.NotiBold className="feed-title">{data.feed.title}&nbsp;</Styled.NotiBold>
-                  프로젝트{NotiTypeText[data.type]}
+                  <span>프로젝트{NotiTypeText[data.type]}</span>
                 </Styled.NotiText>
                 <Styled.DeleteNotiButton onClick={(event) => deleteNoti(data.id, event)}>
                   <CrossMark width="12px" fill={PALETTE.BLACK_200} />
