@@ -8,24 +8,24 @@ import com.wooteco.nolto.feed.application.searchstrategy.SearchStrategyFactory;
 import com.wooteco.nolto.feed.domain.*;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.feed.domain.repository.FeedTechRepository;
+import com.wooteco.nolto.feed.ui.dto.FeedCardPaginationResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
 import com.wooteco.nolto.image.application.ImageKind;
 import com.wooteco.nolto.image.application.ImageService;
-import com.wooteco.nolto.notification.application.NotificationCommentDeleteEvent;
 import com.wooteco.nolto.notification.application.NotificationFeedDeleteEvent;
 import com.wooteco.nolto.tech.domain.TechRepository;
 import com.wooteco.nolto.user.domain.User;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Transactional
 @AllArgsConstructor
@@ -117,5 +117,20 @@ public class FeedService {
         Feeds feeds = new Feeds(new ArrayList<>(searchFeed));
         FilterStrategy filterStrategy = FilterStrategy.of(filter);
         return FeedCardResponse.toList(feeds.filter(filterStrategy));
+    }
+
+    public FeedCardPaginationResponse findRecentFeeds(String step, Boolean help, Long lastDrawnFeedId, Integer countPerPage) {
+        EnumSet<Step> steps = Step.asEnumSet(step);
+        Pageable pageable = PageRequest.of(0, countPerPage);
+        return findRecentFeedsWithCondition(steps, help, lastDrawnFeedId, pageable);
+    }
+
+    private FeedCardPaginationResponse findRecentFeedsWithCondition(EnumSet<Step> steps, Boolean help, Long lastDrawnFeedId, Pageable pageable) {
+        if (Objects.isNull(help) || !help) {
+            List<Feed> findFeeds = feedRepository.findWithoutHelp(steps, lastDrawnFeedId, pageable);
+            return FeedCardPaginationResponse.of(new Feeds(findFeeds));
+        }
+        List<Feed> findFeeds = feedRepository.findWithHelp(steps, help, lastDrawnFeedId, pageable);
+        return FeedCardPaginationResponse.of(new Feeds(findFeeds));
     }
 }
