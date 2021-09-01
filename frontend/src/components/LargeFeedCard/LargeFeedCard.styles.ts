@@ -4,14 +4,27 @@ import { PALETTE } from 'constants/palette';
 import { Card, hoverLayer } from 'commonStyles';
 import { MEDIA_QUERY } from 'constants/mediaQuery';
 
+const Root = styled.div`
+  position: relative;
+  width: 100%;
+  min-width: 14rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  gap: 0.5rem;
+`;
+
 const FeedContainer = styled(Card)`
-  width: 15.75rem;
-  height: 19.75rem;
+  padding-top: 125%;
   overflow: hidden;
   position: relative;
 
   & > img {
+    position: absolute;
+    top: 0;
+    left: 0;
     height: 100%;
+    width: 100%;
   }
 
   ${hoverLayer({})}
@@ -66,4 +79,4 @@ const Content = styled.p`
   }
 `;
 
-export default { FeedContainer, ContentWrapper, Title, Content };
+export default { Root, FeedContainer, ContentWrapper, Title, Content };

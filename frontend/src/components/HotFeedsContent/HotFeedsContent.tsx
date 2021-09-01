@@ -4,9 +4,10 @@ import useHotFeedsLoad from 'hooks/queries/feed/useHotFeedsLoad';
 import LargeFeedCard from 'components/LargeFeedCard/LargeFeedCard';
 import Styled, { CarouselArrowButton } from './HotFeedsContent.styles';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
+import { FlexContainer } from 'commonStyles';
 
 const HotFeedsContent = () => {
-  const [hotToyCardIdx, setHotToyCardIdx] = useState(2);
+  const [hotToyCardIdx, setHotToyCardIdx] = useState(0);
 
   const snackbar = useSnackbar();
 
@@ -17,11 +18,11 @@ const HotFeedsContent = () => {
   });
 
   const showPreviousCards = () => {
-    if (hotToyCardIdx > 2) setHotToyCardIdx(hotToyCardIdx - 1);
+    if (hotToyCardIdx > 0) setHotToyCardIdx(hotToyCardIdx - 1);
   };
 
   const showFollowingCards = () => {
-    if (hotToyCardIdx < hotFeeds?.length) setHotToyCardIdx(hotToyCardIdx + 1);
+    if (hotToyCardIdx < hotFeeds?.length - 1) setHotToyCardIdx(hotToyCardIdx + 1);
   };
 
   return (
@@ -29,7 +30,12 @@ const HotFeedsContent = () => {
       <Styled.HotToyCardsContainer position={hotToyCardIdx}>
         {hotFeeds &&
           hotFeeds.map((feed, idx) => (
-            <Styled.HotToyCardWrapper key={feed.id} offset={idx + 1} position={hotToyCardIdx}>
+            <Styled.HotToyCardWrapper
+              className="hot-feed"
+              key={feed.id}
+              offset={idx + 1}
+              position={hotToyCardIdx}
+            >
               <LargeFeedCard feed={feed} />
             </Styled.HotToyCardWrapper>
           ))}
@@ -42,6 +48,11 @@ const HotFeedsContent = () => {
           <Styled.CarouselRight width="1.5rem" />
         </CarouselArrowButton>
       </Styled.ControlContainer>
+      <FlexContainer gap="0.25rem" justifyContent="center">
+        {hotFeeds.map((_, idx) => (
+          <Styled.Dot key={idx} selected={idx === hotToyCardIdx} />
+        ))}
+      </FlexContainer>
     </Styled.Root>
   );
 };

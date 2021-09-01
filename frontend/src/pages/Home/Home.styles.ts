@@ -113,7 +113,7 @@ const ContentArea = styled.div`
   align-items: center;
   gap: 2rem;
   top: -1.5rem;
-  padding: 3rem 0;
+  padding: 5rem 0;
 
   @media ${MEDIA_QUERY.TABLET} {
     padding: 2rem;
@@ -156,7 +156,6 @@ const ToysContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 0 2rem;
   gap: 1rem;
 `;
 
