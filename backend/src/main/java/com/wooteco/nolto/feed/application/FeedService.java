@@ -13,7 +13,6 @@ import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
 import com.wooteco.nolto.image.application.ImageKind;
 import com.wooteco.nolto.image.application.ImageService;
-import com.wooteco.nolto.notification.application.NotificationCommentDeleteEvent;
 import com.wooteco.nolto.notification.application.NotificationFeedDeleteEvent;
 import com.wooteco.nolto.tech.domain.TechRepository;
 import com.wooteco.nolto.user.domain.User;
@@ -77,11 +76,11 @@ public class FeedService {
         findFeed.changeThumbnailUrl(updateThumbnailUrl);
     }
 
-    public FeedResponse findById(User user, Long feedId) {
+    public FeedResponse viewFeed(User user, Long feedId, boolean notYetView) {
         Feed feed = findEntityById(feedId);
         User author = feed.getAuthor();
         boolean liked = user.isLiked(feed);
-        feed.increaseView();
+        feed.increaseView(notYetView);
         return FeedResponse.of(author, feed, liked);
     }
 

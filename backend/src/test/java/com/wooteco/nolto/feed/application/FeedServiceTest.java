@@ -137,7 +137,7 @@ class FeedServiceTest {
         em.clear();
 
         // then
-        FeedResponse updateFeed = feedService.findById(user1, feedId1);
+        FeedResponse updateFeed = feedService.viewFeed(user1, feedId1, true);
         피드_정보가_같은지_조회(request, updateFeed);
     }
 
@@ -157,7 +157,7 @@ class FeedServiceTest {
                 FEED_REQUEST1.getDeployedUrl(),
                 null
         );
-        FeedResponse saveFeed = feedService.findById(user1, feedId1);
+        FeedResponse saveFeed = feedService.viewFeed(user1, feedId1, true);
 
         // when
         feedService.update(user1, feedId1, request);
@@ -165,7 +165,7 @@ class FeedServiceTest {
         em.clear();
 
         // then
-        FeedResponse updateFeed = feedService.findById(user1, feedId1);
+        FeedResponse updateFeed = feedService.viewFeed(user1, feedId1, true);
         피드_정보가_같은지_조회(request, updateFeed);
     }
 
@@ -247,9 +247,9 @@ class FeedServiceTest {
         em.clear();
 
         // when
-        FeedResponse feedResponse1 = feedService.findById(user1, feedId1);
-        FeedResponse feedResponse2 = feedService.findById(user2, feedId2);
-        FeedResponse feedResponse3 = feedService.findById(user2, feedId3);
+        FeedResponse feedResponse1 = feedService.viewFeed(user1, feedId1, true);
+        FeedResponse feedResponse2 = feedService.viewFeed(user2, feedId2, true);
+        FeedResponse feedResponse3 = feedService.viewFeed(user2, feedId3, true);
         FEED_REQUEST1.toEntityWithThumbnailUrl(null);
 
         // then
@@ -270,7 +270,7 @@ class FeedServiceTest {
     @Test
     void findByNonExistsId() {
         // when then
-        assertThatThrownBy(() -> feedService.findById(user1, Long.MAX_VALUE))
+        assertThatThrownBy(() -> feedService.viewFeed(user1, Long.MAX_VALUE, true))
                 .isInstanceOf(NotFoundException.class)
                 .hasMessage(ErrorType.FEED_NOT_FOUND.getMessage());
     }
@@ -309,7 +309,7 @@ class FeedServiceTest {
         em.clear();
 
         // when
-        FeedResponse feedResponse = feedService.findById(user2, feedId1);
+        FeedResponse feedResponse = feedService.viewFeed(user2, feedId1, true);
 
         // then
         assertThat(feedResponse.isLiked()).isTrue();
@@ -324,7 +324,7 @@ class FeedServiceTest {
         em.clear();
 
         // when
-        FeedResponse feedResponse = feedService.findById(user2, feedId1);
+        FeedResponse feedResponse = feedService.viewFeed(user2, feedId1, true);
 
         // then
         assertThat(feedResponse.isLiked()).isFalse();
@@ -343,7 +343,7 @@ class FeedServiceTest {
         likeService.deleteLike(user2, feedId1);
         em.flush();
         em.clear();
-        FeedResponse feedResponse = feedService.findById(user2, feedId1);
+        FeedResponse feedResponse = feedService.viewFeed(user2, feedId1, true);
 
         // then
         assertThat(feedResponse.isLiked()).isFalse();
@@ -365,7 +365,7 @@ class FeedServiceTest {
         Feed findFeed = feedService.findEntityById(feedId1);
 
         // then
-        assertThat(findFeed.findLikeBy(user2)).isEqualTo(Optional.empty());
+        assertThat(findFeed.findLikeBy(user2)).isEmpty();
     }
 
     @DisplayName("좋아요를 누른 피드가 삭제되면 유저의 좋아요 데이터도 삭제된다. (feed1이 삭제 ->  user2의 feed1에 대한 like 데이터 삭제) - feed1이 없으므로 엔티티로 조회")
@@ -627,7 +627,7 @@ class FeedServiceTest {
         List<FeedCardResponse> searchFeeds = feedService.search("", techs, "all");
 
         //then
-        assertThat(searchFeeds).hasSize(0);
+        assertThat(searchFeeds).isEmpty();
     }
 
     @DisplayName("제목과 내용에 특정 query가 포함되어 있고, 검색한 테그명에 포함된 테크를 사용한 피드를 검색한다.")
