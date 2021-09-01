@@ -26,7 +26,7 @@ const ErrorTitle = styled.div`
   font-weight: 900;
   font-style: italic;
   font-size: 4.5rem;
-  transform: translateY(10%);
+  transform: translateY(5%);
 `;
 
 const falldown = keyframes`
@@ -60,7 +60,7 @@ const Divider = styled.hr`
 const ErrorText = styled.div`
   color: inherit;
   font-size: 1.25rem;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
   padding: 0 0.75rem;
 `;
 

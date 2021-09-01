@@ -1,22 +1,21 @@
-import React, { useEffect, useRef } from 'react';
-
-import AsyncBoundary from 'components/AsyncBoundary';
-import CroppedEllipse from 'components/CroppedEllipse/CroppedEllipse';
-import Header from 'components/Header/Header';
-import RecentFeedsContent from 'components/RecentFeedsContent/RecentFeedsContent';
-import HotFeedsContent from 'components/HotFeedsContent/HotFeedsContent';
-import ErrorFallback from 'components/ErrorFallback/ErrorFallback';
-import TrendTechs from 'components/TrendTechs/TrendTechs';
-import useOnScreen from 'hooks/@common/useOnScreen';
-import ROUTE from 'constants/routes';
-import Styled, { ScrollUpButton, SearchBar, MoreButton } from './Home.styles';
 import MoreArrow from 'assets/moreArrow.svg';
+import AsyncBoundary from 'components/AsyncBoundary';
+import BaseLayout from 'components/BaseLayout/BaseLayout';
+import CroppedEllipse from 'components/CroppedEllipse/CroppedEllipse';
+import ErrorFallback from 'components/ErrorFallback/ErrorFallback';
+import Header from 'components/Header/Header';
+import HotFeedsContent from 'components/HotFeedsContent/HotFeedsContent';
+import TrendTechs from 'components/TrendTechs/TrendTechs';
+import ROUTE from 'constants/routes';
+import useOnScreen from 'hooks/@common/useOnScreen';
+import React, { useEffect, useRef } from 'react';
+import { FilterType } from 'types';
+import Styled, { MoreButton, ScrollUpButton, SearchBar } from './Home.styles';
+import HomeFeedsContent from './HomeFeedsContent/HomeFeedsContent';
 
 const Home = () => {
   const ellipseRef = useRef();
   const isEllipseVisible = useOnScreen(ellipseRef);
-
-  const RECENT_FEED_LENGTH = 4;
 
   const scrollTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -27,59 +26,71 @@ const Home = () => {
   }, []);
 
   return (
-    <>
-      <Header isFolded={isEllipseVisible} />
-      <Styled.Root>
-        <Styled.EllipseWrapper ref={ellipseRef}>
-          <CroppedEllipse />
-        </Styled.EllipseWrapper>
-        <Styled.SearchContainer>
-          <Styled.SearchTitle>Search for Ideas?</Styled.SearchTitle>
-          <SearchBar className="search-bar" selectable />
+    <BaseLayout header={<Header isFolded={isEllipseVisible} />}>
+      <Styled.EllipseWrapper ref={ellipseRef}>
+        <CroppedEllipse />
+      </Styled.EllipseWrapper>
+      <Styled.SearchContainer>
+        <Styled.SearchTitle>Search for Ideas?</Styled.SearchTitle>
+        <SearchBar className="search-bar" selectable />
+        <AsyncBoundary
+          rejectedFallback={
+            <ErrorFallback message="트렌드 기술 스택을 불러올 수 없습니다." queryKey="trendTechs" />
+          }
+        >
+          <TrendTechs />
+        </AsyncBoundary>
+      </Styled.SearchContainer>
+
+      <Styled.ContentArea>
+        <Styled.HotToysContainer>
           <AsyncBoundary
             rejectedFallback={
-              <ErrorFallback
-                message="트렌드 기술 스택을 불러올 수 없습니다."
-                queryKey="trendTechs"
-              />
+              <ErrorFallback message="데이터를 불러올 수 없습니다." queryKey="hotFeeds" />
             }
           >
-            <TrendTechs />
+            <HotFeedsContent />
           </AsyncBoundary>
-        </Styled.SearchContainer>
+        </Styled.HotToysContainer>
 
-        <Styled.ContentArea>
-          <Styled.SectionTitle fontSize="1.75rem">Hot Toy Project</Styled.SectionTitle>
-          <Styled.HotToysContainer>
-            <AsyncBoundary
-              rejectedFallback={
-                <ErrorFallback message="데이터를 불러올 수 없습니다." queryKey="hotFeeds" />
-              }
-            >
-              <HotFeedsContent />
-            </AsyncBoundary>
-          </Styled.HotToysContainer>
-
-          <Styled.SectionTitle fontSize="1.75rem">Recent Toy Project</Styled.SectionTitle>
-          <Styled.RecentToysContainer>
-            <AsyncBoundary
-              rejectedFallback={
-                <ErrorFallback message="데이터를 불러올 수 없습니다." queryKey="recentFeeds" />
-              }
-            >
-              <RecentFeedsContent feedsCountToShow={RECENT_FEED_LENGTH} />
-            </AsyncBoundary>
+        <Styled.ToysContainer>
+          <Styled.TitleWrapper>
+            <Styled.SectionTitle>🦄 완성된 프로젝트</Styled.SectionTitle>
             <MoreButton to={ROUTE.RECENT}>
               MORE&nbsp;
               <MoreArrow width="10px" />
             </MoreButton>
-          </Styled.RecentToysContainer>
-        </Styled.ContentArea>
-        <ScrollUpButton onClick={scrollTop}>
-          <Styled.ArrowUp width="14px" />
-        </ScrollUpButton>
-      </Styled.Root>
-    </>
+          </Styled.TitleWrapper>
+          <AsyncBoundary
+            rejectedFallback={
+              <ErrorFallback message="데이터를 불러올 수 없습니다." queryKey="recentFeeds" />
+            }
+          >
+            <HomeFeedsContent feedsCountToShow={4} filter={FilterType.COMPLETE} />
+          </AsyncBoundary>
+        </Styled.ToysContainer>
+
+        <Styled.ToysContainer>
+          <Styled.TitleWrapper>
+            <Styled.SectionTitle>🧩 진행중인 프로젝트</Styled.SectionTitle>
+            <MoreButton to={ROUTE.RECENT}>
+              MORE&nbsp;
+              <MoreArrow width="10px" />
+            </MoreButton>
+          </Styled.TitleWrapper>
+          <AsyncBoundary
+            rejectedFallback={
+              <ErrorFallback message="데이터를 불러올 수 없습니다." queryKey="recentFeeds" />
+            }
+          >
+            <HomeFeedsContent feedsCountToShow={4} filter={FilterType.PROGRESS} />
+          </AsyncBoundary>
+        </Styled.ToysContainer>
+      </Styled.ContentArea>
+      <ScrollUpButton onClick={scrollTop}>
+        <Styled.ArrowUp width="14px" />
+      </ScrollUpButton>
+    </BaseLayout>
   );
 };
 

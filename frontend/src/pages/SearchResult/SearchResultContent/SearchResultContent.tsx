@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import StretchCard from 'components/StretchCard/StretchCard';
 import Skeleton from 'components/Skeleton/Skeleton';
 import ROUTE from 'constants/routes';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
 import useSearch from 'hooks/queries/useSearch';
 import Styled, { MoreFeedsArrow } from './SearchResultContent.styles';
 import { FilterType } from 'types';
+import RegularFeedCard from 'components/RegularFeedCard/RegularFeedCard';
 
 interface Props {
   query: string;
@@ -36,8 +36,7 @@ const SearchResultContent = (searchParams: Props) => {
           : feeds?.map((feed) => (
               <li key={feed.id}>
                 <Link to={`${ROUTE.FEEDS}/${feed.id}`}>
-                  <Styled.VerticalAvatar user={feed.author} />
-                  <StretchCard feed={feed} />
+                  <RegularFeedCard feed={feed} />
                 </Link>
               </li>
             ))}

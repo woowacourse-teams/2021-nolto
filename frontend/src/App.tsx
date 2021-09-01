@@ -38,35 +38,33 @@ const App = () => {
           <SnackbarProvider>
             <DialogProvider>
               <ModalProvider>
-                <main>
-                  <Route exact path={ROUTE.HOME}>
-                    <Home />
-                  </Route>
-                  <Route exact path={ROUTE.ABOUT}>
-                    <About />
-                  </Route>
-                  <PrivateRoute path={ROUTE.UPLOAD}>
-                    <Upload />
-                  </PrivateRoute>
-                  <PrivateRoute path={ROUTE.MODIFY}>
-                    <Modify />
-                  </PrivateRoute>
-                  <Route exact path={ROUTE.RECENT}>
-                    <RecentFeeds />
-                  </Route>
-                  <Route path={`${ROUTE.FEEDS}/:id`}>
-                    <FeedDetail />
-                  </Route>
-                  <Route path={ROUTE.SEARCH}>
-                    <SearchResult />
-                  </Route>
-                  <Route path={ROUTE.MYPAGE}>
-                    <Mypage />
-                  </Route>
-                  <Route path="/:oauth/callback">
-                    <OAuth />
-                  </Route>
-                </main>
+                <Route exact path={ROUTE.HOME}>
+                  <Home />
+                </Route>
+                <Route exact path={ROUTE.ABOUT}>
+                  <About />
+                </Route>
+                <PrivateRoute path={ROUTE.UPLOAD}>
+                  <Upload />
+                </PrivateRoute>
+                <PrivateRoute path={ROUTE.MODIFY}>
+                  <Modify />
+                </PrivateRoute>
+                <Route exact path={ROUTE.RECENT}>
+                  <RecentFeeds />
+                </Route>
+                <Route path={`${ROUTE.FEEDS}/:id`}>
+                  <FeedDetail />
+                </Route>
+                <Route path={ROUTE.SEARCH}>
+                  <SearchResult />
+                </Route>
+                <Route path={ROUTE.MYPAGE}>
+                  <Mypage />
+                </Route>
+                <Route path="/:oauth/callback">
+                  <OAuth />
+                </Route>
               </ModalProvider>
             </DialogProvider>
           </SnackbarProvider>

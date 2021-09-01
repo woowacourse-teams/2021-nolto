@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
+import AsyncBoundary from 'components/AsyncBoundary';
+import BaseLayout from 'components/BaseLayout/BaseLayout';
+import StepChip from 'components/StepChip/StepChip';
 import SearchResultContent from 'pages/SearchResult/SearchResultContent/SearchResultContent';
 import SearchResultHeader from 'pages/SearchResult/SearchResultHeader/SearchResultHeader';
-import AsyncBoundary from 'components/AsyncBoundary';
-import StepChip from 'components/StepChip/StepChip';
-import BaseLayout from 'components/BaseLayout/BaseLayout';
-import Styled from './SearchResult.styles';
 import { FeedStatus, FilterType, Tech } from 'types';
+import Styled from './SearchResult.styles';
 
 interface LocationState {
   query: string;
