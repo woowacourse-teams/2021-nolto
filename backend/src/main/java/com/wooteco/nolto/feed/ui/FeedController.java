@@ -76,9 +76,11 @@ public class FeedController {
 
     @GetMapping("/recent2")
     public ResponseEntity<FeedCardPaginationResponse> recentResponse(@RequestParam(required = false) String step,
-                                                                 @RequestParam(required = false) Boolean help,
-                                                                 @RequestParam(required = false) Long lastDrawnFeedId,
-                                                                 @RequestParam(required = false, defaultValue = "15") Integer countPerPage) {
+                                                                     @RequestParam(required = false) Boolean help,
+                                                                     @RequestParam(required = false, defaultValue = "10000000") Long lastDrawnFeedId,
+                                                                     @RequestParam(required = false, defaultValue = "15") Integer countPerPage) {
+        // TODO : Boolean값에 잘못된 입력값 삽입 시 MethodArgumentTypeMismatchException
+        // TODO : @Pattern(regexp = "\\d*[1-9]\\d*")
         FeedCardPaginationResponse response = feedService.findRecentFeeds(step, help, lastDrawnFeedId, countPerPage);
         return ResponseEntity.ok(response);
     }
