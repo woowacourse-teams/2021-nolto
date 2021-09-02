@@ -114,10 +114,11 @@ public class Feed extends BaseEntity {
         return likes.size();
     }
 
-    public void increaseView(boolean notYetView) {
-        if (notYetView) {
-            this.views++;
+    public void increaseView(boolean alreadyView) {
+        if (alreadyView) {
+            return;
         }
+        this.views++;
     }
 
     public List<Tech> getTechs() {

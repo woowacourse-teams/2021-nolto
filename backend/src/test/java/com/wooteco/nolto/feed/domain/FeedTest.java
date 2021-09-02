@@ -49,7 +49,7 @@ class FeedTest {
     void increaseView() {
         // when
         int beforeView = feed1.getViews();
-        feed1.increaseView(true);
+        feed1.increaseView(false);
 
         // then
         assertThat(feed1.getViews()).isEqualTo(beforeView + 1);
@@ -60,7 +60,7 @@ class FeedTest {
     void notIncreaseView() {
         // when
         int beforeView = feed1.getViews();
-        feed1.increaseView(false);
+        feed1.increaseView(true);
 
         // then
         assertThat(feed1.getViews()).isEqualTo(beforeView);

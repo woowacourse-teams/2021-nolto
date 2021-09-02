@@ -247,9 +247,9 @@ class FeedServiceTest {
         em.clear();
 
         // when
-        FeedResponse feedResponse1 = feedService.viewFeed(user1, feedId1, true);
-        FeedResponse feedResponse2 = feedService.viewFeed(user2, feedId2, true);
-        FeedResponse feedResponse3 = feedService.viewFeed(user2, feedId3, true);
+        FeedResponse feedResponse1 = feedService.viewFeed(user1, feedId1, false);
+        FeedResponse feedResponse2 = feedService.viewFeed(user2, feedId2, false);
+        FeedResponse feedResponse3 = feedService.viewFeed(user2, feedId3, false);
         FEED_REQUEST1.toEntityWithThumbnailUrl(null);
 
         // then

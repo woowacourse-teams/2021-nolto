@@ -106,7 +106,7 @@ class FeedAcceptanceTest extends AcceptanceTest {
         // given
         Long 업로드되어_있는_피드_ID = 피드_업로드되어_있음(전시중_단계의_피드_요청);
         // when
-        Cookie 업로드되어_있는_피드_쿠키 = new Cookie.Builder(String.valueOf(업로드되어_있는_피드_ID), "true").build();
+        Cookie 업로드되어_있는_피드_쿠키 = new Cookie.Builder("view", "/" + String.valueOf(업로드되어_있는_피드_ID) + "/").build();
         ExtractableResponse<Response> 아직_조회하지_않은_응답 = 피드_조회_요청(업로드되어_있는_피드_ID);
         ExtractableResponse<Response> 이미_조회한_응답 = 피드_조회_요청(업로드되어_있는_피드_ID, 업로드되어_있는_피드_쿠키);
 

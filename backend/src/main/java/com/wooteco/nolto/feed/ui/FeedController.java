@@ -15,13 +15,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @AllArgsConstructor
 @RestController
@@ -39,11 +36,13 @@ public class FeedController {
     }
 
     @GetMapping(value = "/{feedId:[\\d]+}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<FeedResponse> findById(@UserAuthenticationPrincipal User user, @PathVariable Long feedId, HttpServletRequest request, HttpServletResponse response) {
-        Optional<Cookie> cookie = CookieUtil.findCookieByName(request, String.valueOf(feedId));
-        boolean notYetRead = isNotYetRead(cookie);
-        setCookieByReadHistory(notYetRead, feedId, response);
-        FeedResponse feedResponse = feedService.viewFeed(user, feedId, notYetRead);
+    public ResponseEntity<FeedResponse> findById(@UserAuthenticationPrincipal User user, @PathVariable Long feedId,
+                                                 HttpServletResponse response,
+                                                 @CookieValue(name = "view", required = false, defaultValue = "/") String cookieValue) {
+        String feedIdAsString = String.valueOf(feedId);
+        boolean alreadyView = isAlreadyView(cookieValue, feedIdAsString);
+        setCookieByReadHistory(alreadyView, cookieValue, feedIdAsString, response);
+        FeedResponse feedResponse = feedService.viewFeed(user, feedId, alreadyView);
         return ResponseEntity.ok(feedResponse);
     }
 
@@ -95,13 +94,15 @@ public class FeedController {
         return ResponseEntity.ok(feeds);
     }
 
-    private boolean isNotYetRead(Optional<Cookie> cookie) {
-        return !cookie.isPresent();
+    private boolean isAlreadyView(String cookieValue, String feedId) {
+        return cookieValue.contains("/" + feedId + "/");
     }
 
-    private void setCookieByReadHistory(boolean notYetRead, Long feedId, HttpServletResponse response) {
-        if (notYetRead) {
-            response.addCookie(CookieUtil.generateCookie(String.valueOf(feedId), "true"));
+    private void setCookieByReadHistory(boolean alreadyView, String cookieValue, String feedId, HttpServletResponse response) {
+        if (alreadyView) {
+            return;
         }
+        cookieValue = cookieValue.concat(feedId + "/");
+        response.addCookie(CookieUtil.generateCookie("view", cookieValue));
     }
 }
