@@ -771,7 +771,7 @@ class FeedServiceTest {
         em.clear();
 
         // when
-        FeedCardPaginationResponse responses = feedService.findRecentFeeds("all", null, Long.MAX_VALUE, 2);
+        FeedCardPaginationResponse responses = feedService.findRecentFeeds("all", false, Long.MAX_VALUE, 2);
 
         // then
         assertThat(responses.getFeeds()).hasSize(2);
@@ -794,7 +794,7 @@ class FeedServiceTest {
         em.clear();
 
         // when
-        FeedCardPaginationResponse responses = feedService.findRecentFeeds("progress", null, Long.MAX_VALUE, 2);
+        FeedCardPaginationResponse responses = feedService.findRecentFeeds("progress", false, Long.MAX_VALUE, 2);
 
         // then
         assertThat(responses.getFeeds()).hasSize(2);
@@ -817,7 +817,7 @@ class FeedServiceTest {
         em.clear();
 
         // when
-        FeedCardPaginationResponse responses = feedService.findRecentFeeds("complete", null, Long.MAX_VALUE, 2);
+        FeedCardPaginationResponse responses = feedService.findRecentFeeds("complete", false, Long.MAX_VALUE, 2);
 
         // then
         assertThat(responses.getFeeds()).hasSize(1);

@@ -25,7 +25,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Set;
 
 @Transactional
 @AllArgsConstructor
@@ -121,7 +124,7 @@ public class FeedService {
         return FeedCardResponse.toList(feeds.filter(filterStrategy));
     }
 
-    public FeedCardPaginationResponse findRecentFeeds(String step, Boolean help, Long nextFeedId, Integer countPerPage) {
+    public FeedCardPaginationResponse findRecentFeeds(String step, boolean help, long nextFeedId, int countPerPage) {
         EnumSet<Step> steps = Step.asEnumSet(step);
         Pageable pageable = PageRequest.of(0, countPerPage + NEXT_FEED_COUNT);
         List<Feed> findFeeds = findRecentFeedsWithCondition(help, nextFeedId, steps, pageable);
@@ -134,10 +137,10 @@ public class FeedService {
         return FeedCardPaginationResponse.of(findFeeds, null);
     }
 
-    private List<Feed> findRecentFeedsWithCondition(Boolean help, Long nextFeedId, EnumSet<Step> steps, Pageable pageable) {
-        if (Objects.isNull(help) || !help) {
-            return feedRepository.findWithoutHelp(steps, nextFeedId, pageable);
+    private List<Feed> findRecentFeedsWithCondition(boolean help, long nextFeedId, EnumSet<Step> steps, Pageable pageable) {
+        if (help) {
+            return feedRepository.findWithHelp(steps, help, nextFeedId, pageable);
         }
-        return feedRepository.findWithHelp(steps, help, nextFeedId, pageable);
+        return feedRepository.findWithoutHelp(steps, nextFeedId, pageable);
     }
 }
