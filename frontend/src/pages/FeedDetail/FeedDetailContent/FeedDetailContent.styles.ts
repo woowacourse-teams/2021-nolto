@@ -11,7 +11,6 @@ const Root = styled.div`
   flex-direction: column;
   gap: 1.5rem;
   min-width: 54.375rem;
-  width: 50vw;
 
   & h3 {
     margin-bottom: 0.25rem;
