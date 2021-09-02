@@ -777,7 +777,7 @@ class FeedServiceTest {
         assertThat(responses.getFeeds()).hasSize(2);
         assertThat(responses.getFeeds().get(0).getTitle()).isEqualTo(FEED_REQUEST3.getTitle());
         assertThat(responses.getFeeds().get(1).getTitle()).isEqualTo(FEED_REQUEST2.getTitle());
-        assertThat(responses.getLastDrawnFeedId()).isEqualTo(secondFeedId);
+        assertThat(responses.getNextFeedId()).isEqualTo(firstFeedId);
     }
 
     @DisplayName("step과 help를 고려한 페이지네이션을 지원한다. (step=progress, help=null, lastFeedId=Long.MAX_VALUE countPerPage=2")
@@ -800,7 +800,7 @@ class FeedServiceTest {
         assertThat(responses.getFeeds()).hasSize(2);
         assertThat(responses.getFeeds().get(0).getTitle()).isEqualTo(FEED_REQUEST2.getTitle());
         assertThat(responses.getFeeds().get(1).getTitle()).isEqualTo(FEED_REQUEST1.getTitle());
-        assertThat(responses.getLastDrawnFeedId()).isEqualTo(firstFeedId);
+        assertThat(responses.getNextFeedId()).isNull();
     }
 
     @DisplayName("step과 help를 고려한 페이지네이션을 지원한다. (step=complete, help=null, lastFeedId=Long.MAX_VALUE countPerPage=2")
@@ -822,7 +822,7 @@ class FeedServiceTest {
         // then
         assertThat(responses.getFeeds()).hasSize(1);
         assertThat(responses.getFeeds().get(0).getTitle()).isEqualTo(FEED_REQUEST3.getTitle());
-        assertThat(responses.getLastDrawnFeedId()).isEqualTo(thirdFeedId);
+        assertThat(responses.getNextFeedId()).isNull();
     }
 
     @DisplayName("step과 help를 고려한 페이지네이션을 지원한다. (step=all, help=true, lastFeedId=Long.MAX_VALUE countPerPage=3")
@@ -848,7 +848,7 @@ class FeedServiceTest {
         assertThat(responses.getFeeds()).hasSize(2);
         assertThat(responses.getFeeds().get(0).getTitle()).isEqualTo(FEED_REQUEST3.getTitle());
         assertThat(responses.getFeeds().get(1).getTitle()).isEqualTo(FEED_REQUEST1.getTitle());
-        assertThat(responses.getLastDrawnFeedId()).isEqualTo(firstFeedId);
+        assertThat(responses.getNextFeedId()).isNull();
     }
 
     @DisplayName("step과 help를 고려한 페이지네이션을 지원한다. (step=all, help=true, lastFeedId=thirdFeedId countPerPage=2")
@@ -871,9 +871,10 @@ class FeedServiceTest {
         FeedCardPaginationResponse responses = feedService.findRecentFeeds("all", true, thirdFeedId, 3);
 
         // then
-        assertThat(responses.getFeeds()).hasSize(1);
-        assertThat(responses.getFeeds().get(0).getTitle()).isEqualTo(FEED_REQUEST1.getTitle());
-        assertThat(responses.getLastDrawnFeedId()).isEqualTo(firstFeedId);
+        assertThat(responses.getFeeds()).hasSize(2);
+        assertThat(responses.getFeeds().get(0).getTitle()).isEqualTo(FEED_REQUEST3.getTitle());
+        assertThat(responses.getFeeds().get(1).getTitle()).isEqualTo(FEED_REQUEST1.getTitle());
+        assertThat(responses.getNextFeedId()).isNull();
     }
 
     @DisplayName("step과 help를 고려한 페이지네이션을 지원한다. (step=all, help=false, lastFeedId=thirdFeedId countPerPage=2")
@@ -897,9 +898,9 @@ class FeedServiceTest {
 
         // then
         assertThat(responses.getFeeds()).hasSize(2);
-        assertThat(responses.getFeeds().get(0).getTitle()).isEqualTo(FEED_REQUEST2.getTitle());
-        assertThat(responses.getFeeds().get(1).getTitle()).isEqualTo(FEED_REQUEST1.getTitle());
-        assertThat(responses.getLastDrawnFeedId()).isEqualTo(firstFeedId);
+        assertThat(responses.getFeeds().get(0).getTitle()).isEqualTo(FEED_REQUEST3.getTitle());
+        assertThat(responses.getFeeds().get(1).getTitle()).isEqualTo(FEED_REQUEST2.getTitle());
+        assertThat(responses.getNextFeedId()).isEqualTo(firstFeedId);
     }
 
     private void 피드_정보가_같은지_조회(FeedRequest request, Feed feed) {

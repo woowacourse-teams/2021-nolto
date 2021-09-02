@@ -20,12 +20,4 @@ public class Feeds {
     public List<Feed> filter(FilterStrategy filterStrategy) {
         return filterStrategy.execute(this.feeds);
     }
-
-    public Feed findLastFeed() {
-        return feeds.get(feeds.size() - 1);
-    }
-
-    public List<Feed> getFeeds() {
-        return feeds;
-    }
 }

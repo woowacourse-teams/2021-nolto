@@ -32,6 +32,8 @@ import java.util.*;
 @Service
 public class FeedService {
 
+    private static final int NEXT_FEED_COUNT = 1;
+
     private final ImageService imageService;
     private final FeedRepository feedRepository;
     private final TechRepository techRepository;
@@ -119,18 +121,23 @@ public class FeedService {
         return FeedCardResponse.toList(feeds.filter(filterStrategy));
     }
 
-    public FeedCardPaginationResponse findRecentFeeds(String step, Boolean help, Long lastDrawnFeedId, Integer countPerPage) {
+    public FeedCardPaginationResponse findRecentFeeds(String step, Boolean help, Long nextFeedId, Integer countPerPage) {
         EnumSet<Step> steps = Step.asEnumSet(step);
-        Pageable pageable = PageRequest.of(0, countPerPage);
-        return findRecentFeedsWithCondition(steps, help, lastDrawnFeedId, pageable);
+        Pageable pageable = PageRequest.of(0, countPerPage + NEXT_FEED_COUNT);
+        List<Feed> findFeeds = findRecentFeedsWithCondition(help, nextFeedId, steps, pageable);
+
+        if (findFeeds.size() == countPerPage + NEXT_FEED_COUNT) {
+            Feed nextFeed = findFeeds.get(countPerPage);
+            findFeeds.remove(nextFeed);
+            return FeedCardPaginationResponse.of(findFeeds, nextFeed);
+        }
+        return FeedCardPaginationResponse.of(findFeeds, null);
     }
 
-    private FeedCardPaginationResponse findRecentFeedsWithCondition(EnumSet<Step> steps, Boolean help, Long lastDrawnFeedId, Pageable pageable) {
+    private List<Feed> findRecentFeedsWithCondition(Boolean help, Long nextFeedId, EnumSet<Step> steps, Pageable pageable) {
         if (Objects.isNull(help) || !help) {
-            List<Feed> findFeeds = feedRepository.findWithoutHelp(steps, lastDrawnFeedId, pageable);
-            return FeedCardPaginationResponse.of(new Feeds(findFeeds));
+            return feedRepository.findWithoutHelp(steps, nextFeedId, pageable);
         }
-        List<Feed> findFeeds = feedRepository.findWithHelp(steps, help, lastDrawnFeedId, pageable);
-        return FeedCardPaginationResponse.of(new Feeds(findFeeds));
+        return feedRepository.findWithHelp(steps, help, nextFeedId, pageable);
     }
 }

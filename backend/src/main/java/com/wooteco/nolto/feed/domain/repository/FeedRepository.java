@@ -19,13 +19,13 @@ public interface FeedRepository extends JpaRepository<Feed, Long> {
 
     @Query(value = "select feed " +
             "from Feed as feed " +
-            "where feed.id < :feedId and feed.step in :steps " +
+            "where feed.id <= :feedId and feed.step in :steps " +
             "order by feed.createdDate desc, feed.id desc")
     List<Feed> findWithoutHelp(@Param("steps") EnumSet<Step> steps, @Param("feedId") Long feedId, Pageable pageable);
 
     @Query(value = "select feed " +
             "from Feed as feed " +
-            "where feed.id < :feedId and feed.step in :steps and feed.isSos =:help " +
+            "where feed.id <= :feedId and feed.step in :steps and feed.isSos =:help " +
             "order by feed.createdDate desc, feed.id desc")
     List<Feed> findWithHelp(@Param("steps") EnumSet<Step> steps, @Param("help") Boolean help, @Param("feedId") Long feedId, Pageable pageable);
 }
