@@ -17,14 +17,14 @@ public interface FeedRepository extends JpaRepository<Feed, Long> {
 
     Set<Feed> findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(String titleText, String contentText);
 
-    @Query(value = "select feed " +
+    @Query(value = "select distinct feed " +
             "from Feed as feed " +
             "join fetch feed.author u " +
             "where feed.id <= :feedId and feed.step in :steps " +
             "order by feed.createdDate desc, feed.id desc")
     List<Feed> findWithoutHelp(@Param("steps") EnumSet<Step> steps, @Param("feedId") Long feedId, Pageable pageable);
 
-    @Query(value = "select feed " +
+    @Query(value = "select distinct feed " +
             "from Feed as feed " +
             "join fetch feed.author u " +
             "where feed.id <= :feedId and feed.step in :steps and feed.isSos =:help " +
