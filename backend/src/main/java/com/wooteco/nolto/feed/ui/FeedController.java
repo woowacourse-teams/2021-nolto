@@ -5,6 +5,7 @@ import com.wooteco.nolto.auth.UserAuthenticationPrincipal;
 import com.wooteco.nolto.auth.ValidTokenRequired;
 import com.wooteco.nolto.feed.application.FeedService;
 import com.wooteco.nolto.feed.application.LikeService;
+import com.wooteco.nolto.feed.ui.dto.FeedCardPaginationResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
@@ -12,14 +13,17 @@ import com.wooteco.nolto.user.domain.User;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
 import java.net.URI;
 import java.util.List;
 
 @AllArgsConstructor
 @RestController
+@Validated
 @RequestMapping("/feeds")
 public class FeedController {
 
@@ -71,6 +75,18 @@ public class FeedController {
     public ResponseEntity<List<FeedCardResponse>> recentResponse(@RequestParam(required = false, defaultValue = "all") String filter) {
         List<FeedCardResponse> feeds = feedService.findAll(filter);
         return ResponseEntity.ok(feeds);
+    }
+
+    @GetMapping("/recent2")
+    public ResponseEntity<FeedCardPaginationResponse> recentResponse(@RequestParam(required = false) String step,
+                                                                     @RequestParam(required = false, defaultValue = "false") @Valid @Pattern(regexp = "^true$|^false$", message = "Boolean 타입이 아닙니다.") String help,
+                                                                     @RequestParam(required = false, defaultValue = "10000000") @Valid @Pattern(regexp = "^[1-9][0-9]*$", message = "자연수만 가능합니다.") String nextFeedId,
+                                                                     @RequestParam(required = false, defaultValue = "15") @Valid @Pattern(regexp = "^[1-9][0-9]*$", message = "자연수만 가능합니다.") String countPerPage) {
+        FeedCardPaginationResponse response = feedService.findRecentFeeds(step,
+                Boolean.parseBoolean(help),
+                Long.parseLong(nextFeedId),
+                Integer.parseInt(countPerPage));
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/hot")

@@ -8,6 +8,7 @@ import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.FeedTech;
 import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
+import com.wooteco.nolto.feed.ui.dto.FeedCardPaginationResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
@@ -754,6 +755,152 @@ class FeedServiceTest {
         //then
         assertThat(searchFeeds).hasSize(2);
         assertThat(feedIds).contains(firstFeedId, thirdFeedId);
+    }
+
+    @DisplayName("step과 help를 고려한 페이지네이션을 지원한다. (step=all, help=null, lastFeedId=Long.MAX_VALUE countPerPage=2")
+    @Test
+    void stepAllHelpNull() {
+        // given
+        FEED_REQUEST1.setStep("PROGRESS");
+        Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
+        FEED_REQUEST2.setStep("PROGRESS");
+        Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
+        FEED_REQUEST3.setStep("COMPLETE");
+        Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
+        em.flush();
+        em.clear();
+
+        // when
+        FeedCardPaginationResponse responses = feedService.findRecentFeeds("all", false, Long.MAX_VALUE, 2);
+
+        // then
+        assertThat(responses.getFeeds()).hasSize(2);
+        assertThat(responses.getFeeds().get(0).getTitle()).isEqualTo(FEED_REQUEST3.getTitle());
+        assertThat(responses.getFeeds().get(1).getTitle()).isEqualTo(FEED_REQUEST2.getTitle());
+        assertThat(responses.getNextFeedId()).isEqualTo(firstFeedId);
+    }
+
+    @DisplayName("step과 help를 고려한 페이지네이션을 지원한다. (step=progress, help=null, lastFeedId=Long.MAX_VALUE countPerPage=2")
+    @Test
+    void stepProgressHelpNull() {
+        // given
+        FEED_REQUEST1.setStep("PROGRESS");
+        Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
+        FEED_REQUEST2.setStep("PROGRESS");
+        Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
+        FEED_REQUEST3.setStep("COMPLETE");
+        Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
+        em.flush();
+        em.clear();
+
+        // when
+        FeedCardPaginationResponse responses = feedService.findRecentFeeds("progress", false, Long.MAX_VALUE, 2);
+
+        // then
+        assertThat(responses.getFeeds()).hasSize(2);
+        assertThat(responses.getFeeds().get(0).getTitle()).isEqualTo(FEED_REQUEST2.getTitle());
+        assertThat(responses.getFeeds().get(1).getTitle()).isEqualTo(FEED_REQUEST1.getTitle());
+        assertThat(responses.getNextFeedId()).isNull();
+    }
+
+    @DisplayName("step과 help를 고려한 페이지네이션을 지원한다. (step=complete, help=null, lastFeedId=Long.MAX_VALUE countPerPage=2")
+    @Test
+    void stepCompleteHelpNull() {
+        // given
+        FEED_REQUEST1.setStep("PROGRESS");
+        Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
+        FEED_REQUEST2.setStep("PROGRESS");
+        Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
+        FEED_REQUEST3.setStep("COMPLETE");
+        Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
+        em.flush();
+        em.clear();
+
+        // when
+        FeedCardPaginationResponse responses = feedService.findRecentFeeds("complete", false, Long.MAX_VALUE, 2);
+
+        // then
+        assertThat(responses.getFeeds()).hasSize(1);
+        assertThat(responses.getFeeds().get(0).getTitle()).isEqualTo(FEED_REQUEST3.getTitle());
+        assertThat(responses.getNextFeedId()).isNull();
+    }
+
+    @DisplayName("step과 help를 고려한 페이지네이션을 지원한다. (step=all, help=true, lastFeedId=Long.MAX_VALUE countPerPage=3")
+    @Test
+    void stepAllHelpTrue() {
+        // given
+        FEED_REQUEST1.setStep("PROGRESS");
+        FEED_REQUEST1.setSos(true);
+        Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
+        FEED_REQUEST2.setStep("PROGRESS");
+        FEED_REQUEST2.setSos(false);
+        Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
+        FEED_REQUEST3.setStep("COMPLETE");
+        FEED_REQUEST3.setSos(true);
+        Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
+        em.flush();
+        em.clear();
+
+        // when
+        FeedCardPaginationResponse responses = feedService.findRecentFeeds("all", true, Long.MAX_VALUE, 3);
+
+        // then
+        assertThat(responses.getFeeds()).hasSize(2);
+        assertThat(responses.getFeeds().get(0).getTitle()).isEqualTo(FEED_REQUEST3.getTitle());
+        assertThat(responses.getFeeds().get(1).getTitle()).isEqualTo(FEED_REQUEST1.getTitle());
+        assertThat(responses.getNextFeedId()).isNull();
+    }
+
+    @DisplayName("step과 help를 고려한 페이지네이션을 지원한다. (step=all, help=true, lastFeedId=thirdFeedId countPerPage=2")
+    @Test
+    void stepAllHelpTrue2() {
+        // given
+        FEED_REQUEST1.setStep("PROGRESS");
+        FEED_REQUEST1.setSos(true);
+        Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
+        FEED_REQUEST2.setStep("PROGRESS");
+        FEED_REQUEST2.setSos(false);
+        Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
+        FEED_REQUEST3.setStep("COMPLETE");
+        FEED_REQUEST3.setSos(true);
+        Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
+        em.flush();
+        em.clear();
+
+        // when
+        FeedCardPaginationResponse responses = feedService.findRecentFeeds("all", true, thirdFeedId, 3);
+
+        // then
+        assertThat(responses.getFeeds()).hasSize(2);
+        assertThat(responses.getFeeds().get(0).getTitle()).isEqualTo(FEED_REQUEST3.getTitle());
+        assertThat(responses.getFeeds().get(1).getTitle()).isEqualTo(FEED_REQUEST1.getTitle());
+        assertThat(responses.getNextFeedId()).isNull();
+    }
+
+    @DisplayName("step과 help를 고려한 페이지네이션을 지원한다. (step=all, help=false, lastFeedId=thirdFeedId countPerPage=2")
+    @Test
+    void stepAllHelpFalse() {
+        // given
+        FEED_REQUEST1.setStep("PROGRESS");
+        FEED_REQUEST1.setSos(true);
+        Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
+        FEED_REQUEST2.setStep("PROGRESS");
+        FEED_REQUEST2.setSos(false);
+        Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
+        FEED_REQUEST3.setStep("COMPLETE");
+        FEED_REQUEST3.setSos(true);
+        Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
+        em.flush();
+        em.clear();
+
+        // when
+        FeedCardPaginationResponse responses = feedService.findRecentFeeds("all", false, thirdFeedId, 2);
+
+        // then
+        assertThat(responses.getFeeds()).hasSize(2);
+        assertThat(responses.getFeeds().get(0).getTitle()).isEqualTo(FEED_REQUEST3.getTitle());
+        assertThat(responses.getFeeds().get(1).getTitle()).isEqualTo(FEED_REQUEST2.getTitle());
+        assertThat(responses.getNextFeedId()).isEqualTo(firstFeedId);
     }
 
     private void 피드_정보가_같은지_조회(FeedRequest request, Feed feed) {
