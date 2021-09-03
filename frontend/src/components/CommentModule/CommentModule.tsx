@@ -1,10 +1,10 @@
 import React, { useMemo, useState } from 'react';
 
 import { CommentRequest } from 'types';
-import Styled from './CommentModule.styles';
 import Comment from './@common/Comment/Comment';
 import CommentForm from './@common/CommentForm/CommentForm';
 import useCommentModule from './useCommentModule';
+import Styled from './CommentModule.styles';
 
 interface Props {
   feedId: number;

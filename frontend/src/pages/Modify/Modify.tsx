@@ -5,13 +5,14 @@ import HighLightedText from 'components/@common/HighlightedText/HighlightedText'
 import FeedUploadForm from 'components/FeedUploadForm/FeedUploadForm';
 import BaseLayout from 'components/BaseLayout/BaseLayout';
 import ROUTE from 'constants/routes';
+import { FONT_SIZE } from 'constants/styles';
 import { ALERT_MSG } from 'constants/message';
 import useDialog from 'contexts/dialog/useDialog';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
 import useFeedModify from 'hooks/queries/feed/useFeedModify';
 import { DefaultPageRoot } from 'commonStyles';
-import Styled from './Modify.styles';
 import { FeedDetail } from 'types';
+import Styled from './Modify.styles';
 
 const Modify = () => {
   const location = useLocation<{ feedDetail: FeedDetail }>();
@@ -57,7 +58,7 @@ const Modify = () => {
     <BaseLayout>
       <DefaultPageRoot>
         <Styled.TitleWrapper>
-          <HighLightedText fontSize="1.75rem">🔧 Modify Your Toy</HighLightedText>
+          <HighLightedText fontSize={FONT_SIZE.X_LARGE}>🔧 Modify Your Toy</HighLightedText>
         </Styled.TitleWrapper>
 
         <FeedUploadForm

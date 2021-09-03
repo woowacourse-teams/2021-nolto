@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useRef, FormEvent } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 
 import PencilIcon from 'assets/pencil.svg';
 import ThumbIcon from 'assets/thumb.svg';

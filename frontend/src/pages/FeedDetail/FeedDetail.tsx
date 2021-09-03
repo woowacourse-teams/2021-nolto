@@ -5,6 +5,8 @@ import FeedDetailContent from 'pages/FeedDetail/FeedDetailContent/FeedDetailCont
 import AsyncBoundary from 'components/AsyncBoundary';
 import ErrorFallback from 'components/ErrorFallback/ErrorFallback';
 import BaseLayout from 'components/BaseLayout/BaseLayout';
+import { ERROR_MSG } from 'constants/message';
+import QUERY_KEYS from 'constants/queryKeys';
 import { DefaultPageRoot } from 'commonStyles';
 
 const FeedDetail = () => {
@@ -16,7 +18,7 @@ const FeedDetail = () => {
       <DefaultPageRoot>
         <AsyncBoundary
           rejectedFallback={
-            <ErrorFallback message="데이터를 불러올 수 없습니다." queryKey="feedDetail" />
+            <ErrorFallback message={ERROR_MSG.LOAD_DATA} queryKey={QUERY_KEYS.FEED_DETAIL} />
           }
         >
           <FeedDetailContent feedId={feedId} />

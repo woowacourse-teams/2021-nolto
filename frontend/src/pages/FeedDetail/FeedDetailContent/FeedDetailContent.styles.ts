@@ -127,7 +127,6 @@ const DetailsKeyWrapper = styled.div`
 `;
 
 const DetailsKey = styled(HighlightedText)`
-  font-size: 1rem;
   font-weight: 400;
 `;
 

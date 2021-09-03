@@ -1,6 +1,7 @@
 import { useQuery, UseQueryOptions } from 'react-query';
 
 import api from 'constants/api';
+import QUERY_KEYS from 'constants/queryKeys';
 import HttpError from 'utils/HttpError';
 import { Feed, FilterType, ErrorHandler } from 'types';
 import { resolveHttpError } from 'utils/error';
@@ -26,7 +27,7 @@ const loadRecentFeeds = async (filter: FilterType, errorHandler: ErrorHandler) =
 
 const useRecentFeedsLoad = ({ filter, errorHandler, ...option }: CustomQueryOption) => {
   return useQuery<Feed[], HttpError>(
-    ['recentFeeds', filter],
+    [QUERY_KEYS.RECENT_FEEDS, filter],
     () => loadRecentFeeds(filter, errorHandler),
     option,
   );

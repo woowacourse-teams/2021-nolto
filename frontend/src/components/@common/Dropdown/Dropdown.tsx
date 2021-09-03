@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import Styled, { ToggleButton } from './Dropdown.styles';
 import Dots from 'assets/dots.svg';
+import Styled, { ToggleButton } from './Dropdown.styles';
 
 interface Props {
   children: React.ReactNode;

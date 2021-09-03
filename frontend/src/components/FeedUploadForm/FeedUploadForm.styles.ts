@@ -3,6 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import TextArea from 'components/@common/TextArea/TextArea';
 import TextButton from 'components/@common/TextButton/TextButton';
 import Tooltip from 'components/@common/Tooltip/Tooltip';
+import { FONT_SIZE } from 'constants/styles';
 import ToyboxIcon from 'assets/toybox.svg';
 import { defaultShadow } from 'commonStyles';
 
@@ -120,7 +121,7 @@ export const SOSTooltip = styled(Tooltip)<{ visible: boolean }>`
 `;
 
 const InputCaption = styled.span`
-  font-size: 0.75rem;
+  font-size: ${FONT_SIZE.SMALL};
 `;
 
 export const Toybox = styled(ToyboxIcon)`

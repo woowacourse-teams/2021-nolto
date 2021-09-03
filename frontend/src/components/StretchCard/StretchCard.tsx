@@ -2,8 +2,8 @@ import React from 'react';
 
 import SOSFlag from 'assets/sosFlag.svg';
 import { Feed } from 'types';
-import Styled from './StretchCard.styles';
 import StepChip from 'components/StepChip/StepChip';
+import Styled from './StretchCard.styles';
 
 interface Props {
   feed: Feed;
