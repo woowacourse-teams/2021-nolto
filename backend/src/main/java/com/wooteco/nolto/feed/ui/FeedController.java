@@ -1,6 +1,5 @@
 package com.wooteco.nolto.feed.ui;
 
-import com.wooteco.nolto.CookieUtil;
 import com.wooteco.nolto.auth.MemberAuthenticationPrincipal;
 import com.wooteco.nolto.auth.UserAuthenticationPrincipal;
 import com.wooteco.nolto.auth.ValidTokenRequired;
@@ -19,6 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+
+import static com.wooteco.nolto.ViewHistoryManager.isAlreadyView;
+import static com.wooteco.nolto.ViewHistoryManager.setCookieByReadHistory;
 
 @AllArgsConstructor
 @RestController
@@ -92,17 +94,5 @@ public class FeedController {
                                                                  @RequestParam(required = false, defaultValue = "all") String filter) {
         List<FeedCardResponse> feeds = feedService.search(query, techs, filter);
         return ResponseEntity.ok(feeds);
-    }
-
-    private boolean isAlreadyView(String cookieValue, String feedId) {
-        return cookieValue.contains("/" + feedId + "/");
-    }
-
-    private void setCookieByReadHistory(boolean alreadyView, String cookieValue, String feedId, HttpServletResponse response) {
-        if (alreadyView) {
-            return;
-        }
-        cookieValue = cookieValue.concat(feedId + "/");
-        response.addCookie(CookieUtil.generateCookie("view", cookieValue));
     }
 }
