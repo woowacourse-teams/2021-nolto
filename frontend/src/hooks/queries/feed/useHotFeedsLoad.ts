@@ -1,6 +1,7 @@
 import { useQuery, UseQueryOptions } from 'react-query';
 
 import api from 'constants/api';
+import QUERY_KEYS from 'constants/queryKeys';
 import HttpError from 'utils/HttpError';
 import { Feed, ErrorHandler } from 'types';
 import { resolveHttpError } from 'utils/error';
@@ -24,7 +25,11 @@ const loadHotFeeds = async (errorHandler?: ErrorHandler) => {
 };
 
 const useHotFeedsLoad = ({ errorHandler, ...option }: CustomQueryOption) => {
-  return useQuery<Feed[], HttpError>(['hotFeeds'], () => loadHotFeeds(errorHandler), option);
+  return useQuery<Feed[], HttpError>(
+    QUERY_KEYS.HOT_FEEDS,
+    () => loadHotFeeds(errorHandler),
+    option,
+  );
 };
 
 export default useHotFeedsLoad;

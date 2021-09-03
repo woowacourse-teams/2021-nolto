@@ -6,15 +6,14 @@ import History from './History/History';
 import AsyncBoundary from 'components/AsyncBoundary';
 import ErrorFallback from 'components/ErrorFallback/ErrorFallback';
 import BaseLayout from 'components/BaseLayout/BaseLayout';
+import { ERROR_MSG } from 'constants/message';
 import Styled from './Mypage.styles';
 
 const Mypage = () => {
   return (
     <BaseLayout>
       <Styled.Root>
-        <AsyncBoundary
-          rejectedFallback={<ErrorFallback message="사용자 데이터를 가져올 수 없습니다." />}
-        >
+        <AsyncBoundary rejectedFallback={<ErrorFallback message={ERROR_MSG.LOAD_USER_DATA} />}>
           <Intro />
           <Styled.FlexContainer>
             <Notification />

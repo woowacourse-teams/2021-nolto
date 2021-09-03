@@ -2,7 +2,7 @@ import styled, { keyframes } from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
 import TextButton from 'components/@common/TextButton/TextButton';
-import Z_INDEX from 'constants/zIndex';
+import { Z_INDEX } from 'constants/styles';
 import { defaultShadow } from 'commonStyles';
 
 const show = keyframes`

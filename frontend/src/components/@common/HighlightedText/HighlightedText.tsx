@@ -1,5 +1,6 @@
 import React, { HTMLAttributes } from 'react';
 
+import { FONT_SIZE } from 'constants/styles';
 import Styled from './HighlightedText.styles';
 
 interface Props extends HTMLAttributes<HTMLSpanElement> {
@@ -7,7 +8,7 @@ interface Props extends HTMLAttributes<HTMLSpanElement> {
   children: React.ReactNode;
 }
 
-const HighLightedText = ({ fontSize = '1.3rem', children, ...option }: Props) => {
+const HighLightedText = ({ fontSize = FONT_SIZE.MEDIUM, children, ...option }: Props) => {
   return (
     <Styled.Root fontSize={fontSize} {...option}>
       {children}

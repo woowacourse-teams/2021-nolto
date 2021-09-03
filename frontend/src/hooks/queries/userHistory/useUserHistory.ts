@@ -1,6 +1,7 @@
 import { useQuery, UseQueryOptions } from 'react-query';
 
 import api from 'constants/api';
+import QUERY_KEYS from 'constants/queryKeys';
 import { ErrorHandler, UserHistory } from 'types';
 import HttpError from 'utils/HttpError';
 import { resolveHttpError } from 'utils/error';
@@ -24,7 +25,7 @@ const getHistory = async (errorHandler?: ErrorHandler) => {
 };
 
 const useUserHistory = ({ errorHandler, ...option }: CustomQueryOption) => {
-  return useQuery<UserHistory>('userHistory', () => getHistory(errorHandler), option);
+  return useQuery<UserHistory>(QUERY_KEYS.USER_HISTORY, () => getHistory(errorHandler), option);
 };
 
 export default useUserHistory;

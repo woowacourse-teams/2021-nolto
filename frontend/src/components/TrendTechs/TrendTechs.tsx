@@ -4,8 +4,8 @@ import { useHistory } from 'react-router-dom';
 import ROUTE from 'constants/routes';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
 import useTrendTechs from 'hooks/queries/useTrendTechs';
-import Styled from './TrendTechs.styles';
 import { Tech } from 'types';
+import Styled from './TrendTechs.styles';
 
 const TrendTechs = () => {
   const history = useHistory();

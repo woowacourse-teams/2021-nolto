@@ -6,7 +6,7 @@ import HighLightedText from 'components/@common/HighlightedText/HighlightedText'
 import Avatar from 'components/@common/Avatar/Avatar';
 import IconButtonComponent from 'components/@common/IconButton/IconButton';
 import { PALETTE } from 'constants/palette';
-import Z_INDEX from 'constants/zIndex';
+import { Z_INDEX } from 'constants/styles';
 import { MEDIA_QUERY } from 'constants/mediaQuery';
 import { hoverUnderline } from 'commonStyles';
 import ArrowIcon from 'assets/carouselArrow.svg';

@@ -4,9 +4,9 @@ import useTechAutoComplete from 'hooks/queries/useTechAutoComplete';
 import useQueryDebounce from 'hooks/@common/useQueryDebounce';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
 import FormInput from 'components/@common/FormInput/FormInput';
+import useTechTag from '../useTechTag';
 import { Tech } from 'types';
 import Styled from './TechInput.styles';
-import useTechTag from '../useTechTag';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   onUpdateTechs: (techs: Tech[]) => void;

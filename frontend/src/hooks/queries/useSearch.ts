@@ -1,6 +1,7 @@
 import { useQuery, UseQueryOptions } from 'react-query';
 
 import api from 'constants/api';
+import QUERY_KEYS from 'constants/queryKeys';
 import { ErrorHandler, Feed, FilterType } from 'types';
 import HttpError from 'utils/HttpError';
 import { resolveHttpError } from 'utils/error';
@@ -35,7 +36,7 @@ const getSearchResult = async (searchParams: SearchParams, errorHandler: ErrorHa
 
 const useSearch = ({ searchParams, errorHandler, ...option }: CustomQueryOption) => {
   return useQuery<Feed[]>(
-    ['searchResult', searchParams],
+    [QUERY_KEYS.SEARCH_RESULT, searchParams],
     () => getSearchResult(searchParams, errorHandler),
     option,
   );

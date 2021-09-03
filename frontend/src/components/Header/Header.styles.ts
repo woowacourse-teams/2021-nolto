@@ -1,3 +1,5 @@
+import styled, { keyframes } from 'styled-components';
+
 import LogoIcon from 'assets/logo.svg';
 import LogoSimpleIcon from 'assets/logoSimple.svg';
 import { hoverUnderline } from 'commonStyles';
@@ -6,10 +8,9 @@ import IconButtonComponent from 'components/@common/IconButton/IconButton';
 import SearchBarComponent from 'components/SearchBar/SearchBar';
 import UserProfileComponent from 'components/UserProfile/UserProfile';
 import { HEIGHT } from 'constants/common';
+import { Z_INDEX } from 'constants/styles';
 import { MEDIA_QUERY } from 'constants/mediaQuery';
 import { PALETTE } from 'constants/palette';
-import Z_INDEX from 'constants/zIndex';
-import styled, { keyframes } from 'styled-components';
 
 const Root = styled.header<{ isFolded: boolean }>`
   position: fixed;

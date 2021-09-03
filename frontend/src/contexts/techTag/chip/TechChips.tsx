@@ -1,8 +1,8 @@
 import React from 'react';
 
+import useTechTag from '../useTechTag';
 import { ButtonStyle } from 'types';
 import Styled, { TechButton } from './TechChips.styles';
-import useTechTag from '../useTechTag';
 
 interface Props {
   className?: string;

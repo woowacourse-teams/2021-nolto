@@ -2,8 +2,8 @@ import React, { ReactNode, useMemo, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 import CrossMark from 'assets/crossMark.svg';
-import Styled from './ModalProvider.styles';
 import { PALETTE } from 'constants/palette';
+import Styled from './ModalProvider.styles';
 
 interface Props {
   children: ReactNode;

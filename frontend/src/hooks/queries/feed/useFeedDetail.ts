@@ -1,6 +1,7 @@
 import { useQuery, UseQueryOptions } from 'react-query';
 
 import api from 'constants/api';
+import QUERY_KEYS from 'constants/queryKeys';
 import { ErrorHandler, FeedDetail } from 'types';
 import HttpError from 'utils/HttpError';
 import { resolveHttpError } from 'utils/error';
@@ -26,7 +27,7 @@ const getFeedDetail = async (feedId: number, errorHandler: ErrorHandler) => {
 
 const useFeedDetail = ({ errorHandler, feedId, ...option }: CustomQueryOption) => {
   return useQuery<FeedDetail, HttpError>(
-    ['feedDetail', feedId],
+    [QUERY_KEYS.FEED_DETAIL, feedId],
     () => getFeedDetail(feedId, errorHandler),
     option,
   );

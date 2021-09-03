@@ -2,12 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import Skeleton from 'components/Skeleton/Skeleton';
+import RegularFeedCard from 'components/RegularFeedCard/RegularFeedCard';
 import ROUTE from 'constants/routes';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
 import useSearch from 'hooks/queries/useSearch';
-import Styled, { MoreFeedsArrow } from './SearchResultContent.styles';
 import { FilterType } from 'types';
-import RegularFeedCard from 'components/RegularFeedCard/RegularFeedCard';
+import Styled, { MoreFeedsArrow } from './SearchResultContent.styles';
 
 interface Props {
   query: string;

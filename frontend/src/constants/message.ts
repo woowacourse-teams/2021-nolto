@@ -16,3 +16,16 @@ export const ALERT_MSG = {
 export const CONFIRM_MSG = {
   LEAVE_UPLOAD_PAGE: '정말로 페이지를 떠나시겠습니까? 작성 중인 정보는 사라집니다.',
 };
+
+export const ERROR_MSG = {
+  LOAD_DATA: '데이터를 불러올 수 없습니다.',
+  LOAD_COMMENTS: '댓글을 불러올 수 없습니다.',
+  LOAD_TRENDS: '트렌드 기술 스택을 불러올 수 없습니다.',
+  LOAD_USER_DATA: '사용자 데이터를 불러올 수 없습니다.',
+  LOAD_USER_NOTI: '알림 목록을 불러올 수 없습니다.',
+  LOAD_USER_HISTORY: '사용자 히스토리를 불러올 수 없습니다.',
+};
+
+export const MESSAGES = {
+  NEED_LOGIN: '로그인이 필요한 서비스입니다.',
+};

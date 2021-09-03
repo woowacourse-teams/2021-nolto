@@ -8,6 +8,8 @@ import useFeedDetail from 'hooks/queries/feed/useFeedDetail';
 import useMember from 'hooks/queries/useMember';
 import { PALETTE } from 'constants/palette';
 import ROUTE from 'constants/routes';
+import QUERY_KEYS from 'constants/queryKeys';
+import { ERROR_MSG } from 'constants/message';
 import ToggleList from 'components/@common/ToggleList/ToggleList';
 import FeedDropdown from 'components/FeedDropdown/FeedDropdown';
 import LikeButton from 'components/LikeButton/LikeButton';
@@ -95,7 +97,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
             {feedDetail.deployedUrl && (
               <Styled.DetailsPair>
                 <Styled.DetailsKeyWrapper>
-                  <Styled.DetailsKey fontSize="1.5rem">서비스 URL</Styled.DetailsKey>
+                  <Styled.DetailsKey>서비스 URL</Styled.DetailsKey>
                 </Styled.DetailsKeyWrapper>
                 <Styled.DetailsValue>
                   <a href={feedDetail.deployedUrl} target="_blank">
@@ -107,7 +109,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
             {feedDetail.storageUrl && (
               <Styled.DetailsPair>
                 <Styled.DetailsKeyWrapper>
-                  <Styled.DetailsKey fontSize="1.5rem">저장소 URL</Styled.DetailsKey>
+                  <Styled.DetailsKey>저장소 URL</Styled.DetailsKey>
                 </Styled.DetailsKeyWrapper>
                 <Styled.DetailsValue>
                   <a href={feedDetail.storageUrl} target="_blank">
@@ -119,7 +121,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
             {feedDetail.techs.length > 0 && (
               <Styled.DetailsPair>
                 <Styled.DetailsKeyWrapper>
-                  <Styled.DetailsKey fontSize="1.5rem">기술스택</Styled.DetailsKey>
+                  <Styled.DetailsKey>기술스택</Styled.DetailsKey>
                 </Styled.DetailsKeyWrapper>
                 <Styled.DetailsValue>
                   <ToggleList width="100%" height="1.75rem">
@@ -145,7 +147,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
 
       <AsyncBoundary
         rejectedFallback={
-          <ErrorFallback message="댓글 불러오기에 실패했습니다." queryKey="comments" />
+          <ErrorFallback message={ERROR_MSG.LOAD_COMMENTS} queryKey={QUERY_KEYS.COMMENTS} />
         }
       >
         <CommentModule feedId={feedDetail.id} focusedCommentId={location.state?.commentId} />
