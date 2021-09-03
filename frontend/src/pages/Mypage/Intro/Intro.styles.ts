@@ -1,17 +1,32 @@
 import styled, { css } from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
+import { MEDIA_QUERY } from 'constants/mediaQuery';
 import { defaultShadow, hoverLayer } from 'commonStyles';
 
 const Root = styled.form`
   display: flex;
+  flex-direction: column;
   align-items: center;
-  padding: 1rem 2rem;
-  gap: 2rem;
-  width: 36rem;
-  height: 10rem;
+  padding: 3rem 2rem;
+  gap: 3rem;
+  max-width: 12rem;
+  width: 100%;
+  height: fit-content;
   border-radius: 0.75rem;
   ${defaultShadow};
+
+  @media ${MEDIA_QUERY.DESKTOP_SMALL} {
+    display: flex;
+    flex-direction: row;
+    max-width: 36rem;
+    padding: 2rem;
+  }
+
+  @media ${MEDIA_QUERY.TABLET} {
+    padding: 1rem;
+    gap: 1.5rem;
+  }
 `;
 
 const ImageWrapper = styled.div`
@@ -23,6 +38,16 @@ const UserImage = styled.img`
   height: 6rem;
   object-fit: cover;
   border-radius: 50%;
+
+  @media ${MEDIA_QUERY.TABLET} {
+    width: 5.25rem;
+    height: 5.25rem;
+  }
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    width: 4.5rem;
+    height: 4.5rem;
+  }
 `;
 
 const CameraLabel = styled.label`
@@ -49,7 +74,7 @@ const CameraLabel = styled.label`
 `;
 
 const Content = styled.div`
-  flex-grow: 1;
+  width: 100%;
 `;
 
 const TopContainer = styled.div`
@@ -59,9 +84,9 @@ const TopContainer = styled.div`
 
 const nameStyle = css`
   font-size: 18px;
+  line-height: 18px;
   font-weight: 700;
   width: 100%;
-  padding-bottom: 0.25rem;
 `;
 
 const Name = styled.div`

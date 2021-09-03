@@ -15,12 +15,10 @@ const Mypage = () => {
       <Styled.Root>
         <AsyncBoundary rejectedFallback={<ErrorFallback message={ERROR_MSG.LOAD_USER_DATA} />}>
           <Intro />
-        </AsyncBoundary>
-        <AsyncBoundary rejectedFallback={<ErrorFallback message={ERROR_MSG.LOAD_USER_NOTI} />}>
-          <Notification />
-        </AsyncBoundary>
-        <AsyncBoundary rejectedFallback={<ErrorFallback message={ERROR_MSG.LOAD_USER_HISTORY} />}>
-          <History />
+          <Styled.FlexContainer>
+            <Notification />
+            <History />
+          </Styled.FlexContainer>
         </AsyncBoundary>
       </Styled.Root>
     </BaseLayout>

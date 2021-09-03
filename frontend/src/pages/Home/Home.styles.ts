@@ -40,7 +40,7 @@ const SearchContainer = styled.div`
 
 const EllipseWrapper = styled.div`
   position: absolute;
-  width: 100vw;
+  width: 100%;
   top: -1.5rem;
   left: 0;
 `;
