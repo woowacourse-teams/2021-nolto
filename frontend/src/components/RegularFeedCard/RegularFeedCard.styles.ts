@@ -32,7 +32,7 @@ const Root = styled.div`
   }
 `;
 
-export const RegularCardImgWrapper = styled.div`
+const RegularCardImgWrapper = styled.div`
   position: relative;
   display: flex;
   justify-content: center;
@@ -74,4 +74,4 @@ const Content = styled.div`
   }
 `;
 
-export default { Root, Content };
+export default { Root, RegularCardImgWrapper, Content };
