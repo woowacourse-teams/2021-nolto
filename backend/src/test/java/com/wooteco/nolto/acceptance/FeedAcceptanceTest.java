@@ -11,6 +11,7 @@ import com.wooteco.nolto.tech.domain.Tech;
 import com.wooteco.nolto.tech.ui.dto.TechResponse;
 import com.wooteco.nolto.user.domain.User;
 import io.restassured.RestAssured;
+import io.restassured.http.Cookie;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -97,6 +98,22 @@ class FeedAcceptanceTest extends AcceptanceTest {
 
         // then
         피드_정보가_같은지_조회(response, 전시중_단계의_피드_요청);
+    }
+
+    @DisplayName("이미 읽은 피드를 조회할 경우, 24시간 이내에서는 조회수가 증가하지 않는다.")
+    @Test
+    void viewWithCookie() {
+        // given
+        Long 업로드되어_있는_피드_ID = 피드_업로드되어_있음(전시중_단계의_피드_요청);
+        // when
+        Cookie 업로드되어_있는_피드_쿠키 = new Cookie.Builder("view", "/" + String.valueOf(업로드되어_있는_피드_ID) + "/").build();
+        ExtractableResponse<Response> 아직_조회하지_않은_응답 = 피드_조회_요청(업로드되어_있는_피드_ID);
+        ExtractableResponse<Response> 이미_조회한_응답 = 피드_조회_요청(업로드되어_있는_피드_ID, 업로드되어_있는_피드_쿠키);
+
+        // then
+        FeedResponse 아직_조회하지_않은_피드_응답 = 아직_조회하지_않은_응답.as(FeedResponse.class);
+        FeedResponse 이미_조회한_피드_응답 = 이미_조회한_응답.as(FeedResponse.class);
+        assertThat(아직_조회하지_않은_피드_응답.getViews()).isEqualTo(이미_조회한_피드_응답.getViews());
     }
 
     @DisplayName("멤버가 피드를 조회한다.")
@@ -453,6 +470,15 @@ class FeedAcceptanceTest extends AcceptanceTest {
                 .extract();
     }
 
+    private ExtractableResponse<Response> 피드_조회_요청(Long 업로드되어_있는_피드_ID, Cookie cookie) {
+        return RestAssured.given().log().all()
+                .when()
+                .cookie(cookie)
+                .get("/feeds/{feedId}", 업로드되어_있는_피드_ID)
+                .then()
+                .log().all()
+                .extract();
+    }
 
     private ExtractableResponse<Response> 피드_수정_요청(String token, Long feedId, FeedRequest request) {
         return RestAssured.given().log().all()

@@ -16,10 +16,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 import java.net.URI;
 import java.util.List;
+
+import static com.wooteco.nolto.ViewHistoryManager.isAlreadyView;
+import static com.wooteco.nolto.ViewHistoryManager.setCookieByReadHistory;
 
 @AllArgsConstructor
 @RestController
@@ -38,9 +42,14 @@ public class FeedController {
     }
 
     @GetMapping(value = "/{feedId:[\\d]+}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<FeedResponse> findById(@UserAuthenticationPrincipal User user, @PathVariable Long feedId) {
-        FeedResponse response = feedService.findById(user, feedId);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<FeedResponse> findById(@UserAuthenticationPrincipal User user, @PathVariable Long feedId,
+                                                 HttpServletResponse response,
+                                                 @CookieValue(name = "view", required = false, defaultValue = "/") String cookieValue) {
+        String feedIdAsString = String.valueOf(feedId);
+        boolean alreadyView = isAlreadyView(cookieValue, feedIdAsString);
+        setCookieByReadHistory(alreadyView, cookieValue, feedIdAsString, response);
+        FeedResponse feedResponse = feedService.viewFeed(user, feedId, alreadyView);
+        return ResponseEntity.ok(feedResponse);
     }
 
     @ValidTokenRequired

@@ -31,6 +31,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -197,7 +198,7 @@ public class FeedControllerTest extends ControllerTest {
     @Test
     void findById() throws Exception {
         given(authService.findUserByToken(ACCESS_TOKEN_OPTIONAL)).willReturn(LOGIN_USER);
-        given(feedService.findById(any(User.class), any())).willReturn(FEED_RESPONSE);
+        given(feedService.viewFeed(any(User.class), any(), anyBoolean())).willReturn(FEED_RESPONSE);
 
         mockMvc.perform(
                 get("/feeds/{feedId}", FEED_ID)

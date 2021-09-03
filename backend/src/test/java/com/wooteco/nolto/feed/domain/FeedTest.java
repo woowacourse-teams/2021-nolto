@@ -44,15 +44,26 @@ class FeedTest {
         assertThat(feed.getAuthor()).isEqualTo(UserTest.USER);
     }
 
-    @DisplayName("조회수를 증가시킨다.")
+    @DisplayName("조회하지 않은 경우 조회수를 증가시킨다.")
     @Test
     void increaseView() {
         // when
         int beforeView = feed1.getViews();
-        feed1.increaseView();
+        feed1.increaseView(false);
 
         // then
         assertThat(feed1.getViews()).isEqualTo(beforeView + 1);
+    }
+
+    @DisplayName("이미 조회했을 시 조회수를 증가시키지 않는다.")
+    @Test
+    void notIncreaseView() {
+        // when
+        int beforeView = feed1.getViews();
+        feed1.increaseView(true);
+
+        // then
+        assertThat(feed1.getViews()).isEqualTo(beforeView);
     }
 
     @DisplayName("전시중(완료된) 프로젝트가의 배포 URL가 null이거나 공백인 경우 예외가 발생한다.")

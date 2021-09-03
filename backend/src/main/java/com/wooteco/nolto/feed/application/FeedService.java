@@ -82,11 +82,11 @@ public class FeedService {
         findFeed.changeThumbnailUrl(updateThumbnailUrl);
     }
 
-    public FeedResponse findById(User user, Long feedId) {
+    public FeedResponse viewFeed(User user, Long feedId, boolean alreadyView) {
         Feed feed = findEntityById(feedId);
         User author = feed.getAuthor();
         boolean liked = user.isLiked(feed);
-        feed.increaseView();
+        feed.increaseView(alreadyView);
         return FeedResponse.of(author, feed, liked);
     }
 
