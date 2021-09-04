@@ -16,6 +16,20 @@ const Root = styled.div`
       opacity: 1;
     }
   }
+
+  @media ${MEDIA_QUERY.TABLET} {
+    & > .card-container {
+      transform: none;
+    }
+
+    & > .control-container {
+      display: none;
+    }
+
+    & > .dot-container {
+      display: none;
+    }
+  }
 `;
 
 const ControlContainer = styled.div`
@@ -36,14 +50,10 @@ const HotToyCardsContainer = styled.ul<{ position: number }>`
   align-items: center;
   position: relative;
   width: 100%;
-  height: 30rem;
-  --gap: 2%;
-  --feed-width: 32%;
-  gap: var(--gap);
+  --feed-width: 33.4%;
   transition: all 0.3s ease;
-  transform: translateX(
-    calc(-1 * (var(--feed-width) + var(--gap)) * ${({ position }) => position})
-  );
+  transform: translateX(calc(-1 * var(--feed-width) * ${({ position }) => position}));
+  margin-bottom: 1rem;
 
   & .hot-feed {
     flex-shrink: 0;
@@ -51,15 +61,15 @@ const HotToyCardsContainer = styled.ul<{ position: number }>`
   }
 
   @media ${MEDIA_QUERY.TABLET} {
-    height: 20rem;
-  }
-
-  @media ${MEDIA_QUERY.MOBILE} {
-    height: 15rem;
+    overflow: auto;
+    transform: none;
   }
 `;
 
-const HotToyCardWrapper = styled.li<{ offset: number; position: number }>``;
+const HotToyCardWrapper = styled.li<{ offset: number; position: number }>`
+  padding-right: 1rem;
+  min-width: 14rem;
+`;
 
 const VerticalAvatar = styled(Avatar)`
   margin-bottom: 12px;

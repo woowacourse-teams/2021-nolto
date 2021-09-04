@@ -4,9 +4,8 @@ const Root = styled.div`
   display: flex;
   gap: 1rem;
   width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
-  overflow: visible;
+  overflow: auto;
+  padding-left: 1rem;
 `;
 
 export default { Root };

@@ -90,7 +90,7 @@ const Home = () => {
           </AsyncBoundary>
         </Styled.ToysContainer>
       </Styled.ContentArea>
-      <ScrollUpButton onClick={scrollTop}>
+      <ScrollUpButton size="3rem" onClick={scrollTop}>
         <Styled.ArrowUp width="14px" />
       </ScrollUpButton>
     </BaseLayout>

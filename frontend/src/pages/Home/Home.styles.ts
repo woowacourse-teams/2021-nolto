@@ -6,8 +6,7 @@ import HighLightedText from 'components/@common/HighlightedText/HighlightedText'
 import Avatar from 'components/@common/Avatar/Avatar';
 import IconButtonComponent from 'components/@common/IconButton/IconButton';
 import { PALETTE } from 'constants/palette';
-import { Z_INDEX } from 'constants/styles';
-import { MEDIA_QUERY } from 'constants/mediaQuery';
+import { FONT_SIZE, Z_INDEX } from 'constants/styles';
 import { hoverUnderline } from 'commonStyles';
 import ArrowIcon from 'assets/carouselArrow.svg';
 
@@ -28,14 +27,6 @@ const SearchContainer = styled.div`
   & > .search-bar {
     z-index: ${Z_INDEX.HOME_SEARCHBAR};
   }
-
-  @media ${MEDIA_QUERY.TABLET} {
-    margin-top: 2rem;
-  }
-
-  @media ${MEDIA_QUERY.TABLET} {
-    margin-top: 1rem;
-  }
 `;
 
 const EllipseWrapper = styled.div`
@@ -46,37 +37,17 @@ const EllipseWrapper = styled.div`
 `;
 
 const SearchTitle = styled.div`
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   font-weight: 500;
   color: ${PALETTE.WHITE_400};
   margin-bottom: 18px;
-
-  @media ${MEDIA_QUERY.TABLET} {
-    font-size: 1.5rem;
-  }
-
-  @media ${MEDIA_QUERY.MOBILE} {
-    font-size: 1rem;
-  }
 `;
 
 export const SearchBar = styled(SearchBarComponent)`
   position: relative;
-  width: 32rem;
+  width: 100%;
   height: 2.5rem;
   margin-bottom: 18px;
-
-  @media ${MEDIA_QUERY.TABLET} {
-    width: 28rem;
-    height: 2.25rem;
-    margin-bottom: 14px;
-  }
-
-  @media ${MEDIA_QUERY.MOBILE} {
-    width: 20rem;
-    height: 2rem;
-    margin-bottom: 8px;
-  }
 `;
 
 const TrendContainer = styled.div`
@@ -113,11 +84,7 @@ const ContentArea = styled.div`
   align-items: center;
   gap: 2rem;
   top: -1.5rem;
-  padding: 5rem 0;
-
-  @media ${MEDIA_QUERY.TABLET} {
-    padding: 2rem;
-  }
+  padding: 3rem 0;
 `;
 
 const TitleWrapper = styled.div`
@@ -128,13 +95,7 @@ const TitleWrapper = styled.div`
 `;
 
 const SectionTitle = styled(HighLightedText)`
-  @media ${MEDIA_QUERY.TABLET} {
-    margin-bottom: 32px;
-  }
-
-  @media ${MEDIA_QUERY.MOBILE} {
-    font-size: 1.25rem;
-  }
+  font-size: ${FONT_SIZE.LARGE};
 `;
 
 const HotToysContainer = styled.div`
@@ -142,10 +103,6 @@ const HotToysContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-
-  @media ${MEDIA_QUERY.TABLET} {
-    margin-bottom: 72px;
-  }
 `;
 
 const VerticalAvatar = styled(Avatar)`

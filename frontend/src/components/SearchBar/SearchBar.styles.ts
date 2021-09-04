@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
-import { MEDIA_QUERY } from 'constants/mediaQuery';
-import TechChipsComponent from 'contexts/techTag/chip/TechChips';
 import TechInputComponent from 'contexts/techTag/input/TechInput';
 
 const Root = styled.form<{ selectable: boolean }>`
@@ -20,7 +18,7 @@ const Root = styled.form<{ selectable: boolean }>`
 
 const Input = styled.input`
   font-size: 1rem;
-  flex-grow: 1;
+  width: 100%;
   padding: 0 0.25rem;
   outline: none;
   border: none;
@@ -31,16 +29,6 @@ const Button = styled.button`
   background-color: transparent;
   width: 2rem;
   height: 2rem;
-
-  @media ${MEDIA_QUERY.TABLET} {
-    width: 1.75rem;
-    height: 1.75rem;
-  }
-
-  @media ${MEDIA_QUERY.MOBILE} {
-    width: 1.5rem;
-    height: 1.5rem;
-  }
 `;
 
 const SelectedChips = styled.div`
@@ -58,8 +46,6 @@ const SelectedChips = styled.div`
     }
   }
 `;
-
-export const TechChips = styled(TechChipsComponent)``;
 
 export const TechInput = styled(TechInputComponent)`
   width: 100%;

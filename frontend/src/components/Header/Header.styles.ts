@@ -7,26 +7,33 @@ import TextButton from 'components/@common/TextButton/TextButton';
 import IconButtonComponent from 'components/@common/IconButton/IconButton';
 import SearchBarComponent from 'components/SearchBar/SearchBar';
 import UserProfileComponent from 'components/UserProfile/UserProfile';
-import { HEIGHT } from 'constants/common';
-import { Z_INDEX } from 'constants/styles';
-import { MEDIA_QUERY } from 'constants/mediaQuery';
+import { FONT_SIZE, Z_INDEX } from 'constants/styles';
+import { BREAK_POINTS, MEDIA_QUERY } from 'constants/mediaQuery';
 import { PALETTE } from 'constants/palette';
+import { HEIGHT } from 'constants/common';
 
 const Root = styled.header<{ isFolded: boolean }>`
   position: fixed;
+  display: flex;
+  align-items: center;
   top: 0;
   height: ${HEIGHT.HEADER};
   width: 100%;
   z-index: ${Z_INDEX.HEADER};
-  box-shadow: ${({ isFolded }) => !isFolded && '0px 4px 4px rgba(0, 0, 0, 0.25)'};
+  box-shadow: ${({ isFolded }) => !isFolded && 'rgb(0 0 0 / 25%) 0px 4px 4px'};
 
   & svg {
     width: 100%;
   }
+`;
 
-  @media ${MEDIA_QUERY.MOBILE} {
-    height: 64px;
-  }
+const BackgroundSvg = styled.svg`
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
 `;
 
 const HeaderContent = styled.div`
@@ -37,102 +44,85 @@ const HeaderContent = styled.div`
   height: 100%;
   justify-content: flex-end;
   align-items: center;
-  padding: 10px 30px;
-
-  @media ${MEDIA_QUERY.MOBILE} {
-    padding: 0 18px;
-  }
 `;
 
 const LogoWrapper = styled.div`
-  width: auto;
   height: 100%;
-  margin-right: auto;
   cursor: pointer;
   flex-shrink: 0;
-
-  & .logo-simple {
-    display: none;
-  }
+  padding: 0.5rem;
 
   @media ${MEDIA_QUERY.TABLET} {
-    width: 168px;
-  }
-
-  @media ${MEDIA_QUERY.MOBILE} {
-    width: 32px;
+    height: 3rem;
   }
 `;
 
 export const Logo = styled(LogoIcon)`
-  @media ${MEDIA_QUERY.MOBILE} {
+  @media ${MEDIA_QUERY.TABLET} {
     display: none;
   }
 `;
 
 export const LogoSimple = styled(LogoSimpleIcon)`
-  @media screen and (min-width: 376px) {
+  @media screen and (min-width: ${BREAK_POINTS.TABLET}) {
     display: none;
   }
 `;
 
-const NavContainer = styled.ul`
+const NavContainer = styled.nav`
+  position: relative;
   display: flex;
-  gap: 36px;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
 
-  @media ${MEDIA_QUERY.TABLET} {
-    gap: 18px;
+  & li {
+    text-align: center;
   }
 
-  @media ${MEDIA_QUERY.MOBILE} {
-    gap: 12px;
+  & .nav-link {
+    font-size: ${FONT_SIZE.MEDIUM};
+    color: ${PALETTE.WHITE_400};
+    display: block;
+    padding-bottom: 4px;
+    ${hoverUnderline};
 
-    & .web-hosting {
+    &.selected::after {
+      transform: scaleX(1);
+    }
+
+    @media ${MEDIA_QUERY.TABLET} {
+      font-size: ${FONT_SIZE.SMALL};
+    }
+  }
+
+  @media ${MEDIA_QUERY.TABLET} {
+    & .upload-link,
+    .web-hosting {
       display: none;
     }
   }
 
-  & a {
-    font-size: 18px;
-    color: ${PALETTE.WHITE_400};
-    display: inline;
-    ${hoverUnderline};
+  @media ${MEDIA_QUERY.MOBILE} {
+    gap: 0.5rem;
 
-    @media ${MEDIA_QUERY.TABLET} {
-      font-size: 1rem;
+    & .web-hosting {
+      display: none;
     }
-
-    @media ${MEDIA_QUERY.MOBILE} {
-      font-size: 0.85rem;
-    }
-  }
-
-  & .nav-link {
-    border-bottom: 2px solid ${PALETTE.WHITE_400};
   }
 `;
 
 const ButtonsContainer = styled.div`
   display: flex;
   align-items: center;
-  position: relative;
-  margin-left: 40px;
-  padding: 8px 0;
+  justify-content: flex-end;
+  /* position: relative; */
   height: 100%;
-  gap: 1rem;
+  gap: 0.5rem;
 
   @media ${MEDIA_QUERY.TABLET} {
-    margin-left: 1rem;
     gap: 0.75rem;
-  }
-
-  @media ${MEDIA_QUERY.MOBILE} {
-    margin-left: 0;
-
-    & .search,
-    .upload {
-      display: none;
-    }
   }
 `;
 
@@ -140,80 +130,42 @@ const AuthButton = styled(TextButton.Rounded)`
   padding: 4px 16px;
   font-size: inherit;
   line-height: inherit;
-  flex-shrink: 0;
-
-  @media ${MEDIA_QUERY.TABLET} {
-    padding: 3px 14px;
-  }
-
-  @media ${MEDIA_QUERY.MOBILE} {
-    padding: 2px 12px;
-  }
 `;
 
-export const IconButton = styled(IconButtonComponent)`
-  width: 2rem;
-  height: 2rem;
-
-  @media ${MEDIA_QUERY.TABLET} {
-    width: 1.5rem;
-    height: 1.5rem;
-  }
-
-  @media ${MEDIA_QUERY.MOBILE} {
-    width: 1rem;
-    height: 1rem;
-  }
-`;
-
-const stretch = keyframes`
+const stretchTo = (maxWidth: string) => keyframes`
   from {
     width: 2.5rem;
   }
   to {
-    width: 35rem;
-  }
-`;
-
-const fadeIn = keyframes`
-  from {
-    width: 0;
-  }
-  to {
-    width: 100%;
+    width: ${maxWidth};
   }
 `;
 
 export const SearchBar = styled(SearchBarComponent)`
   position: absolute;
-  transform: translateX(calc(-100% + 2.5rem));
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0;
   height: 2.5rem;
-  animation: ${stretch} 0.5s ease 0s 1 normal forwards;
-
-  > input {
-    animation: ${fadeIn} 0.5s ease 0s 1 normal forwards;
-  }
-
-  @media ${MEDIA_QUERY.TABLET} {
-    transform: translateX(calc(-100% + 2.25rem));
-    width: 30rem;
-    height: 2.25rem;
-  }
-
-  @media ${MEDIA_QUERY.MOBILE} {
-    display: none;
-  }
+  animation: ${stretchTo('100%')} 1s ease 0s 1 normal forwards;
+  max-width: 32rem;
 `;
 
-export const UserProfile = styled(UserProfileComponent)`
-  margin-left: 1.5rem;
+const UserContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 0 0.5rem;
 `;
 
 export default {
   Root,
+  BackgroundSvg,
   HeaderContent,
   LogoWrapper,
   NavContainer,
   ButtonsContainer,
   AuthButton,
+  UserContainer,
 };

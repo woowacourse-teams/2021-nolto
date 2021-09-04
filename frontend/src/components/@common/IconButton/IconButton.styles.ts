@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { PALETTE } from 'constants/palette';
 import { hoverLayer } from 'commonStyles';
 
-const Root = styled.button<{ size: string; hasHoverAnimation: boolean; isShadow: boolean }>`
+const Root = styled.button<{ size: string; hasHoverAnimation: boolean; hasShadow: boolean }>`
   display: flex;
   position: relative;
   justify-content: center;
@@ -11,13 +11,8 @@ const Root = styled.button<{ size: string; hasHoverAnimation: boolean; isShadow:
   background-color: ${PALETTE.WHITE_400};
   border: none;
   border-radius: 50%;
-  filter: ${({ isShadow }) => isShadow && 'drop-shadow(0 0 4px rgba(0, 0, 0, 0.25))'};
+  filter: ${({ hasShadow }) => hasShadow && 'drop-shadow(0 0 4px rgba(0, 0, 0, 0.25))'};
   width: ${({ size }) => size};
-
-  /* & > * {
-    padding: 15%;
-    flex-shrink: 0;
-  } */
 
   &::before {
     content: '';

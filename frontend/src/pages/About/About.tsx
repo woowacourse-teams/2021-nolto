@@ -6,12 +6,13 @@ import { DefaultPageRoot } from 'commonStyles';
 import { FONT_SIZE } from 'constants/styles';
 import member from './members';
 import Styled from './About.styles';
+import HighLightedText from 'components/@common/HighlightedText/HighlightedText';
 
 const About = () => {
   return (
     <BaseLayout>
       <DefaultPageRoot>
-        <Styled.SectionTitle fontSize={FONT_SIZE.X_LARGE}>We Make Nolto 🚀</Styled.SectionTitle>
+        <HighLightedText fontSize={FONT_SIZE.X_LARGE}>We Make Nolto 🚀</HighLightedText>
         <Styled.MembersContainer>
           <TeamMember {...member.amazzi} />
           <TeamMember {...member.joel} reverse />

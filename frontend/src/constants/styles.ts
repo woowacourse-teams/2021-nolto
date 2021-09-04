@@ -11,8 +11,8 @@ export const Z_INDEX = {
 };
 
 export const FONT_SIZE = {
-  SMALL: '0.75rem',
-  MEDIUM: '1rem',
-  LARGE: '1.25rem',
-  X_LARGE: '1.5rem',
-};
+  SMALL: '14px',
+  MEDIUM: '16px',
+  LARGE: '20px',
+  X_LARGE: '24px',
+} as const;

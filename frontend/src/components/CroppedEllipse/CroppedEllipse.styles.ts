@@ -40,7 +40,7 @@ const SvgRoot = styled.svg`
       cx: 50%;
       cy: 10px;
       rx: 100%;
-      ry: 324px;
+      ry: 300px;
     }
 
     @media ${MEDIA_QUERY.MOBILE} {
@@ -68,10 +68,12 @@ const Horse = styled(HorseIcon)`
 
   @media ${MEDIA_QUERY.TABLET} {
     width: 68px;
+    bottom: 20%;
   }
 
   @media ${MEDIA_QUERY.MOBILE} {
     width: 48px;
+    bottom: 10%;
   }
 `;
 

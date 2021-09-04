@@ -6,8 +6,8 @@ import { MEDIA_QUERY } from 'constants/mediaQuery';
 export interface FlexContainerProps {
   children: React.ReactNode;
   flexDirection?: 'column' | 'row';
-  justifyContent?: 'center' | 'start' | 'end' | 'space-between';
-  alignItems?: 'center' | 'start' | 'end' | 'space-between';
+  justifyContent?: 'center' | 'flex-start' | 'flex-end' | 'space-between';
+  alignItems?: 'center' | 'flex-start' | 'flex-end' | 'space-between';
   gap?: string;
   flexGrow?: string;
   width?: string;

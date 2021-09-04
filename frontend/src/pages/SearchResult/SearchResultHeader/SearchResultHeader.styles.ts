@@ -58,8 +58,6 @@ const TechInputWrapper = styled.div`
   }
 `;
 
-export const TechInput = styled(TechInputComponent)``;
-
 export default {
   SearchBarContainer,
   Input,

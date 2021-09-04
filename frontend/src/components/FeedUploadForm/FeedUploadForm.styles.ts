@@ -90,8 +90,6 @@ const ButtonsWrapper = styled.div`
   justify-content: center;
 `;
 
-const QuestionMark = styled.span``;
-
 const show = keyframes`
   from {
     opacity: 0;
@@ -137,7 +135,6 @@ export default {
   StretchWrapper,
   LevelWrapper,
   SOSLabel,
-  QuestionMark,
   ButtonsWrapper,
   InputCaption,
 };
