@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import HighlightedText from 'components/@common/HighlightedText/HighlightedText';
 import TextButton from 'components/@common/TextButton/TextButton';
 import SOSFlagComponent from 'components/@common/SOSFlag/SOSFlag';
+import { MEDIA_QUERY } from 'constants/mediaQuery';
 import StacksMoreIcon from 'assets/stacksMore.svg';
 import { defaultShadow } from 'commonStyles';
 
@@ -10,7 +11,7 @@ const Root = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  min-width: 54.375rem;
+  width: 100%;
 
   & h3 {
     margin-bottom: 0.25rem;
@@ -21,6 +22,14 @@ const IntroContainer = styled.div`
   display: flex;
   width: 100%;
   gap: 3.75rem;
+
+  @media ${MEDIA_QUERY.TABLET} {
+    gap: 2.5rem;
+  }
+
+  @media ${MEDIA_QUERY.TABLET_SMALL} {
+    flex-direction: column;
+  }
 `;
 
 const IconsContainer = styled.div`
@@ -40,16 +49,27 @@ const ThumbnailContainer = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  flex-basis: 14rem;
-  flex-grow: 1;
+  flex: 1;
+  flex-shrink: 1;
+
+  @media ${MEDIA_QUERY.TABLET_SMALL} {
+    display: none;
+  }
+`;
+
+const MobileThumbnailContainer = styled(ThumbnailContainer)`
+  display: none;
+
+  @media ${MEDIA_QUERY.TABLET_SMALL} {
+    display: flex;
+    margin: 1rem;
+  }
 `;
 
 const Thumbnail = styled.div`
   position: relative;
   border-radius: 0.5rem;
-  width: 100%;
-  overflow: hidden;
-  ${defaultShadow};
+  ${defaultShadow}
 
   &::after {
     content: '';
@@ -74,8 +94,8 @@ export const SOSFlag = styled(SOSFlagComponent)`
 `;
 
 const FeedSummaryContainer = styled.div`
-  flex-basis: 40rem;
-  flex-grow: 3;
+  flex: 3;
+  flex-shrink: 1;
 `;
 
 const TitleContainer = styled.div`
@@ -85,10 +105,17 @@ const TitleContainer = styled.div`
 `;
 
 const TitleWrapper = styled.div`
-  display: flex;
-  align-items: center;
   flex: 1;
-  gap: 0.5rem;
+  margin: 4px 0;
+
+  & > h2 {
+    display: inline;
+    margin-right: 0.5rem;
+  }
+
+  * {
+    vertical-align: middle;
+  }
 `;
 
 const UserWrapper = styled.div`
@@ -117,12 +144,20 @@ const DetailsContent = styled.div`
 const DetailsPair = styled.div`
   display: flex;
   gap: 1.75rem;
+
+  @media ${MEDIA_QUERY.TABLET_SMALL} {
+    gap: 1rem;
+  }
 `;
 
 const DetailsKeyWrapper = styled.div`
   display: flex;
   flex-basis: 6.5rem;
   flex-shrink: 0;
+
+  @media ${MEDIA_QUERY.TABLET_SMALL} {
+    flex-basis: 5.5rem;
+  }
 `;
 
 const DetailsKey = styled(HighlightedText)`
@@ -135,6 +170,7 @@ const DetailsValue = styled.span`
   align-items: center;
   gap: 0.5rem;
   flex-wrap: wrap;
+  overflow: hidden;
 
   & > a {
     &:hover {
@@ -155,11 +191,14 @@ export const StacksMoreButton = styled(StacksMoreIcon)`
 
 const Description = styled.pre`
   margin: 4rem auto;
-  width: 52rem;
   font-size: 1rem;
   line-height: 1.5rem;
   text-align: justify;
   white-space: pre-wrap;
+
+  @media ${MEDIA_QUERY.TABLET_SMALL} {
+    margin: 2rem auto;
+  }
 `;
 
 const CommentContainer = styled.div`
@@ -175,6 +214,7 @@ export default {
   IconsContainer,
   IconWrapper,
   ThumbnailContainer,
+  MobileThumbnailContainer,
   Thumbnail,
   FeedSummaryContainer,
   TitleContainer,

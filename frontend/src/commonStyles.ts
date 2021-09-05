@@ -1,6 +1,7 @@
 import styled, { css, keyframes } from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
+import { MEDIA_QUERY } from 'constants/mediaQuery';
 
 export interface FlexContainerProps {
   children: React.ReactNode;
@@ -111,4 +112,8 @@ export const DefaultPageRoot = styled.div`
   flex-direction: column;
   align-items: center;
   padding-top: 4rem;
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    padding-top: 0;
+  }
 `;
