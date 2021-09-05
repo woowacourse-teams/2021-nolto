@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 
 import useHotFeedsLoad from 'hooks/queries/feed/useHotFeedsLoad';
-import LargeFeedCard from 'components/LargeFeedCard/LargeFeedCard';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
+import LargeFeedCard from 'components/LargeFeedCard/LargeFeedCard';
+import LargeSkeleton from 'components/LargeSkeleton/LargeSkeleton';
 import { FlexContainer } from 'commonStyles';
 import Styled, { CarouselArrowButton } from './HotFeedsContent.styles';
 
@@ -11,10 +12,11 @@ const HotFeedsContent = () => {
 
   const snackbar = useSnackbar();
 
-  const { data: hotFeeds } = useHotFeedsLoad({
+  const { data: hotFeeds, isLoading } = useHotFeedsLoad({
     errorHandler: (error) => {
       snackbar.addSnackbar('error', error.message);
     },
+    suspense: false,
   });
 
   const showPreviousCards = () => {
@@ -28,17 +30,27 @@ const HotFeedsContent = () => {
   return (
     <Styled.Root>
       <Styled.HotToyCardsContainer position={hotToyCardIdx}>
-        {hotFeeds &&
-          hotFeeds.map((feed, idx) => (
-            <Styled.HotToyCardWrapper
-              className="hot-feed"
-              key={feed.id}
-              offset={idx + 1}
-              position={hotToyCardIdx}
-            >
-              <LargeFeedCard feed={feed} />
-            </Styled.HotToyCardWrapper>
-          ))}
+        {isLoading
+          ? Array.from({ length: 3 }, (_, idx) => (
+              <Styled.HotToyCardWrapper
+                className="hot-feed"
+                key={idx}
+                offset={idx + 1}
+                position={hotToyCardIdx}
+              >
+                <LargeSkeleton />
+              </Styled.HotToyCardWrapper>
+            ))
+          : hotFeeds.map((feed, idx) => (
+              <Styled.HotToyCardWrapper
+                className="hot-feed"
+                key={feed.id}
+                offset={idx + 1}
+                position={hotToyCardIdx}
+              >
+                <LargeFeedCard feed={feed} />
+              </Styled.HotToyCardWrapper>
+            ))}
       </Styled.HotToyCardsContainer>
       <Styled.ControlContainer>
         <CarouselArrowButton className="carousel-button" onClick={showPreviousCards}>
@@ -49,7 +61,7 @@ const HotFeedsContent = () => {
         </CarouselArrowButton>
       </Styled.ControlContainer>
       <FlexContainer gap="0.25rem" justifyContent="center">
-        {hotFeeds.map((_, idx) => (
+        {hotFeeds?.map((_, idx) => (
           <Styled.Dot key={idx} selected={idx === hotToyCardIdx} />
         ))}
       </FlexContainer>

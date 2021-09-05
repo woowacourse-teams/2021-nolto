@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 
 import Avatar from 'components/@common/Avatar/Avatar';
 import { Feed } from 'types';
-import Styled from './LargeFeedCard.styles';
 import { DEFAULT_IMG } from 'constants/common';
+import Styled from './LargeFeedCard.styles';
 
 interface Props {
   feed: Feed;

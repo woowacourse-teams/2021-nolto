@@ -1,9 +1,10 @@
-import RegularFeedCard from 'components/RegularFeedCard/RegularFeedCard';
 import React from 'react';
 
 import useRecentFeedsLoad from 'hooks/queries/feed/useRecentFeedsLoad';
-import { FilterType } from 'types';
+import RegularFeedCard from 'components/RegularFeedCard/RegularFeedCard';
+import RegularSkeleton from 'components/RegularSkeleton/RegularSkeleton';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
+import { FilterType } from 'types';
 import Styled from './HomeFeedsContent.styles';
 
 interface Props {
@@ -13,16 +14,17 @@ interface Props {
 
 const HomeFeedsContent = ({ filter, feedsCountToShow }: Props) => {
   const snackbar = useSnackbar();
-  const { data: recentFeeds } = useRecentFeedsLoad({
+  const { data: recentFeeds, isLoading } = useRecentFeedsLoad({
     filter,
     errorHandler: (error) => snackbar.addSnackbar('error', error.message),
+    suspense: false,
   });
 
   return (
     <Styled.Root>
-      {recentFeeds.slice(0, feedsCountToShow).map((feed) => (
-        <RegularFeedCard feed={feed} />
-      ))}
+      {isLoading
+        ? Array.from({ length: 4 }, (_, idx) => <RegularSkeleton key={idx} />)
+        : recentFeeds.slice(0, feedsCountToShow).map((feed) => <RegularFeedCard feed={feed} />)}
     </Styled.Root>
   );
 };
