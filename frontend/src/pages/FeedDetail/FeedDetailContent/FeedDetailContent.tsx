@@ -10,6 +10,7 @@ import { PALETTE } from 'constants/palette';
 import ROUTE from 'constants/routes';
 import QUERY_KEYS from 'constants/queryKeys';
 import { ERROR_MSG } from 'constants/message';
+import { DEFAULT_IMG } from 'constants/common';
 import ToggleList from 'components/@common/ToggleList/ToggleList';
 import FeedDropdown from 'components/FeedDropdown/FeedDropdown';
 import LikeButton from 'components/LikeButton/LikeButton';
@@ -18,7 +19,6 @@ import AsyncBoundary from 'components/AsyncBoundary';
 import ErrorFallback from 'components/ErrorFallback/ErrorFallback';
 import StepChip from 'components/StepChip/StepChip';
 import Styled, { Tag, SOSFlag } from './FeedDetailContent.styles';
-import { DEFAULT_IMG } from 'constants/common';
 
 interface Props {
   feedId: number;
@@ -52,32 +52,34 @@ const FeedDetailContent = ({ feedId }: Props) => {
 
   const isMyFeed = member.userData?.id === feedDetail.author.id;
 
+  const thumbnailElement: React.ReactNode = (
+    <>
+      {feedDetail.sos && <SOSFlag />}
+      <Styled.Thumbnail>
+        <img
+          src={feedDetail.thumbnailUrl}
+          onError={(event: SyntheticEvent<HTMLImageElement>) => {
+            event.currentTarget.src = DEFAULT_IMG.FEED;
+          }}
+        />
+      </Styled.Thumbnail>
+      <Styled.IconsContainer>
+        <Styled.IconWrapper>
+          <LikeButton feedDetail={feedDetail} />
+        </Styled.IconWrapper>
+        <Styled.IconWrapper>
+          <ViewCountIcon width="22px" fill={PALETTE.PRIMARY_200} />
+          <span>{feedDetail.views}</span>
+        </Styled.IconWrapper>
+      </Styled.IconsContainer>
+    </>
+  );
+
   // TODO: 댓글 로딩 부분 스켈레톤으로 리팩토링
   return (
     <Styled.Root>
       <Styled.IntroContainer>
-        <Styled.ThumbnailContainer>
-          {feedDetail.sos && <SOSFlag />}
-          <Styled.Thumbnail>
-            <img
-              src={feedDetail.thumbnailUrl}
-              onError={(event: SyntheticEvent<HTMLImageElement>) => {
-                event.currentTarget.src = DEFAULT_IMG.FEED;
-              }}
-            />
-          </Styled.Thumbnail>
-
-          <Styled.IconsContainer>
-            <Styled.IconWrapper>
-              <LikeButton feedDetail={feedDetail} />
-            </Styled.IconWrapper>
-            <Styled.IconWrapper>
-              <ViewCountIcon width="22px" fill={PALETTE.PRIMARY_200} />
-              <span>{feedDetail.views}</span>
-            </Styled.IconWrapper>
-          </Styled.IconsContainer>
-        </Styled.ThumbnailContainer>
-
+        <Styled.ThumbnailContainer>{thumbnailElement}</Styled.ThumbnailContainer>
         <Styled.FeedSummaryContainer>
           <Styled.TitleContainer>
             <Styled.TitleWrapper>
@@ -93,6 +95,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
           </Styled.TitleContainer>
           <hr />
 
+          <Styled.MobileThumbnailContainer>{thumbnailElement}</Styled.MobileThumbnailContainer>
           <Styled.DetailsContent>
             {feedDetail.deployedUrl && (
               <Styled.DetailsPair>
