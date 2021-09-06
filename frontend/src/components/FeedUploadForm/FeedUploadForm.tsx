@@ -128,12 +128,12 @@ const FeedUploadForm = ({ onFeedSubmit, initialFormValue }: Props) => {
           <Styled.InputsContainer>
             <Styled.LevelWrapper>
               <Label text="레벨" required={true} />
-              <Styled.QuestionMark
+              <span
                 onMouseOver={() => setIsLevelTooltipVisible(true)}
                 onMouseOut={() => setIsLevelTooltipVisible(false)}
               >
                 <QuestionIcon width="20px" />
-              </Styled.QuestionMark>
+              </span>
               <LevelTooltip visible={isLevelTooltipVisible}>
                 <pre>
                   <strong>프로젝트 단계</strong> <br />
@@ -164,12 +164,12 @@ const FeedUploadForm = ({ onFeedSubmit, initialFormValue }: Props) => {
                   프로젝트를 완성하는 데<br /> 도움이 필요하신가요?
                 </pre>
               </SOSTooltip>
-              <Styled.QuestionMark
+              <span
                 onMouseOver={() => setIsSOSTooltipVisible(true)}
                 onMouseOut={() => setIsSOSTooltipVisible(false)}
               >
                 <QuestionIcon width="20px" />
-              </Styled.QuestionMark>
+              </span>
               <Toggle labelText="🚨 SOS" {...register('sos')} />
             </Styled.SOSLabel>
           </Styled.InputsContainer>

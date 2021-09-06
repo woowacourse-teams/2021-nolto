@@ -42,7 +42,7 @@ const RecentFeedsContent = () => {
       </FlexContainer>
       <Styled.RecentFeedsContainer>
         {recentFeeds.map((feed) => (
-          <RegularFeedCard feed={feed} />
+          <RegularFeedCard key={feed.id} feed={feed} />
         ))}
       </Styled.RecentFeedsContainer>
     </Styled.Root>

@@ -22,7 +22,7 @@ const ToggleList = ({ children, width, height }: Props) => {
         <Styled.Content>{children}</Styled.Content>
       </Styled.ContentWrapper>
       <Styled.ButtonWrapper>
-        <IconButton onClick={handleClickToggle} isShadow={false}>
+        <IconButton size="1.75rem" onClick={handleClickToggle} hasShadow={false}>
           <Styled.StacksMoreIcon $isToggled={isToggled} width={height} height={height} />
         </IconButton>
       </Styled.ButtonWrapper>

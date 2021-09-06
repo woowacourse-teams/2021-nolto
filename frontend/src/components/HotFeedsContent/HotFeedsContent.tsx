@@ -52,15 +52,15 @@ const HotFeedsContent = () => {
               </Styled.HotToyCardWrapper>
             ))}
       </Styled.HotToyCardsContainer>
-      <Styled.ControlContainer>
-        <CarouselArrowButton className="carousel-button" onClick={showPreviousCards}>
+      <Styled.ControlContainer className="control-container">
+        <CarouselArrowButton size="3rem" className="carousel-button" onClick={showPreviousCards}>
           <Styled.CarouselLeft width="1.5rem" />
         </CarouselArrowButton>
-        <CarouselArrowButton className="carousel-button" onClick={showFollowingCards}>
+        <CarouselArrowButton size="3rem" className="carousel-button" onClick={showFollowingCards}>
           <Styled.CarouselRight width="1.5rem" />
         </CarouselArrowButton>
       </Styled.ControlContainer>
-      <FlexContainer gap="0.25rem" justifyContent="center">
+      <FlexContainer className="dot-container" gap="0.25rem" justifyContent="center">
         {hotFeeds?.map((_, idx) => (
           <Styled.Dot key={idx} selected={idx === hotToyCardIdx} />
         ))}

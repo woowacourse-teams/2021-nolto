@@ -1,38 +1,56 @@
 import styled from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
-import { MEDIA_QUERY } from 'constants/mediaQuery';
-import { FONT_SIZE } from 'constants/styles';
 import { hoverUnderline } from 'commonStyles';
+import { BREAK_POINTS } from 'constants/mediaQuery';
 
 const Root = styled.div`
   display: flex;
   gap: 0.75rem;
   align-items: center;
+  width: 100%;
+  overflow-y: hidden;
+  overflow-x: auto;
 
   & span {
     color: ${PALETTE.WHITE_400};
     line-height: 1rem;
+    text-align: center;
   }
 
   & span.trends {
     font-weight: 700;
   }
+`;
 
-  @media ${MEDIA_QUERY.MOBILE} {
+const Title = styled.span`
+  white-space: nowrap;
+`;
+
+const TagsContainer = styled.div`
+  display: flex;
+  gap: 1rem;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: ${BREAK_POINTS.DESKTOP};
+
+  & > *::after {
+    content: '|';
+    margin-left: 1rem;
+  }
+
+  & > *:last-child::after {
     display: none;
   }
 `;
 
 const Tag = styled.span`
   cursor: pointer;
+  white-space: nowrap;
 
   > .trends-text {
     ${hoverUnderline};
-
-    @media ${MEDIA_QUERY.MOBILE} {
-      font-size: ${FONT_SIZE.SMALL};
-    }
   }
 
   > .trends-bar {
@@ -40,4 +58,4 @@ const Tag = styled.span`
   }
 `;
 
-export default { Root, Tag };
+export default { Root, Title, TagsContainer, Tag };

@@ -5,6 +5,7 @@ import { PALETTE } from 'constants/palette';
 import { MEDIA_QUERY } from 'constants/mediaQuery';
 import { FONT_SIZE } from 'constants/styles';
 import { hoverLayer } from 'commonStyles';
+import IconButton from 'components/@common/IconButton/IconButton';
 
 const open = keyframes`
   from {
@@ -27,7 +28,6 @@ const Root = styled.div`
 const UserThumbnail = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.75rem;
   position: relative;
   cursor: pointer;
 `;
@@ -58,21 +58,11 @@ const Image = styled.img`
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
-
-  @media ${MEDIA_QUERY.MOBILE} {
-    width: 1.5rem;
-    height: 1.5rem;
-  }
 `;
 
-const MoreProfileButton = styled.button`
+const MoreProfileButton = styled(IconButton)`
   border: none;
   background: transparent;
-  padding-top: 0.25rem;
-
-  @media ${MEDIA_QUERY.MOBILE} {
-    display: none;
-  }
 `;
 
 const Dropdown = styled.div<{ isOpen: boolean }>`

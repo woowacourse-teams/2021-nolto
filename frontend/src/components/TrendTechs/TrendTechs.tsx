@@ -32,13 +32,14 @@ const TrendTechs = () => {
 
   return (
     <Styled.Root>
-      <span className="trends">💎 Trends</span>
-      {tags?.map((tag) => (
-        <Styled.Tag key={tag.id} onClick={() => searchByTrend(tag)}>
-          <span className="trends-bar">|</span>
-          <span className="trends-text">{tag.text}</span>
-        </Styled.Tag>
-      ))}
+      <Styled.TagsContainer>
+        <Styled.Title className="trends">💎 Trends</Styled.Title>
+        {tags?.map((tag) => (
+          <Styled.Tag key={tag.id} onClick={() => searchByTrend(tag)}>
+            <span className="trends-text">{tag.text}</span>
+          </Styled.Tag>
+        ))}
+      </Styled.TagsContainer>
     </Styled.Root>
   );
 };

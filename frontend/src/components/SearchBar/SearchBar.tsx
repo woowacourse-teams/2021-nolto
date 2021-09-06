@@ -6,7 +6,8 @@ import TechTagProvider from 'contexts/techTag/TechTagProvider';
 import ROUTE from 'constants/routes';
 import SearchOption from 'components/SearchOption/SearchOption';
 import { Tech, SearchType } from 'types';
-import Styled, { TechChips, TechInput } from './SearchBar.styles';
+import Styled, { TechInput } from './SearchBar.styles';
+import TechChips from 'contexts/techTag/chip/TechChips';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
@@ -56,6 +57,7 @@ const SearchBar = ({ className, selectable = false, ...options }: Props) => {
     </Styled.SelectedChips>
   );
 
+  //TODO: Styled.Root가 가장 바깥에 있어야할듯
   return (
     <TechTagProvider>
       {searchType === SearchType.TECH && selectedTags}

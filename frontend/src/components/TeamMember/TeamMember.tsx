@@ -1,6 +1,7 @@
 import React from 'react';
 
-import Styled, { HighLightedText } from './TeamMember.styles';
+import HighLightedText from 'components/@common/HighlightedText/HighlightedText';
+import Styled from './TeamMember.styles';
 
 interface Props {
   image: string;

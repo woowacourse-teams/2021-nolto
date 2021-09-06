@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { TechChips } from 'components/SearchBar/SearchBar.styles';
 import TechTagProvider from 'contexts/techTag/TechTagProvider';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
 import ROUTE from 'constants/routes';
 import useTechsLoad from 'hooks/queries/useTechsLoad';
 import SearchIcon from 'assets/search.svg';
 import { Tech } from 'types';
-import Styled, { TechInput } from './SearchResultHeader.styles';
+import Styled from './SearchResultHeader.styles';
+import TechChips from 'contexts/techTag/chip/TechChips';
+import TechInput from 'contexts/techTag/input/TechInput';
 
 interface Props {
   searchParams: string;

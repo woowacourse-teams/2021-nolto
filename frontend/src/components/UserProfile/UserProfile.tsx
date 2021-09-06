@@ -28,8 +28,8 @@ const UserProfile = ({ className }: Props) => {
     <Styled.Root className={className} onClick={() => setIsProfileOpen(!isProfileOpen)}>
       <Styled.UserThumbnail>
         <Styled.Image src={member.userData?.imageUrl} />
-        <Styled.MoreProfileButton>
-          <DownPolygon width="14px" fill={PALETTE.WHITE_400} />
+        <Styled.MoreProfileButton hasHoverAnimation={false} size="1.5rem">
+          <DownPolygon fill={PALETTE.WHITE_400} />
         </Styled.MoreProfileButton>
         {notiCount > 0 && <Styled.NotiAlert>{notiCount}</Styled.NotiAlert>}
       </Styled.UserThumbnail>

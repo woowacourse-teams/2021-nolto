@@ -41,7 +41,7 @@ const SubCommentModule = ({ parentCommentId }: Props) => {
 
   return (
     <Styled.Root>
-      <ReplyIconButton onClick={handleClickReply} isShadow={false}>
+      <ReplyIconButton onClick={handleClickReply} hasShadow={false}>
         <ReplyIcon width="20px" />
       </ReplyIconButton>
       {isSubCommentExist && (

@@ -135,10 +135,10 @@ const Comment = ({ commentBody, parentCommentId, isFocused }: Props) => {
       {commentBody.modified && <span className="modified-text"> (수정됨)</span>}
       {isMyComment && (
         <Styled.EditDeleteContainer>
-          <IconButton onClick={handleClickModifyMode} isShadow={false}>
+          <IconButton size="1.5rem" onClick={handleClickModifyMode} hasShadow={false}>
             <PencilIcon width="20px" fill={PALETTE.BLACK_200} />
           </IconButton>
-          <IconButton onClick={handleClickDelete} isShadow={false}>
+          <IconButton size="1.5rem" onClick={handleClickDelete} hasShadow={false}>
             <TrashIcon width="20px" />
           </IconButton>
         </Styled.EditDeleteContainer>
@@ -163,7 +163,7 @@ const Comment = ({ commentBody, parentCommentId, isFocused }: Props) => {
           <FlexContainer gap="4px" alignItems="center">
             <span>{refineDate(commentBody.createdAt)}</span>
             <Styled.ThumbUpWrapper>
-              <IconButton onClick={handleToggleLiked} isShadow={false}>
+              <IconButton size="1.5rem" onClick={handleToggleLiked} hasShadow={false}>
                 <ThumbIcon fill={isLiked ? PALETTE.GRAY_500 : 'none'} width="20px" />
               </IconButton>
               <span>{likeCount}</span>

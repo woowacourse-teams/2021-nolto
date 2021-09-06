@@ -1,7 +1,7 @@
 import React from 'react';
 
 import IconButton from './IconButton';
-import Pencil from 'assets/pencil.svg';
+import DownPolygon from 'assets/downPolygon.svg';
 
 export default {
   title: 'components/common/IconButton',
@@ -10,7 +10,7 @@ export default {
 };
 
 export const Default = () => (
-  <IconButton>
-    <Pencil width="10rem" height="10rem" />
+  <IconButton size="5rem">
+    <DownPolygon fill="black" />
   </IconButton>
 );

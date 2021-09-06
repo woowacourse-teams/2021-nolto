@@ -5,7 +5,7 @@ const Root = styled.div`
   display: flex;
   position: relative;
   flex-direction: column;
-  min-width: 10rem;
+  min-width: 9rem;
   width: 100%;
   gap: 0.5rem;
 
