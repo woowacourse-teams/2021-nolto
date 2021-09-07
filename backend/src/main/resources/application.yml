@@ -25,6 +25,10 @@ spring:
       enabled: always
   main:
     allow-bean-definition-overriding: true
+
+application:
+  cors:
+    allow-origin: "*"
 ---
 spring:
   config:
