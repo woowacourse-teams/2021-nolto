@@ -1,6 +1,8 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
+import * as Sentry from '@sentry/react';
 
 import CustomError from 'utils/CustomError';
+import HttpError from 'utils/HttpError';
 
 interface Props {
   children: ReactNode;
@@ -25,6 +27,12 @@ export default class ErrorBoundary extends Component<Props, State> {
 
     if (error instanceof CustomError) {
       error.executeSideEffect();
+    }
+
+    if (process.env.NODE_ENV === 'production') {
+      if (!(error instanceof HttpError)) {
+        Sentry.showReportDialog();
+      }
     }
   }
 

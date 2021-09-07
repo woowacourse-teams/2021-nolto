@@ -13,10 +13,13 @@ import OAuth from 'pages/OAuth/OAuth';
 import Modify from 'pages/Modify/Modify';
 import Mypage from 'pages/Mypage/Mypage';
 import PrivateRoute from 'components/PrivateRoute';
+import ErrorBoundary from 'components/ErrorBoundary';
+import ErrorFallback from 'components/ErrorFallback/ErrorFallback';
 import DialogProvider from 'contexts/dialog/DialogProvider';
 import ModalProvider from 'contexts/modal/ModalProvider';
 import SnackbarProvider from 'contexts/snackbar/SnackbarProvider';
 import ROUTE from 'constants/routes';
+import { ERROR_MSG } from 'constants/message';
 import GlobalStyle from './Global.styles';
 
 const queryClient = new QueryClient({
@@ -32,45 +35,47 @@ const queryClient = new QueryClient({
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <GlobalStyle />
-      <Router>
-        <Switch>
-          <SnackbarProvider>
-            <DialogProvider>
-              <ModalProvider>
-                <Route exact path={ROUTE.HOME}>
-                  <Home />
-                </Route>
-                <Route exact path={ROUTE.ABOUT}>
-                  <About />
-                </Route>
-                <PrivateRoute path={ROUTE.UPLOAD}>
-                  <Upload />
-                </PrivateRoute>
-                <PrivateRoute path={ROUTE.MODIFY}>
-                  <Modify />
-                </PrivateRoute>
-                <Route exact path={ROUTE.RECENT}>
-                  <RecentFeeds />
-                </Route>
-                <Route path={`${ROUTE.FEEDS}/:id`}>
-                  <FeedDetail />
-                </Route>
-                <Route path={ROUTE.SEARCH}>
-                  <SearchResult />
-                </Route>
-                <Route path={ROUTE.MYPAGE}>
-                  <Mypage />
-                </Route>
-                <Route path="/:oauth/callback">
-                  <OAuth />
-                </Route>
-              </ModalProvider>
-            </DialogProvider>
-          </SnackbarProvider>
-        </Switch>
-      </Router>
-      <ReactQueryDevtools panelProps={{ className: 'query-dev-tools' }} initialIsOpen={false} />
+      <ErrorBoundary fallback={<ErrorFallback message={ERROR_MSG.UNKNOWN_ERROR} />}>
+        <GlobalStyle />
+        <Router>
+          <Switch>
+            <SnackbarProvider>
+              <DialogProvider>
+                <ModalProvider>
+                  <Route exact path={ROUTE.HOME}>
+                    <Home />
+                  </Route>
+                  <Route exact path={ROUTE.ABOUT}>
+                    <About />
+                  </Route>
+                  <PrivateRoute path={ROUTE.UPLOAD}>
+                    <Upload />
+                  </PrivateRoute>
+                  <PrivateRoute path={ROUTE.MODIFY}>
+                    <Modify />
+                  </PrivateRoute>
+                  <Route exact path={ROUTE.RECENT}>
+                    <RecentFeeds />
+                  </Route>
+                  <Route path={`${ROUTE.FEEDS}/:id`}>
+                    <FeedDetail />
+                  </Route>
+                  <Route path={ROUTE.SEARCH}>
+                    <SearchResult />
+                  </Route>
+                  <Route path={ROUTE.MYPAGE}>
+                    <Mypage />
+                  </Route>
+                  <Route path="/:oauth/callback">
+                    <OAuth />
+                  </Route>
+                </ModalProvider>
+              </DialogProvider>
+            </SnackbarProvider>
+          </Switch>
+        </Router>
+        <ReactQueryDevtools panelProps={{ className: 'query-dev-tools' }} initialIsOpen={false} />
+      </ErrorBoundary>
     </QueryClientProvider>
   );
 };
