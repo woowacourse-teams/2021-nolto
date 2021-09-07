@@ -18,6 +18,7 @@ export const CONFIRM_MSG = {
 };
 
 export const ERROR_MSG = {
+  UNKNOWN_ERROR: '알 수 없는 에러가 발생했습니다.',
   LOAD_DATA: '데이터를 불러올 수 없습니다.',
   LOAD_COMMENTS: '댓글을 불러올 수 없습니다.',
   LOAD_TRENDS: '트렌드 기술 스택을 불러올 수 없습니다.',
