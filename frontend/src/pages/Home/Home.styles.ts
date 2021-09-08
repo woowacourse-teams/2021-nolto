@@ -7,6 +7,7 @@ import Avatar from 'components/@common/Avatar/Avatar';
 import IconButtonComponent from 'components/@common/IconButton/IconButton';
 import { PALETTE } from 'constants/palette';
 import { FONT_SIZE, Z_INDEX } from 'constants/styles';
+import { MEDIA_QUERY } from 'constants/mediaQuery';
 import { hoverUnderline } from 'commonStyles';
 import ArrowIcon from 'assets/carouselArrow.svg';
 
@@ -21,8 +22,9 @@ const SearchContainer = styled.div`
   align-items: center;
   justify-content: center;
   z-index: ${Z_INDEX.HOME_SEARCHBAR};
-  width: 100%;
-  padding-bottom: 3.5rem;
+  max-width: 736px;
+  margin: 0 auto;
+  padding: 0 1rem;
 
   & > .search-bar {
     z-index: ${Z_INDEX.HOME_SEARCHBAR};
@@ -83,8 +85,7 @@ const ContentArea = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 2rem;
-  top: -1.5rem;
-  padding: 3rem 0;
+  margin-top: 8rem;
 `;
 
 const TitleWrapper = styled.div`
@@ -92,6 +93,7 @@ const TitleWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  padding: 0 1rem;
 `;
 
 const SectionTitle = styled(HighLightedText)`

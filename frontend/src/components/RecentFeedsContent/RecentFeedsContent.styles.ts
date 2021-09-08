@@ -5,7 +5,7 @@ import styled from 'styled-components';
 const Root = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 3rem;
 `;
 
 const StepChipsContainer = styled.div`

@@ -26,7 +26,7 @@ const RecentFeedsContent = () => {
 
   return (
     <Styled.Root>
-      <FlexContainer flexDirection="column" gap="1rem">
+      <FlexContainer flexDirection="column" alignItems="center" gap="1.5rem">
         <HighLightedText fontSize={FONT_SIZE.X_LARGE}>Recent Toys</HighLightedText>
         <Styled.StepChipsContainer>
           <Styled.Button type="button" onClick={() => toggleLevel(FilterType.PROGRESS)}>

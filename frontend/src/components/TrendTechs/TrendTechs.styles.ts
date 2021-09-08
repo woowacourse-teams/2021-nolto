@@ -6,11 +6,8 @@ import { BREAK_POINTS } from 'constants/mediaQuery';
 
 const Root = styled.div`
   display: flex;
-  gap: 0.75rem;
   align-items: center;
   width: 100%;
-  overflow-y: hidden;
-  overflow-x: auto;
 
   & span {
     color: ${PALETTE.WHITE_400};

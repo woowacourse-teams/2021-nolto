@@ -57,7 +57,7 @@ const CommentForm = ({ onSubmit, isRootComment = false }: Props) => {
           ) : (
             <CommentFormInput value={MESSAGES.NEED_LOGIN} disabled={true} />
           )}
-          <SendButton hasShadow={false} disabled={!isLogin}>
+          <SendButton size="1.5rem" hasShadow={false} disabled={!isLogin}>
             <SendIcon width="21px" height="21px" />
           </SendButton>
         </Styled.FormInputWrapper>
