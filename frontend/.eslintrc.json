@@ -22,5 +22,5 @@
       }
     ]
   },
-  "ignorePatterns": ["*.config.js"]
+  "ignorePatterns": ["webpack.*.js"]
 }

@@ -8,9 +8,11 @@ module.exports = {
   entry: './src/index.tsx',
   output: {
     path: path.resolve(__dirname, './dist'),
-    filename: 'bundle.js',
+    filename: '[name].[chunkhash].js',
     publicPath: '/',
+    clean: true,
   },
+  target: 'browserslist',
   module: {
     rules: [
       {
@@ -32,11 +34,10 @@ module.exports = {
       },
       {
         test: /\.(png|jpe?g|gif)$/i,
-        use: [
-          {
-            loader: 'file-loader',
-          },
-        ],
+        type: 'asset/resource',
+        generator: {
+          filename: 'static/[name][ext]',
+        },
       },
     ],
   },
@@ -57,12 +58,4 @@ module.exports = {
         })
       : new Dotenv(),
   ],
-  devServer: {
-    contentBase: path.join(__dirname, 'dist'),
-    compress: true,
-    hot: true,
-    port: 9000,
-    historyApiFallback: true,
-    publicPath: '/',
-  },
 };
