@@ -25,7 +25,12 @@ spring:
       enabled: always
   main:
     allow-bean-definition-overriding: true
-
+server:
+  compression:
+    enabled: true
+    mime-types: text/html,text/plain,text/css,application/javascript,application/json
+# TODO Transfer-Encoding : chunked 일시 min-response-size설정은 무시된다 (Content-Length가 -1임) 방법을 찾자
+#    min-response-size: 500
 application:
   cors:
     allow-origin: "*"
