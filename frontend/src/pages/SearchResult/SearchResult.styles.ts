@@ -1,15 +1,13 @@
 import styled from 'styled-components';
 
 import HighLightedText from 'components/@common/HighlightedText/HighlightedText';
-import TechInputComponent from 'contexts/techTag/input/TechInput';
 
 const TopContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  padding-top: 4rem;
-  padding-bottom: 2rem;
+  margin-bottom: 2rem;
   z-index: 10;
 `;
 
