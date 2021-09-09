@@ -11,27 +11,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class FeedTest {
-    public static final Feed FEED1 = new Feed(
-            "title",
-            "content",
-            Step.PROGRESS,
-            true,
-            "https://github.com/woowacourse-teams/2021-nolto",
-            "https://github.com/woowacourse-teams/2021-nolto",
-            "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png").writtenBy(UserTest.USER);
 
     private Feed feed1;
 
     @BeforeEach
     void setUp() {
-        feed1 = new Feed(
-                "title",
-                "content",
-                Step.PROGRESS,
-                true,
-                "https://github.com/woowacourse-teams/2021-nolto",
-                "https://github.com/woowacourse-teams/2021-nolto",
-                "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png");
+        feed1 = Feed.builder()
+                .title("아마찌의 개쩌는 지하철 미션")
+                .content("난 너무 잘해")
+                .step(Step.PROGRESS)
+                .isSos(true)
+                .storageUrl("https://github.com/woowacourse-teams/2021-nolto")
+                .deployedUrl("https://github.com/woowacourse-teams/2021-nolto")
+                .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
+                .build();
     }
 
     @DisplayName("피드에 작성자 추가할 수 있다.")
@@ -70,14 +63,14 @@ class FeedTest {
     @Test
     void mustHaveDeployUrlWhenCompleteStep() {
         assertThatThrownBy(() ->
-                new Feed(
-                        "프로젝트 제목",
-                        "프로젝트 소개 내용",
-                        Step.COMPLETE,
-                        false,
-                        "www.github.com/woowacourse",
-                        "",
-                        "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png"))
+                Feed.builder()
+                        .title("아마찌의 개쩌는 지하철 미션")
+                        .content("난 너무 잘해")
+                        .step(Step.COMPLETE)
+                        .isSos(true)
+                        .storageUrl("https://github.com/woowacourse-teams/2021-nolto")
+                        .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
+                        .build())
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage(ErrorType.MISSING_DEPLOY_URL.getMessage());
     }

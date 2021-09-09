@@ -55,14 +55,24 @@ public class CommentServiceFixture {
         userRepository.saveAndFlush(찰리);
         userRepository.saveAndFlush(포모);
 
-        찰리가_쓴_피드 = new Feed(
-                "title",
-                "content",
-                Step.PROGRESS,
-                true,
-                "https://github.com/woowacourse-teams/2021-nolto",
-                "https://github.com/woowacourse-teams/2021-nolto",
-                "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png").writtenBy(찰리);
+//        찰리가_쓴_피드 = new Feed(
+//                "title",
+//                "content",
+//                Step.PROGRESS,
+//                true,
+//                "https://github.com/woowacourse-teams/2021-nolto",
+//                "https://github.com/woowacourse-teams/2021-nolto",
+//                "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png").writtenBy(찰리);
+        찰리가_쓴_피드 = Feed.builder()
+                .title("title")
+                .content("content")
+                .step(Step.PROGRESS)
+                .isSos(true)
+                .storageUrl("https://github.com/woowacourse-teams/2021-nolto")
+                .deployedUrl("https://github.com/woowacourse-teams/2021-nolto")
+                .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
+                .build()
+                .writtenBy(찰리);
         feedRepository.saveAndFlush(찰리가_쓴_피드);
 
         찰리가_쓴_피드에_찰리가_쓴_댓글 = new Comment("첫 댓글", false).writtenBy(찰리, 찰리가_쓴_피드);

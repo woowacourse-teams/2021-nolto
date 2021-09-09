@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Profile("local")
@@ -34,6 +35,7 @@ public class DataLoader implements ApplicationRunner {
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
 
+    private static final String URL = "https://github.com/woowacourse-teams/2021-nolto";
     private static final String DEFAULT_IMAGE = "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg";
 
     @Override
@@ -54,11 +56,28 @@ public class DataLoader implements ApplicationRunner {
         Tech saveTech1 = techRepository.save(tech1);
         Tech saveTech2 = techRepository.save(tech2);
 
-        Feed feed1 = new Feed("title1", "content1", Step.PROGRESS, true, "https://github.com/woowacourse-teams/2021-nolto", "", "https://dksykemwl00pf.cloudfront.net/KakaoTalk_Photo_2021-07-19-14-25-01.png").writtenBy(mickey);
-        Feed feed2 = new Feed("title2", "content2", Step.COMPLETE, false, "https://github.com/woowacourse-teams/2021-nolto", "http://woowa.jofilm.com", "https://dksykemwl00pf.cloudfront.net/KakaoTalk_Photo_2021-07-19-14-25-01.png").writtenBy(mickey);
-        feed1.changeTechs(Arrays.asList(saveTech1));
-        feed2.changeTechs(Arrays.asList(saveTech1));
-        feed2.changeTechs(Arrays.asList(saveTech2));
+        Feed feed1 = Feed.builder()
+                .title("title1")
+                .content("content1")
+                .step(Step.PROGRESS)
+                .isSos(true)
+                .storageUrl(URL)
+                .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/KakaoTalk_Photo_2021-07-19-14-25-01.png")
+                .build().writtenBy(mickey);
+
+        Feed feed2 = Feed.builder()
+                .title("title2")
+                .content("content2")
+                .step(Step.COMPLETE)
+                .isSos(false)
+                .storageUrl(URL)
+                .deployedUrl(URL)
+                .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/KakaoTalk_Photo_2021-07-19-14-25-01.png")
+                .build().writtenBy(mickey);
+
+        feed1.changeTechs(Collections.singletonList(saveTech1));
+        feed2.changeTechs(Collections.singletonList(saveTech1));
+        feed2.changeTechs(Collections.singletonList(saveTech2));
 
         Feed saveFeed1 = feedRepository.save(feed1);
         feedRepository.save(feed2);

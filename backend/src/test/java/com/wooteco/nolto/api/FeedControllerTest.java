@@ -26,7 +26,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -55,11 +54,29 @@ public class FeedControllerTest extends ControllerTest {
 
     private static final long FEED_ID = 1L;
 
-    public static final Feed FEED1 =
-            new Feed(1L, "title1", "content1", Step.PROGRESS, true, "www.surl.com", "www.durl.com", "www.turl.com").writtenBy(LOGIN_USER);
+    public static final Feed FEED1 = Feed.builder()
+            .id(1L)
+            .title("title")
+            .content("난 너무 잘해")
+            .step(Step.PROGRESS)
+            .isSos(true)
+            .storageUrl("https://github.com/woowacourse-teams/2021-nolto")
+            .deployedUrl("https://github.com/woowacourse-teams/2021-nolto")
+            .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
+            .build()
+            .writtenBy(LOGIN_USER);
 
-    public static final Feed FEED2 =
-            new Feed(2L, "title2", "content2", Step.COMPLETE, false, "", "http://woowa.jofilm.com", "", 2, LOGIN_USER, new ArrayList<>());
+    public static final Feed FEED2 = Feed.builder()
+            .id(2L)
+            .title("title")
+            .content("난 너무 잘해")
+            .step(Step.COMPLETE)
+            .isSos(false)
+            .deployedUrl("https://github.com/woowacourse-teams/2021-nolto")
+            .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
+            .views(2)
+            .author(LOGIN_USER)
+            .build();
 
     private static final List<FeedCardResponse> FEED_CARD_RESPONSES = FeedCardResponse.toList(Arrays.asList(FEED1, FEED2));
 

@@ -48,14 +48,14 @@ public class FeedRequest {
     }
 
     public Feed toEntityWithThumbnailUrl(String thumbnailUrl) {
-        return new Feed(
-                this.title,
-                this.content,
-                Step.of(step),
-                this.sos,
-                this.storageUrl,
-                this.deployedUrl,
-                thumbnailUrl
-        );
+        return Feed.builder()
+                .title(this.title)
+                .content(content)
+                .step(Step.of(step))
+                .isSos(this.sos)
+                .storageUrl(this.storageUrl)
+                .deployedUrl(this.deployedUrl)
+                .thumbnailUrl(thumbnailUrl)
+                .build();
     }
 }

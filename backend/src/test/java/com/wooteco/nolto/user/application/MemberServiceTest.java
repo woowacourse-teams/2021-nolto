@@ -66,8 +66,22 @@ class MemberServiceTest {
     private final User 영상이 = new User(null, "1", SocialType.GITHUB, 존재하는_백신_영상_닉네임, "joel.jpg");
     private final User 아마찌 = new User(null, "2", SocialType.GITHUB, "AMAZZI", "ama.jpg");
 
-    private final Feed 영상이_피드 = new Feed("joelFeed", "joelFeed", Step.PROGRESS, true, "", "", "");
-    private final Feed 아마찌_피드 = new Feed("amaFeed", "amaFeed", Step.PROGRESS, true, "", "", "");
+    private final Feed 영상이_피드 = Feed.builder()
+            .title("joelFeed")
+            .content("joelFeed")
+            .step(Step.PROGRESS)
+            .isSos(true)
+            .storageUrl("https://github.com/woowacourse-teams/2021-nolto")
+            .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
+            .build();
+    private final Feed 아마찌_피드 = Feed.builder()
+            .title("amaFeed")
+            .content("amaFeed")
+            .step(Step.PROGRESS)
+            .isSos(true)
+            .storageUrl("https://github.com/woowacourse-teams/2021-nolto")
+            .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
+            .build();
 
     private final Comment 영상이_피드에_영상이_댓글 = new Comment("joelFeedJoelComment", true);
     private final Comment 아마찌_피드에_영상이_댓글 = new Comment("amaFeedJoelComment", true);
