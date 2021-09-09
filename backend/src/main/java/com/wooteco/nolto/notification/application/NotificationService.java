@@ -15,8 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service
 @Transactional
+@Service
 @RequiredArgsConstructor
 public class NotificationService {
 

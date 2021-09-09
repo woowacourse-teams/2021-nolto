@@ -19,8 +19,8 @@ import java.util.List;
 
 import static com.wooteco.nolto.exception.ErrorType.ALREADY_EXIST_NICKNAME;
 
-@Service
 @Transactional
+@Service
 @RequiredArgsConstructor
 public class MemberService {
 
