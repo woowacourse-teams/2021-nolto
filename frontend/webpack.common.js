@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
+const { DefinePlugin } = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
@@ -49,6 +50,9 @@ module.exports = {
     }),
     new CopyPlugin({
       patterns: [path.resolve(__dirname, 'public', '_redirects')],
+    }),
+    new DefinePlugin({
+      'process.env.BASE_URL': JSON.stringify(process.env.BASE_URL),
     }),
   ],
 };
