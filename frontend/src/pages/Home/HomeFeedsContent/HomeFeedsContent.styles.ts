@@ -5,7 +5,7 @@ const Root = styled.div`
   gap: 1rem;
   width: 100%;
   overflow: auto;
-  padding-left: 1rem;
+  padding: 0 1rem;
 `;
 
 export default { Root };

@@ -143,6 +143,7 @@ const DetailsContent = styled.div`
 
 const DetailsPair = styled.div`
   display: flex;
+  align-items: center;
   gap: 1.75rem;
 
   @media ${MEDIA_QUERY.TABLET_SMALL} {

@@ -55,6 +55,7 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   height: 6rem;
+  margin-top: 0.5rem;
   padding: 0.25rem;
   gap: 0.25rem;
 

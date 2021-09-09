@@ -4,9 +4,7 @@ import LogoIcon from 'assets/logo.svg';
 import LogoSimpleIcon from 'assets/logoSimple.svg';
 import { hoverUnderline } from 'commonStyles';
 import TextButton from 'components/@common/TextButton/TextButton';
-import IconButtonComponent from 'components/@common/IconButton/IconButton';
 import SearchBarComponent from 'components/SearchBar/SearchBar';
-import UserProfileComponent from 'components/UserProfile/UserProfile';
 import { FONT_SIZE, Z_INDEX } from 'constants/styles';
 import { BREAK_POINTS, MEDIA_QUERY } from 'constants/mediaQuery';
 import { PALETTE } from 'constants/palette';
@@ -19,6 +17,7 @@ const Root = styled.header<{ isFolded: boolean }>`
   top: 0;
   height: ${HEIGHT.HEADER};
   width: 100%;
+  padding: 0 1rem;
   z-index: ${Z_INDEX.HEADER};
   box-shadow: ${({ isFolded }) => !isFolded && 'rgb(0 0 0 / 25%) 0px 4px 4px'};
 
@@ -79,13 +78,16 @@ const NavContainer = styled.nav`
 
   & li {
     text-align: center;
+
+    &.buttons-container {
+      margin-left: 0.5rem;
+    }
   }
 
   & .nav-link {
     font-size: ${FONT_SIZE.MEDIUM};
     color: ${PALETTE.WHITE_400};
     display: block;
-    padding-bottom: 4px;
     ${hoverUnderline};
 
     &.selected::after {
@@ -156,7 +158,7 @@ const UserContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
-  padding: 0 0.5rem;
+  margin-left: 1rem;
 `;
 
 export default {

@@ -111,7 +111,7 @@ const Notification = () => {
 
       {notiData.length > defaultNotiCountToShow && (
         <Styled.MoreNotiButton onClick={() => setMoreNotiFolded(!moreNotiFolded)}>
-          <MoreNotiIcon width="8px" fill={PALETTE.ORANGE_400} isFolded={moreNotiFolded} />
+          <MoreNotiIcon width="16px" fill={PALETTE.ORANGE_400} isFolded={moreNotiFolded} />
           <span>알림 더보기</span>
         </Styled.MoreNotiButton>
       )}

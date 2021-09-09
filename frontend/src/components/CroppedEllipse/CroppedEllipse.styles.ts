@@ -58,7 +58,7 @@ const Horse = styled(HorseIcon)`
   height: auto;
   position: absolute;
   right: 10%;
-  bottom: 15%;
+  bottom: 13%;
   transform: rotate(-12deg);
 
   &:hover {

@@ -70,7 +70,7 @@ const Header = ({ isFolded = false }: Props) => {
             Nolto Team
           </NavLink>
         </li>
-        <li>
+        <li className="buttons-container">
           <Styled.ButtonsContainer>
             <Link to={ROUTE.UPLOAD} className="upload-link">
               <IconButton size="2rem">
