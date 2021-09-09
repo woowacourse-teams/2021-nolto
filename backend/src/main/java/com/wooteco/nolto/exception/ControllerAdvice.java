@@ -1,6 +1,7 @@
 package com.wooteco.nolto.exception;
 
 import com.wooteco.nolto.exception.dto.ExceptionResponse;
+import com.wooteco.nolto.feed.domain.RecentParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import javax.validation.ConstraintViolationException;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -26,19 +26,18 @@ public class ControllerAdvice {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<ExceptionResponse> handleConstraintViolationException(ConstraintViolationException e) {
-        String defaultMessage = Objects.requireNonNull(e.getLocalizedMessage());
-        ExceptionResponse errorResponse = new ExceptionResponse(ErrorType.DATA_BINDING_ERROR.getErrorCode(), defaultMessage);
+    @ExceptionHandler(BindException.class)
+    public ResponseEntity<ExceptionResponse> handleBindExceptionException(BindException e) {
+        ExceptionResponse errorResponse = new ExceptionResponse(ErrorType.DATA_BINDING_ERROR.getErrorCode(), getExceptionMessage(e));
         log.info(e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
-    @ExceptionHandler(BindException.class)
-    public ResponseEntity<ExceptionResponse> handleBindExceptionException(BindException e) {
-        ExceptionResponse errorResponse = new ExceptionResponse(ErrorType.DATA_BINDING_ERROR.getErrorCode(), ErrorType.DATA_BINDING_ERROR.getMessage());
-        log.info(e.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    private String getExceptionMessage(BindException e) {
+        if (RecentParams.class.getSimpleName().equalsIgnoreCase(e.getObjectName())) {
+            return Objects.requireNonNull(e.getFieldError()).getDefaultMessage();
+        }
+        return ErrorType.DATA_BINDING_ERROR.getMessage();
     }
 
     @ExceptionHandler(NoltoException.class)
