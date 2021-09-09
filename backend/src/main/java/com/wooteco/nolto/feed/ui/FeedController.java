@@ -10,7 +10,7 @@ import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
 import com.wooteco.nolto.user.domain.User;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -25,10 +25,10 @@ import java.util.List;
 import static com.wooteco.nolto.ViewHistoryManager.isAlreadyView;
 import static com.wooteco.nolto.ViewHistoryManager.setCookieByReadHistory;
 
-@AllArgsConstructor
 @RestController
-@Validated
 @RequestMapping("/feeds")
+@Validated
+@RequiredArgsConstructor
 public class FeedController {
 
     private final FeedService feedService;

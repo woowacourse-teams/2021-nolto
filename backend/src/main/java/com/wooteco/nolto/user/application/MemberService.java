@@ -10,7 +10,7 @@ import com.wooteco.nolto.notification.domain.Notification;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.domain.UserRepository;
 import com.wooteco.nolto.user.ui.dto.*;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +21,7 @@ import static com.wooteco.nolto.exception.ErrorType.ALREADY_EXIST_NICKNAME;
 
 @Service
 @Transactional
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class MemberService {
 
     private final ImageService imageService;

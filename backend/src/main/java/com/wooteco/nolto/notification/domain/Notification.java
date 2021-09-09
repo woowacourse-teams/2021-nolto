@@ -4,7 +4,6 @@ import com.wooteco.nolto.BaseEntity;
 import com.wooteco.nolto.feed.domain.Comment;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.user.domain.User;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,9 +11,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
+@NoArgsConstructor
 public class Notification extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,6 +37,15 @@ public class Notification extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @NotNull
     private NotificationType notificationType;
+
+    public Notification(Long id, User listener, Feed feed, Comment comment, User publisher, NotificationType notificationType) {
+        this.id = id;
+        this.listener = listener;
+        this.feed = feed;
+        this.comment = comment;
+        this.publisher = publisher;
+        this.notificationType = notificationType;
+    }
 
     public Notification(User listener, Feed feed, Comment comment, User publisher, NotificationType notificationType) {
         this.listener = listener;

@@ -5,7 +5,7 @@ import com.wooteco.nolto.feed.domain.FeedTech;
 import com.wooteco.nolto.feed.domain.repository.FeedTechRepository;
 import com.wooteco.nolto.tech.domain.Tech;
 import com.wooteco.nolto.tech.domain.TechRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,9 +14,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
-@Service
 @Transactional
+@Service
+@RequiredArgsConstructor
 public class FeedTechService {
 
     private final TechRepository techRepository;

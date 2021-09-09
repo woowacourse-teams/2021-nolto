@@ -5,10 +5,8 @@ import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.notification.domain.Notification;
 import com.wooteco.nolto.notification.domain.NotificationType;
 import com.wooteco.nolto.user.domain.User;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@AllArgsConstructor
 @Getter
 public class NotificationEvent {
     private final User listener;
@@ -16,6 +14,14 @@ public class NotificationEvent {
     private final Comment comment;
     private final User publisher;
     private final NotificationType notificationType;
+
+    public NotificationEvent(User listener, Feed feed, Comment comment, User publisher, NotificationType notificationType) {
+        this.listener = listener;
+        this.feed = feed;
+        this.comment = comment;
+        this.publisher = publisher;
+        this.notificationType = notificationType;
+    }
 
     public Notification toEntity() {
         return new Notification(listener, feed, comment, publisher, notificationType);

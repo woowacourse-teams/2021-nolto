@@ -18,10 +18,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-
+@Entity
 @Getter
 @NoArgsConstructor
-@Entity
 public class Feed extends BaseEntity {
 
     @Id

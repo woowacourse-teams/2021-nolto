@@ -19,10 +19,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Entity
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
-@Entity
 public class User extends BaseEntity {
     public static final GuestUser GUEST_USER = new GuestUser();
 
@@ -58,6 +57,15 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<CommentLike> commentLikes = new ArrayList<>();
+
+    public User(Long id, String socialId, SocialType socialType, String nickName, String imageUrl, String bio) {
+        this.id = id;
+        this.socialId = socialId;
+        this.socialType = socialType;
+        this.nickName = nickName;
+        this.imageUrl = imageUrl;
+        this.bio = bio;
+    }
 
     public User(Long id, String socialId, SocialType socialType, String nickName) {
         this(id, socialId, socialType, nickName, null, "");

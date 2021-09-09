@@ -2,12 +2,14 @@ package com.wooteco.nolto.feed.domain;
 
 import com.wooteco.nolto.user.domain.User;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class CommentLike {
 
     @Id
@@ -21,9 +23,6 @@ public class CommentLike {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_comment_likes_to_comment"), nullable = false)
     private Comment comment;
-
-    public CommentLike() {
-    }
 
     public CommentLike(User user, Comment comment) {
         this.user = user;

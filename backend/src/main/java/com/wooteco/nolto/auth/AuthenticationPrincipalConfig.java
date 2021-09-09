@@ -4,7 +4,7 @@ import com.wooteco.nolto.auth.application.AuthService;
 import com.wooteco.nolto.auth.ui.AuthInterceptor;
 import com.wooteco.nolto.auth.ui.MemberArgumentResolver;
 import com.wooteco.nolto.auth.ui.UserArgumentResolver;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -14,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.List;
 
 @Configuration
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AuthenticationPrincipalConfig implements WebMvcConfigurer {
     private final AuthService authService;
 

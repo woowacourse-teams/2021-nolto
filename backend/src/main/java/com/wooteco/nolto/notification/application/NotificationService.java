@@ -8,7 +8,7 @@ import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.notification.domain.Notification;
 import com.wooteco.nolto.notification.domain.NotificationRepository;
 import com.wooteco.nolto.user.domain.User;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +17,7 @@ import java.util.List;
 
 @Service
 @Transactional
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class NotificationService {
 
     private final NotificationRepository notificationRepository;
