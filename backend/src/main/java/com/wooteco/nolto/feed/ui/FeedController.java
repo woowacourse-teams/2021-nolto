@@ -81,7 +81,7 @@ public class FeedController {
     }
 
     @GetMapping("/recent")
-    public ResponseEntity<FeedCardPaginationResponse> recentResponse(RecentParams recentParams) {
+    public ResponseEntity<FeedCardPaginationResponse> recentResponse(@Valid RecentParams recentParams) {
         FeedCardPaginationResponse response = feedService.findRecentFeeds(
                 recentParams.getStep(),
                 recentParams.getHelp(),
