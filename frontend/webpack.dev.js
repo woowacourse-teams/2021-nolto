@@ -3,6 +3,7 @@ const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = merge(common, {
   mode: 'development',
@@ -15,5 +16,5 @@ module.exports = merge(common, {
     publicPath: '/',
   },
   devtool: 'eval-cheap-source-map',
-  plugins: [new BundleAnalyzerPlugin(), new ForkTsCheckerWebpackPlugin()],
+  plugins: [new BundleAnalyzerPlugin(), new ForkTsCheckerWebpackPlugin(), new Dotenv()],
 });

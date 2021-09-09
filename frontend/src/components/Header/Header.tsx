@@ -3,6 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 
 import Pencil from 'assets/pencil.svg';
 import Search from 'assets/search.svg';
+import Page from 'pages';
 import LoginModal from 'components/LoginModal/LoginModal';
 import { PALETTE } from 'constants/palette';
 import ROUTE from 'constants/routes';
@@ -55,7 +56,7 @@ const Header = ({ isFolded = false }: Props) => {
         </Link>
       </Styled.LogoWrapper>
       <Styled.NavContainer>
-        <li>
+        <li onMouseOver={() => Page.RecentFeeds.preload()}>
           <NavLink to={ROUTE.RECENT} className="nav-link" activeClassName="selected">
             Toy Projects
           </NavLink>

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 
 import MoreArrow from 'assets/moreArrow.svg';
+import Page from 'pages';
 import AsyncBoundary from 'components/AsyncBoundary';
 import BaseLayout from 'components/BaseLayout/BaseLayout';
 import CroppedEllipse from 'components/CroppedEllipse/CroppedEllipse';
@@ -59,7 +60,7 @@ const Home = () => {
         <Styled.ToysContainer>
           <Styled.TitleWrapper>
             <Styled.SectionTitle>🦄 완성된 프로젝트</Styled.SectionTitle>
-            <MoreButton to={ROUTE.RECENT}>
+            <MoreButton to={ROUTE.RECENT} onMouseOver={() => Page.RecentFeeds.preload()}>
               MORE&nbsp;
               <MoreArrow width="10px" />
             </MoreButton>
@@ -76,7 +77,7 @@ const Home = () => {
         <Styled.ToysContainer>
           <Styled.TitleWrapper>
             <Styled.SectionTitle>🧩 진행중인 프로젝트</Styled.SectionTitle>
-            <MoreButton to={ROUTE.RECENT}>
+            <MoreButton to={ROUTE.RECENT} onMouseOver={() => Page.RecentFeeds.preload()}>
               MORE&nbsp;
               <MoreArrow width="10px" />
             </MoreButton>
