@@ -29,9 +29,16 @@ export const MoreFeedsArrow = styled(DownPolygon)`
   fill: ${PALETTE.PRIMARY_400};
 `;
 
+const MoreHiddenElement = styled.div`
+  width: 100%;
+  height: 20px;
+  visibility: hidden;
+`;
+
 export default {
   Root,
   StepChipsContainer,
   Button,
   RecentFeedsContainer,
+  MoreHiddenElement,
 };
