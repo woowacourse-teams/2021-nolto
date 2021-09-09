@@ -63,8 +63,8 @@ class MemberServiceTest {
     public static final ProfileRequest 프로필_수정_요청 = new ProfileRequest(수정할_닉네임, "안녕하세용", null);
     public static final ProfileRequest 존재하는_닉네임으로_프로필_수정_요청 = new ProfileRequest(존재하는_백신_영상_닉네임, "안녕하세용", null);
 
-    private final User 영상이 = new User(null, "1", SocialType.GITHUB, 존재하는_백신_영상_닉네임, "joel.jpg");
-    private final User 아마찌 = new User(null, "2", SocialType.GITHUB, "AMAZZI", "ama.jpg");
+    private final User 영상이 = new User("1", SocialType.GITHUB, 존재하는_백신_영상_닉네임, "joel.jpg");
+    private final User 아마찌 = new User("2", SocialType.GITHUB, "AMAZZI", "ama.jpg");
 
     private final Feed 영상이_피드 = Feed.builder()
             .title("joelFeed")

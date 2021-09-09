@@ -2,7 +2,6 @@ package com.wooteco.nolto.feed.domain;
 
 import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.user.domain.User;
-import com.wooteco.nolto.user.domain.UserTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,8 +15,21 @@ class CommentTest {
 
     @BeforeEach
     void setUp() {
-        User user1 = new User(1L, "SOCIAL_ID", SocialType.GITHUB, "NICKNAME", "IMAGE");
-        User user2 = new User(2L, "SOCIAL_ID2", SocialType.GITHUB, "NICKNAME2", "IMAGE2");
+        User user1 = User.builder()
+                .id(1L)
+                .socialId("SOCIAL_ID")
+                .socialType(SocialType.GITHUB)
+                .nickName("NICKNAME")
+                .imageUrl("IMAGE")
+                .build();
+        User user2 =User.builder()
+                .id(2L)
+                .socialId("SOCIAL_ID2")
+                .socialType(SocialType.GITHUB)
+                .nickName("NICKNAME2")
+                .imageUrl("IMAGE")
+                .build();
+
         Feed feed = Feed.builder()
                 .title("title")
                 .content("content")

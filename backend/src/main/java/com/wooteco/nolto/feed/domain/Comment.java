@@ -48,26 +48,14 @@ public class Comment extends BaseEntity {
     @OneToMany(mappedBy = "parentComment", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Comment> replies = new ArrayList<>();
 
+    public Comment(String content, boolean helper) {
+        this(null, content, helper);
+    }
+
     public Comment(Long id, String content, boolean helper) {
         this.id = id;
         this.content = content;
         this.helper = helper;
-    }
-
-    public Comment(String content, boolean helper) {
-        this.content = content;
-        this.helper = helper;
-    }
-
-    public Comment(Long id, String content, boolean helper, Feed feed, User author, Comment parentComment, List<CommentLike> likes, List<Comment> replies) {
-        this.id = id;
-        this.content = content;
-        this.helper = helper;
-        this.feed = feed;
-        this.author = author;
-        this.parentComment = parentComment;
-        this.likes = likes;
-        this.replies = replies;
     }
 
     public static Comment createReply(String content, boolean helper) {

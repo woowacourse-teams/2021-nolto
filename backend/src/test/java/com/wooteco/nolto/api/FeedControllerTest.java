@@ -1,6 +1,5 @@
 package com.wooteco.nolto.api;
 
-import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.feed.application.FeedService;
 import com.wooteco.nolto.feed.application.LikeService;
 import com.wooteco.nolto.feed.domain.Feed;
@@ -42,12 +41,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = FeedController.class)
-public class FeedControllerTest extends ControllerTest {
+class FeedControllerTest extends ControllerTest {
 
     private static final String ACCESS_TOKEN = "accessToken";
     private static final String ACCESS_TOKEN_OPTIONAL = "accessTokenOptional";
-    private static final User LOGIN_USER =
-            new User(2L, "11111L", SocialType.GITHUB, "아마찌", "imageUrl");
 
     private static final MockMultipartFile MOCK_MULTIPART_FILE =
             new MockMultipartFile("thumbnailImage", "thumbnailImage.png", "image/png", "<<png data>>".getBytes());

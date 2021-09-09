@@ -2,6 +2,8 @@ package com.wooteco.nolto.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wooteco.nolto.auth.application.AuthService;
+import com.wooteco.nolto.auth.domain.SocialType;
+import com.wooteco.nolto.user.domain.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -23,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @ActiveProfiles("test")
 @AutoConfigureRestDocs
 @MockBean(JpaMetamodelMappingContext.class)
-public class ControllerTest {
+public abstract class ControllerTest {
     @Autowired
     private WebApplicationContext wac;
 
@@ -37,6 +39,15 @@ public class ControllerTest {
     public AuthService authService;
 
     public MockMvc mockMvc;
+
+    public static final User LOGIN_USER = User.builder()
+            .id(1L)
+            .socialId("SOCIAL_ID")
+            .socialType(SocialType.GITHUB)
+            .nickName("NICKNAME")
+            .imageUrl("IMAGE")
+            .bio("BIO")
+            .build();
 
     @BeforeEach
     void setUp() {

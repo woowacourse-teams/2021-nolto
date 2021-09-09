@@ -33,12 +33,12 @@ class UserRepositoryTest {
 
     @DisplayName("context가 제대로 생성되고 설정이 됐는지 확인한다.")
     @Test
-    public void context() {
+    void context() {
     }
 
     @DisplayName("User 객체 데이터베이스에 저장 된다.")
     @Test
-    public void save() {
+    void save() {
         // when
         User savedUser = userRepository.save(user1);
 
@@ -50,7 +50,7 @@ class UserRepositoryTest {
 
     @DisplayName("이미 존재하는 nickname을 가진 User를 저장하려고 하면 예외가 발생한다.")
     @Test
-    public void saveWithDuplicatedNickname() {
+    void saveWithDuplicatedNickname() {
         // given
         userRepository.save(user1);
         User duplicatedNicknameUser = new User("2222", SocialType.GOOGLE, user1.getNickName(), "image_sample.png");
@@ -62,7 +62,7 @@ class UserRepositoryTest {
 
     @DisplayName("유저의 id로 저장된 유저 정보를 조회해올 수 있다.")
     @Test
-    public void findById() {
+    void findById() {
         // given
         User savedUser = userRepository.save(user1);
 
@@ -76,7 +76,7 @@ class UserRepositoryTest {
 
     @DisplayName("존재하지 않는 유저의 id로 유저 정보를 조회하면 Optional.empty() 객체를 반환한다.")
     @Test
-    public void findByNonExistsId() {
+    void findByNonExistsId() {
         // when
         Optional<User> optionalUser = userRepository.findById(Long.MAX_VALUE);
 
@@ -86,7 +86,7 @@ class UserRepositoryTest {
 
     @DisplayName("유저의 email로 저장된 유저 정보를 조회해올 수 있다.")
     @Test
-    public void findByEmail() {
+    void findByEmail() {
         User savedUser = userRepository.save(user1);
 
         // when
@@ -100,7 +100,7 @@ class UserRepositoryTest {
 
     @DisplayName("존재하지 않는 유저의 email로 유저 정보를 조회하면 Optional.empty() 객체를 반환한다.")
     @Test
-    public void findByNonExistsEmail() {
+    void findByNonExistsEmail() {
         // when
         Optional<User> optionalUser = userRepository.findBySocialIdAndSocialType("NonExistsSocialId", null);
 
@@ -110,7 +110,7 @@ class UserRepositoryTest {
 
     @DisplayName("유저와 같은 Id를 가진 유저를 생성해서 저장하면 저장소의 데이터가 수정된다.")
     @Test
-    public void updateOtherCase() {
+    void updateOtherCase() {
         // given
         User savedUser = userRepository.save(user1);
         String newSocialId = "2222";
@@ -126,7 +126,7 @@ class UserRepositoryTest {
 
     @DisplayName("존재하는 유저의 데이터를 삭제할 수 있다.")
     @Test
-    public void delete() {
+    void delete() {
         // given
         User savedUser = userRepository.save(user1);
 
@@ -135,27 +135,31 @@ class UserRepositoryTest {
         List<User> allUsers = userRepository.findAll();
 
         // then
-        assertThat(allUsers).hasSize(0);
+        assertThat(allUsers).isEmpty();
     }
 
     @DisplayName("저장된 유저의 ID와 같은 ID를 가진 객체로 저장을 시도해도 삭제가 가능하다.")
     @Test
-    public void deleteWithSameIdAndDiffInfoObject() {
+    void deleteWithSameIdAndDiffInfoObject() {
         // given
         userRepository.save(user1);
-        User otherUser = new User(user1.getId(), "1234", SocialType.GOOGLE, "Gomding");
-
+        User otherUser = User.builder()
+                .id(user1.getId())
+                .socialId("1234")
+                .socialType(SocialType.GOOGLE)
+                .nickName("Gomding")
+                .build();
         // when
         userRepository.delete(otherUser);
         List<User> allUsers = userRepository.findAll();
 
         // then
-        assertThat(allUsers).hasSize(0);
+        assertThat(allUsers).isEmpty();
     }
 
     @DisplayName("존재하지 않는 유저를 삭제하려고 하면 정상 실행된다.")
     @Test
-    public void deleteWithNonExistsId() {
+    void deleteWithNonExistsId() {
         // when
         userRepository.delete(user1);
 
