@@ -81,12 +81,6 @@ public class FeedController {
     }
 
     @GetMapping("/recent")
-    public ResponseEntity<List<FeedCardResponse>> recentResponse(@RequestParam(required = false, defaultValue = "all") String filter) {
-        List<FeedCardResponse> feeds = feedService.findAll(filter);
-        return ResponseEntity.ok(feeds);
-    }
-
-    @GetMapping("/recent2")
     public ResponseEntity<FeedCardPaginationResponse> recentResponse(@RequestParam(required = false) String step,
                                                                      @RequestParam(required = false, defaultValue = "false") @Valid @Pattern(regexp = "^true$|^false$", message = "Boolean 타입이 아닙니다.") String help,
                                                                      @RequestParam(required = false, defaultValue = "10000000") @Valid @Pattern(regexp = "^[1-9][0-9]*$", message = "자연수만 가능합니다.") String nextFeedId,
