@@ -4,6 +4,7 @@ import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.auth.ui.dto.TokenResponse;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.dto.ExceptionResponse;
+import com.wooteco.nolto.feed.ui.dto.FeedCardPaginationResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
@@ -250,53 +251,106 @@ class FeedAcceptanceTest extends AcceptanceTest {
         );
     }
 
-    @DisplayName("최신순으로 모든(all) 필터링값의 피드를 조회한다")
+    @DisplayName("최신 피드 조회 시 필터가 없어도 잘 작동하는 지 확인한다.")
     @Test
-    void allRecentResponse() {
+    void allRecentResponse_no_filter() {
         // given
-        String ALL = "all";
-        String SOS = "sos";
-        String PROGRESS = "progress";
-        String COMPLETE = "complete";
+        String ALL = "";
 
         // when
         ExtractableResponse<Response> ALL_필터링값_응답 = 최신순_피드_목록_조회_요청(ALL);
-        ExtractableResponse<Response> SOS_필터링값_응답 = 최신순_피드_목록_조회_요청(SOS);
+
+        // then
+        피드_목록_조회_응답됨(ALL_필터링값_응답);
+        최신_피드_목록_포함됨(ALL_필터링값_응답,
+                Arrays.asList(전시중_SOS_좋아요0개_4번째_피드_ID, 진행중_SOS_좋아요1개_3번째_피드_ID, 전시중_좋아요2개_2번째_피드_ID, 진행중_좋아요3개_1번째_피드_ID),
+                null);
+    }
+
+    @DisplayName("최신 피드 조회 시 help 필터가 잘 작동하는 지 확인한다.")
+    @Test
+    void allRecentResponse_help_filter() {
+        // given
+        String HELP = "help=true";
+
+        // when
+        ExtractableResponse<Response> SOS_필터링값_응답 = 최신순_피드_목록_조회_요청(HELP);
+
+        // then
+        피드_목록_조회_응답됨(SOS_필터링값_응답);
+        최신_피드_목록_포함됨(SOS_필터링값_응답,
+                Arrays.asList(전시중_SOS_좋아요0개_4번째_피드_ID, 진행중_SOS_좋아요1개_3번째_피드_ID),
+                null);
+    }
+
+    @DisplayName("최신 피드 조회 시 nextFeedId 필터가 잘 작동하는 지 확인한다.")
+    @Test
+    void allRecentResponse_nextFeedId_filter() {
+        // given
+        String NEXT_FEED_ID = "nextFeedId=3";
+
+        // when
+        ExtractableResponse<Response> NEXT_FEED_ID_필터링값_응답 = 최신순_피드_목록_조회_요청(NEXT_FEED_ID);
+
+        // then
+        피드_목록_조회_응답됨(NEXT_FEED_ID_필터링값_응답);
+        최신_피드_목록_포함됨(NEXT_FEED_ID_필터링값_응답,
+                Arrays.asList(진행중_SOS_좋아요1개_3번째_피드_ID, 전시중_좋아요2개_2번째_피드_ID, 진행중_좋아요3개_1번째_피드_ID),
+                null);
+    }
+
+    @DisplayName("최신 피드 조회 시 step 필터가 잘 작동하는 지 확인한다.")
+    @Test
+    void allRecentResponse_step_filter() {
+        // given
+        String PROGRESS = "step=progress";
+        String COMPLETE = "step=complete";
+
+        // when
         ExtractableResponse<Response> PROGRESS_필터링값_응답 = 최신순_피드_목록_조회_요청(PROGRESS);
         ExtractableResponse<Response> COMPLETE_필터링값_응답 = 최신순_피드_목록_조회_요청(COMPLETE);
 
         // then
-        피드_목록_조회_응답됨(ALL_필터링값_응답);
-        피드_목록_조회_응답됨(SOS_필터링값_응답);
         피드_목록_조회_응답됨(PROGRESS_필터링값_응답);
         피드_목록_조회_응답됨(COMPLETE_필터링값_응답);
-
-        피드_목록_포함됨(ALL_필터링값_응답, Arrays.asList(
-                전시중_SOS_좋아요0개_4번째_피드_ID, 진행중_SOS_좋아요1개_3번째_피드_ID,
-                전시중_좋아요2개_2번째_피드_ID, 진행중_좋아요3개_1번째_피드_ID)
-        );
-        피드_목록_포함됨(SOS_필터링값_응답, Arrays.asList(
-                전시중_SOS_좋아요0개_4번째_피드_ID, 진행중_SOS_좋아요1개_3번째_피드_ID)
-        );
-        피드_목록_포함됨(PROGRESS_필터링값_응답, Arrays.asList(
-                진행중_SOS_좋아요1개_3번째_피드_ID, 진행중_좋아요3개_1번째_피드_ID)
-        );
-        피드_목록_포함됨(COMPLETE_필터링값_응답, Arrays.asList(
-                전시중_SOS_좋아요0개_4번째_피드_ID, 전시중_좋아요2개_2번째_피드_ID)
-        );
+        최신_피드_목록_포함됨(PROGRESS_필터링값_응답,
+                Arrays.asList(진행중_SOS_좋아요1개_3번째_피드_ID, 진행중_좋아요3개_1번째_피드_ID),
+                null);
+        최신_피드_목록_포함됨(COMPLETE_필터링값_응답,
+                Arrays.asList(전시중_SOS_좋아요0개_4번째_피드_ID, 전시중_좋아요2개_2번째_피드_ID),
+                null);
     }
 
-    @DisplayName("최신순으로 지원하지 않는 필터링값으로 피드를 조회한다.")
+    @DisplayName("최신 피드 조회 시 countPerPage 필터가 잘 작동하는 지 확인한다.")
+    @Test
+    void allRecentResponse_countPerPage_filter() {
+        // given
+        String COUNT_PER_PAGE = "countPerPage=2";
+
+        // when
+        ExtractableResponse<Response> COUNT_PER_PAGE_필터링값_응답 = 최신순_피드_목록_조회_요청(COUNT_PER_PAGE);
+
+        // then
+        피드_목록_조회_응답됨(COUNT_PER_PAGE_필터링값_응답);
+        최신_피드_목록_포함됨(COUNT_PER_PAGE_필터링값_응답,
+                Arrays.asList(전시중_SOS_좋아요0개_4번째_피드_ID, 진행중_SOS_좋아요1개_3번째_피드_ID),
+                2L);
+    }
+
+    @DisplayName("최신순으로 지원하지 않는 필터링값으로 피드를 조회하면 디폴트 값으로 조회를 한다..")
     @Test
     void recentResponseException() {
         // given
-        String filter = "notSupported";
+        String filter = "newfilter=true";
 
         // when
-        ExtractableResponse<Response> response = 최신순_피드_목록_조회_요청(filter);
+        ExtractableResponse<Response> ALL_필터링값_응답 = 최신순_피드_목록_조회_요청(filter);
 
         // then
-        존재하지_않는_필터링값으로_피드_목록_조회_실패(response);
+        피드_목록_조회_응답됨(ALL_필터링값_응답);
+        최신_피드_목록_포함됨(ALL_필터링값_응답,
+                Arrays.asList(전시중_SOS_좋아요0개_4번째_피드_ID, 진행중_SOS_좋아요1개_3번째_피드_ID, 전시중_좋아요2개_2번째_피드_ID, 진행중_좋아요3개_1번째_피드_ID),
+                null);
     }
 
     @DisplayName("쿼리, 기술, 필터값 없이 피드를 검색한다. - 빈 배열")
@@ -533,10 +587,10 @@ class FeedAcceptanceTest extends AcceptanceTest {
                 .extract();
     }
 
-    private ExtractableResponse<Response> 최신순_피드_목록_조회_요청(String filter) {
+    private ExtractableResponse<Response> 최신순_피드_목록_조회_요청(String params) {
         return RestAssured.given().log().all()
                 .accept(MediaType.APPLICATION_JSON_VALUE)
-                .when().get("/feeds/recent?filter={filter}", filter)
+                .when().get("/feeds/recent?{param}", params)
                 .then().log().all()
                 .extract();
     }
@@ -613,5 +667,16 @@ class FeedAcceptanceTest extends AcceptanceTest {
                 .collect(Collectors.toList());
 
         assertThat(resultLineIds).isEqualTo(expectedLineIds);
+    }
+
+    private void 최신_피드_목록_포함됨(ExtractableResponse<Response> response, List<Long> expectedLineIds, Long nextFeedId) {
+        FeedCardPaginationResponse cardPaginationResponse = response.jsonPath().getObject(".", FeedCardPaginationResponse.class);
+
+        List<Long> feedIds = cardPaginationResponse.getFeeds().stream()
+                .map(FeedCardResponse::getId)
+                .collect(Collectors.toList());
+
+        assertThat(feedIds).isEqualTo(expectedLineIds);
+        assertThat(cardPaginationResponse.getNextFeedId()).isEqualTo(nextFeedId);
     }
 }
