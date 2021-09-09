@@ -16,5 +16,11 @@ module.exports = merge(common, {
     publicPath: '/',
   },
   devtool: 'eval-cheap-source-map',
-  plugins: [new BundleAnalyzerPlugin(), new ForkTsCheckerWebpackPlugin(), new Dotenv()],
+  plugins: [
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+    }),
+    new ForkTsCheckerWebpackPlugin(),
+    new Dotenv(),
+  ],
 });
