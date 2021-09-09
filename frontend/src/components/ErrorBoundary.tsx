@@ -29,10 +29,8 @@ export default class ErrorBoundary extends Component<Props, State> {
       error.executeSideEffect();
     }
 
-    if (process.env.NODE_ENV === 'production') {
-      if (!(error instanceof HttpError)) {
-        Sentry.showReportDialog();
-      }
+    if (!(error instanceof HttpError)) {
+      Sentry.showReportDialog();
     }
   }
 
