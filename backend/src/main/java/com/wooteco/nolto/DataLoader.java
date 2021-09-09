@@ -12,7 +12,7 @@ import com.wooteco.nolto.tech.domain.Tech;
 import com.wooteco.nolto.tech.domain.TechRepository;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.domain.UserRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
@@ -23,9 +23,9 @@ import java.util.Arrays;
 import java.util.List;
 
 @Profile("local")
-@Component
-@AllArgsConstructor
 @Transactional
+@Component
+@RequiredArgsConstructor
 public class DataLoader implements ApplicationRunner {
 
     private final FeedRepository feedRepository;

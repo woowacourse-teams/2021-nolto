@@ -1,6 +1,7 @@
 package com.wooteco.nolto.tech.domain;
 
 import com.wooteco.nolto.feed.domain.FeedTech;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,9 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Getter
-@NoArgsConstructor
 @Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Tech {
 
     @Id

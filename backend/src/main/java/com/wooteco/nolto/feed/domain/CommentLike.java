@@ -1,6 +1,7 @@
 package com.wooteco.nolto.feed.domain;
 
 import com.wooteco.nolto.user.domain.User;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +10,7 @@ import java.util.Objects;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CommentLike {
 
     @Id
