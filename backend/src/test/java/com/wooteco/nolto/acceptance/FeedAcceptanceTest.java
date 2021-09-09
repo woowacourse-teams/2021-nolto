@@ -337,7 +337,7 @@ class FeedAcceptanceTest extends AcceptanceTest {
                 2L);
     }
 
-    @DisplayName("최신순으로 지원하지 않는 필터링값으로 피드를 조회하면 디폴트 값으로 조회를 한다..")
+    @DisplayName("최신순으로 지원하지 않는 필터링값으로 피드를 조회하면 디폴트 값으로 조회를 한다.")
     @Test
     void recentResponseException() {
         // given
