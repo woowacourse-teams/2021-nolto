@@ -5,7 +5,7 @@ import com.wooteco.nolto.auth.UserAuthenticationPrincipal;
 import com.wooteco.nolto.auth.ValidTokenRequired;
 import com.wooteco.nolto.feed.application.FeedService;
 import com.wooteco.nolto.feed.application.LikeService;
-import com.wooteco.nolto.feed.domain.RecentParams;
+import com.wooteco.nolto.feed.domain.RecentRequestParams;
 import com.wooteco.nolto.feed.ui.dto.FeedCardPaginationResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
@@ -81,12 +81,12 @@ public class FeedController {
     }
 
     @GetMapping("/recent")
-    public ResponseEntity<FeedCardPaginationResponse> recentResponse(@Valid RecentParams recentParams) {
+    public ResponseEntity<FeedCardPaginationResponse> recentResponse(@Valid RecentRequestParams recentRequestParams) {
         FeedCardPaginationResponse response = feedService.findRecentFeeds(
-                recentParams.getStep(),
-                recentParams.getHelp(),
-                recentParams.getNextFeedId(),
-                recentParams.getCountPerPage());
+                recentRequestParams.getStep(),
+                recentRequestParams.getHelp(),
+                recentRequestParams.getNextFeedId(),
+                recentRequestParams.getCountPerPage());
         return ResponseEntity.ok(response);
     }
 
