@@ -7,10 +7,7 @@ const OAuth = loadable(() => import(/* webpackChunkName: "OAuth" */ 'pages/OAuth
 const Modify = loadable(() => import(/* webpackChunkName: "Modify" */ 'pages/Modify/Modify'));
 const Mypage = loadable(() => import(/* webpackChunkName: "Mypage" */ 'pages/Mypage/Mypage'));
 const FeedDetail = loadable(
-  () =>
-    import(
-      /* webpackChunkName: "FeedDetail", webpackPrefetch: true */ 'pages/FeedDetail/FeedDetail'
-    ),
+  () => import(/* webpackChunkName: "FeedDetail" */ 'pages/FeedDetail/FeedDetail'),
 );
 const RecentFeeds = loadable(
   () => import(/* webpackChunkName: "RecentFeeds" */ 'pages/RecentFeeds/RecentFeeds'),
