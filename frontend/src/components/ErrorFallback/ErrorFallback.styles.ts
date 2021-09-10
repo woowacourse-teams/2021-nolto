@@ -9,7 +9,6 @@ const Root = styled.div`
   flex-direction: column;
   align-items: center;
   position: relative;
-  font-family: 'Work Sans', sans-serif;
   color: ${PALETTE.PRIMARY_400};
 `;
 
@@ -23,8 +22,8 @@ const Message = styled.div`
 
 const ErrorTitle = styled.div`
   color: inherit;
-  font-weight: 900;
-  font-style: italic;
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 700;
   font-size: 4.5rem;
   transform: translateY(5%);
 `;
@@ -59,6 +58,7 @@ const Divider = styled.hr`
 
 const ErrorText = styled.div`
   color: inherit;
+  font-family: 'Open Sans', 'Noto Sans KR', sans-serif;
   font-size: 1.25rem;
   margin-top: 1rem;
   padding: 0 0.75rem;
