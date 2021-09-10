@@ -56,14 +56,15 @@ public class NotificationEventTest {
         userRepository.save(찰리);
         userRepository.save(포모);
 
-        찰리가_쓴_피드 = new Feed(
-                "title",
-                "content",
-                Step.PROGRESS,
-                true,
-                "https://github.com/woowacourse-teams/2021-nolto",
-                "https://github.com/woowacourse-teams/2021-nolto",
-                "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png").writtenBy(찰리);
+        찰리가_쓴_피드 = Feed.builder()
+                .title("title")
+                .content("난 너무 잘해")
+                .step(Step.PROGRESS)
+                .isSos(true)
+                .storageUrl("https://github.com/woowacourse-teams/2021-nolto")
+                .deployedUrl("https://github.com/woowacourse-teams/2021-nolto")
+                .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
+                .build().writtenBy(찰리);
         feedRepository.save(찰리가_쓴_피드);
     }
 

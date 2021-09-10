@@ -1,16 +1,17 @@
 package com.wooteco.nolto.feed.domain;
 
 import com.wooteco.nolto.user.domain.User;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Objects;
 
-@Getter
-@NoArgsConstructor
-@Table(name = "Likes")
 @Entity
+@Table(name = "Likes")
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Like {
 
     @Id

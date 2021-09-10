@@ -17,7 +17,7 @@ import com.wooteco.nolto.image.application.ImageService;
 import com.wooteco.nolto.notification.application.NotificationFeedDeleteEvent;
 import com.wooteco.nolto.tech.domain.TechRepository;
 import com.wooteco.nolto.user.domain.User;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,8 +31,8 @@ import java.util.List;
 import java.util.Set;
 
 @Transactional
-@AllArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class FeedService {
 
     private static final int NEXT_FEED_COUNT = 1;

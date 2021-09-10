@@ -39,15 +39,17 @@ class CommentServiceTest extends CommentServiceFixture {
     private User 조엘 = new User("socialId", SocialType.GITHUB, "조엘", "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png");
     private User 포모1 = new User("socialId", SocialType.GOOGLE, "포모1", "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png");
 
-    private Feed 아마찌의_개쩌는_지하철_미션 = new Feed(
-            "아마찌의 개쩌는 지하철 미션",
-            "난 너무 잘해",
-            Step.COMPLETE,
-            false,
-            "www.github.com/newWisdom",
-            "www.github.com/newWisdom",
-            "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png"
-    );
+    private Feed 아마찌의_개쩌는_지하철_미션 = Feed.builder()
+            .title("아마찌의 개쩌는 지하철 미션")
+            .content("난 너무 잘해")
+            .step(Step.COMPLETE)
+            .isSos(false)
+            .storageUrl("www.github.com/newWisdom")
+            .deployedUrl("www.github.com/newWisdom")
+            .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
+            .build()
+            .writtenBy(찰리1);
+
 
     @BeforeEach
     void setUp() throws InterruptedException {

@@ -2,12 +2,12 @@ package com.wooteco.nolto.feed.application.searchstrategy;
 
 import com.wooteco.nolto.feed.application.FeedTechService;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SearchStrategyConfig {
 
     private final FeedRepository feedRepository;

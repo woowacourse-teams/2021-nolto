@@ -1,10 +1,10 @@
 package com.wooteco.nolto.exception;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public enum ErrorType {
     DATA_BINDING_ERROR("common-001", "필수 요청값이 비었습니다"),
     LOGIC_ERROR("common-002", "서버 내부의 에러입니다."),
@@ -39,6 +39,6 @@ public enum ErrorType {
     NOTIFICATION_NOT_FOUND("member-002", "존재하지 않는 알림입니다."),
     UNAUTHORIZED_DELETE_NOTIFICATION("member-003", "알림은 본인만 삭제할 수 있습니다.");
 
-    private String errorCode;
-    private String message;
+    private final String errorCode;
+    private final String message;
 }

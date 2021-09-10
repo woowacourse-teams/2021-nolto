@@ -1,12 +1,12 @@
 package com.wooteco.nolto.notification.application;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class NotificationEventHandler {
 
     private final NotificationService notificationService;

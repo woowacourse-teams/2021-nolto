@@ -1,10 +1,8 @@
 package com.wooteco.nolto.api;
 
-import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.auth.ui.OAuthController;
 import com.wooteco.nolto.auth.ui.dto.OAuthRedirectResponse;
 import com.wooteco.nolto.auth.ui.dto.TokenResponse;
-import com.wooteco.nolto.user.domain.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -21,12 +19,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = OAuthController.class)
-public class OAuthControllerTest extends ControllerTest {
+class OAuthControllerTest extends ControllerTest {
 
     private static final OAuthRedirectResponse OAUTH_REDIRECT_RESPONSE = new OAuthRedirectResponse("client_id", "redirect_uri", "scope", "response_type");
     private static final TokenResponse TOKEN_RESPONSE =
             new TokenResponse("eefaccesstoken123");
-    private static final User USER = new User("socialId", SocialType.GITHUB, "user", "imageUrl");
     private static final String SOCIAL_TYPE_NAME = "github";
     private static final String CODE = "code";
 

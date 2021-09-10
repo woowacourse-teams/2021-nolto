@@ -2,7 +2,7 @@ package com.wooteco.nolto.tech.ui;
 
 import com.wooteco.nolto.tech.application.TechService;
 import com.wooteco.nolto.tech.ui.dto.TechResponse;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,10 +13,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/tags/techs")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TechController {
 
-    private TechService techService;
+    private final TechService techService;
 
     @GetMapping
     public ResponseEntity<List<TechResponse>> findByTechsContains(@RequestParam("auto_complete") String searchWord) {
