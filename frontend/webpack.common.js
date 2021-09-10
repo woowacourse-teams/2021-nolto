@@ -32,7 +32,7 @@ module.exports = {
         use: ['@svgr/webpack'],
       },
       {
-        test: /\.(png|jpe?g|gif)$/i,
+        test: /\.(png|jpe?g|gif|webp)$/i,
         type: 'asset/resource',
         generator: {
           filename: 'static/[name][ext]',
@@ -49,10 +49,28 @@ module.exports = {
       template: './public/index.html',
     }),
     new CopyPlugin({
-      patterns: [path.resolve(__dirname, 'public', '_redirects')],
+      patterns: [
+        path.resolve(__dirname, 'public', '_redirects'),
+        { from: './public/fonts/*', to: 'fonts/[name][ext]' },
+      ],
     }),
     new DefinePlugin({
       'process.env.BASE_URL': JSON.stringify(process.env.BASE_URL),
     }),
   ],
+  optimization: {
+    splitChunks: {
+      chunks: 'async',
+      cacheGroups: {
+        vendor: {
+          chunks: 'all',
+          name: 'vendor',
+          test: /[\\/]node_modules[\\/]/,
+        },
+        default: {
+          filename: 'common-[name].js',
+        },
+      },
+    },
+  },
 };
