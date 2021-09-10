@@ -5,14 +5,14 @@ import lombok.Data;
 import javax.validation.constraints.Pattern;
 
 @Data
-public class RecentParams {
+public class RecentRequestParams {
 
     private String step;
-    @Pattern(regexp = "^true$|^false$", message = "Boolean 타입이 아닙니다.")
+    @Pattern(regexp = "^true$|^false$")
     private String help = "false";
-    @Pattern(regexp = "^[1-9][0-9]*$", message = "자연수만 가능합니다.")
+    @Pattern(regexp = "^[1-9][0-9]*$")
     private String nextFeedId = "10000000";
-    @Pattern(regexp = "^[1-9][0-9]*$", message = "자연수만 가능합니다.")
+    @Pattern(regexp = "^[1-9][0-9]*$")
     private String countPerPage = "15";
 
     public String getStep() {

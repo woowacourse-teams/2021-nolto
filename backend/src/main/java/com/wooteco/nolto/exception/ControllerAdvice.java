@@ -1,9 +1,9 @@
 package com.wooteco.nolto.exception;
 
 import com.wooteco.nolto.exception.dto.ExceptionResponse;
-import com.wooteco.nolto.feed.domain.RecentParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class ControllerAdvice {
@@ -34,10 +35,9 @@ public class ControllerAdvice {
     }
 
     private String getExceptionMessage(BindException e) {
-        if (RecentParams.class.getSimpleName().equalsIgnoreCase(e.getObjectName())) {
-            return Objects.requireNonNull(e.getFieldError()).getDefaultMessage();
-        }
-        return ErrorType.DATA_BINDING_ERROR.getMessage();
+        return e.getFieldErrors().stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .collect(Collectors.joining(", "));
     }
 
     @ExceptionHandler(NoltoException.class)
