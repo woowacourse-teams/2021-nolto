@@ -1,12 +1,19 @@
-import zigIcon from 'assets/team/zig.png';
-import mickeyIcon from 'assets/team/mickey.png';
-import joelIcon from 'assets/team/joel.png';
-import charlieIcon from 'assets/team/charlie.png';
-import amazziIcon from 'assets/team/amazzi.png';
-import pomoIcon from 'assets/team/pomo.png';
+import zigPng from 'assets/team/zig.png';
+import zigWebp from 'assets/team/zig.webp';
+import mickeyPng from 'assets/team/mickey.png';
+import mickeyWebp from 'assets/team/mickey.webp';
+import joelPng from 'assets/team/joel.png';
+import joelWebp from 'assets/team/joel.webp';
+import charliePng from 'assets/team/charlie.png';
+import charlieWebp from 'assets/team/charlie.webp';
+import amazziPng from 'assets/team/amazzi.png';
+import amazziWebp from 'assets/team/amazzi.webp';
+import pomoPng from 'assets/team/pomo.png';
+import pomoWebp from 'assets/team/pomo.webp';
 
 const zig = {
-  image: zigIcon,
+  pngUrl: zigPng,
+  webpUrl: zigWebp,
   name: 'ZIG',
   introduction: '이 세상을 제정신으로 살기란 정말 어려운 일이야',
   github: 'https://github.com/zigsong',
@@ -14,7 +21,8 @@ const zig = {
 };
 
 const mickey = {
-  image: mickeyIcon,
+  pngUrl: mickeyPng,
+  webpUrl: mickeyWebp,
   name: 'MICKEY',
   introduction: '밥 먹고 초바 사왔습니다',
   github: 'https://github.com/0307kwon',
@@ -22,7 +30,8 @@ const mickey = {
 };
 
 const joel = {
-  image: joelIcon,
+  pngUrl: joelPng,
+  webpUrl: joelWebp,
   name: 'JOEL',
   introduction: '내일 할 일을 오늘로 땡기지 마라',
   github: 'https://github.com/PapimonLikelion',
@@ -30,7 +39,8 @@ const joel = {
 };
 
 const charlie = {
-  image: charlieIcon,
+  pngUrl: charliePng,
+  webpUrl: charlieWebp,
   name: 'CHARLIE',
   introduction: '어제는... 소파에서 안 자고 이부자리 잘 펴고 잤어요...',
   github: 'https://github.com/Gomding',
@@ -38,7 +48,8 @@ const charlie = {
 };
 
 const amazzi = {
-  image: amazziIcon,
+  pngUrl: amazziPng,
+  webpUrl: amazziWebp,
   name: 'AMAZZI',
   introduction: '감솨감솨 감솨해룡〰️〰️🎶 감솨해서 이리갔다👈 저리갔다👉',
   github: 'https://github.com/NewWisdom',
@@ -46,7 +57,8 @@ const amazzi = {
 };
 
 const pomo = {
-  image: pomoIcon,
+  pngUrl: pomoPng,
+  webpUrl: pomoWebp,
   name: 'POMO',
   introduction: '내일 할 일을 오늘 하자',
   github: 'https://github.com/bosl95',
