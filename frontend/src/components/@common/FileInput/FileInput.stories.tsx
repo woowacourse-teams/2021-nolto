@@ -8,4 +8,4 @@ export default {
   argTypes: {},
 };
 
-export const Default = () => <FileInput />;
+export const Default = () => <FileInput fileName={'예제 파일'} />;

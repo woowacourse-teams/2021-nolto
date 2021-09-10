@@ -14,7 +14,7 @@ const Root = styled.div`
 
 export const ReplyIconButton = styled(IconButton)`
   position: absolute;
-  top: -1.15rem;
+  top: -1.35rem;
   left: 6.25rem;
 `;
 

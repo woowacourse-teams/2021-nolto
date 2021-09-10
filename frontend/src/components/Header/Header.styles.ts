@@ -53,10 +53,6 @@ const LogoWrapper = styled.div`
     align-items: center;
     gap: 0.5rem;
   }
-
-  @media ${MEDIA_QUERY.TABLET} {
-    height: 3rem;
-  }
 `;
 
 export const Logo = styled(LogoIcon)``;

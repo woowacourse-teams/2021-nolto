@@ -39,8 +39,8 @@ export const FlexContainer = styled.div<FlexContainerProps>`
 
 FlexContainer.defaultProps = {
   flexDirection: 'row',
-  justifyContent: 'start',
-  alignItems: 'start',
+  justifyContent: 'flex-start',
+  alignItems: 'flex-start',
 };
 
 const hoverLayerAnimation = keyframes`
