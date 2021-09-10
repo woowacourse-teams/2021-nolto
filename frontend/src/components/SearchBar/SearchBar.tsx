@@ -3,11 +3,12 @@ import { useHistory } from 'react-router-dom';
 
 import SearchIcon from 'assets/search.svg';
 import TechTagProvider from 'contexts/techTag/TechTagProvider';
+import TechChips from 'contexts/techTag/chip/TechChips';
 import ROUTE from 'constants/routes';
+import { PALETTE } from 'constants/palette';
 import SearchOption from 'components/SearchOption/SearchOption';
 import { Tech, SearchType } from 'types';
 import Styled, { TechInput } from './SearchBar.styles';
-import TechChips from 'contexts/techTag/chip/TechChips';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
@@ -73,7 +74,7 @@ const SearchBar = ({ className, selectable = false, ...options }: Props) => {
           />
         )}
         <Styled.Button>
-          <SearchIcon width="32px" />
+          <SearchIcon width="32px" fill={PALETTE.PRIMARY_400} />
         </Styled.Button>
       </Styled.Root>
     </TechTagProvider>

@@ -83,7 +83,7 @@ const LikeButton = ({ feedDetail }: Props) => {
         {isLiked ? (
           <FilledLikeHeart width="18px" fill={PALETTE.PRIMARY_400} />
         ) : (
-          <LikeHeartIcon width="24px" fill={PALETTE.PRIMARY_200} />
+          <LikeHeartIcon width="24px" fill={PALETTE.PRIMARY_400} />
         )}
       </Button>
       <span>{likeCount}</span>

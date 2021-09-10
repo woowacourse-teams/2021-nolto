@@ -57,7 +57,7 @@ const Content = styled.span<{ isFeedAuthor: boolean }>`
   min-width: 12rem;
   min-height: 2.5rem;
   line-height: 1.5rem;
-  background-color: ${({ isFeedAuthor }) => isFeedAuthor && PALETTE.ORANGE_200};
+  background-color: ${({ isFeedAuthor }) => isFeedAuthor && PALETTE.PRIMARY_200};
 
   ${defaultShadow};
 

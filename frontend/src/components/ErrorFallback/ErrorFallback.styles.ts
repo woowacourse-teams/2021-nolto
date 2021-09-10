@@ -5,6 +5,7 @@ import { PALETTE } from 'constants/palette';
 
 const Root = styled.div`
   width: fit-content;
+  margin: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
