@@ -6,7 +6,7 @@ import com.wooteco.nolto.auth.infrastructure.AuthorizationExtractor;
 import com.wooteco.nolto.exception.NotFoundException;
 import com.wooteco.nolto.user.domain.User;
 import io.jsonwebtoken.JwtException;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -16,7 +16,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserArgumentResolver implements HandlerMethodArgumentResolver {
     private final AuthService authService;
 

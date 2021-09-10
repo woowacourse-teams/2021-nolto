@@ -6,13 +6,13 @@ import com.wooteco.nolto.feed.domain.Comment;
 import com.wooteco.nolto.feed.domain.CommentLike;
 import com.wooteco.nolto.feed.domain.repository.CommentLikeRepository;
 import com.wooteco.nolto.user.domain.User;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@AllArgsConstructor
 @Transactional
 @Service
+@RequiredArgsConstructor
 public class CommentLikeService {
 
     private final CommentService commentService;

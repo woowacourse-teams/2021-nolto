@@ -5,6 +5,7 @@ import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.InternalServerErrorException;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import java.util.UUID;
 
 @Transactional
 @Service
+@RequiredArgsConstructor
 public class ImageService {
 
     public static final String FILENAME_EXTENSION_DOT = ".";
@@ -33,11 +35,6 @@ public class ImageService {
 
     private final AmazonS3 amazonS3Client;
     private final ImageResizeService imageResizeService;
-
-    public ImageService(AmazonS3 amazonS3Client, ImageResizeService imageResizeService) {
-        this.amazonS3Client = amazonS3Client;
-        this.imageResizeService = imageResizeService;
-    }
 
     public String upload(MultipartFile multipartFile, ImageKind imageKind) {
         if (isEmpty(multipartFile)) {

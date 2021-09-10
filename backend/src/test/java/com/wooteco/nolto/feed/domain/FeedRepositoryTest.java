@@ -39,12 +39,31 @@ class FeedRepositoryTest {
         userRepository.save(user1);
         userRepository.save(user2);
 
-        feed1 = new Feed("title1", "content1", Step.PROGRESS, true,
-                "www.github.com/woowacourse", "", DEFAULT_THUMBNAIL_IMAGE);
-        feed2 = new Feed("title2", "content2", Step.PROGRESS, false,
-                "www.github.com/woowacourse", "", DEFAULT_THUMBNAIL_IMAGE);
-        feed3 = new Feed("title3", "content3", Step.COMPLETE, false,
-                "www.github.com/woowacourse", "www.github.com/woowacourse", DEFAULT_THUMBNAIL_IMAGE);
+        feed1 = Feed.builder()
+                .title("title1")
+                .content("content1")
+                .step(Step.PROGRESS)
+                .isSos(true)
+                .storageUrl("www.github.com/newWisdom")
+                .thumbnailUrl(DEFAULT_THUMBNAIL_IMAGE)
+                .build();
+        feed2 = Feed.builder()
+                .title("title2")
+                .content("content2")
+                .step(Step.PROGRESS)
+                .isSos(false)
+                .storageUrl("www.github.com/newWisdom")
+                .thumbnailUrl(DEFAULT_THUMBNAIL_IMAGE)
+                .build();
+        feed3 = Feed.builder()
+                .title("title3")
+                .content("content3")
+                .step(Step.COMPLETE)
+                .isSos(false)
+                .storageUrl("www.github.com/newWisdom")
+                .deployedUrl("www.github.com/woowacourse")
+                .thumbnailUrl(DEFAULT_THUMBNAIL_IMAGE)
+                .build();
     }
 
     @DisplayName("토이 프로젝트 글을 의미하는 Feed를 저장한다.")
@@ -133,10 +152,23 @@ class FeedRepositoryTest {
     @Test
     void searchByKeywordWithKorean() {
         //given
-        feed1 = new Feed("조엘 프로젝트", "조엘의 환상적인 토이 프로젝트로 초대합니다 룰루랄라", Step.PROGRESS, true,
-                "storageUrl", "", "http://thumbnailUrl.ppnngg");
-        feed2 = new Feed("놀토 프로젝트", "놀토는 정말 세계에서 제일가는 팀입니다. 우테코 최고 아웃풋이죠", Step.PROGRESS, false,
-                "", "deployUrl", "http://thumbnailUrl.pnggg");
+        feed1 = Feed.builder()
+                .title("조엘 프로젝트")
+                .content("조엘의 환상적인 토이 프로젝트로 초대합니다 룰루랄라")
+                .step(Step.PROGRESS)
+                .isSos(true)
+                .storageUrl("storageUrl")
+                .thumbnailUrl(DEFAULT_THUMBNAIL_IMAGE)
+                .build();
+        feed2 = Feed.builder()
+                .title("놀토 프로젝트")
+                .content("놀토는 정말 세계에서 제일가는 팀입니다. 우테코 최고 아웃풋이죠")
+                .step(Step.PROGRESS)
+                .isSos(false)
+                .storageUrl("storageUrl")
+                .deployedUrl("deployUrl")
+                .thumbnailUrl(DEFAULT_THUMBNAIL_IMAGE)
+                .build();
 
         feedRepository.save(feed1.writtenBy(user1));
         feedRepository.save(feed2.writtenBy(user2));
@@ -163,10 +195,23 @@ class FeedRepositoryTest {
     @Test
     void searchByKeywordWithSpecialCharacter() {
         //given
-        feed1 = new Feed("조엘 프로젝트$$$$", "조엘의 ### && *** 룰루랄라", Step.PROGRESS, true,
-                "storageUrl", "", "http://thumbnailUrl.ppnngg");
-        feed2 = new Feed("놀토 프로젝트%%%%", "놀토는 ()() @@@ 우테코 최고 아웃풋", Step.PROGRESS, false,
-                "", "deployUrl", "http://thumbnailUrl.pnggg");
+        feed1 = Feed.builder()
+                .title("조엘 프로젝트프로젝트$$$$")
+                .content("조엘의 ### && *** 룰루랄라")
+                .step(Step.PROGRESS)
+                .isSos(true)
+                .storageUrl("storageUrl")
+                .thumbnailUrl(DEFAULT_THUMBNAIL_IMAGE)
+                .build();
+        feed2 = Feed.builder()
+                .title("놀토 프로젝트%%%%")
+                .content("놀토는 ()() @@@ 우테코 최고 아웃풋")
+                .step(Step.PROGRESS)
+                .isSos(false)
+                .storageUrl("storageUrl")
+                .deployedUrl("deployUrl")
+                .thumbnailUrl(DEFAULT_THUMBNAIL_IMAGE)
+                .build();
 
         feedRepository.save(feed1.writtenBy(user1));
         feedRepository.save(feed2.writtenBy(user2));
@@ -194,10 +239,23 @@ class FeedRepositoryTest {
     @Test
     void searchByKeywordWithAllTogether() {
         //given
-        feed1 = new Feed("JOEL 프로젝트$$$$", "조엘의 ### && *** LUlu lala", Step.PROGRESS, true,
-                "storageUrl", "", "http://thumbnailUrl.ppnngg");
-        feed2 = new Feed("놀토 project%%%%", "놀토는 ()() @@@ wootecho 최고 output", Step.PROGRESS, false,
-                "", "deployUrl", "http://thumbnailUrl.pnggg");
+        feed1 = Feed.builder()
+                .title("JOEL 프로젝트$$$$")
+                .content("조엘의 ### && *** LUlu lala")
+                .step(Step.PROGRESS)
+                .isSos(true)
+                .storageUrl("storageUrl")
+                .thumbnailUrl(DEFAULT_THUMBNAIL_IMAGE)
+                .build();
+        feed2 = Feed.builder()
+                .title("놀토 project%%%%")
+                .content("놀토는 ()() @@@ wootecho 최고 output")
+                .step(Step.PROGRESS)
+                .isSos(false)
+                .storageUrl("storageUrl")
+                .deployedUrl("deployUrl")
+                .thumbnailUrl(DEFAULT_THUMBNAIL_IMAGE)
+                .build();
 
         feedRepository.save(feed1.writtenBy(user1));
         feedRepository.save(feed2.writtenBy(user2));
@@ -232,6 +290,6 @@ class FeedRepositoryTest {
         Set<Feed> query1Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query1, query1);
 
         //then
-        assertThat(query1Result).hasSize(0);
+        assertThat(query1Result).isEmpty();
     }
 }

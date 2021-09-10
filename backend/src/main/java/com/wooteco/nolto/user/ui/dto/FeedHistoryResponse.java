@@ -1,14 +1,12 @@
 package com.wooteco.nolto.user.ui.dto;
 
 import com.wooteco.nolto.feed.domain.Feed;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-@AllArgsConstructor
 public class FeedHistoryResponse {
     private final Long id;
     private final String title;
@@ -16,6 +14,15 @@ public class FeedHistoryResponse {
     private final String step;
     private final boolean sos;
     private final String thumbnailUrl;
+
+    public FeedHistoryResponse(Long id, String title, String content, String step, boolean sos, String thumbnailUrl) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.step = step;
+        this.sos = sos;
+        this.thumbnailUrl = thumbnailUrl;
+    }
 
     public static FeedHistoryResponse of(Feed feed) {
         return new FeedHistoryResponse(

@@ -155,8 +155,15 @@ class TechAcceptanceTest extends AcceptanceTest {
 
     private void setUpFeedAndFeedTech() {
         User user = new User("1L", SocialType.GOOGLE, "JOEL", "imageUrl");
-        Feed feed = new Feed("title", "content", Step.PROGRESS, true, "storageUrl",
-                "", "http://thumbnailUrl.png").writtenBy(user);
+        Feed feed = Feed.builder().title("title")
+                .content("content")
+                .step(Step.PROGRESS)
+                .isSos(true)
+                .storageUrl("storageUrl")
+                .thumbnailUrl("http://thumbnailUrl.png")
+                .build()
+        .writtenBy(user);
+
         userRepository.save(user);
         feedRepository.save(feed);
         feedTechRepository.saveAll(Arrays.asList(new FeedTech(feed, JAVA), new FeedTech(feed, JAVASCRIPT),

@@ -119,13 +119,14 @@ class NotificationServiceTest {
     }
 
     private Feed 찰리가_쓴_피드를_생성() {
-        return new Feed(
-                "title",
-                "content",
-                Step.PROGRESS,
-                true,
-                "https://github.com/woowacourse-teams/2021-nolto",
-                "https://github.com/woowacourse-teams/2021-nolto",
-                "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png").writtenBy(찰리);
+        return Feed.builder()
+                .title("title")
+                .content("난 너무 잘해")
+                .step(Step.PROGRESS)
+                .isSos(true)
+                .storageUrl("https://github.com/woowacourse-teams/2021-nolto")
+                .deployedUrl("https://github.com/woowacourse-teams/2021-nolto")
+                .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
+                .build().writtenBy(찰리);
     }
 }

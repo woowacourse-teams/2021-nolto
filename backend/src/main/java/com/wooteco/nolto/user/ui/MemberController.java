@@ -2,11 +2,10 @@ package com.wooteco.nolto.user.ui;
 
 import com.wooteco.nolto.auth.MemberAuthenticationPrincipal;
 import com.wooteco.nolto.auth.ValidTokenRequired;
-import com.wooteco.nolto.notification.application.NotificationService;
 import com.wooteco.nolto.user.application.MemberService;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.ui.dto.*;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/members/me")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;

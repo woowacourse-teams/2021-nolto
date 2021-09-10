@@ -1,14 +1,15 @@
 package com.wooteco.nolto.feed.domain;
 
-import lombok.AllArgsConstructor;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 public class Feeds {
 
     private List<Feed> feeds;
+
+    public Feeds(List<Feed> feeds) {
+        this.feeds = feeds;
+    }
 
     public List<Feed> sortedByLikeCount(int limit) {
         return this.feeds.stream()

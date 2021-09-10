@@ -3,7 +3,7 @@ package com.wooteco.nolto.tech.application;
 import com.wooteco.nolto.tech.domain.Tech;
 import com.wooteco.nolto.tech.domain.TechRepository;
 import com.wooteco.nolto.tech.ui.dto.TechResponse;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Transactional
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TechService {
 
     private static final String TECH_SEARCH_DELIMITER = ",";

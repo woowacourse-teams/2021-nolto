@@ -54,9 +54,31 @@ class FeedTechServiceTest {
         user = new User("socialId", SocialType.GOOGLE, "nickName", "imageUrl");
         userRepository.save(user);
 
-        feed1 = new Feed("T1", "C1", Step.PROGRESS, true, "", "", "");
-        feed2 = new Feed("T2", "C2", Step.PROGRESS, true, "", "", "");
-        feed3 = new Feed("T3", "C3", Step.PROGRESS, true, "", "", "");
+        feed1 = Feed.builder()
+                .title("T1")
+                .content("C1")
+                .step(Step.PROGRESS)
+                .isSos(true)
+                .storageUrl("www.github.com/newWisdom")
+                .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
+                .build();
+        feed2 = Feed.builder()
+                .title("T2")
+                .content("C2")
+                .step(Step.PROGRESS)
+                .isSos(true)
+                .storageUrl("www.github.com/newWisdom")
+                .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
+                .build();
+        feed3 = Feed.builder()
+                .title("T3")
+                .content("C1")
+                .step(Step.PROGRESS)
+                .isSos(true)
+                .storageUrl("www.github.com/newWisdom")
+                .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
+                .build();
+
         feedRepository.saveAll(Arrays.asList(feed1.writtenBy(user), feed2.writtenBy(user), feed3.writtenBy(user)));
 
         techRepository.saveAll(Arrays.asList(tech1, tech2, tech3));
@@ -82,7 +104,7 @@ class FeedTechServiceTest {
         Set<Feed> usingTech3 = feedTechService.findFeedUsingTech(techNames3);
 
         // then
-        assertThat(usingTech123).hasSize(0);
+        assertThat(usingTech123).isEmpty();
         assertThat(usingTech12).contains(feed1);
         assertThat(usingTech2).contains(feed1, feed2);
         assertThat(usingTech3).contains(feed2, feed3);
