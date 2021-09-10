@@ -73,10 +73,17 @@ class FeedControllerTest extends ControllerTest {
             .build();
 
     public static final Feed FEED3 =
-            new Feed(3L, "title3", "content3", Step.PROGRESS, true, "www.naver.com", "www.naver.com", "www.naver.com").writtenBy(LOGIN_USER);
-
-    public static final Feed FEED3 =
-            new Feed(3L, "title3", "content3", Step.PROGRESS, true, "www.naver.com", "www.naver.com", "www.naver.com").writtenBy(LOGIN_USER);
+            Feed.builder()
+                    .id(3L)
+                    .title("title3")
+                    .content("content3")
+                    .step(Step.PROGRESS)
+                    .isSos(true)
+                    .storageUrl("www.naver.com")
+                    .deployedUrl("www.naver.com")
+                    .thumbnailUrl("www.naver.com")
+                    .build()
+                    .writtenBy(LOGIN_USER);
 
     private static final List<FeedCardResponse> FEED_CARD_RESPONSES = FeedCardResponse.toList(Arrays.asList(FEED1, FEED2));
     private static final List<FeedCardResponse> PROGRESS_HELP_FEED_CARD_RESPONSES = FeedCardResponse.toList(Arrays.asList(FEED1, FEED3));
