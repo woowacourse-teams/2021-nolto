@@ -23,6 +23,8 @@ const Button = styled.div<{ selected: boolean }>`
   font-size: 3rem;
   box-shadow: ${({ selected }) => selected && 'inset'} 4px 4px 8px rgba(85, 85, 85, 0.25);
   cursor: pointer;
+  background-color: ${PALETTE.PRIMARY_400};
+  color: ${PALETTE.WHITE_400};
 
   ${hoverLayer({ borderRadius: '50%' })};
 
@@ -34,11 +36,11 @@ const Button = styled.div<{ selected: boolean }>`
 `;
 
 const Progress = styled(Button)`
-  background-color: ${PALETTE.PRIMARY_200};
+  background-color: ${PALETTE.PRIMARY_400};
 `;
 
 const Complete = styled(Button)`
-  background-color: ${PALETTE.PRIMARY_300};
+  background-color: ${PALETTE.PRIMARY_400};
 `;
 
 const SOS = styled(Button)`

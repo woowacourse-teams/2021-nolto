@@ -35,7 +35,7 @@ const TopContainer = styled.div`
   align-items: center;
   width: 100%;
   padding-bottom: 0.4rem;
-  border-bottom: 1px solid ${PALETTE.ORANGE_400};
+  border-bottom: 1px solid ${PALETTE.PRIMARY_400};
 `;
 
 const TitleWrapper = styled.div`
@@ -46,7 +46,7 @@ const TitleWrapper = styled.div`
 `;
 
 const Title = styled.span`
-  color: ${PALETTE.ORANGE_400};
+  color: ${PALETTE.PRIMARY_400};
 `;
 
 const NotiMark = styled.div`
@@ -135,7 +135,7 @@ const MoreNotiButton = styled.button`
   align-self: center;
   background: transparent;
   border: none;
-  color: ${PALETTE.ORANGE_400};
+  color: ${PALETTE.PRIMARY_400};
   display: flex;
   align-items: center;
   gap: 0.25rem;

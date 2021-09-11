@@ -1,12 +1,12 @@
 import styled, { keyframes } from 'styled-components';
 
 import LogoIcon from 'assets/logo.svg';
-import LogoSimpleIcon from 'assets/logoSimple.svg';
+import LogoTextIcon from 'assets/logoText.svg';
 import { hoverUnderline } from 'commonStyles';
 import TextButton from 'components/@common/TextButton/TextButton';
 import SearchBarComponent from 'components/SearchBar/SearchBar';
 import { FONT_SIZE, Z_INDEX } from 'constants/styles';
-import { BREAK_POINTS, MEDIA_QUERY } from 'constants/mediaQuery';
+import { MEDIA_QUERY } from 'constants/mediaQuery';
 import { PALETTE } from 'constants/palette';
 import { HEIGHT } from 'constants/common';
 
@@ -20,10 +20,6 @@ const Root = styled.header<{ isFolded: boolean }>`
   padding: 0 1rem;
   z-index: ${Z_INDEX.HEADER};
   box-shadow: ${({ isFolded }) => !isFolded && 'rgb(0 0 0 / 25%) 0px 4px 4px'};
-
-  & svg {
-    width: 100%;
-  }
 `;
 
 const BackgroundSvg = styled.svg`
@@ -51,19 +47,18 @@ const LogoWrapper = styled.div`
   flex-shrink: 0;
   padding: 0.5rem;
 
-  @media ${MEDIA_QUERY.TABLET} {
-    height: 3rem;
+  > a {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 `;
 
-export const Logo = styled(LogoIcon)`
-  @media ${MEDIA_QUERY.TABLET} {
-    display: none;
-  }
-`;
+export const Logo = styled(LogoIcon)``;
 
-export const LogoSimple = styled(LogoSimpleIcon)`
-  @media screen and (min-width: ${BREAK_POINTS.TABLET}) {
+export const LogoText = styled(LogoTextIcon)`
+  @media ${MEDIA_QUERY.MOBILE} {
     display: none;
   }
 `;

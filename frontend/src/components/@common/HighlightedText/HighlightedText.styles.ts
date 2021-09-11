@@ -16,7 +16,7 @@ const Root = styled.span<{ fontSize: string }>`
     display: block;
     bottom: 0;
     left: 0;
-    background-color: ${PALETTE.HIGHLIGHT};
+    background-color: ${PALETTE.PRIMARY_400};
     opacity: 0.7;
     z-index: ${Z_INDEX.HIGHLIGHT_TEXT};
     width: 100%;

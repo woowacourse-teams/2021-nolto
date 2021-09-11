@@ -8,4 +8,4 @@ export default {
   argTypes: {},
 };
 
-export const Default = () => <SubCommentModule parentCommentId={2} isReplyFormVisible={true} />;
+export const Default = () => <SubCommentModule parentCommentId={2} />;

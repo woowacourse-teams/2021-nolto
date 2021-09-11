@@ -68,7 +68,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
           <LikeButton feedDetail={feedDetail} />
         </Styled.IconWrapper>
         <Styled.IconWrapper>
-          <ViewCountIcon width="22px" fill={PALETTE.PRIMARY_200} />
+          <ViewCountIcon width="22px" fill={PALETTE.PRIMARY_400} />
           <span>{feedDetail.views}</span>
         </Styled.IconWrapper>
       </Styled.IconsContainer>

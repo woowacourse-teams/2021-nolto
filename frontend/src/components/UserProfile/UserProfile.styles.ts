@@ -89,6 +89,7 @@ const Greeting = styled.div`
   width: 100%;
   background-color: ${PALETTE.PRIMARY_400};
   color: ${PALETTE.WHITE_400};
+  text-align: center;
 `;
 
 const buttonStyle = css`

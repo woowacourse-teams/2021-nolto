@@ -12,6 +12,7 @@ import TrendTechs from 'components/TrendTechs/TrendTechs';
 import ROUTE from 'constants/routes';
 import { ERROR_MSG } from 'constants/message';
 import QUERY_KEYS from 'constants/queryKeys';
+import { PALETTE } from 'constants/palette';
 import useOnScreen from 'hooks/@common/useOnScreen';
 import { FilterType } from 'types';
 import HomeFeedsContent from './HomeFeedsContent/HomeFeedsContent';
@@ -92,7 +93,7 @@ const Home = () => {
         </Styled.ToysContainer>
       </Styled.ContentArea>
       <ScrollUpButton size="3rem" onClick={scrollTop}>
-        <Styled.ArrowUp width="14px" />
+        <Styled.ArrowUp width="14px" fill={PALETTE.PRIMARY_400} />
       </ScrollUpButton>
     </BaseLayout>
   );

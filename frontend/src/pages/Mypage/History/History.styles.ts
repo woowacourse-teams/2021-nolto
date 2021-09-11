@@ -22,10 +22,10 @@ const Root = styled.div`
 const SlideBar = styled.div`
   position: relative;
   width: 100%;
-  color: ${PALETTE.ORANGE_400};
+  color: ${PALETTE.PRIMARY_400};
   display: flex;
   justify-content: space-evenly;
-  border-bottom: 1px solid ${PALETTE.ORANGE_400};
+  border-bottom: 1px solid ${PALETTE.PRIMARY_400};
   margin: 0 auto;
 `;
 
@@ -37,7 +37,7 @@ const highlightPixels = {
 
 const SlideHighlight = styled.span<{ tab: UserHistoryType }>`
   width: 33.3%;
-  border-bottom: 3px solid ${PALETTE.ORANGE_400};
+  border-bottom: 3px solid ${PALETTE.PRIMARY_400};
   position: absolute;
   bottom: 0;
   left: ${({ tab }) => highlightPixels[tab]};
