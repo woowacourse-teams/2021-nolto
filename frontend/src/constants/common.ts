@@ -1,7 +1,7 @@
 import { FeedStep } from 'types';
 
 export const STEP_CONVERTER: { [index: string]: string } = {
-  [FeedStep.PROGRESS]: '조립중',
+  [FeedStep.PROGRESS]: '진행중',
   [FeedStep.COMPLETE]: '전시중',
 };
 

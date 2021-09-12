@@ -60,25 +60,14 @@ const Home = () => {
 
         <Styled.ToysContainer>
           <Styled.TitleWrapper>
-            <Styled.SectionTitle>🦄 완성된 프로젝트</Styled.SectionTitle>
-            <MoreButton to={ROUTE.RECENT} onMouseOver={() => Page.RecentFeeds.preload()}>
-              MORE&nbsp;
-              <MoreArrow width="10px" />
-            </MoreButton>
-          </Styled.TitleWrapper>
-          <AsyncBoundary
-            rejectedFallback={
-              <ErrorFallback message={ERROR_MSG.LOAD_DATA} queryKey={QUERY_KEYS.RECENT_FEEDS} />
-            }
-          >
-            <HomeFeedsContent feedsCountToShow={4} step={FeedStep.COMPLETE} />
-          </AsyncBoundary>
-        </Styled.ToysContainer>
-
-        <Styled.ToysContainer>
-          <Styled.TitleWrapper>
             <Styled.SectionTitle>🧩 진행중인 프로젝트</Styled.SectionTitle>
-            <MoreButton to={ROUTE.RECENT} onMouseOver={() => Page.RecentFeeds.preload()}>
+            <MoreButton
+              to={{
+                pathname: ROUTE.RECENT,
+                state: { step: FeedStep.PROGRESS },
+              }}
+              onMouseOver={() => Page.RecentFeeds.preload()}
+            >
               MORE&nbsp;
               <MoreArrow width="10px" />
             </MoreButton>
@@ -89,6 +78,29 @@ const Home = () => {
             }
           >
             <HomeFeedsContent feedsCountToShow={4} step={FeedStep.PROGRESS} />
+          </AsyncBoundary>
+        </Styled.ToysContainer>
+
+        <Styled.ToysContainer>
+          <Styled.TitleWrapper>
+            <Styled.SectionTitle>🦄 완성된 프로젝트</Styled.SectionTitle>
+            <MoreButton
+              to={{
+                pathname: ROUTE.RECENT,
+                state: { step: FeedStep.COMPLETE },
+              }}
+              onMouseOver={() => Page.RecentFeeds.preload()}
+            >
+              MORE&nbsp;
+              <MoreArrow width="10px" />
+            </MoreButton>
+          </Styled.TitleWrapper>
+          <AsyncBoundary
+            rejectedFallback={
+              <ErrorFallback message={ERROR_MSG.LOAD_DATA} queryKey={QUERY_KEYS.RECENT_FEEDS} />
+            }
+          >
+            <HomeFeedsContent feedsCountToShow={4} step={FeedStep.COMPLETE} />
           </AsyncBoundary>
         </Styled.ToysContainer>
       </Styled.ContentArea>

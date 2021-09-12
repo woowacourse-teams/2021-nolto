@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router';
 
 import { FlexContainer } from 'commonStyles';
 import RegularFeedCard from 'components/RegularFeedCard/RegularFeedCard';
@@ -16,7 +17,10 @@ import Styled from './RecentFeedsContent.styles';
 const FEEDS_PER_PAGE = 20;
 
 const RecentFeedsContent = () => {
-  const [step, setStep] = useState<FeedStep>();
+  const location = useLocation<{ step: FeedStep }>();
+  const defaultStep = location.state?.step;
+
+  const [step, setStep] = useState<FeedStep>(defaultStep);
   const [help, setHelp] = useState(false);
 
   const snackbar = useSnackbar();
