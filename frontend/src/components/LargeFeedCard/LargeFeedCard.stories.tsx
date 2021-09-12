@@ -1,5 +1,5 @@
 import React from 'react';
-import { Feed, FeedStatus } from 'types';
+import { Feed, FeedStep } from 'types';
 import { MOCK_USER } from '__mocks__/fixture/User';
 
 import LargeFeedCard from './LargeFeedCard';
@@ -17,7 +17,7 @@ const mockFeed: Feed = {
   content: 'Good Nice Perfect Gorgeous Wonderful!',
   thumbnailUrl: 'https://i.pinimg.com/236x/f5/45/6e/f5456e14993cac65828e289048a89f3e.jpg',
   sos: false,
-  step: FeedStatus.COMPLETE,
+  step: FeedStep.COMPLETE,
 };
 
 export const Default = () => <LargeFeedCard feed={mockFeed} />;

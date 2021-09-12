@@ -6,16 +6,9 @@ export enum ButtonStyle {
   OUTLINE = 'OUTLINE',
 }
 
-export enum FeedStatus {
+export enum FeedStep {
   PROGRESS = 'PROGRESS',
   COMPLETE = 'COMPLETE',
-  SOS = 'SOS',
-}
-
-export enum FilterType {
-  PROGRESS = 'progress',
-  COMPLETE = 'complete',
-  SOS = 'sos',
 }
 
 export enum SearchType {
@@ -52,7 +45,7 @@ export interface Feed {
   author: Author;
   title: string;
   content: string;
-  step: FeedStatus;
+  step: FeedStep;
   sos: boolean;
   thumbnailUrl?: string;
 }

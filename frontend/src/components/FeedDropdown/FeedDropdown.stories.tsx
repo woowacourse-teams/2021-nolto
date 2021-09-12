@@ -1,7 +1,7 @@
 import React from 'react';
 
 import FeedDropdown from './FeedDropdown';
-import { FeedDetail, FeedStatus } from 'types';
+import { FeedDetail, FeedStep } from 'types';
 
 export default {
   title: 'components/FeedDropdown',
@@ -36,7 +36,7 @@ const feedDetail: FeedDetail = {
     },
   ],
   content: '오늘도 열심히 코딩중',
-  step: FeedStatus.PROGRESS,
+  step: FeedStep.PROGRESS,
   sos: true,
   storageUrl: 'https://www.aa.bb.com',
   deployedUrl: null,

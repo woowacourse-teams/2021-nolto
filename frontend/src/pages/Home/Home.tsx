@@ -14,7 +14,7 @@ import { ERROR_MSG } from 'constants/message';
 import QUERY_KEYS from 'constants/queryKeys';
 import { PALETTE } from 'constants/palette';
 import useOnScreen from 'hooks/@common/useOnScreen';
-import { FilterType } from 'types';
+import { FeedStep } from 'types';
 import HomeFeedsContent from './HomeFeedsContent/HomeFeedsContent';
 import Styled, { MoreButton, ScrollUpButton, SearchBar } from './Home.styles';
 
@@ -71,7 +71,7 @@ const Home = () => {
               <ErrorFallback message={ERROR_MSG.LOAD_DATA} queryKey={QUERY_KEYS.RECENT_FEEDS} />
             }
           >
-            <HomeFeedsContent feedsCountToShow={4} filter={FilterType.COMPLETE} />
+            <HomeFeedsContent feedsCountToShow={4} step={FeedStep.COMPLETE} />
           </AsyncBoundary>
         </Styled.ToysContainer>
 
@@ -88,7 +88,7 @@ const Home = () => {
               <ErrorFallback message={ERROR_MSG.LOAD_DATA} queryKey={QUERY_KEYS.RECENT_FEEDS} />
             }
           >
-            <HomeFeedsContent feedsCountToShow={4} filter={FilterType.PROGRESS} />
+            <HomeFeedsContent feedsCountToShow={4} step={FeedStep.PROGRESS} />
           </AsyncBoundary>
         </Styled.ToysContainer>
       </Styled.ContentArea>

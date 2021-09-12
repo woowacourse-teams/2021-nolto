@@ -18,7 +18,7 @@ import TechChip from 'contexts/techTag/chip/TechChips';
 import useDialog from 'contexts/dialog/useDialog';
 import { except } from 'utils/common';
 import QuestionIcon from 'assets/questionMark.svg';
-import { ButtonStyle, FeedStatus, Tech, FeedToUpload } from 'types';
+import { ButtonStyle, FeedStep, Tech, FeedToUpload } from 'types';
 import Styled, {
   ContentTextArea,
   Form,
@@ -147,13 +147,13 @@ const FeedUploadForm = ({ onFeedSubmit, initialFormValue }: Props) => {
               <RadioButton
                 name="step"
                 labelText="🧩 조립중"
-                value={FeedStatus.PROGRESS}
+                value={FeedStep.PROGRESS}
                 {...register('step', { required: UPLOAD_VALIDATION_MSG.STEP_REQUIRED })}
               />
               <RadioButton
                 name="step"
                 labelText="🦄 전시중"
-                value={FeedStatus.COMPLETE}
+                value={FeedStep.COMPLETE}
                 {...register('step')}
               />
             </FlexContainer>
@@ -176,7 +176,7 @@ const FeedUploadForm = ({ onFeedSubmit, initialFormValue }: Props) => {
           <ErrorMessage targetError={errors.step} />
         </div>
 
-        {watchStep === FeedStatus.COMPLETE && (
+        {watchStep === FeedStep.COMPLETE && (
           <div>
             <Styled.StretchWrapper>
               <Label

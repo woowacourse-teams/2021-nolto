@@ -5,30 +5,33 @@ import RegularFeedCard from 'components/RegularFeedCard/RegularFeedCard';
 import StepChip from 'components/StepChip/StepChip';
 import { HighLightedText } from 'components/TeamMember/TeamMember.styles';
 import RegularSkeleton from 'components/RegularSkeleton/RegularSkeleton';
+import Toggle from 'components/@common/Toggle/Toggle';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
 import useRecentFeedsLoad from 'hooks/queries/feed/useRecentFeedsLoad';
 import useIntersectionObserver from 'hooks/@common/useIntersectionObserver';
 import { FONT_SIZE } from 'constants/styles';
-import { FeedStatus, FilterType } from 'types';
+import { FeedStep } from 'types';
 import Styled from './RecentFeedsContent.styles';
 
 const FEEDS_PER_PAGE = 20;
 
 const RecentFeedsContent = () => {
-  const [filter, setFilter] = useState<FilterType>();
+  const [step, setStep] = useState<FeedStep>();
+  const [help, setHelp] = useState(false);
 
   const snackbar = useSnackbar();
 
   const { data, hasNextPage, fetchNextPage, isFetching } = useRecentFeedsLoad({
-    filter,
+    step,
+    help,
     countPerPage: FEEDS_PER_PAGE,
     errorHandler: (error) => snackbar.addSnackbar('error', error.message),
     suspense: false,
   });
 
-  const toggleLevel = (filterType: FilterType) => {
-    if (filter === filterType) setFilter(null);
-    else setFilter(filterType);
+  const toggleLevel = (feedStep: FeedStep) => {
+    if (step === feedStep) setStep(null);
+    else setStep(feedStep);
   };
 
   const loadMoreFeeds = () => {
@@ -44,15 +47,13 @@ const RecentFeedsContent = () => {
       <FlexContainer flexDirection="column" alignItems="center" gap="1.5rem">
         <HighLightedText fontSize={FONT_SIZE.X_LARGE}>Recent Toys</HighLightedText>
         <Styled.StepChipsContainer>
-          <Styled.Button type="button" onClick={() => toggleLevel(FilterType.PROGRESS)}>
-            <StepChip step={FeedStatus.PROGRESS} selected={filter === FilterType.PROGRESS} />
+          <Styled.Button type="button" onClick={() => toggleLevel(FeedStep.PROGRESS)}>
+            <StepChip step={FeedStep.PROGRESS} selected={step === FeedStep.PROGRESS} />
           </Styled.Button>
-          <Styled.Button type="button" onClick={() => toggleLevel(FilterType.COMPLETE)}>
-            <StepChip step={FeedStatus.COMPLETE} selected={filter === FilterType.COMPLETE} />
+          <Styled.Button type="button" onClick={() => toggleLevel(FeedStep.COMPLETE)}>
+            <StepChip step={FeedStep.COMPLETE} selected={step === FeedStep.COMPLETE} />
           </Styled.Button>
-          <Styled.Button type="button" onClick={() => toggleLevel(FilterType.SOS)}>
-            <StepChip step={FeedStatus.SOS} selected={filter === FilterType.SOS} />
-          </Styled.Button>
+          <Toggle labelText="🚨도움요청" onChange={() => setHelp(!help)} fontSize="14px" />
         </Styled.StepChipsContainer>
       </FlexContainer>
       <Styled.RecentFeedsContainer>

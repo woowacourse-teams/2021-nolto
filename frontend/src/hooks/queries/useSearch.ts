@@ -2,14 +2,14 @@ import { useQuery, UseQueryOptions } from 'react-query';
 
 import api from 'constants/api';
 import QUERY_KEYS from 'constants/queryKeys';
-import { ErrorHandler, Feed, FilterType } from 'types';
+import { ErrorHandler, Feed, FeedStep } from 'types';
 import HttpError from 'utils/HttpError';
 import { resolveHttpError } from 'utils/error';
 
 interface SearchParams {
   query: string;
   techs: string;
-  filter: FilterType;
+  step: FeedStep;
 }
 
 interface CustomQueryOption extends UseQueryOptions<Feed[], HttpError> {
@@ -18,8 +18,8 @@ interface CustomQueryOption extends UseQueryOptions<Feed[], HttpError> {
 }
 
 const getSearchResult = async (searchParams: SearchParams, errorHandler: ErrorHandler) => {
-  const { query, techs, filter } = searchParams;
-  const queryString = new URLSearchParams({ query, techs, filter: filter || '' });
+  const { query, techs, step } = searchParams;
+  const queryString = new URLSearchParams({ query, techs, step: step || '' });
 
   try {
     const { data } = await api.get('/feeds/search?' + queryString);

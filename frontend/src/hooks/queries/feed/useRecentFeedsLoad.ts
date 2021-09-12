@@ -4,10 +4,11 @@ import api from 'constants/api';
 import QUERY_KEYS from 'constants/queryKeys';
 import HttpError from 'utils/HttpError';
 import { resolveHttpError } from 'utils/error';
-import { Feed, FilterType, ErrorHandler } from 'types';
+import { Feed, FeedStep, ErrorHandler } from 'types';
 
 interface CustomQueryOption extends UseInfiniteQueryOptions<InfiniteFeedResponse, HttpError> {
-  filter?: FilterType;
+  step?: FeedStep;
+  help?: boolean;
   nextFeedId?: number;
   countPerPage?: number;
   errorHandler?: ErrorHandler;
@@ -18,14 +19,15 @@ interface InfiniteFeedResponse {
 }
 
 const loadRecentFeeds = async ({
-  filter,
+  step,
+  help,
   nextFeedId,
   countPerPage,
   errorHandler,
 }: CustomQueryOption) => {
   try {
     const { data } = await api.get('/feeds/recent', {
-      params: { filter, nextFeedId, countPerPage },
+      params: { step, help, nextFeedId, countPerPage },
     });
 
     return data;
@@ -39,15 +41,16 @@ const loadRecentFeeds = async ({
 };
 
 const useRecentFeedsLoad = ({
-  filter,
+  step,
+  help,
   countPerPage,
   errorHandler,
   ...options
 }: CustomQueryOption) => {
   return useInfiniteQuery<InfiniteFeedResponse, HttpError>(
-    [QUERY_KEYS.RECENT_FEEDS, { filter, countPerPage }],
+    [QUERY_KEYS.RECENT_FEEDS, { step, help, countPerPage }],
     ({ pageParam }) =>
-      loadRecentFeeds({ filter, nextFeedId: pageParam, countPerPage, errorHandler }),
+      loadRecentFeeds({ step, help, nextFeedId: pageParam, countPerPage, errorHandler }),
     {
       getNextPageParam: (lastPage) => lastPage.nextFeedId ?? false,
       ...options,
