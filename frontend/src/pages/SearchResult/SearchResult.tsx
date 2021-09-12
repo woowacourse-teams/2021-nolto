@@ -4,10 +4,11 @@ import { useLocation } from 'react-router-dom';
 import AsyncBoundary from 'components/AsyncBoundary';
 import BaseLayout from 'components/BaseLayout/BaseLayout';
 import StepChip from 'components/StepChip/StepChip';
+import Toggle from 'components/@common/Toggle/Toggle';
 import SearchResultContent from 'pages/SearchResult/SearchResultContent/SearchResultContent';
 import SearchResultHeader from 'pages/SearchResult/SearchResultHeader/SearchResultHeader';
 import { FONT_SIZE } from 'constants/styles';
-import { FeedStatus, FilterType, Tech } from 'types';
+import { FeedStep, Tech } from 'types';
 import Styled from './SearchResult.styles';
 
 interface LocationState {
@@ -20,11 +21,11 @@ const SearchResult = () => {
 
   const [query, setQuery] = useState('');
   const [techs, setTechs] = useState('');
-  const [filter, setFilter] = useState<FilterType>(null);
+  const [step, setStep] = useState<FeedStep>(null);
 
-  const toggleLevel = (filterType: FilterType) => {
-    if (filter === filterType) setFilter(null);
-    else setFilter(filterType);
+  const toggleLevel = (feedStep: FeedStep) => {
+    if (step === feedStep) setStep(null);
+    else setStep(feedStep);
   };
 
   return (
@@ -42,20 +43,18 @@ const SearchResult = () => {
         </AsyncBoundary>
 
         <Styled.StepChipsContainer>
-          <Styled.Button type="button" onClick={() => toggleLevel(FilterType.PROGRESS)}>
-            <StepChip step={FeedStatus.PROGRESS} selected={filter === FilterType.PROGRESS} />
+          <Styled.Button type="button" onClick={() => toggleLevel(FeedStep.PROGRESS)}>
+            <StepChip step={FeedStep.PROGRESS} selected={step === FeedStep.PROGRESS} />
           </Styled.Button>
-          <Styled.Button type="button" onClick={() => toggleLevel(FilterType.COMPLETE)}>
-            <StepChip step={FeedStatus.COMPLETE} selected={filter === FilterType.COMPLETE} />
+          <Styled.Button type="button" onClick={() => toggleLevel(FeedStep.COMPLETE)}>
+            <StepChip step={FeedStep.COMPLETE} selected={step === FeedStep.COMPLETE} />
           </Styled.Button>
-          <Styled.Button type="button" onClick={() => toggleLevel(FilterType.SOS)}>
-            <StepChip step={FeedStatus.SOS} selected={filter === FilterType.SOS} />
-          </Styled.Button>
+          <Toggle labelText="🚨도움요청" fontSize="14px" />
         </Styled.StepChipsContainer>
       </Styled.TopContainer>
 
       <AsyncBoundary rejectedFallback={<div>게시물 검색에 실패했습니다.</div>}>
-        <SearchResultContent query={query} techs={techs} filter={filter} />
+        <SearchResultContent query={query} techs={techs} step={step} />
       </AsyncBoundary>
     </BaseLayout>
   );

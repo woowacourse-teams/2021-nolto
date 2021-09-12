@@ -14,7 +14,7 @@ import { ERROR_MSG } from 'constants/message';
 import QUERY_KEYS from 'constants/queryKeys';
 import { PALETTE } from 'constants/palette';
 import useOnScreen from 'hooks/@common/useOnScreen';
-import { FilterType } from 'types';
+import { FeedStep } from 'types';
 import HomeFeedsContent from './HomeFeedsContent/HomeFeedsContent';
 import Styled, { MoreButton, ScrollUpButton, SearchBar } from './Home.styles';
 
@@ -60,8 +60,14 @@ const Home = () => {
 
         <Styled.ToysContainer>
           <Styled.TitleWrapper>
-            <Styled.SectionTitle>🦄 완성된 프로젝트</Styled.SectionTitle>
-            <MoreButton to={ROUTE.RECENT} onMouseOver={() => Page.RecentFeeds.preload()}>
+            <Styled.SectionTitle>🧩 진행중인 프로젝트</Styled.SectionTitle>
+            <MoreButton
+              to={{
+                pathname: ROUTE.RECENT,
+                state: { step: FeedStep.PROGRESS },
+              }}
+              onMouseOver={() => Page.RecentFeeds.preload()}
+            >
               MORE&nbsp;
               <MoreArrow width="10px" />
             </MoreButton>
@@ -71,14 +77,20 @@ const Home = () => {
               <ErrorFallback message={ERROR_MSG.LOAD_DATA} queryKey={QUERY_KEYS.RECENT_FEEDS} />
             }
           >
-            <HomeFeedsContent feedsCountToShow={4} filter={FilterType.COMPLETE} />
+            <HomeFeedsContent feedsCountToShow={4} step={FeedStep.PROGRESS} />
           </AsyncBoundary>
         </Styled.ToysContainer>
 
         <Styled.ToysContainer>
           <Styled.TitleWrapper>
-            <Styled.SectionTitle>🧩 진행중인 프로젝트</Styled.SectionTitle>
-            <MoreButton to={ROUTE.RECENT} onMouseOver={() => Page.RecentFeeds.preload()}>
+            <Styled.SectionTitle>🦄 완성된 프로젝트</Styled.SectionTitle>
+            <MoreButton
+              to={{
+                pathname: ROUTE.RECENT,
+                state: { step: FeedStep.COMPLETE },
+              }}
+              onMouseOver={() => Page.RecentFeeds.preload()}
+            >
               MORE&nbsp;
               <MoreArrow width="10px" />
             </MoreButton>
@@ -88,7 +100,7 @@ const Home = () => {
               <ErrorFallback message={ERROR_MSG.LOAD_DATA} queryKey={QUERY_KEYS.RECENT_FEEDS} />
             }
           >
-            <HomeFeedsContent feedsCountToShow={4} filter={FilterType.PROGRESS} />
+            <HomeFeedsContent feedsCountToShow={4} step={FeedStep.COMPLETE} />
           </AsyncBoundary>
         </Styled.ToysContainer>
       </Styled.ContentArea>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FeedStatus } from 'types';
+import { FeedStep } from 'types';
 
 import StepChip from './StepChip';
 
@@ -9,5 +9,5 @@ export default {
   argTypes: {},
 };
 
-export const PROGRESS = () => <StepChip step={FeedStatus.PROGRESS} />;
-export const COMPLETE = () => <StepChip step={FeedStatus.COMPLETE} />;
+export const PROGRESS = () => <StepChip step={FeedStep.PROGRESS} />;
+export const COMPLETE = () => <StepChip step={FeedStep.COMPLETE} />;

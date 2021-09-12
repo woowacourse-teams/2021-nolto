@@ -10,7 +10,7 @@ const Progress = ({ selected = false, ...options }: Props) => {
   return (
     <Styled.Root {...options}>
       <Styled.Progress selected={selected}>🧩</Styled.Progress>
-      <Styled.Text>조립중</Styled.Text>
+      <Styled.Text>진행중</Styled.Text>
     </Styled.Root>
   );
 };

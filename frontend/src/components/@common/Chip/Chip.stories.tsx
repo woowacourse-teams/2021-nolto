@@ -10,7 +10,7 @@ export default {
 
 export const Progress = () => (
   <FlexContainer>
-    <Chip.Dashed>조립중</Chip.Dashed>
+    <Chip.Dashed>진행중</Chip.Dashed>
   </FlexContainer>
 );
 

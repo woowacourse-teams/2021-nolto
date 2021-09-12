@@ -1,7 +1,7 @@
 import React from 'react';
 
 import StretchCard from './StretchCard';
-import { Feed, FeedStatus } from 'types';
+import { Feed, FeedStep } from 'types';
 
 export default {
   title: 'components/StretchCard',
@@ -20,7 +20,7 @@ const mockFeed: Feed = {
   content: 'Good Nice Perfect Gorgeous Wonderful!',
   thumbnailUrl: 'https://i.pinimg.com/236x/f5/45/6e/f5456e14993cac65828e289048a89f3e.jpg',
   sos: false,
-  step: FeedStatus.PROGRESS,
+  step: FeedStep.PROGRESS,
 };
 
 export const Default = () => <StretchCard feed={mockFeed} />;

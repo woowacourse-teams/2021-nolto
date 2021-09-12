@@ -4,29 +4,30 @@ import useRecentFeedsLoad from 'hooks/queries/feed/useRecentFeedsLoad';
 import RegularFeedCard from 'components/RegularFeedCard/RegularFeedCard';
 import RegularSkeleton from 'components/RegularSkeleton/RegularSkeleton';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
-import { FilterType } from 'types';
+import { FeedStep } from 'types';
 import Styled from './HomeFeedsContent.styles';
 
 interface Props {
-  filter?: FilterType;
+  step?: FeedStep;
   feedsCountToShow: number;
 }
 
-const HomeFeedsContent = ({ filter, feedsCountToShow }: Props) => {
+const HomeFeedsContent = ({ step, feedsCountToShow }: Props) => {
   const snackbar = useSnackbar();
-  const { data: recentFeeds, isLoading } = useRecentFeedsLoad({
-    filter,
+  const { data, isFetching } = useRecentFeedsLoad({
+    step,
     errorHandler: (error) => snackbar.addSnackbar('error', error.message),
     suspense: false,
   });
 
   return (
     <Styled.Root>
-      {isLoading
-        ? Array.from({ length: 4 }, (_, idx) => <RegularSkeleton key={idx} />)
-        : recentFeeds
-            .slice(0, feedsCountToShow)
-            .map((feed) => <RegularFeedCard key={feed.id} feed={feed} />)}
+      {data?.pages.map((page) =>
+        page.feeds
+          .slice(0, feedsCountToShow)
+          .map((feed) => <RegularFeedCard key={feed.id} feed={feed} />),
+      )}
+      {isFetching && Array.from({ length: 4 }, (_, idx) => <RegularSkeleton key={idx} />)}
     </Styled.Root>
   );
 };
