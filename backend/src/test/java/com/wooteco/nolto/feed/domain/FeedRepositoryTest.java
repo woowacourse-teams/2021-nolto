@@ -9,13 +9,16 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
-import java.util.Set;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 class FeedRepositoryTest {
+
     public static final String DEFAULT_THUMBNAIL_IMAGE = "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png";
 
     @Autowired
@@ -111,11 +114,11 @@ class FeedRepositoryTest {
         feedRepository.save(feed3.writtenBy(user2));
 
         //when
-        Set<Feed> feedsContainingTitle = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase("title", "title");
-        Set<Feed> feedsContainingContent1 = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase("content1", "content1");
-        Set<Feed> feedsContainingContent2 = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase("content2", "content2");
-        Set<Feed> feedsContainingTitle3 = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase("title3", "title3");
-        Set<Feed> feedsContainingTle = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase("tle", "tle");
+        List<Feed> feedsContainingTitle = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase("title", "title");
+        List<Feed> feedsContainingContent1 = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase("content1", "content1");
+        List<Feed> feedsContainingContent2 = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase("content2", "content2");
+        List<Feed> feedsContainingTitle3 = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase("title3", "title3");
+        List<Feed> feedsContainingTle = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase("tle", "tle");
 
         //then
         assertThat(feedsContainingTitle).contains(feed1, feed2, feed3);
@@ -138,9 +141,9 @@ class FeedRepositoryTest {
         String query3 = "TiTLe";
 
         //when
-        Set<Feed> query1Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query1, query1);
-        Set<Feed> query2Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query2, query2);
-        Set<Feed> query3Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query3, query3);
+        List<Feed> query1Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query1, query1);
+        List<Feed> query2Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query2, query2);
+        List<Feed> query3Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query3, query3);
 
         //then
         assertThat(query1Result).contains(feed1, feed2, feed3);
@@ -179,10 +182,10 @@ class FeedRepositoryTest {
         String query4 = "에서 제일";
 
         //when
-        Set<Feed> query1Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query1, query1);
-        Set<Feed> query2Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query2, query2);
-        Set<Feed> query3Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query3, query3);
-        Set<Feed> query4Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query4, query4);
+        List<Feed> query1Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query1, query1);
+        List<Feed> query2Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query2, query2);
+        List<Feed> query3Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query3, query3);
+        List<Feed> query4Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query4, query4);
 
         //then
         assertThat(query1Result).contains(feed1);
@@ -222,10 +225,10 @@ class FeedRepositoryTest {
         String query4 = ")(";
 
         //when
-        Set<Feed> query1Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query1, query1);
-        Set<Feed> query2Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query2, query2);
-        Set<Feed> query3Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query3, query3);
-        Set<Feed> query4Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query4, query4);
+        List<Feed> query1Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query1, query1);
+        List<Feed> query2Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query2, query2);
+        List<Feed> query3Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query3, query3);
+        List<Feed> query4Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query4, query4);
 
         //then
         assertThat(query1Result).contains(feed1);
@@ -266,10 +269,10 @@ class FeedRepositoryTest {
         String query4 = ")() @@@ wootecho 최";
 
         //when
-        Set<Feed> query1Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query1, query1);
-        Set<Feed> query2Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query2, query2);
-        Set<Feed> query3Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query3, query3);
-        Set<Feed> query4Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query4, query4);
+        List<Feed> query1Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query1, query1);
+        List<Feed> query2Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query2, query2);
+        List<Feed> query3Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query3, query3);
+        List<Feed> query4Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query4, query4);
 
         //then
         assertThat(query1Result).contains(feed1);
@@ -287,9 +290,75 @@ class FeedRepositoryTest {
         String query1 = "절대 아무도 검색하지 않을 것 같은 INPUT";
 
         //when
-        Set<Feed> query1Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query1, query1);
+        List<Feed> query1Result = feedRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query1, query1);
 
         //then
         assertThat(query1Result).isEmpty();
+    }
+
+    @DisplayName("피드의 title 혹은 content에 대응하는 문자열이 있고, feedId/step/isSos 조건들에 만족하는 피드를 페이지네이션으로 검색할 수 있다.")
+    @Test
+    void findByQuery() {
+        //given
+        feed1 = Feed.builder()
+                .title("title1")
+                .content("content1")
+                .step(Step.PROGRESS)
+                .isSos(true)
+                .storageUrl("www.github.com/newWisdom")
+                .thumbnailUrl(DEFAULT_THUMBNAIL_IMAGE)
+                .build();
+        feed2 = Feed.builder()
+                .title("title2")
+                .content("content2")
+                .step(Step.PROGRESS)
+                .isSos(true)
+                .storageUrl("www.github.com/newWisdom")
+                .thumbnailUrl(DEFAULT_THUMBNAIL_IMAGE)
+                .build();
+        feed3 = Feed.builder()
+                .title("title3")
+                .content("content3")
+                .step(Step.COMPLETE)
+                .isSos(false)
+                .storageUrl("www.github.com/newWisdom")
+                .deployedUrl("www.github.com/woowacourse")
+                .thumbnailUrl(DEFAULT_THUMBNAIL_IMAGE)
+                .build();
+
+        feedRepository.save(feed1.writtenBy(user1));
+        feedRepository.save(feed2.writtenBy(user1));
+        feedRepository.save(feed3.writtenBy(user1));
+
+        //when
+        String query = "tle";
+
+        Set<Boolean> trueHelpCondition = new HashSet<>(Collections.singletonList(true));
+        Set<Boolean> NoHelpCondition = new HashSet<>(Arrays.asList(true, false));
+
+        Long nextFeedId = 1000000L;
+
+        EnumSet<Step> everyEnumSet = Step.asEnumSet("everything");
+        EnumSet<Step> progressEnumSet = Step.asEnumSet("progress");
+        EnumSet<Step> completeEnumSet = Step.asEnumSet("complete");
+
+        Pageable maxThreePages = PageRequest.of(0, 15);
+
+        List<Feed> everyStepTrueHelpCondition = feedRepository.findByQuery(query, trueHelpCondition, nextFeedId, everyEnumSet, maxThreePages);
+        List<Feed> progressStepTrueHelpCondition = feedRepository.findByQuery(query, trueHelpCondition, nextFeedId, progressEnumSet, maxThreePages);
+        List<Feed> completeStepTrueHelpCondition = feedRepository.findByQuery(query, trueHelpCondition, nextFeedId, completeEnumSet, maxThreePages);
+
+        List<Feed> everyStepNoHelpCondition = feedRepository.findByQuery(query, NoHelpCondition, nextFeedId, everyEnumSet, maxThreePages);
+        List<Feed> progressStepNoHelpCondition = feedRepository.findByQuery(query, NoHelpCondition, nextFeedId, progressEnumSet, maxThreePages);
+        List<Feed> completeStepNoHelpCondition = feedRepository.findByQuery(query, NoHelpCondition, nextFeedId, completeEnumSet, maxThreePages);
+
+        //then
+        assertThat(everyStepTrueHelpCondition).containsExactly(feed2, feed1);
+        assertThat(progressStepTrueHelpCondition).containsExactly(feed2, feed1);
+        assertThat(completeStepTrueHelpCondition).isEmpty();
+
+        assertThat(everyStepNoHelpCondition).containsExactly(feed3, feed2, feed1);
+        assertThat(progressStepNoHelpCondition).containsExactly(feed2, feed1);
+        assertThat(completeStepNoHelpCondition).containsExactly(feed3);
     }
 }

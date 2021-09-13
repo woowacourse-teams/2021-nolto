@@ -15,13 +15,21 @@ import java.util.Set;
 @Repository
 public interface FeedRepository extends JpaRepository<Feed, Long> {
 
-    Set<Feed> findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(String titleText, String contentText);
+    List<Feed> findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(String titleText, String contentText);
 
     @Query("select distinct feed " +
             "from Feed as feed " +
             "join feed.feedTechs ft " +
             "where ft.tech.name in :techNames")
-    Set<Feed> findByTechs(@Param("techNames") List<String> techNames);
+    List<Feed> findByTechs(@Param("techNames") List<String> techNames);
+
+    @Query("select distinct feed " +
+            "from Feed as feed " +
+            "join fetch feed.author u " +
+            "where feed.id <= :feedId and feed.step in :steps and feed.isSos in :help " +
+            "and (upper(feed.title) like upper(concat('%', :query, '%')) or upper(feed.content) like upper(concat('%', :query, '%'))) " +
+            "order by feed.createdDate desc, feed.id desc")
+    List<Feed> findByQuery(@Param("query") String query, @Param("help") Set<Boolean> helpCondition, @Param("feedId") Long feedId, @Param("steps") EnumSet<Step> steps, Pageable pageable);
 
     @Query(value = "select distinct feed " +
             "from Feed as feed " +
@@ -33,7 +41,7 @@ public interface FeedRepository extends JpaRepository<Feed, Long> {
     @Query(value = "select distinct feed " +
             "from Feed as feed " +
             "join fetch feed.author u " +
-            "where feed.id <= :feedId and feed.step in :steps and feed.isSos =:help " +
+            "where feed.id <= :feedId and feed.step in :steps and feed.isSos = :help " +
             "order by feed.createdDate desc, feed.id desc")
     List<Feed> findWithHelp(@Param("steps") EnumSet<Step> steps, @Param("help") Boolean help, @Param("feedId") Long feedId, Pageable pageable);
 }
