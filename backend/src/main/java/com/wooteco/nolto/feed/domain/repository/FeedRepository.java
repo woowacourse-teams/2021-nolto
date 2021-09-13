@@ -19,17 +19,30 @@ public interface FeedRepository extends JpaRepository<Feed, Long> {
 
     @Query("select distinct feed " +
             "from Feed as feed " +
-            "join feed.feedTechs ft " +
-            "where ft.tech.name in :techNames")
-    List<Feed> findByTechs(@Param("techNames") List<String> techNames);
-
-    @Query("select distinct feed " +
-            "from Feed as feed " +
             "join fetch feed.author u " +
             "where feed.id <= :feedId and feed.step in :steps and feed.isSos in :help " +
             "and (upper(feed.title) like upper(concat('%', :query, '%')) or upper(feed.content) like upper(concat('%', :query, '%'))) " +
             "order by feed.createdDate desc, feed.id desc")
     List<Feed> findByQuery(@Param("query") String query, @Param("help") Set<Boolean> helpCondition, @Param("feedId") Long feedId, @Param("steps") EnumSet<Step> steps, Pageable pageable);
+
+    @Query("select distinct feed from " +
+            "Feed as feed " +
+            "join fetch feed.author u " +
+            "join feed.feedTechs ft " +
+            "where feed.id <= :feedId and feed.step in :steps and feed.isSos in :help " +
+            "and ft.tech.name in :techNames " +
+            "order by feed.createdDate desc, feed.id desc")
+    List<Feed> findByTechs(@Param("techNames") List<String> techNames, @Param("help") Set<Boolean> helpCondition, @Param("feedId") Long feedId, @Param("steps") EnumSet<Step> steps, Pageable pageable);
+
+    @Query("select distinct feed from " +
+            "Feed as feed " +
+            "join fetch feed.author u " +
+            "join feed.feedTechs ft " +
+            "where feed.id <= :feedId and feed.step in :steps and feed.isSos in :help " +
+            "and (upper(feed.title) like upper(concat('%', :query, '%')) or upper(feed.content) like upper(concat('%', :query, '%'))) " +
+            "and ft.tech.name in :techNames " +
+            "order by feed.createdDate desc, feed.id desc")
+    List<Feed> findByQueryAndTechs(@Param("query") String query, @Param("techNames") List<String> techNames, @Param("help") Set<Boolean> helpCondition, @Param("feedId") Long feedId, @Param("steps") EnumSet<Step> steps, Pageable pageable);
 
     @Query(value = "select distinct feed " +
             "from Feed as feed " +
