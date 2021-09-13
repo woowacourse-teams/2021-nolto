@@ -13,7 +13,6 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @Service
 @ActiveProfiles("test")
 class DatabaseCleanup implements InitializingBean {
