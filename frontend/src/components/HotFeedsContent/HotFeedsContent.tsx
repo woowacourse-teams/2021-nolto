@@ -6,6 +6,7 @@ import LargeFeedCard from 'components/LargeFeedCard/LargeFeedCard';
 import LargeSkeleton from 'components/LargeSkeleton/LargeSkeleton';
 import { FlexContainer } from 'commonStyles';
 import Styled, { CarouselArrowButton } from './HotFeedsContent.styles';
+import IconButton from 'components/@common/IconButton/IconButton';
 
 const HotFeedsContent = () => {
   const [hotToyCardIdx, setHotToyCardIdx] = useState(0);
@@ -62,14 +63,16 @@ const HotFeedsContent = () => {
       </Styled.ControlContainer>
       <FlexContainer className="dot-container" gap="0.25rem" justifyContent="center">
         {hotFeeds?.map((_, idx) => (
-          <button
+          <IconButton
+            size="0.75rem"
+            hasShadow={false}
             key={idx}
             onClick={() => {
-              () => setHotToyCardIdx(idx);
+              setHotToyCardIdx(idx);
             }}
           >
             <Styled.Dot selected={idx === hotToyCardIdx} />
-          </button>
+          </IconButton>
         ))}
       </FlexContainer>
     </Styled.Root>
