@@ -14,11 +14,6 @@ public class QueryOnlyStrategy extends SearchStrategy {
     }
 
     @Override
-    public List<Feed> search(String query, String techs) {
-        return searchByQuery(query);
-    }
-
-    @Override
     public List<Feed> searchWithCondition(String query, String techs, boolean help, long nextFeedId, EnumSet<Step> steps, Pageable pageable) {
         Set<Boolean> helpCondition;
         if (help) {

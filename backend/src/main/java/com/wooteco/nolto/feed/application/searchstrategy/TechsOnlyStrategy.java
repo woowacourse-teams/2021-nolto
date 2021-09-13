@@ -14,11 +14,6 @@ public class TechsOnlyStrategy extends SearchStrategy {
     }
 
     @Override
-    public List<Feed> search(String query, String techs) {
-        return searchByTechs(techs);
-    }
-
-    @Override
     public List<Feed> searchWithCondition(String query, String techs, boolean help, long nextFeedId, EnumSet<Step> steps, Pageable pageable) {
         List<String> techNames = Arrays.asList(techs.split(TECH_SEARCH_DELIMITER));
         Set<Boolean> helpCondition;

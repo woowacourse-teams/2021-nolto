@@ -16,11 +16,6 @@ public class NoneStrategy extends SearchStrategy {
     }
 
     @Override
-    public List<Feed> search(String query, String techs) {
-        return new ArrayList<>();
-    }
-
-    @Override
     public List<Feed> searchWithCondition(String query, String techs, boolean help, long nextFeedId, EnumSet<Step> steps, Pageable pageable) {
         return new ArrayList<>();
     }

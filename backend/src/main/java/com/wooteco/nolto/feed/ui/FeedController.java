@@ -5,11 +5,7 @@ import com.wooteco.nolto.auth.UserAuthenticationPrincipal;
 import com.wooteco.nolto.auth.ValidTokenRequired;
 import com.wooteco.nolto.feed.application.FeedService;
 import com.wooteco.nolto.feed.application.LikeService;
-import com.wooteco.nolto.feed.domain.RecentRequestParams;
-import com.wooteco.nolto.feed.ui.dto.FeedCardPaginationResponse;
-import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
-import com.wooteco.nolto.feed.ui.dto.FeedRequest;
-import com.wooteco.nolto.feed.ui.dto.FeedResponse;
+import com.wooteco.nolto.feed.ui.dto.*;
 import com.wooteco.nolto.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -97,10 +93,14 @@ public class FeedController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<FeedCardResponse>> searchResponse(@RequestParam(required = false, defaultValue = "") String query,
-                                                                 @RequestParam(required = false, defaultValue = "") String techs,
-                                                                 @RequestParam(required = false, defaultValue = "all") String filter) {
-        List<FeedCardResponse> feeds = feedService.search(query, techs, filter);
-        return ResponseEntity.ok(feeds);
+    public ResponseEntity<FeedCardPaginationResponse> searchResponse2(@Valid SearchRequestParams searchRequestParams) {
+        FeedCardPaginationResponse response = feedService.search(
+                searchRequestParams.getQuery(),
+                searchRequestParams.getTechs(),
+                searchRequestParams.getStep(),
+                searchRequestParams.getHelp(),
+                searchRequestParams.getNextFeedId(),
+                searchRequestParams.getCountPerPage());
+        return ResponseEntity.ok(response);
     }
 }
