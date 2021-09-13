@@ -10,6 +10,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -44,6 +45,12 @@ public class ControllerAdvice {
     public ResponseEntity<ExceptionResponse> handleNoltoException(NoltoException e) {
         log.info(e.getBody().getMessage());
         return ResponseEntity.status(e.getHttpStatus()).body(e.getBody());
+    }
+
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public ResponseEntity<ExceptionResponse> handleNoHandlerFoundException(NoHandlerFoundException e) {
+        log.info(e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ExceptionResponse.of(ErrorType.NOT_FOUND));
     }
 
     @ExceptionHandler(Exception.class)

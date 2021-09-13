@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 public enum ErrorType {
     DATA_BINDING_ERROR("common-001", "요청값이 잘못되었습니다."),
     LOGIC_ERROR("common-002", "서버 내부의 에러입니다."),
+    NOT_FOUND("common-003", "해당 요청 맵핑을 찾을 수 없습니다."),
 
     INVALID_TOKEN("auth-001", "유효하지 않은 토큰입니다."),
     TOKEN_NEEDED("auth-002", "토큰이 필요합니다."),

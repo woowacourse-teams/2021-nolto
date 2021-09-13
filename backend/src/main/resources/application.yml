@@ -25,10 +25,18 @@ spring:
       enabled: always
   main:
     allow-bean-definition-overriding: true
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
 server:
   compression:
     enabled: true
     mime-types: text/html,text/plain,text/css,application/javascript,application/json
+  error:
+    whitelabel:
+      enabled: false
 application:
   cors:
     allow-origin: "*"

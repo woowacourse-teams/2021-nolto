@@ -1,5 +1,6 @@
 package com.wooteco.nolto.exception.dto;
 
+import com.wooteco.nolto.exception.ErrorType;
 import lombok.Getter;
 
 @Getter
@@ -11,5 +12,9 @@ public class ExceptionResponse {
     public ExceptionResponse(String errorCode, String message) {
         this.errorCode = errorCode;
         this.message = message;
+    }
+
+    public static ExceptionResponse of(ErrorType errorType) {
+        return new ExceptionResponse(errorType.getErrorCode(), errorType.getMessage());
     }
 }
