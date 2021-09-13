@@ -3,8 +3,8 @@ package com.wooteco.nolto.feed.application.searchstrategy;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class NoneStrategy extends SearchStrategy {
 
@@ -13,7 +13,7 @@ public class NoneStrategy extends SearchStrategy {
     }
 
     @Override
-    public Set<Feed> search(String query, String techs) {
-        return new HashSet<>();
+    public List<Feed> search(String query, String techs) {
+        return new ArrayList<>();
     }
 }
