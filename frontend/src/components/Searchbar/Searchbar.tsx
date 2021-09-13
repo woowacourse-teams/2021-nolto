@@ -8,14 +8,14 @@ import ROUTE from 'constants/routes';
 import { PALETTE } from 'constants/palette';
 import SearchOption from 'components/SearchOption/SearchOption';
 import { Tech, SearchType } from 'types';
-import Styled, { TechInput } from './SearchBar.styles';
+import Styled, { TechInput } from './Searchbar.styles';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
   selectable?: boolean;
 }
 
-const SearchBar = ({ className, selectable = false, ...options }: Props) => {
+const Searchbar = ({ className, selectable = false, ...options }: Props) => {
   const history = useHistory();
 
   const [query, setQuery] = useState<string>('');
@@ -81,4 +81,4 @@ const SearchBar = ({ className, selectable = false, ...options }: Props) => {
   );
 };
 
-export default SearchBar;
+export default Searchbar;
