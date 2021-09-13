@@ -10,7 +10,7 @@ import ROUTE from 'constants/routes';
 import useModal from 'contexts/modal/useModal';
 import useMember from 'hooks/queries/useMember';
 import { ButtonStyle } from 'types';
-import Styled, { Logo, LogoText, SearchBar } from './Header.styles';
+import Styled, { Logo, LogoText, Searchbar } from './Header.styles';
 import IconButton from 'components/@common/IconButton/IconButton';
 import UserProfile from 'components/UserProfile/UserProfile';
 
@@ -82,7 +82,7 @@ const Header = ({ isFolded = false }: Props) => {
               <IconButton size="2rem" onClick={openSearchBar} className="search">
                 <Search fill={PALETTE.PRIMARY_400} />
               </IconButton>
-              {isSearchBarOpened && <SearchBar placeholder="제목/내용으로만 검색이 가능합니다" />}
+              {isSearchBarOpened && <Searchbar placeholder="제목/내용으로만 검색이 가능합니다" />}
             </div>
           </Styled.ButtonsContainer>
         </li>

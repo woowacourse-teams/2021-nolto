@@ -16,7 +16,7 @@ import { PALETTE } from 'constants/palette';
 import useOnScreen from 'hooks/@common/useOnScreen';
 import { FeedStep } from 'types';
 import HomeFeedsContent from './HomeFeedsContent/HomeFeedsContent';
-import Styled, { MoreButton, ScrollUpButton, SearchBar } from './Home.styles';
+import Styled, { MoreButton, ScrollUpButton, Searchbar } from './Home.styles';
 
 const Home = () => {
   const ellipseRef = useRef();
@@ -37,7 +37,7 @@ const Home = () => {
       </Styled.EllipseWrapper>
       <Styled.SearchContainer>
         <Styled.SearchTitle>Search for Ideas?</Styled.SearchTitle>
-        <SearchBar className="search-bar" selectable />
+        <Searchbar className="search-bar" selectable />
         <AsyncBoundary
           rejectedFallback={
             <ErrorFallback message={ERROR_MSG.LOAD_TRENDS} queryKey={QUERY_KEYS.TREND_TECHS} />

@@ -4,7 +4,7 @@ import LogoIcon from 'assets/logo.svg';
 import LogoTextIcon from 'assets/logoText.svg';
 import { hoverUnderline } from 'commonStyles';
 import TextButton from 'components/@common/TextButton/TextButton';
-import SearchBarComponent from 'components/SearchBar/SearchBar';
+import SearchBarComponent from 'components/Searchbar/Searchbar';
 import { FONT_SIZE, Z_INDEX } from 'constants/styles';
 import { MEDIA_QUERY } from 'constants/mediaQuery';
 import { PALETTE } from 'constants/palette';
@@ -138,7 +138,7 @@ const stretchTo = (maxWidth: string) => keyframes`
   }
 `;
 
-export const SearchBar = styled(SearchBarComponent)`
+export const Searchbar = styled(SearchBarComponent)`
   position: absolute;
   top: 50%;
   transform: translateY(-50%);

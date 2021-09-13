@@ -62,7 +62,14 @@ const HotFeedsContent = () => {
       </Styled.ControlContainer>
       <FlexContainer className="dot-container" gap="0.25rem" justifyContent="center">
         {hotFeeds?.map((_, idx) => (
-          <Styled.Dot key={idx} selected={idx === hotToyCardIdx} />
+          <button
+            key={idx}
+            onClick={() => {
+              () => setHotToyCardIdx(idx);
+            }}
+          >
+            <Styled.Dot selected={idx === hotToyCardIdx} />
+          </button>
         ))}
       </FlexContainer>
     </Styled.Root>
