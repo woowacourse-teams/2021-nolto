@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class NotificationFeedDeleteEvent {
-    private Feed feed;
+    private final Feed feed;
 
     public NotificationFeedDeleteEvent(Feed feed) {
         this.feed = feed;
