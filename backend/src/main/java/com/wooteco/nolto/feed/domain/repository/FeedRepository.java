@@ -17,6 +17,12 @@ public interface FeedRepository extends JpaRepository<Feed, Long> {
 
     Set<Feed> findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(String titleText, String contentText);
 
+    @Query("select distinct feed " +
+            "from Feed as feed " +
+            "join feed.feedTechs ft " +
+            "where ft.tech.name in :techNames")
+    Set<Feed> findByTechs(@Param("techNames") List<String> techNames);
+
     @Query(value = "select distinct feed " +
             "from Feed as feed " +
             "join fetch feed.author u " +

@@ -30,7 +30,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -579,7 +582,7 @@ class FeedServiceTest {
         assertThat(feedIds).contains(firstFeedId);
     }
 
-    @DisplayName("테크 이름들의 나열을 통해, 해당 테크를 사용한 피드를 검색한다.")
+    @DisplayName("테크 이름들의 나열을 통해, 해당 테크들 중 하나라도 사용한 피드를 검색한다.")
     @Test
     void searchByTechs() {
         //given
@@ -604,8 +607,8 @@ class FeedServiceTest {
                 .collect(Collectors.toList());
 
         //then
-        assertThat(searchFeeds).hasSize(1);
-        assertThat(feedIds).contains(firstFeedId);
+        assertThat(searchFeeds).hasSize(2);
+        assertThat(feedIds).contains(firstFeedId, secondFeedId);
     }
 
 
@@ -631,7 +634,7 @@ class FeedServiceTest {
         assertThat(searchFeeds).isEmpty();
     }
 
-    @DisplayName("제목과 내용에 특정 query가 포함되어 있고, 검색한 테그명에 포함된 테크를 사용한 피드를 검색한다.")
+    @DisplayName("제목과 내용에 특정 query가 포함되어 있고, 검색한 테그명에 포함된 테크들 중 하나라도 사용한 피드를 검색한다.")
     @Test
     void searchByQueryAndTechs() {
         //given
@@ -656,8 +659,8 @@ class FeedServiceTest {
                 .collect(Collectors.toList());
 
         //then
-        assertThat(searchFeeds).hasSize(1);
-        assertThat(feedIds).contains(firstFeedId);
+        assertThat(searchFeeds).hasSize(2);
+        assertThat(feedIds).contains(firstFeedId, secondFeedId);
     }
 
     @DisplayName("제목+내용 Query와 기술명 나열 Techs로 검색한 결과에 대해 SOS 필터링하여 받을 수 있다.")

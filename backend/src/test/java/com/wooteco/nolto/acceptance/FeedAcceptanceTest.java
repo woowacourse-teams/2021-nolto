@@ -392,13 +392,13 @@ class FeedAcceptanceTest extends AcceptanceTest {
 
         // when
         ExtractableResponse<Response> JAVA_기술_응답 = 기술로_피드_검색_요청(JAVA.getName());
-        ExtractableResponse<Response> JAVA_AND_SPRING_기술_응답 = 기술로_피드_검색_요청(JAVA.getName() + "," + SPRING.getName());
+        ExtractableResponse<Response> JAVA_OR_SPRING_기술_응답 = 기술로_피드_검색_요청(JAVA.getName() + "," + SPRING.getName());
 
         // then
         피드_목록_조회_응답됨(JAVA_기술_응답);
-        피드_목록_조회_응답됨(JAVA_AND_SPRING_기술_응답);
+        피드_목록_조회_응답됨(JAVA_OR_SPRING_기술_응답);
         피드_목록_포함됨(JAVA_기술_응답, Arrays.asList(JAVA_기술가진_피드_ID, JAVA_AND_SPRING_기술가진_피드_ID));
-        피드_목록_포함됨(JAVA_AND_SPRING_기술_응답, Collections.singletonList(JAVA_AND_SPRING_기술가진_피드_ID));
+        피드_목록_포함됨(JAVA_OR_SPRING_기술_응답, Arrays.asList(JAVA_기술가진_피드_ID, JAVA_AND_SPRING_기술가진_피드_ID));
     }
 
     @DisplayName("query, techs로 피드를 검색하고 필터링 조건으로도 검색한다.")
