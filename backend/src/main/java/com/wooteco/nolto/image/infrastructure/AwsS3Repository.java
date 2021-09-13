@@ -2,8 +2,8 @@ package com.wooteco.nolto.image.infrastructure;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.wooteco.nolto.image.application.domain.ProcessedImage;
-import com.wooteco.nolto.image.application.domain.repository.ImageRepository;
+import com.wooteco.nolto.image.domain.ProcessedImage;
+import com.wooteco.nolto.image.domain.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;

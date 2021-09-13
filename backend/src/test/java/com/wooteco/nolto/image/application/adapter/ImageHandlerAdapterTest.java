@@ -2,7 +2,7 @@ package com.wooteco.nolto.image.application.adapter;
 
 import com.wooteco.nolto.image.application.ImageConvertService;
 import com.wooteco.nolto.image.application.ImageResizeService;
-import com.wooteco.nolto.image.application.domain.ProcessedImage;
+import com.wooteco.nolto.image.domain.ProcessedImage;
 import com.wooteco.nolto.image.config.FfmpegConfig;
 import com.wooteco.nolto.image.infrastructure.FfmpegConverter;
 import org.junit.jupiter.api.Test;

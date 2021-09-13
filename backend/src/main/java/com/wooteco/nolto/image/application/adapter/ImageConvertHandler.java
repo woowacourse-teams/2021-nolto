@@ -1,7 +1,7 @@
 package com.wooteco.nolto.image.application.adapter;
 
 import com.wooteco.nolto.image.application.ImageConvertService;
-import com.wooteco.nolto.image.application.domain.ProcessedImage;
+import com.wooteco.nolto.image.domain.ProcessedImage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

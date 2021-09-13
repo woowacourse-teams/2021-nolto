@@ -1,6 +1,6 @@
 package com.wooteco.nolto.image.application.adapter;
 
-import com.wooteco.nolto.image.application.domain.ProcessedImage;
+import com.wooteco.nolto.image.domain.ProcessedImage;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;

@@ -1,4 +1,4 @@
-package com.wooteco.nolto.image.application.domain;
+package com.wooteco.nolto.image.domain;
 
 import java.io.File;
 
