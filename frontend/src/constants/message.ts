@@ -25,6 +25,7 @@ export const ERROR_MSG = {
   LOAD_USER_DATA: '사용자 데이터를 불러올 수 없습니다.',
   LOAD_USER_NOTI: '알림 목록을 불러올 수 없습니다.',
   LOAD_USER_HISTORY: '사용자 히스토리를 불러올 수 없습니다.',
+  FAIL_KAKAO_SHARE: '카카오톡 공유하기를 이용할 수 없습니다.',
 };
 
 export const MESSAGES = {

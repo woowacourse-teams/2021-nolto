@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useEffect } from 'react';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import { ButtonStyle } from 'types';
@@ -27,6 +27,8 @@ interface Props {
 }
 
 const FeedDetailContent = ({ feedId }: Props) => {
+  const [isKakaoLoaded, setKakaoLoaded] = useState(false);
+
   const history = useHistory();
   const location = useLocation<{ commentId: number }>();
 
@@ -102,10 +104,18 @@ const FeedDetailContent = ({ feedId }: Props) => {
     </>
   );
 
-  useEffect(() => {
-    window.Kakao.init(process.env.KAKAO_API_KEY);
+  const handleKakaoShare = () => {
+    if (isKakaoLoaded) return;
 
-    createKakaoShare();
+    snackbar.addSnackbar('error', ERROR_MSG.FAIL_KAKAO_SHARE);
+  };
+
+  useEffect(() => {
+    if (process.env.KAKAO_API_KEY) {
+      window.Kakao.init(process.env.KAKAO_API_KEY);
+      createKakaoShare();
+      setKakaoLoaded(true);
+    }
   }, []);
 
   // TODO: 댓글 로딩 부분 스켈레톤으로 리팩토링
@@ -119,7 +129,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
               <h2>{feedDetail.title}</h2>
               <StepChip step={feedDetail.step} />
               <ShareIcon width="20px" />
-              <a id="create-kakao-link-btn">
+              <a id="create-kakao-link-btn" onClick={handleKakaoShare}>
                 <img
                   src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_small.png"
                   width="24px"
