@@ -117,3 +117,10 @@ export const DefaultPageRoot = styled.div`
     padding-top: 0;
   }
 `;
+
+export const Divider = styled.hr`
+  width: 100%;
+  height: 1px;
+  background-color: ${PALETTE.BLACK_200};
+  border: none;
+`;

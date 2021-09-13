@@ -3,6 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 import { ButtonStyle } from 'types';
 import ViewCountIcon from 'assets/viewCount.svg';
+import ShareIcon from 'assets/share.svg';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
 import useFeedDetail from 'hooks/queries/feed/useFeedDetail';
 import useMember from 'hooks/queries/useMember';
@@ -11,6 +12,7 @@ import ROUTE from 'constants/routes';
 import QUERY_KEYS from 'constants/queryKeys';
 import { ERROR_MSG } from 'constants/message';
 import { DEFAULT_IMG } from 'constants/common';
+import { Divider } from 'commonStyles';
 import ToggleList from 'components/@common/ToggleList/ToggleList';
 import FeedDropdown from 'components/FeedDropdown/FeedDropdown';
 import LikeButton from 'components/LikeButton/LikeButton';
@@ -131,7 +133,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
               {isMyFeed && <FeedDropdown feedDetail={feedDetail} />}
             </Styled.UserWrapper>
           </Styled.TitleContainer>
-          <hr />
+          <Divider />
 
           <Styled.MobileThumbnailContainer>{thumbnailElement}</Styled.MobileThumbnailContainer>
           <Styled.DetailsContent>
@@ -182,7 +184,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
       </Styled.IntroContainer>
       <div>
         <h3>프로젝트 소개</h3>
-        <hr />
+        <Divider />
         <Styled.Description>{feedDetail.content}</Styled.Description>
       </div>
 

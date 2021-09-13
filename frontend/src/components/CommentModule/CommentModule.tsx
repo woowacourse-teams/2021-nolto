@@ -4,6 +4,7 @@ import { CommentRequest } from 'types';
 import Comment from './@common/Comment/Comment';
 import CommentForm from './@common/CommentForm/CommentForm';
 import useCommentModule from './useCommentModule';
+import { Divider } from 'commonStyles';
 import Styled from './CommentModule.styles';
 
 interface Props {
@@ -36,7 +37,7 @@ const CommentModule = ({ feedId, focusedCommentId }: Props) => {
     <CommentModuleContext.Provider value={commentsContext}>
       <div>
         <h3>댓글 {commentCount}개</h3>
-        <hr />
+        <Divider />
         <Styled.CommentContainer>
           <CommentForm onSubmit={handleSubmitComment} isRootComment={true} />
           {commentModule.data.map((comment) => (
