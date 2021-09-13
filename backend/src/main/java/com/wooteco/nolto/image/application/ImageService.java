@@ -2,11 +2,13 @@ package com.wooteco.nolto.image.application;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
-import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.wooteco.nolto.exception.BadRequestException;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.InternalServerErrorException;
+import com.wooteco.nolto.image.application.adapter.ImageHandlerAdapter;
+import com.wooteco.nolto.image.application.domain.ProcessedImage;
+import com.wooteco.nolto.image.application.domain.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,15 +19,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 @Transactional
 @Service
 @RequiredArgsConstructor
 public class ImageService {
-
-    public static final String FILENAME_EXTENSION_DOT = ".";
 
     @Value("${application.bucket.name}")
     private String bucketName;
@@ -34,27 +34,34 @@ public class ImageService {
     private String cloudfrontUrl;
 
     private final AmazonS3 amazonS3Client;
-    private final ImageResizeService imageResizeService;
+    private final ImageRepository imageRepository;
+    private final List<ImageHandlerAdapter> imageHandlerAdapters;
 
     public String upload(MultipartFile multipartFile, ImageKind imageKind) {
         if (isEmpty(multipartFile)) {
             return cloudfrontUrl + imageKind.defaultName();
         }
         File file = convertToFile(multipartFile);
-        String fileName = getFileName(file);
-        File resizedFile = imageResizeService.resize(file, fileName);
-        amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, resizedFile));
+        ImageHandlerAdapter imageHandlerAdapter = findImageHandlerAdapter(file);
+        ProcessedImage processedImage = imageHandlerAdapter.handle(file);
+        String savedFileName = imageRepository.save(processedImage);
         try {
             Files.delete(Paths.get(file.getPath()));
-            Files.delete(Paths.get(resizedFile.getPath()));
+            Files.delete(Paths.get(processedImage.getFile().getPath()));
         } catch (Exception e) {
-            return cloudfrontUrl + fileName;
+            return savedFileName;
         }
-        return cloudfrontUrl + fileName;
+        return savedFileName;
     }
 
     public boolean isEmpty(MultipartFile multipartFile) {
         return Objects.isNull(multipartFile) || multipartFile.isEmpty();
+    }
+
+    private ImageHandlerAdapter findImageHandlerAdapter(File file) {
+        return imageHandlerAdapters.stream()
+                .filter(imageHandlerAdapter -> imageHandlerAdapter.supported(file.getName()))
+                .findAny().orElseThrow(() -> new BadRequestException(ErrorType.NOT_SUPPORTED_IMAGE));
     }
 
     private File convertToFile(MultipartFile multipartFile) {
@@ -65,13 +72,6 @@ public class ImageService {
             throw new InternalServerErrorException(ErrorType.MULTIPART_CONVERT_FAIL);
         }
         return convertedFile;
-    }
-
-    private String getFileName(File file) {
-        String fileOriginName = file.getName();
-        String uuid = UUID.randomUUID().toString().replace("-", "");
-        String extension = FilenameUtils.getExtension(fileOriginName);
-        return uuid + FILENAME_EXTENSION_DOT + extension;
     }
 
     public String update(String oldImageUrl, MultipartFile updateImage, ImageKind imageKind) {
