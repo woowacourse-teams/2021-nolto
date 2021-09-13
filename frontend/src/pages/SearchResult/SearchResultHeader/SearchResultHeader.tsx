@@ -71,7 +71,7 @@ const SearchResultHeader = ({ searchParams, query, setQuery, techs, setTechs }: 
   return (
     <>
       {query && (
-        <Styled.SearchBarContainer onSubmit={searchByQuery}>
+        <Styled.SearchbarContainer onSubmit={searchByQuery}>
           <Styled.Input
             value={queryValue}
             onChange={(event) => setQueryValue(event.target.value)}
@@ -79,7 +79,7 @@ const SearchResultHeader = ({ searchParams, query, setQuery, techs, setTechs }: 
           <Styled.Button>
             <SearchIcon width="32px" />
           </Styled.Button>
-        </Styled.SearchBarContainer>
+        </Styled.SearchbarContainer>
       )}
       {techs && (
         <TechTagProvider initialTechs={techsData}>
