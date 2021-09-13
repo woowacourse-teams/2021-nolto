@@ -1,4 +1,4 @@
-import React, { SyntheticEvent } from 'react';
+import React, { SyntheticEvent, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import { ButtonStyle } from 'types';
@@ -50,6 +50,31 @@ const FeedDetailContent = ({ feedId }: Props) => {
     });
   };
 
+  const createKakaoShare = () => {
+    window.Kakao.Link.createDefaultButton({
+      container: '#create-kakao-link-btn',
+      objectType: 'feed',
+      content: {
+        title: feedDetail.title,
+        description: '🧸 놀토에서 친구가 공유한 프로젝트를 확인해 보세요!',
+        imageUrl: feedDetail.thumbnailUrl,
+        link: {
+          mobileWebUrl: window.location.href,
+          webUrl: window.location.href,
+        },
+      },
+      buttons: [
+        {
+          title: '프로젝트 구경가기',
+          link: {
+            mobileWebUrl: window.location.href,
+            webUrl: window.location.href,
+          },
+        },
+      ],
+    });
+  };
+
   const isMyFeed = member.userData?.id === feedDetail.author.id;
 
   const thumbnailElement: React.ReactNode = (
@@ -75,6 +100,12 @@ const FeedDetailContent = ({ feedId }: Props) => {
     </>
   );
 
+  useEffect(() => {
+    window.Kakao.init(process.env.KAKAO_API_KEY);
+
+    createKakaoShare();
+  }, []);
+
   // TODO: 댓글 로딩 부분 스켈레톤으로 리팩토링
   return (
     <Styled.Root>
@@ -85,6 +116,13 @@ const FeedDetailContent = ({ feedId }: Props) => {
             <Styled.TitleWrapper>
               <h2>{feedDetail.title}</h2>
               <StepChip step={feedDetail.step} />
+              <ShareIcon width="20px" />
+              <a id="create-kakao-link-btn">
+                <img
+                  src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_small.png"
+                  width="24px"
+                />
+              </a>
             </Styled.TitleWrapper>
 
             <Styled.UserWrapper>

@@ -113,6 +113,11 @@ const TitleWrapper = styled.div`
     margin-right: 0.5rem;
   }
 
+  #create-kakao-link-btn,
+  svg {
+    margin-left: 0.35rem;
+  }
+
   * {
     vertical-align: middle;
   }
@@ -131,7 +136,7 @@ const UserImage = styled.img`
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
-  margin: 0.75rem;
+  margin: 0.5rem;
 `;
 
 const DetailsContent = styled.div`
