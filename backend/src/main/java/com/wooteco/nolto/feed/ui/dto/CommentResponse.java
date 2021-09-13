@@ -11,15 +11,15 @@ import java.util.stream.Collectors;
 @Getter
 public class CommentResponse {
 
-    private Long id;
-    private String content;
-    private boolean helper;
-    private int likes;
-    private boolean liked;
-    private boolean feedAuthor;
-    private LocalDateTime createdAt;
-    private boolean modified;
-    private AuthorResponse author;
+    private final Long id;
+    private final String content;
+    private final boolean helper;
+    private final int likes;
+    private final boolean liked;
+    private final boolean feedAuthor;
+    private final LocalDateTime createdAt;
+    private final boolean modified;
+    private final AuthorResponse author;
 
     public CommentResponse(Long id, String content, boolean helper, int likes, boolean liked, boolean feedAuthor, LocalDateTime createdAt, boolean modified, AuthorResponse author) {
         this.id = id;
