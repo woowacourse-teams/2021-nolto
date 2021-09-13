@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import SearchBarComponent from 'components/Searchbar/Searchbar';
+import SearchbarComponent from 'components/Searchbar/Searchbar';
 import HighLightedText from 'components/@common/HighlightedText/HighlightedText';
 import Avatar from 'components/@common/Avatar/Avatar';
 import IconButtonComponent from 'components/@common/IconButton/IconButton';
@@ -44,7 +44,7 @@ const SearchTitle = styled.div`
   margin-bottom: 18px;
 `;
 
-export const Searchbar = styled(SearchBarComponent)`
+export const Searchbar = styled(SearchbarComponent)`
   position: relative;
   width: 100%;
   height: 2.5rem;

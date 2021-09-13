@@ -21,9 +21,8 @@ const CommentForm = ({ onSubmit, isRootComment = false }: Props) => {
   const { userData, isLogin } = useMember();
   const { feedId } = useContext(CommentModuleContext);
   const { data: feedDetail } = useFeedDetail({ feedId, suspense: false });
-  const member = useMember();
 
-  const isMyComment = member.userData?.id === feedDetail?.author.id;
+  const isMyComment = userData?.id === feedDetail?.author.id;
 
   const handleSubmitComment = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

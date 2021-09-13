@@ -20,25 +20,25 @@ interface Props {
 
 const Header = ({ isFolded = false }: Props) => {
   const modal = useModal();
-  const [isSearchBarOpened, setSearchBarOpened] = useState(false);
+  const [isSearchbarOpened, setSearchbarOpened] = useState(false);
   const member = useMember();
 
   const openLoginModal = () => {
     modal.openModal(<LoginModal />);
   };
 
-  const openSearchBar = () => {
-    setSearchBarOpened(true);
+  const openSearchbar = () => {
+    setSearchbarOpened(true);
   };
 
-  const closeSearchBar = (event: React.MouseEvent<HTMLElement>) => {
+  const closeSearchbar = (event: React.MouseEvent<HTMLElement>) => {
     if (event.target === event.currentTarget) {
-      setSearchBarOpened(false);
+      setSearchbarOpened(false);
     }
   };
 
   return (
-    <Styled.Root isFolded={isFolded} onClick={closeSearchBar}>
+    <Styled.Root isFolded={isFolded} onClick={closeSearchbar}>
       <Styled.BackgroundSvg height="100%" width="100vw">
         <defs>
           <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -79,10 +79,10 @@ const Header = ({ isFolded = false }: Props) => {
               </IconButton>
             </Link>
             <div>
-              <IconButton size="2rem" onClick={openSearchBar} className="search">
+              <IconButton size="2rem" onClick={openSearchbar} className="search">
                 <Search fill={PALETTE.PRIMARY_400} />
               </IconButton>
-              {isSearchBarOpened && <Searchbar placeholder="제목/내용으로만 검색이 가능합니다" />}
+              {isSearchbarOpened && <Searchbar placeholder="제목/내용으로만 검색이 가능합니다" />}
             </div>
           </Styled.ButtonsContainer>
         </li>

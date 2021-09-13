@@ -4,19 +4,16 @@ import { useQuery, useQueryClient } from 'react-query';
 import api from 'constants/api';
 import QUERY_KEYS from 'constants/queryKeys';
 import HttpError from 'utils/HttpError';
-import CustomError from 'utils/CustomError';
 import useModal from 'contexts/modal/useModal';
 import useDialog from 'contexts/dialog/useDialog';
 import LoginModal from 'components/LoginModal/LoginModal';
 import { UserInfo } from 'types';
 import { resolveHttpError } from 'utils/error';
 
-const getMember = async () => {
+const getMember = async (): Promise<UserInfo> => {
   const token = localStorage.getItem('accessToken') || '';
 
-  if (!token) {
-    throw new CustomError('로그아웃 상태입니다.');
-  }
+  if (!token) return;
 
   try {
     const { data } = await api.get('/members/me');

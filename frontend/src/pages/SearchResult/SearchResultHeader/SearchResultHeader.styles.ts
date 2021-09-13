@@ -4,7 +4,7 @@ import TechInputComponent from 'contexts/techTag/input/TechInput';
 import { PALETTE } from 'constants/palette';
 import { Z_INDEX } from 'constants/styles';
 
-const SearchBarContainer = styled.form`
+const SearchbarContainer = styled.form`
   position: relative;
   display: flex;
   align-items: center;
@@ -59,7 +59,7 @@ const TechInputWrapper = styled.div`
 `;
 
 export default {
-  SearchBarContainer,
+  SearchbarContainer,
   Input,
   Button,
   TechTagContainer,
