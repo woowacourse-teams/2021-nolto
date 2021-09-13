@@ -58,7 +58,7 @@ const Modify = () => {
     <BaseLayout>
       <DefaultPageRoot>
         <Styled.TitleWrapper>
-          <HighLightedText fontSize={FONT_SIZE.X_LARGE}>🔧 Modify Your Toy</HighLightedText>
+          <HighLightedText fontSize={FONT_SIZE.X_LARGE}>🔧 토이 프로젝트 수정</HighLightedText>
         </Styled.TitleWrapper>
 
         <FeedUploadForm
