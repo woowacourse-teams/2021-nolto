@@ -20,7 +20,7 @@ class FfmpegConverterTest {
     @Test
     void convertGifToMp4() {
         // given
-        URL resource = getClass().getClassLoader().getResource(gifFileName);
+        URL resource = getClass().getClassLoader().getResource("static/" + gifFileName);
         String gifFilePath = resource.getPath();
         String expectedPath = "/Users/parksmac/IdeaProjects/2021-nolto/backend/build/resources/test/static/" + gifFileName;
         assertThat(gifFilePath).isEqualTo(expectedPath);
