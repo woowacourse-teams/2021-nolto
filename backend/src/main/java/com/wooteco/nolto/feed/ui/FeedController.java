@@ -93,7 +93,7 @@ public class FeedController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<FeedCardPaginationResponse> searchResponse2(@Valid SearchRequestParams searchRequestParams) {
+    public ResponseEntity<FeedCardPaginationResponse> searchResponse(@Valid SearchRequestParams searchRequestParams) {
         FeedCardPaginationResponse response = feedService.search(
                 searchRequestParams.getQuery(),
                 searchRequestParams.getTechs(),

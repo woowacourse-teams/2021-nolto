@@ -535,7 +535,7 @@ class FeedServiceTest {
         피드_정보가_같은지_조회(FEED_REQUEST1, allFeeds.get(1));
     }
 
-    @DisplayName("제목과 내용에 특정 query('content')가 포함된 피드를 검색한다.")
+    @DisplayName("제목과 내용에 특정 query('content')가 포함된 피드를 검색한다. [step=상관 없음, help=상관 없음, nextFeedId=10000L, countPerPage=15]")
     @Test
     void searchByQuery_content() {
         //given
@@ -548,18 +548,20 @@ class FeedServiceTest {
         List<Feed> feeds = feedRepository.findAll();
 
         //when
-        List<FeedCardResponse> searchFeeds = feedService.search(query, "", "all");
+        FeedCardPaginationResponse searchFeeds = feedService.search(query, "", "all", false, 10000L, 15);
         List<Feed> feeds2 = feedRepository.findAll();
-        List<Long> feedIds = searchFeeds.stream()
+        List<Long> feedIds = searchFeeds.getFeeds()
+                .stream()
                 .map(FeedCardResponse::getId)
                 .collect(Collectors.toList());
 
         //then
-        assertThat(searchFeeds).hasSize(3);
+        assertThat(searchFeeds.getFeeds()).hasSize(3);
         assertThat(feedIds).contains(firstFeedId, secondFeedId, thirdFeedId);
+        assertThat(searchFeeds.getNextFeedId()).isNull();
     }
 
-    @DisplayName("제목과 내용에 특정 query('tle')가 포함된 피드를 검색한다.")
+    @DisplayName("제목과 내용에 특정 query('tle')가 포함된 피드를 검색한다. [step=상관 없음, help=상관 없음, nextFeedId=10000L, countPerPage=15]")
     @Test
     void searchByQuery_tle1() {
         //given
@@ -572,17 +574,19 @@ class FeedServiceTest {
         String query = "tle1";
 
         //when
-        List<FeedCardResponse> searchFeeds = feedService.search(query, "", "all");
-        List<Long> feedIds = searchFeeds.stream()
+        FeedCardPaginationResponse searchFeeds = feedService.search(query, "", "all", false, 10000L, 15);
+        List<Long> feedIds = searchFeeds.getFeeds()
+                .stream()
                 .map(FeedCardResponse::getId)
                 .collect(Collectors.toList());
 
         //then
-        assertThat(searchFeeds).hasSize(1);
+        assertThat(searchFeeds.getFeeds()).hasSize(1);
         assertThat(feedIds).contains(firstFeedId);
+        assertThat(searchFeeds.getNextFeedId()).isNull();
     }
 
-    @DisplayName("테크 이름들의 나열을 통해, 해당 테크들 중 하나라도 사용한 피드를 검색한다.")
+    @DisplayName("테크 이름들의 나열을 통해, 해당 테크들 중 하나라도 사용한 피드를 검색한다. [step=상관 없음, help=상관 없음, nextFeedId=10000L, countPerPage=15]")
     @Test
     void searchByTechs() {
         //given
@@ -601,18 +605,20 @@ class FeedServiceTest {
         String techs = "Spring,Java";
 
         //when
-        List<FeedCardResponse> searchFeeds = feedService.search("", techs, "all");
-        List<Long> feedIds = searchFeeds.stream()
+        FeedCardPaginationResponse searchFeeds = feedService.search("", techs, "all", false, 10000L, 15);
+        List<Long> feedIds = searchFeeds.getFeeds()
+                .stream()
                 .map(FeedCardResponse::getId)
                 .collect(Collectors.toList());
 
         //then
-        assertThat(searchFeeds).hasSize(2);
+        assertThat(searchFeeds.getFeeds()).hasSize(2);
         assertThat(feedIds).contains(firstFeedId, secondFeedId);
+        assertThat(searchFeeds.getNextFeedId()).isNull();
     }
 
 
-    @DisplayName("테크 이름들을 사용한 피드들이 없다면 빈 리스트를 반환한다.")
+    @DisplayName("테크 이름들을 사용한 피드들이 없다면 빈 리스트를 반환한다. [step=상관 없음, help=상관 없음, nextFeedId=10000L, countPerPage=15]")
     @Test
     void searchByTechsWithInvalidName() {
         //given
@@ -628,13 +634,14 @@ class FeedServiceTest {
         String techs = "KOLOLO";
 
         //when
-        List<FeedCardResponse> searchFeeds = feedService.search("", techs, "all");
+        FeedCardPaginationResponse searchFeeds = feedService.search("", techs, "all", false, 10000L, 15);
 
         //then
-        assertThat(searchFeeds).isEmpty();
+        assertThat(searchFeeds.getFeeds()).isEmpty();
+        assertThat(searchFeeds.getNextFeedId()).isNull();
     }
 
-    @DisplayName("제목과 내용에 특정 query가 포함되어 있고, 검색한 테그명에 포함된 테크들 중 하나라도 사용한 피드를 검색한다.")
+    @DisplayName("제목과 내용에 특정 query가 포함되어 있고, 검색한 테그명에 포함된 테크들 중 하나라도 사용한 피드를 검색한다. [step=상관 없음, help=상관 없음, nextFeedId=10000L, countPerPage=15]")
     @Test
     void searchByQueryAndTechs() {
         //given
@@ -653,17 +660,19 @@ class FeedServiceTest {
         String techs = "Spring,Java";
 
         //when
-        List<FeedCardResponse> searchFeeds = feedService.search(query, techs, "all");
-        List<Long> feedIds = searchFeeds.stream()
+        FeedCardPaginationResponse searchFeeds = feedService.search(query, techs, "all", false, 10000L, 15);
+        List<Long> feedIds = searchFeeds.getFeeds()
+                .stream()
                 .map(FeedCardResponse::getId)
                 .collect(Collectors.toList());
 
         //then
-        assertThat(searchFeeds).hasSize(2);
+        assertThat(searchFeeds.getFeeds()).hasSize(2);
         assertThat(feedIds).contains(firstFeedId, secondFeedId);
+        assertThat(searchFeeds.getNextFeedId()).isNull();
     }
 
-    @DisplayName("제목+내용 Query와 기술명 나열 Techs로 검색한 결과에 대해 SOS 필터링하여 받을 수 있다.")
+    @DisplayName("제목+내용 Query와 기술명 나열 Techs로 검색한 결과에 대해 SOS 필터링하여 받을 수 있다. [step=상관 없음, help=true, nextFeedId=10000L, countPerPage=15]")
     @Test
     void searchByQueryAndTechsWithSos() {
         //given
@@ -685,17 +694,19 @@ class FeedServiceTest {
         String techs = "Spring,Java";
 
         //when
-        List<FeedCardResponse> searchFeeds = feedService.search(query, techs, "sos");
-        List<Long> feedIds = searchFeeds.stream()
+        FeedCardPaginationResponse searchFeeds = feedService.search(query, techs, "all", true, 10000L, 15);
+        List<Long> feedIds = searchFeeds.getFeeds()
+                .stream()
                 .map(FeedCardResponse::getId)
                 .collect(Collectors.toList());
 
         //then
-        assertThat(searchFeeds).hasSize(1);
+        assertThat(searchFeeds.getFeeds()).hasSize(1);
         assertThat(feedIds).contains(firstFeedId);
+        assertThat(searchFeeds.getNextFeedId()).isNull();
     }
 
-    @DisplayName("제목+내용 Query와 기술명 나열 Techs로 검색한 결과에 대해 PROGRESS만 필터링하여 받을 수 있다.")
+    @DisplayName("제목+내용 Query와 기술명 나열 Techs로 검색한 결과에 대해 PROGRESS만 필터링하여 받을 수 있다. [step=PROGRESS, help=상관 없음, nextFeedId=10000L, countPerPage=15]")
     @Test
     void searchByQueryAndTechsWithProgress() {
         //given
@@ -717,18 +728,20 @@ class FeedServiceTest {
         String techs = "Spring,Java";
 
         //when
-        List<FeedCardResponse> searchFeeds = feedService.search(query, techs, "progress");
-        List<Long> feedIds = searchFeeds.stream()
+        FeedCardPaginationResponse searchFeeds = feedService.search(query, techs, "progress", true, 10000L, 15);
+        List<Long> feedIds = searchFeeds.getFeeds()
+                .stream()
                 .map(FeedCardResponse::getId)
                 .collect(Collectors.toList());
 
         //then
-        assertThat(searchFeeds).hasSize(2);
+        assertThat(searchFeeds.getFeeds()).hasSize(2);
         assertThat(feedIds).contains(firstFeedId, secondFeedId);
+        assertThat(searchFeeds.getNextFeedId()).isNull();
     }
 
 
-    @DisplayName("제목+내용 Query와 기술명 나열 Techs로 검색한 결과에 대해 COMPLETE만 필터링하여 받을 수 있다.")
+    @DisplayName("제목+내용 Query와 기술명 나열 Techs로 검색한 결과에 대해 COMPLETE만 필터링하여 받을 수 있다. [step=COMPLETE, help=상관 없음, nextFeedId=10000L, countPerPage=15]")
     @Test
     void searchByQueryAndTechsWithComplete() {
         //given
@@ -750,14 +763,16 @@ class FeedServiceTest {
         String techs = "Spring,Java";
 
         //when
-        List<FeedCardResponse> searchFeeds = feedService.search(query, techs, "complete");
-        List<Long> feedIds = searchFeeds.stream()
+        FeedCardPaginationResponse searchFeeds = feedService.search(query, techs, "complete", true, 10000L, 15);
+        List<Long> feedIds = searchFeeds.getFeeds()
+                .stream()
                 .map(FeedCardResponse::getId)
                 .collect(Collectors.toList());
 
         //then
-        assertThat(searchFeeds).hasSize(2);
+        assertThat(searchFeeds.getFeeds()).hasSize(2);
         assertThat(feedIds).contains(firstFeedId, thirdFeedId);
+        assertThat(searchFeeds.getNextFeedId()).isNull();
     }
 
     @DisplayName("step과 help를 고려한 페이지네이션을 지원한다. (step=all, help=null, lastFeedId=Long.MAX_VALUE countPerPage=2")

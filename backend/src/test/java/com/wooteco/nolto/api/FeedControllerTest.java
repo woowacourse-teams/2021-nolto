@@ -86,7 +86,7 @@ class FeedControllerTest extends ControllerTest {
                     .writtenBy(LOGIN_USER);
 
     private static final List<FeedCardResponse> FEED_CARD_RESPONSES = FeedCardResponse.toList(Arrays.asList(FEED1, FEED2));
-    private static final List<FeedCardResponse> PROGRESS_HELP_FEED_CARD_RESPONSES = FeedCardResponse.toList(Arrays.asList(FEED1, FEED3));
+    private static final List<FeedCardResponse> PROGRESS_HELP_FEED_CARD_RESPONSES = FeedCardResponse.toList(Arrays.asList(FEED3, FEED1));
 
     private static final FeedResponse FEED_RESPONSE = new FeedResponse(AuthorResponse.of(LOGIN_USER), FEED1.getId(), FEED1.getTitle(), TechControllerTest.TECH_RESPONSES,
             FEED1.getContent(), FEED1.getStep().name(), FEED1.isSos(), FEED1.getStorageUrl(), FEED1.getDeployedUrl(),
@@ -263,13 +263,13 @@ class FeedControllerTest extends ControllerTest {
     @DisplayName("유저 모두가 선택한 Filter로 최신 피드를 조회할 수 있다.")
     @Test
     void recentResponse() throws Exception {
-        FeedCardPaginationResponse feedCardPaginationResponse = new FeedCardPaginationResponse(PROGRESS_HELP_FEED_CARD_RESPONSES, 4L);
-        given(feedService.findRecentFeeds("progress", true, 1, 2)).willReturn(feedCardPaginationResponse);
+        FeedCardPaginationResponse feedCardPaginationResponse = new FeedCardPaginationResponse(PROGRESS_HELP_FEED_CARD_RESPONSES, null);
+        given(feedService.findRecentFeeds("progress", true, 4, 2)).willReturn(feedCardPaginationResponse);
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("step", "progress");
         params.add("help", "true");
-        params.add("nextFeedId", "1");
+        params.add("nextFeedId", "4");
         params.add("countPerPage", "2");
 
         mockMvc.perform(get("/feeds/recent")
@@ -287,9 +287,8 @@ class FeedControllerTest extends ControllerTest {
                         ),
                         responseFields(
                                 fieldWithPath("feeds").type(JsonFieldType.ARRAY).description("최신 피드 목록"),
-                                fieldWithPath("nextFeedId").type(JsonFieldType.NUMBER).description("다음 요청에서 전달할 피드의 Id")
+                                fieldWithPath("nextFeedId").type(JsonFieldType.NUMBER).description("다음 요청에서 전달할 피드의 Id").optional()
                         ).andWithPrefix("feeds.[]", FEED_CARD_RESPONSE)));
-
     }
 
     @DisplayName("유저 모두가 인기(좋아요)순으로 피드를 조회한다.")
@@ -348,30 +347,34 @@ class FeedControllerTest extends ControllerTest {
     @DisplayName("유저 모두가 제목+내용(query), ','로 구분된 테크명(techs), 필터링(filter)로 피드 검색할 수 있다.")
     @Test
     void searchResponse() throws Exception {
-        String query = "content";
-        String techs = "Java,Spring";
-        String filter = "ALL";
-        given(feedService.search(query, techs, filter)).willReturn(FEED_CARD_RESPONSES);
+        FeedCardPaginationResponse feedCardPaginationResponse = new FeedCardPaginationResponse(PROGRESS_HELP_FEED_CARD_RESPONSES, null);
+        given(feedService.search("title", "java,spring", "progress", true, 4, 2)).willReturn(feedCardPaginationResponse);
 
         MultiValueMap<String, String> searchParams = new LinkedMultiValueMap<>();
-        searchParams.add("query", query);
-        searchParams.add("techs", techs);
-        searchParams.add("filter", filter);
+        searchParams.add("query", "title");
+        searchParams.add("techs", "java,spring");
+        searchParams.add("step", "progress");
+        searchParams.add("help", "true");
+        searchParams.add("nextFeedId", "4");
+        searchParams.add("countPerPage", "2");
 
         mockMvc.perform(get("/feeds/search").params(searchParams))
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(FEED_CARD_RESPONSES)))
+                .andExpect(content().json(objectMapper.writeValueAsString(feedCardPaginationResponse)))
                 .andDo(document("feed-searchResponse",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         requestParameters(
                                 parameterWithName("query").description("제목+내용에서 찾고자 하는 텍스트").optional(),
-                                parameterWithName("techs").description("','로 구분된 테크명의 나열").optional(),
-                                parameterWithName("filter").description("필터 조건 (ALL, SOS, PROGRESS, COMPLETE)").optional()
+                                parameterWithName("techs").description("','로 구분된 테크 스택의 나열").optional(),
+                                parameterWithName("step").description("프로젝트 단계(조립중, 전시중)").optional(),
+                                parameterWithName("help").description("sos 필터 선택 여부").optional(),
+                                parameterWithName("nextFeedId").description("UI에 그려진 마지막 피드의 ID").optional(),
+                                parameterWithName("countPerPage").description("페이지에 그려질 피드 개수(default=15)").optional()
                         ),
                         responseFields(
-                                fieldWithPath("[]").type(JsonFieldType.ARRAY).description("검색된 피드 목록")
-                        ).andWithPrefix("[].", FEED_CARD_RESPONSE)));
-
+                                fieldWithPath("feeds").type(JsonFieldType.ARRAY).description("최신 피드 목록"),
+                                fieldWithPath("nextFeedId").type(JsonFieldType.NUMBER).description("다음 요청에서 전달할 피드의 Id").optional()
+                        ).andWithPrefix("feeds.[]", FEED_CARD_RESPONSE)));
     }
 }
