@@ -25,7 +25,7 @@ const useIntersectionObserver = (callback: () => void) => {
     observer.observe(targetElement.current);
 
     return () => {
-      observer.unobserve(targetElement.current);
+      observer.disconnect();
     };
   }, []);
 

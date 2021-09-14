@@ -52,10 +52,7 @@ const useRecentFeedsLoad = ({
     ({ pageParam }) =>
       loadRecentFeeds({ step, help, nextFeedId: pageParam, countPerPage, errorHandler }),
     {
-      getNextPageParam: (lastPage) => {
-        console.log('이건데', lastPage);
-        return lastPage.nextFeedId ?? undefined;
-      },
+      getNextPageParam: (lastPage) => lastPage.nextFeedId ?? false,
       ...options,
     },
   );
