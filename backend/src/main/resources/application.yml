@@ -40,6 +40,10 @@ server:
 application:
   cors:
     allow-origin: "*"
+ffmpeg:
+  path: /usr/local/bin/ffmpeg
+ffprobe:
+  path: /usr/local/bin/ffprobe
 ---
 spring:
   config:
