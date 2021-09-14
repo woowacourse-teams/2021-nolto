@@ -111,7 +111,6 @@ export const DefaultPageRoot = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 4rem;
 
   @media ${MEDIA_QUERY.MOBILE} {
     padding-top: 0;

@@ -1,4 +1,5 @@
 import styled, { keyframes } from 'styled-components';
+import ReactMarkdown from 'react-markdown';
 
 import TextArea from 'components/@common/TextArea/TextArea';
 import TextButton from 'components/@common/TextButton/TextButton';
@@ -21,6 +22,11 @@ const FormContainer = styled.div`
   ${defaultShadow};
 `;
 
+const MarkdownContainer = styled.div`
+  display: flex;
+  gap: 0.5rem;
+`;
+
 const VerticalWrapper = styled.div`
   position: relative;
   display: flex;
@@ -35,7 +41,23 @@ const VerticalWrapper = styled.div`
 `;
 
 export const ContentTextArea = styled(TextArea)`
+  width: 50%;
   height: 31.25rem;
+  border-radius: 0.5rem;
+`;
+
+export const Markdown = styled(ReactMarkdown)`
+  width: 50%;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+
+  li {
+    list-style: inside;
+    margin-left: 0.5rem;
+    padding: 0.25rem;
+  }
+
+  ${defaultShadow};
 `;
 
 const InputsContainer = styled.div`
@@ -46,13 +68,16 @@ const InputsContainer = styled.div`
 
 const StretchWrapper = styled.div`
   display: flex;
-  flex-direction: row;
   align-items: center;
   border-bottom: 2rem;
   width: 100%;
 
   & > .stretch-label {
     min-width: 7rem;
+  }
+
+  & .input-box {
+    width: 100%;
   }
 
   & input {
@@ -125,11 +150,13 @@ const InputCaption = styled.span`
 export const Toybox = styled(ToyboxIcon)`
   position: absolute;
   height: 2rem;
+  top: -6px;
   right: 0;
 `;
 
 export default {
   FormContainer,
+  MarkdownContainer,
   VerticalWrapper,
   InputsContainer,
   StretchWrapper,

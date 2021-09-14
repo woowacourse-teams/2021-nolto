@@ -4,10 +4,7 @@ const Root = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 38rem;
-  margin-right: auto;
-  margin-left: auto;
-  padding-top: 7.75rem;
+  margin: 0 6rem;
 
   & > form {
     width: 100%;
