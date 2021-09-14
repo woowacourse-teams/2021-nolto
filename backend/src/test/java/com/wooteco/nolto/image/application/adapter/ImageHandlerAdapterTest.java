@@ -5,15 +5,23 @@ import com.wooteco.nolto.image.application.ImageResizeService;
 import com.wooteco.nolto.image.config.FfmpegConfig;
 import com.wooteco.nolto.image.domain.ProcessedImage;
 import com.wooteco.nolto.image.infrastructure.FfmpegConverter;
+import net.bramp.ffmpeg.FFmpeg;
+import net.bramp.ffmpeg.FFprobe;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
 
 @SpringBootTest(classes = {ImageResizeHandler.class, ImageConvertHandler.class,
         ImageResizeService.class, ImageConvertService.class, FfmpegConverter.class, FfmpegConfig.class})
@@ -21,6 +29,19 @@ class ImageHandlerAdapterTest {
 
     @Autowired
     private List<ImageHandlerAdapter> imageHandlerAdapters;
+
+    @MockBean
+    private FfmpegConverter ffmpegConverter;
+
+    @MockBean
+    private FfmpegConfig ffmpegConfig;
+
+    @BeforeEach
+    void setUp() throws IOException {
+        given(ffmpegConfig.fFmpeg()).willReturn(new FFmpeg());
+        given(ffmpegConfig.fFprobe()).willReturn(new FFprobe());
+        willDoNothing().given(ffmpegConverter).convertGifToMp4(anyString(), anyString());
+    }
 
     private final String gifFileName = "jjv1FK.gif";
     private final String pngFileName = "pretty_cat.png";
