@@ -62,7 +62,7 @@ const Header = ({ isFolded = false }: Props) => {
           </NavLink>
         </li>
         <li className="web-hosting">
-          <a href="https://joel-web-hosting.o-r.kr/" className="nav-link" target="_blank">
+          <a href="https://easy-deploy.kr/" className="nav-link" target="_blank">
             Joel’s Hosting
           </a>
         </li>

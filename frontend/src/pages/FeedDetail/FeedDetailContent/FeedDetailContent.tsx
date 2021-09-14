@@ -1,8 +1,9 @@
-import React, { SyntheticEvent } from 'react';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import { ButtonStyle } from 'types';
 import ViewCountIcon from 'assets/viewCount.svg';
+import ShareIcon from 'assets/share.svg';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
 import useFeedDetail from 'hooks/queries/feed/useFeedDetail';
 import useMember from 'hooks/queries/useMember';
@@ -11,6 +12,7 @@ import ROUTE from 'constants/routes';
 import QUERY_KEYS from 'constants/queryKeys';
 import { ERROR_MSG } from 'constants/message';
 import { DEFAULT_IMG } from 'constants/common';
+import { Divider } from 'commonStyles';
 import ToggleList from 'components/@common/ToggleList/ToggleList';
 import FeedDropdown from 'components/FeedDropdown/FeedDropdown';
 import LikeButton from 'components/LikeButton/LikeButton';
@@ -25,6 +27,8 @@ interface Props {
 }
 
 const FeedDetailContent = ({ feedId }: Props) => {
+  const [isKakaoLoaded, setKakaoLoaded] = useState(false);
+
   const history = useHistory();
   const location = useLocation<{ commentId: number }>();
 
@@ -47,6 +51,31 @@ const FeedDetailContent = ({ feedId }: Props) => {
     history.push({
       pathname: ROUTE.SEARCH,
       search: '?' + queryParams,
+    });
+  };
+
+  const createKakaoShare = () => {
+    window.Kakao.Link.createDefaultButton({
+      container: '#create-kakao-link-btn',
+      objectType: 'feed',
+      content: {
+        title: feedDetail.title,
+        description: '🧸 놀토에서 친구가 공유한 프로젝트를 확인해 보세요!',
+        imageUrl: feedDetail.thumbnailUrl,
+        link: {
+          mobileWebUrl: window.location.href,
+          webUrl: window.location.href,
+        },
+      },
+      buttons: [
+        {
+          title: '프로젝트 구경가기',
+          link: {
+            mobileWebUrl: window.location.href,
+            webUrl: window.location.href,
+          },
+        },
+      ],
     });
   };
 
@@ -75,6 +104,20 @@ const FeedDetailContent = ({ feedId }: Props) => {
     </>
   );
 
+  const handleKakaoShare = () => {
+    if (isKakaoLoaded) return;
+
+    snackbar.addSnackbar('error', ERROR_MSG.FAIL_KAKAO_SHARE);
+  };
+
+  useEffect(() => {
+    if (process.env.KAKAO_API_KEY) {
+      window.Kakao.init(process.env.KAKAO_API_KEY);
+      createKakaoShare();
+      setKakaoLoaded(true);
+    }
+  }, []);
+
   // TODO: 댓글 로딩 부분 스켈레톤으로 리팩토링
   return (
     <Styled.Root>
@@ -85,6 +128,13 @@ const FeedDetailContent = ({ feedId }: Props) => {
             <Styled.TitleWrapper>
               <h2>{feedDetail.title}</h2>
               <StepChip step={feedDetail.step} />
+              <ShareIcon width="20px" />
+              <a id="create-kakao-link-btn" onClick={handleKakaoShare}>
+                <img
+                  src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_small.png"
+                  width="24px"
+                />
+              </a>
             </Styled.TitleWrapper>
 
             <Styled.UserWrapper>
@@ -93,7 +143,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
               {isMyFeed && <FeedDropdown feedDetail={feedDetail} />}
             </Styled.UserWrapper>
           </Styled.TitleContainer>
-          <hr />
+          <Divider />
 
           <Styled.MobileThumbnailContainer>{thumbnailElement}</Styled.MobileThumbnailContainer>
           <Styled.DetailsContent>
@@ -144,7 +194,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
       </Styled.IntroContainer>
       <div>
         <h3>프로젝트 소개</h3>
-        <hr />
+        <Divider />
         <Styled.Description>{feedDetail.content}</Styled.Description>
       </div>
 

@@ -52,6 +52,7 @@ module.exports = {
       patterns: [
         path.resolve(__dirname, 'public', '_redirects'),
         { from: './public/fonts/*', to: 'fonts/[name][ext]' },
+        { from: './public/*.ico', to: '[name][ext]' },
       ],
     }),
     new DefinePlugin({

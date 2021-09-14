@@ -11,6 +11,7 @@ module.exports = merge(common, {
     }),
     new DefinePlugin({
       'process.env.SENTRY_DSN': JSON.stringify(process.env.SENTRY_DSN),
+      'process.env.KAKAO_API_KEY': JSON.stringify(process.env.KAKAO_API_KEY),
     }),
   ],
   optimization: {
