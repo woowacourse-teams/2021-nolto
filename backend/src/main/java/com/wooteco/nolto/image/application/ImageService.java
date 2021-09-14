@@ -9,6 +9,7 @@ import com.wooteco.nolto.image.application.adapter.ImageHandlerAdapter;
 import com.wooteco.nolto.image.domain.ProcessedImage;
 import com.wooteco.nolto.image.domain.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +23,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 
+@Slf4j
 @Transactional
 @Service
 @RequiredArgsConstructor
@@ -49,6 +51,7 @@ public class ImageService {
             Files.delete(Paths.get(file.getPath()));
             Files.delete(Paths.get(processedImage.getFile().getPath()));
         } catch (Exception e) {
+            log.error("파일 변환 후 잔여 파일 삭제 실패 {}, {}, {}", file.getPath(), processedImage.getFile().getPath(), e.getMessage());
             return savedFileName;
         }
         return savedFileName;

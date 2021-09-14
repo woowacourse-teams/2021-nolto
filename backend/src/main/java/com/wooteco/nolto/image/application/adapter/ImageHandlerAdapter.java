@@ -11,9 +11,13 @@ public interface ImageHandlerAdapter {
 
     default String getFileName(File file) {
         String fileOriginName = file.getName();
-        String uuid = UUID.randomUUID().toString().replace("-", "");
+        String uuid = validUuidReplacement();
         String extension = FilenameUtils.getExtension(fileOriginName);
         return uuid + FileExtension.FILENAME_EXTENSION_DOT + extension;
+    }
+
+    default String validUuidReplacement() {
+        return UUID.randomUUID().toString().replace("-", "");
     }
 
     boolean supported(String fileName);
