@@ -13,6 +13,7 @@ import { ButtonStyle } from 'types';
 import Styled, { Logo, LogoText, Searchbar } from './Header.styles';
 import IconButton from 'components/@common/IconButton/IconButton';
 import UserProfile from 'components/UserProfile/UserProfile';
+import useFocusOut from 'hooks/@common/useFocusOut';
 
 interface Props {
   isFolded?: boolean;
@@ -22,6 +23,7 @@ const Header = ({ isFolded = false }: Props) => {
   const modal = useModal();
   const [isSearchbarOpened, setSearchbarOpened] = useState(false);
   const member = useMember();
+  const searchbarRef = useFocusOut(() => setSearchbarOpened(false));
 
   const openLoginModal = () => {
     modal.openModal(<LoginModal />);
@@ -78,7 +80,7 @@ const Header = ({ isFolded = false }: Props) => {
                 <Pencil fill={PALETTE.PRIMARY_400} />
               </IconButton>
             </Link>
-            <div>
+            <div ref={searchbarRef}>
               <IconButton size="2rem" onClick={openSearchbar} className="search">
                 <Search fill={PALETTE.PRIMARY_400} />
               </IconButton>
