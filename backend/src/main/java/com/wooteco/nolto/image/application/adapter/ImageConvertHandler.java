@@ -1,5 +1,6 @@
 package com.wooteco.nolto.image.application.adapter;
 
+import com.wooteco.nolto.image.FileExtension;
 import com.wooteco.nolto.image.application.ImageConvertService;
 import com.wooteco.nolto.image.domain.ProcessedImage;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,7 @@ public class ImageConvertHandler implements ImageHandlerAdapter {
 
     @Override
     public boolean supported(String fileName) {
-        return fileName.endsWith(".gif");
+        return FileExtension.isGifFile(fileName);
     }
 
     @Override
