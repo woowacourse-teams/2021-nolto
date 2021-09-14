@@ -1,6 +1,5 @@
 package com.wooteco.nolto.feed.application.searchstrategy;
 
-import com.wooteco.nolto.feed.application.FeedTechService;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -11,25 +10,24 @@ import org.springframework.context.annotation.Configuration;
 public class SearchStrategyConfig {
 
     private final FeedRepository feedRepository;
-    private final FeedTechService feedTechService;
 
     @Bean
     public NoneStrategy createNoneStrategy() {
-        return new NoneStrategy(feedRepository, feedTechService);
+        return new NoneStrategy(feedRepository);
     }
 
     @Bean
     public QueryOnlyStrategy createQueryOnlyStrategy() {
-        return new QueryOnlyStrategy(feedRepository, feedTechService);
+        return new QueryOnlyStrategy(feedRepository);
     }
 
     @Bean
     public TechsOnlyStrategy createTechsOnlyStrategy() {
-        return new TechsOnlyStrategy(feedRepository, feedTechService);
+        return new TechsOnlyStrategy(feedRepository);
     }
 
     @Bean
     public QueryAndTechsStrategy createQueryAndTechStrategy() {
-        return new QueryAndTechsStrategy(feedRepository, feedTechService);
+        return new QueryAndTechsStrategy(feedRepository);
     }
 }

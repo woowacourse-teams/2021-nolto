@@ -25,10 +25,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Set;
 
 @Transactional
 @Service
@@ -115,20 +113,21 @@ public class FeedService {
         feedRepository.delete(findFeed);
     }
 
-    public List<FeedCardResponse> search(String query, String techs, String filter) {
-        SearchStrategy searchStrategy = SearchStrategyFactory.of(query, techs).findStrategy();
-        Set<Feed> searchFeed = searchStrategy.search(query, techs);
-
-        Feeds feeds = new Feeds(new ArrayList<>(searchFeed));
-        FilterStrategy filterStrategy = FilterStrategy.of(filter);
-        return FeedCardResponse.toList(feeds.filter(filterStrategy));
-    }
-
     public FeedCardPaginationResponse findRecentFeeds(String step, boolean help, long nextFeedId, int countPerPage) {
         EnumSet<Step> steps = Step.asEnumSet(step);
         Pageable pageable = PageRequest.of(0, countPerPage + NEXT_FEED_COUNT);
         List<Feed> findFeeds = findRecentFeedsWithCondition(help, nextFeedId, steps, pageable);
+        return generateFeedCardPaginationResponse(countPerPage, findFeeds);
+    }
 
+    private List<Feed> findRecentFeedsWithCondition(boolean help, long nextFeedId, EnumSet<Step> steps, Pageable pageable) {
+        if (help) {
+            return feedRepository.findWithHelp(steps, true, nextFeedId, pageable);
+        }
+        return feedRepository.findWithoutHelp(steps, nextFeedId, pageable);
+    }
+
+    private FeedCardPaginationResponse generateFeedCardPaginationResponse(int countPerPage, List<Feed> findFeeds) {
         if (findFeeds.size() == countPerPage + NEXT_FEED_COUNT) {
             Feed nextFeed = findFeeds.get(countPerPage);
             findFeeds.remove(nextFeed);
@@ -137,10 +136,11 @@ public class FeedService {
         return FeedCardPaginationResponse.of(findFeeds, null);
     }
 
-    private List<Feed> findRecentFeedsWithCondition(boolean help, long nextFeedId, EnumSet<Step> steps, Pageable pageable) {
-        if (help) {
-            return feedRepository.findWithHelp(steps, help, nextFeedId, pageable);
-        }
-        return feedRepository.findWithoutHelp(steps, nextFeedId, pageable);
+    public FeedCardPaginationResponse search(String query, String techs, String step, boolean help, long nextFeedId, int countPerPage) {
+        EnumSet<Step> steps = Step.asEnumSet(step);
+        Pageable pageable = PageRequest.of(0, countPerPage + NEXT_FEED_COUNT);
+        SearchStrategy searchStrategy = SearchStrategyFactory.of(query, techs).findStrategy();
+        List<Feed> findFeeds = searchStrategy.searchWithCondition(query, techs, help, nextFeedId, steps, pageable);
+        return generateFeedCardPaginationResponse(countPerPage, findFeeds);
     }
 }
