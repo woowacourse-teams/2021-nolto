@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
@@ -25,6 +25,12 @@ const queryClient = new QueryClient({
 });
 
 const App = () => {
+  useEffect(() => {
+    if (process.env.KAKAO_API_KEY && !window.Kakao.isInitialized()) {
+      window.Kakao.init(process.env.KAKAO_API_KEY);
+    }
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <ErrorBoundary fallback={<ErrorFallback message={ERROR_MSG.UNKNOWN_ERROR} />}>

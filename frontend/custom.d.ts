@@ -1,3 +1,5 @@
+export {};
+
 interface SVGProps {
   fill?: string;
   width?: string;
@@ -18,7 +20,9 @@ declare module '*.webp';
 
 declare module '*.gif';
 
-interface Window {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Kakao: any;
+declare global {
+  interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    Kakao: any;
+  }
 }
