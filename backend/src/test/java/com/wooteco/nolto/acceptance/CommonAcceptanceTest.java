@@ -14,7 +14,7 @@ class CommonAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("존재하지 않는 api로 요청시 커스텀 not found가 응답된다.")
     @Test
-    void searchResponseOnlyFilter() {
+    void notFound() {
         // when
         ExtractableResponse<Response> response = 존재하지_않는_api로_요청();
 
@@ -33,6 +33,6 @@ class CommonAcceptanceTest extends AcceptanceTest {
     private void 존재하지_않는_요청_응답_확인(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.NOT_FOUND.value());
         assertThat(response.body().jsonPath().getString("errorCode")).isEqualTo("common-003");
-        assertThat(response.body().jsonPath().getString("message")).isEqualTo("해당 요청 맵핑을 찾을 수 없습니다.");
+        assertThat(response.body().jsonPath().getString("message")).isEqualTo("해당 url을 찾을 수 없습니다.");
     }
 }
