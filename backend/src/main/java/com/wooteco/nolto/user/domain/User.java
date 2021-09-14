@@ -169,10 +169,6 @@ public class User extends BaseEntity {
         return Objects.hash(id);
     }
 
-    public void deleteReply(Comment reply) {
-        this.comments.remove(reply);
-    }
-
     private static class GuestUser extends User {
         @Override
         public boolean isLiked(Feed feed) {

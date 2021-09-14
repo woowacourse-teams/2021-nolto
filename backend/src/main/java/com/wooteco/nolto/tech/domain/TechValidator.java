@@ -9,6 +9,7 @@ public class TechValidator implements ConstraintValidator<TechValid, List<Long>>
 
     @Override
     public void initialize(TechValid constraintAnnotation) {
+        // Do Nothing
     }
 
     @Override

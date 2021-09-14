@@ -14,7 +14,7 @@ public enum FilterStrategy {
     PROGRESS(feed -> feed.getStep().equals(Step.PROGRESS)),
     COMPLETE(feed -> feed.getStep().equals(Step.COMPLETE));
 
-    private Function<Feed, Boolean> function;
+    private final Function<Feed, Boolean> function;
 
     FilterStrategy(Function<Feed, Boolean> function) {
         this.function = function;
