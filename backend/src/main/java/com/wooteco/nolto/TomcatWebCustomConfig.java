@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class TomcatWebCustomConfig implements WebServerFactoryCustomizer<TomcatServletWebServerFactory> {
 
-    public static final String SPECIAL_CHARACTER = "<>[\\]^`{|}";
-    public static final String QUERY_PARAM_PROPERTY = "relaxedQueryChars";
+    private static final String SPECIAL_CHARACTER = "<>[\\]^`{|}";
+    private static final String QUERY_PARAM_PROPERTY = "relaxedQueryChars";
 
     @Override
     public void customize(TomcatServletWebServerFactory factory) {
