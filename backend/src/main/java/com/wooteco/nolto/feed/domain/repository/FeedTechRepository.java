@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface FeedTechRepository extends JpaRepository<FeedTech, Long> {
-    @Query("select feedTech " +
+    @Query("select distinct feedTech " +
             "from FeedTech as feedTech " +
             "join fetch feedTech.feed " +
             "where feedTech.tech = :tech")
