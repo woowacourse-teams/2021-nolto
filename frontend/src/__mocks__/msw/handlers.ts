@@ -40,11 +40,19 @@ export const handlers = [
     return res(ctx.status(200), ctx.json<UserInfo>(MOCK_USER.MAZZI));
   }),
 
-  //Comments
+  // Comments
   rest.get(`${BASE_URL.development}/feeds/:feedId/comments`, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json<CommentType[]>(MOCK_COMMENTS));
   }),
   rest.get(`${BASE_URL.development}/feeds/:feedId/comments/:commentId/replies`, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json<CommentType[]>(MOCK_SUB_COMMENTS));
+  }),
+
+  // OAuth
+  rest.get(`${BASE_URL.development}/login/oauth/github`, (req, res, ctx) => {
+    return res(ctx.status(200));
+  }),
+  rest.get(`${BASE_URL.development}/login/oauth/google`, (req, res, ctx) => {
+    return res(ctx.status(200));
   }),
 ];
