@@ -15,11 +15,9 @@ import java.util.Set;
 @Repository
 public interface FeedRepository extends JpaRepository<Feed, Long> {
 
-    List<Feed> findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(String titleText, String contentText);
-
     @Query("select distinct feed " +
             "from Feed as feed " +
-            "join fetch feed.author u " +
+            "join fetch feed.author " +
             "where feed.id <= :feedId and feed.step in :steps and feed.isSos in :help " +
             "and (upper(feed.title) like upper(concat('%', :query, '%')) or upper(feed.content) like upper(concat('%', :query, '%'))) " +
             "order by feed.createdDate desc, feed.id desc")
@@ -27,7 +25,7 @@ public interface FeedRepository extends JpaRepository<Feed, Long> {
 
     @Query("select distinct feed from " +
             "Feed as feed " +
-            "join fetch feed.author u " +
+            "join fetch feed.author " +
             "join feed.feedTechs ft " +
             "where feed.id <= :feedId and feed.step in :steps and feed.isSos in :help " +
             "and ft.tech.name in :techNames " +
@@ -36,7 +34,7 @@ public interface FeedRepository extends JpaRepository<Feed, Long> {
 
     @Query("select distinct feed from " +
             "Feed as feed " +
-            "join fetch feed.author u " +
+            "join fetch feed.author " +
             "join feed.feedTechs ft " +
             "where feed.id <= :feedId and feed.step in :steps and feed.isSos in :help " +
             "and (upper(feed.title) like upper(concat('%', :query, '%')) or upper(feed.content) like upper(concat('%', :query, '%'))) " +
@@ -46,14 +44,14 @@ public interface FeedRepository extends JpaRepository<Feed, Long> {
 
     @Query(value = "select distinct feed " +
             "from Feed as feed " +
-            "join fetch feed.author u " +
+            "join fetch feed.author " +
             "where feed.id <= :feedId and feed.step in :steps " +
             "order by feed.createdDate desc, feed.id desc")
     List<Feed> findWithoutHelp(@Param("steps") EnumSet<Step> steps, @Param("feedId") Long feedId, Pageable pageable);
 
     @Query(value = "select distinct feed " +
             "from Feed as feed " +
-            "join fetch feed.author u " +
+            "join fetch feed.author " +
             "where feed.id <= :feedId and feed.step in :steps and feed.isSos = :help " +
             "order by feed.createdDate desc, feed.id desc")
     List<Feed> findWithHelp(@Param("steps") EnumSet<Step> steps, @Param("help") Boolean help, @Param("feedId") Long feedId, Pageable pageable);
