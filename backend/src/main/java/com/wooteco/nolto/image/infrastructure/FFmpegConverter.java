@@ -14,13 +14,13 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class FfmpegConverter {
+public class FFmpegConverter {
 
     private static final String FRAME_RATE_OPTION = "-r";
     private static final String DELETE_SOUND_OPTION = "-an";
 
-    private final FFmpeg fFmpeg;
-    private final FFprobe fFprobe;
+    private final FFmpeg ffmpeg;
+    private final FFprobe ffprobe;
 
     public void convertGifToMp4(String gifFilePath, String mp4FilePath) {
         log.info("convert gif to mp4 {} -> {}", gifFilePath, mp4FilePath);
@@ -40,7 +40,7 @@ public class FfmpegConverter {
                     .setVideoHeight(gifImageSizeWithResize.getHeightOnesRounded())
                     .done();
 
-            FFmpegExecutor executor = new FFmpegExecutor(fFmpeg, fFprobe);
+            FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
             FFmpegJob job = executor.createJob(builder);
             job.run();
         } catch (RuntimeException e) {

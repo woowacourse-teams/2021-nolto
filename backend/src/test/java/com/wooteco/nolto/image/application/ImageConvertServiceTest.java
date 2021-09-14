@@ -1,7 +1,7 @@
 package com.wooteco.nolto.image.application;
 
-import com.wooteco.nolto.image.config.FfmpegConfig;
-import com.wooteco.nolto.image.infrastructure.FfmpegConverter;
+import com.wooteco.nolto.image.config.FFmpegConfig;
+import com.wooteco.nolto.image.infrastructure.FFmpegConverter;
 import net.bramp.ffmpeg.FFmpeg;
 import net.bramp.ffmpeg.FFprobe;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +17,7 @@ import java.net.URL;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.*;
 
-@SpringBootTest(classes = {ImageConvertService.class, FfmpegConfig.class, FfmpegConverter.class})
+@SpringBootTest(classes = {ImageConvertService.class, FFmpegConfig.class, FFmpegConverter.class})
 class ImageConvertServiceTest {
 
     private final String gifFileName = "jjv1FK.gif";
@@ -26,15 +26,15 @@ class ImageConvertServiceTest {
     private ImageConvertService imageConvertService;
 
     @MockBean
-    private FfmpegConverter ffmpegConverter;
+    private FFmpegConverter ffmpegConverter;
 
     @MockBean
-    private FfmpegConfig ffmpegConfig;
+    private FFmpegConfig ffmpegConfig;
 
     @BeforeEach
     void setUp() throws IOException {
-        given(ffmpegConfig.fFmpeg()).willReturn(new FFmpeg());
-        given(ffmpegConfig.fFprobe()).willReturn(new FFprobe());
+        given(ffmpegConfig.ffmpeg()).willReturn(new FFmpeg());
+        given(ffmpegConfig.ffprobe()).willReturn(new FFprobe());
         willDoNothing().given(ffmpegConverter).convertGifToMp4(anyString(), anyString());
     }
 

@@ -2,9 +2,9 @@ package com.wooteco.nolto.image.application.adapter;
 
 import com.wooteco.nolto.image.application.ImageConvertService;
 import com.wooteco.nolto.image.application.ImageResizeService;
-import com.wooteco.nolto.image.config.FfmpegConfig;
+import com.wooteco.nolto.image.config.FFmpegConfig;
 import com.wooteco.nolto.image.domain.ProcessedImage;
-import com.wooteco.nolto.image.infrastructure.FfmpegConverter;
+import com.wooteco.nolto.image.infrastructure.FFmpegConverter;
 import net.bramp.ffmpeg.FFmpeg;
 import net.bramp.ffmpeg.FFprobe;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,22 +24,22 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 
 @SpringBootTest(classes = {ImageResizeHandler.class, ImageConvertHandler.class,
-        ImageResizeService.class, ImageConvertService.class, FfmpegConverter.class, FfmpegConfig.class})
+        ImageResizeService.class, ImageConvertService.class, FFmpegConverter.class, FFmpegConfig.class})
 class ImageHandlerAdapterTest {
 
     @Autowired
     private List<ImageHandlerAdapter> imageHandlerAdapters;
 
     @MockBean
-    private FfmpegConverter ffmpegConverter;
+    private FFmpegConverter ffmpegConverter;
 
     @MockBean
-    private FfmpegConfig ffmpegConfig;
+    private FFmpegConfig ffmpegConfig;
 
     @BeforeEach
     void setUp() throws IOException {
-        given(ffmpegConfig.fFmpeg()).willReturn(new FFmpeg());
-        given(ffmpegConfig.fFprobe()).willReturn(new FFprobe());
+        given(ffmpegConfig.ffmpeg()).willReturn(new FFmpeg());
+        given(ffmpegConfig.ffprobe()).willReturn(new FFprobe());
         willDoNothing().given(ffmpegConverter).convertGifToMp4(anyString(), anyString());
     }
 

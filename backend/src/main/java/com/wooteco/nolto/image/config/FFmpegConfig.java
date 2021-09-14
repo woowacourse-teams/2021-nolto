@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import java.io.IOException;
 
 @Configuration
-public class FfmpegConfig {
+public class FFmpegConfig {
 
     @Value("${ffmpeg.path}")
     private String ffmpegPath;
@@ -18,12 +18,12 @@ public class FfmpegConfig {
     private String ffprobePath;
 
     @Bean
-    public FFmpeg fFmpeg() throws IOException {
+    public FFmpeg ffmpeg() throws IOException {
         return new FFmpeg(ffmpegPath);
     }
 
     @Bean
-    public FFprobe fFprobe() throws IOException {
+    public FFprobe ffprobe() throws IOException {
         return new FFprobe(ffprobePath);
     }
 }

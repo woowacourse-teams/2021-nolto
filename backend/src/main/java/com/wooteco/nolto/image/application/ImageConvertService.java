@@ -1,7 +1,7 @@
 package com.wooteco.nolto.image.application;
 
 import com.wooteco.nolto.image.FileExtension;
-import com.wooteco.nolto.image.infrastructure.FfmpegConverter;
+import com.wooteco.nolto.image.infrastructure.FFmpegConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import java.io.File;
 @RequiredArgsConstructor
 public class ImageConvertService {
 
-    private final FfmpegConverter ffmpegConverter;
+    private final FFmpegConverter ffmpegConverter;
 
     public File convertGifToMp4(File gifFile) {
 
