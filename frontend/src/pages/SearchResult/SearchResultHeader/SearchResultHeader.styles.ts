@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-import TechInputComponent from 'contexts/techTag/input/TechInput';
 import { PALETTE } from 'constants/palette';
 import { Z_INDEX } from 'constants/styles';
 
