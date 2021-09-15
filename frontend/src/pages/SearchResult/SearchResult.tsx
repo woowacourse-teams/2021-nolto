@@ -22,6 +22,7 @@ const SearchResult = () => {
   const [query, setQuery] = useState('');
   const [techs, setTechs] = useState('');
   const [step, setStep] = useState<FeedStep>(null);
+  const [help, setHelp] = useState(false);
 
   const toggleLevel = (feedStep: FeedStep) => {
     if (step === feedStep) setStep(null);
@@ -49,12 +50,12 @@ const SearchResult = () => {
           <Styled.Button type="button" onClick={() => toggleLevel(FeedStep.COMPLETE)}>
             <StepChip step={FeedStep.COMPLETE} selected={step === FeedStep.COMPLETE} />
           </Styled.Button>
-          <Toggle labelText="🚨도움요청" fontSize="14px" />
+          <Toggle labelText="🚨도움요청" onChange={() => setHelp(!help)} fontSize="14px" />
         </Styled.StepChipsContainer>
       </Styled.TopContainer>
 
       <AsyncBoundary rejectedFallback={<div>게시물 검색에 실패했습니다.</div>}>
-        <SearchResultContent query={query} techs={techs} step={step} />
+        <SearchResultContent searchParams={{ query, techs }} step={step} help={help} />
       </AsyncBoundary>
     </BaseLayout>
   );
