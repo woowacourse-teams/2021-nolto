@@ -107,9 +107,13 @@ const FeedDetailContent = ({ feedId }: Props) => {
 
   useEffect(() => {
     if (window.Kakao.isInitialized()) {
-      createKakaoShare();
-      setKakaoLoaded(true);
+      if (!isKakaoLoaded) {
+        createKakaoShare();
+        setKakaoLoaded(true);
+      }
     }
+
+    return () => setKakaoLoaded(false);
   }, []);
 
   // TODO: 댓글 로딩 부분 스켈레톤으로 리팩토링
