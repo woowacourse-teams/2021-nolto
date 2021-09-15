@@ -54,7 +54,7 @@ public class ImageResizeService {
         int resizedHeight = (int) (resizeRatio * originalHeight);
 
         Image resizedImage = originalImage.getScaledInstance(resizedWidth, resizedHeight, Image.SCALE_SMOOTH);
-        BufferedImage resizedBufferedImage = new BufferedImage(resizedWidth, resizedHeight, BufferedImage.TYPE_INT_RGB);
+        BufferedImage resizedBufferedImage = new BufferedImage(resizedWidth, resizedHeight, BufferedImage.TYPE_INT_ARGB);
         resizedBufferedImage.getGraphics().drawImage(resizedImage, 0, 0, null);
         return resizedBufferedImage;
     }
