@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import { ButtonStyle } from 'types';
@@ -11,7 +11,6 @@ import { PALETTE } from 'constants/palette';
 import ROUTE from 'constants/routes';
 import QUERY_KEYS from 'constants/queryKeys';
 import { ERROR_MSG } from 'constants/message';
-import { DEFAULT_IMG } from 'constants/common';
 import { Divider } from 'commonStyles';
 import ToggleList from 'components/@common/ToggleList/ToggleList';
 import FeedDropdown from 'components/FeedDropdown/FeedDropdown';
@@ -20,6 +19,7 @@ import CommentModule from 'components/CommentModule/CommentModule';
 import AsyncBoundary from 'components/AsyncBoundary';
 import ErrorFallback from 'components/ErrorFallback/ErrorFallback';
 import StepChip from 'components/StepChip/StepChip';
+import FeedThumbnail from 'components/FeedThumbnail/FeedThumbnail';
 import Styled, { Tag, SOSFlag } from './FeedDetailContent.styles';
 
 interface Props {
@@ -85,12 +85,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
     <>
       {feedDetail.sos && <SOSFlag />}
       <Styled.Thumbnail>
-        <img
-          src={feedDetail.thumbnailUrl}
-          onError={(event: SyntheticEvent<HTMLImageElement>) => {
-            event.currentTarget.src = DEFAULT_IMG.FEED;
-          }}
-        />
+        <FeedThumbnail thumbnailUrl={feedDetail.thumbnailUrl} />
       </Styled.Thumbnail>
       <Styled.IconsContainer>
         <Styled.IconWrapper>

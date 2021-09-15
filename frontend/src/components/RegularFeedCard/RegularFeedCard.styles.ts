@@ -9,7 +9,8 @@ const Root = styled.div`
   width: 100%;
   gap: 0.5rem;
 
-  & .project-image {
+  & img,
+  video {
     transition: all 0.2s ease;
 
     &:hover {
@@ -42,7 +43,8 @@ const RegularCardImgWrapper = styled.div`
   overflow: hidden;
   background-color: rgba(0, 0, 0, 0.1);
 
-  & > img {
+  & > img,
+  video {
     position: absolute;
     left: 0;
     top: 0;

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { UserHistoryType } from 'types';
+import FeedThumbnailComponent from 'components/FeedThumbnail/FeedThumbnail';
 import { PALETTE } from 'constants/palette';
 import { MEDIA_QUERY } from 'constants/mediaQuery';
 import { hoverLayer, defaultShadow } from 'commonStyles';
@@ -99,7 +100,7 @@ const FeedWrapper = styled.div`
   ${hoverLayer({})};
 `;
 
-const FeedThumbnail = styled.img`
+const FeedThumbnail = styled(FeedThumbnailComponent)`
   width: 3.5rem;
   height: 3.5rem;
   border-radius: 0.25rem;
