@@ -21,6 +21,7 @@ import QuestionIcon from 'assets/questionMark.svg';
 import { ButtonStyle, FeedStep, Tech, FeedToUpload } from 'types';
 import Styled, {
   ContentTextArea,
+  Markdown,
   Form,
   StyledButton,
   LevelTooltip,
@@ -53,6 +54,7 @@ const FeedUploadForm = ({ onFeedSubmit, initialFormValue }: Props) => {
 
   const watchThumbnailImage = watch('thumbnailImage');
   const watchStep = watch('step');
+  const watchContent = watch('content');
   const history = useHistory();
   const dialog = useDialog();
 
@@ -116,12 +118,15 @@ const FeedUploadForm = ({ onFeedSubmit, initialFormValue }: Props) => {
 
         <Styled.VerticalWrapper>
           <Label text="내용" htmlFor="content" required={true} />
-          <Toybox width="32px" />
-          <ContentTextArea
-            id="content"
-            {...register('content', { required: UPLOAD_VALIDATION_MSG.CONTENT_REQUIRED })}
-          />
-          <ErrorMessage targetError={errors.content} />
+          <Styled.MarkdownContainer>
+            <Toybox width="32px" />
+            <ContentTextArea
+              id="content"
+              {...register('content', { required: UPLOAD_VALIDATION_MSG.CONTENT_REQUIRED })}
+            />
+            <ErrorMessage targetError={errors.content} />
+            <Markdown children={watchContent} />
+          </Styled.MarkdownContainer>
         </Styled.VerticalWrapper>
 
         <div>
@@ -185,7 +190,7 @@ const FeedUploadForm = ({ onFeedSubmit, initialFormValue }: Props) => {
                 text="배포 URL"
                 required={true}
               />
-              <div>
+              <div className="input-box">
                 <FormInput
                   id="deployed-url"
                   {...register('deployedUrl', {
@@ -207,7 +212,7 @@ const FeedUploadForm = ({ onFeedSubmit, initialFormValue }: Props) => {
         <div>
           <Styled.StretchWrapper>
             <Label className="stretch-label" htmlFor="github-url" text="github URL" />
-            <div>
+            <div className="input-box">
               <FormInput
                 id="github-url"
                 {...register('storageUrl', {

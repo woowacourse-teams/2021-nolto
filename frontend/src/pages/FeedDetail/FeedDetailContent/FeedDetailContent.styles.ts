@@ -1,9 +1,11 @@
 import styled from 'styled-components';
+import ReactMarkdown from 'react-markdown';
 
 import HighlightedText from 'components/@common/HighlightedText/HighlightedText';
 import TextButton from 'components/@common/TextButton/TextButton';
 import SOSFlagComponent from 'components/@common/SOSFlag/SOSFlag';
 import { MEDIA_QUERY } from 'constants/mediaQuery';
+import { PALETTE } from 'constants/palette';
 import StacksMoreIcon from 'assets/stacksMore.svg';
 import { defaultShadow } from 'commonStyles';
 
@@ -196,15 +198,18 @@ export const StacksMoreButton = styled(StacksMoreIcon)`
   cursor: pointer;
 `;
 
-const Description = styled.pre`
-  margin: 4rem auto;
+export const Markdown = styled(ReactMarkdown)`
+  background: ${PALETTE.WHITE_500};
+  border-radius: 0.5rem;
+  margin: 1rem auto;
+  padding: 2rem 1rem;
   font-size: 1rem;
   line-height: 1.5rem;
   text-align: justify;
   white-space: pre-wrap;
 
   @media ${MEDIA_QUERY.TABLET_SMALL} {
-    margin: 2rem auto;
+    margin: 1rem auto;
   }
 `;
 
@@ -234,6 +239,5 @@ export default {
   DetailsKeyWrapper,
   DetailsKey,
   DetailsValue,
-  Description,
   CommentContainer,
 };

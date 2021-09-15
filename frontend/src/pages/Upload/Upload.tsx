@@ -9,7 +9,6 @@ import useSnackbar from 'contexts/snackbar/useSnackbar';
 import { ALERT_MSG } from 'constants/message';
 import ROUTE from 'constants/routes';
 import { FONT_SIZE } from 'constants/styles';
-import { DefaultPageRoot } from 'commonStyles';
 import Styled from './Upload.styles';
 
 const Upload = () => {
@@ -28,13 +27,13 @@ const Upload = () => {
 
   return (
     <BaseLayout>
-      <DefaultPageRoot>
+      <Styled.Root>
         <Styled.TitleWrapper>
           <HighLightedText fontSize={FONT_SIZE.X_LARGE}>🦄 토이 프로젝트 수정</HighLightedText>
         </Styled.TitleWrapper>
 
         <FeedUploadForm onFeedSubmit={uploadFeed} />
-      </DefaultPageRoot>
+      </Styled.Root>
     </BaseLayout>
   );
 };

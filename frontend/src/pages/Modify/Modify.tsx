@@ -10,7 +10,6 @@ import { ALERT_MSG } from 'constants/message';
 import useDialog from 'contexts/dialog/useDialog';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
 import useFeedModify from 'hooks/queries/feed/useFeedModify';
-import { DefaultPageRoot } from 'commonStyles';
 import { FeedDetail } from 'types';
 import Styled from './Modify.styles';
 
@@ -56,7 +55,7 @@ const Modify = () => {
 
   return (
     <BaseLayout>
-      <DefaultPageRoot>
+      <Styled.Root>
         <Styled.TitleWrapper>
           <HighLightedText fontSize={FONT_SIZE.X_LARGE}>🔧 토이 프로젝트 수정</HighLightedText>
         </Styled.TitleWrapper>
@@ -73,7 +72,7 @@ const Modify = () => {
             storageUrl,
           }}
         />
-      </DefaultPageRoot>
+      </Styled.Root>
     </BaseLayout>
   );
 };
