@@ -14,6 +14,7 @@ module.exports = merge(common, {
       'process.env.KAKAO_API_KEY': JSON.stringify(process.env.KAKAO_API_KEY),
     }),
   ],
+  devtool: 'source-map',
   optimization: {
     minimize: true,
   },
