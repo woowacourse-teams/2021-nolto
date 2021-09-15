@@ -10,6 +10,9 @@ describe('FeedDetailContent 테스트', () => {
   });
 
   it('피드 상세 페이지의 세부 항목들을 보여준다.', async () => {
+    window.Kakao = {};
+    window.Kakao.isInitialized = jest.fn();
+
     const { getByText, getByRole } = customRender(<FeedDetailContent feedId={1} />);
 
     await waitFor(() => {

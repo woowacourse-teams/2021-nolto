@@ -111,8 +111,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
   };
 
   useEffect(() => {
-    if (process.env.KAKAO_API_KEY) {
-      window.Kakao.init(process.env.KAKAO_API_KEY);
+    if (window.Kakao.isInitialized()) {
       createKakaoShare();
       setKakaoLoaded(true);
     }
