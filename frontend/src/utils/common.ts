@@ -29,8 +29,10 @@ export const refineDate = (date: string) => {
     .replace(/[0-9]+\//, '');
 };
 
-export const genNewId = () => {
-  let lastId = 0;
+export const genNewId = function* () {
+  let id = 0;
 
-  return () => lastId++;
+  while (true) {
+    yield id++;
+  }
 };

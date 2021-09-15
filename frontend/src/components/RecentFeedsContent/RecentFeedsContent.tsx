@@ -61,7 +61,9 @@ const RecentFeedsContent = () => {
         </Styled.StepChipsContainer>
       </FlexContainer>
       <Styled.RecentFeedsContainer>
-        {data?.pages.map((page) => page.feeds.map((feed) => <RegularFeedCard feed={feed} />))}
+        {data?.pages.map((page) =>
+          page.feeds.map((feed) => <RegularFeedCard feed={feed} key={feed.id} />),
+        )}
         {isFetching &&
           Array.from({ length: FEEDS_PER_PAGE }, (_, idx) => <RegularSkeleton key={idx} />)}
       </Styled.RecentFeedsContainer>

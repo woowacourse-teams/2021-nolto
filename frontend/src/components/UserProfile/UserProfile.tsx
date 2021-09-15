@@ -7,6 +7,7 @@ import useDialog from 'contexts/dialog/useDialog';
 import { PALETTE } from 'constants/palette';
 import ROUTE from 'constants/routes';
 import useMember from 'hooks/queries/useMember';
+import useFocusOut from 'hooks/@common/useFocusOut';
 
 interface Props {
   className?: string;
@@ -17,6 +18,9 @@ const UserProfile = ({ className }: Props) => {
 
   const member = useMember();
   const dialog = useDialog();
+  const focusOutRef = useFocusOut(() => {
+    setIsProfileOpen(false);
+  });
 
   const logout = () => {
     member.logout();
@@ -30,6 +34,7 @@ const UserProfile = ({ className }: Props) => {
       className={className}
       onClick={() => setIsProfileOpen(!isProfileOpen)}
       onMouseOver={() => Page.Mypage.preload()}
+      ref={focusOutRef}
     >
       <Styled.UserThumbnail>
         <Styled.Image src={member.userData?.imageUrl} />

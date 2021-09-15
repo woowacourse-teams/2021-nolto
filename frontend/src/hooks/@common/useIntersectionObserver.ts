@@ -2,6 +2,11 @@ import { useEffect, useRef } from 'react';
 
 const useIntersectionObserver = (callback: () => void) => {
   const targetElement = useRef(null);
+  const freshCallback = useRef(callback);
+
+  useEffect(() => {
+    freshCallback.current = callback;
+  }, [callback]);
 
   useEffect(() => {
     if (!targetElement || !targetElement.current) return;
@@ -10,7 +15,7 @@ const useIntersectionObserver = (callback: () => void) => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            callback();
+            freshCallback.current();
           }
         });
       },
@@ -20,9 +25,9 @@ const useIntersectionObserver = (callback: () => void) => {
     observer.observe(targetElement.current);
 
     return () => {
-      observer.unobserve(targetElement.current);
+      observer.disconnect();
     };
-  });
+  }, []);
 
   return targetElement;
 };
