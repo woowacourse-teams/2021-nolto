@@ -77,7 +77,8 @@ const Thumbnail = styled.div`
     padding-bottom: 100%;
   }
 
-  & > img {
+  & > img,
+  video {
     position: absolute;
     object-fit: contain;
     height: 100%;

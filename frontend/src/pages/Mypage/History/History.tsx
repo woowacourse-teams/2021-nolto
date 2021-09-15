@@ -36,7 +36,7 @@ const History = () => {
 
   const feedWithContent = (feed: Omit<Feed, 'author'>): React.ReactNode => (
     <Styled.FeedWrapper key={idGenerator()} onClick={() => goFeedDetail(feed.id)}>
-      <Styled.FeedThumbnail src={feed.thumbnailUrl} />
+      <Styled.FeedThumbnail thumbnailUrl={feed.thumbnailUrl} />
       <Styled.FeedContentWrapper>
         <Styled.FeedTitle>{feed.title}</Styled.FeedTitle>
         <Styled.FeedContent>{feed.content}</Styled.FeedContent>
@@ -46,7 +46,7 @@ const History = () => {
 
   const feedWithComment = (feed: FeedWithComment): React.ReactNode => (
     <Styled.FeedWrapper key={idGenerator()} onClick={() => goFeedDetail(feed.feed.id)}>
-      <Styled.FeedThumbnail src={feed.feed.thumbnailUrl} />
+      <Styled.FeedThumbnail thumbnailUrl={feed.feed.thumbnailUrl} />
       <Styled.FeedContentWrapper>
         <Styled.FeedTitle>{feed.feed.title}</Styled.FeedTitle>
         <Styled.FeedComment>
