@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Avatar from 'components/@common/Avatar/Avatar';
 import SOSFlag from 'components/@common/SOSFlag/SOSFlag';
 import FeedThumbnail from 'components/FeedThumbnail/FeedThumbnail';
+import { removeMarkdown } from 'utils/common';
 import { Feed } from 'types';
 import Styled from './RegularFeedCard.styles';
 
@@ -22,7 +23,7 @@ const RegularFeedCard = ({ feed }: Props) => {
         </Styled.RegularCardImgWrapper>
         <Styled.Content>
           <h3>{feed.title}</h3>
-          <p>{feed.content}</p>
+          <p>{removeMarkdown(feed.content)}</p>
         </Styled.Content>
       </Link>
     </Styled.Root>

@@ -5,7 +5,7 @@ import useUserHistory from 'hooks/queries/userHistory/useUserHistory';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
 import ROUTE from 'constants/routes';
 import ReturnArrow from 'assets/arrowReturnRight.svg';
-import { genNewId } from 'utils/common';
+import { genNewId, removeMarkdown } from 'utils/common';
 import { Feed, FeedWithComment, UserHistoryType } from 'types';
 import Styled from './History.styles';
 
@@ -39,7 +39,7 @@ const History = () => {
       <Styled.FeedThumbnail thumbnailUrl={feed.thumbnailUrl} />
       <Styled.FeedContentWrapper>
         <Styled.FeedTitle>{feed.title}</Styled.FeedTitle>
-        <Styled.FeedContent>{feed.content}</Styled.FeedContent>
+        <Styled.FeedContent>{removeMarkdown(feed.content)}</Styled.FeedContent>
       </Styled.FeedContentWrapper>
     </Styled.FeedWrapper>
   );
