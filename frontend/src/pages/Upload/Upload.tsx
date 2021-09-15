@@ -30,7 +30,7 @@ const Upload = () => {
     <BaseLayout>
       <DefaultPageRoot>
         <Styled.TitleWrapper>
-          <HighLightedText fontSize={FONT_SIZE.X_LARGE}>🦄 Upload Your Toy Project</HighLightedText>
+          <HighLightedText fontSize={FONT_SIZE.X_LARGE}>🦄 토이 프로젝트 수정</HighLightedText>
         </Styled.TitleWrapper>
 
         <FeedUploadForm onFeedSubmit={uploadFeed} />

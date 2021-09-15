@@ -21,14 +21,6 @@ const complete = css`
   }
 `;
 
-const sos = css`
-  background: ${PALETTE.PRIMARY_400};
-
-  &::before {
-    content: '🚨 ';
-  }
-`;
-
 const chipStyleMap = {
   [FeedStep.PROGRESS]: progress,
   [FeedStep.COMPLETE]: complete,
