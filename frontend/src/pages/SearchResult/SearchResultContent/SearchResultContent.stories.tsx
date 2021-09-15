@@ -10,5 +10,9 @@ export default {
 };
 
 export const Default = () => (
-  <SearchResultContent query="" techs="reactjs" step={FeedStep.COMPLETE} />
+  <SearchResultContent
+    searchParams={{ query: '', techs: 'reactjs' }}
+    step={FeedStep.COMPLETE}
+    help
+  />
 );

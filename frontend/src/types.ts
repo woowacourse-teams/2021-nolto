@@ -70,6 +70,12 @@ export interface FeedWithComment {
   feed: Omit<Feed, 'author'>;
   text: string;
 }
+
+export interface SearchParams {
+  query: string;
+  techs: string;
+}
+
 export interface UserInfo extends Author {
   notifications: number;
 }

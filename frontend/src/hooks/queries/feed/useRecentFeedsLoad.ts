@@ -13,6 +13,7 @@ interface CustomQueryOption extends UseInfiniteQueryOptions<InfiniteFeedResponse
   countPerPage?: number;
   errorHandler?: ErrorHandler;
 }
+
 interface InfiniteFeedResponse {
   feeds: Feed[];
   nextFeedId: number;

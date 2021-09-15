@@ -12,7 +12,14 @@ const RecentFeedsContainer = styled.div`
   grid-gap: 1rem;
 `;
 
+const MoreHiddenElement = styled.div`
+  width: 100%;
+  height: 20px;
+  visibility: hidden;
+`;
+
 export default {
   Root,
   RecentFeedsContainer,
+  MoreHiddenElement,
 };
