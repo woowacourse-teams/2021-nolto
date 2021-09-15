@@ -48,10 +48,13 @@ public class ImageService {
         ProcessedImage processedImage = imageHandlerAdapter.handle(file);
         String savedFileName = imageRepository.save(processedImage);
         try {
-            Files.delete(Paths.get(file.getPath()));
             Files.delete(Paths.get(processedImage.getFile().getPath()));
+            if (file != processedImage.getFile()) {
+                Files.delete(Paths.get(file.getPath()));
+            }
         } catch (Exception e) {
-            log.error("파일 변환 후 잔여 파일 삭제 실패 {}, {}, {}", file.getPath(), processedImage.getFile().getPath(), e.getMessage());
+            log.error("파일 변환 후 잔여 파일 삭제 실패 -- 원본 파일: {}, 변경 파일: {}, 에러 메시지: {}",
+                    file.getPath(), processedImage.getFile().getPath(), e.getMessage());
             return savedFileName;
         }
         return savedFileName;
