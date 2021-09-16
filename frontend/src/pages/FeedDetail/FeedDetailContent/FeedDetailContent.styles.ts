@@ -154,10 +154,6 @@ const DetailsPair = styled.div`
   align-items: center;
   gap: 1.75rem;
 
-  &.tech-list {
-    align-items: flex-start;
-  }
-
   @media ${MEDIA_QUERY.TABLET_SMALL} {
     gap: 1rem;
   }
