@@ -44,8 +44,8 @@ const Header = ({ isFolded = false }: Props) => {
       <Styled.BackgroundSvg height="100%" width="100vw">
         <defs>
           <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="20%" stopColor={PALETTE.PRIMARY_200} stopOpacity="1" />
-            <stop offset="80%" stopColor={PALETTE.PRIMARY_400} stopOpacity="1" />
+            <stop offset="20%" stopOpacity="1" />
+            <stop offset="80%" stopOpacity="1" />
           </linearGradient>
         </defs>
         <rect x="-30vw" y="0" width="160vw" height="100%" fill="url(#grad1)" />

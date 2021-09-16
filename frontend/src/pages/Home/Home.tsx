@@ -18,13 +18,21 @@ import { FeedStep } from 'types';
 import HomeFeedsContent from './HomeFeedsContent/HomeFeedsContent';
 import Styled, { MoreButton, ScrollUpButton, Searchbar } from './Home.styles';
 
-const Home = () => {
+interface Props {
+  toggleTheme: () => void;
+}
+
+const Home = ({ toggleTheme }: Props) => {
   const ellipseRef = useRef();
   const isEllipseVisible = useOnScreen(ellipseRef);
 
   const scrollTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  const localSettingTheme = localStorage.getItem('theme');
+
+  const searchTitle = localSettingTheme === 'default' ? 'Search for Ideas?' : '🌝 Happy Chuseok ❣️';
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -33,10 +41,10 @@ const Home = () => {
   return (
     <BaseLayout header={<Header isFolded={isEllipseVisible} />}>
       <Styled.EllipseWrapper ref={ellipseRef}>
-        <CroppedEllipse />
+        <CroppedEllipse toggleTheme={toggleTheme} />
       </Styled.EllipseWrapper>
       <Styled.SearchContainer>
-        <Styled.SearchTitle>Search for Ideas?</Styled.SearchTitle>
+        <Styled.SearchTitle>{searchTitle}</Styled.SearchTitle>
         <Searchbar className="search-bar" selectable />
         <AsyncBoundary
           rejectedFallback={
