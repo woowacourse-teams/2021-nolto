@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-import { PALETTE } from 'constants/palette';
 import { hoverUnderline } from 'commonStyles';
 import { BREAK_POINTS } from 'constants/mediaQuery';
 
@@ -10,7 +9,7 @@ const Root = styled.div`
   width: 100%;
 
   & span {
-    color: ${PALETTE.WHITE_400};
+    color: ${({ theme }) => theme.highLightedText};
     line-height: 1rem;
     text-align: center;
   }

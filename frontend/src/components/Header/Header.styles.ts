@@ -7,7 +7,6 @@ import TextButton from 'components/@common/TextButton/TextButton';
 import SearchbarComponent from 'components/Searchbar/Searchbar';
 import { FONT_SIZE, Z_INDEX } from 'constants/styles';
 import { MEDIA_QUERY } from 'constants/mediaQuery';
-import { PALETTE } from 'constants/palette';
 import { HEIGHT } from 'constants/common';
 
 const Root = styled.header<{ isFolded: boolean }>`
@@ -29,6 +28,14 @@ const BackgroundSvg = styled.svg`
   height: 100%;
   top: 0;
   left: 0;
+
+  & stop:nth-of-type(1) {
+    stop-color: ${({ theme }) => theme.headerStartColor};
+  }
+
+  & stop:nth-of-type(2) {
+    stop-color: ${({ theme }) => theme.headerEndColor};
+  }
 `;
 
 const HeaderContent = styled.div`
@@ -81,7 +88,7 @@ const NavContainer = styled.nav`
 
   & .nav-link {
     font-size: ${FONT_SIZE.MEDIUM};
-    color: ${PALETTE.WHITE_400};
+    color: ${({ theme }) => theme.highLightedText};
     display: block;
     ${hoverUnderline};
 
@@ -114,7 +121,6 @@ const ButtonsContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  /* position: relative; */
   height: 100%;
   gap: 0.5rem;
 
@@ -124,6 +130,8 @@ const ButtonsContainer = styled.div`
 `;
 
 const AuthButton = styled(TextButton.Rounded)`
+  color: ${({ theme }) => theme.highLightedText};
+  border-color: ${({ theme }) => theme.highLightedText};
   padding: 4px 16px;
   font-size: inherit;
   line-height: inherit;

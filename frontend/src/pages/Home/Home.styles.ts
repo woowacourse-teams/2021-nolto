@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
 
 import SearchbarComponent from 'components/Searchbar/Searchbar';
@@ -37,11 +37,22 @@ const EllipseWrapper = styled.div`
   left: 0;
 `;
 
+const bounce = keyframes`
+  0%, 100% {
+    transform: translateY(-10%);
+  }
+
+  50% {
+    transform: translateY(10%);
+  }
+`;
+
 const SearchTitle = styled.div`
   font-size: 1.5rem;
-  font-weight: 500;
-  color: ${PALETTE.WHITE_400};
+  color: ${({ theme }) => theme.highLightedText};
+  font-weight: ${({ theme }) => theme.titleWeight};
   margin-bottom: 18px;
+  animation: ${bounce} 1s linear infinite;
 `;
 
 export const Searchbar = styled(SearchbarComponent)`

@@ -1,10 +1,10 @@
 import { createGlobalStyle } from 'styled-components';
 
-import { PALETTE } from './constants/palette';
-
 const GlobalStyle = createGlobalStyle`  
   html, body {
     overflow: auto;
+    background: ${({ theme }) => theme.background};
+    transition: background 0.2s ease;
   }
 
   * {
@@ -12,7 +12,9 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
     font-family: 'Open Sans', 'Noto Sans KR', sans-serif;
-    color: ${PALETTE.BLACK_400};
+    color: ${({ theme }) => theme.defaultText};
+
+    transition: color 0.2s ease;
   }
 
   a {
