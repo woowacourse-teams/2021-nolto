@@ -2,7 +2,6 @@ package com.wooteco.nolto.image.application;
 
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.InternalServerErrorException;
-import com.wooteco.nolto.image.FileExtension;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Service;
 
@@ -57,7 +56,7 @@ public class ImageResizeService {
 
         Image resizedImage = originalImage.getScaledInstance(resizedWidth, resizedHeight, Image.SCALE_SMOOTH);
         BufferedImage resizedBufferedImage;
-        if (FileExtension.PNG.equals(FilenameUtils.getExtension(fileName))) {
+        if ("png".equals(FilenameUtils.getExtension(fileName))) {
             resizedBufferedImage = new BufferedImage(resizedWidth, resizedHeight, BufferedImage.TYPE_INT_ARGB);
         } else {
             resizedBufferedImage = new BufferedImage(resizedWidth, resizedHeight, BufferedImage.TYPE_INT_RGB);
