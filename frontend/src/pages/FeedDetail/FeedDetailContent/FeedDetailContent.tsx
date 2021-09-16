@@ -12,7 +12,6 @@ import ROUTE from 'constants/routes';
 import QUERY_KEYS from 'constants/queryKeys';
 import { ERROR_MSG } from 'constants/message';
 import { Divider } from 'commonStyles';
-import ToggleList from 'components/@common/ToggleList/ToggleList';
 import FeedDropdown from 'components/FeedDropdown/FeedDropdown';
 import LikeButton from 'components/LikeButton/LikeButton';
 import CommentModule from 'components/CommentModule/CommentModule';
@@ -117,7 +116,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
     return () => setKakaoLoaded(false);
   }, []);
 
-  // TODO: 댓글 로딩 부분 스켈레톤으로 리팩토링
+  // TODO: 댓글 로딩 부분 스켈레톤으로 리팩토링 살려줘
   return (
     <Styled.Root>
       <Styled.IntroContainer>
@@ -171,20 +170,18 @@ const FeedDetailContent = ({ feedId }: Props) => {
               </Styled.DetailsPair>
             )}
             {feedDetail.techs.length > 0 && (
-              <Styled.DetailsPair>
+              <Styled.DetailsPair className="tech-list">
                 <Styled.DetailsKeyWrapper>
                   <Styled.DetailsKey>기술스택</Styled.DetailsKey>
                 </Styled.DetailsKeyWrapper>
                 <Styled.DetailsValue>
-                  <ToggleList width="100%" height="1.75rem">
-                    {feedDetail.techs.map((tech) => (
-                      <li key={tech.id}>
-                        <Tag buttonStyle={ButtonStyle.SOLID} onClick={() => searchByTag(tech.text)}>
-                          {tech.text}
-                        </Tag>
-                      </li>
-                    ))}
-                  </ToggleList>
+                  {feedDetail.techs.map((tech) => (
+                    <li key={tech.id}>
+                      <Tag buttonStyle={ButtonStyle.SOLID} onClick={() => searchByTag(tech.text)}>
+                        {tech.text}
+                      </Tag>
+                    </li>
+                  ))}
                 </Styled.DetailsValue>
               </Styled.DetailsPair>
             )}
