@@ -1,17 +1,14 @@
 
-<p align="center">
-<img src="https://user-images.githubusercontent.com/43840561/129161752-7562f20e-95db-4f7a-bbc6-545b90824188.png" width = "25%" height = "25%" >
+<p align="center">  
+<h1 align="middle"> ✨ 놀토: 놀러오세요 토이프로젝트 ✨</h1>
+
+<img src="https://user-images.githubusercontent.com/44080404/133540773-763e7766-def4-42b6-bcfe-e1eac5fbb00f.png" width="100%" >
+
 </p>
 
-<h1 align="middle"> ✨ 놀러오세요 토이프로젝트 ✨</h1>
 <p align="middle">부담없이 자랑하는 작고 소중한 내 토이프로젝트</p>
-
-<br>
-<br>
-
-<h2 align="middle"> 🎁 프로젝트 소개 🎁 </h2>
-<h4 align="center"> 서툰 프로젝트라도 누구나 뿌듯하게 자랑하고 공유하는 공간</h4>
-<p align="center"> 여기는 놀토입니다! </p>
+<p align="center"> 서툰 프로젝트라도 누구나 뿌듯하게 자랑하고 공유하는 공간,</p>
+<p align="center"> 여기는 <b>놀토</b>입니다! </p>
 <br>
 <br>
 
@@ -20,7 +17,8 @@
   
 | [아마찌](https://github.com/NewWisdom)   |  [조엘](https://github.com/PapimonLikelion)  |   [포모](https://github.com/bosl95)      | [지그](https://github.com/zigsong)   | [미키](https://github.com/0307kwon)   | [찰리](https://github.com/Gomding)   |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | 
-| <img src="https://user-images.githubusercontent.com/43840561/129164013-2a88c2e7-1a93-4cc7-bbd8-c5818f5152c7.png"/> | <img src="https://nolto.r-e.kr/f957a5f239de2e29703d0761a321ba27.png" /> | <img src="https://nolto.r-e.kr/fed16cf8e350873c2a60fb4a7fd0b685.png" /> | <img src="https://nolto.r-e.kr/436a1dff2f310e55b444be8ef0d5b1ad.png" /> | <img src="https://nolto.r-e.kr/1d837f42d4f6ddb9af447b96193b7bc5.png" /> | <img src="https://user-images.githubusercontent.com/43840561/129164911-70740952-4c3d-4c6d-aa1f-375851d7d175.png" /> | 
+| <img src="https://user-images.githubusercontent.com/43840561/129164013-2a88c2e7-1a93-4cc7-bbd8-c5818f5152c7.png"/> | <img src="https://user-images.githubusercontent.com/44080404/133540314-639cc580-1aa5-4bf4-8d54-b435bfe5e5f8.png" /> | <img src="https://user-images.githubusercontent.com/44080404/133540309-ae1e774e-4404-4801-bb5c-0037eab41818.PNG" /> | <img src="https://user-images.githubusercontent.com/44080404/133540317-20da5664-aa3d-4afb-809b-a7d4780a5a17.png" /> |  <img src="https://user-images.githubusercontent.com/44080404/133540321-7f8f4215-3e01-4f21-88e3-90d608377aab.png" /> | <img src="https://user-images.githubusercontent.com/44080404/133540503-22c158d4-1042-4e7c-9ee5-79c694bf5841.png" /> |
+
 
 </p>
 
