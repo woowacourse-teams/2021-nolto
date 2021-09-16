@@ -11,10 +11,11 @@ export const ALERT_MSG = {
   SUCCESS_MODIFY_FEED: '토이 프로젝트를 수정했습니다.',
   SUCCESS_EDIT_PROFILE: '프로필 정보를 수정했습니다.',
   FAIL_EDIT_PROFILE: '프로필 정보 수정에 실패했습니다.',
+  SESSION_EXPIRED: '로그인 정보가 만료되었습니다.\n다시 로그인 해주세요',
 };
 
 export const CONFIRM_MSG = {
-  LEAVE_UPLOAD_PAGE: '정말로 페이지를 떠나시겠습니까? 작성 중인 정보는 사라집니다.',
+  LEAVE_UPLOAD_PAGE: '정말로 페이지를 떠나시겠습니까?\n작성 중인 정보는 사라집니다.',
 };
 
 export const ERROR_MSG = {

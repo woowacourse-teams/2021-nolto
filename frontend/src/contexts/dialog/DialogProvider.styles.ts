@@ -45,6 +45,7 @@ const DialogInner = styled.div`
 
   & .message {
     padding: 0 1.5rem;
+    white-space: pre-line;
   }
 `;
 
