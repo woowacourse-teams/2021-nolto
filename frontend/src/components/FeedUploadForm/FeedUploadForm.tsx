@@ -21,13 +21,13 @@ import QuestionIcon from 'assets/questionMark.svg';
 import { ButtonStyle, FeedStep, Tech, FeedToUpload } from 'types';
 import Styled, {
   ContentTextArea,
-  Markdown,
   Form,
   StyledButton,
   LevelTooltip,
   SOSTooltip,
   Toybox,
 } from './FeedUploadForm.styles';
+import Markdown from 'components/@common/Markdown/Markdown';
 
 type FeedToUploadPartial = Omit<FeedToUpload, 'techs'>;
 
@@ -124,7 +124,9 @@ const FeedUploadForm = ({ onFeedSubmit, initialFormValue }: Props) => {
               id="content"
               {...register('content', { required: UPLOAD_VALIDATION_MSG.CONTENT_REQUIRED })}
             />
-            <Markdown children={watchContent} />
+            <Styled.MarkdownWrapper>
+              <Markdown children={watchContent} />
+            </Styled.MarkdownWrapper>
           </Styled.MarkdownContainer>
           <ErrorMessage targetError={errors.content} />
         </Styled.VerticalWrapper>
