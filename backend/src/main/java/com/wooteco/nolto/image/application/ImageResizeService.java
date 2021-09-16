@@ -2,6 +2,7 @@ package com.wooteco.nolto.image.application;
 
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.InternalServerErrorException;
+import com.wooteco.nolto.image.FileExtension;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,8 @@ public class ImageResizeService {
     public File resize(File file, String fileName) {
         try {
             BufferedImage image = ImageIO.read(file);
-            BufferedImage resizedImage = resizeImage(image, image.getWidth(), image.getHeight());
+            BufferedImage resizedImage = resizeImage(image, image.getWidth(), image.getHeight(), fileName);
+
             if (resizedImage.equals(image)) {
                 return file;
             }
@@ -31,12 +33,12 @@ public class ImageResizeService {
         }
     }
 
-    private BufferedImage resizeImage(BufferedImage originalImage, int originalWidth, int originalHeight) {
+    private BufferedImage resizeImage(BufferedImage originalImage, int originalWidth, int originalHeight, String fileName) {
         double resizeRatio = calculateResizeRatio(originalWidth, originalHeight);
         if (resizeRatio == RESIZE_NOT_NEEDED) {
             return originalImage;
         }
-        return resizeImageByRatio(originalImage, originalWidth, originalHeight, resizeRatio);
+        return resizeImageByRatio(originalImage, originalWidth, originalHeight, resizeRatio, fileName);
     }
 
     private double calculateResizeRatio(int width, int height) {
@@ -49,12 +51,17 @@ public class ImageResizeService {
         return (MAX_PIXEL / width);
     }
 
-    private BufferedImage resizeImageByRatio(BufferedImage originalImage, int originalWidth, int originalHeight, double resizeRatio) {
+    private BufferedImage resizeImageByRatio(BufferedImage originalImage, int originalWidth, int originalHeight, double resizeRatio, String fileName) {
         int resizedWidth = (int) (resizeRatio * originalWidth);
         int resizedHeight = (int) (resizeRatio * originalHeight);
 
         Image resizedImage = originalImage.getScaledInstance(resizedWidth, resizedHeight, Image.SCALE_SMOOTH);
-        BufferedImage resizedBufferedImage = new BufferedImage(resizedWidth, resizedHeight, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage resizedBufferedImage;
+        if (FileExtension.PNG.equals(FilenameUtils.getExtension(fileName))) {
+            resizedBufferedImage = new BufferedImage(resizedWidth, resizedHeight, BufferedImage.TYPE_INT_ARGB);
+        } else {
+            resizedBufferedImage = new BufferedImage(resizedWidth, resizedHeight, BufferedImage.TYPE_INT_RGB);
+        }
         resizedBufferedImage.getGraphics().drawImage(resizedImage, 0, 0, null);
         return resizedBufferedImage;
     }
