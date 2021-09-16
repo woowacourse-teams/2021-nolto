@@ -4,9 +4,10 @@ import useTechAutoComplete from 'hooks/queries/useTechAutoComplete';
 import useQueryDebounce from 'hooks/@common/useQueryDebounce';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
 import FormInput from 'components/@common/FormInput/FormInput';
+import useTechTag from '../useTechTag';
 import { Tech } from 'types';
 import Styled from './TechInput.styles';
-import useTechTag from '../useTechTag';
+import useFocusOut from 'hooks/@common/useFocusOut';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   onUpdateTechs: (techs: Tech[]) => void;
@@ -17,6 +18,9 @@ const TechInput = ({ onUpdateTechs, className, ...options }: Props) => {
   const [isDropdownOpened, setDropdownOpened] = useState(false);
   const [currentTechIdx, setCurrentTechIdx] = useState(-1);
   const [searchInput, setSearchInput] = useState('');
+  const ref = useFocusOut(() => {
+    setDropdownOpened(false);
+  });
 
   const focusedOption = useRef(null);
 
@@ -76,7 +80,7 @@ const TechInput = ({ onUpdateTechs, className, ...options }: Props) => {
   }, [focusedOption?.current]);
 
   return (
-    <Styled.Root className={className}>
+    <Styled.Root ref={ref} className={className}>
       <FormInput
         value={searchInput}
         onChange={handleInput}

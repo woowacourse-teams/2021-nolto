@@ -1,9 +1,10 @@
-import { FeedStatus } from 'types';
+import { FeedStep } from 'types';
+
+import defaultFeed from 'assets/defaultFeed.png';
 
 export const STEP_CONVERTER: { [index: string]: string } = {
-  [FeedStatus.PROGRESS]: '조립중',
-  [FeedStatus.COMPLETE]: '전시중',
-  [FeedStatus.SOS]: '도움요청',
+  [FeedStep.PROGRESS]: '진행중',
+  [FeedStep.COMPLETE]: '전시중',
 };
 
 export const THUMBNAIL_EXTENSION = [
@@ -16,3 +17,11 @@ export const THUMBNAIL_EXTENSION = [
   'image/png',
   'image/svg+xml',
 ];
+
+export const HEIGHT = {
+  HEADER: '4rem',
+};
+
+export const DEFAULT_IMG = {
+  FEED: defaultFeed,
+} as const;

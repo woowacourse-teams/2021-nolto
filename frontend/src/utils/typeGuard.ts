@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import ERROR_CODE from 'constants/errorCodeMap';
-import { CommentType, ErrorResponse, HttpErrorResponse } from 'types';
+import { ErrorResponse, HttpErrorResponse } from 'types';
 
 export const isErrorResponse = (response: any): response is ErrorResponse => {
   if (typeof response.status !== 'number') {

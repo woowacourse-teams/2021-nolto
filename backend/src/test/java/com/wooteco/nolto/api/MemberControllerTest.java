@@ -1,6 +1,5 @@
 package com.wooteco.nolto.api;
 
-import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.feed.domain.Comment;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.notification.domain.Notification;
@@ -41,8 +40,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class MemberControllerTest extends ControllerTest {
 
     private static final String ACCESS_TOKEN = "accessToken";
-    private static final User LOGIN_USER =
-            new User(1L, "11111", SocialType.GOOGLE, "아마찌", "imageUrl", "");
 
     private static final long NOTIFICATIONS = 0L;
     private static final long NOTIFICATION_ID = 1L;

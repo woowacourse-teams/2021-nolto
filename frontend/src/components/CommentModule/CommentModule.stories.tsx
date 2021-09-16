@@ -8,4 +8,4 @@ export default {
   argTypes: {},
 };
 
-export const Default = () => <CommentModule feedId={1} />;
+export const Default = () => <CommentModule feedId={1} focusedCommentId={1} />;

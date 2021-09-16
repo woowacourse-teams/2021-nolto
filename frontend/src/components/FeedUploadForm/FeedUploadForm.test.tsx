@@ -50,7 +50,7 @@ describe('FeedUploadForm 테스트', () => {
 
     const titleInput = getByLabelText(/제목/i);
     const contentInput = getByLabelText(/내용/i);
-    const stepInput = getByLabelText(/조립중/i);
+    const stepInput = getByLabelText(/진행중/i);
     const sosInput = getByLabelText(/SOS/i);
 
     fireEvent.change(titleInput, { target: { value: '테스트 제목' } });

@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { FeedStatus } from 'types';
+import { FeedStep } from 'types';
 import { STEP_CONVERTER } from 'constants/common';
 import Styled from './StepChip.styles';
 
 interface Props {
-  step: FeedStatus;
+  step: FeedStep;
   selected?: boolean;
 }
 

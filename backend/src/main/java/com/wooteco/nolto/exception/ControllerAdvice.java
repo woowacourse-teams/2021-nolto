@@ -3,15 +3,18 @@ package com.wooteco.nolto.exception;
 import com.wooteco.nolto.exception.dto.ExceptionResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class ControllerAdvice {
@@ -27,15 +30,27 @@ public class ControllerAdvice {
 
     @ExceptionHandler(BindException.class)
     public ResponseEntity<ExceptionResponse> handleBindExceptionException(BindException e) {
-        ExceptionResponse errorResponse = new ExceptionResponse(ErrorType.DATA_BINDING_ERROR.getErrorCode(), ErrorType.DATA_BINDING_ERROR.getMessage());
+        ExceptionResponse errorResponse = new ExceptionResponse(ErrorType.DATA_BINDING_ERROR.getErrorCode(), getExceptionMessage(e));
         log.info(e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+
+    private String getExceptionMessage(BindException e) {
+        return e.getFieldErrors().stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .collect(Collectors.joining(", "));
     }
 
     @ExceptionHandler(NoltoException.class)
     public ResponseEntity<ExceptionResponse> handleNoltoException(NoltoException e) {
         log.info(e.getBody().getMessage());
         return ResponseEntity.status(e.getHttpStatus()).body(e.getBody());
+    }
+
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public ResponseEntity<ExceptionResponse> handleNoHandlerFoundException(NoHandlerFoundException e) {
+        log.info(e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ExceptionResponse.of(ErrorType.NOT_FOUND));
     }
 
     @ExceptionHandler(Exception.class)

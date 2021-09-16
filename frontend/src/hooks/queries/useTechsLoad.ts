@@ -1,6 +1,7 @@
 import { useQuery, UseQueryOptions } from 'react-query';
 
 import api from 'constants/api';
+import QUERY_KEYS from 'constants/queryKeys';
 import { ErrorHandler, Tech } from 'types';
 import HttpError from 'utils/HttpError';
 import { resolveHttpError } from 'utils/error';
@@ -25,7 +26,7 @@ const loadTechs = async (techs: string, errorHandler: ErrorHandler) => {
 };
 
 const useTechsLoad = ({ techs, errorHandler, ...option }: CustomQueryOption) => {
-  return useQuery<Tech[]>(['techs', techs], () => loadTechs(techs, errorHandler), option);
+  return useQuery<Tech[]>([QUERY_KEYS.TECHS, techs], () => loadTechs(techs, errorHandler), option);
 };
 
 export default useTechsLoad;

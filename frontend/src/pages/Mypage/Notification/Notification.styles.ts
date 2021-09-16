@@ -1,20 +1,33 @@
 import styled from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
+import { MEDIA_QUERY } from 'constants/mediaQuery';
 import ArrowIcon from 'assets/carouselArrow.svg';
 import { defaultShadow } from 'commonStyles';
 
 const Root = styled.div<{ isFolded: boolean; notiCount: number }>`
   position: relative;
   padding: 1rem 2rem;
-  width: 36rem;
-  height: ${({ isFolded, notiCount }) =>
-    isFolded ? '12.5em' : `calc(12.5rem + ${notiCount - 3} * 2.25rem)`};
+  width: 100%;
   border-radius: 0.75rem;
   display: flex;
   flex-direction: column;
-  transition: height 0.2s ease;
+  transition: max-height 0.25s ease;
   ${defaultShadow};
+
+  max-height: ${({ isFolded, notiCount }) =>
+    isFolded ? '15rem' : `calc(15rem + ${notiCount - 3} * 2.25rem)`};
+
+  @media ${MEDIA_QUERY.TABLET} {
+    padding: 1rem;
+    max-height: ${({ isFolded, notiCount }) =>
+      isFolded ? '18rem' : `calc(18rem + ${notiCount - 3} * 4.5rem)`};
+  }
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    max-height: ${({ isFolded, notiCount }) =>
+      isFolded ? '21rem' : `calc(21rem + ${notiCount - 3} * 6.75rem)`};
+  }
 `;
 
 const TopContainer = styled.div`
@@ -22,7 +35,7 @@ const TopContainer = styled.div`
   align-items: center;
   width: 100%;
   padding-bottom: 0.4rem;
-  border-bottom: 1px solid ${PALETTE.ORANGE_400};
+  border-bottom: 1px solid ${PALETTE.PRIMARY_400};
 `;
 
 const TitleWrapper = styled.div`
@@ -33,7 +46,7 @@ const TitleWrapper = styled.div`
 `;
 
 const Title = styled.span`
-  color: ${PALETTE.ORANGE_400};
+  color: ${PALETTE.PRIMARY_400};
 `;
 
 const NotiMark = styled.div`
@@ -49,7 +62,7 @@ const NotiMark = styled.div`
 `;
 
 const AllReadButton = styled.button`
-  flex-basis: 12rem;
+  flex-basis: 14rem;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -59,10 +72,12 @@ const AllReadButton = styled.button`
 `;
 
 const NotiContainer = styled.ul`
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
   margin-top: 0.75rem;
+  margin-bottom: 1.75rem;
   padding: 0.25rem;
 `;
 
@@ -85,26 +100,22 @@ const NotiUserImage = styled.img`
 
 const NotiText = styled.div`
   width: 100%;
-  display: flex;
-  align-items: center;
 `;
 
 const NotiBold = styled.span`
   display: inline-block;
   font-weight: 700;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  vertical-align: middle;
 
   &.user-name {
     max-width: 3rem;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
   }
 
   &.feed-title {
     max-width: 5.5rem;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
   }
 `;
 
@@ -124,10 +135,10 @@ const MoreNotiButton = styled.button`
   align-self: center;
   background: transparent;
   border: none;
-  color: ${PALETTE.ORANGE_400};
+  color: ${PALETTE.PRIMARY_400};
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.25rem;
 
   span {
     color: inherit;

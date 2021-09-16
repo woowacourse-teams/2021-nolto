@@ -5,11 +5,11 @@ import { PALETTE } from 'constants/palette';
 const Label = styled.label`
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 6px;
 `;
 
-const Text = styled.span`
-  font-size: 1rem;
+const Text = styled.span<{ fontSize: string }>`
+  font-size: ${({ fontSize }) => (fontSize ? fontSize : '1rem')};
   line-height: 1rem;
   user-select: none;
 `;

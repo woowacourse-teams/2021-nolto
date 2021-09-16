@@ -1,6 +1,5 @@
 package com.wooteco.nolto.auth.ui.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,7 +10,6 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class TokenRequest {
 
     @Email(message = "올바른 Email 양식이 아닙니다.")
@@ -20,5 +18,4 @@ public class TokenRequest {
 
     @NotBlank(message = "password는 빈 값일 수 없습니다.")
     private String password;
-
 }

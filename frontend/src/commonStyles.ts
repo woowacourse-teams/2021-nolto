@@ -1,12 +1,13 @@
 import styled, { css, keyframes } from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
+import { MEDIA_QUERY } from 'constants/mediaQuery';
 
 export interface FlexContainerProps {
   children: React.ReactNode;
   flexDirection?: 'column' | 'row';
-  justifyContent?: 'center' | 'start' | 'end' | 'space-between';
-  alignItems?: 'center' | 'start' | 'end' | 'space-between';
+  justifyContent?: 'center' | 'flex-start' | 'flex-end' | 'space-between';
+  alignItems?: 'center' | 'flex-start' | 'flex-end' | 'space-between';
   gap?: string;
   flexGrow?: string;
   width?: string;
@@ -38,8 +39,8 @@ export const FlexContainer = styled.div<FlexContainerProps>`
 
 FlexContainer.defaultProps = {
   flexDirection: 'row',
-  justifyContent: 'start',
-  alignItems: 'start',
+  justifyContent: 'flex-start',
+  alignItems: 'flex-start',
 };
 
 const hoverLayerAnimation = keyframes`
@@ -96,9 +97,29 @@ export const hoverUnderline = css`
   }
 `;
 
+export const hoverZoomImg = css`
+  & img {
+    transition: all 0.2s ease;
+  }
+
+  &:hover img {
+    transform: scale(1.05);
+  }
+`;
+
 export const DefaultPageRoot = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 4rem;
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    padding-top: 0;
+  }
+`;
+
+export const Divider = styled.hr`
+  width: 100%;
+  height: 1px;
+  background-color: ${PALETTE.BLACK_200};
+  border: none;
 `;

@@ -15,8 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.multipart.MultipartFile;
 
 import static com.wooteco.nolto.acceptance.FeedAcceptanceTest.피드_작성_요청;
@@ -24,8 +22,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-@ActiveProfiles("test")
 public abstract class AcceptanceTest {
 
     public static final String DEFAULT_IMAGE = "nolto-default-thumbnail.png";
@@ -43,6 +39,9 @@ public abstract class AcceptanceTest {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
+    @Autowired
+    private DatabaseCleanup databaseCleanup;
+
     @MockBean
     private ImageService imageService;
 
@@ -55,6 +54,7 @@ public abstract class AcceptanceTest {
     @BeforeEach
     public void setUp() {
         RestAssured.port = port;
+        databaseCleanup.execute();
 
         given(imageService.upload(any(MultipartFile.class), any(ImageKind.class))).willReturn(DEFAULT_IMAGE_URL);
         given(imageService.update(any(String.class), any(MultipartFile.class), any(ImageKind.class))).willReturn(DEFAULT_IMAGE_URL);

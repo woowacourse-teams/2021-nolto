@@ -10,8 +10,8 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-@RequiredArgsConstructor
 @Component
+@RequiredArgsConstructor
 public class OAuthClientProvider {
 
     private final List<OAuthClient> oAuthClients;

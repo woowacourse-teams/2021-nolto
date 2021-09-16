@@ -22,7 +22,7 @@ const Root = styled.div`
 `;
 
 const SvgRoot = styled.svg`
-  height: 400px;
+  height: 330px;
 
   @media ${MEDIA_QUERY.TABLET} {
     height: 360px;
@@ -40,7 +40,7 @@ const SvgRoot = styled.svg`
       cx: 50%;
       cy: 10px;
       rx: 100%;
-      ry: 324px;
+      ry: 300px;
     }
 
     @media ${MEDIA_QUERY.MOBILE} {
@@ -57,8 +57,8 @@ const Horse = styled(HorseIcon)`
   width: 84px;
   height: auto;
   position: absolute;
-  right: 20%;
-  bottom: 10%;
+  right: 10%;
+  bottom: 13%;
   transform: rotate(-12deg);
 
   &:hover {
@@ -68,10 +68,12 @@ const Horse = styled(HorseIcon)`
 
   @media ${MEDIA_QUERY.TABLET} {
     width: 68px;
+    bottom: 20%;
   }
 
   @media ${MEDIA_QUERY.MOBILE} {
     width: 48px;
+    bottom: 10%;
   }
 `;
 

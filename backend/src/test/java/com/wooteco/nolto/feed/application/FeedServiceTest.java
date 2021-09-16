@@ -8,6 +8,7 @@ import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.FeedTech;
 import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
+import com.wooteco.nolto.feed.ui.dto.FeedCardPaginationResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
@@ -29,7 +30,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -137,7 +141,7 @@ class FeedServiceTest {
         em.clear();
 
         // then
-        FeedResponse updateFeed = feedService.findById(user1, feedId1);
+        FeedResponse updateFeed = feedService.viewFeed(user1, feedId1, true);
         피드_정보가_같은지_조회(request, updateFeed);
     }
 
@@ -157,7 +161,7 @@ class FeedServiceTest {
                 FEED_REQUEST1.getDeployedUrl(),
                 null
         );
-        FeedResponse saveFeed = feedService.findById(user1, feedId1);
+        FeedResponse saveFeed = feedService.viewFeed(user1, feedId1, true);
 
         // when
         feedService.update(user1, feedId1, request);
@@ -165,7 +169,7 @@ class FeedServiceTest {
         em.clear();
 
         // then
-        FeedResponse updateFeed = feedService.findById(user1, feedId1);
+        FeedResponse updateFeed = feedService.viewFeed(user1, feedId1, true);
         피드_정보가_같은지_조회(request, updateFeed);
     }
 
@@ -247,9 +251,9 @@ class FeedServiceTest {
         em.clear();
 
         // when
-        FeedResponse feedResponse1 = feedService.findById(user1, feedId1);
-        FeedResponse feedResponse2 = feedService.findById(user2, feedId2);
-        FeedResponse feedResponse3 = feedService.findById(user2, feedId3);
+        FeedResponse feedResponse1 = feedService.viewFeed(user1, feedId1, false);
+        FeedResponse feedResponse2 = feedService.viewFeed(user2, feedId2, false);
+        FeedResponse feedResponse3 = feedService.viewFeed(user2, feedId3, false);
         FEED_REQUEST1.toEntityWithThumbnailUrl(null);
 
         // then
@@ -270,7 +274,7 @@ class FeedServiceTest {
     @Test
     void findByNonExistsId() {
         // when then
-        assertThatThrownBy(() -> feedService.findById(user1, Long.MAX_VALUE))
+        assertThatThrownBy(() -> feedService.viewFeed(user1, Long.MAX_VALUE, true))
                 .isInstanceOf(NotFoundException.class)
                 .hasMessage(ErrorType.FEED_NOT_FOUND.getMessage());
     }
@@ -309,7 +313,7 @@ class FeedServiceTest {
         em.clear();
 
         // when
-        FeedResponse feedResponse = feedService.findById(user2, feedId1);
+        FeedResponse feedResponse = feedService.viewFeed(user2, feedId1, true);
 
         // then
         assertThat(feedResponse.isLiked()).isTrue();
@@ -324,7 +328,7 @@ class FeedServiceTest {
         em.clear();
 
         // when
-        FeedResponse feedResponse = feedService.findById(user2, feedId1);
+        FeedResponse feedResponse = feedService.viewFeed(user2, feedId1, true);
 
         // then
         assertThat(feedResponse.isLiked()).isFalse();
@@ -343,7 +347,7 @@ class FeedServiceTest {
         likeService.deleteLike(user2, feedId1);
         em.flush();
         em.clear();
-        FeedResponse feedResponse = feedService.findById(user2, feedId1);
+        FeedResponse feedResponse = feedService.viewFeed(user2, feedId1, true);
 
         // then
         assertThat(feedResponse.isLiked()).isFalse();
@@ -365,7 +369,7 @@ class FeedServiceTest {
         Feed findFeed = feedService.findEntityById(feedId1);
 
         // then
-        assertThat(findFeed.findLikeBy(user2)).isEqualTo(Optional.empty());
+        assertThat(findFeed.findLikeBy(user2)).isEmpty();
     }
 
     @DisplayName("좋아요를 누른 피드가 삭제되면 유저의 좋아요 데이터도 삭제된다. (feed1이 삭제 ->  user2의 feed1에 대한 like 데이터 삭제) - feed1이 없으므로 엔티티로 조회")
@@ -531,7 +535,7 @@ class FeedServiceTest {
         피드_정보가_같은지_조회(FEED_REQUEST1, allFeeds.get(1));
     }
 
-    @DisplayName("제목과 내용에 특정 query('content')가 포함된 피드를 검색한다.")
+    @DisplayName("제목과 내용에 특정 query('content')가 포함된 피드를 검색한다. [step=상관 없음, help=상관 없음, nextFeedId=10000L, countPerPage=15]")
     @Test
     void searchByQuery_content() {
         //given
@@ -544,18 +548,20 @@ class FeedServiceTest {
         List<Feed> feeds = feedRepository.findAll();
 
         //when
-        List<FeedCardResponse> searchFeeds = feedService.search(query, "", "all");
+        FeedCardPaginationResponse searchFeeds = feedService.search(query, "", "all", false, 10000L, 15);
         List<Feed> feeds2 = feedRepository.findAll();
-        List<Long> feedIds = searchFeeds.stream()
+        List<Long> feedIds = searchFeeds.getFeeds()
+                .stream()
                 .map(FeedCardResponse::getId)
                 .collect(Collectors.toList());
 
         //then
-        assertThat(searchFeeds).hasSize(3);
+        assertThat(searchFeeds.getFeeds()).hasSize(3);
         assertThat(feedIds).contains(firstFeedId, secondFeedId, thirdFeedId);
+        assertThat(searchFeeds.getNextFeedId()).isNull();
     }
 
-    @DisplayName("제목과 내용에 특정 query('tle')가 포함된 피드를 검색한다.")
+    @DisplayName("제목과 내용에 특정 query('tle')가 포함된 피드를 검색한다. [step=상관 없음, help=상관 없음, nextFeedId=10000L, countPerPage=15]")
     @Test
     void searchByQuery_tle1() {
         //given
@@ -568,17 +574,19 @@ class FeedServiceTest {
         String query = "tle1";
 
         //when
-        List<FeedCardResponse> searchFeeds = feedService.search(query, "", "all");
-        List<Long> feedIds = searchFeeds.stream()
+        FeedCardPaginationResponse searchFeeds = feedService.search(query, "", "all", false, 10000L, 15);
+        List<Long> feedIds = searchFeeds.getFeeds()
+                .stream()
                 .map(FeedCardResponse::getId)
                 .collect(Collectors.toList());
 
         //then
-        assertThat(searchFeeds).hasSize(1);
+        assertThat(searchFeeds.getFeeds()).hasSize(1);
         assertThat(feedIds).contains(firstFeedId);
+        assertThat(searchFeeds.getNextFeedId()).isNull();
     }
 
-    @DisplayName("테크 이름들의 나열을 통해, 해당 테크를 사용한 피드를 검색한다.")
+    @DisplayName("테크 이름들의 나열을 통해, 해당 테크들 중 하나라도 사용한 피드를 검색한다. [step=상관 없음, help=상관 없음, nextFeedId=10000L, countPerPage=15]")
     @Test
     void searchByTechs() {
         //given
@@ -597,18 +605,20 @@ class FeedServiceTest {
         String techs = "Spring,Java";
 
         //when
-        List<FeedCardResponse> searchFeeds = feedService.search("", techs, "all");
-        List<Long> feedIds = searchFeeds.stream()
+        FeedCardPaginationResponse searchFeeds = feedService.search("", techs, "all", false, 10000L, 15);
+        List<Long> feedIds = searchFeeds.getFeeds()
+                .stream()
                 .map(FeedCardResponse::getId)
                 .collect(Collectors.toList());
 
         //then
-        assertThat(searchFeeds).hasSize(1);
-        assertThat(feedIds).contains(firstFeedId);
+        assertThat(searchFeeds.getFeeds()).hasSize(2);
+        assertThat(feedIds).contains(firstFeedId, secondFeedId);
+        assertThat(searchFeeds.getNextFeedId()).isNull();
     }
 
 
-    @DisplayName("테크 이름들을 사용한 피드들이 없다면 빈 리스트를 반환한다.")
+    @DisplayName("테크 이름들을 사용한 피드들이 없다면 빈 리스트를 반환한다. [step=상관 없음, help=상관 없음, nextFeedId=10000L, countPerPage=15]")
     @Test
     void searchByTechsWithInvalidName() {
         //given
@@ -624,13 +634,14 @@ class FeedServiceTest {
         String techs = "KOLOLO";
 
         //when
-        List<FeedCardResponse> searchFeeds = feedService.search("", techs, "all");
+        FeedCardPaginationResponse searchFeeds = feedService.search("", techs, "all", false, 10000L, 15);
 
         //then
-        assertThat(searchFeeds).hasSize(0);
+        assertThat(searchFeeds.getFeeds()).isEmpty();
+        assertThat(searchFeeds.getNextFeedId()).isNull();
     }
 
-    @DisplayName("제목과 내용에 특정 query가 포함되어 있고, 검색한 테그명에 포함된 테크를 사용한 피드를 검색한다.")
+    @DisplayName("제목과 내용에 특정 query가 포함되어 있고, 검색한 테그명에 포함된 테크들 중 하나라도 사용한 피드를 검색한다. [step=상관 없음, help=상관 없음, nextFeedId=10000L, countPerPage=15]")
     @Test
     void searchByQueryAndTechs() {
         //given
@@ -649,17 +660,19 @@ class FeedServiceTest {
         String techs = "Spring,Java";
 
         //when
-        List<FeedCardResponse> searchFeeds = feedService.search(query, techs, "all");
-        List<Long> feedIds = searchFeeds.stream()
+        FeedCardPaginationResponse searchFeeds = feedService.search(query, techs, "all", false, 10000L, 15);
+        List<Long> feedIds = searchFeeds.getFeeds()
+                .stream()
                 .map(FeedCardResponse::getId)
                 .collect(Collectors.toList());
 
         //then
-        assertThat(searchFeeds).hasSize(1);
-        assertThat(feedIds).contains(firstFeedId);
+        assertThat(searchFeeds.getFeeds()).hasSize(2);
+        assertThat(feedIds).contains(firstFeedId, secondFeedId);
+        assertThat(searchFeeds.getNextFeedId()).isNull();
     }
 
-    @DisplayName("제목+내용 Query와 기술명 나열 Techs로 검색한 결과에 대해 SOS 필터링하여 받을 수 있다.")
+    @DisplayName("제목+내용 Query와 기술명 나열 Techs로 검색한 결과에 대해 SOS 필터링하여 받을 수 있다. [step=상관 없음, help=true, nextFeedId=10000L, countPerPage=15]")
     @Test
     void searchByQueryAndTechsWithSos() {
         //given
@@ -681,17 +694,19 @@ class FeedServiceTest {
         String techs = "Spring,Java";
 
         //when
-        List<FeedCardResponse> searchFeeds = feedService.search(query, techs, "sos");
-        List<Long> feedIds = searchFeeds.stream()
+        FeedCardPaginationResponse searchFeeds = feedService.search(query, techs, "all", true, 10000L, 15);
+        List<Long> feedIds = searchFeeds.getFeeds()
+                .stream()
                 .map(FeedCardResponse::getId)
                 .collect(Collectors.toList());
 
         //then
-        assertThat(searchFeeds).hasSize(1);
+        assertThat(searchFeeds.getFeeds()).hasSize(1);
         assertThat(feedIds).contains(firstFeedId);
+        assertThat(searchFeeds.getNextFeedId()).isNull();
     }
 
-    @DisplayName("제목+내용 Query와 기술명 나열 Techs로 검색한 결과에 대해 PROGRESS만 필터링하여 받을 수 있다.")
+    @DisplayName("제목+내용 Query와 기술명 나열 Techs로 검색한 결과에 대해 PROGRESS만 필터링하여 받을 수 있다. [step=PROGRESS, help=상관 없음, nextFeedId=10000L, countPerPage=15]")
     @Test
     void searchByQueryAndTechsWithProgress() {
         //given
@@ -713,18 +728,20 @@ class FeedServiceTest {
         String techs = "Spring,Java";
 
         //when
-        List<FeedCardResponse> searchFeeds = feedService.search(query, techs, "progress");
-        List<Long> feedIds = searchFeeds.stream()
+        FeedCardPaginationResponse searchFeeds = feedService.search(query, techs, "progress", true, 10000L, 15);
+        List<Long> feedIds = searchFeeds.getFeeds()
+                .stream()
                 .map(FeedCardResponse::getId)
                 .collect(Collectors.toList());
 
         //then
-        assertThat(searchFeeds).hasSize(2);
+        assertThat(searchFeeds.getFeeds()).hasSize(2);
         assertThat(feedIds).contains(firstFeedId, secondFeedId);
+        assertThat(searchFeeds.getNextFeedId()).isNull();
     }
 
 
-    @DisplayName("제목+내용 Query와 기술명 나열 Techs로 검색한 결과에 대해 COMPLETE만 필터링하여 받을 수 있다.")
+    @DisplayName("제목+내용 Query와 기술명 나열 Techs로 검색한 결과에 대해 COMPLETE만 필터링하여 받을 수 있다. [step=COMPLETE, help=상관 없음, nextFeedId=10000L, countPerPage=15]")
     @Test
     void searchByQueryAndTechsWithComplete() {
         //given
@@ -746,14 +763,162 @@ class FeedServiceTest {
         String techs = "Spring,Java";
 
         //when
-        List<FeedCardResponse> searchFeeds = feedService.search(query, techs, "complete");
-        List<Long> feedIds = searchFeeds.stream()
+        FeedCardPaginationResponse searchFeeds = feedService.search(query, techs, "complete", true, 10000L, 15);
+        List<Long> feedIds = searchFeeds.getFeeds()
+                .stream()
                 .map(FeedCardResponse::getId)
                 .collect(Collectors.toList());
 
         //then
-        assertThat(searchFeeds).hasSize(2);
+        assertThat(searchFeeds.getFeeds()).hasSize(2);
         assertThat(feedIds).contains(firstFeedId, thirdFeedId);
+        assertThat(searchFeeds.getNextFeedId()).isNull();
+    }
+
+    @DisplayName("step과 help를 고려한 페이지네이션을 지원한다. (step=all, help=null, lastFeedId=Long.MAX_VALUE countPerPage=2")
+    @Test
+    void stepAllHelpNull() {
+        // given
+        FEED_REQUEST1.setStep("PROGRESS");
+        Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
+        FEED_REQUEST2.setStep("PROGRESS");
+        Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
+        FEED_REQUEST3.setStep("COMPLETE");
+        Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
+        em.flush();
+        em.clear();
+
+        // when
+        FeedCardPaginationResponse responses = feedService.findRecentFeeds("all", false, Long.MAX_VALUE, 2);
+
+        // then
+        assertThat(responses.getFeeds()).hasSize(2);
+        assertThat(responses.getFeeds().get(0).getTitle()).isEqualTo(FEED_REQUEST3.getTitle());
+        assertThat(responses.getFeeds().get(1).getTitle()).isEqualTo(FEED_REQUEST2.getTitle());
+        assertThat(responses.getNextFeedId()).isEqualTo(firstFeedId);
+    }
+
+    @DisplayName("step과 help를 고려한 페이지네이션을 지원한다. (step=progress, help=null, lastFeedId=Long.MAX_VALUE countPerPage=2")
+    @Test
+    void stepProgressHelpNull() {
+        // given
+        FEED_REQUEST1.setStep("PROGRESS");
+        Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
+        FEED_REQUEST2.setStep("PROGRESS");
+        Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
+        FEED_REQUEST3.setStep("COMPLETE");
+        Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
+        em.flush();
+        em.clear();
+
+        // when
+        FeedCardPaginationResponse responses = feedService.findRecentFeeds("progress", false, Long.MAX_VALUE, 2);
+
+        // then
+        assertThat(responses.getFeeds()).hasSize(2);
+        assertThat(responses.getFeeds().get(0).getTitle()).isEqualTo(FEED_REQUEST2.getTitle());
+        assertThat(responses.getFeeds().get(1).getTitle()).isEqualTo(FEED_REQUEST1.getTitle());
+        assertThat(responses.getNextFeedId()).isNull();
+    }
+
+    @DisplayName("step과 help를 고려한 페이지네이션을 지원한다. (step=complete, help=null, lastFeedId=Long.MAX_VALUE countPerPage=2")
+    @Test
+    void stepCompleteHelpNull() {
+        // given
+        FEED_REQUEST1.setStep("PROGRESS");
+        Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
+        FEED_REQUEST2.setStep("PROGRESS");
+        Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
+        FEED_REQUEST3.setStep("COMPLETE");
+        Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
+        em.flush();
+        em.clear();
+
+        // when
+        FeedCardPaginationResponse responses = feedService.findRecentFeeds("complete", false, Long.MAX_VALUE, 2);
+
+        // then
+        assertThat(responses.getFeeds()).hasSize(1);
+        assertThat(responses.getFeeds().get(0).getTitle()).isEqualTo(FEED_REQUEST3.getTitle());
+        assertThat(responses.getNextFeedId()).isNull();
+    }
+
+    @DisplayName("step과 help를 고려한 페이지네이션을 지원한다. (step=all, help=true, lastFeedId=Long.MAX_VALUE countPerPage=3")
+    @Test
+    void stepAllHelpTrue() {
+        // given
+        FEED_REQUEST1.setStep("PROGRESS");
+        FEED_REQUEST1.setSos(true);
+        Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
+        FEED_REQUEST2.setStep("PROGRESS");
+        FEED_REQUEST2.setSos(false);
+        Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
+        FEED_REQUEST3.setStep("COMPLETE");
+        FEED_REQUEST3.setSos(true);
+        Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
+        em.flush();
+        em.clear();
+
+        // when
+        FeedCardPaginationResponse responses = feedService.findRecentFeeds("all", true, Long.MAX_VALUE, 3);
+
+        // then
+        assertThat(responses.getFeeds()).hasSize(2);
+        assertThat(responses.getFeeds().get(0).getTitle()).isEqualTo(FEED_REQUEST3.getTitle());
+        assertThat(responses.getFeeds().get(1).getTitle()).isEqualTo(FEED_REQUEST1.getTitle());
+        assertThat(responses.getNextFeedId()).isNull();
+    }
+
+    @DisplayName("step과 help를 고려한 페이지네이션을 지원한다. (step=all, help=true, lastFeedId=thirdFeedId countPerPage=2")
+    @Test
+    void stepAllHelpTrue2() {
+        // given
+        FEED_REQUEST1.setStep("PROGRESS");
+        FEED_REQUEST1.setSos(true);
+        Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
+        FEED_REQUEST2.setStep("PROGRESS");
+        FEED_REQUEST2.setSos(false);
+        Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
+        FEED_REQUEST3.setStep("COMPLETE");
+        FEED_REQUEST3.setSos(true);
+        Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
+        em.flush();
+        em.clear();
+
+        // when
+        FeedCardPaginationResponse responses = feedService.findRecentFeeds("all", true, thirdFeedId, 3);
+
+        // then
+        assertThat(responses.getFeeds()).hasSize(2);
+        assertThat(responses.getFeeds().get(0).getTitle()).isEqualTo(FEED_REQUEST3.getTitle());
+        assertThat(responses.getFeeds().get(1).getTitle()).isEqualTo(FEED_REQUEST1.getTitle());
+        assertThat(responses.getNextFeedId()).isNull();
+    }
+
+    @DisplayName("step과 help를 고려한 페이지네이션을 지원한다. (step=all, help=false, lastFeedId=thirdFeedId countPerPage=2")
+    @Test
+    void stepAllHelpFalse() {
+        // given
+        FEED_REQUEST1.setStep("PROGRESS");
+        FEED_REQUEST1.setSos(true);
+        Long firstFeedId = feedService.create(user1, FEED_REQUEST1);
+        FEED_REQUEST2.setStep("PROGRESS");
+        FEED_REQUEST2.setSos(false);
+        Long secondFeedId = feedService.create(user1, FEED_REQUEST2);
+        FEED_REQUEST3.setStep("COMPLETE");
+        FEED_REQUEST3.setSos(true);
+        Long thirdFeedId = feedService.create(user1, FEED_REQUEST3);
+        em.flush();
+        em.clear();
+
+        // when
+        FeedCardPaginationResponse responses = feedService.findRecentFeeds("all", false, thirdFeedId, 2);
+
+        // then
+        assertThat(responses.getFeeds()).hasSize(2);
+        assertThat(responses.getFeeds().get(0).getTitle()).isEqualTo(FEED_REQUEST3.getTitle());
+        assertThat(responses.getFeeds().get(1).getTitle()).isEqualTo(FEED_REQUEST2.getTitle());
+        assertThat(responses.getNextFeedId()).isEqualTo(firstFeedId);
     }
 
     private void 피드_정보가_같은지_조회(FeedRequest request, Feed feed) {

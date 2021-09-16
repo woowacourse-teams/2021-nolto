@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public enum ImageKind {
     FEED("nolto-default-thumbnail.png"),
-    USER("nolto-default-thumbnail.png");
+    USER("nolto-default-user-profile.png");
 
     private final String defaultName;
 

@@ -1,6 +1,7 @@
 import { useQuery, UseQueryOptions } from 'react-query';
 
 import api from 'constants/api';
+import QUERY_KEYS from 'constants/queryKeys';
 import HttpError from 'utils/HttpError';
 import { CommentType, ErrorHandler } from 'types';
 import { resolveHttpError } from 'utils/error';
@@ -36,7 +37,7 @@ const useSubCommentsLoad = ({
   ...option
 }: CustomQueryOption) => {
   return useQuery<CommentType[], HttpError>(
-    ['replies', parentCommentId],
+    [QUERY_KEYS.SUB_COMMENTS, parentCommentId],
     () => loadSubComments(feedId, parentCommentId, errorHandler),
     option,
   );

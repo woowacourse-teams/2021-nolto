@@ -10,8 +10,8 @@ export const MOCK_USER: Record<UserName, UserInfo> = {
     notifications: 2,
   },
   ZIG: {
-    id: 2,
-    nickname: '지그',
+    id: 7,
+    nickname: 'zigsong',
     imageUrl: 'https://avatars.githubusercontent.com/u/44080404?v=4',
     notifications: 3,
   },

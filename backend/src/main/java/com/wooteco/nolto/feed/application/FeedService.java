@@ -8,29 +8,32 @@ import com.wooteco.nolto.feed.application.searchstrategy.SearchStrategyFactory;
 import com.wooteco.nolto.feed.domain.*;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.feed.domain.repository.FeedTechRepository;
+import com.wooteco.nolto.feed.ui.dto.FeedCardPaginationResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
 import com.wooteco.nolto.image.application.ImageKind;
 import com.wooteco.nolto.image.application.ImageService;
-import com.wooteco.nolto.notification.application.NotificationCommentDeleteEvent;
 import com.wooteco.nolto.notification.application.NotificationFeedDeleteEvent;
 import com.wooteco.nolto.tech.domain.TechRepository;
 import com.wooteco.nolto.user.domain.User;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
-import java.util.Set;
 
 @Transactional
-@AllArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class FeedService {
+
+    private static final int NEXT_FEED_COUNT = 1;
 
     private final ImageService imageService;
     private final FeedRepository feedRepository;
@@ -77,11 +80,11 @@ public class FeedService {
         findFeed.changeThumbnailUrl(updateThumbnailUrl);
     }
 
-    public FeedResponse findById(User user, Long feedId) {
+    public FeedResponse viewFeed(User user, Long feedId, boolean alreadyView) {
         Feed feed = findEntityById(feedId);
         User author = feed.getAuthor();
         boolean liked = user.isLiked(feed);
-        feed.increaseView();
+        feed.increaseView(alreadyView);
         return FeedResponse.of(author, feed, liked);
     }
 
@@ -110,12 +113,34 @@ public class FeedService {
         feedRepository.delete(findFeed);
     }
 
-    public List<FeedCardResponse> search(String query, String techs, String filter) {
-        SearchStrategy searchStrategy = SearchStrategyFactory.of(query, techs).findStrategy();
-        Set<Feed> searchFeed = searchStrategy.search(query, techs);
+    public FeedCardPaginationResponse findRecentFeeds(String step, boolean help, long nextFeedId, int countPerPage) {
+        EnumSet<Step> steps = Step.asEnumSet(step);
+        Pageable pageable = PageRequest.of(0, countPerPage + NEXT_FEED_COUNT);
+        List<Feed> findFeeds = findRecentFeedsWithCondition(help, nextFeedId, steps, pageable);
+        return generateFeedCardPaginationResponse(countPerPage, findFeeds);
+    }
 
-        Feeds feeds = new Feeds(new ArrayList<>(searchFeed));
-        FilterStrategy filterStrategy = FilterStrategy.of(filter);
-        return FeedCardResponse.toList(feeds.filter(filterStrategy));
+    private List<Feed> findRecentFeedsWithCondition(boolean help, long nextFeedId, EnumSet<Step> steps, Pageable pageable) {
+        if (help) {
+            return feedRepository.findWithHelp(steps, true, nextFeedId, pageable);
+        }
+        return feedRepository.findWithoutHelp(steps, nextFeedId, pageable);
+    }
+
+    private FeedCardPaginationResponse generateFeedCardPaginationResponse(int countPerPage, List<Feed> findFeeds) {
+        if (findFeeds.size() == countPerPage + NEXT_FEED_COUNT) {
+            Feed nextFeed = findFeeds.get(countPerPage);
+            findFeeds.remove(nextFeed);
+            return FeedCardPaginationResponse.of(findFeeds, nextFeed);
+        }
+        return FeedCardPaginationResponse.of(findFeeds, null);
+    }
+
+    public FeedCardPaginationResponse search(String query, String techs, String step, boolean help, long nextFeedId, int countPerPage) {
+        EnumSet<Step> steps = Step.asEnumSet(step);
+        Pageable pageable = PageRequest.of(0, countPerPage + NEXT_FEED_COUNT);
+        SearchStrategy searchStrategy = SearchStrategyFactory.of(query, techs).findStrategy();
+        List<Feed> findFeeds = searchStrategy.searchWithCondition(query, techs, help, nextFeedId, steps, pageable);
+        return generateFeedCardPaginationResponse(countPerPage, findFeeds);
     }
 }

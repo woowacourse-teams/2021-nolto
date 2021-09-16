@@ -17,6 +17,17 @@ const Root = styled.div<{ reverse: boolean }>`
   ${defaultShadow};
 `;
 
+const Picture = styled.picture`
+  * {
+    filter: drop-shadow(0 0 1rem rgba(0, 0, 0, 0.25));
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+`;
+
 const Image = styled.img`
   filter: drop-shadow(0 0 1rem rgba(0, 0, 0, 0.25));
   transition: transform 0.3s ease;
@@ -81,4 +92,4 @@ const UrlWrapper = styled.div<{ reverse: boolean }>`
   }
 `;
 
-export default { Root, Image, TextWrapper, Name, Intro, UrlContainer, UrlBar, UrlWrapper };
+export default { Root, Picture, Image, TextWrapper, Name, Intro, UrlContainer, UrlBar, UrlWrapper };

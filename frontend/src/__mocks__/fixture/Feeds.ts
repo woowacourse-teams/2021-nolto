@@ -1,48 +1,68 @@
-import { Feed, FeedDetail, FeedStatus, FeedToUpload } from 'types';
+import { Feed, FeedDetail, FeedStep, FeedToUpload } from 'types';
 
-export const MOCK_FEEDS: Feed[] = [
-  {
-    author: {
-      id: 48,
-      nickname: '신지혜',
-      imageUrl:
-        'https://lh3.googleusercontent.com/a-/AOh14GhbQ0AVOOZCZgjWPFAEqOAsvpxf8M4G7-WRycFf3w=s96-c',
+interface InfiniteFeedResponse {
+  feeds: Feed[];
+  nextFeedId: number;
+}
+
+export const MOCK_RECENT_FEEDS: InfiniteFeedResponse = {
+  feeds: [
+    {
+      author: {
+        id: 46,
+        nickname: '신기하제',
+        imageUrl: 'https://avatars.githubusercontent.com/u/61370901?v=4',
+      },
+      id: 116,
+      title: '기쁘다',
+      content: '기뻐',
+      step: FeedStep.PROGRESS,
+      sos: false,
+      thumbnailUrl: 'https://dksykemwl00pf.cloudfront.net/96fc5ff5d38b4b6f9dbea94172ae4c07.jpg',
     },
-    id: 22,
-    title: '개쩌는 마찌의 지하철 미션',
-    content: '기깔나죠?',
-    step: FeedStatus.PROGRESS,
-    sos: true,
-    thumbnailUrl: 'https://dksykemwl00pf.cloudfront.net/1627525584455ZG9nZG9nLmdpZg==.gif',
-  },
-  {
-    author: {
-      id: 44,
-      nickname: 'SungSiHyung',
-      imageUrl: 'https://avatars.githubusercontent.com/u/51393021?v=4',
+    {
+      author: {
+        id: 46,
+        nickname: '신기하제',
+        imageUrl: 'https://avatars.githubusercontent.com/u/61370901?v=4',
+      },
+      id: 115,
+      title: '용량',
+      content: '테스트',
+      step: FeedStep.PROGRESS,
+      sos: false,
+      thumbnailUrl: 'https://dksykemwl00pf.cloudfront.net/d2bc930630a849b083370388c37ab32d.jpg',
     },
-    id: 6,
-    title: '15분회고 프로젝트',
-    content: '업데이트 노트 : \n어제 피자를 먹었다. 맛있었다.',
-    step: FeedStatus.COMPLETE,
-    sos: false,
-    thumbnailUrl: 'https://dksykemwl00pf.cloudfront.net/1626853232915dGh1bWJuYWlsSW1hZ2U=image/png',
-  },
-  {
-    author: {
-      id: 33,
-      nickname: 'Kwon Se-jin',
-      imageUrl: 'https://avatars.githubusercontent.com/u/48755175?v=4',
+    {
+      author: {
+        id: 33,
+        nickname: '위키미키',
+        imageUrl:
+          'https://dksykemwl00pf.cloudfront.net/1628560328982S2FrYW9UYWxrXzIwMjEwODA2XzIxMDkxNTQyOC5wbmc=.png',
+      },
+      id: 114,
+      title: '지그 닮은 울릉도 호박엿',
+      content: '닮았네요 ~ 💯',
+      step: FeedStep.PROGRESS,
+      sos: false,
+      thumbnailUrl: 'https://dksykemwl00pf.cloudfront.net/84d4739e9acd467ea47af9f4b486f24e.jpg',
     },
-    id: 4,
-    title: '하하하하하',
-    content: 'dagkasdgdgas\n\n\nsdgagasd',
-    step: FeedStatus.PROGRESS,
-    sos: true,
-    thumbnailUrl:
-      'https://dksykemwl00pf.cloudfront.net/1626847909246dGh1bWJuYWlsSW1hZ2U=image/jpeg',
-  },
-];
+    {
+      author: {
+        id: 51,
+        nickname: '닉네밍 🔥',
+        imageUrl: 'https://avatars.githubusercontent.com/u/43840561?v=4',
+      },
+      id: 113,
+      title: 'My First Posts뇹',
+      content: 'ㄴㅁㅇㄴㅇㅁㄴ',
+      step: FeedStep.PROGRESS,
+      sos: false,
+      thumbnailUrl: 'https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png',
+    },
+  ],
+  nextFeedId: 85,
+};
 
 export const MOCK_FEED_DETAIL: FeedDetail = {
   author: {
@@ -68,7 +88,7 @@ export const MOCK_FEED_DETAIL: FeedDetail = {
   ],
   content:
     '2020년에 p5js와 ml로 만든 프로젝트입니다\n제가 팀장이었어요\n저만 일했어요\n우테코에서는 함께 일해서 행복해요!',
-  step: FeedStatus.PROGRESS,
+  step: FeedStep.PROGRESS,
   sos: false,
   storageUrl: 'https://github.com/zigsong/Ah-Really',
   deployedUrl: 'https://zigsong.github.io/Ah-Really/',
@@ -82,7 +102,7 @@ export const MOCK_FEED_DETAIL: FeedDetail = {
 export const MOCK_FEED_TO_UPLOAD: FeedToUpload = {
   title: '아진짜요? 토이게임',
   content: '아진짜요? 토이게임 진짜 재밌어요',
-  step: FeedStatus.PROGRESS,
+  step: FeedStep.PROGRESS,
   sos: false,
   techs: [
     {

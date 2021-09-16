@@ -1,6 +1,7 @@
 import { useQuery, UseQueryOptions } from 'react-query';
 
 import api from 'constants/api';
+import QUERY_KEYS from 'constants/queryKeys';
 import { ErrorHandler } from 'types';
 import HttpError from 'utils/HttpError';
 import { resolveHttpError } from 'utils/error';
@@ -26,7 +27,7 @@ const checkNicknameUsable = async (nickname: string, errorHandler: ErrorHandler)
 
 const useNicknameCheck = ({ nickname, errorHandler }: CustomQueryOption) => {
   return useQuery<{ isUsable: boolean }>(
-    ['nicknameCheck', nickname],
+    [QUERY_KEYS.NICKNAME_CHECK, nickname],
     () => checkNicknameUsable(nickname, errorHandler),
     {
       enabled: !!nickname,

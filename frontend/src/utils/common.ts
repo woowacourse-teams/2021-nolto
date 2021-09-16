@@ -1,3 +1,6 @@
+import removeMd from 'remove-markdown';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const except = (object: any, keys: string[]) => {
   if (keys.some((key) => object?.[key] === undefined)) {
     console.error('except(object,keys) : 해당 key 값이 object에 존재하지 않습니다');
@@ -29,8 +32,19 @@ export const refineDate = (date: string) => {
     .replace(/[0-9]+\//, '');
 };
 
-export const genNewId = () => {
-  let lastId = 0;
+export const genNewId = function* () {
+  let id = 0;
 
-  return () => lastId++;
+  while (true) {
+    yield id++;
+  }
+};
+
+export const removeMarkdown = (text: string) => {
+  return removeMd(text, {
+    stripListLeaders: true,
+    listUnicodeChar: '',
+    gfm: true,
+    useImgAltText: true,
+  });
 };

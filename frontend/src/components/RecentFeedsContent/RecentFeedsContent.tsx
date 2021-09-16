@@ -1,84 +1,73 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router';
 
-import LevelButton from 'components/LevelButton/LevelButton';
-import StretchCard from 'components/StretchCard/StretchCard';
-import Skeleton from 'components/Skeleton/Skeleton';
+import { FlexContainer } from 'commonStyles';
+import RegularFeedCard from 'components/RegularFeedCard/RegularFeedCard';
+import StepChip from 'components/StepChip/StepChip';
 import { HighLightedText } from 'components/TeamMember/TeamMember.styles';
-import useRecentFeedsLoad from 'hooks/queries/feed/useRecentFeedsLoad';
+import RegularSkeleton from 'components/RegularSkeleton/RegularSkeleton';
+import Toggle from 'components/@common/Toggle/Toggle';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
-import ROUTE from 'constants/routes';
-import Styled, { MoreFeedsArrow } from './RecentFeedsContent.styles';
-import { FilterType } from 'types';
+import useRecentFeedsLoad from 'hooks/queries/feed/useRecentFeedsLoad';
+import useIntersectionObserver from 'hooks/@common/useIntersectionObserver';
+import { FONT_SIZE } from 'constants/styles';
+import { FeedStep } from 'types';
+import Styled from './RecentFeedsContent.styles';
 
-interface Props {
-  feedsCountToShow?: number;
-}
+const FEEDS_PER_PAGE = 20;
 
-const RecentFeedsContent = ({ feedsCountToShow }: Props) => {
-  const [filter, setFilter] = useState<FilterType>();
+const RecentFeedsContent = () => {
+  const location = useLocation<{ step: FeedStep }>();
+  const defaultStep = location.state?.step;
+
+  const [step, setStep] = useState<FeedStep>(defaultStep);
+  const [help, setHelp] = useState(false);
 
   const snackbar = useSnackbar();
-  const { data: recentFeeds, isLoading } = useRecentFeedsLoad({
-    filter,
+
+  const { data, hasNextPage, fetchNextPage, isFetching } = useRecentFeedsLoad({
+    step,
+    help,
+    countPerPage: FEEDS_PER_PAGE,
     errorHandler: (error) => snackbar.addSnackbar('error', error.message),
     suspense: false,
   });
 
-  const toggleLevel = (filterType: FilterType) => {
-    if (filter === filterType) setFilter(null);
-    else setFilter(filterType);
+  const toggleLevel = (feedStep: FeedStep) => {
+    if (step === feedStep) setStep(null);
+    else setStep(feedStep);
   };
 
-  const DEFAULT_FEED_LENGTH = 4;
+  const loadMoreFeeds = () => {
+    if (hasNextPage) {
+      fetchNextPage();
+    }
+  };
 
-  const levelButtons: React.ReactNode = (
-    <Styled.LevelButtonsContainer>
-      <LevelButton.Progress
-        onClick={() => toggleLevel(FilterType.PROGRESS)}
-        selected={filter === FilterType.PROGRESS}
-      />
-      <LevelButton.Complete
-        onClick={() => toggleLevel(FilterType.COMPLETE)}
-        selected={filter === FilterType.COMPLETE}
-      />
-      <LevelButton.SOS
-        onClick={() => toggleLevel(FilterType.SOS)}
-        selected={filter === FilterType.SOS}
-      />
-    </Styled.LevelButtonsContainer>
-  );
+  const targetElement = useIntersectionObserver(loadMoreFeeds);
 
   return (
     <Styled.Root>
-      {!feedsCountToShow && (
-        <Styled.TopContainer>
-          <HighLightedText fontSize="1.75rem">Recent Toys</HighLightedText>
-          {levelButtons}
-        </Styled.TopContainer>
-      )}
-      <Styled.CardsContainer scrollable={!feedsCountToShow}>
-        {feedsCountToShow && levelButtons}
-        <Styled.ScrollableContainer>
-          {isLoading
-            ? [...Array(feedsCountToShow || DEFAULT_FEED_LENGTH)].map((_, index) => (
-                <Skeleton key={index} />
-              ))
-            : recentFeeds.slice(0, feedsCountToShow).map((feed) => (
-                <li key={feed.id}>
-                  <Link to={`${ROUTE.FEEDS}/${feed.id}`}>
-                    <Styled.VerticalAvatar user={feed.author} />
-                    <StretchCard feed={feed} />
-                  </Link>
-                </li>
-              ))}
-        </Styled.ScrollableContainer>
-        {!feedsCountToShow && (
-          <Styled.MoreButton>
-            <MoreFeedsArrow width="14px" />
-          </Styled.MoreButton>
+      <FlexContainer flexDirection="column" alignItems="center" gap="1.5rem">
+        <HighLightedText fontSize={FONT_SIZE.X_LARGE}>Recent Toys</HighLightedText>
+        <Styled.StepChipsContainer>
+          <Styled.Button type="button" onClick={() => toggleLevel(FeedStep.PROGRESS)}>
+            <StepChip step={FeedStep.PROGRESS} selected={step === FeedStep.PROGRESS} />
+          </Styled.Button>
+          <Styled.Button type="button" onClick={() => toggleLevel(FeedStep.COMPLETE)}>
+            <StepChip step={FeedStep.COMPLETE} selected={step === FeedStep.COMPLETE} />
+          </Styled.Button>
+          <Toggle labelText="🚨도움요청" onChange={() => setHelp(!help)} fontSize="14px" />
+        </Styled.StepChipsContainer>
+      </FlexContainer>
+      <Styled.RecentFeedsContainer>
+        {data?.pages.map((page) =>
+          page.feeds.map((feed) => <RegularFeedCard feed={feed} key={feed.id} />),
         )}
-      </Styled.CardsContainer>
+        {isFetching &&
+          Array.from({ length: FEEDS_PER_PAGE }, (_, idx) => <RegularSkeleton key={idx} />)}
+      </Styled.RecentFeedsContainer>
+      <Styled.MoreHiddenElement ref={targetElement} />
     </Styled.Root>
   );
 };

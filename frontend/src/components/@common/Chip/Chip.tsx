@@ -20,7 +20,7 @@ const Dashed = styled(Chip)`
 `;
 
 const Solid = styled(Chip)`
-  background: ${`linear-gradient(90deg, ${PALETTE.PRIMARY_200} 0%, ${PALETTE.PRIMARY_400} 100%)`};
+  background: ${PALETTE.PRIMARY_400};
   color: ${PALETTE.WHITE_400};
   line-height: 24px;
 `;

@@ -3,8 +3,10 @@ import styled, { keyframes } from 'styled-components';
 import TextArea from 'components/@common/TextArea/TextArea';
 import TextButton from 'components/@common/TextButton/TextButton';
 import Tooltip from 'components/@common/Tooltip/Tooltip';
+import { FONT_SIZE } from 'constants/styles';
 import ToyboxIcon from 'assets/toybox.svg';
 import { defaultShadow } from 'commonStyles';
+import Markdown from 'components/@common/Markdown/MarkDown';
 
 export const Form = styled.form`
   margin-bottom: 5rem;
@@ -18,6 +20,16 @@ const FormContainer = styled.div`
   border-radius: 1.5rem;
   margin-bottom: 2.5rem;
   ${defaultShadow};
+`;
+
+const MarkdownContainer = styled.div`
+  display: flex;
+  gap: 0.5rem;
+
+  & > * {
+    flex-shrink: 0;
+    flex-basis: 50%;
+  }
 `;
 
 const VerticalWrapper = styled.div`
@@ -34,7 +46,19 @@ const VerticalWrapper = styled.div`
 `;
 
 export const ContentTextArea = styled(TextArea)`
+  width: 50%;
   height: 31.25rem;
+  border-radius: 0.5rem;
+`;
+
+const MarkdownWrapper = styled.div`
+  width: 50%;
+  height: 31.25rem;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  overflow-y: auto;
+
+  ${defaultShadow};
 `;
 
 const InputsContainer = styled.div`
@@ -45,13 +69,16 @@ const InputsContainer = styled.div`
 
 const StretchWrapper = styled.div`
   display: flex;
-  flex-direction: row;
   align-items: center;
   border-bottom: 2rem;
   width: 100%;
 
   & > .stretch-label {
     min-width: 7rem;
+  }
+
+  & .input-box {
+    width: 100%;
   }
 
   & input {
@@ -89,8 +116,6 @@ const ButtonsWrapper = styled.div`
   justify-content: center;
 `;
 
-const QuestionMark = styled.span``;
-
 const show = keyframes`
   from {
     opacity: 0;
@@ -120,23 +145,25 @@ export const SOSTooltip = styled(Tooltip)<{ visible: boolean }>`
 `;
 
 const InputCaption = styled.span`
-  font-size: 0.75rem;
+  font-size: ${FONT_SIZE.SMALL};
 `;
 
 export const Toybox = styled(ToyboxIcon)`
   position: absolute;
   height: 2rem;
+  top: -6px;
   right: 0;
 `;
 
 export default {
   FormContainer,
+  MarkdownContainer,
+  MarkdownWrapper,
   VerticalWrapper,
   InputsContainer,
   StretchWrapper,
   LevelWrapper,
   SOSLabel,
-  QuestionMark,
   ButtonsWrapper,
   InputCaption,
 };

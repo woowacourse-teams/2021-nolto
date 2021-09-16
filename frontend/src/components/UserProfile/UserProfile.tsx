@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
+import Styled, { NotiLink, ProfileLink } from './UserProfile.styles';
 
+import Page from 'pages';
 import DownPolygon from 'assets/downPolygon.svg';
 import useDialog from 'contexts/dialog/useDialog';
 import { PALETTE } from 'constants/palette';
 import ROUTE from 'constants/routes';
 import useMember from 'hooks/queries/useMember';
-import Styled, { NotiLink, ProfileLink } from './UserProfile.styles';
+import useFocusOut from 'hooks/@common/useFocusOut';
 
 interface Props {
   className?: string;
@@ -16,6 +18,9 @@ const UserProfile = ({ className }: Props) => {
 
   const member = useMember();
   const dialog = useDialog();
+  const focusOutRef = useFocusOut(() => {
+    setIsProfileOpen(false);
+  });
 
   const logout = () => {
     member.logout();
@@ -25,11 +30,16 @@ const UserProfile = ({ className }: Props) => {
   const notiCount = member.userData?.notifications;
 
   return (
-    <Styled.Root className={className} onClick={() => setIsProfileOpen(!isProfileOpen)}>
+    <Styled.Root
+      className={className}
+      onClick={() => setIsProfileOpen(!isProfileOpen)}
+      onMouseOver={() => Page.Mypage.preload()}
+      ref={focusOutRef}
+    >
       <Styled.UserThumbnail>
         <Styled.Image src={member.userData?.imageUrl} />
-        <Styled.MoreProfileButton>
-          <DownPolygon width="14px" fill={PALETTE.WHITE_400} />
+        <Styled.MoreProfileButton hasHoverAnimation={false} size="1.5rem">
+          <DownPolygon fill={PALETTE.WHITE_400} />
         </Styled.MoreProfileButton>
         {notiCount > 0 && <Styled.NotiAlert>{notiCount}</Styled.NotiAlert>}
       </Styled.UserThumbnail>

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import SearchResultContent from './SearchResultContent';
-import { FilterType } from 'types';
+import { FeedStep } from 'types';
 
 export default {
   title: 'components/SearchResultContent',
@@ -10,5 +10,9 @@ export default {
 };
 
 export const Default = () => (
-  <SearchResultContent query="" techs="reactjs" filter={FilterType.COMPLETE} />
+  <SearchResultContent
+    searchParams={{ query: '', techs: 'reactjs' }}
+    step={FeedStep.COMPLETE}
+    help
+  />
 );

@@ -1,20 +1,31 @@
 import React from 'react';
 
-import Styled, { HighLightedText } from './TeamMember.styles';
+import HighLightedText from 'components/@common/HighlightedText/HighlightedText';
+import Styled from './TeamMember.styles';
 
 interface Props {
-  image: string;
   name: string;
+  pngUrl: string;
+  webpUrl: string;
   introduction: string;
   github: string;
   site?: string;
   reverse?: boolean;
 }
 
-const TeamMember = ({ image, name, introduction, github, site, reverse }: Props) => {
+const TeamMember = ({ name, pngUrl, webpUrl, introduction, github, site, reverse }: Props) => {
+  const MemberImage: React.ReactNode = (
+    <Styled.Picture>
+      <source srcSet={webpUrl} type="image/webp" />
+      <source srcSet={pngUrl} type="image/png" />
+      <img src={pngUrl} width="180px" alt={name} />
+    </Styled.Picture>
+  );
+
   return (
     <Styled.Root reverse={reverse}>
-      {!reverse && <Styled.Image src={image} width="180px" />}
+      {!reverse && MemberImage}
+
       <Styled.TextWrapper reverse={reverse}>
         <Styled.Name>{name}</Styled.Name>
         <Styled.Intro>"{introduction}"</Styled.Intro>
@@ -39,7 +50,7 @@ const TeamMember = ({ image, name, introduction, github, site, reverse }: Props)
           {reverse && <Styled.UrlBar />}
         </Styled.UrlContainer>
       </Styled.TextWrapper>
-      {reverse && <Styled.Image src={image} width="180px" />}
+      {reverse && MemberImage}
     </Styled.Root>
   );
 };

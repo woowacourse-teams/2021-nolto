@@ -2,8 +2,8 @@ import React, { ReactNode, useMemo, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 import CrossMark from 'assets/crossMark.svg';
-import Styled from './ModalProvider.styles';
 import { PALETTE } from 'constants/palette';
+import Styled from './ModalProvider.styles';
 
 interface Props {
   children: ReactNode;
@@ -39,8 +39,8 @@ const ModalProvider = ({ children }: Props) => {
   const modalElement: React.ReactNode = (
     <Styled.ModalContainer onMouseDown={handleClickDimmed}>
       <Styled.ModalInner>
-        <Styled.CrossMarkButton onClick={closeModal}>
-          <CrossMark width="18px" fill={PALETTE.WHITE_400} />
+        <Styled.CrossMarkButton size="2rem" onClick={closeModal}>
+          <CrossMark fill={PALETTE.WHITE_400} />
         </Styled.CrossMarkButton>
         {modal && modal}
       </Styled.ModalInner>

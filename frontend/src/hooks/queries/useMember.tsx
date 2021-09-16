@@ -2,20 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 
 import api from 'constants/api';
+import QUERY_KEYS from 'constants/queryKeys';
+import { ALERT_MSG } from 'constants/message';
 import HttpError from 'utils/HttpError';
-import CustomError from 'utils/CustomError';
 import useModal from 'contexts/modal/useModal';
 import useDialog from 'contexts/dialog/useDialog';
 import LoginModal from 'components/LoginModal/LoginModal';
 import { UserInfo } from 'types';
 import { resolveHttpError } from 'utils/error';
 
-const getMember = async () => {
+const getMember = async (): Promise<UserInfo> => {
   const token = localStorage.getItem('accessToken') || '';
 
-  if (!token) {
-    throw new CustomError('로그아웃 상태입니다.');
-  }
+  if (!token) return;
 
   try {
     const { data } = await api.get('/members/me');
@@ -39,17 +38,21 @@ const useMember = () => {
     queryClient.resetQueries('member');
   };
 
-  const { data: userData, refetch: refetchMember } = useQuery<UserInfo>('member', getMember, {
-    suspense: false,
-    useErrorBoundary: false,
-    onError: (error) => {
-      if (error instanceof HttpError) {
-        dialog.alert('로그인 정보가 만료되었습니다. 다시 로그인 해주세요.');
-        logout();
-        modal.openModal(<LoginModal />);
-      }
+  const { data: userData, refetch: refetchMember } = useQuery<UserInfo>(
+    QUERY_KEYS.MEMBER,
+    getMember,
+    {
+      suspense: false,
+      useErrorBoundary: false,
+      onError: (error) => {
+        if (error instanceof HttpError) {
+          dialog.alert(ALERT_MSG.SESSION_EXPIRED);
+          logout();
+          modal.openModal(<LoginModal />);
+        }
+      },
     },
-  });
+  );
 
   const [isLogin, setIsLogin] = useState(false);
 

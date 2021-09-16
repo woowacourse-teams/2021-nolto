@@ -1,7 +1,6 @@
 package com.wooteco.nolto.feed.ui.dto;
 
 import com.wooteco.nolto.feed.domain.Feed;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.Collection;
@@ -9,7 +8,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-@AllArgsConstructor
 public class FeedCardResponse {
     private final AuthorResponse author;
     private final Long id;
@@ -18,6 +16,16 @@ public class FeedCardResponse {
     private final String step;
     private final boolean sos;
     private final String thumbnailUrl;
+
+    public FeedCardResponse(AuthorResponse author, Long id, String title, String content, String step, boolean sos, String thumbnailUrl) {
+        this.author = author;
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.step = step;
+        this.sos = sos;
+        this.thumbnailUrl = thumbnailUrl;
+    }
 
     public static FeedCardResponse of(Feed feed) {
         return new FeedCardResponse(

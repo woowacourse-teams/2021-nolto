@@ -5,9 +5,11 @@ import com.wooteco.nolto.auth.UserAuthenticationPrincipal;
 import com.wooteco.nolto.auth.ValidTokenRequired;
 import com.wooteco.nolto.feed.application.CommentLikeService;
 import com.wooteco.nolto.feed.application.CommentService;
-import com.wooteco.nolto.feed.ui.dto.*;
+import com.wooteco.nolto.feed.ui.dto.CommentRequest;
+import com.wooteco.nolto.feed.ui.dto.CommentResponse;
+import com.wooteco.nolto.feed.ui.dto.ReplyResponse;
 import com.wooteco.nolto.user.domain.User;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,9 +17,9 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
-@AllArgsConstructor
 @RestController
 @RequestMapping("/feeds/{feedId:[\\d]+}/comments")
+@RequiredArgsConstructor
 public class CommentController {
 
     private final CommentService commentService;
@@ -72,9 +74,9 @@ public class CommentController {
     @ValidTokenRequired
     @PostMapping("/{commentId:[\\d]+}/replies")
     public ResponseEntity<CommentResponse> createReply(@MemberAuthenticationPrincipal User user,
-                                                     @PathVariable Long feedId,
-                                                     @PathVariable Long commentId,
-                                                     @RequestBody @Valid CommentRequest request) {
+                                                       @PathVariable Long feedId,
+                                                       @PathVariable Long commentId,
+                                                       @RequestBody @Valid CommentRequest request) {
         CommentResponse replyResponse = commentService.createReply(user, feedId, commentId, request);
         return ResponseEntity
                 .created(URI.create("/feeds/" + feedId + "/comments/" + commentId + "/replies/" + replyResponse.getId()))

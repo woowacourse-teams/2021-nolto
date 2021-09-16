@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-import HighLightedText from 'components/@common/HighlightedText/HighlightedText';
-
 const MembersContainer = styled.div`
   width: 60rem;
   display: flex;
@@ -10,6 +8,4 @@ const MembersContainer = styled.div`
   margin: 4rem auto;
 `;
 
-const SectionTitle = styled(HighLightedText)``;
-
-export default { MembersContainer, SectionTitle };
+export default { MembersContainer };

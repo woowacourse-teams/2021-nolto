@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import Styled, { FoldButton, ReplyIconButton } from './SubCommentModule.styles';
 
 import useCommentModule from 'components/CommentModule/useCommentModule';
 import ReplyIcon from 'assets/reply.svg';
@@ -7,6 +6,7 @@ import { CommentRequest } from 'types';
 import Comment from 'components/CommentModule/@common/Comment/Comment';
 import CommentForm from 'components/CommentModule/@common/CommentForm/CommentForm';
 import { CommentModuleContext } from '../CommentModule';
+import Styled, { FoldButton, ReplyIconButton } from './SubCommentModule.styles';
 
 interface Props {
   parentCommentId: number;
@@ -41,8 +41,8 @@ const SubCommentModule = ({ parentCommentId }: Props) => {
 
   return (
     <Styled.Root>
-      <ReplyIconButton onClick={handleClickReply} isShadow={false}>
-        <ReplyIcon width="20px" />
+      <ReplyIconButton size="20px" onClick={handleClickReply} hasShadow={false}>
+        <ReplyIcon />
       </ReplyIconButton>
       {isSubCommentExist && (
         <FoldButton onClick={handleClickFold}>

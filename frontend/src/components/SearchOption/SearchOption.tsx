@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { PALETTE } from 'constants/palette';
 import { SearchType } from 'types';
 import Styled, { SearchMorePolygon } from './SearchOption.styles';
+import useFocusOut from 'hooks/@common/useFocusOut';
 
 interface Props {
   searchType: SearchType;
@@ -11,6 +12,9 @@ interface Props {
 
 const SearchOption = ({ searchType, setSearchType }: Props) => {
   const [isOptionOpened, setIsOptionOpened] = useState(false);
+  const ref = useFocusOut(() => {
+    setIsOptionOpened(false);
+  });
 
   const changeSearchOption = (option: SearchType) => {
     setSearchType(option);
@@ -18,7 +22,7 @@ const SearchOption = ({ searchType, setSearchType }: Props) => {
   };
 
   return (
-    <Styled.Root $isOpen={isOptionOpened}>
+    <Styled.Root ref={ref} $isOpen={isOptionOpened}>
       <Styled.DefaultSelector onClick={() => setIsOptionOpened(!isOptionOpened)}>
         <Styled.SearchOptionText>{searchType}</Styled.SearchOptionText>
         <SearchMorePolygon width="12px" fill={PALETTE.PRIMARY_400} $isOpen={isOptionOpened} />

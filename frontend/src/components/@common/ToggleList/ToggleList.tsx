@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import IconButton from '../IconButton/IconButton';
+import { PALETTE } from 'constants/palette';
 import Styled from './ToggleList.styles';
 
 interface Props {
@@ -22,8 +23,13 @@ const ToggleList = ({ children, width, height }: Props) => {
         <Styled.Content>{children}</Styled.Content>
       </Styled.ContentWrapper>
       <Styled.ButtonWrapper>
-        <IconButton onClick={handleClickToggle} isShadow={false}>
-          <Styled.StacksMoreIcon $isToggled={isToggled} width={height} height={height} />
+        <IconButton size="1.75rem" onClick={handleClickToggle} hasShadow={false}>
+          <Styled.StacksMoreIcon
+            $isToggled={isToggled}
+            width={height}
+            height={height}
+            fill={PALETTE.PRIMARY_400}
+          />
         </IconButton>
       </Styled.ButtonWrapper>
     </Styled.Root>

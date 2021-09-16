@@ -3,7 +3,9 @@ import { Link as LinkElement } from 'react-router-dom';
 
 import { PALETTE } from 'constants/palette';
 import { MEDIA_QUERY } from 'constants/mediaQuery';
+import { FONT_SIZE } from 'constants/styles';
 import { hoverLayer } from 'commonStyles';
+import IconButton from 'components/@common/IconButton/IconButton';
 
 const open = keyframes`
   from {
@@ -26,7 +28,6 @@ const Root = styled.div`
 const UserThumbnail = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.75rem;
   position: relative;
   cursor: pointer;
 `;
@@ -57,21 +58,11 @@ const Image = styled.img`
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
-
-  @media ${MEDIA_QUERY.MOBILE} {
-    width: 1.5rem;
-    height: 1.5rem;
-  }
 `;
 
-const MoreProfileButton = styled.button`
+const MoreProfileButton = styled(IconButton)`
   border: none;
   background: transparent;
-  padding-top: 0.25rem;
-
-  @media ${MEDIA_QUERY.MOBILE} {
-    display: none;
-  }
 `;
 
 const Dropdown = styled.div<{ isOpen: boolean }>`
@@ -98,6 +89,7 @@ const Greeting = styled.div`
   width: 100%;
   background-color: ${PALETTE.PRIMARY_400};
   color: ${PALETTE.WHITE_400};
+  text-align: center;
 `;
 
 const buttonStyle = css`
@@ -134,7 +126,7 @@ export const NotiLink = styled(LinkElement)`
     padding: 0;
     background-color: ${PALETTE.RED_400};
     color: ${PALETTE.WHITE_400};
-    font-size: 0.75rem;
+    font-size: ${FONT_SIZE.SMALL};
     line-height: 1.25rem;
     text-align: center;
   }

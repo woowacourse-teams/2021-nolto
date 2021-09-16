@@ -11,8 +11,9 @@ import com.wooteco.nolto.tech.domain.TechRepository;
 import com.wooteco.nolto.tech.ui.dto.TechResponse;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.domain.UserRepository;
-import org.junit.Before;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -51,16 +52,51 @@ class TechServiceTest {
 
     private final User user = new User("1L", SocialType.GOOGLE, "JOEL", "imageUrl");
 
-    private final Feed FEED1 = new Feed("title1", "content1",
-            Step.PROGRESS, true, "storageUrl", "", "http://thumbnailUrl.png").writtenBy(user);
-    private final Feed FEED2 = new Feed("title2", "content2",
-            Step.COMPLETE, false, "storageUrl", "deployUrl", "http://thumbnailUrl.png").writtenBy(user);
-    private final Feed FEED3 = new Feed("title3", "content3",
-            Step.PROGRESS, true, "storageUrl", "", "http://thumbnailUrl.png").writtenBy(user);
-    private final Feed FEED4 = new Feed("title4", "content4",
-            Step.PROGRESS, false, "", "deployUrl", "http://thumbnailUrl.png").writtenBy(user);
-    private final Feed FEED5 = new Feed("title5", "content5",
-            Step.COMPLETE, true, "storageUrl", "deployUrl", "http://thumbnailUrl.png").writtenBy(user);
+    private final Feed FEED1 = Feed.builder()
+            .title("title1")
+            .content("content1")
+            .step(Step.PROGRESS)
+            .isSos(true)
+            .storageUrl("https://github.com/woowacourse-teams/2021-nolto")
+            .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
+            .build().writtenBy(user);
+
+    private final Feed FEED2 = Feed.builder()
+            .title("title2")
+            .content("content2")
+            .step(Step.COMPLETE)
+            .isSos(false)
+            .storageUrl("https://github.com/woowacourse-teams/2021-nolto")
+            .deployedUrl("https://github.com/woowacourse-teams/2021-nolto")
+            .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
+            .build().writtenBy(user);
+
+    private final Feed FEED3 = Feed.builder()
+            .title("title3")
+            .content("content3")
+            .step(Step.PROGRESS)
+            .isSos(true)
+            .storageUrl("https://github.com/woowacourse-teams/2021-nolto")
+            .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
+            .build().writtenBy(user);
+
+    private final Feed FEED4 = Feed.builder()
+            .title("title4")
+            .content("content4")
+            .step(Step.PROGRESS)
+            .isSos(false)
+            .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
+            .build().writtenBy(user);
+
+    private final Feed FEED5 = Feed.builder()
+            .title("title5")
+            .content("content5")
+            .step(Step.COMPLETE)
+            .isSos(true)
+            .storageUrl("https://github.com/woowacourse-teams/2021-nolto")
+            .deployedUrl("https://github.com/woowacourse-teams/2021-nolto")
+            .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
+            .build().writtenBy(user);
 
     @BeforeEach
     void setUp() {
