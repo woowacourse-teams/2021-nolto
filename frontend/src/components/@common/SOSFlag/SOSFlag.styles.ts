@@ -20,6 +20,7 @@ const FrontSide = styled.div`
   font-style: italic;
   text-align: center;
   line-height: 1.75rem;
+  box-shadow: 1px 1px 2px ${PALETTE.PRIMARY_SHADOW};
 `;
 
 export default { Root, FrontSide };

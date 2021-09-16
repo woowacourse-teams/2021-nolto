@@ -1,6 +1,7 @@
 import React, { SyntheticEvent } from 'react';
 
 import { DEFAULT_IMG, THUMBNAIL_EXTENSION } from 'constants/common';
+import Styled from './FeedThumbnail.styles';
 
 interface Props {
   thumbnailUrl: string;
@@ -16,7 +17,7 @@ const ThumbnailImage = ({ thumbnailUrl, className }: Props) => {
     imgExtensions.includes(thumbnailExtension) || THUMBNAIL_EXTENSION.includes(thumbnailFileType);
 
   return isThumbnailImageType ? (
-    <img
+    <Styled.Image
       className={className}
       src={thumbnailUrl}
       onError={(event: SyntheticEvent<HTMLImageElement>) => {
@@ -26,7 +27,7 @@ const ThumbnailImage = ({ thumbnailUrl, className }: Props) => {
   ) : (
     <video className={className} autoPlay muted loop>
       <source src={thumbnailUrl} type="video/mp4" />
-      <img src={DEFAULT_IMG.FEED} />
+      <Styled.Image src={DEFAULT_IMG.FEED} />
     </video>
   );
 };

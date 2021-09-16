@@ -16,7 +16,7 @@ export const defaultTheme: DefaultTheme = {
 export const thanksgivingTheme: DefaultTheme = {
   highLightedText: '#0c1445',
   defaultText: PALETTE.WHITE_400,
-  background: '#0c1445',
+  background: 'linear-gradient(#515675, #0c1445)',
   headerStartColor: '#F4F6F0',
   headerEndColor: '#F4F1C9',
   headerShadow: 'drop-shadow(0 12px 12px #f4f1c9)',
