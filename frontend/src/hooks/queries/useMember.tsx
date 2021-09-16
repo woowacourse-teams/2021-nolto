@@ -3,6 +3,7 @@ import { useQuery, useQueryClient } from 'react-query';
 
 import api from 'constants/api';
 import QUERY_KEYS from 'constants/queryKeys';
+import { ALERT_MSG } from 'constants/message';
 import HttpError from 'utils/HttpError';
 import useModal from 'contexts/modal/useModal';
 import useDialog from 'contexts/dialog/useDialog';
@@ -45,7 +46,7 @@ const useMember = () => {
       useErrorBoundary: false,
       onError: (error) => {
         if (error instanceof HttpError) {
-          dialog.alert('로그인 정보가 만료되었습니다. 다시 로그인 해주세요.');
+          dialog.alert(ALERT_MSG.SESSION_EXPIRED);
           logout();
           modal.openModal(<LoginModal />);
         }

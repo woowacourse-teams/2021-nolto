@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import Avatar from 'components/@common/Avatar/Avatar';
 import FeedThumbnail from 'components/FeedThumbnail/FeedThumbnail';
+import { removeMarkdown } from 'utils/common';
 import { Feed } from 'types';
 import Styled from './LargeFeedCard.styles';
 
@@ -20,7 +21,7 @@ const LargeFeedCard = ({ feed, className }: Props) => {
           <FeedThumbnail thumbnailUrl={feed.thumbnailUrl} />
           <Styled.ContentWrapper className="card-content">
             <Styled.Title>{feed.title}</Styled.Title>
-            <Styled.Content>{feed.content}</Styled.Content>
+            <Styled.Content>{removeMarkdown(feed.content)}</Styled.Content>
           </Styled.ContentWrapper>
         </Styled.FeedContainer>
       </Link>

@@ -38,6 +38,7 @@
     "react-markdown": "^7.0.1",
     "react-query": "^3.18.1",
     "react-router-dom": "^5.2.0",
+    "remove-markdown": "^0.3.0",
     "styled-components": "^5.3.0"
   },
   "devDependencies": {
@@ -60,6 +61,7 @@
     "@types/react": "^17.0.13",
     "@types/react-dom": "^17.0.9",
     "@types/react-router-dom": "^5.1.8",
+    "@types/remove-markdown": "^0.3.1",
     "@types/styled-components": "^5.1.14",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
     "@typescript-eslint/parser": "^4.28.2",

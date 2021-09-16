@@ -3,13 +3,14 @@ import { useHistory } from 'react-router-dom';
 
 import TechTagProvider from 'contexts/techTag/TechTagProvider';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
+import TechChips from 'contexts/techTag/chip/TechChips';
+import TechInput from 'contexts/techTag/input/TechInput';
+import { PALETTE } from 'constants/palette';
 import ROUTE from 'constants/routes';
 import useTechsLoad from 'hooks/queries/useTechsLoad';
 import SearchIcon from 'assets/search.svg';
 import { Tech } from 'types';
 import Styled from './SearchResultHeader.styles';
-import TechChips from 'contexts/techTag/chip/TechChips';
-import TechInput from 'contexts/techTag/input/TechInput';
 
 interface Props {
   searchParams: string;
@@ -77,7 +78,7 @@ const SearchResultHeader = ({ searchParams, query, setQuery, techs, setTechs }: 
             onChange={(event) => setQueryValue(event.target.value)}
           />
           <Styled.Button>
-            <SearchIcon width="32px" />
+            <SearchIcon width="32px" fill={PALETTE.PRIMARY_400} />
           </Styled.Button>
         </Styled.SearchbarContainer>
       )}

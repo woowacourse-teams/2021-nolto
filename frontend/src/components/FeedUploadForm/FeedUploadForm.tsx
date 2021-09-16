@@ -124,9 +124,9 @@ const FeedUploadForm = ({ onFeedSubmit, initialFormValue }: Props) => {
               id="content"
               {...register('content', { required: UPLOAD_VALIDATION_MSG.CONTENT_REQUIRED })}
             />
-            <ErrorMessage targetError={errors.content} />
             <Markdown children={watchContent} />
           </Styled.MarkdownContainer>
+          <ErrorMessage targetError={errors.content} />
         </Styled.VerticalWrapper>
 
         <div>
