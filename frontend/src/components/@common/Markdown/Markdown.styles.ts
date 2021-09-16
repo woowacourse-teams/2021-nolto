@@ -39,7 +39,7 @@ const Root = styled(Markdown)`
 
   code {
     ${code}
-    color: ${PALETTE.WHITE_500};
+    color: ${PALETTE.BLACK_400};
     font-weight: 600;
     padding: 0.4rem;
   }
