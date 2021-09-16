@@ -1,6 +1,8 @@
 package com.wooteco.nolto;
 
-import javax.servlet.http.Cookie;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
+
 import javax.servlet.http.HttpServletResponse;
 import java.time.Duration;
 import java.time.LocalTime;
@@ -10,12 +12,14 @@ public class ViewHistoryManager {
     private ViewHistoryManager() {
     }
 
-    public static Cookie generateCookie(String name, String value) {
-        Cookie cookie = new Cookie(name, value);
+    public static ResponseCookie generateCookie(String name, String value) {
         Duration duration = Duration.between(LocalTime.now(), LocalTime.MAX);
-        cookie.setMaxAge((int) duration.getSeconds());
-        cookie.setHttpOnly(true);
-        return cookie;
+        return ResponseCookie.from(name, value)
+                .httpOnly(true)
+                .sameSite("None")
+                .secure(true)
+                .maxAge(duration.getSeconds())
+                .build();
     }
 
     public static boolean isAlreadyView(String cookieValue, String feedId) {
@@ -27,6 +31,6 @@ public class ViewHistoryManager {
             return;
         }
         cookieValue = cookieValue.concat(feedId + "/");
-        response.addCookie(ViewHistoryManager.generateCookie("view", cookieValue));
+        response.setHeader(HttpHeaders.SET_COOKIE, ViewHistoryManager.generateCookie("view", cookieValue).toString());
     }
 }
