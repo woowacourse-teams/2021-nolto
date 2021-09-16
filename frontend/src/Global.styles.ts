@@ -5,8 +5,6 @@ const GlobalStyle = createGlobalStyle`
     overflow: auto;
     background: ${({ theme }) => theme.background};
     transition: background 0.2s ease;
-    // for gradient bg
-    height: 100vh;
   }
 
   * {
