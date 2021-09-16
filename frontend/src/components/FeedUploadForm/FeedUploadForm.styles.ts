@@ -1,5 +1,4 @@
 import styled, { keyframes } from 'styled-components';
-import ReactMarkdown from 'react-markdown';
 
 import TextArea from 'components/@common/TextArea/TextArea';
 import TextButton from 'components/@common/TextButton/TextButton';
@@ -7,6 +6,7 @@ import Tooltip from 'components/@common/Tooltip/Tooltip';
 import { FONT_SIZE } from 'constants/styles';
 import ToyboxIcon from 'assets/toybox.svg';
 import { defaultShadow } from 'commonStyles';
+import Markdown from 'components/@common/Markdown/MarkDown';
 
 export const Form = styled.form`
   margin-bottom: 5rem;
@@ -25,6 +25,11 @@ const FormContainer = styled.div`
 const MarkdownContainer = styled.div`
   display: flex;
   gap: 0.5rem;
+
+  & > * {
+    flex-shrink: 0;
+    flex-basis: 50%;
+  }
 `;
 
 const VerticalWrapper = styled.div`
@@ -46,16 +51,12 @@ export const ContentTextArea = styled(TextArea)`
   border-radius: 0.5rem;
 `;
 
-export const Markdown = styled(ReactMarkdown)`
+const MarkdownWrapper = styled.div`
   width: 50%;
+  height: 31.25rem;
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
-
-  li {
-    list-style: inside;
-    margin-left: 0.5rem;
-    padding: 0.25rem;
-  }
+  overflow-y: auto;
 
   ${defaultShadow};
 `;
@@ -157,6 +158,7 @@ export const Toybox = styled(ToyboxIcon)`
 export default {
   FormContainer,
   MarkdownContainer,
+  MarkdownWrapper,
   VerticalWrapper,
   InputsContainer,
   StretchWrapper,

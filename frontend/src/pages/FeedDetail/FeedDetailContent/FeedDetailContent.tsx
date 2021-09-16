@@ -20,7 +20,8 @@ import AsyncBoundary from 'components/AsyncBoundary';
 import ErrorFallback from 'components/ErrorFallback/ErrorFallback';
 import StepChip from 'components/StepChip/StepChip';
 import FeedThumbnail from 'components/FeedThumbnail/FeedThumbnail';
-import Styled, { Tag, SOSFlag, Markdown } from './FeedDetailContent.styles';
+import Styled, { Tag, SOSFlag } from './FeedDetailContent.styles';
+import Markdown from 'components/@common/Markdown/Markdown';
 
 interface Props {
   feedId: number;
@@ -193,7 +194,9 @@ const FeedDetailContent = ({ feedId }: Props) => {
       <div>
         <h3>프로젝트 소개</h3>
         <Divider />
-        <Markdown children={feedDetail.content} />
+        <Styled.MarkdownWrapper>
+          <Markdown children={feedDetail.content} />
+        </Styled.MarkdownWrapper>
       </div>
 
       <AsyncBoundary

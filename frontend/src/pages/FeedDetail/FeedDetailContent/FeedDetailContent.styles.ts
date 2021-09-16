@@ -198,7 +198,7 @@ export const StacksMoreButton = styled(StacksMoreIcon)`
   cursor: pointer;
 `;
 
-export const Markdown = styled(ReactMarkdown)`
+const MarkdownWrapper = styled.div`
   background: ${PALETTE.WHITE_500};
   border-radius: 0.5rem;
   margin: 1rem auto;
@@ -239,5 +239,6 @@ export default {
   DetailsKeyWrapper,
   DetailsKey,
   DetailsValue,
+  MarkdownWrapper,
   CommentContainer,
 };
