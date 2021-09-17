@@ -11,11 +11,14 @@ interface Props {
 
 const FeedThumbnail = ({ thumbnailUrl, alt, className }: Props) => {
   const imgExtensions = ['apng', 'bmp', 'gif', 'jpg', 'jpeg', 'pjpeg', 'png', 'svg'];
+  const videoExtensions = ['mp4'];
   const thumbnailExtension = thumbnailUrl.slice(thumbnailUrl.lastIndexOf('.')).slice(1);
   const thumbnailFileType = thumbnailUrl.slice(thumbnailUrl.lastIndexOf('=')).slice(1);
 
   const isThumbnailImageType =
-    imgExtensions.includes(thumbnailExtension) || THUMBNAIL_EXTENSION.includes(thumbnailFileType);
+    imgExtensions.includes(thumbnailExtension) ||
+    THUMBNAIL_EXTENSION.includes(thumbnailFileType) ||
+    !videoExtensions.includes(thumbnailFileType);
 
   return isThumbnailImageType ? (
     <Styled.Image
