@@ -15,7 +15,7 @@ const Avatar = ({ user, className }: Props) => {
 
   return (
     <Styled.Root className={className}>
-      <Styled.Image src={user.imageUrl} alt={`닉네임 ${user.nickname}`} />
+      <Styled.Image thumbnailUrl={user.imageUrl} alt={`닉네임 ${user.nickname}`} />
       <Styled.Nickname>{user.nickname}</Styled.Nickname>
     </Styled.Root>
   );

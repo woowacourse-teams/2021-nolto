@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 
+import FeedThumbnail from 'components/FeedThumbnail/FeedThumbnail';
 import { PALETTE } from 'constants/palette';
 import { MEDIA_QUERY } from 'constants/mediaQuery';
 import { defaultShadow, hoverLayer } from 'commonStyles';
@@ -33,7 +34,7 @@ const ImageWrapper = styled.div`
   position: relative;
 `;
 
-const UserImage = styled.img`
+const userImage = css`
   width: 6rem;
   height: 6rem;
   object-fit: cover;
@@ -48,6 +49,14 @@ const UserImage = styled.img`
     width: 4.5rem;
     height: 4.5rem;
   }
+`;
+
+const Image = styled(FeedThumbnail)`
+  ${userImage};
+`;
+
+const EditingImage = styled.img`
+  ${userImage};
 `;
 
 const CameraLabel = styled.label`
@@ -152,7 +161,8 @@ const BioInput = styled.input`
 export default {
   Root,
   ImageWrapper,
-  UserImage,
+  Image,
+  EditingImage,
   CameraLabel,
   Content,
   TopContainer,
