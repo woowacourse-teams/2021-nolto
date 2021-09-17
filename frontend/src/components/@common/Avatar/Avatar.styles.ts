@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import FeedThumbnail from 'components/FeedThumbnail/FeedThumbnail';
+
 const Root = styled.div`
   display: flex;
   align-items: center;
@@ -7,7 +9,7 @@ const Root = styled.div`
   width: 100%;
 `;
 
-const Image = styled.img`
+const Image = styled(FeedThumbnail)`
   width: 1.5rem;
   height: 1.5rem;
   border-radius: 50%;
