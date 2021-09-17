@@ -5,10 +5,11 @@ import Styled from './FeedThumbnail.styles';
 
 interface Props {
   thumbnailUrl: string;
+  alt?: string;
   className?: string;
 }
 
-const ThumbnailImage = ({ thumbnailUrl, className }: Props) => {
+const FeedThumbnail = ({ thumbnailUrl, alt, className }: Props) => {
   const imgExtensions = ['apng', 'bmp', 'gif', 'jpg', 'jpeg', 'pjpeg', 'png', 'svg'];
   const thumbnailExtension = thumbnailUrl.slice(thumbnailUrl.lastIndexOf('.')).slice(1);
   const thumbnailFileType = thumbnailUrl.slice(thumbnailUrl.lastIndexOf('=')).slice(1);
@@ -20,6 +21,7 @@ const ThumbnailImage = ({ thumbnailUrl, className }: Props) => {
     <Styled.Image
       className={className}
       src={thumbnailUrl}
+      alt={alt}
       onError={(event: SyntheticEvent<HTMLImageElement>) => {
         event.currentTarget.src = DEFAULT_IMG.FEED;
       }}
@@ -32,4 +34,4 @@ const ThumbnailImage = ({ thumbnailUrl, className }: Props) => {
   );
 };
 
-export default ThumbnailImage;
+export default FeedThumbnail;

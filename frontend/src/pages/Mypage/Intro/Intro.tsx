@@ -132,14 +132,14 @@ const Intro = () => {
       <Styled.ImageWrapper>
         {isEditing ? (
           <>
-            <Styled.UserImage src={previewImage} />
+            <Styled.EditingImage src={previewImage} alt={`${profile.nickname}-profile-image`} />
             <Styled.CameraLabel>
               <input type="file" onChange={setFileInput} accept={THUMBNAIL_EXTENSION.join(',')} />
               <Camera width="14px" />
             </Styled.CameraLabel>
           </>
         ) : (
-          <Styled.UserImage src={profile.imageUrl} />
+          <Styled.Image thumbnailUrl={profile.imageUrl} alt={`${profile.nickname}-profile-image`} />
         )}
       </Styled.ImageWrapper>
 

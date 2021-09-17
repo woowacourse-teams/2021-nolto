@@ -29,7 +29,7 @@ const Upload = () => {
     <BaseLayout>
       <Styled.Root>
         <Styled.TitleWrapper>
-          <HighLightedText fontSize={FONT_SIZE.X_LARGE}>🦄 토이 프로젝트 수정</HighLightedText>
+          <HighLightedText fontSize={FONT_SIZE.X_LARGE}>🦄 토이 프로젝트 등록</HighLightedText>
         </Styled.TitleWrapper>
 
         <FeedUploadForm onFeedSubmit={uploadFeed} />

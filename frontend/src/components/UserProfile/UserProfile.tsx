@@ -37,7 +37,7 @@ const UserProfile = ({ className }: Props) => {
       ref={focusOutRef}
     >
       <Styled.UserThumbnail>
-        <Styled.Image src={member.userData?.imageUrl} />
+        <Styled.Image thumbnailUrl={member.userData?.imageUrl} />
         <Styled.MoreProfileButton hasHoverAnimation={false} size="1.5rem">
           <DownPolygon fill={PALETTE.WHITE_400} />
         </Styled.MoreProfileButton>
