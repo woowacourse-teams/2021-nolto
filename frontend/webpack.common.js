@@ -50,9 +50,13 @@ module.exports = {
     }),
     new CopyPlugin({
       patterns: [
-        path.resolve(__dirname, 'public', '_redirects'),
-        { from: './public/fonts/*', to: 'fonts/[name][ext]' },
-        { from: './public/*.ico', to: '[name][ext]' },
+        {
+          from: 'public',
+          to: path.resolve(__dirname, './dist'),
+          filter: (resourcePath) => {
+            return !resourcePath.includes('index.html');
+          },
+        },
       ],
     }),
     new DefinePlugin({
