@@ -9,5 +9,5 @@ export default {
   argTypes: {},
 };
 
-export const Comment = () => <Comment commentBody={MOCK_COMMENTS[0]} />;
+export const Default = () => <Comment commentBody={MOCK_COMMENTS[0]} />;
 export const SubComment = () => <Comment parentCommentId={1} commentBody={MOCK_COMMENTS[0]} />;

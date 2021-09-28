@@ -3,7 +3,6 @@ package com.wooteco.nolto.feed.ui.dto;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.tech.domain.TechValid;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,7 +16,6 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class FeedRequest {
     @NotBlank(message = "제목은 빈 값일 수 없습니다.")
     private String title;
@@ -38,15 +36,26 @@ public class FeedRequest {
     private String deployedUrl;
     private MultipartFile thumbnailImage;
 
+    public FeedRequest(String title, List<Long> techs, String content, String step, boolean sos, String storageUrl, String deployedUrl, MultipartFile thumbnailImage) {
+        this.title = title;
+        this.techs = techs;
+        this.content = content;
+        this.step = step;
+        this.sos = sos;
+        this.storageUrl = storageUrl;
+        this.deployedUrl = deployedUrl;
+        this.thumbnailImage = thumbnailImage;
+    }
+
     public Feed toEntityWithThumbnailUrl(String thumbnailUrl) {
-        return new Feed(
-                this.title,
-                this.content,
-                Step.of(step),
-                this.sos,
-                this.storageUrl,
-                this.deployedUrl,
-                thumbnailUrl
-        );
+        return Feed.builder()
+                .title(this.title)
+                .content(content)
+                .step(Step.of(step))
+                .isSos(this.sos)
+                .storageUrl(this.storageUrl)
+                .deployedUrl(this.deployedUrl)
+                .thumbnailUrl(thumbnailUrl)
+                .build();
     }
 }

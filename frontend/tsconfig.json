@@ -2,7 +2,7 @@
   "compilerOptions": {
     "outDir": "./dist/",
     "noImplicitAny": true,
-    "module": "es6",
+    "module": "esnext",
     "target": "es5",
     "jsx": "react",
     "allowJs": true,
@@ -11,5 +11,5 @@
     "baseUrl": "src",
     "esModuleInterop": true
   },
-  "includes": ["src", "custom.d.ts"]
+  "includes": ["src", "global.d.ts", "custom.d.ts"]
 }

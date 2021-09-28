@@ -8,7 +8,8 @@ import com.wooteco.nolto.feed.domain.Comment;
 import com.wooteco.nolto.feed.domain.CommentLike;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.Like;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,10 +20,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseEntity {
     public static final GuestUser GUEST_USER = new GuestUser();
 
@@ -48,27 +48,33 @@ public class User extends BaseEntity {
     private String bio = "";
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
-    private final List<Feed> feeds = new ArrayList<>();
+    private List<Feed> feeds = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private final List<Like> likes = new ArrayList<>();
+    private List<Like> likes = new ArrayList<>();
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<Comment> comments = new ArrayList<>();
+    private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private final List<CommentLike> commentLikes = new ArrayList<>();
-
-    public User(Long id, String socialId, SocialType socialType, String nickName) {
-        this(id, socialId, socialType, nickName, null, "");
-    }
+    private List<CommentLike> commentLikes = new ArrayList<>();
 
     public User(String socialId, SocialType socialType, String nickName, String imageUrl) {
         this(null, socialId, socialType, nickName, imageUrl, "");
     }
 
-    public User(Long id, String socialId, SocialType socialType, String nickName, String imageUrl) {
-        this(id, socialId, socialType, nickName, imageUrl, "");
+    @Builder
+    public User(Long id, String socialId, SocialType socialType, String nickName, String imageUrl, String bio) {
+        this.id = id;
+        this.socialId = socialId;
+        this.socialType = socialType;
+        this.nickName = nickName;
+        this.imageUrl = imageUrl;
+        this.bio = bio;
+        this.feeds = new ArrayList<>();
+        this.likes  = new ArrayList<>();
+        this.comments = new ArrayList<>();
+        this.commentLikes = new ArrayList<>();
     }
 
     public void update(String nickName, String imageUrl) {

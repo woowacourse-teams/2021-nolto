@@ -5,7 +5,6 @@ const Root = styled.div`
   position: relative;
   display: flex;
   justify-content: center;
-  height: 16px;
 `;
 
 const trigger = css`
@@ -17,14 +16,15 @@ export const ToggleButton = styled.button<{ isTriggered: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 40px;
-  height: 100%;
+  width: 32px;
+  height: 32px;
   background-color: transparent;
   border-radius: 25px;
   border: none;
 
   &:hover {
     background-color: ${PALETTE.GRAY_400};
+    border-radius: 50%;
   }
 
   ${({ isTriggered }) => isTriggered && trigger}

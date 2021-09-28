@@ -5,8 +5,9 @@ import com.wooteco.nolto.exception.BadRequestException;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.UnauthorizedException;
 import com.wooteco.nolto.user.domain.User;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,9 +15,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-@Getter
 @Entity
-@AllArgsConstructor
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Comment extends BaseEntity {
 
     @Id
@@ -47,16 +48,12 @@ public class Comment extends BaseEntity {
     @OneToMany(mappedBy = "parentComment", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Comment> replies = new ArrayList<>();
 
-    public Comment() {
+    public Comment(String content, boolean helper) {
+        this(null, content, helper);
     }
 
     public Comment(Long id, String content, boolean helper) {
         this.id = id;
-        this.content = content;
-        this.helper = helper;
-    }
-
-    public Comment(String content, boolean helper) {
         this.content = content;
         this.helper = helper;
     }

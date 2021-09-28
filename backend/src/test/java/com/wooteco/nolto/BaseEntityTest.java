@@ -42,12 +42,33 @@ class BaseEntityTest {
         userRepository.save(user1);
         userRepository.save(user2);
 
-        feed1 = new Feed("title1", "content1", Step.PROGRESS, true,
-                "storageUrl", "", "http://thumbnailUrl.ppnngg");
-        feed2 = new Feed("title2", "content2", Step.PROGRESS, false,
-                "", "deployUrl", "http://thumbnailUrl.pnggg");
-        feed3 = new Feed("title3", "content3", Step.COMPLETE, false,
-                "storageUrl", "deployUrl", "http://thumbnailUrl.ddd");
+        feed1 = Feed.builder()
+                .title("title1")
+                .content("content1")
+                .step(Step.PROGRESS)
+                .isSos(true)
+                .storageUrl("storageUrl")
+                .thumbnailUrl("http://thumbnailUrl.png")
+                .build();
+
+        feed2 = Feed.builder()
+                .title("title2")
+                .content("content2")
+                .step(Step.PROGRESS)
+                .isSos(false)
+                .deployedUrl("deployUrl")
+                .thumbnailUrl("http://thumbnailUrl.png")
+                .build();
+
+        feed3 = Feed.builder()
+                .title("title3")
+                .content("content3")
+                .step(Step.COMPLETE)
+                .isSos(false)
+                .storageUrl("storageUrl")
+                .deployedUrl("deployUrl")
+                .thumbnailUrl("http://thumbnailUrl.png")
+                .build();
 
         feed1.writtenBy(user1);
         feed2.writtenBy(user2);
@@ -71,7 +92,7 @@ class BaseEntityTest {
 
     @DisplayName("데이터 변경 시 lastModifiedDate가 수정된다")
     @Test
-    void update() throws InterruptedException {
+    void update() {
         // given
         Feed savedFeed2 = feedRepository.save(feed2);
         LocalDateTime modifiedDate = savedFeed2.getModifiedDate(); // 생성 시점
@@ -89,7 +110,7 @@ class BaseEntityTest {
 
     @DisplayName("객체가 수정됐는지 확인할 수 있다.")
     @Test
-    void isModified() throws InterruptedException {
+    void isModified() {
         // given
         feed1.update("수정된 제목", feed1.getContent(), feed1.getStep(), feed1.isSos(), feed1.getStorageUrl(), feed1.getDeployedUrl());
 

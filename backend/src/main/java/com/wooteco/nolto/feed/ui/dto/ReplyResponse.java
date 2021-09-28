@@ -2,7 +2,6 @@ package com.wooteco.nolto.feed.ui.dto;
 
 import com.wooteco.nolto.feed.domain.Comment;
 import com.wooteco.nolto.user.domain.User;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -10,7 +9,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-@AllArgsConstructor
 public class ReplyResponse {
 
     private final Long id;
@@ -22,6 +20,18 @@ public class ReplyResponse {
     private final boolean modified;
     private final Long commentId;
     private final AuthorResponse author;
+
+    public ReplyResponse(Long id, String content, int likes, boolean liked, boolean feedAuthor, LocalDateTime createdAt, boolean modified, Long commentId, AuthorResponse author) {
+        this.id = id;
+        this.content = content;
+        this.likes = likes;
+        this.liked = liked;
+        this.feedAuthor = feedAuthor;
+        this.createdAt = createdAt;
+        this.modified = modified;
+        this.commentId = commentId;
+        this.author = author;
+    }
 
     public static ReplyResponse of(Comment reply, boolean liked) {
         return new ReplyResponse(

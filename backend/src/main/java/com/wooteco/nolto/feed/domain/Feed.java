@@ -6,6 +6,8 @@ import com.wooteco.nolto.exception.BadRequestException;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.tech.domain.Tech;
 import com.wooteco.nolto.user.domain.User;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,10 +20,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-
-@Getter
-@NoArgsConstructor
 @Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Feed extends BaseEntity {
 
     @Id
@@ -63,18 +64,9 @@ public class Feed extends BaseEntity {
     @OneToMany(mappedBy = "feed", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
-    public Feed(String title, String content, Step step, boolean isSos, String storageUrl, String deployedUrl, String thumbnailUrl) {
-        this(null, title, content, step, isSos, storageUrl, deployedUrl, thumbnailUrl, 0, null, new ArrayList<>());
-    }
-
+    @Builder
     public Feed(Long id, String title, String content, Step step, boolean isSos, String storageUrl,
-                String deployedUrl, String thumbnailUrl) {
-        this(id, title, content, step, isSos, storageUrl, deployedUrl, thumbnailUrl, 0, null,
-                new ArrayList<>());
-    }
-
-    public Feed(Long id, String title, String content, Step step, boolean isSos, String storageUrl,
-                String deployedUrl, String thumbnailUrl, int views, User author, List<Like> likes) {
+                String deployedUrl, String thumbnailUrl, int views, User author) {
         validateStep(step, deployedUrl);
         this.id = id;
         this.title = title;
@@ -86,7 +78,9 @@ public class Feed extends BaseEntity {
         this.thumbnailUrl = thumbnailUrl;
         this.views = views;
         this.author = author;
-        this.likes = likes;
+        this.likes = new ArrayList<>();
+        this.feedTechs = new ArrayList<>();
+        this.comments = new ArrayList<>();
     }
 
     public Feed writtenBy(User author) {
@@ -114,7 +108,10 @@ public class Feed extends BaseEntity {
         return likes.size();
     }
 
-    public void increaseView() {
+    public void increaseView(boolean alreadyView) {
+        if (alreadyView) {
+            return;
+        }
         this.views++;
     }
 

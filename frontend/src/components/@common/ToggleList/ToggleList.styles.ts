@@ -4,7 +4,8 @@ import StacksMoreSvg from 'assets/stacksMore.svg';
 
 const Root = styled.div<{ width: string; height: string; $isToggled: boolean }>`
   display: flex;
-  gap: 1rem;
+  align-items: center;
+  gap: 0.5rem;
   overflow: hidden;
   transition: all 0.3s ease-in;
 

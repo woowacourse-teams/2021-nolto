@@ -8,10 +8,10 @@ export default {
   argTypes: {},
 };
 
-const Template = (args: { id: number }) => <FeedDetailContent {...args} />;
+const Template = (args: { feedId: number }) => <FeedDetailContent {...args} />;
 
 export const Default = Template.bind({});
 
 Default.args = {
-  id: 4,
+  feedId: 4,
 };

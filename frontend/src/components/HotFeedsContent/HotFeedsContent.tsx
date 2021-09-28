@@ -1,52 +1,81 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 
 import useHotFeedsLoad from 'hooks/queries/feed/useHotFeedsLoad';
-import RegularCard from 'components/RegularCard/RegularCard';
-import ROUTE from 'constants/routes';
-import Styled, { CarouselArrowButton } from './HotFeedsContent.styles';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
+import LargeFeedCard from 'components/LargeFeedCard/LargeFeedCard';
+import LargeSkeleton from 'components/LargeSkeleton/LargeSkeleton';
+import { FlexContainer } from 'commonStyles';
+import Styled, { CarouselArrowButton } from './HotFeedsContent.styles';
+import IconButton from 'components/@common/IconButton/IconButton';
 
 const HotFeedsContent = () => {
-  const [hotToyCardIdx, setHotToyCardIdx] = useState(3);
+  const [hotToyCardIdx, setHotToyCardIdx] = useState(0);
 
   const snackbar = useSnackbar();
 
-  const { data: hotFeeds } = useHotFeedsLoad({
+  const { data: hotFeeds, isLoading } = useHotFeedsLoad({
     errorHandler: (error) => {
       snackbar.addSnackbar('error', error.message);
     },
+    suspense: false,
   });
 
   const showPreviousCards = () => {
-    if (hotToyCardIdx > 1) setHotToyCardIdx(hotToyCardIdx - 1);
+    if (hotToyCardIdx > 0) setHotToyCardIdx(hotToyCardIdx - 1);
   };
 
   const showFollowingCards = () => {
-    if (hotToyCardIdx < hotFeeds?.length) setHotToyCardIdx(hotToyCardIdx + 1);
+    if (hotToyCardIdx < hotFeeds?.length - 1) setHotToyCardIdx(hotToyCardIdx + 1);
   };
 
   return (
-    <>
-      <CarouselArrowButton onClick={showPreviousCards}>
-        <Styled.CarouselLeft width="20px" height="20px" />
-      </CarouselArrowButton>
+    <Styled.Root>
       <Styled.HotToyCardsContainer position={hotToyCardIdx}>
-        {hotFeeds &&
-          hotFeeds.map((feed, idx) => (
-            <Styled.HotToyCardWrapper key={feed.id} offset={idx + 1} position={hotToyCardIdx}>
-              <Link to={`${ROUTE.FEEDS}/${feed.id}`}>
-                <Styled.VerticalAvatar user={feed.author} />
-                <RegularCard feed={feed} />
-              </Link>
-            </Styled.HotToyCardWrapper>
-          ))}
+        {isLoading
+          ? Array.from({ length: 3 }, (_, idx) => (
+              <Styled.HotToyCardWrapper
+                className="hot-feed"
+                key={idx}
+                offset={idx + 1}
+                position={hotToyCardIdx}
+              >
+                <LargeSkeleton />
+              </Styled.HotToyCardWrapper>
+            ))
+          : hotFeeds.map((feed, idx) => (
+              <Styled.HotToyCardWrapper
+                className="hot-feed"
+                key={feed.id}
+                offset={idx + 1}
+                position={hotToyCardIdx}
+              >
+                <LargeFeedCard feed={feed} />
+              </Styled.HotToyCardWrapper>
+            ))}
       </Styled.HotToyCardsContainer>
-
-      <CarouselArrowButton onClick={showFollowingCards}>
-        <Styled.CarouselRight width="20px" height="20px" />
-      </CarouselArrowButton>
-    </>
+      <Styled.ControlContainer className="control-container">
+        <CarouselArrowButton size="3rem" className="carousel-button" onClick={showPreviousCards}>
+          <Styled.CarouselLeft width="1.5rem" />
+        </CarouselArrowButton>
+        <CarouselArrowButton size="3rem" className="carousel-button" onClick={showFollowingCards}>
+          <Styled.CarouselRight width="1.5rem" />
+        </CarouselArrowButton>
+      </Styled.ControlContainer>
+      <FlexContainer className="dot-container" gap="0.25rem" justifyContent="center">
+        {hotFeeds?.map((_, idx) => (
+          <IconButton
+            size="0.75rem"
+            hasShadow={false}
+            key={idx}
+            onClick={() => {
+              setHotToyCardIdx(idx);
+            }}
+          >
+            <Styled.Dot selected={idx === hotToyCardIdx} />
+          </IconButton>
+        ))}
+      </FlexContainer>
+    </Styled.Root>
   );
 };
 

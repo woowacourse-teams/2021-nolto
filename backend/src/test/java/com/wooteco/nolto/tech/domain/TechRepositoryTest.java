@@ -46,17 +46,51 @@ class TechRepositoryTest {
 
     private final User user = new User("1L", SocialType.GOOGLE, "JOEL", "imageUrl");
 
-    private final Feed FEED1 = new Feed("title1", "content1",
-            Step.PROGRESS, true, "storageUrl", "", "http://thumbnailUrl.png").writtenBy(user);
-    private final Feed FEED2 = new Feed("title2", "content2",
-            Step.COMPLETE, false, "storageUrl", "deployUrl", "http://thumbnailUrl.png").writtenBy(user);
-    private final Feed FEED3 = new Feed("title3", "content3",
-            Step.PROGRESS, true, "storageUrl", "", "http://thumbnailUrl.png").writtenBy(user);
-    private final Feed FEED4 = new Feed("title4", "content4",
-            Step.PROGRESS, false, "", "deployUrl", "http://thumbnailUrl.png").writtenBy(user);
-    private final Feed FEED5 = new Feed("title5", "content5",
-            Step.COMPLETE, true, "storageUrl", "deployUrl", "http://thumbnailUrl.png").writtenBy(user);
+    private final Feed FEED1 = Feed.builder()
+            .title("title1")
+            .content("content1")
+            .step(Step.PROGRESS)
+            .isSos(true)
+            .storageUrl("https://github.com/woowacourse-teams/2021-nolto")
+            .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
+            .build().writtenBy(user);
 
+    private final Feed FEED2 = Feed.builder()
+            .title("title2")
+            .content("content2")
+            .step(Step.COMPLETE)
+            .isSos(false)
+            .storageUrl("https://github.com/woowacourse-teams/2021-nolto")
+            .deployedUrl("https://github.com/woowacourse-teams/2021-nolto")
+            .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
+            .build().writtenBy(user);
+
+    private final Feed FEED3 = Feed.builder()
+            .title("title3")
+            .content("content3")
+            .step(Step.PROGRESS)
+            .isSos(true)
+            .storageUrl("https://github.com/woowacourse-teams/2021-nolto")
+            .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
+            .build().writtenBy(user);
+
+    private final Feed FEED4 = Feed.builder()
+            .title("title4")
+            .content("content4")
+            .step(Step.PROGRESS)
+            .isSos(false)
+            .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
+            .build().writtenBy(user);
+
+    private final Feed FEED5 = Feed.builder()
+            .title("title5")
+            .content("content5")
+            .step(Step.COMPLETE)
+            .isSos(true)
+            .storageUrl("https://github.com/woowacourse-teams/2021-nolto")
+            .deployedUrl("https://github.com/woowacourse-teams/2021-nolto")
+            .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
+            .build().writtenBy(user);
 
     @BeforeEach
     void setUp() {
@@ -114,7 +148,7 @@ class TechRepositoryTest {
         List<Tech> techs = techRepository.findAllByNameInIgnoreCase(techNames);
 
         // then
-        assertThat(techs).hasSize(0);
+        assertThat(techs).isEmpty();
     }
 
     @DisplayName("테크 이름 리스트에 대응하는 테크가 있기도 하고 없기도 하다면, 대응되는 테크만 가져온다")

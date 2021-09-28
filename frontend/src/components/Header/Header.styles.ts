@@ -1,30 +1,40 @@
 import styled, { keyframes } from 'styled-components';
 
-import TextButton from 'components/@common/TextButton/TextButton';
-import IconButtonComponent from 'components/@common/IconButton/IconButton';
-import SearchBarComponent from 'components/SearchBar/SearchBar';
-import UserProfileComponent from 'components/UserProfile/UserProfile';
-import { hoverUnderline } from 'commonStyles';
-import Z_INDEX from 'constants/zIndex';
-import { MEDIA_QUERY } from 'constants/mediaQuery';
-import { PALETTE } from 'constants/palette';
 import LogoIcon from 'assets/logo.svg';
-import LogoSimpleIcon from 'assets/logoSimple.svg';
+import LogoTextIcon from 'assets/logoText.svg';
+import { hoverUnderline } from 'commonStyles';
+import TextButton from 'components/@common/TextButton/TextButton';
+import SearchbarComponent from 'components/Searchbar/Searchbar';
+import { FONT_SIZE, Z_INDEX } from 'constants/styles';
+import { MEDIA_QUERY } from 'constants/mediaQuery';
+import { HEIGHT } from 'constants/common';
 
 const Root = styled.header<{ isFolded: boolean }>`
   position: fixed;
+  display: flex;
+  align-items: center;
   top: 0;
-  height: 92px;
+  height: ${HEIGHT.HEADER};
   width: 100%;
+  padding: 0 1rem;
   z-index: ${Z_INDEX.HEADER};
-  box-shadow: ${({ isFolded }) => !isFolded && '0px 4px 4px rgba(0, 0, 0, 0.25)'};
+  box-shadow: ${({ isFolded }) => !isFolded && 'rgb(0 0 0 / 25%) 0px 4px 4px'};
+`;
 
-  & svg {
-    width: 100%;
+const BackgroundSvg = styled.svg`
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+
+  & stop:nth-of-type(1) {
+    stop-color: ${({ theme }) => theme.headerStartColor};
   }
 
-  @media ${MEDIA_QUERY.MOBILE} {
-    height: 64px;
+  & stop:nth-of-type(2) {
+    stop-color: ${({ theme }) => theme.headerEndColor};
   }
 `;
 
@@ -36,183 +46,131 @@ const HeaderContent = styled.div`
   height: 100%;
   justify-content: flex-end;
   align-items: center;
-  padding: 0 30px;
-
-  @media ${MEDIA_QUERY.MOBILE} {
-    padding: 0 18px;
-  }
 `;
 
 const LogoWrapper = styled.div`
-  width: 208px;
-  height: auto;
-  margin-right: auto;
+  height: 100%;
   cursor: pointer;
+  flex-shrink: 0;
+  padding: 0.5rem;
 
-  & .logo-simple {
-    display: none;
+  > a {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
+`;
 
-  @media ${MEDIA_QUERY.TABLET} {
-    width: 168px;
-  }
+export const Logo = styled(LogoIcon)``;
 
+export const LogoText = styled(LogoTextIcon)`
   @media ${MEDIA_QUERY.MOBILE} {
-    width: 32px;
-  }
-`;
-
-export const Logo = styled(LogoIcon)`
-  @media ${MEDIA_QUERY.MOBILE} {
     display: none;
   }
 `;
 
-export const LogoSimple = styled(LogoSimpleIcon)`
-  @media screen and (min-width: 376px) {
-    display: none;
-  }
-`;
-
-const NavContainer = styled.ul`
+const NavContainer = styled.nav`
+  position: relative;
   display: flex;
-  gap: 36px;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
 
-  @media ${MEDIA_QUERY.TABLET} {
-    gap: 18px;
-  }
+  & li {
+    text-align: center;
 
-  @media ${MEDIA_QUERY.MOBILE} {
-    gap: 12px;
-
-    & .web-hosting {
-      display: none;
-    }
-  }
-
-  & a {
-    font-size: 1.25rem;
-    color: ${PALETTE.WHITE_400};
-    display: inline;
-    ${hoverUnderline};
-
-    @media ${MEDIA_QUERY.TABLET} {
-      font-size: 1rem;
-    }
-
-    @media ${MEDIA_QUERY.MOBILE} {
-      font-size: 0.85rem;
+    &.buttons-container {
+      margin-left: 0.5rem;
     }
   }
 
   & .nav-link {
-    border-bottom: 2px solid ${PALETTE.WHITE_400};
+    font-size: ${FONT_SIZE.MEDIUM};
+    color: ${({ theme }) => theme.highLightedText};
+    display: block;
+    ${hoverUnderline};
+
+    &.selected::after {
+      transform: scaleX(1);
+    }
+
+    @media ${MEDIA_QUERY.TABLET} {
+      font-size: ${FONT_SIZE.SMALL};
+    }
+  }
+
+  @media ${MEDIA_QUERY.TABLET} {
+    & .upload-link,
+    .web-hosting {
+      display: none;
+    }
+  }
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    gap: 0.5rem;
+
+    & .web-hosting {
+      display: none;
+    }
   }
 `;
 
 const ButtonsContainer = styled.div`
   display: flex;
   align-items: center;
-  position: relative;
-  margin-left: 40px;
-  gap: 1rem;
+  justify-content: flex-end;
+  height: 100%;
+  gap: 0.5rem;
 
   @media ${MEDIA_QUERY.TABLET} {
-    margin-left: 1rem;
     gap: 0.75rem;
-  }
-
-  @media ${MEDIA_QUERY.MOBILE} {
-    margin-left: 0;
-
-    & .search,
-    .upload {
-      display: none;
-    }
   }
 `;
 
 const AuthButton = styled(TextButton.Rounded)`
-  padding: 8px 32px;
-  font-size: 20px;
-  line-height: 20px;
-
-  @media ${MEDIA_QUERY.TABLET} {
-    padding: 6px 24px;
-    font-size: 1rem;
-    line-height: 1rem;
-  }
-
-  @media ${MEDIA_QUERY.MOBILE} {
-    padding: 4px 12px;
-    font-size: 0.85rem;
-    line-height: 0.85rem;
-  }
+  color: ${({ theme }) => theme.highLightedText};
+  border-color: ${({ theme }) => theme.highLightedText};
+  padding: 4px 16px;
+  font-size: inherit;
+  line-height: inherit;
 `;
 
-export const IconButton = styled(IconButtonComponent)`
-  width: 2.5rem;
-  height: 2.5rem;
-
-  @media ${MEDIA_QUERY.TABLET} {
-    width: 2rem;
-    height: 2rem;
-  }
-
-  @media ${MEDIA_QUERY.MOBILE} {
-    width: 1.5rem;
-    height: 1.5rem;
-  }
-`;
-
-const stretch = keyframes`
+const stretchTo = (maxWidth: string) => keyframes`
   from {
     width: 2.5rem;
   }
   to {
-    width: 35rem;
+    width: ${maxWidth};
   }
 `;
 
-const fadeIn = keyframes`
-  from {
-    width: 0;
-  }
-  to {
-    width: 100%;
-  }
-`;
-
-export const SearchBar = styled(SearchBarComponent)`
+export const Searchbar = styled(SearchbarComponent)`
   position: absolute;
-  transform: translateX(calc(-100% + 2.5rem));
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0;
   height: 2.5rem;
-  animation: ${stretch} 0.5s ease 0s 1 normal forwards;
-
-  > input {
-    animation: ${fadeIn} 0.5s ease 0s 1 normal forwards;
-  }
-
-  @media ${MEDIA_QUERY.TABLET} {
-    transform: translateX(calc(-100% + 2.25rem));
-    width: 30rem;
-    height: 2.25rem;
-  }
-
-  @media ${MEDIA_QUERY.MOBILE} {
-    display: none;
-  }
+  animation: ${stretchTo('100%')} 1s ease 0s 1 normal forwards;
+  max-width: 32rem;
 `;
 
-export const UserProfile = styled(UserProfileComponent)`
-  margin-left: 1.5rem;
+const UserContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  margin-left: 1rem;
 `;
 
 export default {
   Root,
+  BackgroundSvg,
   HeaderContent,
   LogoWrapper,
   NavContainer,
   ButtonsContainer,
   AuthButton,
+  UserContainer,
 };

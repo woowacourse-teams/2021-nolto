@@ -1,13 +1,12 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import SearchBarComponent from 'components/SearchBar/SearchBar';
+import SearchbarComponent from 'components/Searchbar/Searchbar';
 import HighLightedText from 'components/@common/HighlightedText/HighlightedText';
 import Avatar from 'components/@common/Avatar/Avatar';
 import IconButtonComponent from 'components/@common/IconButton/IconButton';
 import { PALETTE } from 'constants/palette';
-import Z_INDEX from 'constants/zIndex';
-import { MEDIA_QUERY } from 'constants/mediaQuery';
+import { FONT_SIZE, Z_INDEX } from 'constants/styles';
 import { hoverUnderline } from 'commonStyles';
 import ArrowIcon from 'assets/carouselArrow.svg';
 
@@ -15,68 +14,52 @@ const Root = styled.div`
   position: relative;
 `;
 
-const EllipseWrapper = styled.div`
-  position: relative;
-  top: -1.5rem;
-`;
-
 const SearchContainer = styled.div`
-  position: absolute;
-  top: 4%;
-  /* TODO: center 수정 필요 */
-  left: 50%;
-  transform: translateX(-50%);
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 3.75rem;
+  justify-content: center;
   z-index: ${Z_INDEX.HOME_SEARCHBAR};
+  max-width: 736px;
+  margin: 0 auto;
+  padding: 0 1rem;
 
   & > .search-bar {
     z-index: ${Z_INDEX.HOME_SEARCHBAR};
   }
+`;
 
-  @media ${MEDIA_QUERY.TABLET} {
-    margin-top: 2rem;
+const EllipseWrapper = styled.div`
+  position: absolute;
+  width: 100%;
+  top: -1.5rem;
+  left: 0;
+`;
+
+const bounce = keyframes`
+  0%, 100% {
+    transform: translateY(-10%);
   }
 
-  @media ${MEDIA_QUERY.TABLET} {
-    margin-top: 1rem;
+  50% {
+    transform: translateY(10%);
   }
 `;
 
 const SearchTitle = styled.div`
-  font-size: 1.75rem;
-  font-weight: 500;
-  color: ${PALETTE.WHITE_400};
+  font-size: 1.5rem;
+  color: ${({ theme }) => theme.highLightedText};
+  font-weight: ${({ theme }) => theme.titleWeight};
   margin-bottom: 18px;
-
-  @media ${MEDIA_QUERY.TABLET} {
-    font-size: 1.5rem;
-  }
-
-  @media ${MEDIA_QUERY.MOBILE} {
-    font-size: 1rem;
-  }
+  animation: ${bounce} 1s linear infinite;
 `;
 
-export const SearchBar = styled(SearchBarComponent)`
+export const Searchbar = styled(SearchbarComponent)`
   position: relative;
-  width: 32rem;
+  width: 100%;
   height: 2.5rem;
   margin-bottom: 18px;
-
-  @media ${MEDIA_QUERY.TABLET} {
-    width: 28rem;
-    height: 2.25rem;
-    margin-bottom: 14px;
-  }
-
-  @media ${MEDIA_QUERY.MOBILE} {
-    width: 20rem;
-    height: 2rem;
-    margin-bottom: 8px;
-  }
 `;
 
 const TrendContainer = styled.div`
@@ -111,25 +94,20 @@ const ContentArea = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  top: -1.5rem;
-  padding: 3rem 0;
-  text-align: center;
+  gap: 2rem;
+  margin-top: 8rem;
+`;
 
-  @media ${MEDIA_QUERY.TABLET} {
-    padding: 2rem;
-  }
+const TitleWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 1rem;
 `;
 
 const SectionTitle = styled(HighLightedText)`
-  margin-bottom: 48px;
-
-  @media ${MEDIA_QUERY.TABLET} {
-    margin-bottom: 32px;
-  }
-
-  @media ${MEDIA_QUERY.MOBILE} {
-    font-size: 1.25rem;
-  }
+  font-size: ${FONT_SIZE.LARGE};
 `;
 
 const HotToysContainer = styled.div`
@@ -137,20 +115,17 @@ const HotToysContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 128px;
-
-  @media ${MEDIA_QUERY.TABLET} {
-    margin-bottom: 72px;
-  }
 `;
 
 const VerticalAvatar = styled(Avatar)`
   margin-bottom: 12px;
 `;
 
-const RecentToysContainer = styled.div`
+const ToysContainer = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
+  gap: 1rem;
 `;
 
 export const MoreButton = styled(Link)`
@@ -158,9 +133,6 @@ export const MoreButton = styled(Link)`
   border: none;
   background: transparent;
   font-size: 1rem;
-  padding: 0 1rem;
-  margin-top: 36px;
-  margin-left: auto;
 `;
 
 const ArrowUp = styled(ArrowIcon)`
@@ -184,9 +156,10 @@ export default {
   TrendContainer,
   TrendTag,
   ContentArea,
+  TitleWrapper,
   SectionTitle,
   HotToysContainer,
   VerticalAvatar,
-  RecentToysContainer,
+  ToysContainer,
   ArrowUp,
 };

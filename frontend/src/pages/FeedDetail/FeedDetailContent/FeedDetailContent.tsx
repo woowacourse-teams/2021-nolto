@@ -1,28 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import { ButtonStyle } from 'types';
-import Styled, { Tag } from './FeedDetailContent.styles';
 import ViewCountIcon from 'assets/viewCount.svg';
+import ShareIcon from 'assets/share.svg';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
 import useFeedDetail from 'hooks/queries/feed/useFeedDetail';
 import useMember from 'hooks/queries/useMember';
-import { STEP_CONVERTER } from 'constants/common';
 import { PALETTE } from 'constants/palette';
 import ROUTE from 'constants/routes';
-import Chip from 'components/@common/Chip/Chip';
+import QUERY_KEYS from 'constants/queryKeys';
+import { ERROR_MSG } from 'constants/message';
+import { Divider } from 'commonStyles';
+import ToggleList from 'components/@common/ToggleList/ToggleList';
 import FeedDropdown from 'components/FeedDropdown/FeedDropdown';
 import LikeButton from 'components/LikeButton/LikeButton';
-import ToggleList from 'components/@common/ToggleList/ToggleList';
 import CommentModule from 'components/CommentModule/CommentModule';
 import AsyncBoundary from 'components/AsyncBoundary';
 import ErrorFallback from 'components/ErrorFallback/ErrorFallback';
+import StepChip from 'components/StepChip/StepChip';
+import FeedThumbnail from 'components/FeedThumbnail/FeedThumbnail';
+import Styled, { Tag, SOSFlag } from './FeedDetailContent.styles';
+import Markdown from 'components/@common/Markdown/Markdown';
 
 interface Props {
   feedId: number;
 }
 
 const FeedDetailContent = ({ feedId }: Props) => {
+  const [isKakaoLoaded, setKakaoLoaded] = useState(false);
+
   const history = useHistory();
   const location = useLocation<{ commentId: number }>();
 
@@ -48,34 +55,85 @@ const FeedDetailContent = ({ feedId }: Props) => {
     });
   };
 
+  const createKakaoShare = () => {
+    window.Kakao.Link.createDefaultButton({
+      container: '#create-kakao-link-btn',
+      objectType: 'feed',
+      content: {
+        title: feedDetail.title,
+        description: '🧸 놀토에서 친구가 공유한 프로젝트를 확인해 보세요!',
+        imageUrl: feedDetail.thumbnailUrl,
+        link: {
+          mobileWebUrl: window.location.href,
+          webUrl: window.location.href,
+        },
+      },
+      buttons: [
+        {
+          title: '프로젝트 구경가기',
+          link: {
+            mobileWebUrl: window.location.href,
+            webUrl: window.location.href,
+          },
+        },
+      ],
+    });
+  };
+
   const isMyFeed = member.userData?.id === feedDetail.author.id;
 
-  //TODO: 댓글 로딩 부분 스켈레톤으로 하면 좋을듯
+  const thumbnailElement: React.ReactNode = (
+    <>
+      {feedDetail.sos && <SOSFlag />}
+      <Styled.Thumbnail>
+        <FeedThumbnail thumbnailUrl={feedDetail.thumbnailUrl} />
+      </Styled.Thumbnail>
+      <Styled.IconsContainer>
+        <Styled.IconWrapper>
+          <LikeButton feedDetail={feedDetail} />
+        </Styled.IconWrapper>
+        <Styled.IconWrapper>
+          <ViewCountIcon width="22px" fill={PALETTE.PRIMARY_400} />
+          <span>{feedDetail.views}</span>
+        </Styled.IconWrapper>
+      </Styled.IconsContainer>
+    </>
+  );
+
+  const handleKakaoShare = () => {
+    if (isKakaoLoaded) return;
+
+    snackbar.addSnackbar('error', ERROR_MSG.FAIL_KAKAO_SHARE);
+  };
+
+  useEffect(() => {
+    if (window.Kakao.isInitialized()) {
+      if (!isKakaoLoaded) {
+        createKakaoShare();
+        setKakaoLoaded(true);
+      }
+    }
+
+    return () => setKakaoLoaded(false);
+  }, []);
+
+  // TODO: 댓글 로딩 부분 스켈레톤으로 리팩토링
   return (
     <Styled.Root>
       <Styled.IntroContainer>
-        <Styled.ThumbnailContainer>
-          <Styled.Thumbnail>
-            <img src={feedDetail.thumbnailUrl} />
-          </Styled.Thumbnail>
-          {feedDetail.sos && <Styled.SOSFlagIcon width="56px" />}
-
-          <Styled.IconsContainer>
-            <Styled.IconWrapper>
-              <LikeButton feedDetail={feedDetail} />
-            </Styled.IconWrapper>
-            <Styled.IconWrapper>
-              <ViewCountIcon width="22px" fill={PALETTE.PRIMARY_200} />
-              <span>{feedDetail.views}</span>
-            </Styled.IconWrapper>
-          </Styled.IconsContainer>
-        </Styled.ThumbnailContainer>
-
+        <Styled.ThumbnailContainer>{thumbnailElement}</Styled.ThumbnailContainer>
         <Styled.FeedSummaryContainer>
           <Styled.TitleContainer>
             <Styled.TitleWrapper>
               <h2>{feedDetail.title}</h2>
-              <Chip.Solid>{STEP_CONVERTER[feedDetail.step]}</Chip.Solid>
+              <StepChip step={feedDetail.step} />
+              <ShareIcon width="20px" />
+              <a id="create-kakao-link-btn" onClick={handleKakaoShare}>
+                <img
+                  src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_small.png"
+                  width="24px"
+                />
+              </a>
             </Styled.TitleWrapper>
 
             <Styled.UserWrapper>
@@ -84,13 +142,14 @@ const FeedDetailContent = ({ feedId }: Props) => {
               {isMyFeed && <FeedDropdown feedDetail={feedDetail} />}
             </Styled.UserWrapper>
           </Styled.TitleContainer>
-          <hr />
+          <Divider />
 
+          <Styled.MobileThumbnailContainer>{thumbnailElement}</Styled.MobileThumbnailContainer>
           <Styled.DetailsContent>
             {feedDetail.deployedUrl && (
               <Styled.DetailsPair>
                 <Styled.DetailsKeyWrapper>
-                  <Styled.DetailsKey fontSize="1.5rem">서비스 URL</Styled.DetailsKey>
+                  <Styled.DetailsKey>서비스 URL</Styled.DetailsKey>
                 </Styled.DetailsKeyWrapper>
                 <Styled.DetailsValue>
                   <a href={feedDetail.deployedUrl} target="_blank">
@@ -102,7 +161,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
             {feedDetail.storageUrl && (
               <Styled.DetailsPair>
                 <Styled.DetailsKeyWrapper>
-                  <Styled.DetailsKey fontSize="1.5rem">저장소 URL</Styled.DetailsKey>
+                  <Styled.DetailsKey>저장소 URL</Styled.DetailsKey>
                 </Styled.DetailsKeyWrapper>
                 <Styled.DetailsValue>
                   <a href={feedDetail.storageUrl} target="_blank">
@@ -114,7 +173,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
             {feedDetail.techs.length > 0 && (
               <Styled.DetailsPair>
                 <Styled.DetailsKeyWrapper>
-                  <Styled.DetailsKey fontSize="1.5rem">기술스택</Styled.DetailsKey>
+                  <Styled.DetailsKey>기술스택</Styled.DetailsKey>
                 </Styled.DetailsKeyWrapper>
                 <Styled.DetailsValue>
                   <ToggleList width="100%" height="1.75rem">
@@ -134,13 +193,15 @@ const FeedDetailContent = ({ feedId }: Props) => {
       </Styled.IntroContainer>
       <div>
         <h3>프로젝트 소개</h3>
-        <hr />
-        <Styled.Description>{feedDetail.content}</Styled.Description>
+        <Divider />
+        <Styled.MarkdownWrapper>
+          <Markdown children={feedDetail.content} />
+        </Styled.MarkdownWrapper>
       </div>
 
       <AsyncBoundary
         rejectedFallback={
-          <ErrorFallback message="댓글 불러오기에 실패했습니다." queryKey="comments" />
+          <ErrorFallback message={ERROR_MSG.LOAD_COMMENTS} queryKey={QUERY_KEYS.COMMENTS} />
         }
       >
         <CommentModule feedId={feedDetail.id} focusedCommentId={location.state?.commentId} />

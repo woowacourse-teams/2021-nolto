@@ -1,6 +1,7 @@
 import { useQuery, UseQueryOptions } from 'react-query';
 
 import api from 'constants/api';
+import QUERY_KEYS from 'constants/queryKeys';
 import { ErrorHandler, Profile } from 'types';
 import HttpError from 'utils/HttpError';
 import { resolveHttpError } from 'utils/error';
@@ -24,7 +25,7 @@ const getProfile = async (errorHandler?: ErrorHandler) => {
 };
 
 const useProfileLoad = ({ errorHandler, ...option }: CustomQueryOption) => {
-  return useQuery<Profile>('profile', () => getProfile(errorHandler), option);
+  return useQuery<Profile>(QUERY_KEYS.PROFILE, () => getProfile(errorHandler), option);
 };
 
 export default useProfileLoad;

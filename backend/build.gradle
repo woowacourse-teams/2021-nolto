@@ -48,6 +48,9 @@ dependencies {
     // flyway
     implementation('org.flywaydb:flyway-core:6.4.2')
 
+    // ffmpeg
+    implementation 'net.bramp.ffmpeg:ffmpeg:0.6.2'
+
     // Testcontainers
     implementation("com.amazonaws:aws-java-sdk-s3")
     testImplementation "org.testcontainers:testcontainers:1.15.3"

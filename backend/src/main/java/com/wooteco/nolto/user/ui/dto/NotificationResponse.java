@@ -2,14 +2,12 @@ package com.wooteco.nolto.user.ui.dto;
 
 import com.wooteco.nolto.feed.ui.dto.AuthorResponse;
 import com.wooteco.nolto.notification.domain.Notification;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-@AllArgsConstructor
 public class NotificationResponse {
 
     private final Long id;
@@ -17,6 +15,14 @@ public class NotificationResponse {
     private final FeedNotificationResponse feed;
     private final CommentNotificationResponse comment;
     private final String type;
+
+    public NotificationResponse(Long id, AuthorResponse user, FeedNotificationResponse feed, CommentNotificationResponse comment, String type) {
+        this.id = id;
+        this.user = user;
+        this.feed = feed;
+        this.comment = comment;
+        this.type = type;
+    }
 
     public static List<NotificationResponse> toList(List<Notification> notifications) {
         return notifications.stream()

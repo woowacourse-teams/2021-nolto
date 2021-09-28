@@ -1,23 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { ThemeProvider } from 'styled-components';
 
-import Home from 'pages/Home/Home';
-import About from 'pages/About/About';
-import Upload from 'pages/Upload/Upload';
-import FeedDetail from 'pages/FeedDetail/FeedDetail';
-import RecentFeeds from 'pages/RecentFeeds/RecentFeeds';
-import SearchResult from 'pages/SearchResult/SearchResult';
-import OAuth from 'pages/OAuth/OAuth';
-import Modify from 'pages/Modify/Modify';
-import Mypage from 'pages/Mypage/Mypage';
+import Page from 'pages';
 import PrivateRoute from 'components/PrivateRoute';
+import ErrorBoundary from 'components/ErrorBoundary';
+import ErrorFallback from 'components/ErrorFallback/ErrorFallback';
 import DialogProvider from 'contexts/dialog/DialogProvider';
 import ModalProvider from 'contexts/modal/ModalProvider';
 import SnackbarProvider from 'contexts/snackbar/SnackbarProvider';
 import ROUTE from 'constants/routes';
+import { ERROR_MSG } from 'constants/message';
+import useTheme from 'hooks/useTheme';
 import GlobalStyle from './Global.styles';
+import { defaultTheme, thanksgivingTheme } from '../themes';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -30,49 +28,54 @@ const queryClient = new QueryClient({
 });
 
 const App = () => {
+  const [themeMode, toggleThemeMode] = useTheme();
+  const theme = themeMode === 'default' ? defaultTheme : thanksgivingTheme;
+
   return (
     <QueryClientProvider client={queryClient}>
-      <GlobalStyle />
-      <Router>
-        <Switch>
-          <SnackbarProvider>
-            <DialogProvider>
-              <ModalProvider>
-                <main>
-                  <Route exact path={ROUTE.HOME}>
-                    <Home />
-                  </Route>
-                  <Route exact path={ROUTE.ABOUT}>
-                    <About />
-                  </Route>
-                  <PrivateRoute path={ROUTE.UPLOAD}>
-                    <Upload />
-                  </PrivateRoute>
-                  <PrivateRoute path={ROUTE.MODIFY}>
-                    <Modify />
-                  </PrivateRoute>
-                  <Route exact path={ROUTE.RECENT}>
-                    <RecentFeeds />
-                  </Route>
-                  <Route path={`${ROUTE.FEEDS}/:id`}>
-                    <FeedDetail />
-                  </Route>
-                  <Route path={ROUTE.SEARCH}>
-                    <SearchResult />
-                  </Route>
-                  <Route path={ROUTE.MYPAGE}>
-                    <Mypage />
-                  </Route>
-                  <Route path="/:oauth/callback">
-                    <OAuth />
-                  </Route>
-                </main>
-              </ModalProvider>
-            </DialogProvider>
-          </SnackbarProvider>
-        </Switch>
-      </Router>
-      <ReactQueryDevtools panelProps={{ className: 'query-dev-tools' }} initialIsOpen={false} />
+      <ErrorBoundary fallback={<ErrorFallback message={ERROR_MSG.UNKNOWN_ERROR} />}>
+        <ThemeProvider theme={theme}>
+          <GlobalStyle />
+          <Router>
+            <Switch>
+              <SnackbarProvider>
+                <DialogProvider>
+                  <ModalProvider>
+                    <Route exact path={ROUTE.HOME}>
+                      <Page.Home toggleTheme={toggleThemeMode} />
+                    </Route>
+                    <Route exact path={ROUTE.ABOUT}>
+                      <Page.About />
+                    </Route>
+                    <PrivateRoute path={ROUTE.UPLOAD}>
+                      <Page.Upload />
+                    </PrivateRoute>
+                    <PrivateRoute path={ROUTE.MODIFY}>
+                      <Page.Modify />
+                    </PrivateRoute>
+                    <Route exact path={ROUTE.RECENT}>
+                      <Page.RecentFeeds />
+                    </Route>
+                    <Route path={`${ROUTE.FEEDS}/:id`}>
+                      <Page.FeedDetail />
+                    </Route>
+                    <Route path={ROUTE.SEARCH}>
+                      <Page.SearchResult />
+                    </Route>
+                    <Route path={ROUTE.MYPAGE}>
+                      <Page.Mypage />
+                    </Route>
+                    <Route path="/:oauth/callback">
+                      <Page.OAuth />
+                    </Route>
+                  </ModalProvider>
+                </DialogProvider>
+              </SnackbarProvider>
+            </Switch>
+          </Router>
+        </ThemeProvider>
+        <ReactQueryDevtools panelProps={{ className: 'query-dev-tools' }} initialIsOpen={false} />
+      </ErrorBoundary>
     </QueryClientProvider>
   );
 };

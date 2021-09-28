@@ -1,13 +1,14 @@
 package com.wooteco.nolto.exception;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public enum ErrorType {
-    DATA_BINDING_ERROR("common-001", "필수 요청값이 비었습니다"),
+    DATA_BINDING_ERROR("common-001", "요청값이 잘못되었습니다."),
     LOGIC_ERROR("common-002", "서버 내부의 에러입니다."),
+    NOT_FOUND("common-003", "해당 url을 찾을 수 없습니다."),
 
     INVALID_TOKEN("auth-001", "유효하지 않은 토큰입니다."),
     TOKEN_NEEDED("auth-002", "토큰이 필요합니다."),
@@ -24,6 +25,9 @@ public enum ErrorType {
     NOT_SUPPORTED_STEP("feed-006", "지원하지 않는 피드의 Step입니다."),
     MULTIPART_CONVERT_FAIL("feed-007", "MultipartFile 변환에 실패하였습니다."),
     IMAGE_RESIZING_FAIL("feed-008", "이미지 리사이징에 실패하였습니다."),
+    GIF_MP4_CONVERT_FAIL("feed-009", "git파일을 mp4파일로 변환에 실패하였습니다."),
+
+    NOT_SUPPORTED_IMAGE("image-001", "지원하지 않는 이미지 입니다."),
 
     ALREADY_LIKED("like-001", "이미 좋아요 누른 글 입니다."),
     NOT_LIKED("like-002", "좋아요를 누르지 않았습니다."),
@@ -39,6 +43,6 @@ public enum ErrorType {
     NOTIFICATION_NOT_FOUND("member-002", "존재하지 않는 알림입니다."),
     UNAUTHORIZED_DELETE_NOTIFICATION("member-003", "알림은 본인만 삭제할 수 있습니다.");
 
-    private String errorCode;
-    private String message;
+    private final String errorCode;
+    private final String message;
 }

@@ -5,22 +5,26 @@ import com.wooteco.nolto.auth.UserAuthenticationPrincipal;
 import com.wooteco.nolto.auth.ValidTokenRequired;
 import com.wooteco.nolto.feed.application.FeedService;
 import com.wooteco.nolto.feed.application.LikeService;
-import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
-import com.wooteco.nolto.feed.ui.dto.FeedRequest;
-import com.wooteco.nolto.feed.ui.dto.FeedResponse;
+import com.wooteco.nolto.feed.ui.dto.*;
 import com.wooteco.nolto.user.domain.User;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
-@AllArgsConstructor
+import static com.wooteco.nolto.ViewHistoryManager.isAlreadyView;
+import static com.wooteco.nolto.ViewHistoryManager.setCookieByReadHistory;
+
 @RestController
 @RequestMapping("/feeds")
+@Validated
+@RequiredArgsConstructor
 public class FeedController {
 
     private final FeedService feedService;
@@ -34,9 +38,14 @@ public class FeedController {
     }
 
     @GetMapping(value = "/{feedId:[\\d]+}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<FeedResponse> findById(@UserAuthenticationPrincipal User user, @PathVariable Long feedId) {
-        FeedResponse response = feedService.findById(user, feedId);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<FeedResponse> findById(@UserAuthenticationPrincipal User user, @PathVariable Long feedId,
+                                                 HttpServletResponse response,
+                                                 @CookieValue(name = "view", required = false, defaultValue = "/") String cookieValue) {
+        String feedIdAsString = String.valueOf(feedId);
+        boolean alreadyView = isAlreadyView(cookieValue, feedIdAsString);
+        setCookieByReadHistory(alreadyView, cookieValue, feedIdAsString, response);
+        FeedResponse feedResponse = feedService.viewFeed(user, feedId, alreadyView);
+        return ResponseEntity.ok(feedResponse);
     }
 
     @ValidTokenRequired
@@ -68,9 +77,13 @@ public class FeedController {
     }
 
     @GetMapping("/recent")
-    public ResponseEntity<List<FeedCardResponse>> recentResponse(@RequestParam(required = false, defaultValue = "all") String filter) {
-        List<FeedCardResponse> feeds = feedService.findAll(filter);
-        return ResponseEntity.ok(feeds);
+    public ResponseEntity<FeedCardPaginationResponse> recentResponse(@Valid RecentRequestParams recentRequestParams) {
+        FeedCardPaginationResponse response = feedService.findRecentFeeds(
+                recentRequestParams.getStep(),
+                recentRequestParams.getHelp(),
+                recentRequestParams.getNextFeedId(),
+                recentRequestParams.getCountPerPage());
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/hot")
@@ -80,10 +93,14 @@ public class FeedController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<FeedCardResponse>> searchResponse(@RequestParam(required = false, defaultValue = "") String query,
-                                                                 @RequestParam(required = false, defaultValue = "") String techs,
-                                                                 @RequestParam(required = false, defaultValue = "all") String filter) {
-        List<FeedCardResponse> feeds = feedService.search(query, techs, filter);
-        return ResponseEntity.ok(feeds);
+    public ResponseEntity<FeedCardPaginationResponse> searchResponse(@Valid SearchRequestParams searchRequestParams) {
+        FeedCardPaginationResponse response = feedService.search(
+                searchRequestParams.getQuery(),
+                searchRequestParams.getTechs(),
+                searchRequestParams.getStep(),
+                searchRequestParams.getHelp(),
+                searchRequestParams.getNextFeedId(),
+                searchRequestParams.getCountPerPage());
+        return ResponseEntity.ok(response);
     }
 }

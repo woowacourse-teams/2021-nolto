@@ -1,6 +1,7 @@
 import styled, { keyframes } from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
+import { FONT_SIZE } from 'constants/styles';
 import ArrowUp from 'assets/arrowUp.svg';
 
 const Root = styled.div`
@@ -36,7 +37,7 @@ const Message = styled.div`
   padding-left: 0.5rem;
 
   & > span {
-    font-size: 0.75rem;
+    font-size: ${FONT_SIZE.SMALL};
     color: ${PALETTE.WHITE_400};
   }
 `;

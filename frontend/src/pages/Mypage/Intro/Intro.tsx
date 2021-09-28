@@ -11,8 +11,8 @@ import useDialog from 'contexts/dialog/useDialog';
 import { ALERT_MSG } from 'constants/message';
 import Camera from 'assets/camera.svg';
 import NoteEdit from 'assets/noteEdit.svg';
-import Styled from './Intro.styles';
 import { THUMBNAIL_EXTENSION } from 'constants/common';
+import Styled from './Intro.styles';
 
 type ProfileToUpload = {
   nickname: string;
@@ -132,14 +132,14 @@ const Intro = () => {
       <Styled.ImageWrapper>
         {isEditing ? (
           <>
-            <Styled.UserImage src={previewImage} />
+            <Styled.EditingImage src={previewImage} alt={`${profile.nickname}-profile-image`} />
             <Styled.CameraLabel>
               <input type="file" onChange={setFileInput} accept={THUMBNAIL_EXTENSION.join(',')} />
               <Camera width="14px" />
             </Styled.CameraLabel>
           </>
         ) : (
-          <Styled.UserImage src={profile.imageUrl} />
+          <Styled.Image thumbnailUrl={profile.imageUrl} alt={`${profile.nickname}-profile-image`} />
         )}
       </Styled.ImageWrapper>
 

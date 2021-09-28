@@ -4,6 +4,7 @@ import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.auth.ui.dto.TokenResponse;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.dto.ExceptionResponse;
+import com.wooteco.nolto.feed.ui.dto.FeedCardPaginationResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
@@ -11,6 +12,7 @@ import com.wooteco.nolto.tech.domain.Tech;
 import com.wooteco.nolto.tech.ui.dto.TechResponse;
 import com.wooteco.nolto.user.domain.User;
 import io.restassured.RestAssured;
+import io.restassured.http.Cookie;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -97,6 +99,22 @@ class FeedAcceptanceTest extends AcceptanceTest {
 
         // then
         피드_정보가_같은지_조회(response, 전시중_단계의_피드_요청);
+    }
+
+    @DisplayName("이미 읽은 피드를 조회할 경우, 24시간 이내에서는 조회수가 증가하지 않는다.")
+    @Test
+    void viewWithCookie() {
+        // given
+        Long 업로드되어_있는_피드_ID = 피드_업로드되어_있음(전시중_단계의_피드_요청);
+        // when
+        Cookie 업로드되어_있는_피드_쿠키 = new Cookie.Builder("view", "/" + String.valueOf(업로드되어_있는_피드_ID) + "/").build();
+        ExtractableResponse<Response> 아직_조회하지_않은_응답 = 피드_조회_요청(업로드되어_있는_피드_ID);
+        ExtractableResponse<Response> 이미_조회한_응답 = 피드_조회_요청(업로드되어_있는_피드_ID, 업로드되어_있는_피드_쿠키);
+
+        // then
+        FeedResponse 아직_조회하지_않은_피드_응답 = 아직_조회하지_않은_응답.as(FeedResponse.class);
+        FeedResponse 이미_조회한_피드_응답 = 이미_조회한_응답.as(FeedResponse.class);
+        assertThat(아직_조회하지_않은_피드_응답.getViews()).isEqualTo(이미_조회한_피드_응답.getViews());
     }
 
     @DisplayName("멤버가 피드를 조회한다.")
@@ -233,53 +251,106 @@ class FeedAcceptanceTest extends AcceptanceTest {
         );
     }
 
-    @DisplayName("최신순으로 모든(all) 필터링값의 피드를 조회한다")
+    @DisplayName("최신 피드 조회 시 필터가 없어도 잘 작동하는 지 확인한다.")
     @Test
-    void allRecentResponse() {
+    void allRecentResponse_no_filter() {
         // given
-        String ALL = "all";
-        String SOS = "sos";
-        String PROGRESS = "progress";
-        String COMPLETE = "complete";
+        String ALL = "";
 
         // when
         ExtractableResponse<Response> ALL_필터링값_응답 = 최신순_피드_목록_조회_요청(ALL);
-        ExtractableResponse<Response> SOS_필터링값_응답 = 최신순_피드_목록_조회_요청(SOS);
+
+        // then
+        피드_목록_조회_응답됨(ALL_필터링값_응답);
+        페이지네이션_피드_목록_포함됨(ALL_필터링값_응답,
+                Arrays.asList(전시중_SOS_좋아요0개_4번째_피드_ID, 진행중_SOS_좋아요1개_3번째_피드_ID, 전시중_좋아요2개_2번째_피드_ID, 진행중_좋아요3개_1번째_피드_ID),
+                null);
+    }
+
+    @DisplayName("최신 피드 조회 시 help 필터가 잘 작동하는 지 확인한다.")
+    @Test
+    void allRecentResponse_help_filter() {
+        // given
+        String HELP = "help=true";
+
+        // when
+        ExtractableResponse<Response> SOS_필터링값_응답 = 최신순_피드_목록_조회_요청(HELP);
+
+        // then
+        피드_목록_조회_응답됨(SOS_필터링값_응답);
+        페이지네이션_피드_목록_포함됨(SOS_필터링값_응답,
+                Arrays.asList(전시중_SOS_좋아요0개_4번째_피드_ID, 진행중_SOS_좋아요1개_3번째_피드_ID),
+                null);
+    }
+
+    @DisplayName("최신 피드 조회 시 nextFeedId 필터가 잘 작동하는 지 확인한다.")
+    @Test
+    void allRecentResponse_nextFeedId_filter() {
+        // given
+        String NEXT_FEED_ID = "nextFeedId=3";
+
+        // when
+        ExtractableResponse<Response> NEXT_FEED_ID_필터링값_응답 = 최신순_피드_목록_조회_요청(NEXT_FEED_ID);
+
+        // then
+        피드_목록_조회_응답됨(NEXT_FEED_ID_필터링값_응답);
+        페이지네이션_피드_목록_포함됨(NEXT_FEED_ID_필터링값_응답,
+                Arrays.asList(진행중_SOS_좋아요1개_3번째_피드_ID, 전시중_좋아요2개_2번째_피드_ID, 진행중_좋아요3개_1번째_피드_ID),
+                null);
+    }
+
+    @DisplayName("최신 피드 조회 시 step 필터가 잘 작동하는 지 확인한다.")
+    @Test
+    void allRecentResponse_step_filter() {
+        // given
+        String PROGRESS = "step=progress";
+        String COMPLETE = "step=complete";
+
+        // when
         ExtractableResponse<Response> PROGRESS_필터링값_응답 = 최신순_피드_목록_조회_요청(PROGRESS);
         ExtractableResponse<Response> COMPLETE_필터링값_응답 = 최신순_피드_목록_조회_요청(COMPLETE);
 
         // then
-        피드_목록_조회_응답됨(ALL_필터링값_응답);
-        피드_목록_조회_응답됨(SOS_필터링값_응답);
         피드_목록_조회_응답됨(PROGRESS_필터링값_응답);
         피드_목록_조회_응답됨(COMPLETE_필터링값_응답);
-
-        피드_목록_포함됨(ALL_필터링값_응답, Arrays.asList(
-                전시중_SOS_좋아요0개_4번째_피드_ID, 진행중_SOS_좋아요1개_3번째_피드_ID,
-                전시중_좋아요2개_2번째_피드_ID, 진행중_좋아요3개_1번째_피드_ID)
-        );
-        피드_목록_포함됨(SOS_필터링값_응답, Arrays.asList(
-                전시중_SOS_좋아요0개_4번째_피드_ID, 진행중_SOS_좋아요1개_3번째_피드_ID)
-        );
-        피드_목록_포함됨(PROGRESS_필터링값_응답, Arrays.asList(
-                진행중_SOS_좋아요1개_3번째_피드_ID, 진행중_좋아요3개_1번째_피드_ID)
-        );
-        피드_목록_포함됨(COMPLETE_필터링값_응답, Arrays.asList(
-                전시중_SOS_좋아요0개_4번째_피드_ID, 전시중_좋아요2개_2번째_피드_ID)
-        );
+        페이지네이션_피드_목록_포함됨(PROGRESS_필터링값_응답,
+                Arrays.asList(진행중_SOS_좋아요1개_3번째_피드_ID, 진행중_좋아요3개_1번째_피드_ID),
+                null);
+        페이지네이션_피드_목록_포함됨(COMPLETE_필터링값_응답,
+                Arrays.asList(전시중_SOS_좋아요0개_4번째_피드_ID, 전시중_좋아요2개_2번째_피드_ID),
+                null);
     }
 
-    @DisplayName("최신순으로 지원하지 않는 필터링값으로 피드를 조회한다.")
+    @DisplayName("최신 피드 조회 시 countPerPage 필터가 잘 작동하는 지 확인한다.")
+    @Test
+    void allRecentResponse_countPerPage_filter() {
+        // given
+        String COUNT_PER_PAGE = "countPerPage=2";
+
+        // when
+        ExtractableResponse<Response> COUNT_PER_PAGE_필터링값_응답 = 최신순_피드_목록_조회_요청(COUNT_PER_PAGE);
+
+        // then
+        피드_목록_조회_응답됨(COUNT_PER_PAGE_필터링값_응답);
+        페이지네이션_피드_목록_포함됨(COUNT_PER_PAGE_필터링값_응답,
+                Arrays.asList(전시중_SOS_좋아요0개_4번째_피드_ID, 진행중_SOS_좋아요1개_3번째_피드_ID),
+                2L);
+    }
+
+    @DisplayName("최신순으로 지원하지 않는 필터링값으로 피드를 조회하면 디폴트 값으로 조회를 한다.")
     @Test
     void recentResponseException() {
         // given
-        String filter = "notSupported";
+        String filter = "newfilter=true";
 
         // when
-        ExtractableResponse<Response> response = 최신순_피드_목록_조회_요청(filter);
+        ExtractableResponse<Response> ALL_필터링값_응답 = 최신순_피드_목록_조회_요청(filter);
 
         // then
-        존재하지_않는_필터링값으로_피드_목록_조회_실패(response);
+        피드_목록_조회_응답됨(ALL_필터링값_응답);
+        페이지네이션_피드_목록_포함됨(ALL_필터링값_응답,
+                Arrays.asList(전시중_SOS_좋아요0개_4번째_피드_ID, 진행중_SOS_좋아요1개_3번째_피드_ID, 전시중_좋아요2개_2번째_피드_ID, 진행중_좋아요3개_1번째_피드_ID),
+                null);
     }
 
     @DisplayName("쿼리, 기술, 필터값 없이 피드를 검색한다. - 빈 배열")
@@ -290,7 +361,7 @@ class FeedAcceptanceTest extends AcceptanceTest {
 
         // then
         피드_목록_조회_응답됨(response);
-        피드_목록_포함됨(response, Collections.emptyList());
+        페이지네이션_피드_목록_포함됨(response, Collections.emptyList(), null);
     }
 
     @DisplayName("query로만 피드를 검색한다.")
@@ -303,8 +374,8 @@ class FeedAcceptanceTest extends AcceptanceTest {
         // then
         피드_목록_조회_응답됨(제목_쿼리_응답);
         피드_목록_조회_응답됨(내용_쿼리_응답);
-        피드_목록_포함됨(제목_쿼리_응답, Collections.singletonList(진행중_좋아요3개_1번째_피드_ID));
-        피드_목록_포함됨(내용_쿼리_응답, Collections.singletonList(진행중_좋아요3개_1번째_피드_ID));
+        페이지네이션_피드_목록_포함됨(제목_쿼리_응답, Collections.singletonList(진행중_좋아요3개_1번째_피드_ID), null);
+        페이지네이션_피드_목록_포함됨(내용_쿼리_응답, Collections.singletonList(진행중_좋아요3개_1번째_피드_ID), null);
     }
 
     @DisplayName("techs로만 피드를 검색한다.")
@@ -321,13 +392,13 @@ class FeedAcceptanceTest extends AcceptanceTest {
 
         // when
         ExtractableResponse<Response> JAVA_기술_응답 = 기술로_피드_검색_요청(JAVA.getName());
-        ExtractableResponse<Response> JAVA_AND_SPRING_기술_응답 = 기술로_피드_검색_요청(JAVA.getName() + "," + SPRING.getName());
+        ExtractableResponse<Response> JAVA_OR_SPRING_기술_응답 = 기술로_피드_검색_요청(JAVA.getName() + "," + SPRING.getName());
 
         // then
         피드_목록_조회_응답됨(JAVA_기술_응답);
-        피드_목록_조회_응답됨(JAVA_AND_SPRING_기술_응답);
-        피드_목록_포함됨(JAVA_기술_응답, Arrays.asList(JAVA_기술가진_피드_ID, JAVA_AND_SPRING_기술가진_피드_ID));
-        피드_목록_포함됨(JAVA_AND_SPRING_기술_응답, Collections.singletonList(JAVA_AND_SPRING_기술가진_피드_ID));
+        피드_목록_조회_응답됨(JAVA_OR_SPRING_기술_응답);
+        페이지네이션_피드_목록_포함됨(JAVA_기술_응답, Arrays.asList(JAVA_AND_SPRING_기술가진_피드_ID, JAVA_기술가진_피드_ID), null);
+        페이지네이션_피드_목록_포함됨(JAVA_OR_SPRING_기술_응답, Arrays.asList(JAVA_AND_SPRING_기술가진_피드_ID, JAVA_기술가진_피드_ID), null);
     }
 
     @DisplayName("query, techs로 피드를 검색하고 필터링 조건으로도 검색한다.")
@@ -352,22 +423,21 @@ class FeedAcceptanceTest extends AcceptanceTest {
         // then
         피드_목록_조회_응답됨(쿼리와_기술로_피드_검색_응답);
         피드_목록_조회_응답됨(쿼리_기술_필터링값으로_피드_검색_응답);
-        피드_목록_포함됨(쿼리와_기술로_피드_검색_응답, Arrays.asList(JAVA_기술가진_피드_ID, JAVA_AND_SPRING_기술가진_피드_ID));
-        피드_목록_포함됨(쿼리_기술_필터링값으로_피드_검색_응답, Collections.singletonList(JAVA_AND_SPRING_기술가진_피드_ID));
-
+        페이지네이션_피드_목록_포함됨(쿼리와_기술로_피드_검색_응답, Arrays.asList(JAVA_AND_SPRING_기술가진_피드_ID, JAVA_기술가진_피드_ID), null);
+        페이지네이션_피드_목록_포함됨(쿼리_기술_필터링값으로_피드_검색_응답, Arrays.asList(JAVA_AND_SPRING_기술가진_피드_ID, JAVA_기술가진_피드_ID), null);
     }
 
     @DisplayName("지원하지 않는 필터값으로만 피드를 검색한다.")
     @Test
     void searchResponseOnlyFilter() {
         // given
-        String filter = "notSupported";
+        String step = "notSupported";
 
         // when
-        ExtractableResponse<Response> 지원하지_않는_필터링값_응답 = 필터링값으로_피드_검색_요청(filter);
+        ExtractableResponse<Response> 지원하지_않는_프로젝트_단계_응답 = 프로젝트_단계로_피드_검색_요청(step);
 
         // then
-        존재하지_않는_필터링값으로_피드_목록_조회_실패(지원하지_않는_필터링값_응답);
+        페이지네이션_피드_목록_포함됨(지원하지_않는_프로젝트_단계_응답, Collections.emptyList(), null);
     }
 
     @DisplayName("필터값으로만 피드를 검색한다. - 빈 배열")
@@ -391,10 +461,10 @@ class FeedAcceptanceTest extends AcceptanceTest {
         피드_목록_조회_응답됨(PROGRESS_필터링값_응답);
         피드_목록_조회_응답됨(COMPLETE_필터링값_응답);
 
-        피드_목록_포함됨(ALL_필터링값_응답, Collections.emptyList());
-        피드_목록_포함됨(SOS_필터링값_응답, Collections.emptyList());
-        피드_목록_포함됨(PROGRESS_필터링값_응답, Collections.emptyList());
-        피드_목록_포함됨(COMPLETE_필터링값_응답, Collections.emptyList());
+        페이지네이션_피드_목록_포함됨(ALL_필터링값_응답, Collections.emptyList(), null);
+        페이지네이션_피드_목록_포함됨(SOS_필터링값_응답, Collections.emptyList(), null);
+        페이지네이션_피드_목록_포함됨(PROGRESS_필터링값_응답, Collections.emptyList(), null);
+        페이지네이션_피드_목록_포함됨(COMPLETE_필터링값_응답, Collections.emptyList(), null);
     }
 
     public static ExtractableResponse<Response> 피드_작성_요청(FeedRequest feedRequest, String token) {
@@ -453,6 +523,15 @@ class FeedAcceptanceTest extends AcceptanceTest {
                 .extract();
     }
 
+    private ExtractableResponse<Response> 피드_조회_요청(Long 업로드되어_있는_피드_ID, Cookie cookie) {
+        return RestAssured.given().log().all()
+                .when()
+                .cookie(cookie)
+                .get("/feeds/{feedId}", 업로드되어_있는_피드_ID)
+                .then()
+                .log().all()
+                .extract();
+    }
 
     private ExtractableResponse<Response> 피드_수정_요청(String token, Long feedId, FeedRequest request) {
         return RestAssured.given().log().all()
@@ -507,10 +586,10 @@ class FeedAcceptanceTest extends AcceptanceTest {
                 .extract();
     }
 
-    private ExtractableResponse<Response> 최신순_피드_목록_조회_요청(String filter) {
+    private ExtractableResponse<Response> 최신순_피드_목록_조회_요청(String params) {
         return RestAssured.given().log().all()
                 .accept(MediaType.APPLICATION_JSON_VALUE)
-                .when().get("/feeds/recent?filter={filter}", filter)
+                .when().get("/feeds/recent?{param}", params)
                 .then().log().all()
                 .extract();
     }
@@ -563,6 +642,15 @@ class FeedAcceptanceTest extends AcceptanceTest {
                 .extract();
     }
 
+
+    private ExtractableResponse<Response> 프로젝트_단계로_피드_검색_요청(String step) {
+        return RestAssured.given().log().all()
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .when().get("/feeds/search?step={step}", step)
+                .then().log().all()
+                .extract();
+    }
+
     private ExtractableResponse<Response> 쿼리_기술_필터링값으로_피드_검색_요청(String query, String techs, String filter) {
         return RestAssured.given().log().all()
                 .accept(MediaType.APPLICATION_JSON_VALUE)
@@ -587,5 +675,16 @@ class FeedAcceptanceTest extends AcceptanceTest {
                 .collect(Collectors.toList());
 
         assertThat(resultLineIds).isEqualTo(expectedLineIds);
+    }
+
+    private void 페이지네이션_피드_목록_포함됨(ExtractableResponse<Response> response, List<Long> expectedLineIds, Long nextFeedId) {
+        FeedCardPaginationResponse cardPaginationResponse = response.jsonPath().getObject(".", FeedCardPaginationResponse.class);
+
+        List<Long> feedIds = cardPaginationResponse.getFeeds().stream()
+                .map(FeedCardResponse::getId)
+                .collect(Collectors.toList());
+
+        assertThat(feedIds).isEqualTo(expectedLineIds);
+        assertThat(cardPaginationResponse.getNextFeedId()).isEqualTo(nextFeedId);
     }
 }

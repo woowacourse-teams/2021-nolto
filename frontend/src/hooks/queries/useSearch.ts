@@ -1,27 +1,40 @@
-import { useQuery, UseQueryOptions } from 'react-query';
+import { useInfiniteQuery, UseInfiniteQueryOptions } from 'react-query';
 
 import api from 'constants/api';
-import { ErrorHandler, Feed, FilterType } from 'types';
+import QUERY_KEYS from 'constants/queryKeys';
+import { ErrorHandler, Feed, FeedStep, SearchParams } from 'types';
 import HttpError from 'utils/HttpError';
 import { resolveHttpError } from 'utils/error';
 
-interface SearchParams {
-  query: string;
-  techs: string;
-  filter: FilterType;
-}
-
-interface CustomQueryOption extends UseQueryOptions<Feed[], HttpError> {
+interface CustomQueryOption extends UseInfiniteQueryOptions<InfiniteFeedResponse, HttpError> {
+  step?: FeedStep;
+  help?: boolean;
   searchParams: SearchParams;
+  nextFeedId?: number;
+  countPerPage?: number;
   errorHandler?: ErrorHandler;
 }
 
-const getSearchResult = async (searchParams: SearchParams, errorHandler: ErrorHandler) => {
-  const { query, techs, filter } = searchParams;
-  const queryString = new URLSearchParams({ query, techs, filter: filter || '' });
+interface InfiniteFeedResponse {
+  feeds: Feed[];
+  nextFeedId: number;
+}
+
+const getSearchResult = async ({
+  searchParams,
+  step,
+  help,
+  nextFeedId,
+  countPerPage,
+  errorHandler,
+}: CustomQueryOption) => {
+  const { query, techs } = searchParams;
 
   try {
-    const { data } = await api.get('/feeds/search?' + queryString);
+    console.log(query, techs);
+    const { data } = await api.get('/feeds/search', {
+      params: { query, techs, step: step || '', help, nextFeedId, countPerPage },
+    });
 
     return data;
   } catch (error) {
@@ -33,11 +46,29 @@ const getSearchResult = async (searchParams: SearchParams, errorHandler: ErrorHa
   }
 };
 
-const useSearch = ({ searchParams, errorHandler, ...option }: CustomQueryOption) => {
-  return useQuery<Feed[]>(
-    ['searchResult', searchParams],
-    () => getSearchResult(searchParams, errorHandler),
-    option,
+const useSearch = ({
+  step,
+  help,
+  searchParams,
+  countPerPage,
+  errorHandler,
+  ...options
+}: CustomQueryOption) => {
+  return useInfiniteQuery<InfiniteFeedResponse, HttpError>(
+    [QUERY_KEYS.SEARCH_RESULT, { step, help, countPerPage, searchParams }],
+    ({ pageParam }) =>
+      getSearchResult({
+        step,
+        help,
+        searchParams,
+        nextFeedId: pageParam,
+        countPerPage,
+        errorHandler,
+      }),
+    {
+      getNextPageParam: (lastPage) => lastPage.nextFeedId ?? false,
+      ...options,
+    },
   );
 };
 

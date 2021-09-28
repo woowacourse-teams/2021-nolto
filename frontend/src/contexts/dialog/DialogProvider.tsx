@@ -1,8 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import ReactDOM from 'react-dom';
 
-import Styled, { Button } from './DialogProvider.styles';
 import { ButtonStyle, DialogType } from 'types';
+import Styled, { Button } from './DialogProvider.styles';
 
 interface Props {
   children: React.ReactNode;

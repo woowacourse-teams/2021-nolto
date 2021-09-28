@@ -22,10 +22,10 @@ const Root = styled.div`
 `;
 
 const SvgRoot = styled.svg`
-  height: 400px;
+  height: 360px;
 
   @media ${MEDIA_QUERY.TABLET} {
-    height: 360px;
+    height: 320px;
   }
 
   @media ${MEDIA_QUERY.MOBILE} {
@@ -33,14 +33,14 @@ const SvgRoot = styled.svg`
   }
 
   ellipse {
-    filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.25));
+    filter: ${({ theme }) => theme.headerShadow};
 
     @media ${MEDIA_QUERY.TABLET} {
       height: 340px;
       cx: 50%;
       cy: 10px;
       rx: 100%;
-      ry: 324px;
+      ry: 300px;
     }
 
     @media ${MEDIA_QUERY.MOBILE} {
@@ -57,8 +57,8 @@ const Horse = styled(HorseIcon)`
   width: 84px;
   height: auto;
   position: absolute;
-  right: 20%;
-  bottom: 10%;
+  right: 10%;
+  bottom: 13%;
   transform: rotate(-12deg);
 
   &:hover {
@@ -68,11 +68,47 @@ const Horse = styled(HorseIcon)`
 
   @media ${MEDIA_QUERY.TABLET} {
     width: 68px;
+    bottom: 20%;
   }
 
   @media ${MEDIA_QUERY.MOBILE} {
     width: 48px;
+    bottom: 10%;
   }
 `;
 
-export default { Root, SvgRoot, Horse };
+const LuckyBag = styled.img`
+  width: 104px;
+  height: auto;
+  position: absolute;
+  right: 10%;
+  bottom: 16%;
+  cursor: pointer;
+  transform: rotate(-12deg);
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  @media ${MEDIA_QUERY.TABLET} {
+    display: none;
+  }
+`;
+
+const Video = styled.video`
+  position: absolute;
+  left: 4%;
+  bottom: 24%;
+  transform: rotate(12deg);
+`;
+
+const MoonRabbit = styled.img`
+  position: absolute;
+  left: 2%;
+  bottom: 3%;
+  transform: rotate(12deg);
+  visibility: ${({ theme }) => theme.moonRabbit};
+`;
+
+export default { Root, SvgRoot, Horse, LuckyBag, Video, MoonRabbit };
