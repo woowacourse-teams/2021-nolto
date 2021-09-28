@@ -6,7 +6,6 @@ import com.wooteco.nolto.image.config.FFmpegConfig;
 import com.wooteco.nolto.image.domain.ProcessedImage;
 import com.wooteco.nolto.image.infrastructure.FFmpegConverter;
 import net.bramp.ffmpeg.FFmpeg;
-import net.bramp.ffmpeg.FFprobe;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +38,6 @@ class ImageHandlerAdapterTest {
     @BeforeEach
     void setUp() throws IOException {
         given(ffmpegConfig.ffmpeg()).willReturn(new FFmpeg());
-        given(ffmpegConfig.ffprobe()).willReturn(new FFprobe());
         willDoNothing().given(ffmpegConverter).convertGifToMp4(anyString(), anyString());
     }
 
