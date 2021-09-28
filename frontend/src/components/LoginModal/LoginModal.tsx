@@ -11,14 +11,14 @@ const LoginModal = () => {
     const { data } = await api.get('/login/oauth/github');
     const url = 'https://github.com/login/oauth/authorize?' + new URLSearchParams(data);
 
-    window.location.replace(url);
+    window?.location.replace(url);
   };
 
   const googleLogin = async () => {
     const { data } = await api.get('/login/oauth/google');
     const url = 'https://accounts.google.com/o/oauth2/v2/auth?' + new URLSearchParams(data);
 
-    window.location.replace(url);
+    window?.location.replace(url);
   };
 
   return (

@@ -27,7 +27,7 @@ const Home = ({ toggleTheme }: Props) => {
   const isEllipseVisible = useOnScreen(ellipseRef);
 
   const scrollTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window?.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const localSettingTheme = localStorage.getItem('theme');
@@ -35,7 +35,7 @@ const Home = ({ toggleTheme }: Props) => {
   const searchTitle = localSettingTheme === 'default' ? 'Search for Ideas?' : '🌝 Happy Chuseok ❣️';
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window?.scrollTo(0, 0);
   }, []);
 
   return (

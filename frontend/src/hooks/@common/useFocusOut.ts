@@ -11,7 +11,7 @@ const idGenerator = genNewId();
 
 let registeredCallbackInfos: RegisteredCallbackInfo[] = [];
 
-document.addEventListener('mousedown', (event) => {
+window?.document.addEventListener('mousedown', (event) => {
   registeredCallbackInfos.forEach((callbackInfo) => {
     if (!callbackInfo.targetElementRef.current) return;
 

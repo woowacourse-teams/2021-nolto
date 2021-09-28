@@ -56,7 +56,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
   };
 
   const createKakaoShare = () => {
-    window.Kakao.Link.createDefaultButton({
+    window?.Kakao.Link.createDefaultButton({
       container: '#create-kakao-link-btn',
       objectType: 'feed',
       content: {
@@ -64,16 +64,16 @@ const FeedDetailContent = ({ feedId }: Props) => {
         description: '🧸 놀토에서 친구가 공유한 프로젝트를 확인해 보세요!',
         imageUrl: feedDetail.thumbnailUrl,
         link: {
-          mobileWebUrl: window.location.href,
-          webUrl: window.location.href,
+          mobileWebUrl: window?.location.href,
+          webUrl: window?.location.href,
         },
       },
       buttons: [
         {
           title: '프로젝트 구경가기',
           link: {
-            mobileWebUrl: window.location.href,
-            webUrl: window.location.href,
+            mobileWebUrl: window?.location.href,
+            webUrl: window?.location.href,
           },
         },
       ],
@@ -107,7 +107,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
   };
 
   useEffect(() => {
-    if (window.Kakao.isInitialized()) {
+    if (window?.Kakao.isInitialized()) {
       if (!isKakaoLoaded) {
         createKakaoShare();
         setKakaoLoaded(true);

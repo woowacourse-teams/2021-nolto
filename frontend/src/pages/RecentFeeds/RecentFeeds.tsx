@@ -9,7 +9,7 @@ import { PALETTE } from 'constants/palette';
 
 const RecentFeeds = () => {
   const scrollTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window?.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (

@@ -15,7 +15,6 @@ interface ModalContext {
 }
 
 export const Context = React.createContext<ModalContext | null>(null);
-const modalRoot = document.getElementById('modal-root');
 
 const ModalProvider = ({ children }: Props) => {
   const [modal, setModal] = useState<ReactNode | null>(null);
@@ -52,7 +51,9 @@ const ModalProvider = ({ children }: Props) => {
   return (
     <Context.Provider value={contextValue}>
       {children}
-      {isOpen && ReactDOM.createPortal(modalElement, modalRoot)}
+      {window &&
+        isOpen &&
+        ReactDOM.createPortal(modalElement, document.getElementById('modal-root'))}
     </Context.Provider>
   );
 };

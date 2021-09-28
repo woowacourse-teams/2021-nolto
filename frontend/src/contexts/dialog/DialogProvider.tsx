@@ -17,8 +17,6 @@ type OnConfirm = () => unknown;
 
 export const Context = React.createContext<DialogContext>(null);
 
-const dialogRoot = document.getElementById('dialog-root');
-
 const DialogProvider = ({ children }: Props) => {
   const [dialogType, setDialogType] = useState<DialogType>();
   const [message, setMessage] = useState('');
@@ -85,7 +83,9 @@ const DialogProvider = ({ children }: Props) => {
   return (
     <Context.Provider value={contextValue}>
       {children}
-      {isOpen && ReactDOM.createPortal(dialogElement, dialogRoot)}
+      {window &&
+        isOpen &&
+        ReactDOM.createPortal(dialogElement, document.getElementById('dialog-root'))}
     </Context.Provider>
   );
 };

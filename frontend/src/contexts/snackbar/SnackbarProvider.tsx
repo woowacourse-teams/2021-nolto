@@ -17,8 +17,6 @@ interface SnackbarContext {
 
 export const Context = createContext<SnackbarContext>(null);
 
-const snackbarRoot = document.getElementById('snackbar-root');
-
 const SnackbarProvider = ({ children }: Props) => {
   const { snackbars, addSnackbar } = useSnackbarProvider({
     maxSnackbarCount: 3,
@@ -46,7 +44,7 @@ const SnackbarProvider = ({ children }: Props) => {
   return (
     <Context.Provider value={contextValue}>
       {children}
-      {ReactDOM.createPortal(snackbarElement, snackbarRoot)}
+      {window && ReactDOM.createPortal(snackbarElement, document.getElementById('snackbar-root'))}
     </Context.Provider>
   );
 };
