@@ -56,7 +56,7 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<CommentLike> commentLikes = new ArrayList<>();
 
     public User(String socialId, SocialType socialType, String nickName, String imageUrl) {
@@ -153,7 +153,6 @@ public class User extends BaseEntity {
 
     public void deleteComment(Comment comment) {
         this.comments.remove(comment);
-        comment.delete();
     }
 
     @Override

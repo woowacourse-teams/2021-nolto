@@ -30,15 +30,15 @@ public class Comment extends BaseEntity {
     @Column(nullable = false)
     private boolean helper;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(nullable = false)
     private Feed feed;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(nullable = false)
     private User author;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "parent_id")
     private Comment parentComment;
 
@@ -90,12 +90,6 @@ public class Comment extends BaseEntity {
         return this;
     }
 
-    public void setFeed(Feed feed) {
-        if (Objects.isNull(this.feed)) {
-            this.feed = feed;
-        }
-    }
-
     public void addCommentLike(CommentLike commentLike) {
         this.likes.add(commentLike);
     }
@@ -123,35 +117,6 @@ public class Comment extends BaseEntity {
 
     public boolean changedToHelper(boolean helper) {
         return !this.helper && this.helper != helper;
-    }
-
-    public void delete() {
-        if (isComment()) {
-            deleteReplies();
-        }
-        this.parentComment = null;
-        this.author = null;
-        this.feed.deleteComment(this);
-        this.feed = null;
-        deleteLikes();
-    }
-
-    private void deleteReplies() {
-        for (Comment reply : replies) {
-            reply.getAuthor().deleteComment(reply);
-        }
-        this.replies.clear();
-    }
-
-    private void deleteLikes() {
-        for (CommentLike like : this.likes) {
-            like.deleteByComment();
-        }
-        this.likes.clear();
-    }
-
-    public boolean isComment() {
-        return Objects.isNull(parentComment);
     }
 
     public boolean isReply() {
