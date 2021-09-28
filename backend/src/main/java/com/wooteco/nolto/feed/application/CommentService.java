@@ -63,7 +63,6 @@ public class CommentService {
             applicationEventPublisher.publishEvent(new NotificationCommentDeleteEvent(findComment));
         }
         user.deleteComment(findComment);
-        commentRepository.delete(findComment);
     }
 
     public Comment findEntityById(Long commentId) {

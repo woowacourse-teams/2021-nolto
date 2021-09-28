@@ -33,9 +33,4 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
             "where com.feed.id = :feedId and com.parentComment.id = :parentCommentId " +
             "order by com.createdDate desc, com.id desc")
     List<Comment> findAllByFeedIdAndParentCommentIdWithFetchJoin(@Param("feedId") Long feedId, @Param("parentCommentId") Long parentCommentId);
-
-    @Modifying(clearAutomatically = true, flushAutomatically = true)
-    @Query(value = "delete from Comment c where c.id = :commentId or c.parentComment.id = :commentId")
-    int deleteByCommentId(@Param("commentId") Long commentId);
-
 }
