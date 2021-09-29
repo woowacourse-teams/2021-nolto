@@ -27,7 +27,7 @@ public class FFmpegConverter {
     public void convertGifToMp4(String gifFilePath, String mp4FilePath) {
         log.info("convert gif to mp4 {} -> {}", gifFilePath, mp4FilePath);
         try {
-            ImageSize gifImageSizeWithResize = ImageSize.resizeOf(gifFilePath);
+            ImageSize resizedGifImage = ImageSize.of(gifFilePath).resize();
 
             FFmpegBuilder builder = new FFmpegBuilder()
                     .setInput(gifFilePath)
@@ -38,15 +38,15 @@ public class FFmpegConverter {
                     .setVideoMovFlags("faststart")
                     .setVideoPixelFormat("yuv420p")
                     .setVideoFilter("scale=trunc(iw/2)*2:trunc(ih/2)*2")
-                    .setVideoWidth(gifImageSizeWithResize.getWidthOnesRounded())
-                    .setVideoHeight(gifImageSizeWithResize.getHeightOnesRounded())
+                    .setVideoWidth(resizedGifImage.getWidthOnesRounded())
+                    .setVideoHeight(resizedGifImage.getHeightOnesRounded())
                     .done();
 
             FFmpegExecutor executor = new FFmpegExecutor(ffmpeg);
             FFmpegJob job = executor.createJob(builder);
             job.run();
-
             checkExistsMp4File(mp4FilePath);
+
         } catch (RuntimeException | IOException e) {
             throw new InternalServerErrorException(ErrorType.GIF_MP4_CONVERT_FAIL);
         }
