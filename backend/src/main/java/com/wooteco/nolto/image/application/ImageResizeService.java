@@ -10,21 +10,17 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
 @Service
 public class ImageResizeService {
 
     public File resize(File file, String fileName) {
         try {
-            BufferedImage image = ImageIO.read(file);
-            BufferedImage resizedImage = resizeImage(image, fileName);
+            BufferedImage originalImage = ImageIO.read(file);
+            BufferedImage resizedImage = resizeImage(originalImage, fileName);
 
-            if (resizedImage.equals(image)) {
-                return file;
-            }
-            File resizedFile = new File(fileName);
-            ImageIO.write(resizedImage, FilenameUtils.getExtension(fileName), resizedFile);
-            return resizedFile;
+            return getFile(file, fileName, originalImage, resizedImage);
         } catch (Exception e) {
             throw new InternalServerErrorException(ErrorType.IMAGE_RESIZING_FAIL);
         }
@@ -51,8 +47,16 @@ public class ImageResizeService {
     private BufferedImage getBufferedImage(String fileName, int resizedWidth, int resizedHeight) {
         if ("png".equals(FilenameUtils.getExtension(fileName))) {
             return new BufferedImage(resizedWidth, resizedHeight, BufferedImage.TYPE_INT_ARGB);
-        } else {
-            return new BufferedImage(resizedWidth, resizedHeight, BufferedImage.TYPE_INT_RGB);
         }
+        return new BufferedImage(resizedWidth, resizedHeight, BufferedImage.TYPE_INT_RGB);
+    }
+
+    private File getFile(File file, String fileName, BufferedImage originalImage, BufferedImage resizedImage) throws IOException {
+        if (resizedImage.equals(originalImage)) {
+            return file;
+        }
+        File resizedFile = new File(fileName);
+        ImageIO.write(resizedImage, FilenameUtils.getExtension(fileName), resizedFile);
+        return resizedFile;
     }
 }
