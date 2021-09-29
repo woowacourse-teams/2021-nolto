@@ -2,12 +2,14 @@ package com.wooteco.nolto.image.infrastructure;
 
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.InternalServerErrorException;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+@Slf4j
 public class ImageSize {
 
     private static final double MAX_PIXEL = 400.0;
@@ -24,19 +26,20 @@ public class ImageSize {
 
     private void validateSize(int width, int height) {
         if (width <= 0 && height <= 0) {
-            throw new IllegalArgumentException("이미지 사이즈는 0보다 커야합니다.");
+            log.error("이미지 사이즈는 0보다 커야합니다.");
+            throw new InternalServerErrorException(ErrorType.IMAGE_RESIZING_FAIL);
         }
     }
 
     public static ImageSize of(String filePath) {
         File imageFile = new File(filePath);
-        BufferedImage image = null;
         try {
-            image = ImageIO.read(imageFile);
+            return of(ImageIO.read(imageFile));
         } catch (IOException e) {
+            log.error("이미지 파일을 읽는데 실패했습니다.", e);
             throw new InternalServerErrorException(ErrorType.IMAGE_RESIZING_FAIL);
         }
-        return of(image);
+
     }
 
     public static ImageSize of(BufferedImage image) {
