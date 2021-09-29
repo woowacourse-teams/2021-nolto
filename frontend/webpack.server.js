@@ -1,7 +1,6 @@
 const path = require('path');
 const { merge } = require('webpack-merge');
 const nodeExternals = require('webpack-node-externals');
-const HtmlWebPackPlugin = require('html-webpack-plugin');
 const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
@@ -15,9 +14,4 @@ module.exports = merge(common, {
     publicPath: '/',
     clean: true,
   },
-  plugins: [
-    new HtmlWebPackPlugin({
-      template: './public/index.html',
-    }),
-  ],
 });

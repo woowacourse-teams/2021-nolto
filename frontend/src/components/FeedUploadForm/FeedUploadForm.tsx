@@ -8,6 +8,7 @@ import FileInput from 'components/@common/FileInput/FileInput';
 import Toggle from 'components/@common/Toggle/Toggle';
 import RadioButton from 'components/@common/RadioButton/RadioButton';
 import ErrorMessage from 'components/@common/ErrorMessage/ErrorMessage';
+import Markdown from 'components/@common/Markdown/Markdown';
 import { FlexContainer } from 'commonStyles';
 import REGEX from 'constants/regex';
 import { THUMBNAIL_EXTENSION } from 'constants/common';
@@ -27,7 +28,6 @@ import Styled, {
   SOSTooltip,
   Toybox,
 } from './FeedUploadForm.styles';
-import Markdown from 'components/@common/Markdown/Markdown';
 
 type FeedToUploadPartial = Omit<FeedToUpload, 'techs'>;
 

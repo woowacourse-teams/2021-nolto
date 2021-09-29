@@ -13,6 +13,7 @@ import ROUTE from 'constants/routes';
 import { ERROR_MSG } from 'constants/message';
 import QUERY_KEYS from 'constants/queryKeys';
 import { PALETTE } from 'constants/palette';
+import hasWindow from 'constants/windowDetector';
 import useOnScreen from 'hooks/@common/useOnScreen';
 import { FeedStep } from 'types';
 import HomeFeedsContent from './HomeFeedsContent/HomeFeedsContent';
@@ -27,15 +28,19 @@ const Home = ({ toggleTheme }: Props) => {
   const isEllipseVisible = useOnScreen(ellipseRef);
 
   const scrollTop = () => {
-    window?.scrollTo({ top: 0, behavior: 'smooth' });
+    if (hasWindow) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
-  const localSettingTheme = localStorage.getItem('theme');
+  const localSettingTheme = hasWindow && localStorage.getItem('theme');
 
   const searchTitle = localSettingTheme === 'default' ? 'Search for Ideas?' : '🌝 Happy Chuseok ❣️';
 
   useEffect(() => {
-    window?.scrollTo(0, 0);
+    if (!hasWindow) {
+      window.scrollTo(0, 0);
+    }
   }, []);
 
   return (

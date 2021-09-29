@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 
 import CrossMark from 'assets/crossMark.svg';
 import { PALETTE } from 'constants/palette';
+import hasWindow from 'constants/windowDetector';
 import Styled from './ModalProvider.styles';
 
 interface Props {
@@ -51,7 +52,7 @@ const ModalProvider = ({ children }: Props) => {
   return (
     <Context.Provider value={contextValue}>
       {children}
-      {window &&
+      {hasWindow &&
         isOpen &&
         ReactDOM.createPortal(modalElement, document.getElementById('modal-root'))}
     </Context.Provider>

@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import ReactDOM from 'react-dom';
 
+import hasWindow from 'constants/windowDetector';
 import { ButtonStyle, DialogType } from 'types';
 import Styled, { Button } from './DialogProvider.styles';
 
@@ -83,7 +84,7 @@ const DialogProvider = ({ children }: Props) => {
   return (
     <Context.Provider value={contextValue}>
       {children}
-      {window &&
+      {hasWindow &&
         isOpen &&
         ReactDOM.createPortal(dialogElement, document.getElementById('dialog-root'))}
     </Context.Provider>

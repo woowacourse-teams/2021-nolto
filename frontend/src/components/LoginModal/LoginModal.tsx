@@ -4,6 +4,7 @@ import GithubLogo from 'assets/githubLogo.svg';
 import GoogleLogo from 'assets/googleLogo.svg';
 import { ButtonStyle } from 'types';
 import api from 'constants/api';
+import hasWindow from 'constants/windowDetector';
 import Styled, { OAuthButton } from './LoginModal.styles';
 
 const LoginModal = () => {
@@ -11,14 +12,18 @@ const LoginModal = () => {
     const { data } = await api.get('/login/oauth/github');
     const url = 'https://github.com/login/oauth/authorize?' + new URLSearchParams(data);
 
-    window?.location.replace(url);
+    if (hasWindow) {
+      window.location.replace(url);
+    }
   };
 
   const googleLogin = async () => {
     const { data } = await api.get('/login/oauth/google');
     const url = 'https://accounts.google.com/o/oauth2/v2/auth?' + new URLSearchParams(data);
 
-    window?.location.replace(url);
+    if (hasWindow) {
+      window.location.replace(url);
+    }
   };
 
   return (

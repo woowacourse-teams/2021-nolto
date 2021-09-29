@@ -2,6 +2,7 @@ import React, { Suspense } from 'react';
 
 import Loading from 'components/@common/Loading/Loading';
 import ErrorBoundary from './ErrorBoundary';
+import hasWindow from 'constants/windowDetector';
 
 interface Props {
   pendingFallback?: React.ReactNode;
@@ -10,7 +11,7 @@ interface Props {
 }
 
 const AsyncBoundary = ({ pendingFallback = <Loading />, rejectedFallback, children }: Props) => {
-  if (!window) {
+  if (!hasWindow) {
     return <ErrorBoundary fallback={rejectedFallback}>{children}</ErrorBoundary>;
   }
 

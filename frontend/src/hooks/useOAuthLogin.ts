@@ -3,6 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 import api from 'constants/api';
 import ROUTE from 'constants/routes';
+import hasWindow from 'constants/windowDetector';
 
 const useOAuthLogin = (type: 'google' | 'github') => {
   const history = useHistory();
@@ -13,7 +14,9 @@ const useOAuthLogin = (type: 'google' | 'github') => {
       `/login/oauth/${type}/token?code=${code}`,
     );
 
-    localStorage.setItem('accessToken', data.accessToken);
+    if (hasWindow) {
+      localStorage.setItem('accessToken', data.accessToken);
+    }
     history.push(ROUTE.HOME);
   };
 

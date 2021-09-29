@@ -1,6 +1,7 @@
 import React from 'react';
 import express from 'express';
 import ReactDOMServer from 'react-dom/server';
+import { StaticRouter } from 'react-router';
 
 import path from 'path';
 import fs from 'fs';
@@ -10,10 +11,16 @@ import App from '../src/App';
 const PORT = process.env.PORT || 4000;
 const app = express();
 
-app.get('/', (req, res) => {
-  const app = ReactDOMServer.renderToString(<App />);
+app.use(express.json());
 
-  const indexFile = path.resolve(__dirname, '../dist/index.html');
+app.get('/', (req, res) => {
+  const reactApp = ReactDOMServer.renderToString(
+    <StaticRouter location={req.url}>
+      <App />
+    </StaticRouter>,
+  );
+
+  const indexFile = path.resolve(__dirname, '../index.html');
 
   fs.readFile(indexFile, 'utf8', (err, data) => {
     if (err) {
@@ -21,11 +28,11 @@ app.get('/', (req, res) => {
       return res.status(500).send('서버에서 에러가 발생했습니다. 🔫');
     }
 
-    return res.send(data.replace('<div id="root"></div>', `<div id="root">${app}</div>`));
+    return res.send(data.replace('<div id="root"></div>', `<div id="root">${reactApp}</div>`));
   });
 });
 
-app.use(express.static(path.resolve(__dirname, '../dist')));
+app.use(express.static(path.resolve(__dirname, '..')));
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);

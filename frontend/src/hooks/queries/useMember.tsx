@@ -4,6 +4,7 @@ import { useQuery, useQueryClient } from 'react-query';
 import api from 'constants/api';
 import QUERY_KEYS from 'constants/queryKeys';
 import { ALERT_MSG } from 'constants/message';
+import hasWindow from 'constants/windowDetector';
 import HttpError from 'utils/HttpError';
 import useModal from 'contexts/modal/useModal';
 import useDialog from 'contexts/dialog/useDialog';
@@ -12,7 +13,7 @@ import { UserInfo } from 'types';
 import { resolveHttpError } from 'utils/error';
 
 const getMember = async (): Promise<UserInfo> => {
-  const token = localStorage.getItem('accessToken') || '';
+  const token = (hasWindow && localStorage.getItem('accessToken')) || '';
 
   if (!token) return;
 

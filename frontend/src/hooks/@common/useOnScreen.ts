@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react';
 
+import hasWindow from 'constants/windowDetector';
+
 const useOnScreen = (ref: React.RefObject<HTMLElement>) => {
   const [isIntersecting, setIntersecting] = useState(false);
 
-  const observer = new IntersectionObserver(([entry]) => setIntersecting(entry.isIntersecting));
+  const observer =
+    hasWindow && new IntersectionObserver(([entry]) => setIntersecting(entry.isIntersecting));
 
   useEffect(() => {
-    observer.observe(ref.current);
+    observer?.observe(ref.current);
     return () => {
-      observer.disconnect();
+      observer?.disconnect();
     };
   }, []);
 
