@@ -47,16 +47,7 @@ public class ImageService {
         ImageHandlerAdapter imageHandlerAdapter = findImageHandlerAdapter(file);
         ProcessedImage processedImage = imageHandlerAdapter.handle(file);
         String savedFileName = imageRepository.save(processedImage);
-        try {
-            Files.delete(Paths.get(processedImage.getFile().getPath()));
-            if (file != processedImage.getFile()) {
-                Files.delete(Paths.get(file.getPath()));
-            }
-        } catch (Exception e) {
-            log.error("파일 변환 후 잔여 파일 삭제 실패 -- 원본 파일: {}, 변경 파일: {}, 에러 메시지: {}",
-                    file.getPath(), processedImage.getFile().getPath(), e.getMessage());
-            return savedFileName;
-        }
+        deleteFilesAfterWork(file, processedImage);
         return savedFileName;
     }
 
@@ -78,6 +69,22 @@ public class ImageService {
             throw new InternalServerErrorException(ErrorType.MULTIPART_CONVERT_FAIL);
         }
         return convertedFile;
+    }
+
+    private void deleteFilesAfterWork(File file, ProcessedImage processedImage) {
+        try {
+            Files.delete(Paths.get(processedImage.getFile().getPath()));
+            deleteOriginalFile(file, processedImage);
+        } catch (Exception e) {
+            log.error("파일 변환 후 잔여 파일 삭제 실패 -- 원본 파일: {}, 변경 파일: {}, 에러 메시지: {}",
+                    file.getPath(), processedImage.getFile().getPath(), e.getMessage());
+        }
+    }
+
+    private void deleteOriginalFile(File file, ProcessedImage processedImage) throws IOException {
+        if (file != processedImage.getFile()) {
+            Files.delete(Paths.get(file.getPath()));
+        }
     }
 
     public String update(String oldImageUrl, MultipartFile updateImage, ImageKind imageKind) {
