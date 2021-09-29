@@ -8,7 +8,7 @@ import LoginModal from 'components/LoginModal/LoginModal';
 import { PALETTE } from 'constants/palette';
 import ROUTE from 'constants/routes';
 import useModal from 'contexts/modal/useModal';
-import useMember from 'hooks/queries/useMember';
+import useMember from 'contexts/member/useMember';
 import { ButtonStyle } from 'types';
 import Styled, { Logo, LogoText, Searchbar } from './Header.styles';
 import IconButton from 'components/@common/IconButton/IconButton';

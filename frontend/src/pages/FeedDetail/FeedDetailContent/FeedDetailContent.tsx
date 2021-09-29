@@ -6,7 +6,7 @@ import ViewCountIcon from 'assets/viewCount.svg';
 import ShareIcon from 'assets/share.svg';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
 import useFeedDetail from 'hooks/queries/feed/useFeedDetail';
-import useMember from 'hooks/queries/useMember';
+import useMember from 'contexts/member/useMember';
 import hasWindow from 'constants/windowDetector';
 import { PALETTE } from 'constants/palette';
 import ROUTE from 'constants/routes';

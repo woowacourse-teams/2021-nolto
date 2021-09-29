@@ -11,6 +11,7 @@ import ErrorFallback from 'components/ErrorFallback/ErrorFallback';
 import DialogProvider from 'contexts/dialog/DialogProvider';
 import ModalProvider from 'contexts/modal/ModalProvider';
 import SnackbarProvider from 'contexts/snackbar/SnackbarProvider';
+import MemberProvider from 'contexts/member/MemberProvider';
 import ROUTE from 'constants/routes';
 import { ERROR_MSG } from 'constants/message';
 import useTheme from 'hooks/useTheme';
@@ -40,33 +41,35 @@ const App = () => {
             <SnackbarProvider>
               <DialogProvider>
                 <ModalProvider>
-                  <Route exact path={ROUTE.HOME}>
-                    <Page.Home toggleTheme={toggleThemeMode} />
-                  </Route>
-                  <Route exact path={ROUTE.ABOUT}>
-                    <Page.About />
-                  </Route>
-                  <PrivateRoute path={ROUTE.UPLOAD}>
-                    <Page.Upload />
-                  </PrivateRoute>
-                  <PrivateRoute path={ROUTE.MODIFY}>
-                    <Page.Modify />
-                  </PrivateRoute>
-                  <Route exact path={ROUTE.RECENT}>
-                    <Page.RecentFeeds />
-                  </Route>
-                  <Route path={`${ROUTE.FEEDS}/:id`}>
-                    <Page.FeedDetail />
-                  </Route>
-                  <Route path={ROUTE.SEARCH}>
-                    <Page.SearchResult />
-                  </Route>
-                  <Route path={ROUTE.MYPAGE}>
-                    <Page.Mypage />
-                  </Route>
-                  <Route path="/:oauth/callback">
-                    <Page.OAuth />
-                  </Route>
+                  <MemberProvider>
+                    <Route exact path={ROUTE.HOME}>
+                      <Page.Home toggleTheme={toggleThemeMode} />
+                    </Route>
+                    <Route exact path={ROUTE.ABOUT}>
+                      <Page.About />
+                    </Route>
+                    <PrivateRoute path={ROUTE.UPLOAD}>
+                      <Page.Upload />
+                    </PrivateRoute>
+                    <PrivateRoute path={ROUTE.MODIFY}>
+                      <Page.Modify />
+                    </PrivateRoute>
+                    <Route exact path={ROUTE.RECENT}>
+                      <Page.RecentFeeds />
+                    </Route>
+                    <Route path={`${ROUTE.FEEDS}/:id`}>
+                      <Page.FeedDetail />
+                    </Route>
+                    <Route path={ROUTE.SEARCH}>
+                      <Page.SearchResult />
+                    </Route>
+                    <Route path={ROUTE.MYPAGE}>
+                      <Page.Mypage />
+                    </Route>
+                    <Route path="/:oauth/callback">
+                      <Page.OAuth />
+                    </Route>
+                  </MemberProvider>
                 </ModalProvider>
               </DialogProvider>
             </SnackbarProvider>
