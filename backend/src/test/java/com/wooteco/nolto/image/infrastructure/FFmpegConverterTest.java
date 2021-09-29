@@ -2,6 +2,7 @@ package com.wooteco.nolto.image.infrastructure;
 
 import com.wooteco.nolto.image.config.FFmpegConfig;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,10 +25,15 @@ class FFmpegConverterTest {
 
     @AfterEach
     void tearDown() throws IOException {
+        변환_후_생성된_파일삭제();
+    }
+
+    private void 변환_후_생성된_파일삭제() throws IOException {
         URL resource = getClass().getClassLoader().getResource("static/" + mp4FileName);
         Files.delete(Paths.get(resource.getPath()));
     }
 
+    @DisplayName("ffmpeg 명령어를 사용해서 gif파일을 mp4 파일로 변환한다.")
     @Test
     void convertGifToMp4() {
         // given
