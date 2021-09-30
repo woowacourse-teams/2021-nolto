@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 
 import java.util.List;
 
+import static com.wooteco.nolto.FeedFixture.DEFAULT_IMAGE_URL;
 import static com.wooteco.nolto.acceptance.CommentAcceptanceTest.댓글_등록되어_있음;
 import static com.wooteco.nolto.acceptance.CommentAcceptanceTest.일반_댓글_작성요청;
 import static com.wooteco.nolto.acceptance.FeedAcceptanceTest.*;

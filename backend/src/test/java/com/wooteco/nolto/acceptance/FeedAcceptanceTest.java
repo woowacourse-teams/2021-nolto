@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.wooteco.nolto.FeedFixture.DEFAULT_IMAGE;
 import static com.wooteco.nolto.UserFixture.*;
 import static com.wooteco.nolto.exception.ErrorType.ALREADY_LIKED;
 import static com.wooteco.nolto.exception.ErrorType.NOT_LIKED;

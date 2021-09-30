@@ -14,8 +14,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
 
+import static com.wooteco.nolto.FeedFixture.진행중_단계의_피드_생성;
 import static com.wooteco.nolto.UserFixture.조엘_생성;
-import static com.wooteco.nolto.feed.domain.FeedRepositoryTest.DEFAULT_THUMBNAIL_IMAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -44,23 +44,9 @@ class FeedTechRepositoryTest {
     @BeforeEach
     void setUp() {
         조엘 = 조엘_생성();
-        feed1 = Feed.builder()
-                .title("조엘 프로젝트")
-                .content("조엘의 환상적인 토이 프로젝트로 초대합니다 룰루랄라")
-                .step(Step.PROGRESS)
-                .isSos(true)
-                .storageUrl("storageUrl")
-                .thumbnailUrl(DEFAULT_THUMBNAIL_IMAGE)
-                .build();
-        feed2 = Feed.builder()
-                .title("놀토 프로젝트")
-                .content("놀토는 정말 세계에서 제일가는 팀입니다. 우테코 최고 아웃풋이죠")
-                .step(Step.PROGRESS)
-                .isSos(false)
-                .storageUrl("storageUrl")
-                .deployedUrl("deployUrl")
-                .thumbnailUrl(DEFAULT_THUMBNAIL_IMAGE)
-                .build();
+        feed1 = 진행중_단계의_피드_생성("조엘 프로젝트", "조엘의 환상적인 토이 프로젝트로 초대합니다 룰루랄라");
+        feed2 = 진행중_단계의_피드_생성("놀토 프로젝트", "놀토는 정말 세계에서 제일가는 팀입니다. 우테코 최고 아웃풋이죠");
+
         tech1 = new Tech("Spring");
         tech2 = new Tech("Django");
         tech3 = new Tech("MySql");

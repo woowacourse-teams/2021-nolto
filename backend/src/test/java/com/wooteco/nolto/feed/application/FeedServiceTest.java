@@ -184,7 +184,6 @@ class FeedServiceTest {
         // when
         Feed feed = feedService.findEntityById(feedId);
 
-        List<FeedTech> feedTechs = feed.getFeedTechs();
         feedService.delete(찰리, feedId);
         em.flush();
 

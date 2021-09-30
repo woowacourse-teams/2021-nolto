@@ -19,6 +19,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.multipart.MultipartFile;
 
+import static com.wooteco.nolto.FeedFixture.DEFAULT_IMAGE_URL;
 import static com.wooteco.nolto.UserFixture.깃헙_유저_생성;
 import static com.wooteco.nolto.acceptance.FeedAcceptanceTest.피드_작성_요청;
 import static org.mockito.ArgumentMatchers.any;
@@ -27,9 +28,6 @@ import static org.mockito.BDDMockito.given;
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public abstract class AcceptanceTest {
-
-    public static final String DEFAULT_IMAGE = "nolto-default-thumbnail.png";
-    public static final String DEFAULT_IMAGE_URL = "https://dksykemwl00pf.cloudfront.net/" + DEFAULT_IMAGE;
 
     @LocalServerPort
     int port;

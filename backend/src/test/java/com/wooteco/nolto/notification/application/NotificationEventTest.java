@@ -18,6 +18,7 @@ import org.springframework.test.context.transaction.BeforeTransaction;
 
 import javax.transaction.Transactional;
 
+import static com.wooteco.nolto.FeedFixture.진행중_단계의_피드_생성;
 import static com.wooteco.nolto.UserFixture.찰리_생성;
 import static com.wooteco.nolto.UserFixture.포모_생성;
 import static org.mockito.Mockito.times;
@@ -41,9 +42,9 @@ class NotificationEventTest {
     @MockBean
     private NotificationService notificationService;
 
-    public User 찰리;
-    public User 포모;
-    public Feed 찰리가_쓴_피드;
+    private User 찰리;
+    private User 포모;
+    private Feed 찰리가_쓴_피드;
 
     @BeforeTransaction
     public void setUp() {
@@ -52,15 +53,7 @@ class NotificationEventTest {
         userRepository.save(찰리);
         userRepository.save(포모);
 
-        찰리가_쓴_피드 = Feed.builder()
-                .title("title")
-                .content("난 너무 잘해")
-                .step(Step.PROGRESS)
-                .isSos(true)
-                .storageUrl("https://github.com/woowacourse-teams/2021-nolto")
-                .deployedUrl("https://github.com/woowacourse-teams/2021-nolto")
-                .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
-                .build().writtenBy(찰리);
+        찰리가_쓴_피드 = 진행중_단계의_피드_생성().writtenBy(찰리);
         feedRepository.save(찰리가_쓴_피드);
     }
 
