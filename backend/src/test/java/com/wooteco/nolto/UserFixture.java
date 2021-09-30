@@ -75,9 +75,9 @@ public class UserFixture {
                 .id(id)
                 .socialId("7")
                 .socialType(SocialType.GITHUB)
-                .nickName("엄청난 구글 유저")
+                .nickName("엄청난 유저")
                 .imageUrl(DEFAULT_USER_IMAGE)
-                .bio("This is 엄청난 구글 유저")
+                .bio("This is 엄청난 유저")
                 .build();
     }
 }
