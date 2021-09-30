@@ -52,7 +52,7 @@ class CommentServiceTest extends CommentServiceFixture {
 
 
     @BeforeEach
-    void setUp() throws InterruptedException {
+    void setUp() {
         super.setUp();
         userRepository.save(깃헙_유저);
         userRepository.save(아마찌);

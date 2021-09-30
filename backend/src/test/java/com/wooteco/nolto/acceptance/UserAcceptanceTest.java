@@ -8,6 +8,7 @@ import com.wooteco.nolto.user.ui.dto.*;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,6 +37,11 @@ class UserAcceptanceTest extends AcceptanceTest {
     void setUpOnUserAcceptance() {
         super.setUp();
         존재하는_유저의_토큰 = 존재하는_유저의_토큰을_받는다().getAccessToken();
+    }
+
+    @AfterEach
+    void clearOnUserAcceptance() {
+        super.clear();
     }
 
     @DisplayName("멤버 자신의 정보를 확인한다.")

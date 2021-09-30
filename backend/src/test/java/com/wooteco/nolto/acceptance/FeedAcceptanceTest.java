@@ -15,6 +15,7 @@ import io.restassured.http.Cookie;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -76,6 +77,11 @@ class FeedAcceptanceTest extends AcceptanceTest {
         좋아요_1개_누를_유저 = 회원_등록되어_있음(아마찌_생성());
         좋아요_2개_누를_유저 = 회원_등록되어_있음(조엘_생성());
         좋아요_3개_누를_유저 = 회원_등록되어_있음(포모_생성());
+    }
+
+    @AfterEach
+    void clearOnFeedAcceptance() {
+        super.clear();
     }
 
     @DisplayName("멤버가 피드를 작성한다. (이미지 : 기본 썸네일)")

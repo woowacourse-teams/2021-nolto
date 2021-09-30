@@ -7,6 +7,7 @@ import com.wooteco.nolto.user.ui.dto.NotificationResponse;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,6 +44,11 @@ class NotificationAcceptanceTest extends AcceptanceTest {
         엄청난_유저의_1번째_피드_ID = 피드_업로드되어_있음(진행중_단계의_피드_요청);
         좋아요_1개_누를_유저 = 회원_등록되어_있음(찰리_생성());
         댓글을_남긴_유저 = 회원_등록되어_있음(포모_생성());
+    }
+
+    @AfterEach
+    void clearOnNotificationAcceptanceTest() {
+        super.clear();
     }
 
     @DisplayName("피드에 좋아요를 누르는 경우 좋아요 알림이 저장된다.")

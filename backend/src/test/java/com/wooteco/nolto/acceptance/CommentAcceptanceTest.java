@@ -11,6 +11,7 @@ import com.wooteco.nolto.user.domain.User;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,6 +42,11 @@ class CommentAcceptanceTest extends AcceptanceTest {
         super.setUp();
         로그인된_댓글_작성자의_토큰 = 댓글_작성자_로그인_되어있음();
         업로드한_피드의_ID = 피드_업로드되어_있음(진행중_단계의_피드_요청, 로그인된_댓글_작성자의_토큰.getAccessToken());
+    }
+
+    @AfterEach
+    void clearOnCommentAcceptanceTest() {
+        super.clear();
     }
 
     @DisplayName("게스트가 댓글 작성을 요청하면 예외가 발생한다.")

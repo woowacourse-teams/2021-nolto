@@ -51,7 +51,7 @@ public class CommentServiceFixture {
     }
 
     @BeforeEach
-    void setUp() throws InterruptedException {
+    void setUp() {
         찰리 = 찰리_생성();
         포모 = 포모_생성();
         userRepository.saveAndFlush(찰리);

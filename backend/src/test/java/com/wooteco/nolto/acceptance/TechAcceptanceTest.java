@@ -12,6 +12,7 @@ import com.wooteco.nolto.user.domain.User;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -55,6 +56,11 @@ class TechAcceptanceTest extends AcceptanceTest {
         자바스크립트_응답 = new TechResponse(자바스크립트.getId(), 자바스크립트.getName());
         리액트_응답 = new TechResponse(리액트.getId(), 리액트.getName());
         리액트_네이티브_응답 = new TechResponse(리액트_네이티브.getId(), 리액트_네이티브.getName());
+    }
+
+    @AfterEach
+    void clearOnTechAcceptance() {
+        super.clear();
     }
 
     @DisplayName("auto_complete 파라미터로 기술 태그의 자동 완성 기능을 사용할 수 있다.")
