@@ -12,12 +12,12 @@ import static com.wooteco.nolto.UserFixture.조엘_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class UserTest {
-    private User 아마찌;
+    private User user;
     private Feed feed;
 
     @BeforeEach
     void setUp() {
-        아마찌 = 아마찌_생성();
+        user = 아마찌_생성();
         feed = Feed.builder()
                 .title("title1")
                 .content("content1")
@@ -31,20 +31,20 @@ class UserTest {
     @DisplayName("멤버가 해당 피드에 좋아요를 눌렀는지 검증한다.")
     @Test
     void isLiked() {
-        feed.writtenBy(아마찌);
+        feed.writtenBy(user);
 
-        아마찌.getLikes().add(new Like(아마찌, feed));
+        user.getLikes().add(new Like(user, feed));
 
-        assertThat(아마찌.isLiked(feed)).isTrue();
+        assertThat(user.isLiked(feed)).isTrue();
     }
 
     @DisplayName("멤버가 해당 피드에 좋아요를 안 눌렀는지 검증한다.")
     @Test
     void isNotLiked() {
         User 조엘 = 조엘_생성();
-        feed.writtenBy(아마찌);
+        feed.writtenBy(user);
 
-        아마찌.getLikes().add(new Like(아마찌, feed));
+        user.getLikes().add(new Like(user, feed));
 
         assertThat(조엘.isLiked(feed)).isFalse();
     }

@@ -4,7 +4,8 @@ import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.user.domain.User;
 
 public class UserFixture {
-    public static final String DEFAULT_USER_IMAGE = "nolto-default-thumbnail.png";
+
+    private static final String DEFAULT_USER_IMAGE = "nolto-default-thumbnail.png";
 
     private UserFixture() {
     }

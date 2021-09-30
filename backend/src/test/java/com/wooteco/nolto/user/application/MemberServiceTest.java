@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.wooteco.nolto.FeedFixture.진행중_단계의_피드_생성;
 import static com.wooteco.nolto.UserFixture.아마찌_생성;
 import static com.wooteco.nolto.UserFixture.조엘_생성;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -57,32 +58,18 @@ class MemberServiceTest {
     @MockBean
     private ImageService imageService;
 
-    public static final String 존재하는_백신_영상_닉네임 = 조엘_생성().getNickName();
-    public static final String 존재하지않는_닉네임 = "존재하지않는 닉네임";
-    public static final String 수정할_닉네임 = "수정할 닉네임";
+    private static final String 존재하는_백신_영상_닉네임 = 조엘_생성().getNickName();
+    private static final String 존재하지않는_닉네임 = "존재하지않는 닉네임";
+    private static final String 수정할_닉네임 = "수정할 닉네임";
 
-    public static final ProfileRequest 프로필_수정_요청 = new ProfileRequest(수정할_닉네임, "안녕하세용", null);
-    public static final ProfileRequest 존재하는_닉네임으로_프로필_수정_요청 = new ProfileRequest(존재하는_백신_영상_닉네임, "안녕하세용", null);
+    private static final ProfileRequest 프로필_수정_요청 = new ProfileRequest(수정할_닉네임, "안녕하세용", null);
+    private static final ProfileRequest 존재하는_닉네임으로_프로필_수정_요청 = new ProfileRequest(존재하는_백신_영상_닉네임, "안녕하세용", null);
 
     private final User 영상이 = 조엘_생성();
     private final User 아마찌 = 아마찌_생성();
 
-    private final Feed 영상이_피드 = Feed.builder()
-            .title("joelFeed")
-            .content("joelFeed")
-            .step(Step.PROGRESS)
-            .isSos(true)
-            .storageUrl("https://github.com/woowacourse-teams/2021-nolto")
-            .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
-            .build();
-    private final Feed 아마찌_피드 = Feed.builder()
-            .title("amaFeed")
-            .content("amaFeed")
-            .step(Step.PROGRESS)
-            .isSos(true)
-            .storageUrl("https://github.com/woowacourse-teams/2021-nolto")
-            .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
-            .build();
+    private final Feed 영상이_피드 = 진행중_단계의_피드_생성();
+    private final Feed 아마찌_피드 = 진행중_단계의_피드_생성();
 
     private final Comment 영상이_피드에_영상이_댓글 = new Comment("joelFeedJoelComment", true);
     private final Comment 아마찌_피드에_영상이_댓글 = new Comment("amaFeedJoelComment", true);

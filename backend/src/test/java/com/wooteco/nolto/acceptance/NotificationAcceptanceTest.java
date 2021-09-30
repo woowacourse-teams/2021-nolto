@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.wooteco.nolto.TechFixture.자바_생성;
 import static com.wooteco.nolto.UserFixture.찰리_생성;
 import static com.wooteco.nolto.UserFixture.포모_생성;
 import static com.wooteco.nolto.acceptance.CommentAcceptanceTest.*;
@@ -37,7 +38,7 @@ class NotificationAcceptanceTest extends AcceptanceTest {
     void setUpOnNotificationAcceptanceTest() {
         super.setUp();
 
-        Tech 자바 = techRepository.save(new Tech("Java"));
+        Tech 자바 = techRepository.save(자바_생성());
         진행중_단계의_피드_요청.setTechs(Arrays.asList(자바.getId()));
 
         피드_작성자의_토큰 = 존재하는_유저의_토큰을_받는다().getAccessToken();

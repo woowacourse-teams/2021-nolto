@@ -1,9 +1,7 @@
 package com.wooteco.nolto.acceptance;
 
-import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.FeedTech;
-import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.feed.domain.repository.FeedTechRepository;
 import com.wooteco.nolto.tech.domain.Tech;
@@ -23,6 +21,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static com.wooteco.nolto.FeedFixture.진행중_단계의_피드_생성;
+import static com.wooteco.nolto.TechFixture.*;
+import static com.wooteco.nolto.UserFixture.조엘_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("기술 태그 관련 기능")
@@ -34,10 +35,11 @@ class TechAcceptanceTest extends AcceptanceTest {
     @Autowired
     private FeedRepository feedRepository;
 
-    private Tech 자바;
-    private Tech 자바스크립트;
-    private Tech 리액트;
-    private Tech 리액트_네이티브;
+    private final Tech 자바 = 자바_생성();
+    private final Tech 자바스크립트 = 자바스크립트_생성();
+    private final Tech 리액트 = 리액트_생성();
+    private final Tech 리액트_네이티브 = 리액트_네이티브_생성();
+
 
     private TechResponse 자바_응답;
     private TechResponse 자바스크립트_응답;
@@ -47,10 +49,7 @@ class TechAcceptanceTest extends AcceptanceTest {
 
     @BeforeEach
     void setUpOnTechAcceptance() {
-        자바 = techRepository.save(new Tech("Java"));
-        자바스크립트 = techRepository.save(new Tech("JavaScript"));
-        리액트 = techRepository.save(new Tech("React"));
-        리액트_네이티브 = techRepository.save(new Tech("React Native"));
+        techRepository.saveAllAndFlush(Arrays.asList(자바, 자바스크립트, 리액트, 리액트_네이티브));
 
         자바_응답 = new TechResponse(자바.getId(), 자바.getName());
         자바스크립트_응답 = new TechResponse(자바스크립트.getId(), 자바스크립트.getName());
@@ -151,7 +150,7 @@ class TechAcceptanceTest extends AcceptanceTest {
     @Test
     void findTrendTechs() {
         //given
-        setUpFeedAndFeedTech();
+        네가지_기술_가진_피드_존재함();
 
         //when
         ExtractableResponse<Response> response = 트렌드_기술_태그_조회한다();
@@ -160,21 +159,15 @@ class TechAcceptanceTest extends AcceptanceTest {
         기술_태그_조회_된다(response, Arrays.asList(자바_응답, 자바스크립트_응답, 리액트_응답, 리액트_네이티브_응답));
     }
 
-    private void setUpFeedAndFeedTech() {
-        User user = new User("1L", SocialType.GOOGLE, "JOEL", "imageUrl");
-        Feed feed = Feed.builder().title("title")
-                .content("content")
-                .step(Step.PROGRESS)
-                .isSos(true)
-                .storageUrl("storageUrl")
-                .thumbnailUrl("http://thumbnailUrl.png")
-                .build()
-                .writtenBy(user);
-
+    private void 네가지_기술_가진_피드_존재함() {
+        User user = 조엘_생성();
         userRepository.save(user);
+
+        Feed feed = 진행중_단계의_피드_생성().writtenBy(user);
         feedRepository.save(feed);
-        feedTechRepository.saveAll(Arrays.asList(new FeedTech(feed, 자바), new FeedTech(feed, 자바스크립트),
-                new FeedTech(feed, 리액트), new FeedTech(feed, 리액트_네이티브)));
+
+        feedTechRepository.saveAll(Arrays.asList(new FeedTech(feed, 자바), new FeedTech(feed, 리액트_네이티브),
+                new FeedTech(feed, 리액트), new FeedTech(feed, 자바스크립트)));
     }
 
     @DisplayName("기술 태그들이 피드에서 사용되지 않았다면, 빈 리스트가 반환된다.")

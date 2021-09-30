@@ -4,7 +4,6 @@ import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.NotFoundException;
 import com.wooteco.nolto.exception.UnauthorizedException;
 import com.wooteco.nolto.feed.domain.Feed;
-import com.wooteco.nolto.feed.domain.FeedTech;
 import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.feed.ui.dto.FeedCardPaginationResponse;
@@ -35,6 +34,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.wooteco.nolto.TechFixture.*;
 import static com.wooteco.nolto.UserFixture.조엘_생성;
 import static com.wooteco.nolto.UserFixture.찰리_생성;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -59,9 +59,10 @@ class FeedServiceTest {
     private User 찰리 = 찰리_생성();
     private User 조엘 = 조엘_생성();
 
-    private Tech spring = new Tech("Spring");
-    private Tech java = new Tech("Java");
-    private Tech react = new Tech("React");
+    private Tech 자바 = 자바_생성();
+    private Tech 스프링 = 스프링_생성();
+    private Tech 리액트 = 리액트_생성();
+
     @Autowired
     private FeedRepository feedRepository;
 
@@ -89,20 +90,20 @@ class FeedServiceTest {
         userRepository.save(찰리);
         userRepository.save(조엘);
 
-        techRepository.save(spring);
-        techRepository.save(java);
-        techRepository.save(react);
+        techRepository.save(스프링);
+        techRepository.save(자바);
+        techRepository.save(리액트);
 
-        SPRING_JAVA_FEED_REQUEST.setTechs(Arrays.asList(spring.getId(), java.getId()));
-        REACT_FEED_REQUEST.setTechs(Collections.singletonList(react.getId()));
-        SPRING_REACT_FEED_REQUEST.setTechs(Arrays.asList(spring.getId(), react.getId()));
+        SPRING_JAVA_FEED_REQUEST.setTechs(Arrays.asList(스프링.getId(), 자바.getId()));
+        REACT_FEED_REQUEST.setTechs(Collections.singletonList(리액트.getId()));
+        SPRING_REACT_FEED_REQUEST.setTechs(Arrays.asList(스프링.getId(), 리액트.getId()));
     }
 
     @DisplayName("유저가 feed를 작성한다.")
     @Test
     void create() {
         // when
-        EMPTY_TECH_FEED_REQUEST.setTechs(Arrays.asList(spring.getId()));
+        EMPTY_TECH_FEED_REQUEST.setTechs(Arrays.asList(스프링.getId()));
         Long feedId1 = feedService.create(찰리, EMPTY_TECH_FEED_REQUEST);
         Long feedId2 = feedService.create(찰리, SPRING_JAVA_FEED_REQUEST);
         Long feedId3 = feedService.create(조엘, REACT_FEED_REQUEST);
@@ -176,7 +177,7 @@ class FeedServiceTest {
     @Test
     void delete() {
         // given
-        EMPTY_TECH_FEED_REQUEST.setTechs(Arrays.asList(spring.getId(), java.getId()));
+        EMPTY_TECH_FEED_REQUEST.setTechs(Arrays.asList(스프링.getId(), 자바.getId()));
         Long feedId = feedService.create(찰리, EMPTY_TECH_FEED_REQUEST);
         em.flush();
         em.clear();
@@ -197,7 +198,7 @@ class FeedServiceTest {
     @Test
     void cantDeleteIfNotAuthor() {
         // given
-        EMPTY_TECH_FEED_REQUEST.setTechs(Arrays.asList(spring.getId(), java.getId()));
+        EMPTY_TECH_FEED_REQUEST.setTechs(Arrays.asList(스프링.getId(), 자바.getId()));
         Long feedId = feedService.create(찰리, EMPTY_TECH_FEED_REQUEST);
         em.flush();
         em.clear();
@@ -562,13 +563,13 @@ class FeedServiceTest {
     @Test
     void searchByTechs() {
         //given
-        EMPTY_TECH_FEED_REQUEST.setTechs(Arrays.asList(spring.getId(), java.getId()));
+        EMPTY_TECH_FEED_REQUEST.setTechs(Arrays.asList(스프링.getId(), 자바.getId()));
         Long firstFeedId = feedService.create(찰리, EMPTY_TECH_FEED_REQUEST);
 
-        SPRING_JAVA_FEED_REQUEST.setTechs(Collections.singletonList(java.getId()));
+        SPRING_JAVA_FEED_REQUEST.setTechs(Collections.singletonList(자바.getId()));
         Long secondFeedId = feedService.create(찰리, SPRING_JAVA_FEED_REQUEST);
 
-        REACT_FEED_REQUEST.setTechs(Collections.singletonList(react.getId()));
+        REACT_FEED_REQUEST.setTechs(Collections.singletonList(리액트.getId()));
         Long thirdFeedId = feedService.create(찰리, REACT_FEED_REQUEST);
 
         em.flush();
@@ -594,13 +595,13 @@ class FeedServiceTest {
     @Test
     void searchByTechsWithInvalidName() {
         //given
-        EMPTY_TECH_FEED_REQUEST.setTechs(Arrays.asList(spring.getId(), java.getId()));
+        EMPTY_TECH_FEED_REQUEST.setTechs(Arrays.asList(스프링.getId(), 자바.getId()));
         Long firstFeedId = feedService.create(찰리, EMPTY_TECH_FEED_REQUEST);
 
-        SPRING_JAVA_FEED_REQUEST.setTechs(Collections.singletonList(java.getId()));
+        SPRING_JAVA_FEED_REQUEST.setTechs(Collections.singletonList(자바.getId()));
         Long secondFeedId = feedService.create(찰리, SPRING_JAVA_FEED_REQUEST);
 
-        REACT_FEED_REQUEST.setTechs(Collections.singletonList(react.getId()));
+        REACT_FEED_REQUEST.setTechs(Collections.singletonList(리액트.getId()));
         Long thirdFeedId = feedService.create(찰리, REACT_FEED_REQUEST);
 
         String techs = "KOLOLO";
@@ -617,13 +618,13 @@ class FeedServiceTest {
     @Test
     void searchByQueryAndTechs() {
         //given
-        EMPTY_TECH_FEED_REQUEST.setTechs(Arrays.asList(spring.getId(), java.getId()));
+        EMPTY_TECH_FEED_REQUEST.setTechs(Arrays.asList(스프링.getId(), 자바.getId()));
         Long firstFeedId = feedService.create(찰리, EMPTY_TECH_FEED_REQUEST);
 
-        SPRING_JAVA_FEED_REQUEST.setTechs(Collections.singletonList(java.getId()));
+        SPRING_JAVA_FEED_REQUEST.setTechs(Collections.singletonList(자바.getId()));
         Long secondFeedId = feedService.create(찰리, SPRING_JAVA_FEED_REQUEST);
 
-        REACT_FEED_REQUEST.setTechs(Collections.singletonList(react.getId()));
+        REACT_FEED_REQUEST.setTechs(Collections.singletonList(리액트.getId()));
         Long thirdFeedId = feedService.create(찰리, REACT_FEED_REQUEST);
         em.flush();
         em.clear();
@@ -648,15 +649,15 @@ class FeedServiceTest {
     @Test
     void searchByQueryAndTechsWithSos() {
         //given
-        EMPTY_TECH_FEED_REQUEST.setTechs(Arrays.asList(spring.getId(), java.getId()));
+        EMPTY_TECH_FEED_REQUEST.setTechs(Arrays.asList(스프링.getId(), 자바.getId()));
         EMPTY_TECH_FEED_REQUEST.setSos(true);
         Long firstFeedId = feedService.create(찰리, EMPTY_TECH_FEED_REQUEST);
 
-        SPRING_JAVA_FEED_REQUEST.setTechs(Arrays.asList(spring.getId(), java.getId()));
+        SPRING_JAVA_FEED_REQUEST.setTechs(Arrays.asList(스프링.getId(), 자바.getId()));
         SPRING_JAVA_FEED_REQUEST.setSos(false);
         Long secondFeedId = feedService.create(찰리, SPRING_JAVA_FEED_REQUEST);
 
-        REACT_FEED_REQUEST.setTechs(Collections.singletonList(react.getId()));
+        REACT_FEED_REQUEST.setTechs(Collections.singletonList(리액트.getId()));
         REACT_FEED_REQUEST.setSos(false);
         Long thirdFeedId = feedService.create(찰리, REACT_FEED_REQUEST);
         em.flush();
@@ -682,15 +683,15 @@ class FeedServiceTest {
     @Test
     void searchByQueryAndTechsWithProgress() {
         //given
-        EMPTY_TECH_FEED_REQUEST.setTechs(Arrays.asList(spring.getId(), java.getId()));
+        EMPTY_TECH_FEED_REQUEST.setTechs(Arrays.asList(스프링.getId(), 자바.getId()));
         EMPTY_TECH_FEED_REQUEST.setStep("PROGRESS");
         Long firstFeedId = feedService.create(찰리, EMPTY_TECH_FEED_REQUEST);
 
-        SPRING_JAVA_FEED_REQUEST.setTechs(Arrays.asList(spring.getId(), java.getId()));
+        SPRING_JAVA_FEED_REQUEST.setTechs(Arrays.asList(스프링.getId(), 자바.getId()));
         SPRING_JAVA_FEED_REQUEST.setStep("PROGRESS");
         Long secondFeedId = feedService.create(찰리, SPRING_JAVA_FEED_REQUEST);
 
-        REACT_FEED_REQUEST.setTechs(Arrays.asList(spring.getId(), java.getId()));
+        REACT_FEED_REQUEST.setTechs(Arrays.asList(스프링.getId(), 자바.getId()));
         REACT_FEED_REQUEST.setStep("COMPLETE");
         Long thirdFeedId = feedService.create(찰리, REACT_FEED_REQUEST);
         em.flush();
@@ -717,15 +718,15 @@ class FeedServiceTest {
     @Test
     void searchByQueryAndTechsWithComplete() {
         //given
-        EMPTY_TECH_FEED_REQUEST.setTechs(Arrays.asList(spring.getId(), java.getId()));
+        EMPTY_TECH_FEED_REQUEST.setTechs(Arrays.asList(스프링.getId(), 자바.getId()));
         EMPTY_TECH_FEED_REQUEST.setStep("COMPLETE");
         Long firstFeedId = feedService.create(찰리, EMPTY_TECH_FEED_REQUEST);
 
-        SPRING_JAVA_FEED_REQUEST.setTechs(Arrays.asList(spring.getId(), java.getId()));
+        SPRING_JAVA_FEED_REQUEST.setTechs(Arrays.asList(스프링.getId(), 자바.getId()));
         SPRING_JAVA_FEED_REQUEST.setStep("PROGRESS");
         Long secondFeedId = feedService.create(찰리, SPRING_JAVA_FEED_REQUEST);
 
-        REACT_FEED_REQUEST.setTechs(Arrays.asList(spring.getId(), java.getId()));
+        REACT_FEED_REQUEST.setTechs(Arrays.asList(스프링.getId(), 자바.getId()));
         REACT_FEED_REQUEST.setStep("COMPLETE");
         Long thirdFeedId = feedService.create(찰리, REACT_FEED_REQUEST);
         em.flush();

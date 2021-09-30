@@ -2,7 +2,6 @@ package com.wooteco.nolto.feed.application;
 
 import com.wooteco.nolto.feed.domain.Comment;
 import com.wooteco.nolto.feed.domain.Feed;
-import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.domain.repository.CommentRepository;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.feed.ui.dto.CommentRequest;

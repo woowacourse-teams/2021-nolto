@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.wooteco.nolto.FeedFixture.DEFAULT_IMAGE;
+import static com.wooteco.nolto.TechFixture.*;
 import static com.wooteco.nolto.UserFixture.*;
 import static com.wooteco.nolto.exception.ErrorType.ALREADY_LIKED;
 import static com.wooteco.nolto.exception.ErrorType.NOT_LIKED;
@@ -59,14 +60,14 @@ class FeedAcceptanceTest extends AcceptanceTest {
     private Long 진행중_SOS_좋아요1개_3번째_피드_ID;
     private Long 전시중_SOS_좋아요0개_4번째_피드_ID;
 
-    private final Tech JAVA = new Tech("Java");
-    private final Tech SPRING = new Tech("Spring");
-    private final Tech REACT = new Tech("React");
+    private final Tech 자바 = 자바_생성();
+    private final Tech 스프링 = 스프링_생성();
+    private final Tech 리액트 = 리액트_생성();
 
     @BeforeEach
     void setUpOnFeedAcceptance() {
         super.setUp();
-        techRepository.saveAll(Arrays.asList(JAVA, SPRING, REACT));
+        techRepository.saveAll(Arrays.asList(자바, 스프링, 리액트));
 
         멤버의_토큰 = 존재하는_유저의_토큰을_받는다().getAccessToken();
 
@@ -389,17 +390,17 @@ class FeedAcceptanceTest extends AcceptanceTest {
     @Test
     void searchResponseOnlyTech() {
         // given
-        FeedRequest JAVA_기술가진_피드_요청 = new FeedRequest("제목1", Collections.singletonList(JAVA.getId()),
+        FeedRequest JAVA_기술가진_피드_요청 = new FeedRequest("제목1", Collections.singletonList(자바.getId()),
                 "내용1", "PROGRESS", false, "www.github.com/woowacourse", null, null);
-        FeedRequest JAVA_AND_SPRING_기술가진_피드_요청 = new FeedRequest("제목1", Arrays.asList(JAVA.getId(), SPRING.getId()),
+        FeedRequest JAVA_AND_SPRING_기술가진_피드_요청 = new FeedRequest("제목1", Arrays.asList(자바.getId(), 스프링.getId()),
                 "내용1", "PROGRESS", false, "www.github.com/woowacourse", null, null);
 
         Long JAVA_기술가진_피드_ID = 피드_업로드되어_있음(JAVA_기술가진_피드_요청);
         Long JAVA_AND_SPRING_기술가진_피드_ID = 피드_업로드되어_있음(JAVA_AND_SPRING_기술가진_피드_요청);
 
         // when
-        ExtractableResponse<Response> JAVA_기술_응답 = 기술로_피드_검색_요청(JAVA.getName());
-        ExtractableResponse<Response> JAVA_OR_SPRING_기술_응답 = 기술로_피드_검색_요청(JAVA.getName() + "," + SPRING.getName());
+        ExtractableResponse<Response> JAVA_기술_응답 = 기술로_피드_검색_요청(자바.getName());
+        ExtractableResponse<Response> JAVA_OR_SPRING_기술_응답 = 기술로_피드_검색_요청(자바.getName() + "," + 스프링.getName());
 
         // then
         피드_목록_조회_응답됨(JAVA_기술_응답);
@@ -415,17 +416,17 @@ class FeedAcceptanceTest extends AcceptanceTest {
         String 제목_쿼리 = "title1";
         String 필터링값 = "COMPLETE";
 
-        FeedRequest JAVA_기술가진_피드_요청 = new FeedRequest(제목_쿼리, Collections.singletonList(JAVA.getId()),
+        FeedRequest JAVA_기술가진_피드_요청 = new FeedRequest(제목_쿼리, Collections.singletonList(자바.getId()),
                 "내용1", "PROGRESS", false, "www.github.com/woowacourse", null, null);
-        FeedRequest JAVA_AND_SPRING_기술가진_피드_요청 = new FeedRequest(제목_쿼리, Arrays.asList(JAVA.getId(), SPRING.getId()),
+        FeedRequest JAVA_AND_SPRING_기술가진_피드_요청 = new FeedRequest(제목_쿼리, Arrays.asList(자바.getId(), 스프링.getId()),
                 "내용1", 필터링값, false, "www.github.com/woowacourse", "www.github.com/woowacourse", null);
 
         Long JAVA_기술가진_피드_ID = 피드_업로드되어_있음(JAVA_기술가진_피드_요청);
         Long JAVA_AND_SPRING_기술가진_피드_ID = 피드_업로드되어_있음(JAVA_AND_SPRING_기술가진_피드_요청);
 
         // when
-        ExtractableResponse<Response> 쿼리와_기술로_피드_검색_응답 = 쿼리와_기술로_피드_검색_요청(제목_쿼리, JAVA.getName());
-        ExtractableResponse<Response> 쿼리_기술_필터링값으로_피드_검색_응답 = 쿼리_기술_필터링값으로_피드_검색_요청(제목_쿼리, JAVA.getName() + "," + SPRING.getName(), 필터링값);
+        ExtractableResponse<Response> 쿼리와_기술로_피드_검색_응답 = 쿼리와_기술로_피드_검색_요청(제목_쿼리, 자바.getName());
+        ExtractableResponse<Response> 쿼리_기술_필터링값으로_피드_검색_응답 = 쿼리_기술_필터링값으로_피드_검색_요청(제목_쿼리, 자바.getName() + "," + 스프링.getName(), 필터링값);
 
         // then
         피드_목록_조회_응답됨(쿼리와_기술로_피드_검색_응답);
@@ -544,8 +545,8 @@ class FeedAcceptanceTest extends AcceptanceTest {
         return RestAssured.given().log().all()
                 .auth().oauth2(token)
                 .formParam("title", request.getTitle())
-                .formParam("techs", String.valueOf(SPRING.getId()))
-                .formParam("techs", String.valueOf(REACT.getId()))
+                .formParam("techs", String.valueOf(스프링.getId()))
+                .formParam("techs", String.valueOf(리액트.getId()))
                 .formParam("content", request.getContent())
                 .formParam("step", request.getStep())
                 .formParam("sos", request.isSos())
