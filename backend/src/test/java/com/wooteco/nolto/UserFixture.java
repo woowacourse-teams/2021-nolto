@@ -72,7 +72,7 @@ public class UserFixture {
     public static User ID_있는_유저_생성(Long id) {
         return User.builder()
                 .id(id)
-                .socialId("6")
+                .socialId("7")
                 .socialType(SocialType.GITHUB)
                 .nickName("엄청난 구글 유저")
                 .imageUrl(DEFAULT_IMAGE)

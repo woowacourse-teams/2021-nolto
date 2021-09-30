@@ -66,7 +66,7 @@ class CommentLikeServiceTest extends CommentServiceFixture {
         Comment findComment2 = commentService.findEntityById(찰리가_쓴_피드에_찰리가_쓴_댓글.getId());
 
         // then
-        assertThat(findComment2.getLikes()).hasSize(0);
+        assertThat(findComment2.getLikes()).isEmpty();
     }
 
     @DisplayName("댓글에 좋아요를 누르지 않은 상태에서 좋아요 취소 요청을 하면 예외가 발생한다.")
@@ -84,7 +84,7 @@ class CommentLikeServiceTest extends CommentServiceFixture {
         entityManager.flush();
         entityManager.clear();
         Comment findComment2 = commentService.findEntityById(찰리가_쓴_피드에_찰리가_쓴_댓글.getId());
-        assertThat(findComment2.getLikes()).hasSize(0);
+        assertThat(findComment2.getLikes()).isEmpty();
 
         // then
         assertThatThrownBy(() -> commentLikeService.deleteCommentLike(findComment2.getId(), 찰리))
@@ -135,7 +135,7 @@ class CommentLikeServiceTest extends CommentServiceFixture {
         Comment findComment2 = commentService.findEntityById(찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_대댓글.getId());
 
         // then
-        assertThat(findComment2.getLikes()).hasSize(0);
+        assertThat(findComment2.getLikes()).isEmpty();
     }
 
     @DisplayName("대댓글에 좋아요를 누르지 않은 상태에서 좋아요 취소 요청을 하면 예외가 발생한다.")
@@ -153,7 +153,7 @@ class CommentLikeServiceTest extends CommentServiceFixture {
         entityManager.flush();
         entityManager.clear();
         Comment findComment2 = commentService.findEntityById(찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_대댓글.getId());
-        assertThat(findComment2.getLikes()).hasSize(0);
+        assertThat(findComment2.getLikes()).isEmpty();
 
         // then
         assertThatThrownBy(() -> commentLikeService.deleteCommentLike(findComment2.getId(), 찰리))
