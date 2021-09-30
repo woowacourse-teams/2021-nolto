@@ -38,6 +38,9 @@ public abstract class ControllerTest {
     @MockBean
     protected AuthService authService;
 
+    protected static final String BEARER = "Bearer ";
+    protected static final String ACCESS_TOKEN = "accessToken";
+    protected static final String ACCESS_TOKEN_OPTIONAL = "accessTokenOptional";
     protected static final User LOGIN_USER = ID_있는_유저_생성(1L);
 
     protected MockMvc mockMvc;

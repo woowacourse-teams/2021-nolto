@@ -22,8 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class OAuthControllerTest extends ControllerTest {
 
     private static final OAuthRedirectResponse OAUTH_REDIRECT_RESPONSE = new OAuthRedirectResponse("client_id", "redirect_uri", "scope", "response_type");
-    private static final TokenResponse TOKEN_RESPONSE =
-            new TokenResponse("eefaccesstoken123");
+    private static final TokenResponse TOKEN_RESPONSE = new TokenResponse(ACCESS_TOKEN);
     private static final String SOCIAL_TYPE_NAME = "github";
     private static final String CODE = "code";
 
