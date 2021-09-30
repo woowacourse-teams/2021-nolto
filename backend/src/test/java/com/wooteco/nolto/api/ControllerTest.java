@@ -2,7 +2,6 @@ package com.wooteco.nolto.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wooteco.nolto.auth.application.AuthService;
-import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.user.domain.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
+import static com.wooteco.nolto.UserFixture.ID_있는_유저_생성;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
@@ -33,21 +33,14 @@ public abstract class ControllerTest {
     private RestDocumentationContextProvider restDocumentationContextProvider;
 
     @Autowired
-    public ObjectMapper objectMapper;
+    protected ObjectMapper objectMapper;
 
     @MockBean
-    public AuthService authService;
+    protected AuthService authService;
 
-    public MockMvc mockMvc;
+    protected static final User LOGIN_USER = ID_있는_유저_생성(1L);
 
-    public static final User LOGIN_USER = User.builder()
-            .id(1L)
-            .socialId("SOCIAL_ID")
-            .socialType(SocialType.GITHUB)
-            .nickName("NICKNAME")
-            .imageUrl("IMAGE")
-            .bio("BIO")
-            .build();
+    protected MockMvc mockMvc;
 
     @BeforeEach
     void setUp() {

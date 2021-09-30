@@ -13,7 +13,10 @@ import org.springframework.dao.DataIntegrityViolationException;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
+import static com.wooteco.nolto.UserFixture.찰리_생성;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @DataJpaTest
 class UserRepositoryTest {
@@ -21,30 +24,24 @@ class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
 
-    private User user1;
+    private static final String NOT_EXIST_NICKNAME = "존재하지 않는 닉네임";
 
-    public static final String EXIST_NICKNAME = "찰리";
-    public static final String NOT_EXIST_NICKNAME = "존재하지 않는 닉네임";
+    private User 찰리;
 
     @BeforeEach
     void setUp() {
-        user1 = new User("1111", SocialType.GOOGLE, EXIST_NICKNAME, "charlie.png");
-    }
-
-    @DisplayName("context가 제대로 생성되고 설정이 됐는지 확인한다.")
-    @Test
-    void context() {
+        찰리 = 찰리_생성();
     }
 
     @DisplayName("User 객체 데이터베이스에 저장 된다.")
     @Test
     void save() {
         // when
-        User savedUser = userRepository.save(user1);
+        User savedUser = userRepository.save(찰리);
 
         // then
         assertThat(savedUser.getId()).isNotNull();
-        checkSameInfo(savedUser, user1);
+        checkSameInfo(savedUser, 찰리);
     }
 
 
@@ -52,8 +49,8 @@ class UserRepositoryTest {
     @Test
     void saveWithDuplicatedNickname() {
         // given
-        userRepository.save(user1);
-        User duplicatedNicknameUser = new User("2222", SocialType.GOOGLE, user1.getNickName(), "image_sample.png");
+        userRepository.save(찰리);
+        User duplicatedNicknameUser = new User("2222", SocialType.GOOGLE, 찰리.getNickName(), "image_sample.png");
 
         // when then
         assertThatThrownBy(() -> userRepository.save(duplicatedNicknameUser))
@@ -64,7 +61,7 @@ class UserRepositoryTest {
     @Test
     void findById() {
         // given
-        User savedUser = userRepository.save(user1);
+        User savedUser = userRepository.save(찰리);
 
         // when
         User findUser = userRepository.findById(savedUser.getId()).orElseThrow(() -> new NotFoundException(ErrorType.USER_NOT_FOUND));
@@ -87,7 +84,7 @@ class UserRepositoryTest {
     @DisplayName("유저의 email로 저장된 유저 정보를 조회해올 수 있다.")
     @Test
     void findByEmail() {
-        User savedUser = userRepository.save(user1);
+        User savedUser = userRepository.save(찰리);
 
         // when
         User findUser = userRepository.findBySocialIdAndSocialType(savedUser.getSocialId(), savedUser.getSocialType())
@@ -112,7 +109,7 @@ class UserRepositoryTest {
     @Test
     void updateOtherCase() {
         // given
-        User savedUser = userRepository.save(user1);
+        User savedUser = userRepository.save(찰리);
         String newSocialId = "2222";
         SocialType newSocialType = SocialType.GITHUB;
         String newNickname = "Gomding";
@@ -128,7 +125,7 @@ class UserRepositoryTest {
     @Test
     void delete() {
         // given
-        User savedUser = userRepository.save(user1);
+        User savedUser = userRepository.save(찰리);
 
         // when
         userRepository.delete(savedUser);
@@ -142,9 +139,9 @@ class UserRepositoryTest {
     @Test
     void deleteWithSameIdAndDiffInfoObject() {
         // given
-        userRepository.save(user1);
+        userRepository.save(찰리);
         User otherUser = User.builder()
-                .id(user1.getId())
+                .id(찰리.getId())
                 .socialId("1234")
                 .socialType(SocialType.GOOGLE)
                 .nickName("Gomding")
@@ -160,21 +157,18 @@ class UserRepositoryTest {
     @DisplayName("존재하지 않는 유저를 삭제하려고 하면 정상 실행된다.")
     @Test
     void deleteWithNonExistsId() {
-        // when
-        userRepository.delete(user1);
-
-        // then
-        assertThatNoException();
+        // when, then
+        assertDoesNotThrow(() -> userRepository.delete(찰리));
     }
 
     @DisplayName("nickname이 존재하는지 여부를 확인한다.")
     @Test
     void existsByNickName() {
         // given
-        User savedUser = userRepository.save(user1);
+        userRepository.save(찰리);
 
         // when
-        boolean existNicknameResult = userRepository.existsByNickName(EXIST_NICKNAME);
+        boolean existNicknameResult = userRepository.existsByNickName(찰리.getNickName());
         boolean notExistNicknameResult = userRepository.existsByNickName(NOT_EXIST_NICKNAME);
 
         assertThat(existNicknameResult).isTrue();

@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static com.wooteco.nolto.UserFixture.아마찌_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -44,7 +45,7 @@ class TechRepositoryTest {
     private final Tech TECH4_JPA = new Tech("Java Persistence API");
     private final Tech TECH5_SPARK_JAVA = new Tech("SparkJava");
 
-    private final User user = new User("1L", SocialType.GOOGLE, "JOEL", "imageUrl");
+    private final User 아마찌 = 아마찌_생성();
 
     private final Feed FEED1 = Feed.builder()
             .title("title1")
@@ -53,7 +54,7 @@ class TechRepositoryTest {
             .isSos(true)
             .storageUrl("https://github.com/woowacourse-teams/2021-nolto")
             .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
-            .build().writtenBy(user);
+            .build().writtenBy(아마찌);
 
     private final Feed FEED2 = Feed.builder()
             .title("title2")
@@ -63,7 +64,7 @@ class TechRepositoryTest {
             .storageUrl("https://github.com/woowacourse-teams/2021-nolto")
             .deployedUrl("https://github.com/woowacourse-teams/2021-nolto")
             .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
-            .build().writtenBy(user);
+            .build().writtenBy(아마찌);
 
     private final Feed FEED3 = Feed.builder()
             .title("title3")
@@ -72,7 +73,7 @@ class TechRepositoryTest {
             .isSos(true)
             .storageUrl("https://github.com/woowacourse-teams/2021-nolto")
             .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
-            .build().writtenBy(user);
+            .build().writtenBy(아마찌);
 
     private final Feed FEED4 = Feed.builder()
             .title("title4")
@@ -80,7 +81,7 @@ class TechRepositoryTest {
             .step(Step.PROGRESS)
             .isSos(false)
             .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
-            .build().writtenBy(user);
+            .build().writtenBy(아마찌);
 
     private final Feed FEED5 = Feed.builder()
             .title("title5")
@@ -90,12 +91,12 @@ class TechRepositoryTest {
             .storageUrl("https://github.com/woowacourse-teams/2021-nolto")
             .deployedUrl("https://github.com/woowacourse-teams/2021-nolto")
             .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
-            .build().writtenBy(user);
+            .build().writtenBy(아마찌);
 
     @BeforeEach
     void setUp() {
         techRepository.saveAll(Arrays.asList(TECH1_JAVA, TECH2_JAVASCRIPT, TECH3_SPRING, TECH4_JPA, TECH5_SPARK_JAVA));
-        userRepository.save(user);
+        userRepository.save(아마찌);
         feedRepository.saveAll(Arrays.asList(FEED1, FEED2, FEED3, FEED4, FEED5));
     }
 

@@ -1,6 +1,5 @@
 package com.wooteco.nolto.feed.domain;
 
-import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.feed.domain.repository.FeedTechRepository;
 import com.wooteco.nolto.tech.domain.Tech;
@@ -15,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
 
+import static com.wooteco.nolto.UserFixture.조엘_생성;
 import static com.wooteco.nolto.feed.domain.FeedRepositoryTest.DEFAULT_THUMBNAIL_IMAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -32,7 +32,7 @@ class FeedTechRepositoryTest {
     @Autowired
     private TechRepository techRepository;
 
-    private User user;
+    private User 조엘;
 
     private Feed feed1;
     private Feed feed2;
@@ -43,7 +43,7 @@ class FeedTechRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        user = new User("123456L", SocialType.GOOGLE, "아마찌", "imageUrl");
+        조엘 = 조엘_생성();
         feed1 = Feed.builder()
                 .title("조엘 프로젝트")
                 .content("조엘의 환상적인 토이 프로젝트로 초대합니다 룰루랄라")
@@ -70,9 +70,9 @@ class FeedTechRepositoryTest {
     @Test
     void findFeedTechByTech() {
         // given
-        userRepository.save(user);
-        feedRepository.save(feed1.writtenBy(user));
-        feedRepository.save(feed2.writtenBy(user));
+        userRepository.save(조엘);
+        feedRepository.save(feed1.writtenBy(조엘));
+        feedRepository.save(feed2.writtenBy(조엘));
         techRepository.save(tech1);
         techRepository.save(tech2);
         techRepository.save(tech3);

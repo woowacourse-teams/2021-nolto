@@ -15,6 +15,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.wooteco.nolto.UserFixture.찰리_생성;
+import static com.wooteco.nolto.UserFixture.포모_생성;
+
 @ActiveProfiles("test")
 @SpringBootTest
 @Transactional
@@ -50,8 +53,8 @@ public class CommentServiceFixture {
 
     @BeforeEach
     void setUp() throws InterruptedException {
-        찰리 = new User("SOCIAL_ID", SocialType.GITHUB, "찰리", "IMAGE");
-        포모 = new User("SOCIAL_ID2", SocialType.GITHUB, "포모", "IMAGE2");
+        찰리 = 찰리_생성();
+        포모 = 포모_생성();
         userRepository.saveAndFlush(찰리);
         userRepository.saveAndFlush(포모);
 

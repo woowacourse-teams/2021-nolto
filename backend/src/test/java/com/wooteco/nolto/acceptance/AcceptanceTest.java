@@ -1,6 +1,5 @@
 package com.wooteco.nolto.acceptance;
 
-import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.auth.infrastructure.JwtTokenProvider;
 import com.wooteco.nolto.auth.ui.dto.TokenResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
@@ -17,6 +16,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.web.multipart.MultipartFile;
 
+import static com.wooteco.nolto.UserFixture.깃헙_유저_생성;
 import static com.wooteco.nolto.acceptance.FeedAcceptanceTest.피드_작성_요청;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -31,10 +31,10 @@ public abstract class AcceptanceTest {
     int port;
 
     @Autowired
-    public UserRepository userRepository;
+    protected UserRepository userRepository;
 
     @Autowired
-    public TechRepository techRepository;
+    protected TechRepository techRepository;
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
@@ -45,11 +45,7 @@ public abstract class AcceptanceTest {
     @MockBean
     private ImageService imageService;
 
-    public User 존재하는_유저 = new User(
-            "1",
-            SocialType.GITHUB,
-            "엄청난 유저",
-            DEFAULT_IMAGE_URL);
+    protected User 존재하는_유저 = 깃헙_유저_생성();
 
     @BeforeEach
     public void setUp() {

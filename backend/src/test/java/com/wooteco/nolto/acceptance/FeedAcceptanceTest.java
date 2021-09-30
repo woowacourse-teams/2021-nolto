@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.wooteco.nolto.UserFixture.*;
 import static com.wooteco.nolto.exception.ErrorType.ALREADY_LIKED;
 import static com.wooteco.nolto.exception.ErrorType.NOT_LIKED;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -73,9 +74,9 @@ class FeedAcceptanceTest extends AcceptanceTest {
         진행중_SOS_좋아요1개_3번째_피드_ID = 피드_업로드되어_있음(진행중_단계의_SOS_피드_요청);
         전시중_SOS_좋아요0개_4번째_피드_ID = 피드_업로드되어_있음(전시중_단계의_SOS_피드_요청);
 
-        좋아요_1개_누를_유저 = 회원_등록되어_있음(new User("2", SocialType.GITHUB, "아마찌", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"));
-        좋아요_2개_누를_유저 = 회원_등록되어_있음(new User("3", SocialType.GITHUB, "마찌", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"));
-        좋아요_3개_누를_유저 = 회원_등록되어_있음(new User("4", SocialType.GITHUB, "아마짜", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"));
+        좋아요_1개_누를_유저 = 회원_등록되어_있음(아마찌_생성());
+        좋아요_2개_누를_유저 = 회원_등록되어_있음(조엘_생성());
+        좋아요_3개_누를_유저 = 회원_등록되어_있음(포모_생성());
     }
 
     @DisplayName("멤버가 피드를 작성한다. (이미지 : 기본 썸네일)")

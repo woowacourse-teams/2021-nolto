@@ -1,6 +1,5 @@
 package com.wooteco.nolto.acceptance;
 
-import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.notification.domain.NotificationType;
 import com.wooteco.nolto.tech.domain.Tech;
@@ -18,6 +17,8 @@ import org.springframework.http.MediaType;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.wooteco.nolto.UserFixture.찰리_생성;
+import static com.wooteco.nolto.UserFixture.포모_생성;
 import static com.wooteco.nolto.acceptance.CommentAcceptanceTest.*;
 import static com.wooteco.nolto.acceptance.FeedAcceptanceTest.좋아요_요청;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,8 +41,8 @@ class NotificationAcceptanceTest extends AcceptanceTest {
 
         피드_작성자의_토큰 = 존재하는_유저의_토큰을_받는다().getAccessToken();
         엄청난_유저의_1번째_피드_ID = 피드_업로드되어_있음(진행중_단계의_피드_요청);
-        좋아요_1개_누를_유저 = 회원_등록되어_있음(new User("2", SocialType.GITHUB, "찰리", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"));
-        댓글을_남긴_유저 = 회원_등록되어_있음(new User("3", SocialType.GITHUB, "포모", "https://dksykemwl00pf.cloudfront.net/amazzi.jpeg"));
+        좋아요_1개_누를_유저 = 회원_등록되어_있음(찰리_생성());
+        댓글을_남긴_유저 = 회원_등록되어_있음(포모_생성());
     }
 
     @DisplayName("피드에 좋아요를 누르는 경우 좋아요 알림이 저장된다.")

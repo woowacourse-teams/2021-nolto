@@ -23,6 +23,8 @@ import org.springframework.test.context.transaction.BeforeTransaction;
 
 import javax.transaction.Transactional;
 
+import static com.wooteco.nolto.UserFixture.찰리_생성;
+import static com.wooteco.nolto.UserFixture.포모_생성;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -51,8 +53,8 @@ public class NotificationEventTest {
 
     @BeforeTransaction
     public void setUp() {
-        찰리 = new User("SOCIAL_ID", SocialType.GITHUB, "찰리", "IMAGE");
-        포모 = new User("SOCIAL_ID2", SocialType.GITHUB, "포모", "IMAGE2");
+        찰리 = 찰리_생성();
+        포모 = 포모_생성();
         userRepository.save(찰리);
         userRepository.save(포모);
 

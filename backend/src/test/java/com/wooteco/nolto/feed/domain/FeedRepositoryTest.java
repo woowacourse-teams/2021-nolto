@@ -1,6 +1,5 @@
 package com.wooteco.nolto.feed.domain;
 
-import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.tech.domain.Tech;
 import com.wooteco.nolto.tech.domain.TechRepository;
@@ -16,6 +15,8 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.*;
 
+import static com.wooteco.nolto.UserFixture.아마찌_생성;
+import static com.wooteco.nolto.UserFixture.포모_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -32,8 +33,8 @@ class FeedRepositoryTest {
     @Autowired
     private TechRepository techRepository;
 
-    private User user1;
-    private User user2;
+    private User 아마찌;
+    private User 포모;
 
     private Feed feed1;
     private Feed feed2;
@@ -45,11 +46,11 @@ class FeedRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        user1 = new User("123456L", SocialType.GITHUB, "아마찌", DEFAULT_THUMBNAIL_IMAGE);
-        user2 = new User("654321L", SocialType.GOOGLE, "지그", DEFAULT_THUMBNAIL_IMAGE);
+        아마찌 = 아마찌_생성();
+        포모 = 포모_생성();
 
-        userRepository.save(user1);
-        userRepository.save(user2);
+        userRepository.save(아마찌);
+        userRepository.save(포모);
 
         feed1 = Feed.builder()
                 .title("title1")
@@ -87,9 +88,9 @@ class FeedRepositoryTest {
     @Test
     void save() {
         // given
-        feed1.writtenBy(user1);
-        feed2.writtenBy(user2);
-        feed3.writtenBy(user2);
+        feed1.writtenBy(아마찌);
+        feed2.writtenBy(포모);
+        feed3.writtenBy(포모);
 
         // when
         Feed savedFeed1 = feedRepository.save(feed1);
@@ -149,9 +150,9 @@ class FeedRepositoryTest {
                 .thumbnailUrl(DEFAULT_THUMBNAIL_IMAGE)
                 .build();
 
-        feedRepository.save(feed1.writtenBy(user1));
-        feedRepository.save(feed2.writtenBy(user1));
-        feedRepository.save(feed3.writtenBy(user1));
+        feedRepository.save(feed1.writtenBy(아마찌));
+        feedRepository.save(feed2.writtenBy(아마찌));
+        feedRepository.save(feed3.writtenBy(아마찌));
 
         //when
         String properQuery = "cOnTen";
@@ -229,9 +230,9 @@ class FeedRepositoryTest {
                 .build();
         feed3.changeTechs(Collections.singletonList(techPython));
 
-        feedRepository.save(feed1.writtenBy(user1));
-        feedRepository.save(feed2.writtenBy(user1));
-        feedRepository.save(feed3.writtenBy(user1));
+        feedRepository.save(feed1.writtenBy(아마찌));
+        feedRepository.save(feed2.writtenBy(아마찌));
+        feedRepository.save(feed3.writtenBy(아마찌));
 
         //when
         String properQuery = "cOnTen";
@@ -304,9 +305,9 @@ class FeedRepositoryTest {
                 .build();
         feed3.changeTechs(Collections.singletonList(techPython));
 
-        feedRepository.save(feed1.writtenBy(user1));
-        feedRepository.save(feed2.writtenBy(user1));
-        feedRepository.save(feed3.writtenBy(user1));
+        feedRepository.save(feed1.writtenBy(아마찌));
+        feedRepository.save(feed2.writtenBy(아마찌));
+        feedRepository.save(feed3.writtenBy(아마찌));
 
         //when
         String properQuery = "제목";

@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
+import static com.wooteco.nolto.UserFixture.찰리_생성;
 import static com.wooteco.nolto.acceptance.FeedAcceptanceTest.진행중_단계의_피드_요청;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -30,7 +31,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
     private static final CommentRequest 대댓글_작성_요청1 = new CommentRequest("첫 댓글 1등 대댓글임", false);
     private static final CommentRequest 대댓글_작성_요청2 = new CommentRequest("2등 대댓글 오히려 좋아", false);
 
-    private User 댓글_작성자 = new User("멋진 GITHUB ID", SocialType.GITHUB, "찰리", "초콜릿 먹고있는 프로필.jpg");
+    private User 댓글_작성자 = 찰리_생성();
     private Long 업로드한_피드의_ID;
     private TokenResponse 로그인된_댓글_작성자의_토큰;
     private TokenResponse 현재_로그인된_댓글_작성자의_토큰;

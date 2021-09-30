@@ -24,6 +24,8 @@ import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.wooteco.nolto.UserFixture.찰리_생성;
+import static com.wooteco.nolto.UserFixture.포모_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("test")
@@ -52,8 +54,8 @@ class NotificationServiceTest {
 
     @BeforeEach
     public void setUp() {
-        찰리 = new User("SOCIAL_ID", SocialType.GITHUB, "찰리", "IMAGE");
-        포모 = new User("SOCIAL_ID2", SocialType.GITHUB, "포모", "IMAGE2");
+        찰리 = 찰리_생성();
+        포모 = 포모_생성();
         userRepository.save(찰리);
         userRepository.save(포모);
 

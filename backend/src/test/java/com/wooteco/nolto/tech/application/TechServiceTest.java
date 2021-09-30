@@ -1,6 +1,5 @@
 package com.wooteco.nolto.tech.application;
 
-import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.FeedTech;
 import com.wooteco.nolto.feed.domain.Step;
@@ -22,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.wooteco.nolto.UserFixture.조엘_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -50,7 +50,7 @@ class TechServiceTest {
     private final Tech TECH4_JPA = new Tech("Java Persistence API");
     private final Tech TECH5_SPARK_JAVA = new Tech("SparkJava");
 
-    private final User user = new User("1L", SocialType.GOOGLE, "JOEL", "imageUrl");
+    private final User 조엘 = 조엘_생성();
 
     private final Feed FEED1 = Feed.builder()
             .title("title1")
@@ -59,7 +59,7 @@ class TechServiceTest {
             .isSos(true)
             .storageUrl("https://github.com/woowacourse-teams/2021-nolto")
             .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
-            .build().writtenBy(user);
+            .build().writtenBy(조엘);
 
     private final Feed FEED2 = Feed.builder()
             .title("title2")
@@ -69,7 +69,7 @@ class TechServiceTest {
             .storageUrl("https://github.com/woowacourse-teams/2021-nolto")
             .deployedUrl("https://github.com/woowacourse-teams/2021-nolto")
             .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
-            .build().writtenBy(user);
+            .build().writtenBy(조엘);
 
     private final Feed FEED3 = Feed.builder()
             .title("title3")
@@ -78,7 +78,7 @@ class TechServiceTest {
             .isSos(true)
             .storageUrl("https://github.com/woowacourse-teams/2021-nolto")
             .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
-            .build().writtenBy(user);
+            .build().writtenBy(조엘);
 
     private final Feed FEED4 = Feed.builder()
             .title("title4")
@@ -86,7 +86,7 @@ class TechServiceTest {
             .step(Step.PROGRESS)
             .isSos(false)
             .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
-            .build().writtenBy(user);
+            .build().writtenBy(조엘);
 
     private final Feed FEED5 = Feed.builder()
             .title("title5")
@@ -96,12 +96,12 @@ class TechServiceTest {
             .storageUrl("https://github.com/woowacourse-teams/2021-nolto")
             .deployedUrl("https://github.com/woowacourse-teams/2021-nolto")
             .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
-            .build().writtenBy(user);
+            .build().writtenBy(조엘);
 
     @BeforeEach
     void setUp() {
         techRepository.saveAll(Arrays.asList(TECH1_JAVA, TECH2_JAVASCRIPT, TECH3_SPRING, TECH4_JPA, TECH5_SPARK_JAVA));
-        userRepository.save(user);
+        userRepository.save(조엘);
         feedRepository.saveAll(Arrays.asList(FEED1, FEED2, FEED3, FEED4, FEED5));
     }
 

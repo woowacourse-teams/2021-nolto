@@ -2,11 +2,11 @@ package com.wooteco.nolto.feed.domain;
 
 import com.wooteco.nolto.exception.BadRequestException;
 import com.wooteco.nolto.exception.ErrorType;
-import com.wooteco.nolto.user.domain.UserTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static com.wooteco.nolto.UserFixture.아마찌_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -31,10 +31,10 @@ class FeedTest {
     @Test
     void writtenBy() {
         // when
-        Feed feed = feed1.writtenBy(UserTest.USER);
+        Feed feed = feed1.writtenBy(아마찌_생성());
 
         // then
-        assertThat(feed.getAuthor()).isEqualTo(UserTest.USER);
+        assertThat(feed.getAuthor()).isEqualTo(아마찌_생성());
     }
 
     @DisplayName("조회하지 않은 경우 조회수를 증가시킨다.")
