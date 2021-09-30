@@ -1,24 +1,19 @@
 package com.wooteco.nolto.notification.application;
 
-import com.wooteco.nolto.auth.domain.SocialType;
-import com.wooteco.nolto.feed.application.LikeService;
 import com.wooteco.nolto.feed.domain.Comment;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
-import com.wooteco.nolto.notification.domain.NotificationType;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.domain.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.transaction.BeforeTransaction;
 
 import javax.transaction.Transactional;
@@ -29,11 +24,10 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ActiveProfiles("test")
-@RunWith(SpringRunner.class)
 @SpringBootTest
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @Transactional
-public class NotificationEventTest {
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+class NotificationEventTest {
 
     @Autowired
     private ApplicationEventPublisher publisher;

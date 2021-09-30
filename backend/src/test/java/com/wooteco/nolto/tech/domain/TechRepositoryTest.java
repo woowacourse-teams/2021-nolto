@@ -1,6 +1,5 @@
 package com.wooteco.nolto.tech.domain;
 
-import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.FeedTech;
 import com.wooteco.nolto.feed.domain.Step;

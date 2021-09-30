@@ -24,9 +24,9 @@ import java.util.List;
 import static com.wooteco.nolto.UserFixture.조엘_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ActiveProfiles("test")
 @SpringBootTest
 @Transactional
-@ActiveProfiles("test")
 class TechServiceTest {
 
     @Autowired

@@ -1,6 +1,5 @@
 package com.wooteco.nolto.acceptance;
 
-import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.auth.ui.dto.TokenResponse;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.dto.ExceptionResponse;
@@ -37,15 +36,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DisplayName("피드 관련 기능")
 class FeedAcceptanceTest extends AcceptanceTest {
 
-    public static final FeedRequest 진행중_단계의_피드_요청 = new FeedRequest("title1", new ArrayList<>(), "content1", "PROGRESS", false,
+    protected static final FeedRequest 진행중_단계의_피드_요청 = new FeedRequest("title1", new ArrayList<>(), "content1", "PROGRESS", false,
             "www.github.com/woowacourse", null, null);
-    public static final FeedRequest 전시중_단계의_피드_요청 = new FeedRequest("title2", new ArrayList<>(), "content2", "COMPLETE", false,
+    protected static final FeedRequest 전시중_단계의_피드_요청 = new FeedRequest("title2", new ArrayList<>(), "content2", "COMPLETE", false,
             "www.github.com/woowacourse", "www.github.com/woowacourse", null);
-    public static final FeedRequest 진행중_단계의_SOS_피드_요청 = new FeedRequest("title3", new ArrayList<>(), "content3", "PROGRESS", true,
+    protected static final FeedRequest 진행중_단계의_SOS_피드_요청 = new FeedRequest("title3", new ArrayList<>(), "content3", "PROGRESS", true,
             "www.github.com/woowacourse", "www.github.com/woowacourse", null);
-    public static final FeedRequest 전시중_단계의_SOS_피드_요청 = new FeedRequest("title4", new ArrayList<>(), "content4", "COMPLETE", true,
+    protected static final FeedRequest 전시중_단계의_SOS_피드_요청 = new FeedRequest("title4", new ArrayList<>(), "content4", "COMPLETE", true,
             "www.github.com/woowacourse", "www.github.com/woowacourse", null);
-    public static final File THUMBNAIL_IMAGE = new File(new File("").getAbsolutePath() + "/src/test/resources/static/" + DEFAULT_IMAGE);
+    protected static final File THUMBNAIL_IMAGE = new File(new File("").getAbsolutePath() + "/src/test/resources/static/" + DEFAULT_IMAGE);
 
     private String 멤버의_토큰;
 

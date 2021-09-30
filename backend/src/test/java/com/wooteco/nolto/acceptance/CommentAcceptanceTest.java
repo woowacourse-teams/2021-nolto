@@ -24,8 +24,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DisplayName("댓글 관련 기능")
 class CommentAcceptanceTest extends AcceptanceTest {
 
-    public static final CommentRequest 일반_댓글_작성요청 = new CommentRequest("첫 댓글 달았어요 :)", false);
-    public static final CommentRequest 도와줄게요_댓글_작성요청 = new CommentRequest("1등 아깝다..", true);
+    protected static final CommentRequest 일반_댓글_작성요청 = new CommentRequest("첫 댓글 달았어요 :)", false);
+    protected static final CommentRequest 도와줄게요_댓글_작성요청 = new CommentRequest("1등 아깝다..", true);
     private static final CommentRequest 내용이_비어있는_댓글_작성요청 = new CommentRequest("", true);
 
     private static final CommentRequest 대댓글_작성_요청1 = new CommentRequest("첫 댓글 1등 대댓글임", false);

@@ -1,6 +1,5 @@
 package com.wooteco.nolto.notification.application;
 
-import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.feed.application.CommentService;
 import com.wooteco.nolto.feed.application.LikeService;
 import com.wooteco.nolto.feed.domain.Feed;
@@ -30,8 +29,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("test")
 @SpringBootTest
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @Transactional
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class NotificationServiceTest {
 
     @Autowired

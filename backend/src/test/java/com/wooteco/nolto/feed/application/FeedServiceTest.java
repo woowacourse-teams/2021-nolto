@@ -44,8 +44,8 @@ import static org.mockito.BDDMockito.given;
 
 @ActiveProfiles("test")
 @SpringBootTest
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @Transactional
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 class FeedServiceTest {
     private FeedRequest FEED_REQUEST1 = new FeedRequest("title1", new ArrayList<>(), "content1", "PROGRESS", true,
             "www.github.com/woowacourse", "www.github.com/woowacourse", null);
