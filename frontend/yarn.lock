@@ -11015,14 +11015,14 @@ react-docgen@^5.0.0:
     node-dir "^0.1.10"
     strip-indent "^3.0.0"
 
-react-dom@^17.0.2:
-  version "17.0.2"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-17.0.2.tgz#ecffb6845e3ad8dbfcdc498f0d0a939736502c23"
-  integrity sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==
+react-dom@^18.0.0-alpha-7d38e4fd8-20210930:
+  version "18.0.0-alpha-7d38e4fd8-20210930"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.0.0-alpha-7d38e4fd8-20210930.tgz#3d9357f4ca8200cd55b8a6f77c3c19665e4ee6c8"
+  integrity sha512-fALid7QGx/GvYjdcc4H2RwQ9/k0jxTnt151WGG8GC0OXtGUsdqMiPuObHMLbE9VOzwaXTd8ohV8dqzzNXvP/rg==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
-    scheduler "^0.20.2"
+    scheduler "0.21.0-alpha-7d38e4fd8-20210930"
 
 react-draggable@^4.4.3:
   version "4.4.4"
@@ -11224,10 +11224,10 @@ react-textarea-autosize@^8.3.0:
     use-composed-ref "^1.0.0"
     use-latest "^1.0.0"
 
-react@^17.0.2:
-  version "17.0.2"
-  resolved "https://registry.yarnpkg.com/react/-/react-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
-  integrity sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==
+react@^18.0.0-alpha-7d38e4fd8-20210930:
+  version "18.0.0-alpha-7d38e4fd8-20210930"
+  resolved "https://registry.yarnpkg.com/react/-/react-18.0.0-alpha-7d38e4fd8-20210930.tgz#d0e4c92ae33fd362b81f4e913c2955a9c2283d91"
+  integrity sha512-/gPqLsqVnzP2gBUdR56PZeP2h/TY6MGOB0zk6LcME05oyJYWCCcC8Uw1H5VWmLaFldYWliV4TYn+WE9pvkGcFw==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
@@ -11728,6 +11728,14 @@ saxes@^5.0.1:
   integrity sha512-5LBh1Tls8c9xgGjw3QrMwETmTMVk0oFgvrFSvWx62llR2hcEInrKNZ2GZCCuuy2lvWrdl5jhbpeqc5hRYKFOcw==
   dependencies:
     xmlchars "^2.2.0"
+
+scheduler@0.21.0-alpha-7d38e4fd8-20210930:
+  version "0.21.0-alpha-7d38e4fd8-20210930"
+  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.21.0-alpha-7d38e4fd8-20210930.tgz#f6d75efd7a8eae5f6405dab1510d7952f58576f4"
+  integrity sha512-oIY90mb/rOKjemGDDBOgwjZkKwWCDvpd3fYkOftfMJGvIY5Lz43iCnszMnd6r+X8JJ7Q6Cqs4x1UIhD/p3TvRA==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
 
 scheduler@^0.20.2:
   version "0.20.2"

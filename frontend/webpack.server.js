@@ -10,7 +10,7 @@ module.exports = {
     clean: true,
   },
   target: 'node',
-  mode: process.env.NODE_ENV !== 'production' ? 'development' : 'production',
+  mode: 'production',
   module: {
     rules: [
       {
