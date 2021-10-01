@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
+import { loadableReady } from '@loadable/component';
 
 import hasWindow from 'constants/windowDetector';
 import App from './App';
@@ -20,11 +21,13 @@ if (process.env.KAKAO_API_KEY && !window.Kakao.isInitialized()) {
   }
 }
 
-ReactDOM.hydrate(
-  <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </React.StrictMode>,
-  document.getElementById('root'),
-);
+loadableReady(() => {
+  ReactDOM.hydrate(
+    <React.StrictMode>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </React.StrictMode>,
+    document.getElementById('root'),
+  );
+});

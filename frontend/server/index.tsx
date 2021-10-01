@@ -1,9 +1,10 @@
 import React from 'react';
-import express from 'express';
 import ReactDOMServer from 'react-dom/server';
 import { StaticRouter } from 'react-router';
 import { ServerStyleSheet, StyleSheetManager } from 'styled-components';
+import { ChunkExtractor } from '@loadable/server';
 
+import express from 'express';
 import path from 'path';
 import fs from 'fs';
 
@@ -15,8 +16,14 @@ const sheet = new ServerStyleSheet();
 
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  const reactApp = ReactDOMServer.renderToString(
+app.use(express.static(path.resolve(__dirname, '../dist'), { index: false }));
+
+const statsFile = path.resolve(__dirname, '../dist/loadable-stats.json');
+
+const extractor = new ChunkExtractor({ statsFile });
+
+app.get(['/', '/about', '/feeds/:feedId'], async (req, res) => {
+  const jsx = extractor.collectChunks(
     <StyleSheetManager sheet={sheet.instance}>
       <StaticRouter location={req.url}>
         <App />
@@ -24,9 +31,13 @@ app.get('/', (req, res) => {
     </StyleSheetManager>,
   );
 
+  const scriptTags = extractor.getScriptTags();
+
+  const reactApp = ReactDOMServer.renderToString(jsx);
+
   const styleTags = sheet.getStyleTags();
 
-  const indexFile = path.resolve(__dirname, '../index.html');
+  const indexFile = path.resolve(__dirname, '../dist/index.html');
 
   fs.readFile(indexFile, 'utf8', (err, data) => {
     if (err) {
@@ -36,13 +47,11 @@ app.get('/', (req, res) => {
 
     const result = data
       .replace('<div id="root"></div>', `<div id="root">${reactApp}</div>`)
-      .replace(/<head>(.+)<\/head>/s, `<head>$1 ${styleTags}</head>`);
+      .replace(/<head>(.+)<\/head>/s, `<head>$1 ${styleTags} ${scriptTags}</head>`);
 
     return res.send(result);
   });
 });
-
-app.use(express.static(path.resolve(__dirname, '..')));
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);

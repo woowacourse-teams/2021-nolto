@@ -1,7 +1,6 @@
 import loadable from '@loadable/component';
 
-import Home from './Home/Home';
-
+const Home = loadable(() => import(/* webpackChunkName: "Home" */ 'pages/Home/Home'));
 const About = loadable(() => import(/* webpackChunkName: "About" */ 'pages/About/About'));
 const Upload = loadable(() => import(/* webpackChunkName: "Upload" */ 'pages/Upload/Upload'));
 const OAuth = loadable(() => import(/* webpackChunkName: "OAuth" */ 'pages/OAuth/OAuth'));

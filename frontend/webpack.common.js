@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const { DefinePlugin } = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
+const LoadablePlugin = require('@loadable/webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -21,7 +22,11 @@ module.exports = {
             loader: 'babel-loader',
             options: {
               presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
-              plugins: ['@babel/plugin-transform-runtime', 'babel-plugin-styled-components'],
+              plugins: [
+                '@babel/plugin-transform-runtime',
+                'babel-plugin-styled-components',
+                '@loadable/babel-plugin',
+              ],
             },
           },
         ],
@@ -47,6 +52,7 @@ module.exports = {
   plugins: [
     new HtmlWebPackPlugin({
       template: './public/index.html',
+      inject: false,
     }),
     new CopyPlugin({
       patterns: [
@@ -62,6 +68,7 @@ module.exports = {
     new DefinePlugin({
       'process.env.BASE_URL': JSON.stringify(process.env.BASE_URL),
     }),
+    new LoadablePlugin(),
   ],
   optimization: {
     splitChunks: {
