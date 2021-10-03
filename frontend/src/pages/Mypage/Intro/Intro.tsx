@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 
 import useProfileLoad from 'hooks/queries/profile/useProfileLoad';
 import useProfileEdit from 'hooks/queries/profile/useProfileEdit';
-import useMember from 'hooks/queries/useMember';
+import useMember from 'contexts/member/useMember';
 import useNicknameCheck from 'hooks/queries/profile/useNicknameCheck';
 import useQueryDebounce from 'hooks/@common/useQueryDebounce';
 import useSnackbar from 'contexts/snackbar/useSnackbar';

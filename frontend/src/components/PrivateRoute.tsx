@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect, Route, RouteProps } from 'react-router-dom';
 
-import useMember from 'hooks/queries/useMember';
+import useMember from 'contexts/member/useMember';
 import useModal from 'contexts/modal/useModal';
 import useDialog from 'contexts/dialog/useDialog';
 import ROUTE from 'constants/routes';
@@ -12,7 +12,7 @@ interface Props extends RouteProps {
 }
 
 const PrivateRoute = ({ children, ...props }: Props) => {
-  const { isLogin } = useMember();
+  const { isLoggedIn } = useMember();
   const modal = useModal();
   const dialog = useDialog();
 
@@ -24,7 +24,7 @@ const PrivateRoute = ({ children, ...props }: Props) => {
     <Route
       {...props}
       render={({ location }) => {
-        if (isLogin) {
+        if (isLoggedIn) {
           return children;
         } else {
           openLoginModal();

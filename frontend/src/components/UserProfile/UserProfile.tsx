@@ -6,7 +6,7 @@ import DownPolygon from 'assets/downPolygon.svg';
 import useDialog from 'contexts/dialog/useDialog';
 import { PALETTE } from 'constants/palette';
 import ROUTE from 'constants/routes';
-import useMember from 'hooks/queries/useMember';
+import useMember from 'contexts/member/useMember';
 import useFocusOut from 'hooks/@common/useFocusOut';
 
 interface Props {

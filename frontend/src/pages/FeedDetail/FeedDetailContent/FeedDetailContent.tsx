@@ -6,7 +6,8 @@ import ViewCountIcon from 'assets/viewCount.svg';
 import ShareIcon from 'assets/share.svg';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
 import useFeedDetail from 'hooks/queries/feed/useFeedDetail';
-import useMember from 'hooks/queries/useMember';
+import useMember from 'contexts/member/useMember';
+import hasWindow from 'constants/windowDetector';
 import { PALETTE } from 'constants/palette';
 import ROUTE from 'constants/routes';
 import QUERY_KEYS from 'constants/queryKeys';
@@ -20,8 +21,8 @@ import AsyncBoundary from 'components/AsyncBoundary';
 import ErrorFallback from 'components/ErrorFallback/ErrorFallback';
 import StepChip from 'components/StepChip/StepChip';
 import FeedThumbnail from 'components/FeedThumbnail/FeedThumbnail';
-import Styled, { Tag, SOSFlag } from './FeedDetailContent.styles';
 import Markdown from 'components/@common/Markdown/Markdown';
+import Styled, { Tag, SOSFlag } from './FeedDetailContent.styles';
 
 interface Props {
   feedId: number;
@@ -56,6 +57,8 @@ const FeedDetailContent = ({ feedId }: Props) => {
   };
 
   const createKakaoShare = () => {
+    if (!hasWindow) return;
+
     window.Kakao.Link.createDefaultButton({
       container: '#create-kakao-link-btn',
       objectType: 'feed',
@@ -107,7 +110,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
   };
 
   useEffect(() => {
-    if (window.Kakao.isInitialized()) {
+    if (hasWindow && window.Kakao.isInitialized()) {
       if (!isKakaoLoaded) {
         createKakaoShare();
         setKakaoLoaded(true);
