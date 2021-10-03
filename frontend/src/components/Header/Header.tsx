@@ -52,47 +52,49 @@ const Header = ({ isFolded = false }: Props) => {
       </Styled.BackgroundSvg>
 
       <Styled.LogoWrapper>
-        <Link to={ROUTE.HOME}>
+        <Link to={ROUTE.HOME} aria-label="홈">
           <Logo height="100%" />
           <LogoText height="90%" />
         </Link>
       </Styled.LogoWrapper>
       <Styled.NavContainer>
-        <li onMouseOver={() => Page.RecentFeeds.preload()}>
-          <NavLink to={ROUTE.RECENT} className="nav-link" activeClassName="selected">
-            Toy Projects
-          </NavLink>
-        </li>
-        <li className="web-hosting">
-          <a href="https://easy-deploy.kr/" className="nav-link" target="_blank">
-            Easy Deploy
-          </a>
-        </li>
-        <li>
-          <NavLink to={ROUTE.ABOUT} className="nav-link" activeClassName="selected">
-            Nolto Team
-          </NavLink>
-        </li>
-        <li className="buttons-container">
-          <Styled.ButtonsContainer>
-            <Link to={ROUTE.UPLOAD} className="upload-link">
-              <IconButton size="2rem" aria-label="토이 프로젝트 업로드">
-                <Pencil fill={PALETTE.PRIMARY_400} />
-              </IconButton>
-            </Link>
-            <div ref={searchbarRef}>
-              <IconButton
-                size="2rem"
-                onClick={openSearchbar}
-                className="search"
-                aria-label="토이 프로젝트 검색"
-              >
-                <Search fill={PALETTE.PRIMARY_400} />
-              </IconButton>
-              {isSearchbarOpened && <Searchbar placeholder="제목/내용으로만 검색이 가능합니다" />}
-            </div>
-          </Styled.ButtonsContainer>
-        </li>
+        <ul>
+          <li onMouseOver={() => Page.RecentFeeds.preload()}>
+            <NavLink to={ROUTE.RECENT} className="nav-link" activeClassName="selected">
+              Toy Projects
+            </NavLink>
+          </li>
+          <li className="web-hosting">
+            <a href="https://easy-deploy.kr/" className="nav-link" target="_blank">
+              Easy Deploy
+            </a>
+          </li>
+          <li>
+            <NavLink to={ROUTE.ABOUT} className="nav-link" activeClassName="selected">
+              Nolto Team
+            </NavLink>
+          </li>
+          <li className="buttons-container">
+            <Styled.ButtonsContainer>
+              <Link to={ROUTE.UPLOAD} className="upload-link">
+                <IconButton size="2rem" aria-label="토이 프로젝트 업로드">
+                  <Pencil fill={PALETTE.PRIMARY_400} />
+                </IconButton>
+              </Link>
+              <div ref={searchbarRef}>
+                <IconButton
+                  size="2rem"
+                  onClick={openSearchbar}
+                  className="search"
+                  aria-label="토이 프로젝트 검색"
+                >
+                  <Search fill={PALETTE.PRIMARY_400} />
+                </IconButton>
+                {isSearchbarOpened && <Searchbar placeholder="제목/내용으로만 검색이 가능합니다" />}
+              </div>
+            </Styled.ButtonsContainer>
+          </li>
+        </ul>
       </Styled.NavContainer>
       <Styled.UserContainer>
         {member.userData ? (

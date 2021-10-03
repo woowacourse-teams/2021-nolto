@@ -72,11 +72,14 @@ export const LogoText = styled(LogoTextIcon)`
 
 const NavContainer = styled.nav`
   position: relative;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 1rem;
   width: 100%;
+
+  & ul {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1rem;
+  }
 
   & li {
     text-align: center;
