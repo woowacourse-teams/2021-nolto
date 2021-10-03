@@ -1,10 +1,15 @@
 import { useEffect, useState } from 'react';
 
+import hasWindow from 'constants/windowDetector';
+
 const useTheme = () => {
   const [theme, setTheme] = useState('default');
 
   const setMode = (mode: string) => {
-    localStorage.setItem('theme', mode);
+    if (hasWindow) {
+      localStorage.setItem('theme', mode);
+    }
+
     setTheme(mode);
   };
 

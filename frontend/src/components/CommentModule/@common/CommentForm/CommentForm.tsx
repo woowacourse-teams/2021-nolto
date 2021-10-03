@@ -4,7 +4,7 @@ import SendIcon from 'assets/send.svg';
 import Avatar from 'components/@common/Avatar/Avatar';
 import Toggle from 'components/@common/Toggle/Toggle';
 import { CommentModuleContext } from 'components/CommentModule/CommentModule';
-import useMember from 'hooks/queries/useMember';
+import useMember from 'contexts/member/useMember';
 import useFeedDetail from 'hooks/queries/feed/useFeedDetail';
 import { MESSAGES } from 'constants/message';
 import { CommentRequest } from 'types';
@@ -18,7 +18,7 @@ interface Props {
 const CommentForm = ({ onSubmit, isRootComment = false }: Props) => {
   const [content, setContent] = useState('');
   const [isHelper, setIsHelper] = useState(false);
-  const { userData, isLogin } = useMember();
+  const { userData, isLoggedIn } = useMember();
   const { feedId } = useContext(CommentModuleContext);
   const { data: feedDetail } = useFeedDetail({ feedId, suspense: false });
 
@@ -44,19 +44,19 @@ const CommentForm = ({ onSubmit, isRootComment = false }: Props) => {
 
   return (
     <div>
-      {isLogin && (
+      {isLoggedIn && (
         <Styled.Author>
           <Avatar user={userData} />
         </Styled.Author>
       )}
       <Form onSubmit={handleSubmitComment}>
         <Styled.FormInputWrapper>
-          {isLogin ? (
+          {isLoggedIn ? (
             <CommentFormInput value={content} disabled={false} onChange={handleChangeContent} />
           ) : (
             <CommentFormInput value={MESSAGES.NEED_LOGIN} disabled={true} />
           )}
-          <SendButton size="1.5rem" hasShadow={false} disabled={!isLogin}>
+          <SendButton size="1.5rem" hasShadow={false} disabled={!isLoggedIn}>
             <SendIcon width="21px" height="21px" />
           </SendButton>
         </Styled.FormInputWrapper>

@@ -11,7 +11,7 @@ import SubCommentModule from 'components/CommentModule/SubCommentModule/SubComme
 import { CommentModuleContext } from 'components/CommentModule/CommentModule';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
 import useDialog from 'contexts/dialog/useDialog';
-import useMember from 'hooks/queries/useMember';
+import useMember from 'contexts/member/useMember';
 import useLike from 'hooks/@common/useLike';
 import { PALETTE } from 'constants/palette';
 import { ButtonStyle, CommentType } from 'types';

@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { ThemeProvider } from 'styled-components';
@@ -11,6 +11,7 @@ import ErrorFallback from 'components/ErrorFallback/ErrorFallback';
 import DialogProvider from 'contexts/dialog/DialogProvider';
 import ModalProvider from 'contexts/modal/ModalProvider';
 import SnackbarProvider from 'contexts/snackbar/SnackbarProvider';
+import MemberProvider from 'contexts/member/MemberProvider';
 import ROUTE from 'constants/routes';
 import { ERROR_MSG } from 'constants/message';
 import useTheme from 'hooks/useTheme';
@@ -36,11 +37,11 @@ const App = () => {
       <ErrorBoundary fallback={<ErrorFallback message={ERROR_MSG.UNKNOWN_ERROR} />}>
         <ThemeProvider theme={theme}>
           <GlobalStyle />
-          <Router>
-            <Switch>
-              <SnackbarProvider>
-                <DialogProvider>
-                  <ModalProvider>
+          <Switch>
+            <SnackbarProvider>
+              <DialogProvider>
+                <ModalProvider>
+                  <MemberProvider>
                     <Route exact path={ROUTE.HOME}>
                       <Page.Home toggleTheme={toggleThemeMode} />
                     </Route>
@@ -68,11 +69,11 @@ const App = () => {
                     <Route path="/:oauth/callback">
                       <Page.OAuth />
                     </Route>
-                  </ModalProvider>
-                </DialogProvider>
-              </SnackbarProvider>
-            </Switch>
-          </Router>
+                  </MemberProvider>
+                </ModalProvider>
+              </DialogProvider>
+            </SnackbarProvider>
+          </Switch>
         </ThemeProvider>
         <ReactQueryDevtools panelProps={{ className: 'query-dev-tools' }} initialIsOpen={false} />
       </ErrorBoundary>

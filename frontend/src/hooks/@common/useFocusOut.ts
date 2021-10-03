@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { genNewId } from 'utils/common';
+import hasWindow from 'constants/windowDetector';
 
 interface RegisteredCallbackInfo {
   id: number;
@@ -11,15 +12,16 @@ const idGenerator = genNewId();
 
 let registeredCallbackInfos: RegisteredCallbackInfo[] = [];
 
-document.addEventListener('mousedown', (event) => {
-  registeredCallbackInfos.forEach((callbackInfo) => {
-    if (!callbackInfo.targetElementRef.current) return;
+hasWindow &&
+  document.addEventListener('mousedown', (event) => {
+    registeredCallbackInfos.forEach((callbackInfo) => {
+      if (!callbackInfo.targetElementRef.current) return;
 
-    if (!callbackInfo.targetElementRef.current?.contains(event.target as Node)) {
-      callbackInfo.callback();
-    }
+      if (!callbackInfo.targetElementRef.current?.contains(event.target as Node)) {
+        callbackInfo.callback();
+      }
+    });
   });
-});
 
 const useFocusOut = (callback: () => void) => {
   const [id, _] = useState(idGenerator.next().value);

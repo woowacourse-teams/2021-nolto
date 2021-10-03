@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import ReactDOM from 'react-dom';
 
+import hasWindow from 'constants/windowDetector';
 import { ButtonStyle, DialogType } from 'types';
 import Styled, { Button } from './DialogProvider.styles';
 
@@ -16,8 +17,6 @@ interface DialogContext {
 type OnConfirm = () => unknown;
 
 export const Context = React.createContext<DialogContext>(null);
-
-const dialogRoot = document.getElementById('dialog-root');
 
 const DialogProvider = ({ children }: Props) => {
   const [dialogType, setDialogType] = useState<DialogType>();
@@ -85,7 +84,9 @@ const DialogProvider = ({ children }: Props) => {
   return (
     <Context.Provider value={contextValue}>
       {children}
-      {isOpen && ReactDOM.createPortal(dialogElement, dialogRoot)}
+      {hasWindow &&
+        isOpen &&
+        ReactDOM.createPortal(dialogElement, document.getElementById('dialog-root'))}
     </Context.Provider>
   );
 };

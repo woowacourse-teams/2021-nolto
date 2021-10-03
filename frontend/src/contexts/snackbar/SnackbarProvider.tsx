@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import ErrorSignIcon from 'assets/errorSign.svg';
 import SuccessSignIcon from 'assets/successSign.svg';
 import useSnackbarProvider from './useSnackbarProvider';
+import hasWindow from 'constants/windowDetector';
 import { AddSnackbar } from 'types';
 import Styled from './SnackbarProvider.styles';
 
@@ -16,8 +17,6 @@ interface SnackbarContext {
 }
 
 export const Context = createContext<SnackbarContext>(null);
-
-const snackbarRoot = document.getElementById('snackbar-root');
 
 const SnackbarProvider = ({ children }: Props) => {
   const { snackbars, addSnackbar } = useSnackbarProvider({
@@ -46,7 +45,8 @@ const SnackbarProvider = ({ children }: Props) => {
   return (
     <Context.Provider value={contextValue}>
       {children}
-      {ReactDOM.createPortal(snackbarElement, snackbarRoot)}
+      {hasWindow &&
+        ReactDOM.createPortal(snackbarElement, document.getElementById('snackbar-root'))}
     </Context.Provider>
   );
 };
