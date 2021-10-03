@@ -18,7 +18,7 @@ const LargeFeedCard = ({ feed, className }: Props) => {
       <Avatar user={feed.author} />
       <Link to={`feeds/${feed.id}`}>
         <Styled.FeedContainer>
-          <FeedThumbnail thumbnailUrl={feed.thumbnailUrl} />
+          <FeedThumbnail thumbnailUrl={feed.thumbnailUrl} alt={feed.title} />
           <Styled.ContentWrapper className="card-content">
             <Styled.Title>{feed.title}</Styled.Title>
             <Styled.Content>{removeMarkdown(feed.content)}</Styled.Content>
