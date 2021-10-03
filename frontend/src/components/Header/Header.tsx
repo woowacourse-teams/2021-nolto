@@ -76,12 +76,17 @@ const Header = ({ isFolded = false }: Props) => {
         <li className="buttons-container">
           <Styled.ButtonsContainer>
             <Link to={ROUTE.UPLOAD} className="upload-link">
-              <IconButton size="2rem">
+              <IconButton size="2rem" aria-label="토이 프로젝트 업로드">
                 <Pencil fill={PALETTE.PRIMARY_400} />
               </IconButton>
             </Link>
             <div ref={searchbarRef}>
-              <IconButton size="2rem" onClick={openSearchbar} className="search">
+              <IconButton
+                size="2rem"
+                onClick={openSearchbar}
+                className="search"
+                aria-label="토이 프로젝트 검색"
+              >
                 <Search fill={PALETTE.PRIMARY_400} />
               </IconButton>
               {isSearchbarOpened && <Searchbar placeholder="제목/내용으로만 검색이 가능합니다" />}

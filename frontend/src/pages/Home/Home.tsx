@@ -125,7 +125,7 @@ const Home = ({ toggleTheme }: Props) => {
           </AsyncBoundary>
         </Styled.ToysContainer>
       </Styled.ContentArea>
-      <ScrollUpButton size="3rem" onClick={scrollTop}>
+      <ScrollUpButton size="3rem" onClick={scrollTop} aria-label="페이지 상단으로 이동">
         <Styled.ArrowUp width="14px" fill={PALETTE.PRIMARY_400} />
       </ScrollUpButton>
     </BaseLayout>

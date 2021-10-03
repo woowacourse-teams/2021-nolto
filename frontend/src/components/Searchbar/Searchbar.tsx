@@ -73,7 +73,7 @@ const Searchbar = ({ className, selectable = false, ...options }: Props) => {
             placeholder="기술스택 선택 후 우측 검색 아이콘을 클릭하세요"
           />
         )}
-        <Styled.Button>
+        <Styled.Button aria-label="검색">
           <SearchIcon width="32px" fill={PALETTE.PRIMARY_400} />
         </Styled.Button>
       </Styled.Root>
