@@ -1,5 +1,6 @@
 package com.wooteco.nolto.auth.infrastructure;
 
+import com.wooteco.nolto.auth.ui.dto.RefreshTokenResponse;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,11 @@ public class JwtTokenProvider {
     private String secretKey;
     @Value("${security.jwt.token.expire-length}")
     private long validityInMilliseconds;
+
+    private static final long REFRESH_TOKEN_VALIDATION_SECONDS = 24 * 60 * 60 * 14L;
+
+    private JwtTokenProvider() {
+    }
 
     public String createToken(String payload) {
         Claims claims = Jwts.claims().setSubject(payload);
@@ -38,5 +44,18 @@ public class JwtTokenProvider {
         } catch (JwtException | IllegalArgumentException e) {
             return false;
         }
+    }
+
+    public RefreshTokenResponse createRefreshToken(String payload) {
+        Claims claims = Jwts.claims().setSubject(payload);
+        Date now = new Date();
+        Date validity = new Date(now.getTime() + REFRESH_TOKEN_VALIDATION_SECONDS);
+        String refreshToken = Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(validity)
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact();
+        return new RefreshTokenResponse(refreshToken, REFRESH_TOKEN_VALIDATION_SECONDS);
     }
 }
