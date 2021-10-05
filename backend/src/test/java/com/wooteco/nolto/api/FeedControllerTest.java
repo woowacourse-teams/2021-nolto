@@ -40,12 +40,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = FeedController.class)
 class FeedControllerTest extends ControllerTest {
 
-    private static final String ACCESS_TOKEN = "accessToken";
-    private static final String ACCESS_TOKEN_OPTIONAL = "accessTokenOptional";
-
     private static final MockMultipartFile MOCK_MULTIPART_FILE =
             new MockMultipartFile("thumbnailImage", "thumbnailImage.png", "image/png", "<<png data>>".getBytes());
-
     private static final long FEED_ID = 1L;
 
     public static final Feed FEED1 = Feed.builder()

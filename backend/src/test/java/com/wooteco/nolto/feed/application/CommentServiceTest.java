@@ -1,10 +1,8 @@
 package com.wooteco.nolto.feed.application;
 
-import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.exception.NotFoundException;
 import com.wooteco.nolto.feed.domain.Comment;
 import com.wooteco.nolto.feed.domain.Feed;
-import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.domain.repository.CommentRepository;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.feed.ui.dto.CommentRequest;
@@ -13,7 +11,6 @@ import com.wooteco.nolto.feed.ui.dto.ReplyResponse;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.domain.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.persistence.EntityManager;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
+import static com.wooteco.nolto.FeedFixture.전시중_단계의_피드_생성;
+import static com.wooteco.nolto.UserFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -33,36 +31,20 @@ class CommentServiceTest extends CommentServiceFixture {
     }
 
     @Autowired
-    private EntityManager entityManager;
+    private EntityManager em;
 
-    private User 찰리1 = new User("socialId", SocialType.GOOGLE, "찰리1", "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png");
-    private User 아마찌 = new User("socialId", SocialType.GITHUB, "아마찌", "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png");
-    private User 조엘 = new User("socialId", SocialType.GITHUB, "조엘", "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png");
-    private User 포모1 = new User("socialId", SocialType.GOOGLE, "포모1", "https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png");
+    private User 아마찌 = 아마찌_생성();
+    private User 조엘 = 조엘_생성();
+    private User 깃헙_유저 = 깃헙_유저_생성();
+    private User 구글_유저 = 구글_유저_생성();
 
-    private Feed 아마찌의_개쩌는_지하철_미션 = Feed.builder()
-            .title("아마찌의 개쩌는 지하철 미션")
-            .content("난 너무 잘해")
-            .step(Step.COMPLETE)
-            .isSos(false)
-            .storageUrl("www.github.com/newWisdom")
-            .deployedUrl("www.github.com/newWisdom")
-            .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
-            .build()
-            .writtenBy(찰리1);
-
+    private Feed 아마찌의_개쩌는_지하철_미션 = 전시중_단계의_피드_생성().writtenBy(아마찌);
 
     @BeforeEach
-    void setUp() throws InterruptedException {
+    void setUp() {
         super.setUp();
-        userRepository.save(찰리1);
-        userRepository.save(아마찌);
-        userRepository.save(조엘);
-        userRepository.save(포모1);
-
-        아마찌의_개쩌는_지하철_미션.writtenBy(아마찌);
-        feedRepository.save(아마찌의_개쩌는_지하철_미션);
-        entityManager.flush();
+        userRepository.saveAllAndFlush(Arrays.asList(깃헙_유저, 아마찌, 조엘, 구글_유저));
+        feedRepository.saveAndFlush(아마찌의_개쩌는_지하철_미션);
     }
 
     @DisplayName("댓글을 1개 저장한다.")
@@ -73,18 +55,10 @@ class CommentServiceTest extends CommentServiceFixture {
         Feed 조회해온_찰리가_쓴_피드 = feedRepository.findById(찰리가_쓴_피드.getId()).get();
 
         // when
-        CommentResponse response = commentService.createComment(조회해온_찰리, 조회해온_찰리가_쓴_피드.getId(), COMMENT_REQUEST_WITHOUT_HELPER);
+        CommentResponse response = commentService.createComment(조회해온_찰리, 조회해온_찰리가_쓴_피드.getId(), 도움_제안_없는_댓글_요청);
 
         // then
-        assertThat(response.getId()).isNotNull();
-        assertThat(response.getContent()).isEqualTo(COMMENT_REQUEST_WITHOUT_HELPER.getContent());
-        assertThat(response.isHelper()).isEqualTo(COMMENT_REQUEST_WITHOUT_HELPER.isHelper());
-        assertThat(response.getAuthor().getId()).isEqualTo(찰리.getId());
-        assertThat(response.getLikes()).isZero();
-        assertThat(response.isLiked()).isFalse();
-        assertThat(response.isModified()).isFalse();
-        assertThat(response.isFeedAuthor()).isTrue();
-        assertThat(response.getCreatedAt()).isNotNull();
+        checkSameComment(도움_제안_없는_댓글_요청, response, 찰리);
     }
 
     @DisplayName("특정 피드에 대한 댓글과 대댓글 전체를 조회한다. 댓글, 대댓글은 최신 순 정렬")
@@ -102,10 +76,10 @@ class CommentServiceTest extends CommentServiceFixture {
 
     @DisplayName("댓글을 수정할 수 있다.")
     @Test
-    void updateComment() throws InterruptedException {
+    void updateComment() {
         // given
-        CommentResponse response = commentService.createComment(찰리, 찰리가_쓴_피드.getId(), COMMENT_REQUEST_WITHOUT_HELPER);
-        entityManager.flush();
+        CommentResponse response = commentService.createComment(찰리, 찰리가_쓴_피드.getId(), 도움_제안_없는_댓글_요청);
+        em.flush();
         String updateContent = "수정된 댓글 내용";
         boolean updateHelper = true;
 
@@ -135,14 +109,14 @@ class CommentServiceTest extends CommentServiceFixture {
     @Test
     void deleteComment() {
         // given
-        entityManager.clear();
+        em.clear();
 
         // when
-        User user = userRepository.findById(찰리.getId()).get();
-        entityManager.flush();
-        commentService.deleteComment(user, 찰리가_쓴_피드에_찰리가_쓴_댓글.getId());
-        entityManager.flush();
-        entityManager.clear();
+        User 조회한_찰리 = userRepository.findById(찰리.getId()).get();
+        em.flush();
+        commentService.deleteComment(조회한_찰리, 찰리가_쓴_피드에_찰리가_쓴_댓글.getId());
+        em.flush();
+        em.clear();
         Feed 삭제_후_조회한_찰리가_쓴_피드 = feedRepository.findById(찰리가_쓴_피드.getId()).get();
 
         // then
@@ -162,13 +136,13 @@ class CommentServiceTest extends CommentServiceFixture {
     void deleteCommentWithLike() {
         // given
         commentLikeService.addCommentLike(찰리가_쓴_피드에_찰리가_쓴_댓글.getId(), 찰리);
-        entityManager.flush();
-        entityManager.clear();
+        em.flush();
+        em.clear();
         User 조회한_찰리 = userRepository.findById(찰리.getId()).get();
 
         // when
         commentService.deleteComment(조회한_찰리, 찰리가_쓴_피드에_찰리가_쓴_댓글.getId());
-        entityManager.flush();
+        em.flush();
         Feed 삭제_후_조회한_찰리가_쓴_피드 = feedRepository.findById(찰리가_쓴_피드.getId()).get();
 
         // then
@@ -192,6 +166,18 @@ class CommentServiceTest extends CommentServiceFixture {
                 .hasMessage("존재하지 않는 댓글입니다.");
     }
 
+    private void checkSameComment(CommentRequest request, CommentResponse response, User user) {
+        assertThat(response.getId()).isNotNull();
+        assertThat(response.getContent()).isEqualTo(request.getContent());
+        assertThat(response.isHelper()).isEqualTo(request.isHelper());
+        assertThat(response.getAuthor().getId()).isEqualTo(찰리.getId());
+        assertThat(response.getLikes()).isZero();
+        assertThat(response.isLiked()).isFalse();
+        assertThat(response.isModified()).isFalse();
+        assertThat(response.isFeedAuthor()).isTrue();
+        assertThat(response.getCreatedAt()).isNotNull();
+    }
+
     private void checkSameCommentWithReplyResponse(CommentResponse response, Comment comment, User user) {
         CommentResponse responseFromComment = CommentResponse.of(comment, user.isCommentLiked(comment));
         assertThat(response.getId()).isEqualTo(responseFromComment.getId());
@@ -210,9 +196,9 @@ class CommentServiceTest extends CommentServiceFixture {
     @Test
     void createReply() {
         // given
-        Comment 찰리_댓글 = 댓글_생성("오 마찌 멋진데?", false, 찰리1, 아마찌의_개쩌는_지하철_미션);
+        Comment 찰리_댓글 = 댓글_생성("오 마찌 멋진데?", false, 깃헙_유저, 아마찌의_개쩌는_지하철_미션);
         commentRepository.saveAndFlush(찰리_댓글);
-        entityManager.clear();
+        em.clear();
 
         // when
         CommentRequest 조엘_대댓글 = new CommentRequest("찰리 나는..?", false);
@@ -232,7 +218,7 @@ class CommentServiceTest extends CommentServiceFixture {
     @Test
     void createReplyWithAuthor() {
         // given
-        Comment 포모_댓글 = 댓글_생성("아마찌에게 '누난 내 여자라니까' 불러줄 사람 구합니다.", false, 포모1, 아마찌의_개쩌는_지하철_미션);
+        Comment 포모_댓글 = 댓글_생성("아마찌에게 '누난 내 여자라니까' 불러줄 사람 구합니다.", false, 구글_유저, 아마찌의_개쩌는_지하철_미션);
         commentRepository.saveAndFlush(포모_댓글);
 
         // when
@@ -255,16 +241,16 @@ class CommentServiceTest extends CommentServiceFixture {
 
     @DisplayName("대댓글을 조회한다. 최신 순으로 대댓글이 나열 (아마찌 -> 포모 -> 조엘)")
     @Test
-    void findAllById() throws InterruptedException {
+    void findAllById() {
         // given
-        Comment 찰리_댓글 = 댓글_생성("내일 젠킨스 강의 있습니다. 제 강의 듣고 배포 자동화 해보시죠", false, 찰리1, 아마찌의_개쩌는_지하철_미션);
+        Comment 찰리_댓글 = 댓글_생성("내일 젠킨스 강의 있습니다. 제 강의 듣고 배포 자동화 해보시죠", false, 깃헙_유저, 아마찌의_개쩌는_지하철_미션);
         commentRepository.saveAndFlush(찰리_댓글);
 
         Comment 조엘_대댓글 = 댓글_생성("저 듣고 싶어요!!! 도커도 알려주세요 우테코는 왜 도커를 안 알려주는 거야!!!!!!!", false, 조엘, 아마찌의_개쩌는_지하철_미션);
         조엘_대댓글.addParentComment(찰리_댓글);
         commentRepository.saveAndFlush(조엘_대댓글);
 
-        Comment 포모_대댓글 = 댓글_생성("오오 젠킨스 강의 탑승해봅니다", false, 포모1, 아마찌의_개쩌는_지하철_미션);
+        Comment 포모_대댓글 = 댓글_생성("오오 젠킨스 강의 탑승해봅니다", false, 구글_유저, 아마찌의_개쩌는_지하철_미션);
         포모_대댓글.addParentComment(찰리_댓글);
         commentRepository.saveAndFlush(포모_대댓글);
 
@@ -273,21 +259,21 @@ class CommentServiceTest extends CommentServiceFixture {
         commentRepository.saveAndFlush(아마찌_대댓글);
 
         // when
-        List<ReplyResponse> findReplies = commentService.findAllRepliesById(찰리1, 아마찌의_개쩌는_지하철_미션.getId(), 찰리_댓글.getId());
+        List<ReplyResponse> findReplies = commentService.findAllRepliesById(깃헙_유저, 아마찌의_개쩌는_지하철_미션.getId(), 찰리_댓글.getId());
 
         // then
         assertThat(findReplies.get(0).getId()).isEqualTo(아마찌_대댓글.getId());
         assertThat(findReplies.get(1).getId()).isEqualTo(포모_대댓글.getId());
         assertThat(findReplies.get(2).getId()).isEqualTo(조엘_대댓글.getId());
         assertThat(아마찌.getComments().size()).isOne();
-        assertThat(찰리1.getComments().size()).isOne();
+        assertThat(깃헙_유저.getComments().size()).isOne();
         assertThat(조엘.getComments().size()).isOne();
-        assertThat(포모1.getComments().size()).isOne();
+        assertThat(구글_유저.getComments().size()).isOne();
     }
 
     @DisplayName("대댓글의 내용을 수정한다.")
     @Test
-    void update() throws InterruptedException {
+    void update() {
         // given
         Comment 조엘_댓글 = 댓글_생성("조엘의 웹 호스팅을 통해 배포해보실 생각은 없으신가요?", false, 조엘, 아마찌의_개쩌는_지하철_미션);
         Comment 아마찌_대댓글 = 댓글_생성("내 글에서 광고하지마!!!", false, 아마찌, 아마찌의_개쩌는_지하철_미션);
@@ -314,17 +300,17 @@ class CommentServiceTest extends CommentServiceFixture {
         // given
         CommentRequest 포모_댓글_생성요청 = new CommentRequest("영 차 영 차 영 차 영 차 영 차 영 차", false);
         CommentRequest 아마찌_대댓글_생성요청 = new CommentRequest("영 차 영 차 영 차", false);
-        CommentResponse 포모_댓글_생성_응답 = commentService.createComment(포모1, 아마찌의_개쩌는_지하철_미션.getId(), 포모_댓글_생성요청);
+        CommentResponse 포모_댓글_생성_응답 = commentService.createComment(구글_유저, 아마찌의_개쩌는_지하철_미션.getId(), 포모_댓글_생성요청);
         CommentResponse 아마찌_대댓글_생성_응답 = commentService.createReply(아마찌, 아마찌의_개쩌는_지하철_미션.getId(), 포모_댓글_생성_응답.getId(), 아마찌_대댓글_생성요청);
-        assertThat(포모1.getComments().size()).isOne();
+        assertThat(구글_유저.getComments().size()).isOne();
         assertThat(아마찌.getComments().size()).isOne();
-        entityManager.flush();
+        em.flush();
 
         // when
         Comment 아마찌_대댓글 = commentService.findEntityById(아마찌_대댓글_생성_응답.getId());
         commentService.deleteComment(아마찌, 아마찌_대댓글.getId());
-        entityManager.flush();
-        entityManager.clear();
+        em.flush();
+        em.clear();
 
         // then
         Feed 삭제후_조회한_아마찌의_개쩌는_지하철_미션 = feedRepository.findById(아마찌의_개쩌는_지하철_미션.getId()).get();
@@ -342,27 +328,27 @@ class CommentServiceTest extends CommentServiceFixture {
         // given
         CommentRequest 포모_댓글_생성요청 = new CommentRequest("영 차 영 차 영 차 영 차 영 차 영 차", false);
         CommentRequest 아마찌_대댓글_생성요청 = new CommentRequest("영 차 영 차 영 차", false);
-        CommentResponse 포모_댓글_생성_응답 = commentService.createComment(포모1, 아마찌의_개쩌는_지하철_미션.getId(), 포모_댓글_생성요청);
+        CommentResponse 포모_댓글_생성_응답 = commentService.createComment(구글_유저, 아마찌의_개쩌는_지하철_미션.getId(), 포모_댓글_생성요청);
         CommentResponse 아마찌_대댓글_생성_응답 = commentService.createReply(아마찌, 아마찌의_개쩌는_지하철_미션.getId(), 포모_댓글_생성_응답.getId(), 아마찌_대댓글_생성요청);
-        commentLikeService.addCommentLike(포모_댓글_생성_응답.getId(), 포모1);
+        commentLikeService.addCommentLike(포모_댓글_생성_응답.getId(), 구글_유저);
         commentLikeService.addCommentLike(아마찌_대댓글_생성_응답.getId(), 아마찌);
-        entityManager.flush();
+        em.flush();
 
         // when
         Comment 포모_댓글 = commentService.findEntityById(포모_댓글_생성_응답.getId());
         Comment 아마찌_대댓글 = commentService.findEntityById(아마찌_대댓글_생성_응답.getId());
-        assertThat(포모1.getComments().size()).isOne();
+        assertThat(구글_유저.getComments().size()).isOne();
         assertThat(아마찌.getComments().size()).isOne();
-        assertThat(포모1.getCommentLikes().size()).isOne();
+        assertThat(구글_유저.getCommentLikes().size()).isOne();
         assertThat(아마찌.getCommentLikes().size()).isOne();
 
-        commentService.deleteComment(포모1, 포모_댓글.getId());
-        entityManager.flush();
-        entityManager.clear();
+        commentService.deleteComment(구글_유저, 포모_댓글.getId());
+        em.flush();
+        em.clear();
 
         // then
         Feed 삭제후_조회한_아마찌의_개쩌는_지하철_미션 = feedRepository.findById(아마찌의_개쩌는_지하철_미션.getId()).get();
-        User 삭제후_조회한_포모 = userRepository.findById(포모1.getId()).get();
+        User 삭제후_조회한_포모 = userRepository.findById(구글_유저.getId()).get();
         User 삭제후_조회한_아마찌 = userRepository.findById(아마찌.getId()).get();
         assertThatThrownBy(() -> commentService.findEntityById(포모_댓글.getId()))
                 .isInstanceOf(NotFoundException.class)

@@ -30,13 +30,13 @@ class TechControllerTest extends ControllerTest {
             fieldWithPath("id").type(JsonFieldType.NUMBER).description("ID"),
             fieldWithPath("text").type(JsonFieldType.STRING).description("기술 스택명")};
 
-    public static final List<TechResponse> TECH_RESPONSES = Arrays.asList(
+    protected static final List<TechResponse> TECH_RESPONSES = Arrays.asList(
             new TechResponse(67L, "Spring"), new TechResponse(1149L, "Spring Batch"));
 
-    public static final List<TechResponse> TECH_RESPONSES2 = Arrays.asList(
+    private static final List<TechResponse> TECH_RESPONSES2 = Arrays.asList(
             new TechResponse(67L, "Spring"), new TechResponse(1149L, "Java"));
 
-    public static final List<TechResponse> TREND_TECH_RESPONSES = Arrays.asList(
+    private static final List<TechResponse> TREND_TECH_RESPONSES = Arrays.asList(
             new TechResponse(67L, "Spring"), new TechResponse(1149L, "Java"),
             new TechResponse(67L, "Spring"), new TechResponse(1149L, "Java"));
 

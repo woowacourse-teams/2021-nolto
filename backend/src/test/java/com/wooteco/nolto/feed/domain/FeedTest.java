@@ -2,21 +2,21 @@ package com.wooteco.nolto.feed.domain;
 
 import com.wooteco.nolto.exception.BadRequestException;
 import com.wooteco.nolto.exception.ErrorType;
-import com.wooteco.nolto.user.domain.UserTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static com.wooteco.nolto.UserFixture.아마찌_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class FeedTest {
 
-    private Feed feed1;
+    private Feed feed;
 
     @BeforeEach
     void setUp() {
-        feed1 = Feed.builder()
+        feed = Feed.builder()
                 .title("아마찌의 개쩌는 지하철 미션")
                 .content("난 너무 잘해")
                 .step(Step.PROGRESS)
@@ -31,32 +31,32 @@ class FeedTest {
     @Test
     void writtenBy() {
         // when
-        Feed feed = feed1.writtenBy(UserTest.USER);
+        Feed feed = this.feed.writtenBy(아마찌_생성());
 
         // then
-        assertThat(feed.getAuthor()).isEqualTo(UserTest.USER);
+        assertThat(feed.getAuthor()).isEqualTo(아마찌_생성());
     }
 
     @DisplayName("조회하지 않은 경우 조회수를 증가시킨다.")
     @Test
     void increaseView() {
         // when
-        int beforeView = feed1.getViews();
-        feed1.increaseView(false);
+        int beforeView = feed.getViews();
+        feed.increaseView(false);
 
         // then
-        assertThat(feed1.getViews()).isEqualTo(beforeView + 1);
+        assertThat(feed.getViews()).isEqualTo(beforeView + 1);
     }
 
     @DisplayName("이미 조회했을 시 조회수를 증가시키지 않는다.")
     @Test
     void notIncreaseView() {
         // when
-        int beforeView = feed1.getViews();
-        feed1.increaseView(true);
+        int beforeView = feed.getViews();
+        feed.increaseView(true);
 
         // then
-        assertThat(feed1.getViews()).isEqualTo(beforeView);
+        assertThat(feed.getViews()).isEqualTo(beforeView);
     }
 
     @DisplayName("전시중(완료된) 프로젝트가의 배포 URL가 null이거나 공백인 경우 예외가 발생한다.")

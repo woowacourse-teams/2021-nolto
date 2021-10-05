@@ -1,9 +1,7 @@
 package com.wooteco.nolto.feed.application;
 
-import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.feed.domain.Comment;
 import com.wooteco.nolto.feed.domain.Feed;
-import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.domain.repository.CommentRepository;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.feed.ui.dto.CommentRequest;
@@ -15,29 +13,33 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.wooteco.nolto.FeedFixture.진행중_단계의_피드_생성;
+import static com.wooteco.nolto.UserFixture.찰리_생성;
+import static com.wooteco.nolto.UserFixture.포모_생성;
+
 @ActiveProfiles("test")
 @SpringBootTest
 @Transactional
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 public class CommentServiceFixture {
 
-    public final static CommentRequest COMMENT_REQUEST_WITHOUT_HELPER = new CommentRequest("첫 댓글", false);
-    public final static CommentRequest COMMENT_REQUEST_WITH_HELPER = new CommentRequest("두 번째 댓글", true);
+    protected final static CommentRequest 도움_제안_없는_댓글_요청 = new CommentRequest("첫 댓글", false);
+    protected final static CommentRequest 도움_제안_댓글_요청 = new CommentRequest("두 번째 댓글", true);
 
-    public final FeedRepository feedRepository;
-    public final UserRepository userRepository;
-    public final CommentRepository commentRepository;
-    public final CommentService commentService;
-    public final CommentLikeService commentLikeService;
+    protected final FeedRepository feedRepository;
+    protected final UserRepository userRepository;
+    protected final CommentRepository commentRepository;
+    protected final CommentService commentService;
+    protected final CommentLikeService commentLikeService;
 
-    public User 찰리;
-    public User 포모;
-    public Feed 찰리가_쓴_피드;
-    public Comment 찰리가_쓴_피드에_찰리가_쓴_댓글;
-    public Comment 찰리가_쓴_피드에_포모가_쓴_댓글;
-    public Comment 찰리가_쓴_피드에_찰리가_쓴_댓글에_찰리가_쓴_대댓글;
-    public Comment 찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_대댓글;
-    public Comment 찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_두번째_대댓글;
+    protected User 찰리;
+    protected User 포모;
+    protected Feed 찰리가_쓴_피드;
+    protected Comment 찰리가_쓴_피드에_찰리가_쓴_댓글;
+    protected Comment 찰리가_쓴_피드에_포모가_쓴_댓글;
+    protected Comment 찰리가_쓴_피드에_찰리가_쓴_댓글에_찰리가_쓴_대댓글;
+    protected Comment 찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_대댓글;
+    protected Comment 찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_두번째_대댓글;
 
     public CommentServiceFixture(FeedRepository feedRepository, UserRepository userRepository,
                                  CommentRepository commentRepository, CommentService commentService, CommentLikeService commentLikeService) {
@@ -49,22 +51,13 @@ public class CommentServiceFixture {
     }
 
     @BeforeEach
-    void setUp() throws InterruptedException {
-        찰리 = new User("SOCIAL_ID", SocialType.GITHUB, "찰리", "IMAGE");
-        포모 = new User("SOCIAL_ID2", SocialType.GITHUB, "포모", "IMAGE2");
+    void setUp() {
+        찰리 = 찰리_생성();
+        포모 = 포모_생성();
         userRepository.saveAndFlush(찰리);
         userRepository.saveAndFlush(포모);
 
-        찰리가_쓴_피드 = Feed.builder()
-                .title("title")
-                .content("content")
-                .step(Step.PROGRESS)
-                .isSos(true)
-                .storageUrl("https://github.com/woowacourse-teams/2021-nolto")
-                .deployedUrl("https://github.com/woowacourse-teams/2021-nolto")
-                .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
-                .build()
-                .writtenBy(찰리);
+        찰리가_쓴_피드 = 진행중_단계의_피드_생성().writtenBy(찰리);
         feedRepository.saveAndFlush(찰리가_쓴_피드);
 
         찰리가_쓴_피드에_찰리가_쓴_댓글 = new Comment("첫 댓글", false).writtenBy(찰리, 찰리가_쓴_피드);
