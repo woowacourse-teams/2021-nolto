@@ -49,7 +49,7 @@ public abstract class AcceptanceTest {
     @MockBean
     private ImageService imageService;
 
-    protected User 존재하는_유저 = 깃헙_유저_생성();
+    protected User 가입된_유저 = 깃헙_유저_생성();
 
     @BeforeEach
     public void setUp() {
@@ -64,8 +64,8 @@ public abstract class AcceptanceTest {
         databaseCleanup.execute();
     }
 
-    public TokenResponse 존재하는_유저의_토큰을_받는다() {
-        return 유저의_토큰을_받는다(존재하는_유저);
+    public TokenResponse 가입된_유저의_토큰을_받는다() {
+        return 유저의_토큰을_받는다(가입된_유저);
     }
 
     public TokenResponse 유저의_토큰을_받는다(User user) {
@@ -81,7 +81,7 @@ public abstract class AcceptanceTest {
     }
 
     Long 피드_업로드되어_있음(FeedRequest request) {
-        TokenResponse tokenResponse = 존재하는_유저의_토큰을_받는다();
+        TokenResponse tokenResponse = 가입된_유저의_토큰을_받는다();
         return Long.valueOf(피드_작성_요청(request, tokenResponse.getAccessToken()).header("Location").replace("/feeds/", ""));
     }
 

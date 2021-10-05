@@ -41,7 +41,7 @@ class NotificationAcceptanceTest extends AcceptanceTest {
         Tech 자바 = techRepository.save(자바_생성());
         진행중_단계의_피드_요청.setTechs(Arrays.asList(자바.getId()));
 
-        피드_작성자의_토큰 = 존재하는_유저의_토큰을_받는다().getAccessToken();
+        피드_작성자의_토큰 = 가입된_유저의_토큰을_받는다().getAccessToken();
         엄청난_유저의_1번째_피드_ID = 피드_업로드되어_있음(진행중_단계의_피드_요청);
         좋아요_1개_누를_유저 = 회원_등록되어_있음(찰리_생성());
         댓글을_남긴_유저 = 회원_등록되어_있음(포모_생성());

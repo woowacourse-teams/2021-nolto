@@ -69,7 +69,7 @@ class FeedAcceptanceTest extends AcceptanceTest {
         super.setUp();
         techRepository.saveAll(Arrays.asList(자바, 스프링, 리액트));
 
-        멤버의_토큰 = 존재하는_유저의_토큰을_받는다().getAccessToken();
+        멤버의_토큰 = 가입된_유저의_토큰을_받는다().getAccessToken();
 
         진행중_좋아요3개_1번째_피드_ID = 피드_업로드되어_있음(진행중_단계의_피드_요청);
         전시중_좋아요2개_2번째_피드_ID = 피드_업로드되어_있음(전시중_단계의_피드_요청);
