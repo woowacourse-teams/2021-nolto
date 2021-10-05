@@ -2,6 +2,7 @@ package com.wooteco.nolto.acceptance;
 
 import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.auth.infrastructure.JwtTokenProvider;
+import com.wooteco.nolto.auth.ui.dto.RefreshTokenResponse;
 import com.wooteco.nolto.auth.ui.dto.TokenResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.image.application.ImageKind;
@@ -16,6 +17,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.UUID;
 
 import static com.wooteco.nolto.acceptance.FeedAcceptanceTest.피드_작성_요청;
 import static org.mockito.ArgumentMatchers.any;
@@ -68,7 +71,8 @@ public abstract class AcceptanceTest {
         User 저장된_엄청난_유저 = 회원_등록되어_있음(user);
 
         String token = jwtTokenProvider.createToken(String.valueOf(저장된_엄청난_유저.getId()));
-        return new TokenResponse(token);
+        RefreshTokenResponse refreshTokenResponse = jwtTokenProvider.createRefreshToken(UUID.randomUUID().toString());
+        return TokenResponse.of(token, refreshTokenResponse);
     }
 
     public User 회원_등록되어_있음(User user) {

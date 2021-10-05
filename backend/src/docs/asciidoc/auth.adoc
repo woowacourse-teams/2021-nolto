@@ -31,3 +31,51 @@ include::{snippets}/auth-oAuthSignIn/http-response.adoc[]
 ==== Response Fields
 
 include::{snippets}/auth-oAuthSignIn/response-fields.adoc[]
+
+=== 토큰 재발급 요청
+
+==== Request
+
+include::{snippets}/auth-refreshToken/http-request.adoc[]
+
+include::{snippets}/auth-refreshToken/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/auth-refreshToken/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/auth-refreshToken/response-fields.adoc[]
+
+=== 잘못된 리프레시 토큰으로 재발급 요청
+
+==== Request
+
+include::{snippets}/auth-invalidRefreshToken/http-request.adoc[]
+
+include::{snippets}/auth-invalidRefreshToken/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/auth-invalidRefreshToken/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/auth-invalidRefreshToken/response-fields.adoc[]
+
+=== 잘못된 클라이언트의 리프레시 토큰 재발급 요청
+
+==== Request
+
+include::{snippets}/auth-invalidClient-RefreshToken/http-request.adoc[]
+
+include::{snippets}/auth-invalidClient-RefreshToken/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/auth-invalidClient-RefreshToken/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/auth-invalidClient-RefreshToken/response-fields.adoc[]
