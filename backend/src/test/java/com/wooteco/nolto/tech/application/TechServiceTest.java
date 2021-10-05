@@ -1,9 +1,7 @@
 package com.wooteco.nolto.tech.application;
 
-import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.FeedTech;
-import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.feed.domain.repository.FeedTechRepository;
 import com.wooteco.nolto.tech.domain.Tech;
@@ -22,11 +20,15 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.wooteco.nolto.FeedFixture.전시중_단계의_피드_생성;
+import static com.wooteco.nolto.FeedFixture.진행중_단계의_피드_생성;
+import static com.wooteco.nolto.TechFixture.*;
+import static com.wooteco.nolto.UserFixture.조엘_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ActiveProfiles("test")
 @SpringBootTest
 @Transactional
-@ActiveProfiles("test")
 class TechServiceTest {
 
     @Autowired
@@ -44,64 +46,24 @@ class TechServiceTest {
     @Autowired
     private UserRepository userRepository;
 
-    private final Tech TECH1_JAVA = new Tech("Java");
-    private final Tech TECH2_JAVASCRIPT = new Tech("Javascript");
-    private final Tech TECH3_SPRING = new Tech("Spring");
-    private final Tech TECH4_JPA = new Tech("Java Persistence API");
-    private final Tech TECH5_SPARK_JAVA = new Tech("SparkJava");
+    private final Tech 자바 = 자바_생성();
+    private final Tech 자바스크립트 = 자바스크립트_생성();
+    private final Tech 스프링 = 스프링_생성();
+    private final Tech 리액트 = 리액트_생성();
+    private final Tech 리액트_네이티브 = 리액트_네이티브_생성();
 
-    private final User user = new User("1L", SocialType.GOOGLE, "JOEL", "imageUrl");
+    private final User 조엘 = 조엘_생성();
 
-    private final Feed FEED1 = Feed.builder()
-            .title("title1")
-            .content("content1")
-            .step(Step.PROGRESS)
-            .isSos(true)
-            .storageUrl("https://github.com/woowacourse-teams/2021-nolto")
-            .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
-            .build().writtenBy(user);
-
-    private final Feed FEED2 = Feed.builder()
-            .title("title2")
-            .content("content2")
-            .step(Step.COMPLETE)
-            .isSos(false)
-            .storageUrl("https://github.com/woowacourse-teams/2021-nolto")
-            .deployedUrl("https://github.com/woowacourse-teams/2021-nolto")
-            .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
-            .build().writtenBy(user);
-
-    private final Feed FEED3 = Feed.builder()
-            .title("title3")
-            .content("content3")
-            .step(Step.PROGRESS)
-            .isSos(true)
-            .storageUrl("https://github.com/woowacourse-teams/2021-nolto")
-            .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
-            .build().writtenBy(user);
-
-    private final Feed FEED4 = Feed.builder()
-            .title("title4")
-            .content("content4")
-            .step(Step.PROGRESS)
-            .isSos(false)
-            .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
-            .build().writtenBy(user);
-
-    private final Feed FEED5 = Feed.builder()
-            .title("title5")
-            .content("content5")
-            .step(Step.COMPLETE)
-            .isSos(true)
-            .storageUrl("https://github.com/woowacourse-teams/2021-nolto")
-            .deployedUrl("https://github.com/woowacourse-teams/2021-nolto")
-            .thumbnailUrl("https://dksykemwl00pf.cloudfront.net/nolto-default-thumbnail.png")
-            .build().writtenBy(user);
+    private final Feed FEED1 = 진행중_단계의_피드_생성().writtenBy(조엘);
+    private final Feed FEED2 = 전시중_단계의_피드_생성().writtenBy(조엘);
+    private final Feed FEED3 = 진행중_단계의_피드_생성().writtenBy(조엘);
+    private final Feed FEED4 = 진행중_단계의_피드_생성().writtenBy(조엘);
+    private final Feed FEED5 = 전시중_단계의_피드_생성().writtenBy(조엘);
 
     @BeforeEach
     void setUp() {
-        techRepository.saveAll(Arrays.asList(TECH1_JAVA, TECH2_JAVASCRIPT, TECH3_SPRING, TECH4_JPA, TECH5_SPARK_JAVA));
-        userRepository.save(user);
+        techRepository.saveAll(Arrays.asList(자바, 자바스크립트, 스프링, 리액트, 리액트_네이티브));
+        userRepository.save(조엘);
         feedRepository.saveAll(Arrays.asList(FEED1, FEED2, FEED3, FEED4, FEED5));
     }
 
@@ -115,8 +77,8 @@ class TechServiceTest {
         List<TechResponse> findTechs = techService.findByTechsContains(searchWord);
 
         // then
-        assertThat(findTechs).hasSize(3);
-        assertThat(findTechs).extracting("text").contains(TECH1_JAVA.getName(), TECH2_JAVASCRIPT.getName(), TECH4_JPA.getName());
+        assertThat(findTechs).hasSize(2);
+        assertThat(findTechs).extracting("text").contains(자바.getName(), 자바스크립트.getName());
     }
 
     @DisplayName("기술 이름중 일부 만으로 해당 문자열을 포함된 모든 기술 스택을 조회할 수 있다.")
@@ -129,8 +91,8 @@ class TechServiceTest {
         List<TechResponse> findTechs = techService.findByTechsContains(searchWord);
 
         // then
-        assertThat(findTechs).hasSize(3);
-        assertThat(findTechs).extracting("text").contains(TECH1_JAVA.getName(), TECH2_JAVASCRIPT.getName(), TECH4_JPA.getName());
+        assertThat(findTechs).hasSize(2);
+        assertThat(findTechs).extracting("text").contains(자바.getName(), 자바스크립트.getName());
     }
 
     @DisplayName("검색하는 기술 이름에 정확하게 일치하는 기술 스택만 조회할 수 있다. 단, 대소문자는 구분하지 않는다.")
@@ -189,44 +151,44 @@ class TechServiceTest {
     @Test
     void findTrendTechs() {
         //given
-        feedTechRepository.saveAll(Arrays.asList(new FeedTech(FEED1, TECH1_JAVA), new FeedTech(FEED1, TECH2_JAVASCRIPT),
-                new FeedTech(FEED1, TECH3_SPRING), new FeedTech(FEED1, TECH4_JPA), new FeedTech(FEED1, TECH5_SPARK_JAVA)));
+        feedTechRepository.saveAll(Arrays.asList(new FeedTech(FEED1, 자바), new FeedTech(FEED1, 자바스크립트),
+                new FeedTech(FEED1, 스프링), new FeedTech(FEED1, 리액트), new FeedTech(FEED1, 리액트_네이티브)));
 
-        feedTechRepository.saveAll(Arrays.asList(new FeedTech(FEED2, TECH1_JAVA), new FeedTech(FEED2, TECH2_JAVASCRIPT),
-                new FeedTech(FEED2, TECH3_SPRING), new FeedTech(FEED2, TECH4_JPA)));
+        feedTechRepository.saveAll(Arrays.asList(new FeedTech(FEED2, 자바), new FeedTech(FEED2, 자바스크립트),
+                new FeedTech(FEED2, 스프링), new FeedTech(FEED2, 리액트)));
 
-        feedTechRepository.saveAll(Arrays.asList(new FeedTech(FEED3, TECH1_JAVA), new FeedTech(FEED3, TECH2_JAVASCRIPT),
-                new FeedTech(FEED3, TECH3_SPRING)));
+        feedTechRepository.saveAll(Arrays.asList(new FeedTech(FEED3, 자바), new FeedTech(FEED3, 자바스크립트),
+                new FeedTech(FEED3, 스프링)));
 
-        feedTechRepository.saveAll(Arrays.asList(new FeedTech(FEED4, TECH1_JAVA), new FeedTech(FEED4, TECH2_JAVASCRIPT)));
+        feedTechRepository.saveAll(Arrays.asList(new FeedTech(FEED4, 자바), new FeedTech(FEED4, 자바스크립트)));
 
-        feedTechRepository.saveAll(Arrays.asList(new FeedTech(FEED5, TECH1_JAVA)));
+        feedTechRepository.saveAll(Arrays.asList(new FeedTech(FEED5, 자바)));
 
         //when
         List<TechResponse> techResponses = techService.findTrendTechs();
 
         //then
         assertThat(techResponses).extracting("text")
-                .containsExactly(TECH1_JAVA.getName(), TECH2_JAVASCRIPT.getName(), TECH3_SPRING.getName(), TECH4_JPA.getName());
+                .containsExactly(자바.getName(), 자바스크립트.getName(), 스프링.getName(), 리액트.getName());
     }
 
     @DisplayName("전체 피드에서 사용된 테크가 4개 미만이라면, 그것만 반환한다.")
     @Test
     void findTrendTechsUnderFourTechs() {
         //given
-        feedTechRepository.saveAll(Arrays.asList(new FeedTech(FEED3, TECH1_JAVA), new FeedTech(FEED3, TECH2_JAVASCRIPT),
-                new FeedTech(FEED3, TECH3_SPRING)));
+        feedTechRepository.saveAll(Arrays.asList(new FeedTech(FEED3, 자바), new FeedTech(FEED3, 자바스크립트),
+                new FeedTech(FEED3, 스프링)));
 
-        feedTechRepository.saveAll(Arrays.asList(new FeedTech(FEED4, TECH1_JAVA), new FeedTech(FEED4, TECH2_JAVASCRIPT)));
+        feedTechRepository.saveAll(Arrays.asList(new FeedTech(FEED4, 자바), new FeedTech(FEED4, 자바스크립트)));
 
-        feedTechRepository.saveAll(Arrays.asList(new FeedTech(FEED5, TECH1_JAVA)));
+        feedTechRepository.saveAll(Arrays.asList(new FeedTech(FEED5, 자바)));
 
         //when
         List<TechResponse> techResponses = techService.findTrendTechs();
 
         //then
         assertThat(techResponses).extracting("text")
-                .containsExactly(TECH1_JAVA.getName(), TECH2_JAVASCRIPT.getName(), TECH3_SPRING.getName());
+                .containsExactly(자바.getName(), 자바스크립트.getName(), 스프링.getName());
     }
 
     @DisplayName("기술을 사용한 피드가 전혀 없으면 빈 리스트를 반환한다.")

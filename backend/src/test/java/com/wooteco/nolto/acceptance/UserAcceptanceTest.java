@@ -8,6 +8,7 @@ import com.wooteco.nolto.user.ui.dto.*;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,7 @@ import org.springframework.http.MediaType;
 
 import java.util.List;
 
+import static com.wooteco.nolto.FeedFixture.DEFAULT_IMAGE_URL;
 import static com.wooteco.nolto.acceptance.CommentAcceptanceTest.댓글_등록되어_있음;
 import static com.wooteco.nolto.acceptance.CommentAcceptanceTest.일반_댓글_작성요청;
 import static com.wooteco.nolto.acceptance.FeedAcceptanceTest.*;
@@ -35,7 +37,12 @@ class UserAcceptanceTest extends AcceptanceTest {
     @BeforeEach
     void setUpOnUserAcceptance() {
         super.setUp();
-        존재하는_유저의_토큰 = 존재하는_유저의_토큰을_받는다().getAccessToken();
+        존재하는_유저의_토큰 = 가입된_유저의_토큰을_받는다().getAccessToken();
+    }
+
+    @AfterEach
+    void clearOnUserAcceptance() {
+        super.clear();
     }
 
     @DisplayName("멤버 자신의 정보를 확인한다.")
@@ -45,7 +52,7 @@ class UserAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = 멤버_자신의_정보_조회_요청(존재하는_유저의_토큰);
 
         //then
-        알맞은_회원_정보_조회됨(response, 존재하는_유저);
+        알맞은_회원_정보_조회됨(response, 가입된_유저);
     }
 
     @DisplayName("게스트라면 회원 정보를 받아올 수 없다.")
@@ -72,7 +79,7 @@ class UserAcceptanceTest extends AcceptanceTest {
     @Test
     void validateDuplicatedNickname() {
         // given
-        String 존재하는_유저의_닉네임 = 존재하는_유저.getNickName();
+        String 존재하는_유저의_닉네임 = 가입된_유저.getNickName();
         String 존재하지_않는_유저의_닉네임 = "존재하지_않는 닉네임";
 
         // when
@@ -95,7 +102,7 @@ class UserAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = 프로필_조회_요청(존재하는_유저의_토큰);
 
         // then
-        프로필_조회_응답됨(response, 존재하는_유저, 0);
+        프로필_조회_응답됨(response, 가입된_유저, 0);
     }
 
     @DisplayName("멤버가 자신의 프로필을 수정한다.")
@@ -116,7 +123,7 @@ class UserAcceptanceTest extends AcceptanceTest {
         좋아요_요청(존재하는_유저의_토큰, 작성과_좋아요한_피드_ID);
         String 등록한_댓글_내용 = 댓글_등록되어_있음(일반_댓글_작성요청, 존재하는_유저의_토큰, 작성과_좋아요한_피드_ID).getContent();
 
-        TokenResponse userToken = 유저의_토큰을_받는다(존재하는_유저);
+        TokenResponse userToken = 유저의_토큰을_받는다(가입된_유저);
 
         //when
         ExtractableResponse<Response> response = 내_히스토리_조회_요청(userToken);

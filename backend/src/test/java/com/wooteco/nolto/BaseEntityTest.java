@@ -1,6 +1,5 @@
 package com.wooteco.nolto;
 
-import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
@@ -15,6 +14,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 
+import static com.wooteco.nolto.UserFixture.아마찌_생성;
+import static com.wooteco.nolto.UserFixture.포모_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -36,8 +37,8 @@ class BaseEntityTest {
 
     @BeforeEach
     void setUp() {
-        user1 = new User("123456L", SocialType.GITHUB, "아마찌", "imageUrl");
-        user2 = new User("654321L", SocialType.GOOGLE, "지그", "imageUrl");
+        user1 = 아마찌_생성();
+        user2 = 포모_생성();
 
         userRepository.save(user1);
         userRepository.save(user2);

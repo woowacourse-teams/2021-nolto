@@ -11,26 +11,28 @@ import com.wooteco.nolto.user.domain.User;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
+import static com.wooteco.nolto.UserFixture.찰리_생성;
 import static com.wooteco.nolto.acceptance.FeedAcceptanceTest.진행중_단계의_피드_요청;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("댓글 관련 기능")
 class CommentAcceptanceTest extends AcceptanceTest {
 
-    public static final CommentRequest 일반_댓글_작성요청 = new CommentRequest("첫 댓글 달았어요 :)", false);
-    public static final CommentRequest 도와줄게요_댓글_작성요청 = new CommentRequest("1등 아깝다..", true);
+    protected static final CommentRequest 일반_댓글_작성요청 = new CommentRequest("첫 댓글 달았어요 :)", false);
+    protected static final CommentRequest 도와줄게요_댓글_작성요청 = new CommentRequest("1등 아깝다..", true);
     private static final CommentRequest 내용이_비어있는_댓글_작성요청 = new CommentRequest("", true);
 
     private static final CommentRequest 대댓글_작성_요청1 = new CommentRequest("첫 댓글 1등 대댓글임", false);
     private static final CommentRequest 대댓글_작성_요청2 = new CommentRequest("2등 대댓글 오히려 좋아", false);
 
-    private User 댓글_작성자 = new User("멋진 GITHUB ID", SocialType.GITHUB, "찰리", "초콜릿 먹고있는 프로필.jpg");
+    private User 댓글_작성자 = 찰리_생성();
     private Long 업로드한_피드의_ID;
     private TokenResponse 로그인된_댓글_작성자의_토큰;
     private TokenResponse 현재_로그인된_댓글_작성자의_토큰;
@@ -40,6 +42,11 @@ class CommentAcceptanceTest extends AcceptanceTest {
         super.setUp();
         로그인된_댓글_작성자의_토큰 = 댓글_작성자_로그인_되어있음();
         업로드한_피드의_ID = 피드_업로드되어_있음(진행중_단계의_피드_요청, 로그인된_댓글_작성자의_토큰.getAccessToken());
+    }
+
+    @AfterEach
+    void clearOnCommentAcceptanceTest() {
+        super.clear();
     }
 
     @DisplayName("게스트가 댓글 작성을 요청하면 예외가 발생한다.")

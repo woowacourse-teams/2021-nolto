@@ -1,11 +1,11 @@
 package com.wooteco.nolto.feed.domain;
 
-import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.user.domain.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static com.wooteco.nolto.UserFixture.ID_있는_유저_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class CommentTest {
@@ -15,20 +15,8 @@ class CommentTest {
 
     @BeforeEach
     void setUp() {
-        User user1 = User.builder()
-                .id(1L)
-                .socialId("SOCIAL_ID")
-                .socialType(SocialType.GITHUB)
-                .nickName("NICKNAME")
-                .imageUrl("IMAGE")
-                .build();
-        User user2 =User.builder()
-                .id(2L)
-                .socialId("SOCIAL_ID2")
-                .socialType(SocialType.GITHUB)
-                .nickName("NICKNAME2")
-                .imageUrl("IMAGE")
-                .build();
+        User user1 = ID_있는_유저_생성(1L);
+        User user2 = ID_있는_유저_생성(2L);
 
         Feed feed = Feed.builder()
                 .title("title")

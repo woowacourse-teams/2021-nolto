@@ -36,9 +36,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = CommentController.class)
 class CommentControllerTest extends ControllerTest {
 
-    private static final String BEARER = "Bearer ";
-    private static final String ACCESS_TOKEN = "accessToken";
-
     private static final long FEED_ID = 1L;
     private static final long COMMENT_ID = 2L;
     private static final long COMMENT_ID_2 = 3L;

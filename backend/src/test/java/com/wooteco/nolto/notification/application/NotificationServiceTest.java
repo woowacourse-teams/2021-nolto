@@ -1,6 +1,5 @@
 package com.wooteco.nolto.notification.application;
 
-import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.feed.application.CommentService;
 import com.wooteco.nolto.feed.application.LikeService;
 import com.wooteco.nolto.feed.domain.Feed;
@@ -24,12 +23,14 @@ import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.wooteco.nolto.UserFixture.찰리_생성;
+import static com.wooteco.nolto.UserFixture.포모_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("test")
 @SpringBootTest
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @Transactional
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class NotificationServiceTest {
 
     @Autowired
@@ -52,8 +53,8 @@ class NotificationServiceTest {
 
     @BeforeEach
     public void setUp() {
-        찰리 = new User("SOCIAL_ID", SocialType.GITHUB, "찰리", "IMAGE");
-        포모 = new User("SOCIAL_ID2", SocialType.GITHUB, "포모", "IMAGE2");
+        찰리 = 찰리_생성();
+        포모 = 포모_생성();
         userRepository.save(찰리);
         userRepository.save(포모);
 
