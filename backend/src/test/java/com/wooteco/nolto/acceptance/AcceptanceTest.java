@@ -57,6 +57,8 @@ public abstract class AcceptanceTest {
 
         given(imageService.upload(any(MultipartFile.class), any(ImageKind.class))).willReturn(DEFAULT_IMAGE_URL);
         given(imageService.update(any(String.class), any(MultipartFile.class), any(ImageKind.class))).willReturn(DEFAULT_IMAGE_URL);
+
+        databaseCleanup.execute();
     }
 
     @AfterEach
