@@ -16,6 +16,7 @@ public enum ErrorType {
     USER_NOT_FOUND("auth-004", "존재하지 않는 유저입니다."),
     NOT_SUPPORTED_SOCIAL_LOGIN("auth-005", "지원하지 않는 소셜 로그인입니다."),
     SOCIAL_LOGIN_CONNECTION_FAIL("auth-006", "소셜 로그인 연동에 실패했습니다."),
+    INVALID_CLIENT("auth-007", "권한이 없는 클라이언트의 요청입니다."),
 
     FEED_NOT_FOUND("feed-001", "존재하지 않는 피드입니다."),
     MISSING_DEPLOY_URL("feed-002", "전시 중 피드는 deployUrl이 필수입니다."),
@@ -25,7 +26,7 @@ public enum ErrorType {
     NOT_SUPPORTED_STEP("feed-006", "지원하지 않는 피드의 Step입니다."),
     MULTIPART_CONVERT_FAIL("feed-007", "MultipartFile 변환에 실패하였습니다."),
     IMAGE_RESIZING_FAIL("feed-008", "이미지 리사이징에 실패하였습니다."),
-    GIF_MP4_CONVERT_FAIL("feed-009", "git파일을 mp4파일로 변환에 실패하였습니다."),
+    GIF_MP4_CONVERT_FAIL("feed-009", "gif파일을 mp4파일로 변환에 실패하였습니다."),
 
     NOT_SUPPORTED_IMAGE("image-001", "지원하지 않는 이미지 입니다."),
 

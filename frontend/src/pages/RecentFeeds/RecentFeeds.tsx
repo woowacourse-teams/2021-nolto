@@ -4,12 +4,15 @@ import BaseLayout from 'components/BaseLayout/BaseLayout';
 import RecentFeedsContent from 'components/RecentFeedsContent/RecentFeedsContent';
 import AsyncBoundary from 'components/AsyncBoundary';
 import ErrorFallback from 'components/ErrorFallback/ErrorFallback';
-import Styled, { ScrollUpButton } from './RecentFeeds.styles';
 import { PALETTE } from 'constants/palette';
+import hasWindow from 'constants/windowDetector';
+import Styled, { ScrollUpButton } from './RecentFeeds.styles';
 
 const RecentFeeds = () => {
   const scrollTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (hasWindow) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   return (

@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import ReactMarkdown from 'react-markdown';
 
 import HighlightedText from 'components/@common/HighlightedText/HighlightedText';
 import TextButton from 'components/@common/TextButton/TextButton';

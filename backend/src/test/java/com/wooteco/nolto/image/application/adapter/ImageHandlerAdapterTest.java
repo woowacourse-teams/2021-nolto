@@ -5,9 +5,8 @@ import com.wooteco.nolto.image.application.ImageResizeService;
 import com.wooteco.nolto.image.config.FFmpegConfig;
 import com.wooteco.nolto.image.domain.ProcessedImage;
 import com.wooteco.nolto.image.infrastructure.FFmpegConverter;
-import net.bramp.ffmpeg.FFmpeg;
-import net.bramp.ffmpeg.FFprobe;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,9 +19,9 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 
+@DisplayName("ImageHandlerAdapterTest 테스트")
 @SpringBootTest(classes = {ImageResizeHandler.class, ImageConvertHandler.class,
         ImageResizeService.class, ImageConvertService.class, FFmpegConverter.class, FFmpegConfig.class})
 class ImageHandlerAdapterTest {
@@ -33,19 +32,15 @@ class ImageHandlerAdapterTest {
     @MockBean
     private FFmpegConverter ffmpegConverter;
 
-    @MockBean
-    private FFmpegConfig ffmpegConfig;
-
     @BeforeEach
     void setUp() throws IOException {
-        given(ffmpegConfig.ffmpeg()).willReturn(new FFmpeg());
-        given(ffmpegConfig.ffprobe()).willReturn(new FFprobe());
         willDoNothing().given(ffmpegConverter).convertGifToMp4(anyString(), anyString());
     }
 
     private final String gifFileName = "jjv1FK.gif";
     private final String pngFileName = "pretty_cat.png";
 
+    @DisplayName(".gif 확장자인 파일이 아니라면 ImageResizeHandler를 사용한다.")
     @Test
     void imageResizeHandler() {
         // given
@@ -64,6 +59,7 @@ class ImageHandlerAdapterTest {
         assertThat(resizedFile).hasName(expectedFileName);
     }
 
+    @DisplayName(".gif 확장자인 파일이라면 ImageConvertHandler를 사용한다.")
     @Test
     void imageConvertHandler() {
         // given

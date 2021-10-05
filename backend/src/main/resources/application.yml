@@ -30,6 +30,13 @@ spring:
   web:
     resources:
       add-mappings: false
+  redis:
+    host: 127.0.0.1
+    port: 6379
+  data:
+    redis:
+      repositories:
+        enabled: false
 server:
   compression:
     enabled: true
@@ -40,10 +47,6 @@ server:
 application:
   cors:
     allow-origin: "*"
-ffmpeg:
-  path: /usr/bin/ffmpeg
-ffprobe:
-  path: /usr/bin/ffprobe
 ---
 spring:
   config:

@@ -50,6 +50,9 @@ dependencies {
 
     // ffmpeg
     implementation 'net.bramp.ffmpeg:ffmpeg:0.6.2'
+    implementation 'org.bytedeco:ffmpeg:4.4-1.5.6'
+    implementation 'org.bytedeco:javacpp:1.5.6'
+    implementation 'org.bytedeco:javacv-platform:1.5.6'
 
     // Testcontainers
     implementation("com.amazonaws:aws-java-sdk-s3")
@@ -64,6 +67,9 @@ dependencies {
 
     // slack
     implementation 'com.github.maricn:logback-slack-appender:1.4.0'
+
+    // redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 }
 
 ext {

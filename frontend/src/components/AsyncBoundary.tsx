@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 
-import ErrorBoundary from './ErrorBoundary';
 import Loading from 'components/@common/Loading/Loading';
+import ErrorBoundary from './ErrorBoundary';
 
 interface Props {
   pendingFallback?: React.ReactNode;

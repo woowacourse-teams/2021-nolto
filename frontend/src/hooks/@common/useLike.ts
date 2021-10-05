@@ -1,5 +1,6 @@
-import useMember from 'hooks/queries/useMember';
 import { useEffect, useState } from 'react';
+
+import useMember from 'contexts/member/useMember';
 
 interface Props {
   initialIsLiked: boolean;
@@ -29,13 +30,13 @@ const useLike = ({ initialIsLiked, likeCount }: Props) => {
   }, [likeCount]);
 
   useEffect(() => {
-    if (member.isLogin) {
+    if (member.isLoggedIn) {
       setIsLiked(initialIsLiked);
       return;
     }
 
     setIsLiked(false);
-  }, [member.isLogin]);
+  }, [member.isLoggedIn]);
 
   return {
     likeCount: count,

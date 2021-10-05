@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const { DefinePlugin } = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
+const LoadablePlugin = require('@loadable/webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -47,17 +48,23 @@ module.exports = {
   plugins: [
     new HtmlWebPackPlugin({
       template: './public/index.html',
+      inject: false,
     }),
     new CopyPlugin({
       patterns: [
-        path.resolve(__dirname, 'public', '_redirects'),
-        { from: './public/fonts/*', to: 'fonts/[name][ext]' },
-        { from: './public/*.ico', to: '[name][ext]' },
+        {
+          from: 'public',
+          to: path.resolve(__dirname, './dist'),
+          filter: (resourcePath) => {
+            return !resourcePath.includes('index.html');
+          },
+        },
       ],
     }),
     new DefinePlugin({
       'process.env.BASE_URL': JSON.stringify(process.env.BASE_URL),
     }),
+    new LoadablePlugin(),
   ],
   optimization: {
     splitChunks: {
