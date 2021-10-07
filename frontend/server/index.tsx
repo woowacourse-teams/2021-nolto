@@ -95,13 +95,13 @@ const generateResponse = async (
   });
 };
 
-app.get('/', async (req, res) => {
-  await generateResponse(req, res, async (queryClient) => {
+app.get('/', (req, res) => {
+  generateResponse(req, res, async (queryClient) => {
     await queryClient.prefetchQuery(QUERY_KEYS.HOT_FEEDS, () => loadHotFeeds());
   });
 });
 
-app.get('/recent', async (req, res) => {
+app.get('/recent', (req, res) => {
   const step = String(req.query.step) || null;
   const help = Boolean(req.query.help);
 
@@ -119,12 +119,16 @@ app.get('/recent', async (req, res) => {
   });
 });
 
-app.get('/feeds/:feedId', async (req, res) => {
-  await generateResponse(req, res, async (queryClient) => {
+app.get('/feeds/:feedId', (req, res) => {
+  generateResponse(req, res, async (queryClient) => {
     await queryClient.prefetchQuery([QUERY_KEYS.FEED_DETAIL, Number(req.params.feedId)], () =>
       getFeedDetail(Number(req.params.feedId)),
     );
   });
+});
+
+app.get('/*', (req, res) => {
+  generateResponse(req, res);
 });
 
 app.listen(PORT, () => {

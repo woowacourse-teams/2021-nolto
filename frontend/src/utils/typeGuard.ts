@@ -41,9 +41,5 @@ export const isHttpErrorResponse = (errorResponse: any): errorResponse is HttpEr
 };
 
 export const isFeedStep = (value: string): value is FeedStep => {
-  if (value in FeedStep) {
-    return true;
-  }
-
-  return false;
+  return value in FeedStep;
 };
