@@ -14,15 +14,14 @@ import { FONT_SIZE } from 'constants/styles';
 import { FeedStep } from 'types';
 import Styled from './RecentFeedsContent.styles';
 import { isFeedStep } from 'utils/typeGuard';
-
-const FEEDS_PER_PAGE = 20;
+import { RECENT_FEEDS_PER_PAGE } from 'constants/common';
 
 const RecentFeedsContent = () => {
   const location = useLocation();
   const history = useHistory();
   const urlSearchParam = new URLSearchParams(location.search);
   const defaultStep = urlSearchParam.get('step');
-  const defaultHelp = Boolean(urlSearchParam.get('isHelp'));
+  const defaultHelp = Boolean(urlSearchParam.get('help'));
 
   const [step, setStep] = useState<FeedStep>(isFeedStep(defaultStep) ? defaultStep : null);
   const [help, setHelp] = useState(defaultHelp);
@@ -32,7 +31,7 @@ const RecentFeedsContent = () => {
   const { data, hasNextPage, fetchNextPage, isFetching } = useRecentFeedsLoad({
     step,
     help,
-    countPerPage: FEEDS_PER_PAGE,
+    countPerPage: RECENT_FEEDS_PER_PAGE,
     errorHandler: (error) => snackbar.addSnackbar('error', error.message),
     suspense: false,
   });
@@ -72,7 +71,12 @@ const RecentFeedsContent = () => {
           <Styled.Button type="button" onClick={() => toggleLevel(FeedStep.COMPLETE)}>
             <StepChip step={FeedStep.COMPLETE} selected={step === FeedStep.COMPLETE} />
           </Styled.Button>
-          <Toggle labelText="🚨도움요청" onChange={() => setHelp(!help)} fontSize="14px" />
+          <Toggle
+            labelText="🚨도움요청"
+            checked={help}
+            onChange={() => setHelp(!help)}
+            fontSize="14px"
+          />
         </Styled.StepChipsContainer>
       </FlexContainer>
       <Styled.RecentFeedsContainer>
@@ -80,7 +84,7 @@ const RecentFeedsContent = () => {
           page.feeds.map((feed) => <RegularFeedCard feed={feed} key={feed.id} />),
         )}
         {isFetching &&
-          Array.from({ length: FEEDS_PER_PAGE }, (_, idx) => <RegularSkeleton key={idx} />)}
+          Array.from({ length: RECENT_FEEDS_PER_PAGE }, (_, idx) => <RegularSkeleton key={idx} />)}
       </Styled.RecentFeedsContainer>
       <Styled.MoreHiddenElement ref={targetElement} />
     </Styled.Root>

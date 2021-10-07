@@ -14,6 +14,9 @@ import App from '../src/App';
 import QUERY_KEYS from 'constants/queryKeys';
 import { getFeedDetail } from 'hooks/queries/feed/useFeedDetail';
 import { loadHotFeeds } from 'hooks/queries/feed/useHotFeedsLoad';
+import { RECENT_FEEDS_PER_PAGE } from 'constants/common';
+import { loadRecentFeeds } from 'hooks/queries/feed/useRecentFeedsLoad';
+import { isFeedStep } from 'utils/typeGuard';
 
 const PORT = process.env.PORT || 9000;
 const app = express();
@@ -95,6 +98,24 @@ const generateResponse = async (
 app.get('/', async (req, res) => {
   await generateResponse(req, res, async (queryClient) => {
     await queryClient.prefetchQuery(QUERY_KEYS.HOT_FEEDS, () => loadHotFeeds());
+  });
+});
+
+app.get('/recent', async (req, res) => {
+  const step = String(req.query.step) || null;
+  const help = Boolean(req.query.help);
+
+  generateResponse(req, res, async (queryClient) => {
+    await queryClient.prefetchInfiniteQuery(
+      [QUERY_KEYS.RECENT_FEEDS, { step, help, countPerPage: RECENT_FEEDS_PER_PAGE }],
+      ({ pageParam }) =>
+        loadRecentFeeds({
+          step: isFeedStep(step) ? step : null,
+          help,
+          nextFeedId: pageParam,
+          countPerPage: RECENT_FEEDS_PER_PAGE,
+        }),
+    );
   });
 });
 
