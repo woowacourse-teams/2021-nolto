@@ -9,6 +9,7 @@ module.exports = {
     publicPath: '/',
     clean: true,
   },
+  devtool: 'eval-source-map',
   target: 'node',
   mode: 'production',
   module: {
