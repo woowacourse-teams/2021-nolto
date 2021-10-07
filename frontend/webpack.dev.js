@@ -4,6 +4,7 @@ const common = require('./webpack.common.js');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
+const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 module.exports = merge(common, {
   mode: 'development',
@@ -16,5 +17,13 @@ module.exports = merge(common, {
     publicPath: '/',
   },
   devtool: 'eval-cheap-source-map',
-  plugins: [new BundleAnalyzerPlugin(), new ForkTsCheckerWebpackPlugin(), new Dotenv()],
+  plugins: [
+    new BundleAnalyzerPlugin(),
+    new ForkTsCheckerWebpackPlugin(),
+    new Dotenv(),
+    new HtmlWebPackPlugin({
+      template: './public/index.html',
+      inject: true,
+    }),
+  ],
 });

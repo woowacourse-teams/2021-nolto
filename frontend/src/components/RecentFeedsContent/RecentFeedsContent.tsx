@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useLocation } from 'react-router';
+import React, { useEffect, useState } from 'react';
+import { useHistory, useLocation } from 'react-router';
 
 import { FlexContainer } from 'commonStyles';
 import RegularFeedCard from 'components/RegularFeedCard/RegularFeedCard';
@@ -13,15 +13,19 @@ import useIntersectionObserver from 'hooks/@common/useIntersectionObserver';
 import { FONT_SIZE } from 'constants/styles';
 import { FeedStep } from 'types';
 import Styled from './RecentFeedsContent.styles';
+import { isFeedStep } from 'utils/typeGuard';
 
 const FEEDS_PER_PAGE = 20;
 
 const RecentFeedsContent = () => {
-  const location = useLocation<{ step: FeedStep }>();
-  const defaultStep = location.state?.step;
+  const location = useLocation();
+  const history = useHistory();
+  const urlSearchParam = new URLSearchParams(location.search);
+  const defaultStep = urlSearchParam.get('step');
+  const defaultHelp = Boolean(urlSearchParam.get('isHelp'));
 
-  const [step, setStep] = useState<FeedStep>(defaultStep);
-  const [help, setHelp] = useState(false);
+  const [step, setStep] = useState<FeedStep>(isFeedStep(defaultStep) ? defaultStep : null);
+  const [help, setHelp] = useState(defaultHelp);
 
   const snackbar = useSnackbar();
 
@@ -45,6 +49,17 @@ const RecentFeedsContent = () => {
   };
 
   const targetElement = useIntersectionObserver(loadMoreFeeds);
+
+  useEffect(() => {
+    history.replace(
+      location.pathname +
+        '?' +
+        new URLSearchParams({
+          step: step || '',
+          help: help ? 'true' : '',
+        }),
+    );
+  }, [step, help]);
 
   return (
     <Styled.Root>
