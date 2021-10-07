@@ -25,3 +25,5 @@ export const HEIGHT = {
 export const DEFAULT_IMG = {
   FEED: defaultFeed,
 } as const;
+
+export const RECENT_FEEDS_PER_PAGE = 20;

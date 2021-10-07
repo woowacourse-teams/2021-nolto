@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
+import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
 import { loadableReady } from '@loadable/component';
@@ -21,11 +22,27 @@ if (process.env.KAKAO_API_KEY && !window.Kakao.isInitialized()) {
   }
 }
 
+const dehydratedState = hasWindow && window.__REACT_QUERY_STATE__;
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      suspense: true,
+      useErrorBoundary: true,
+      retry: 1,
+    },
+  },
+});
+
 loadableReady(() => {
   ReactDOM.hydrate(
     <React.StrictMode>
       <BrowserRouter>
-        <App />
+        <QueryClientProvider client={queryClient}>
+          <Hydrate state={dehydratedState}>
+            <App />
+          </Hydrate>
+        </QueryClientProvider>
       </BrowserRouter>
     </React.StrictMode>,
     document.getElementById('root'),

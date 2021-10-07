@@ -197,9 +197,11 @@ const FeedDetailContent = ({ feedId }: Props) => {
       <div>
         <h3>프로젝트 소개</h3>
         <Divider />
-        <Styled.MarkdownWrapper>
-          <Markdown children={feedDetail.content} />
-        </Styled.MarkdownWrapper>
+        {hasWindow && (
+          <Styled.MarkdownWrapper>
+            <Markdown children={feedDetail.content} />
+          </Styled.MarkdownWrapper>
+        )}
       </div>
 
       <AsyncBoundary

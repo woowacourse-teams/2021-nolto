@@ -19,7 +19,7 @@ interface InfiniteFeedResponse {
   nextFeedId: number;
 }
 
-const loadRecentFeeds = async ({
+export const loadRecentFeeds = async ({
   step,
   help,
   nextFeedId,

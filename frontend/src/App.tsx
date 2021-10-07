@@ -1,6 +1,5 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { ThemeProvider } from 'styled-components';
 
@@ -18,66 +17,54 @@ import useTheme from 'hooks/useTheme';
 import GlobalStyle from './Global.styles';
 import { defaultTheme, thanksgivingTheme } from '../themes';
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      suspense: true,
-      useErrorBoundary: true,
-      retry: 1,
-    },
-  },
-});
-
 const App = () => {
   const [themeMode, toggleThemeMode] = useTheme();
   const theme = themeMode === 'default' ? defaultTheme : thanksgivingTheme;
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ErrorBoundary fallback={<ErrorFallback message={ERROR_MSG.UNKNOWN_ERROR} />}>
-        <ThemeProvider theme={theme}>
-          <GlobalStyle />
-          <Switch>
-            <SnackbarProvider>
-              <DialogProvider>
-                <ModalProvider>
-                  <MemberProvider>
-                    <Route exact path={ROUTE.HOME}>
-                      <Page.Home toggleTheme={toggleThemeMode} />
-                    </Route>
-                    <Route exact path={ROUTE.ABOUT}>
-                      <Page.About />
-                    </Route>
-                    <PrivateRoute path={ROUTE.UPLOAD}>
-                      <Page.Upload />
-                    </PrivateRoute>
-                    <PrivateRoute path={ROUTE.MODIFY}>
-                      <Page.Modify />
-                    </PrivateRoute>
-                    <Route exact path={ROUTE.RECENT}>
-                      <Page.RecentFeeds />
-                    </Route>
-                    <Route path={`${ROUTE.FEEDS}/:id`}>
-                      <Page.FeedDetail />
-                    </Route>
-                    <Route path={ROUTE.SEARCH}>
-                      <Page.SearchResult />
-                    </Route>
-                    <Route path={ROUTE.MYPAGE}>
-                      <Page.Mypage />
-                    </Route>
-                    <Route path="/:oauth/callback">
-                      <Page.OAuth />
-                    </Route>
-                  </MemberProvider>
-                </ModalProvider>
-              </DialogProvider>
-            </SnackbarProvider>
-          </Switch>
-        </ThemeProvider>
-        <ReactQueryDevtools panelProps={{ className: 'query-dev-tools' }} initialIsOpen={false} />
-      </ErrorBoundary>
-    </QueryClientProvider>
+    <ErrorBoundary fallback={<ErrorFallback message={ERROR_MSG.UNKNOWN_ERROR} />}>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <Switch>
+          <SnackbarProvider>
+            <DialogProvider>
+              <ModalProvider>
+                <MemberProvider>
+                  <Route exact path={ROUTE.HOME}>
+                    <Page.Home toggleTheme={toggleThemeMode} />
+                  </Route>
+                  <Route exact path={ROUTE.ABOUT}>
+                    <Page.About />
+                  </Route>
+                  <PrivateRoute path={ROUTE.UPLOAD}>
+                    <Page.Upload />
+                  </PrivateRoute>
+                  <PrivateRoute path={ROUTE.MODIFY}>
+                    <Page.Modify />
+                  </PrivateRoute>
+                  <Route exact path={ROUTE.RECENT}>
+                    <Page.RecentFeeds />
+                  </Route>
+                  <Route path={`${ROUTE.FEEDS}/:id`}>
+                    <Page.FeedDetail />
+                  </Route>
+                  <Route path={ROUTE.SEARCH}>
+                    <Page.SearchResult />
+                  </Route>
+                  <Route path={ROUTE.MYPAGE}>
+                    <Page.Mypage />
+                  </Route>
+                  <Route path="/:oauth/callback">
+                    <Page.OAuth />
+                  </Route>
+                </MemberProvider>
+              </ModalProvider>
+            </DialogProvider>
+          </SnackbarProvider>
+        </Switch>
+      </ThemeProvider>
+      <ReactQueryDevtools panelProps={{ className: 'query-dev-tools' }} initialIsOpen={false} />
+    </ErrorBoundary>
   );
 };
 

@@ -77,7 +77,11 @@ const Home = ({ toggleTheme }: Props) => {
             <MoreButton
               to={{
                 pathname: ROUTE.RECENT,
-                state: { step: FeedStep.PROGRESS },
+                search:
+                  '?' +
+                  new URLSearchParams({
+                    step: FeedStep.PROGRESS,
+                  }),
               }}
               onMouseOver={() => Page.RecentFeeds.preload()}
             >
@@ -100,7 +104,11 @@ const Home = ({ toggleTheme }: Props) => {
             <MoreButton
               to={{
                 pathname: ROUTE.RECENT,
-                state: { step: FeedStep.COMPLETE },
+                search:
+                  '?' +
+                  new URLSearchParams({
+                    step: FeedStep.COMPLETE,
+                  }),
               }}
               onMouseOver={() => Page.RecentFeeds.preload()}
             >

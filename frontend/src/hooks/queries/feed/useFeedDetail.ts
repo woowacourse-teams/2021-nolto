@@ -11,7 +11,7 @@ interface CustomQueryOption extends UseQueryOptions<FeedDetail, HttpError> {
   feedId: number;
 }
 
-const getFeedDetail = async (feedId: number, errorHandler: ErrorHandler) => {
+export const getFeedDetail = async (feedId: number, errorHandler?: ErrorHandler) => {
   try {
     const { data } = await api.get(`/feeds/${feedId}`);
 
