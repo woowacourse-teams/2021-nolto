@@ -19,7 +19,7 @@ const RegularFeedCard = ({ feed }: Props) => {
       {feed.sos && <SOSFlag className="sos" />}
       <Link className="link" to={`feeds/${feed.id}`}>
         <Styled.RegularCardImgWrapper>
-          <FeedThumbnail thumbnailUrl={feed.thumbnailUrl} />
+          <FeedThumbnail thumbnailUrl={feed.thumbnailUrl} alt={feed.title} />
         </Styled.RegularCardImgWrapper>
         <Styled.Content>
           <h3>{feed.title}</h3>

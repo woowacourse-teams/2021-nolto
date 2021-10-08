@@ -36,7 +36,7 @@ module.exports = {
         test: /\.(png|jpe?g|gif|webp|mp4)$/i,
         type: 'asset/resource',
         generator: {
-          filename: 'static/[name][ext]',
+          filename: 'static/[hash][name][ext]',
         },
       },
     ],

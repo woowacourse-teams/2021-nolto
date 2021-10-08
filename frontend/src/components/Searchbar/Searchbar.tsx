@@ -65,15 +65,20 @@ const Searchbar = ({ className, selectable = false, ...options }: Props) => {
       <Styled.Root className={className} selectable={selectable} onSubmit={search}>
         {selectable && <SearchOption searchType={searchType} setSearchType={setSearchType} />}
         {searchType === SearchType.CONTENT && (
-          <Styled.Input onChange={(event) => setQuery(event.target.value)} {...options} />
+          <Styled.Input
+            onChange={(event) => setQuery(event.target.value)}
+            {...options}
+            aria-label="제목/내용으로 검색"
+          />
         )}
         {searchType === SearchType.TECH && (
           <TechInput
             onUpdateTechs={(techs: Tech[]) => setTechs(techs)}
             placeholder="기술스택 선택 후 우측 검색 아이콘을 클릭하세요"
+            aria-label="기술스택으로 검색"
           />
         )}
-        <Styled.Button>
+        <Styled.Button aria-label="검색">
           <SearchIcon width="32px" fill={PALETTE.PRIMARY_400} />
         </Styled.Button>
       </Styled.Root>

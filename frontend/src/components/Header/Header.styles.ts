@@ -54,11 +54,19 @@ const LogoWrapper = styled.div`
   flex-shrink: 0;
   padding: 0.5rem;
 
-  > a {
+  & > a {
     height: 100%;
     display: flex;
     align-items: center;
     gap: 0.5rem;
+  }
+
+  & h1.a11y {
+    width: 1px;
+    height: 1px;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+    position: absolute;
   }
 `;
 
@@ -72,11 +80,14 @@ export const LogoText = styled(LogoTextIcon)`
 
 const NavContainer = styled.nav`
   position: relative;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 1rem;
   width: 100%;
+
+  & ul {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1rem;
+  }
 
   & li {
     text-align: center;

@@ -32,7 +32,7 @@ const FeedThumbnail = ({ thumbnailUrl, alt, className }: Props) => {
   ) : (
     <video className={className} autoPlay muted loop>
       <source src={thumbnailUrl} type="video/mp4" />
-      <Styled.Image src={DEFAULT_IMG.FEED} />
+      <Styled.Image src={DEFAULT_IMG.FEED} alt="기본 이미지" />
     </video>
   );
 };

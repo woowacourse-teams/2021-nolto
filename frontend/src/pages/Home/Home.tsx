@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { Helmet } from 'react-helmet';
 
 import MoreArrow from 'assets/moreArrow.svg';
 import Page from 'pages';
@@ -45,6 +46,10 @@ const Home = ({ toggleTheme }: Props) => {
 
   return (
     <BaseLayout header={<Header isFolded={isEllipseVisible} />}>
+      <Helmet>
+        <title>놀토: 놀러오세요 토이프로젝트</title>
+        <link rel="canonical" href="https://www.nolto.app" />
+      </Helmet>
       <Styled.EllipseWrapper ref={ellipseRef}>
         <CroppedEllipse toggleTheme={toggleTheme} />
       </Styled.EllipseWrapper>
@@ -73,7 +78,9 @@ const Home = ({ toggleTheme }: Props) => {
 
         <Styled.ToysContainer>
           <Styled.TitleWrapper>
-            <Styled.SectionTitle>🧩 진행중인 프로젝트</Styled.SectionTitle>
+            <h2>
+              <Styled.SectionTitle>🧩 진행중인 프로젝트</Styled.SectionTitle>
+            </h2>
             <MoreButton
               to={{
                 pathname: ROUTE.RECENT,
@@ -100,7 +107,9 @@ const Home = ({ toggleTheme }: Props) => {
 
         <Styled.ToysContainer>
           <Styled.TitleWrapper>
-            <Styled.SectionTitle>🦄 완성된 프로젝트</Styled.SectionTitle>
+            <h2>
+              <Styled.SectionTitle>🦄 완성된 프로젝트</Styled.SectionTitle>
+            </h2>
             <MoreButton
               to={{
                 pathname: ROUTE.RECENT,
@@ -125,7 +134,7 @@ const Home = ({ toggleTheme }: Props) => {
           </AsyncBoundary>
         </Styled.ToysContainer>
       </Styled.ContentArea>
-      <ScrollUpButton size="3rem" onClick={scrollTop}>
+      <ScrollUpButton size="3rem" onClick={scrollTop} aria-label="페이지 상단으로 이동">
         <Styled.ArrowUp width="14px" fill={PALETTE.PRIMARY_400} />
       </ScrollUpButton>
     </BaseLayout>
