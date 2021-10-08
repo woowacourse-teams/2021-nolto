@@ -63,7 +63,9 @@ const RecentFeedsContent = () => {
   return (
     <Styled.Root>
       <FlexContainer flexDirection="column" alignItems="center" gap="1.5rem">
-        <HighLightedText fontSize={FONT_SIZE.X_LARGE}>🌱 최신 토이 프로젝트</HighLightedText>
+        <h2>
+          <HighLightedText fontSize={FONT_SIZE.X_LARGE}>🌱 최신 토이 프로젝트</HighLightedText>
+        </h2>
         <Styled.StepChipsContainer>
           <Styled.Button type="button" onClick={() => toggleLevel(FeedStep.PROGRESS)}>
             <StepChip step={FeedStep.PROGRESS} selected={step === FeedStep.PROGRESS} />

@@ -55,6 +55,7 @@ const Header = ({ isFolded = false }: Props) => {
         <Link to={ROUTE.HOME} aria-label="홈">
           <Logo height="100%" />
           <LogoText height="90%" />
+          <h1 className="a11y">놀토: 놀러오세요 토이프로젝트</h1>
         </Link>
       </Styled.LogoWrapper>
       <Styled.NavContainer>

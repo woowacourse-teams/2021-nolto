@@ -78,7 +78,9 @@ const Home = ({ toggleTheme }: Props) => {
 
         <Styled.ToysContainer>
           <Styled.TitleWrapper>
-            <Styled.SectionTitle>🧩 진행중인 프로젝트</Styled.SectionTitle>
+            <h2>
+              <Styled.SectionTitle>🧩 진행중인 프로젝트</Styled.SectionTitle>
+            </h2>
             <MoreButton
               to={{
                 pathname: ROUTE.RECENT,
@@ -105,7 +107,9 @@ const Home = ({ toggleTheme }: Props) => {
 
         <Styled.ToysContainer>
           <Styled.TitleWrapper>
-            <Styled.SectionTitle>🦄 완성된 프로젝트</Styled.SectionTitle>
+            <h2>
+              <Styled.SectionTitle>🦄 완성된 프로젝트</Styled.SectionTitle>
+            </h2>
             <MoreButton
               to={{
                 pathname: ROUTE.RECENT,

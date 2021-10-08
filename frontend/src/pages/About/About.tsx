@@ -17,7 +17,9 @@ const About = () => {
         <link rel="canonical" href="https://www.nolto.app/about" />
       </Helmet>
       <DefaultPageRoot>
-        <HighLightedText fontSize={FONT_SIZE.X_LARGE}>We Make Nolto 🚀</HighLightedText>
+        <h2>
+          <HighLightedText fontSize={FONT_SIZE.X_LARGE}>We Make Nolto 🚀</HighLightedText>
+        </h2>
         <Styled.MembersContainer>
           <TeamMember {...member.amazzi} />
           <TeamMember {...member.joel} reverse />
