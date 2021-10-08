@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { Helmet } from 'react-helmet';
 
 import MoreArrow from 'assets/moreArrow.svg';
 import Page from 'pages';
@@ -45,6 +46,10 @@ const Home = ({ toggleTheme }: Props) => {
 
   return (
     <BaseLayout header={<Header isFolded={isEllipseVisible} />}>
+      <Helmet>
+        <title>놀토: 놀러오세요 토이프로젝트</title>
+        <link rel="canonical" href="https://www.nolto.app" />
+      </Helmet>
       <Styled.EllipseWrapper ref={ellipseRef}>
         <CroppedEllipse toggleTheme={toggleTheme} />
       </Styled.EllipseWrapper>

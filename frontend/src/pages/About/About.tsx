@@ -1,16 +1,21 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 
 import TeamMember from 'components/TeamMember/TeamMember';
 import BaseLayout from 'components/BaseLayout/BaseLayout';
+import HighLightedText from 'components/@common/HighlightedText/HighlightedText';
 import { DefaultPageRoot } from 'commonStyles';
 import { FONT_SIZE } from 'constants/styles';
 import member from './members';
 import Styled from './About.styles';
-import HighLightedText from 'components/@common/HighlightedText/HighlightedText';
 
 const About = () => {
   return (
     <BaseLayout>
+      <Helmet>
+        <title>놀토: 놀토 팀 소개</title>
+        <link rel="canonical" href="https://www.nolto.app/about" />
+      </Helmet>
       <DefaultPageRoot>
         <HighLightedText fontSize={FONT_SIZE.X_LARGE}>We Make Nolto 🚀</HighLightedText>
         <Styled.MembersContainer>
