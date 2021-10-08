@@ -5,6 +5,7 @@ import { StaticRouter } from 'react-router';
 import { ServerStyleSheet, StyleSheetManager } from 'styled-components';
 import { ChunkExtractor } from '@loadable/server';
 import serialize from 'serialize-javascript';
+import { Helmet } from 'react-helmet';
 
 import express from 'express';
 import path from 'path';
@@ -68,6 +69,8 @@ const generateResponse = async (
 
   const reactApp = ReactDOMServer.renderToString(jsx);
 
+  const helmet = Helmet.renderStatic();
+
   const styleTags = sheet.getStyleTags();
 
   const scriptTags = extractor.getScriptTags();
@@ -88,7 +91,11 @@ const generateResponse = async (
       .replace('<div id="root"></div>', `<div id="root">${reactApp}</div>`)
       .replace(
         /<head>(.+)<\/head>/s,
-        `<head>$1 ${styleTags} ${scriptTags} ${reactQueryState}</head>`,
+        `<head>$1 
+          ${styleTags} ${scriptTags} ${reactQueryState} 
+          ${helmet.title.toString()} 
+          ${helmet.link.toString()} 
+        </head>`,
       );
 
     return res.send(result);

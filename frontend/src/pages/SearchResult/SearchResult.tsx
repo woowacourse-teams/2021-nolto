@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 import AsyncBoundary from 'components/AsyncBoundary';
 import BaseLayout from 'components/BaseLayout/BaseLayout';
@@ -31,8 +32,16 @@ const SearchResult = () => {
 
   return (
     <BaseLayout>
+      <Helmet>
+        <title>놀토: 피드 검색</title>
+        <link rel="canonical" href="https://www.nolto.app/search" />
+      </Helmet>
       <Styled.TopContainer>
-        <Styled.SectionTitle fontSize={FONT_SIZE.X_LARGE}>Toys About</Styled.SectionTitle>
+        <h2>
+          <Styled.SectionTitle fontSize={FONT_SIZE.X_LARGE}>
+            토이 프로젝트 검색 결과
+          </Styled.SectionTitle>
+        </h2>
         <AsyncBoundary rejectedFallback={<div>게시물 검색에 실패했습니다.</div>}>
           <SearchResultHeader
             searchParams={location.search}

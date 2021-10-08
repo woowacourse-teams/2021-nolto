@@ -54,10 +54,20 @@ const HotFeedsContent = () => {
             ))}
       </Styled.HotToyCardsContainer>
       <Styled.ControlContainer className="control-container">
-        <CarouselArrowButton size="3rem" className="carousel-button" onClick={showPreviousCards}>
+        <CarouselArrowButton
+          size="3rem"
+          className="carousel-button"
+          onClick={showPreviousCards}
+          aria-label="이전 피드 보기"
+        >
           <Styled.CarouselLeft width="1.5rem" />
         </CarouselArrowButton>
-        <CarouselArrowButton size="3rem" className="carousel-button" onClick={showFollowingCards}>
+        <CarouselArrowButton
+          size="3rem"
+          className="carousel-button"
+          onClick={showFollowingCards}
+          aria-label="다음 피드 보기"
+        >
           <Styled.CarouselRight width="1.5rem" />
         </CarouselArrowButton>
       </Styled.ControlContainer>
@@ -70,6 +80,7 @@ const HotFeedsContent = () => {
             onClick={() => {
               setHotToyCardIdx(idx);
             }}
+            aria-label={`${idx}번째 피드로 이동`}
           >
             <Styled.Dot selected={idx === hotToyCardIdx} />
           </IconButton>

@@ -139,7 +139,7 @@ const Intro = () => {
             </Styled.CameraLabel>
           </>
         ) : (
-          <Styled.Image thumbnailUrl={profile.imageUrl} alt={`${profile.nickname}-profile-image`} />
+          <Styled.Image thumbnailUrl={profile.imageUrl} alt={`${profile.nickname} 프로필 이미지`} />
         )}
       </Styled.ImageWrapper>
 

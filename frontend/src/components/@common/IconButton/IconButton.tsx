@@ -7,16 +7,23 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   hasShadow?: boolean;
   size: string;
   hasHoverAnimation?: boolean;
+  className?: string;
 }
 
 const IconButton = ({
   children,
   hasShadow = true,
   hasHoverAnimation = true,
+  className,
   ...options
 }: Props) => {
   return (
-    <Styled.Root hasShadow={hasShadow} hasHoverAnimation={hasHoverAnimation} {...options}>
+    <Styled.Root
+      hasShadow={hasShadow}
+      hasHoverAnimation={hasHoverAnimation}
+      className={className}
+      {...options}
+    >
       <Styled.Icon>{children}</Styled.Icon>
     </Styled.Root>
   );
