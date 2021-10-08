@@ -1,3 +1,3 @@
-const hasWindow = typeof window !== 'undefined' ? true : false;
+const hasWindow = typeof window !== 'undefined';
 
 export default hasWindow;
