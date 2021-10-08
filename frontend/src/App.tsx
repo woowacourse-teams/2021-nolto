@@ -9,13 +9,18 @@ import ErrorBoundary from 'components/ErrorBoundary';
 import ErrorFallback from 'components/ErrorFallback/ErrorFallback';
 import DialogProvider from 'contexts/dialog/DialogProvider';
 import ModalProvider from 'contexts/modal/ModalProvider';
-import SnackbarProvider from 'contexts/snackbar/SnackbarProvider';
 import MemberProvider from 'contexts/member/MemberProvider';
 import ROUTE from 'constants/routes';
 import { ERROR_MSG } from 'constants/message';
 import useTheme from 'hooks/useTheme';
 import GlobalStyle from './Global.styles';
 import { defaultTheme, thanksgivingTheme } from '../themes';
+import loadable from '@loadable/component';
+
+const SnackbarProvider = loadable(
+  () => import(/* webpackChunkName: "SnackbarProvider" */ 'contexts/snackbar/SnackbarProvider'),
+  { ssr: false },
+);
 
 const App = () => {
   const [themeMode, toggleThemeMode] = useTheme();
