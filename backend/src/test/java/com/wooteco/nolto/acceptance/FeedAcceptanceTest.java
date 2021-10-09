@@ -238,9 +238,9 @@ class FeedAcceptanceTest extends AcceptanceTest {
     @Test
     void hotResponse() {
         // given
-        TokenResponse 좋아요_1개_누를_유저_토큰 = 유저의_토큰을_받는다(좋아요_1개_누를_유저);
-        TokenResponse 좋아요_2개_누를_유저_토큰 = 유저의_토큰을_받는다(좋아요_2개_누를_유저);
-        TokenResponse 좋아요_3개_누를_유저_토큰 = 유저의_토큰을_받는다(좋아요_3개_누를_유저);
+        TokenResponse 좋아요_1개_누를_유저_토큰 = 유저의_액세스_토큰을_받는다(좋아요_1개_누를_유저);
+        TokenResponse 좋아요_2개_누를_유저_토큰 = 유저의_액세스_토큰을_받는다(좋아요_2개_누를_유저);
+        TokenResponse 좋아요_3개_누를_유저_토큰 = 유저의_액세스_토큰을_받는다(좋아요_3개_누를_유저);
         좋아요_요청(좋아요_1개_누를_유저_토큰.getAccessToken(), 진행중_좋아요3개_1번째_피드_ID);
         좋아요_요청(좋아요_2개_누를_유저_토큰.getAccessToken(), 진행중_좋아요3개_1번째_피드_ID);
         좋아요_요청(좋아요_3개_누를_유저_토큰.getAccessToken(), 진행중_좋아요3개_1번째_피드_ID);
