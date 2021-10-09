@@ -1,0 +1,29 @@
+import React, { ImgHTMLAttributes, useEffect, useRef } from 'react';
+
+interface ImageAttributes extends ImgHTMLAttributes<HTMLImageElement> {
+  fallbackSrc: string;
+}
+
+const isImageValid = (src: string) => {
+  return new Promise((resolve) => {
+    const img = document.createElement('img');
+    img.onerror = () => resolve(false);
+    img.onload = () => resolve(true);
+    img.src = src;
+  });
+};
+
+const Image = ({ src, fallbackSrc, ...option }: ImageAttributes) => {
+  const imgRef = useRef(null);
+  useEffect(() => {
+    isImageValid(src).then((isValid) => {
+      if (!isValid) {
+        imgRef.current.src = fallbackSrc;
+      }
+    });
+  }, []);
+
+  return <img {...option} ref={imgRef} src={src} />;
+};
+
+export default Image;

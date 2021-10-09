@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
-const Image = styled.img`
+import ImageComponent from 'components/@common/Image/Image';
+
+const Image = styled(ImageComponent)`
   object-fit: cover;
 `;
 
