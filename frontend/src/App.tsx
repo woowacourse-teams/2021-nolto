@@ -15,12 +15,7 @@ import { ERROR_MSG } from 'constants/message';
 import useTheme from 'hooks/useTheme';
 import GlobalStyle from './Global.styles';
 import { defaultTheme, thanksgivingTheme } from '../themes';
-import loadable from '@loadable/component';
-
-const SnackbarProvider = loadable(
-  () => import(/* webpackChunkName: "SnackbarProvider" */ 'contexts/snackbar/SnackbarProvider'),
-  { ssr: false },
-);
+import SnackbarProvider from 'contexts/snackbar/SnackbarProvider';
 
 const App = () => {
   const [themeMode, toggleThemeMode] = useTheme();

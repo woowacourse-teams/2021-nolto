@@ -25,14 +25,12 @@ const FeedThumbnail = ({ thumbnailUrl, alt, className }: Props) => {
       className={className}
       src={thumbnailUrl}
       alt={alt}
-      onError={(event: SyntheticEvent<HTMLImageElement>) => {
-        event.currentTarget.src = DEFAULT_IMG.FEED;
-      }}
+      fallbackSrc={DEFAULT_IMG.FEED}
     />
   ) : (
     <video className={className} autoPlay muted loop>
       <source src={thumbnailUrl} type="video/mp4" />
-      <Styled.Image src={DEFAULT_IMG.FEED} alt="기본 이미지" />
+      <Styled.Image src={DEFAULT_IMG.FEED} alt="기본 이미지" fallbackSrc={DEFAULT_IMG.FEED} />
     </video>
   );
 };

@@ -35,7 +35,9 @@ const queryClient = new QueryClient({
 });
 
 loadableReady(() => {
-  ReactDOM.hydrate(
+  const root = ReactDOM.hydrateRoot(document.getElementById('root'));
+
+  root.render(
     <React.StrictMode>
       <BrowserRouter>
         <QueryClientProvider client={queryClient}>
@@ -45,6 +47,5 @@ loadableReady(() => {
         </QueryClientProvider>
       </BrowserRouter>
     </React.StrictMode>,
-    document.getElementById('root'),
   );
 });
