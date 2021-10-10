@@ -13,7 +13,7 @@ const isImageValid = (src: string) => {
   });
 };
 
-const Image = ({ src, fallbackSrc, ...option }: ImageAttributes) => {
+const Image = ({ src, alt, fallbackSrc, ...option }: ImageAttributes) => {
   const imgRef = useRef(null);
   useEffect(() => {
     isImageValid(src).then((isValid) => {
@@ -23,7 +23,7 @@ const Image = ({ src, fallbackSrc, ...option }: ImageAttributes) => {
     });
   }, []);
 
-  return <img {...option} ref={imgRef} src={src} />;
+  return <img {...option} ref={imgRef} src={src} alt={alt} />;
 };
 
 export default Image;

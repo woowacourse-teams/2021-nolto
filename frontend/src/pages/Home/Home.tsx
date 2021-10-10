@@ -93,6 +93,7 @@ const Home = ({ toggleTheme }: Props) => {
               onMouseOver={() => Page.RecentFeeds.preload()}
             >
               MORE&nbsp;
+              <span className="seo">More Progress Feeds</span>
               <MoreArrow width="10px" />
             </MoreButton>
           </Styled.TitleWrapper>
@@ -122,6 +123,7 @@ const Home = ({ toggleTheme }: Props) => {
               onMouseOver={() => Page.RecentFeeds.preload()}
             >
               MORE&nbsp;
+              <span className="seo">More Complete Feeds</span>
               <MoreArrow width="10px" />
             </MoreButton>
           </Styled.TitleWrapper>

@@ -89,7 +89,10 @@ const FeedDetailContent = ({ feedId }: Props) => {
     <>
       {feedDetail.sos && <SOSFlag />}
       <Styled.Thumbnail>
-        <FeedThumbnail thumbnailUrl={feedDetail.thumbnailUrl} />
+        <FeedThumbnail
+          thumbnailUrl={feedDetail.thumbnailUrl}
+          alt={`${feedDetail.content} 이미지`}
+        />
       </Styled.Thumbnail>
       <Styled.IconsContainer>
         <Styled.IconWrapper>
@@ -135,13 +138,14 @@ const FeedDetailContent = ({ feedId }: Props) => {
                 <img
                   src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_small.png"
                   width="24px"
+                  alt="카카오톡 공유"
                 />
               </a>
             </Styled.TitleWrapper>
 
             <Styled.UserWrapper>
               <Styled.UserName>{feedDetail.author.nickname}</Styled.UserName>
-              <Styled.UserImage src={feedDetail.author.imageUrl} />
+              <Styled.UserImage src={feedDetail.author.imageUrl} alt={feedDetail.author.nickname} />
               {isMyFeed && <FeedDropdown feedDetail={feedDetail} />}
             </Styled.UserWrapper>
           </Styled.TitleContainer>

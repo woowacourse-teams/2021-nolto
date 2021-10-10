@@ -1,4 +1,4 @@
-import React, { SyntheticEvent } from 'react';
+import React from 'react';
 
 import { DEFAULT_IMG, THUMBNAIL_EXTENSION } from 'constants/common';
 import Styled from './FeedThumbnail.styles';
