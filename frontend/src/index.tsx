@@ -5,6 +5,7 @@ import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
 import { loadableReady } from '@loadable/component';
+import { HelmetProvider } from 'react-helmet-async';
 
 import hasWindow from 'constants/windowDetector';
 import App from './App';
@@ -35,17 +36,18 @@ const queryClient = new QueryClient({
 });
 
 loadableReady(() => {
-  const root = ReactDOM.hydrateRoot(document.getElementById('root'));
-
-  root.render(
+  ReactDOM.hydrate(
     <React.StrictMode>
       <BrowserRouter>
         <QueryClientProvider client={queryClient}>
-          <Hydrate state={dehydratedState}>
-            <App />
-          </Hydrate>
+          <HelmetProvider>
+            <Hydrate state={dehydratedState}>
+              <App />
+            </Hydrate>
+          </HelmetProvider>
         </QueryClientProvider>
       </BrowserRouter>
     </React.StrictMode>,
+    document.getElementById('root'),
   );
 });

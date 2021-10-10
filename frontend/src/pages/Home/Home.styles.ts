@@ -134,7 +134,7 @@ export const MoreButton = styled(Link)`
   background: transparent;
   font-size: 1rem;
 
-  & .seo {
+  & .visually-hidden {
     width: 1px;
     height: 1px;
     clip: rect(0 0 0 0);

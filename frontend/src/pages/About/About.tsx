@@ -1,5 +1,5 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 import TeamMember from 'components/TeamMember/TeamMember';
 import BaseLayout from 'components/BaseLayout/BaseLayout';

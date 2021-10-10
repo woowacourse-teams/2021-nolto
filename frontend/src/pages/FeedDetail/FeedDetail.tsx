@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 import FeedDetailContent from 'pages/FeedDetail/FeedDetailContent/FeedDetailContent';
 import AsyncBoundary from 'components/AsyncBoundary';
