@@ -39,8 +39,8 @@ const ModalProvider = ({ children }: Props) => {
   const modalElement: React.ReactNode = (
     <Styled.ModalContainer onMouseDown={handleClickDimmed}>
       <Styled.ModalInner>
-        <Styled.CrossMarkButton size="2rem" onClick={closeModal}>
-          <CrossMark fill={PALETTE.WHITE_400} />
+        <Styled.CrossMarkButton onClick={closeModal}>
+          <CrossMark width="1rem" fill={PALETTE.WHITE_400} />
         </Styled.CrossMarkButton>
         {modal && modal}
       </Styled.ModalInner>

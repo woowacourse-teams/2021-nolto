@@ -5,8 +5,8 @@ import SearchbarComponent from 'components/Searchbar/Searchbar';
 import HighLightedText from 'components/@common/HighlightedText/HighlightedText';
 import Avatar from 'components/@common/Avatar/Avatar';
 import IconButtonComponent from 'components/@common/IconButton/IconButton';
-import { PALETTE } from 'constants/palette';
 import { FONT_SIZE, Z_INDEX } from 'constants/styles';
+import { MEDIA_QUERY } from 'constants/mediaQuery';
 import { hoverUnderline } from 'commonStyles';
 import ArrowIcon from 'assets/carouselArrow.svg';
 
@@ -53,6 +53,10 @@ const SearchTitle = styled.div`
   font-weight: ${({ theme }) => theme.titleWeight};
   margin-bottom: 18px;
   animation: ${bounce} 1s linear infinite;
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    font-size: 1.25rem;
+  }
 `;
 
 export const Searchbar = styled(SearchbarComponent)`
@@ -60,21 +64,6 @@ export const Searchbar = styled(SearchbarComponent)`
   width: 100%;
   height: 2.5rem;
   margin-bottom: 18px;
-`;
-
-const TrendContainer = styled.div`
-  display: flex;
-  gap: 0.75rem;
-  align-items: center;
-
-  & span {
-    color: ${PALETTE.WHITE_400};
-    line-height: 1rem;
-  }
-
-  & span.trends {
-    font-weight: 700;
-  }
 `;
 
 const TrendTag = styled.span`
@@ -161,7 +150,6 @@ export default {
   SearchContainer,
   EllipseWrapper,
   SearchTitle,
-  TrendContainer,
   TrendTag,
   ContentArea,
   TitleWrapper,
