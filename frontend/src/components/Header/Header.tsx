@@ -3,6 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 
 import Pencil from 'assets/pencil.svg';
 import Search from 'assets/search.svg';
+import SignIn from 'assets/signin.svg';
 import Page from 'pages';
 import LoginModal from 'components/LoginModal/LoginModal';
 import { PALETTE } from 'constants/palette';
@@ -101,13 +102,18 @@ const Header = ({ isFolded = false }: Props) => {
         {member.userData ? (
           <UserProfile />
         ) : (
-          <Styled.AuthButton
-            buttonStyle={ButtonStyle.OUTLINE}
-            reverse={true}
-            onClick={openLoginModal}
-          >
-            Sign In
-          </Styled.AuthButton>
+          <>
+            <Styled.AuthButton
+              buttonStyle={ButtonStyle.OUTLINE}
+              reverse={true}
+              onClick={openLoginModal}
+            >
+              Sign In
+            </Styled.AuthButton>
+            <IconButton size="2rem" onClick={openLoginModal} className="signin" aria-label="signin">
+              <SignIn fill={PALETTE.PRIMARY_400} />
+            </IconButton>
+          </>
         )}
       </Styled.UserContainer>
     </Styled.Root>
