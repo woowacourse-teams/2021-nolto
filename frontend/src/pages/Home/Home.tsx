@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 import MoreArrow from 'assets/moreArrow.svg';
 import Page from 'pages';
@@ -93,6 +93,7 @@ const Home = ({ toggleTheme }: Props) => {
               onMouseOver={() => Page.RecentFeeds.preload()}
             >
               MORE&nbsp;
+              <span className="visually-hidden">More Progress Feeds</span>
               <MoreArrow width="10px" />
             </MoreButton>
           </Styled.TitleWrapper>
@@ -122,6 +123,7 @@ const Home = ({ toggleTheme }: Props) => {
               onMouseOver={() => Page.RecentFeeds.preload()}
             >
               MORE&nbsp;
+              <span className="visually-hidden">More Complete Feeds</span>
               <MoreArrow width="10px" />
             </MoreButton>
           </Styled.TitleWrapper>

@@ -5,7 +5,7 @@ import { StaticRouter } from 'react-router';
 import { ServerStyleSheet, StyleSheetManager } from 'styled-components';
 import { ChunkExtractor } from '@loadable/server';
 import serialize from 'serialize-javascript';
-import { Helmet } from 'react-helmet';
+import { FilledContext, HelmetProvider } from 'react-helmet-async';
 
 import express from 'express';
 import path from 'path';
@@ -55,21 +55,25 @@ const generateResponse = async (
 
   const dehydratedState = dehydrate(queryClient);
 
+  const helmetContext: Partial<FilledContext> = {};
+
   const jsx = extractor.collectChunks(
     <QueryClientProvider client={queryClient}>
-      <Hydrate state={dehydratedState}>
-        <StyleSheetManager sheet={sheet.instance}>
-          <StaticRouter location={req.url}>
-            <App />
-          </StaticRouter>
-        </StyleSheetManager>
-      </Hydrate>
+      <HelmetProvider context={helmetContext}>
+        <Hydrate state={dehydratedState}>
+          <StyleSheetManager sheet={sheet.instance}>
+            <StaticRouter location={req.url}>
+              <App />
+            </StaticRouter>
+          </StyleSheetManager>
+        </Hydrate>
+      </HelmetProvider>
     </QueryClientProvider>,
   );
 
   const reactApp = ReactDOMServer.renderToString(jsx);
 
-  const helmet = Helmet.renderStatic();
+  const { helmet } = helmetContext;
 
   const styleTags = sheet.getStyleTags();
 
