@@ -61,7 +61,7 @@ const LogoWrapper = styled.div`
     gap: 0.5rem;
   }
 
-  & h1.a11y {
+  & h1.visually-hidden {
     width: 1px;
     height: 1px;
     clip: rect(0 0 0 0);
