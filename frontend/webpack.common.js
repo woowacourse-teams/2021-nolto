@@ -4,7 +4,11 @@ const { DefinePlugin } = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const LoadablePlugin = require('@loadable/webpack-plugin');
 
+const isDevelopment = process.env.NODE_ENV !== 'production';
+
 module.exports = {
+  mode: isDevelopment ? 'development' : 'production',
+  target: isDevelopment ? 'web' : 'browserlist', //browserlist면 HMR이 동작하지 않음
   entry: './src/index.tsx',
   output: {
     path: path.resolve(__dirname, './dist'),
@@ -12,7 +16,6 @@ module.exports = {
     publicPath: '/',
     clean: true,
   },
-  target: 'browserslist',
   module: {
     rules: [
       {
@@ -50,10 +53,6 @@ module.exports = {
     modules: [path.resolve(__dirname, 'src'), 'node_modules'],
   },
   plugins: [
-    new HtmlWebPackPlugin({
-      template: './public/index.html',
-      inject: false,
-    }),
     new CopyPlugin({
       patterns: [
         {
