@@ -34,11 +34,13 @@ const TrendTechs = () => {
     <Styled.Root>
       <Styled.TagsContainer>
         <Styled.Title className="trends">💎 Trends</Styled.Title>
-        {tags?.map((tag) => (
-          <Styled.Tag key={tag.id} onClick={() => searchByTrend(tag)}>
-            <span className="trends-text">{tag.text}</span>
-          </Styled.Tag>
-        ))}
+        <ul>
+          {tags?.map((tag) => (
+            <Styled.Tag key={tag.id} onClick={() => searchByTrend(tag)}>
+              <span className="trends-text">{tag.text}</span>
+            </Styled.Tag>
+          ))}
+        </ul>
       </Styled.TagsContainer>
     </Styled.Root>
   );

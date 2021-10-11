@@ -68,6 +68,12 @@ const LogoWrapper = styled.div`
     overflow: hidden;
     position: absolute;
   }
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+  }
 `;
 
 export const Logo = styled(LogoIcon)``;
@@ -146,6 +152,10 @@ const AuthButton = styled(TextButton.Rounded)`
   padding: 4px 16px;
   font-size: inherit;
   line-height: inherit;
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    display: none;
+  }
 `;
 
 const stretchTo = (maxWidth: string) => keyframes`
@@ -173,6 +183,18 @@ const UserContainer = styled.div`
   align-items: center;
   flex-shrink: 0;
   margin-left: 1rem;
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    margin-left: 0.5rem;
+  }
+
+  & .signin {
+    display: none;
+
+    @media ${MEDIA_QUERY.MOBILE} {
+      display: inline-block;
+    }
+  }
 `;
 
 export default {

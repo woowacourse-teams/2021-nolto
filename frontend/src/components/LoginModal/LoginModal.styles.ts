@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import TextButton from 'components/@common/TextButton/TextButton';
 import { PALETTE } from 'constants/palette';
+import { MEDIA_QUERY } from 'constants/mediaQuery';
 
 const Root = styled.div`
   display: flex;
@@ -12,6 +13,10 @@ const Root = styled.div`
 
 const Title = styled.h2`
   font-size: 1.75rem;
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    font-size: 1.25rem;
+  }
 `;
 
 const Greeting = styled.div`
@@ -22,6 +27,11 @@ const Greeting = styled.div`
 const OAuthContainer = styled.div`
   margin-top: 3.25rem;
   width: 100%;
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    margin-top: 2rem;
+    padding: 0 0.5rem;
+  }
 `;
 
 export const OAuthButton = styled(TextButton.Rounded)`

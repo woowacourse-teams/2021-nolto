@@ -1,5 +1,5 @@
 import { HEIGHT } from 'constants/common';
-import { BREAK_POINTS } from 'constants/mediaQuery';
+import { BREAK_POINTS, MEDIA_QUERY } from 'constants/mediaQuery';
 import styled from 'styled-components';
 
 const Root = styled.div`
@@ -12,6 +12,10 @@ export const BaseLayoutMain = styled.main`
   margin: 0 auto;
   overflow: auto;
   width: 100%;
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    padding: 1rem;
+  }
 `;
 
 export default { Root };

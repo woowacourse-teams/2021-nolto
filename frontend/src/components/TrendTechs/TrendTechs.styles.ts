@@ -1,12 +1,14 @@
 import styled from 'styled-components';
 
 import { hoverUnderline } from 'commonStyles';
-import { BREAK_POINTS } from 'constants/mediaQuery';
+import { BREAK_POINTS, MEDIA_QUERY } from 'constants/mediaQuery';
+import { PALETTE } from 'constants/palette';
 
 const Root = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
+  color: ${PALETTE.WHITE_400};
 
   & span {
     color: ${({ theme }) => theme.highLightedText};
@@ -19,38 +21,69 @@ const Root = styled.div`
   }
 `;
 
-const Title = styled.span`
-  white-space: nowrap;
-`;
-
 const TagsContainer = styled.div`
   display: flex;
-  gap: 1rem;
+  align-items: center;
   width: fit-content;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
   max-width: ${BREAK_POINTS.DESKTOP};
+  color: inherit;
+  gap: 1rem;
 
-  & > *::after {
+  & ul {
+    display: flex;
+    gap: 1rem;
+
+    @media ${MEDIA_QUERY.MOBILE} {
+      gap: 0.5rem;
+    }
+
+    & > *::after {
+      content: '|';
+      color: ${PALETTE.WHITE_400};
+      margin-left: 1rem;
+
+      @media ${MEDIA_QUERY.MOBILE} {
+        margin-left: 0.5rem;
+      }
+    }
+
+    & > *:last-child::after {
+      display: none;
+    }
+  }
+`;
+
+const Title = styled.div`
+  white-space: nowrap;
+  color: inherit;
+  font-weight: 700;
+
+  &::after {
     content: '|';
+    color: ${PALETTE.WHITE_400};
     margin-left: 1rem;
+
+    @media ${MEDIA_QUERY.MOBILE} {
+      display: none;
+    }
   }
 
-  & > *:last-child::after {
+  @media ${MEDIA_QUERY.MOBILE} {
     display: none;
   }
 `;
 
-const Tag = styled.span`
+const Tag = styled.li`
   cursor: pointer;
   white-space: nowrap;
 
-  > .trends-text {
+  & > .trends-text {
     ${hoverUnderline};
   }
 
-  > .trends-bar {
-    margin-right: 0.75rem;
+  @media ${MEDIA_QUERY.MOBILE} {
+    font-size: 14px;
   }
 `;
 
