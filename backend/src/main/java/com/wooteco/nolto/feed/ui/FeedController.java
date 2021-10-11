@@ -18,8 +18,8 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
-import static com.wooteco.nolto.ViewHistoryManager.isAlreadyView;
-import static com.wooteco.nolto.ViewHistoryManager.setCookieByReadHistory;
+import static com.wooteco.nolto.util.cookie.ViewHistoryManager.isAlreadyView;
+import static com.wooteco.nolto.util.cookie.ViewHistoryManager.setCookieByReadHistory;
 
 @RestController
 @RequestMapping("/feeds")

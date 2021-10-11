@@ -100,7 +100,7 @@ class OAuthControllerTest extends ControllerTest {
     @DisplayName("리프레시 토큰을 사용해 리프레시 토큰, 액세스 토큰을 재발급한다.")
     @Test
     void refreshToken() throws Exception {
-        given(authService.refreshToken(any(RefreshTokenRequest.class))).willReturn(TOKEN_RESPONSE);
+        given(authService.reissueToken(any(RefreshTokenRequest.class))).willReturn(TOKEN_RESPONSE);
 
         mockMvc.perform(
                         post("/login/oauth/refreshToken")
@@ -130,7 +130,7 @@ class OAuthControllerTest extends ControllerTest {
     @DisplayName("리프레시 토큰 발급 시 리프레시 토큰 입력이 잘못된 경우 예외처리한다.")
     @Test
     void invalidRefreshToken() throws Exception {
-        given(authService.refreshToken(any(RefreshTokenRequest.class))).willThrow(new BadRequestException(ErrorType.INVALID_TOKEN));
+        given(authService.reissueToken(any(RefreshTokenRequest.class))).willThrow(new BadRequestException(ErrorType.INVALID_TOKEN));
 
         mockMvc.perform(
                         post("/login/oauth/refreshToken")
@@ -161,7 +161,7 @@ class OAuthControllerTest extends ControllerTest {
     @DisplayName("리프레시 토큰 발급 시 잘못된 클라이언트 IP로 요청된 경우 예외처리한다.")
     @Test
     void invalidClientIP() throws Exception {
-        given(authService.refreshToken(any(RefreshTokenRequest.class))).willThrow(new UnauthorizedException(ErrorType.INVALID_CLIENT));
+        given(authService.reissueToken(any(RefreshTokenRequest.class))).willThrow(new UnauthorizedException(ErrorType.INVALID_CLIENT));
 
         mockMvc.perform(
                         post("/login/oauth/refreshToken")

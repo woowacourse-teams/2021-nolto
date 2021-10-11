@@ -1,4 +1,4 @@
-package com.wooteco.nolto.auth.infrastructure;
+package com.wooteco.nolto.util.cookie;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;

@@ -1,6 +1,7 @@
-package com.wooteco.nolto.auth.infrastructure;
+package com.wooteco.nolto.util.cookie;
 
 import com.wooteco.nolto.auth.ui.dto.TokenResponse;
+import com.wooteco.nolto.util.cookie.CookieUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletResponse;

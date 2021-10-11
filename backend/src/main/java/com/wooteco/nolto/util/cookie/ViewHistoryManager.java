@@ -1,6 +1,4 @@
-package com.wooteco.nolto;
-
-import com.wooteco.nolto.auth.infrastructure.CookieUtil;
+package com.wooteco.nolto.util.cookie;
 
 import javax.servlet.http.HttpServletResponse;
 import java.time.Duration;

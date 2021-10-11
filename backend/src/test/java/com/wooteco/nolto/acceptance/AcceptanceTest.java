@@ -1,6 +1,6 @@
 package com.wooteco.nolto.acceptance;
 
-import com.wooteco.nolto.auth.infrastructure.CookieUtil;
+import com.wooteco.nolto.util.cookie.CookieUtil;
 import com.wooteco.nolto.auth.infrastructure.JwtTokenProvider;
 import com.wooteco.nolto.auth.ui.dto.RefreshTokenResponse;
 import com.wooteco.nolto.auth.ui.dto.TokenResponse;
@@ -29,7 +29,7 @@ import java.time.Duration;
 import java.util.UUID;
 
 import static com.wooteco.nolto.acceptance.FeedAcceptanceTest.피드_작성_요청;
-import static com.wooteco.nolto.auth.infrastructure.RefreshTokenCookieManager.REFRESH_TOKEN_KEY;
+import static com.wooteco.nolto.util.cookie.RefreshTokenCookieManager.REFRESH_TOKEN_KEY;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 

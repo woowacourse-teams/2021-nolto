@@ -1,11 +1,11 @@
 package com.wooteco.nolto.auth.ui;
 
 import com.wooteco.nolto.auth.application.AuthService;
-import com.wooteco.nolto.auth.infrastructure.RefreshTokenCookieManager;
 import com.wooteco.nolto.auth.ui.dto.AccessTokenResponse;
 import com.wooteco.nolto.auth.ui.dto.OAuthRedirectResponse;
 import com.wooteco.nolto.auth.ui.dto.RefreshTokenRequest;
 import com.wooteco.nolto.auth.ui.dto.TokenResponse;
+import com.wooteco.nolto.util.cookie.RefreshTokenCookieManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -38,8 +38,8 @@ public class OAuthController {
 
     @PostMapping("login/oauth/refreshToken")
     public ResponseEntity<AccessTokenResponse> generateRefreshToken(@RequestBody RefreshTokenRequest request,
-                                                              HttpServletResponse response) {
-        TokenResponse tokenResponse = authService.refreshToken(request);
+                                                                    HttpServletResponse response) {
+        TokenResponse tokenResponse = authService.reissueToken(request);
         RefreshTokenCookieManager.setRefreshToken(response, tokenResponse);
         return ResponseEntity.ok(tokenResponse.getAccessTokenResponse());
     }
