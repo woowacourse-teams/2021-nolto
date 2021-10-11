@@ -1,7 +1,7 @@
 package com.wooteco.nolto.feed.domain;
 
 import com.amazonaws.util.StringUtils;
-import com.wooteco.nolto.BaseEntity;
+import com.wooteco.nolto.support.BaseEntity;
 import com.wooteco.nolto.exception.BadRequestException;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.tech.domain.Tech;
