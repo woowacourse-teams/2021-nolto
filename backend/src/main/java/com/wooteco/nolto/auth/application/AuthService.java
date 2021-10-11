@@ -2,7 +2,7 @@ package com.wooteco.nolto.auth.application;
 
 import com.wooteco.nolto.auth.domain.*;
 import com.wooteco.nolto.auth.infrastructure.JwtTokenProvider;
-import com.wooteco.nolto.auth.infrastructure.RedisUtil;
+import com.wooteco.nolto.auth.infrastructure.RedisRepository;
 import com.wooteco.nolto.auth.ui.dto.*;
 import com.wooteco.nolto.exception.BadRequestException;
 import com.wooteco.nolto.exception.ErrorType;
@@ -31,7 +31,7 @@ public class AuthService {
     private final OAuthClientProvider oAuthClientProvider;
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
-    private final RedisUtil redisUtil;
+    private final RedisRepository redisUtil;
 
     private User signUp(User user) {
         changeForUniqueNickname(user);
@@ -98,7 +98,7 @@ public class AuthService {
         return TokenResponse.of(accessToken, refreshToken.getToken(), refreshToken.getExpiredIn());
     }
 
-    public TokenResponse refreshToken(RefreshTokenRequest request) {
+    public TokenResponse reissueToken(RefreshTokenRequest request) {
         if (redisUtil.get(request.getRefreshToken()) == null) {
             log.info("redis doesn't have the refresh token.");
             throw new BadRequestException(ErrorType.INVALID_TOKEN);
