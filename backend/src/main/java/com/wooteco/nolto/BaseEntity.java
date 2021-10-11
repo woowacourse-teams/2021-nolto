@@ -1,4 +1,4 @@
-package com.wooteco.nolto.support;
+package com.wooteco.nolto;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
