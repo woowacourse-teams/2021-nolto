@@ -94,7 +94,9 @@ class AuthServiceTest {
         given(githubClient.generateUserInfo(OAUTH_TOKEN_RESPONSE1)).willReturn(USER1);
 
         TokenResponse tokenResponse = authService.oAuthSignIn("github", "code", CLIENT_IP_V6);
-        assertThat(tokenResponse).isNotNull();
+        assertThat(tokenResponse.getAccessToken()).isNotNull();
+        assertThat(tokenResponse.getRefreshToken()).isNotNull();
+        assertThat(tokenResponse.getExpiredIn()).isNotZero();
     }
 
     @DisplayName("구글 로그인으로 로그인에 성공하면 토큰을 반환해준다.")
@@ -105,7 +107,9 @@ class AuthServiceTest {
         given(githubClient.generateUserInfo(OAUTH_TOKEN_RESPONSE1)).willReturn(USER1);
 
         TokenResponse tokenResponse = authService.oAuthSignIn("google", "code", CLIENT_IP_V6);
-        assertThat(tokenResponse).isNotNull();
+        assertThat(tokenResponse.getAccessToken()).isNotNull();
+        assertThat(tokenResponse.getRefreshToken()).isNotNull();
+        assertThat(tokenResponse.getExpiredIn()).isNotZero();
     }
 
     @DisplayName("code 요청값이 null이거나 빈값이면 예외가 발생한다.")
@@ -171,5 +175,7 @@ class AuthServiceTest {
 
         // then
         assertThat(tokenResponse.getAccessToken()).isNotNull();
+        assertThat(tokenResponse.getRefreshToken()).isNotNull();
+        assertThat(tokenResponse.getExpiredIn()).isNotZero();
     }
 }
