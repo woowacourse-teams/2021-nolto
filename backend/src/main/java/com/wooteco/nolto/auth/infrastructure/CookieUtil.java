@@ -8,11 +8,7 @@ import java.time.Duration;
 
 public class CookieUtil {
 
-    public static final String VIEW_KEY = "view";
-    public static final String REFRESH_TOKEN_KEY = "refresh_token";
-
     private CookieUtil() {
-
     }
 
     public static void setCookie(HttpServletResponse response,

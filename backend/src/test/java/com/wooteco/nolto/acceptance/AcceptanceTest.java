@@ -29,6 +29,7 @@ import java.time.Duration;
 import java.util.UUID;
 
 import static com.wooteco.nolto.acceptance.FeedAcceptanceTest.피드_작성_요청;
+import static com.wooteco.nolto.auth.infrastructure.RefreshTokenCookieManager.REFRESH_TOKEN_KEY;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
@@ -83,7 +84,7 @@ public abstract class AcceptanceTest {
         
         String accessToken = jwtTokenProvider.createToken(String.valueOf(저장된_엄청난_유저.getId()));
         RefreshTokenResponse refreshTokenResponse = jwtTokenProvider.createRefreshToken(UUID.randomUUID().toString());
-        CookieUtil.setCookie(response, CookieUtil.REFRESH_TOKEN_KEY, refreshTokenResponse.getToken(), Duration.ofSeconds(refreshTokenResponse.getExpiredIn()));
+        CookieUtil.setCookie(response, REFRESH_TOKEN_KEY, refreshTokenResponse.getToken(), Duration.ofSeconds(refreshTokenResponse.getExpiredIn()));
         return TokenResponse.of(accessToken, refreshTokenResponse.getToken(), refreshTokenResponse.getExpiredIn());
     }
 

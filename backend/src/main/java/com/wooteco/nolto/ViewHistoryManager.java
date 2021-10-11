@@ -8,6 +8,8 @@ import java.time.LocalTime;
 
 public class ViewHistoryManager {
 
+    public static final String VIEW_KEY = "view";
+
     private ViewHistoryManager() {
     }
 
@@ -21,6 +23,6 @@ public class ViewHistoryManager {
         }
         cookieValue = cookieValue.concat(feedId + "/");
         Duration duration = Duration.between(LocalTime.now(), LocalTime.MAX);
-        CookieUtil.setCookie(response, CookieUtil.VIEW_KEY, cookieValue, duration);
+        CookieUtil.setCookie(response, VIEW_KEY, cookieValue, duration);
     }
 }
