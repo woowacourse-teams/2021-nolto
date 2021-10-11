@@ -1,4 +1,4 @@
-package com.wooteco.nolto;
+package com.wooteco.nolto.support;
 
 import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.feed.domain.Comment;

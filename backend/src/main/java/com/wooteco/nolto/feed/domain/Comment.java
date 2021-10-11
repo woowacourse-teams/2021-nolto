@@ -1,6 +1,6 @@
 package com.wooteco.nolto.feed.domain;
 
-import com.wooteco.nolto.BaseEntity;
+import com.wooteco.nolto.support.BaseEntity;
 import com.wooteco.nolto.exception.BadRequestException;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.UnauthorizedException;
