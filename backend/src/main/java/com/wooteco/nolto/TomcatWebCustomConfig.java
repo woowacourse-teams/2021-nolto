@@ -1,4 +1,4 @@
-package com.wooteco.nolto.config;
+package com.wooteco.nolto;
 
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;

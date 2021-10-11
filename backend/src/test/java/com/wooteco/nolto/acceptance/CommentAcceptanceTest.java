@@ -675,11 +675,11 @@ class CommentAcceptanceTest extends AcceptanceTest {
 
     private TokenResponse 댓글_작성자_로그인_되어있음() {
         User 회원_등록된_댓글_작성자 = 회원_등록되어_있음(댓글_작성자);
-        return 유저의_액세스_토큰을_받는다(회원_등록된_댓글_작성자);
+        return 유저의_토큰을_받는다(회원_등록된_댓글_작성자);
     }
 
     private TokenResponse 댓글_작성자가_아닌_유저_로그인_되어있음() {
         User 댓글_작성자가_아닌_유저 = 회원_등록되어_있음(new User("악마같은 GITHUB ID", SocialType.GITHUB, "김악질", "사탄.jpg"));
-        return 유저의_액세스_토큰을_받는다(댓글_작성자가_아닌_유저);
+        return 유저의_토큰을_받는다(댓글_작성자가_아닌_유저);
     }
 }

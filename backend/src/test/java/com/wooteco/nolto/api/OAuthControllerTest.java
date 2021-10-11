@@ -1,7 +1,6 @@
 package com.wooteco.nolto.api;
 
 import com.wooteco.nolto.auth.ui.OAuthController;
-import com.wooteco.nolto.auth.ui.dto.AccessTokenResponse;
 import com.wooteco.nolto.auth.ui.dto.OAuthRedirectResponse;
 import com.wooteco.nolto.auth.ui.dto.RefreshTokenRequest;
 import com.wooteco.nolto.auth.ui.dto.TokenResponse;
@@ -37,8 +36,7 @@ class OAuthControllerTest extends ControllerTest {
     private static final OAuthRedirectResponse OAUTH_REDIRECT_RESPONSE =
             new OAuthRedirectResponse("client_id", "redirect_uri", "scope", "response_type");
     private static final TokenResponse TOKEN_RESPONSE =
-            TokenResponse.of("access_token_value", "refresh_token_value", EXPIRES_IN);
-    private static final AccessTokenResponse ACCESS_TOKEN_RESPONSE = new AccessTokenResponse("access_token_value");
+            new TokenResponse("access token value", "refresh token value", EXPIRES_IN);
 
     @DisplayName("소셜 로그인을 기능 요청의 code 값을 얻기 위한 파라미터 반환해준다.")
     @Test
@@ -81,7 +79,7 @@ class OAuthControllerTest extends ControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(ACCESS_TOKEN_RESPONSE)))
+                .andExpect(content().json(objectMapper.writeValueAsString(TOKEN_RESPONSE)))
                 .andDo(document("auth-oAuthSignIn",
                         getDocumentRequest(),
                         getDocumentResponse(),
@@ -92,7 +90,9 @@ class OAuthControllerTest extends ControllerTest {
                                 parameterWithName("socialType").description("소셜 서비스 이름")
                         ),
                         responseFields(
-                                fieldWithPath("accessToken").type(JsonFieldType.STRING).description("액세스 토큰")
+                                fieldWithPath("accessToken").type(JsonFieldType.STRING).description("액세스 토큰"),
+                                fieldWithPath("refreshToken").type(JsonFieldType.STRING).description("리프레시 토큰"),
+                                fieldWithPath("expiredIn").type(JsonFieldType.NUMBER).description("리프레시 토큰 만료 시간")
                         )
                 ));
     }
@@ -100,7 +100,7 @@ class OAuthControllerTest extends ControllerTest {
     @DisplayName("리프레시 토큰을 사용해 리프레시 토큰, 액세스 토큰을 재발급한다.")
     @Test
     void refreshToken() throws Exception {
-        given(authService.reissueToken(any(RefreshTokenRequest.class))).willReturn(TOKEN_RESPONSE);
+        given(authService.refreshToken(any())).willReturn(TOKEN_RESPONSE);
 
         mockMvc.perform(
                         post("/login/oauth/refreshToken")
@@ -112,7 +112,7 @@ class OAuthControllerTest extends ControllerTest {
                                     return servletRequest;
                                 }))
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(ACCESS_TOKEN_RESPONSE)))
+                .andExpect(content().json(objectMapper.writeValueAsString(TOKEN_RESPONSE)))
                 .andDo(document("auth-refreshToken",
                         getDocumentRequest(),
                         getDocumentResponse(),
@@ -122,7 +122,9 @@ class OAuthControllerTest extends ControllerTest {
                                 fieldWithPath("clientIP").type(JsonFieldType.STRING).description("요청한 클라이언트의 IP")
                         ),
                         responseFields(
-                                fieldWithPath("accessToken").type(JsonFieldType.STRING).description("재발급한 액세스 토큰")
+                                fieldWithPath("accessToken").type(JsonFieldType.STRING).description("재발급한 액세스 토큰"),
+                                fieldWithPath("refreshToken").type(JsonFieldType.STRING).description("재발급한 리프레시 토큰"),
+                                fieldWithPath("expiredIn").type(JsonFieldType.NUMBER).description("리프레시 토큰 만료 시간")
                         )
                 ));
     }
@@ -130,7 +132,7 @@ class OAuthControllerTest extends ControllerTest {
     @DisplayName("리프레시 토큰 발급 시 리프레시 토큰 입력이 잘못된 경우 예외처리한다.")
     @Test
     void invalidRefreshToken() throws Exception {
-        given(authService.reissueToken(any(RefreshTokenRequest.class))).willThrow(new BadRequestException(ErrorType.INVALID_TOKEN));
+        given(authService.refreshToken(any())).willThrow(new BadRequestException(ErrorType.INVALID_TOKEN));
 
         mockMvc.perform(
                         post("/login/oauth/refreshToken")
@@ -161,7 +163,7 @@ class OAuthControllerTest extends ControllerTest {
     @DisplayName("리프레시 토큰 발급 시 잘못된 클라이언트 IP로 요청된 경우 예외처리한다.")
     @Test
     void invalidClientIP() throws Exception {
-        given(authService.reissueToken(any(RefreshTokenRequest.class))).willThrow(new UnauthorizedException(ErrorType.INVALID_CLIENT));
+        given(authService.refreshToken(any())).willThrow(new UnauthorizedException(ErrorType.INVALID_CLIENT));
 
         mockMvc.perform(
                         post("/login/oauth/refreshToken")
