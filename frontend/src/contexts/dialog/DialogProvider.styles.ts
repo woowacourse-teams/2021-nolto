@@ -30,8 +30,10 @@ const DialogContainer = styled.div`
 const DialogInner = styled.div`
   animation: ${show} 0.1s ease;
 
-  width: 372px;
-  height: 218px;
+  max-width: 372px;
+  max-height: 218px;
+  width: 70vw;
+  height: 25vh;
   border-radius: 8px;
   background-color: ${PALETTE.WHITE_400};
   display: flex;

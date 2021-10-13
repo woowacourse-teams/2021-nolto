@@ -15,8 +15,11 @@ const isImageValid = (src: string) => {
 
 const Image = ({ src, alt, fallbackSrc, ...option }: ImageAttributes) => {
   const imgRef = useRef(null);
+
   useEffect(() => {
     isImageValid(src).then((isValid) => {
+      if (!imgRef.current) return;
+
       if (!isValid) {
         imgRef.current.src = fallbackSrc;
       }
