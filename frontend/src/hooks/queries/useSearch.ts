@@ -31,7 +31,6 @@ const getSearchResult = async ({
   const { query, techs } = searchParams;
 
   try {
-    console.log(query, techs);
     const { data } = await api.get('/feeds/search', {
       params: { query, techs, step: step || '', help, nextFeedId, countPerPage },
     });

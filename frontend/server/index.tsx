@@ -142,6 +142,25 @@ app.get('/*', (req, res) => {
   generateResponse(req, res);
 });
 
+app.post('/auth', (req, res) => {
+  const { body } = req;
+  const isAuthRequest = body?.accessToken && body?.refreshToken && body?.expiredIn;
+
+  if (!isAuthRequest) {
+    res.status(400).send('올바른 요청 양식이 아닙니다.');
+
+    return;
+  }
+
+  res
+    .cookie('refreshToken', body.refreshToken, {
+      httpOnly: true,
+      maxAge: body.expiredIn,
+    })
+    .status(200)
+    .send('true');
+});
+
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
