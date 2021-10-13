@@ -28,12 +28,12 @@ public class FFmpegConverter {
         log.info("convert gif to mp4 {} -> {}", gifFilePath, mp4FilePath);
         try {
             checkExistsGifFile(gifFilePath);
-            ImageSize resizedGifImage = ImageSize.of(gifFilePath).resize();
+            ImageSize resizedGifImage = ImageSize.ofGif(gifFilePath).resize();
 
             FFmpegBuilder builder = new FFmpegBuilder()
                     .setInput(gifFilePath)
                     .overrideOutputFiles(true)
-                    .addExtraArgs(FRAME_RATE_OPTION, "10")
+                    .addExtraArgs(FRAME_RATE_OPTION, "20")
                     .addOutput(mp4FilePath)
                     .addExtraArgs(DELETE_SOUND_OPTION)
                     .setVideoMovFlags("faststart")
@@ -47,7 +47,6 @@ public class FFmpegConverter {
             FFmpegJob job = executor.createJob(builder);
             job.run();
             checkExistsMp4File(mp4FilePath);
-
         } catch (IOException e) {
             log.error("gif파일을 mp4로 변환하는데 실패했습니다.", e);
             throw new InternalServerErrorException(ErrorType.GIF_MP4_CONVERT_FAIL);
