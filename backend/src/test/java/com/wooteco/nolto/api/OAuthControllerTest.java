@@ -32,7 +32,7 @@ class OAuthControllerTest extends ControllerTest {
     private static final long EXPIRES_IN = 24 * 60 * 60 * 14L;
 
     public static final RefreshTokenRequest REFRESH_TOKEN_REQUEST =
-            new RefreshTokenRequest(1L, "refresh token value", "127.0.0.1");
+            new RefreshTokenRequest("refresh token value", "127.0.0.1");
     private static final OAuthRedirectResponse OAUTH_REDIRECT_RESPONSE =
             new OAuthRedirectResponse("client_id", "redirect_uri", "scope", "response_type");
     private static final TokenResponse TOKEN_RESPONSE =
@@ -118,7 +118,6 @@ class OAuthControllerTest extends ControllerTest {
                         getDocumentRequest(),
                         getDocumentResponse(),
                         requestFields(
-                                fieldWithPath("userId").type(JsonFieldType.NUMBER).description("재발급받을 유저의 id"),
                                 fieldWithPath("refreshToken").type(JsonFieldType.STRING).description("리프레시 토큰 (이후 재사용 X)"),
                                 fieldWithPath("clientIP").type(JsonFieldType.STRING).description("요청한 클라이언트의 IP")
                         ),
@@ -150,7 +149,6 @@ class OAuthControllerTest extends ControllerTest {
                         getDocumentRequest(),
                         getDocumentResponse(),
                         requestFields(
-                                fieldWithPath("userId").type(JsonFieldType.NUMBER).description("재발급받을 유저의 id"),
                                 fieldWithPath("refreshToken").type(JsonFieldType.STRING).description("잘못된 리프레시 토큰"),
                                 fieldWithPath("clientIP").type(JsonFieldType.STRING).description("요청한 클라이언트의 IP")
                         ),
@@ -181,7 +179,6 @@ class OAuthControllerTest extends ControllerTest {
                         getDocumentRequest(),
                         getDocumentResponse(),
                         requestFields(
-                                fieldWithPath("userId").type(JsonFieldType.NUMBER).description("재발급받을 유저의 id"),
                                 fieldWithPath("refreshToken").type(JsonFieldType.STRING).description("리프레시 토큰. (이후 재사용될 수 없음)"),
                                 fieldWithPath("clientIP").type(JsonFieldType.STRING).description("권한이 없는 클라이언트의 IP")
                         ),

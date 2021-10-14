@@ -16,13 +16,20 @@ public class RedisUtil {
         this.redisTemplate = redisTemplate;
     }
 
-    public String get(String key) {
-        return redisTemplate.opsForValue().get(key);
+    public String leftPop(String key) {
+        return redisTemplate.opsForList().leftPop(key);
     }
 
-    public void set(String key, String value, long expiredIn) {
-        log.info("[" + value + " : remote address] Save Redis Value.");
-        redisTemplate.opsForValue().set(key, value, expiredIn, TimeUnit.SECONDS);
+    public boolean exist(String key) {
+        return Boolean.TRUE.equals(redisTemplate.hasKey(key));
+    }
+
+    public void set(String key, String value, String value2, long expiredIn) {
+        log.info("[ value1 : " + value + "] Save Redis Value.");
+        redisTemplate.opsForList().leftPush(key, value);
+        log.info("[ value2 : " + value2 + "] Save Redis Value.");
+        redisTemplate.opsForList().leftPush(key, value2);
+        redisTemplate.expire(key, expiredIn, TimeUnit.SECONDS);
     }
 
     public void delete(String key) {

@@ -164,10 +164,11 @@ class AuthServiceTest {
     @Test
     void refreshToken() {
         // given
-        given(redisUtil.get("refresh token")).willReturn("client IP");
+        given(redisUtil.leftPop("refresh token")).willReturn("client IP").willReturn("1");
 
         // when
-        TokenResponse tokenResponse = authService.refreshToken(new RefreshTokenRequest(1L, "refresh token", "client IP"));
+        RefreshTokenRequest request = new RefreshTokenRequest("refresh token", "client IP");
+        TokenResponse tokenResponse = authService.refreshToken(request);
 
         // then
         assertThat(tokenResponse.getRefreshToken()).isNotNull();
