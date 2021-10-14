@@ -33,37 +33,6 @@ public class AuthService {
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisUtil redisUtil;
 
-    private User signUp(User user) {
-        changeForUniqueNickname(user);
-        return userRepository.save(user);
-    }
-
-    private void changeForUniqueNickname(User user) {
-        int identifier = 0;
-        String originNickName = user.getNickName();
-        String targetNickName = originNickName;
-        while (userRepository.existsByNickName(targetNickName)) {
-            targetNickName = originNickName + String.format(IDENTIFIER, ++identifier);
-        }
-        user.changeNickName(targetNickName);
-    }
-
-    public User findUserByToken(String token) {
-        String payload = jwtTokenProvider.getPayload(token);
-        return getFindUser(Long.valueOf(payload));
-    }
-
-    private User getFindUser(Long id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(ErrorType.USER_NOT_FOUND));
-    }
-
-    public void validateToken(String token) {
-        if (!jwtTokenProvider.validateToken(token)) {
-            throw new UnauthorizedException(ErrorType.INVALID_TOKEN);
-        }
-    }
-
     public OAuthRedirectResponse requestSocialRedirect(String socialTypeName) {
         SocialType socialType = SocialType.findBy(socialTypeName);
         SocialOAuthInfo socialOauthInfo = socialOAuthInfoProvider.provideSocialOAuthInfoBy(socialType);
@@ -93,9 +62,45 @@ public class AuthService {
 
     private TokenResponse getTokenResponse(long userId, String clientIP) {
         String accessToken = jwtTokenProvider.createToken(String.valueOf(userId));
-        RefreshTokenResponse refreshToken = jwtTokenProvider.createRefreshToken(UUID.randomUUID().toString());
-        redisUtil.set(refreshToken.getToken(), clientIP, refreshToken.getExpiredIn());
-        return TokenResponse.of(accessToken, refreshToken.getToken(), refreshToken.getExpiredIn());
+        RefreshTokenResponse refreshTokenResponse = getRefreshTokenResponse(clientIP);
+        return TokenResponse.of(accessToken, refreshTokenResponse);
+    }
+
+    private RefreshTokenResponse getRefreshTokenResponse(String clientIP) {
+        RefreshTokenResponse refreshTokenResponse = jwtTokenProvider.createRefreshToken(UUID.randomUUID().toString());
+        redisUtil.set(refreshTokenResponse.getToken(), clientIP, refreshTokenResponse.getExpiredIn());
+        return refreshTokenResponse;
+    }
+
+    private User signUp(User user) {
+        changeForUniqueNickname(user);
+        return userRepository.save(user);
+    }
+
+    private void changeForUniqueNickname(User user) {
+        int identifier = 0;
+        String originNickName = user.getNickName();
+        String targetNickName = originNickName;
+        while (userRepository.existsByNickName(targetNickName)) {
+            targetNickName = originNickName + String.format(IDENTIFIER, ++identifier);
+        }
+        user.changeNickName(targetNickName);
+    }
+
+    public User findUserByToken(String token) {
+        String payload = jwtTokenProvider.getPayload(token);
+        return getFindUser(Long.valueOf(payload));
+    }
+
+    private User getFindUser(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(ErrorType.USER_NOT_FOUND));
+    }
+
+    public void validateToken(String token) {
+        if (!jwtTokenProvider.validateToken(token)) {
+            throw new UnauthorizedException(ErrorType.INVALID_TOKEN);
+        }
     }
 
     public TokenResponse refreshToken(RefreshTokenRequest request) {

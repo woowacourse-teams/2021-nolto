@@ -17,7 +17,6 @@ public enum ErrorType {
     NOT_SUPPORTED_SOCIAL_LOGIN("auth-005", "지원하지 않는 소셜 로그인입니다."),
     SOCIAL_LOGIN_CONNECTION_FAIL("auth-006", "소셜 로그인 연동에 실패했습니다."),
     INVALID_CLIENT("auth-007", "권한이 없는 클라이언트의 요청입니다."),
-    ADDRESS_NOT_FOUND("auth-008", "클라이언트 IP가 존재하지 않습니다."),
 
     FEED_NOT_FOUND("feed-001", "존재하지 않는 피드입니다."),
     MISSING_DEPLOY_URL("feed-002", "전시 중 피드는 deployUrl이 필수입니다."),
