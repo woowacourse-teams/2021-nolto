@@ -33,45 +33,6 @@ public class AuthService {
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisUtil redisUtil;
 
-    public OAuthRedirectResponse requestSocialRedirect(String socialTypeName) {
-        SocialType socialType = SocialType.findBy(socialTypeName);
-        SocialOAuthInfo socialOauthInfo = socialOAuthInfoProvider.provideSocialOAuthInfoBy(socialType);
-        return OAuthRedirectResponse.of(socialOauthInfo);
-    }
-
-    public TokenResponse oAuthSignIn(String socialTypeName, String code, String clientIP) {
-        this.validateCode(code);
-        SocialType socialType = SocialType.findBy(socialTypeName);
-        OAuthClient oAuthClient = oAuthClientProvider.provideOAuthClientBy(socialType);
-        OAuthTokenResponse token = oAuthClient.generateAccessToken(code);
-        User user = oAuthClient.generateUserInfo(token);
-        return createToken(Objects.requireNonNull(user), clientIP);
-    }
-
-    private void validateCode(String code) {
-        if (Objects.isNull(code) || code.isEmpty()) {
-            throw new BadRequestException(ErrorType.INVALID_OAUTH_CODE);
-        }
-    }
-
-    private TokenResponse createToken(User user, String clientIP) {
-        Optional<User> userOptional = userRepository.findBySocialIdAndSocialType(user.getSocialId(), user.getSocialType());
-        User findUser = userOptional.orElseGet(() -> signUp(user));
-        return getTokenResponse(findUser.getId(), clientIP);
-    }
-
-    private TokenResponse getTokenResponse(long userId, String clientIP) {
-        String accessToken = jwtTokenProvider.createToken(String.valueOf(userId));
-        RefreshTokenResponse refreshTokenResponse = getRefreshTokenResponse(clientIP);
-        return TokenResponse.of(accessToken, refreshTokenResponse);
-    }
-
-    private RefreshTokenResponse getRefreshTokenResponse(String clientIP) {
-        RefreshTokenResponse refreshTokenResponse = jwtTokenProvider.createRefreshToken(UUID.randomUUID().toString());
-        redisUtil.set(refreshTokenResponse.getToken(), clientIP, refreshTokenResponse.getExpiredIn());
-        return refreshTokenResponse;
-    }
-
     private User signUp(User user) {
         changeForUniqueNickname(user);
         return userRepository.save(user);
@@ -101,6 +62,40 @@ public class AuthService {
         if (!jwtTokenProvider.validateToken(token)) {
             throw new UnauthorizedException(ErrorType.INVALID_TOKEN);
         }
+    }
+
+    public OAuthRedirectResponse requestSocialRedirect(String socialTypeName) {
+        SocialType socialType = SocialType.findBy(socialTypeName);
+        SocialOAuthInfo socialOauthInfo = socialOAuthInfoProvider.provideSocialOAuthInfoBy(socialType);
+        return OAuthRedirectResponse.of(socialOauthInfo);
+    }
+
+    public TokenResponse oAuthSignIn(String socialTypeName, String code, String clientIP) {
+        this.validateCode(code);
+        SocialType socialType = SocialType.findBy(socialTypeName);
+        OAuthClient oAuthClient = oAuthClientProvider.provideOAuthClientBy(socialType);
+        OAuthTokenResponse token = oAuthClient.generateAccessToken(code);
+        User user = oAuthClient.generateUserInfo(token);
+        return createToken(Objects.requireNonNull(user), clientIP);
+    }
+
+    private void validateCode(String code) {
+        if (Objects.isNull(code) || code.isEmpty()) {
+            throw new BadRequestException(ErrorType.INVALID_OAUTH_CODE);
+        }
+    }
+
+    private TokenResponse createToken(User user, String clientIP) {
+        Optional<User> userOptional = userRepository.findBySocialIdAndSocialType(user.getSocialId(), user.getSocialType());
+        User findUser = userOptional.orElseGet(() -> signUp(user));
+        return getTokenResponse(findUser.getId(), clientIP);
+    }
+
+    private TokenResponse getTokenResponse(long userId, String clientIP) {
+        String accessToken = jwtTokenProvider.createToken(String.valueOf(userId));
+        RefreshTokenResponse refreshToken = jwtTokenProvider.createRefreshToken(UUID.randomUUID().toString());
+        redisUtil.set(refreshToken.getToken(), clientIP, refreshToken.getExpiredIn());
+        return TokenResponse.of(accessToken, refreshToken.getToken(), refreshToken.getExpiredIn());
     }
 
     public TokenResponse refreshToken(RefreshTokenRequest request) {

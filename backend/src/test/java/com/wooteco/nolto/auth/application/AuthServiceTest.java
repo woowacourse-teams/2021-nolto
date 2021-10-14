@@ -170,8 +170,6 @@ class AuthServiceTest {
         TokenResponse tokenResponse = authService.refreshToken(new RefreshTokenRequest(1L, "refresh token", "client IP"));
 
         // then
-        assertThat(tokenResponse.getRefreshToken()).isNotNull();
         assertThat(tokenResponse.getAccessToken()).isNotNull();
-        assertThat(tokenResponse.getExpiredIn()).isNotNull();
     }
 }
