@@ -6,11 +6,11 @@ import org.springframework.stereotype.Component;
 import java.util.concurrent.TimeUnit;
 
 @Component
-public class RedisRepository {
+public class RedisUtil {
 
     private final StringRedisTemplate redisTemplate;
 
-    public RedisRepository(StringRedisTemplate redisTemplate) {
+    public RedisUtil(StringRedisTemplate redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
 
