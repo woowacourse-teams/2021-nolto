@@ -1,6 +1,6 @@
 package com.wooteco.nolto.notification.domain;
 
-import com.wooteco.nolto.BaseEntity;
+import com.wooteco.nolto.support.BaseEntity;
 import com.wooteco.nolto.feed.domain.Comment;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.user.domain.User;
