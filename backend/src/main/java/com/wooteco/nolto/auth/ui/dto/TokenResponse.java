@@ -6,21 +6,17 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TokenResponse {
-    private AccessTokenResponse accessTokenResponse;
+    private String accessToken;
     private String refreshToken;
-    private long expiredIn;
+    private Long expiredIn;
 
-    public TokenResponse(AccessTokenResponse accessTokenResponse, String refreshToken, long expiredIn) {
-        this.accessTokenResponse = accessTokenResponse;
+    public TokenResponse(String accessToken, String refreshToken, Long expiredIn) {
+        this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.expiredIn = expiredIn;
     }
 
-    public static TokenResponse of(String accessToken, String refreshToken, long expiredIn) {
-        return new TokenResponse(new AccessTokenResponse(accessToken), refreshToken, expiredIn);
-    }
-
-    public String getAccessToken() {
-        return accessTokenResponse.getAccessToken();
+    public static TokenResponse of(String accessToken, RefreshTokenResponse refreshToken) {
+        return new TokenResponse(accessToken, refreshToken.getToken(), refreshToken.getExpiredIn());
     }
 }
