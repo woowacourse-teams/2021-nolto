@@ -1,8 +1,6 @@
 package com.wooteco.nolto.auth.ui;
 
 import com.wooteco.nolto.auth.application.AuthService;
-import com.wooteco.nolto.auth.infrastructure.RefreshTokenCookieManager;
-import com.wooteco.nolto.auth.ui.dto.AccessTokenResponse;
 import com.wooteco.nolto.auth.ui.dto.OAuthRedirectResponse;
 import com.wooteco.nolto.auth.ui.dto.RefreshTokenRequest;
 import com.wooteco.nolto.auth.ui.dto.TokenResponse;
@@ -29,13 +27,11 @@ public class OAuthController {
     }
 
     @GetMapping("login/oauth/{socialType}/token")
-    public ResponseEntity<AccessTokenResponse> signInOAuth(@PathVariable String socialType,
-                                                           @RequestParam String code,
-                                                           HttpServletRequest request,
-                                                           HttpServletResponse response) {
+    public ResponseEntity<TokenResponse> signInOAuth(@PathVariable String socialType,
+                                                     @RequestParam String code,
+                                                     HttpServletRequest request) {
         TokenResponse tokenResponse = authService.oAuthSignIn(socialType, code, getRemoteAddress(request));
-        RefreshTokenCookieManager.setRefreshToken(response, tokenResponse);
-        return ResponseEntity.ok(tokenResponse.getAccessTokenResponse());
+        return ResponseEntity.ok(tokenResponse);
     }
 
     private String getRemoteAddress(HttpServletRequest request) {
@@ -47,11 +43,10 @@ public class OAuthController {
         return ip;
     }
 
+
     @PostMapping("login/oauth/refreshToken")
-    public ResponseEntity<AccessTokenResponse> generateRefreshToken(@RequestBody RefreshTokenRequest request,
-                                                              HttpServletResponse response) {
+    public ResponseEntity<TokenResponse> generateRefreshToken(@RequestBody RefreshTokenRequest request) {
         TokenResponse tokenResponse = authService.refreshToken(request);
-        RefreshTokenCookieManager.setRefreshToken(response, tokenResponse);
-        return ResponseEntity.ok(tokenResponse.getAccessTokenResponse());
+        return ResponseEntity.ok(tokenResponse);
     }
 }

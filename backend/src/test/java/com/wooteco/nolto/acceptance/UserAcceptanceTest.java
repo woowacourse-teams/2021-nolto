@@ -123,7 +123,7 @@ class UserAcceptanceTest extends AcceptanceTest {
         좋아요_요청(존재하는_유저의_토큰, 작성과_좋아요한_피드_ID);
         String 등록한_댓글_내용 = 댓글_등록되어_있음(일반_댓글_작성요청, 존재하는_유저의_토큰, 작성과_좋아요한_피드_ID).getContent();
 
-        TokenResponse userToken = 유저의_액세스_토큰을_받는다(가입된_유저);
+        TokenResponse userToken = 유저의_토큰을_받는다(가입된_유저);
 
         //when
         ExtractableResponse<Response> response = 내_히스토리_조회_요청(userToken);
