@@ -4,12 +4,16 @@ import com.wooteco.nolto.auth.application.AuthService;
 import com.wooteco.nolto.auth.ui.dto.OAuthRedirectResponse;
 import com.wooteco.nolto.auth.ui.dto.RefreshTokenRequest;
 import com.wooteco.nolto.auth.ui.dto.TokenResponse;
+import com.wooteco.nolto.exception.ErrorType;
+import com.wooteco.nolto.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Objects;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,10 +30,19 @@ public class OAuthController {
     public ResponseEntity<TokenResponse> signInOAuth(@PathVariable String socialType,
                                                      @RequestParam String code,
                                                      HttpServletRequest request) {
-        log.info("Remote Address : {}", request.getLocalAddr());
-        TokenResponse tokenResponse = authService.oAuthSignIn(socialType, code, request.getRemoteAddr());
+        TokenResponse tokenResponse = authService.oAuthSignIn(socialType, code, getRemoteAddress(request));
         return ResponseEntity.ok(tokenResponse);
     }
+
+    private String getRemoteAddress(HttpServletRequest request) {
+        String ip = request.getHeader("X-Forwarded-For");
+        if (Objects.isNull(ip)) {
+            throw new NotFoundException(ErrorType.ADDRESS_NOT_FOUND);
+        }
+        log.info("Remote Address : {}", ip);
+        return ip;
+    }
+
 
     @PostMapping("login/oauth/refreshToken")
     public ResponseEntity<TokenResponse> generateRefreshToken(@RequestBody RefreshTokenRequest request) {

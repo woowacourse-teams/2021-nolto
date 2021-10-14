@@ -73,6 +73,7 @@ class OAuthControllerTest extends ControllerTest {
                         get("/login/oauth/{socialType}/token", SOCIAL_TYPE_NAME)
                                 .param("code", CODE)
                                 .with(request -> {
+                                    request.addHeader("x-forwarded-for", "127.0.0.1");
                                     request.setRemoteAddr("127.0.0.1");
                                     return request;
                                 })
@@ -140,7 +141,7 @@ class OAuthControllerTest extends ControllerTest {
                                 .accept(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(REFRESH_TOKEN_REQUEST))
                                 .with(servletRequest -> {
-                                    servletRequest.setRemoteAddr("1.1.1.1");
+                                    servletRequest.setRemoteAddr("127.0.0.1");
                                     return servletRequest;
                                 }))
                 .andExpect(status().is4xxClientError())
