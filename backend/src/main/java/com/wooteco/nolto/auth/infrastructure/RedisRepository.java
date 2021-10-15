@@ -8,11 +8,11 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class RedisUtil {
+public class RedisRepository {
 
     private final StringRedisTemplate redisTemplate;
 
-    public RedisUtil(StringRedisTemplate redisTemplate) {
+    public RedisRepository(StringRedisTemplate redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
 

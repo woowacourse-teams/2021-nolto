@@ -2,7 +2,7 @@ package com.wooteco.nolto.auth.application;
 
 import com.wooteco.nolto.auth.domain.*;
 import com.wooteco.nolto.auth.infrastructure.JwtTokenProvider;
-import com.wooteco.nolto.auth.infrastructure.RedisUtil;
+import com.wooteco.nolto.auth.infrastructure.RedisRepository;
 import com.wooteco.nolto.auth.ui.dto.*;
 import com.wooteco.nolto.exception.BadRequestException;
 import com.wooteco.nolto.exception.ErrorType;
@@ -31,7 +31,7 @@ public class AuthService {
     private final OAuthClientProvider oAuthClientProvider;
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
-    private final RedisUtil redisUtil;
+    private final RedisRepository redisUtil;
 
     public OAuthRedirectResponse requestSocialRedirect(String socialTypeName) {
         SocialType socialType = SocialType.findBy(socialTypeName);
