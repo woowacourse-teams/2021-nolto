@@ -9,12 +9,14 @@ import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
+@Validated
 @RequiredArgsConstructor
 public class AdminController {
 
@@ -31,5 +33,12 @@ public class AdminController {
     public ResponseEntity<List<FeedCardResponse>> getAllFeeds(@AdminAuthenticationPrincipal User user) {
         List<FeedCardResponse> feedCardResponses = adminService.findAllFeeds(user);
         return ResponseEntity.ok(feedCardResponses);
+    }
+
+    @ValidTokenRequired
+    @DeleteMapping("/feeds/{feedId:[\\d]+}")
+    public ResponseEntity<Void> deleteFeed(@AdminAuthenticationPrincipal User user, @PathVariable Long feedId) {
+        adminService.deleteFeed(user, feedId);
+        return ResponseEntity.noContent().build();
     }
 }

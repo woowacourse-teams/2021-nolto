@@ -50,4 +50,8 @@ public class AdminService {
     public List<FeedCardResponse> findAllFeeds(User user) {
         return feedService.findAllAsAdmin(user);
     }
+
+    public void deleteFeed(User user, Long feedId) {
+        feedService.deleteFeedAsAdmin(user, feedId);
+    }
 }

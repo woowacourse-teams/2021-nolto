@@ -1,6 +1,7 @@
 package com.wooteco.nolto.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wooteco.nolto.admin.application.AdminService;
 import com.wooteco.nolto.auth.application.AuthService;
 import com.wooteco.nolto.user.domain.User;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,6 +38,9 @@ public abstract class ControllerTest {
 
     @MockBean
     protected AuthService authService;
+
+    @MockBean
+    protected AdminService adminService;
 
     protected static final String BEARER = "Bearer ";
     protected static final String ACCESS_TOKEN = "accessToken";

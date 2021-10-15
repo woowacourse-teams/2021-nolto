@@ -139,10 +139,20 @@ public class FeedService {
     }
 
     public List<FeedCardResponse> findAllAsAdmin(User user) {
-        if (user.isAdmin()) {
-            List<Feed> allFeeds = feedRepository.findAll();
-            return FeedCardResponse.toList(allFeeds);
+        validateAdminUser(user);
+        List<Feed> allFeeds = feedRepository.findAll();
+        return FeedCardResponse.toList(allFeeds);
+    }
+
+    public void deleteFeedAsAdmin(User user, Long feedId) {
+        validateAdminUser(user);
+        Feed findFeed = findEntityById(feedId);
+        feedRepository.delete(findFeed);
+    }
+
+    private void validateAdminUser(User user) {
+        if (!user.isAdmin()) {
+            throw new UnauthorizedException(ErrorType.ADMIN_ONLY);
         }
-        throw new UnauthorizedException(ErrorType.ADMIN_ONLY);
     }
 }

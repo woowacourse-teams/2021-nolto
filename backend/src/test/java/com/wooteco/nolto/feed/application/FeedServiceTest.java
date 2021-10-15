@@ -28,10 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.wooteco.nolto.TechFixture.*;
@@ -843,6 +840,50 @@ class FeedServiceTest {
                 .hasMessage(ErrorType.ADMIN_ONLY.getMessage());
 
         assertThatThrownBy(() -> feedService.findAllAsAdmin(User.GUEST_USER))
+                .isInstanceOf(UnauthorizedException.class)
+                .hasMessage(ErrorType.ADMIN_ONLY.getMessage());
+    }
+
+    @DisplayName("어드민 유저는 누구의 피드라도 삭제할 수 있다")
+    @Test
+    void deleteFeedAsAdmin() {
+        //given
+        EMPTY_TECH_FEED_REQUEST.setStep(Step.COMPLETE.name());
+        SPRING_JAVA_FEED_REQUEST.setStep(Step.COMPLETE.name());
+        REACT_FEED_REQUEST.setStep(Step.PROGRESS.name());
+
+        Long firstFeedId = feedService.create(찰리, EMPTY_TECH_FEED_REQUEST);
+        feedRepository.flush();
+        Long secondFeedId = feedService.create(찰리, SPRING_JAVA_FEED_REQUEST);
+        feedRepository.flush();
+        Long thirdFeedId = feedService.create(찰리, REACT_FEED_REQUEST);
+        feedRepository.flush();
+
+        //when
+        feedService.deleteFeedAsAdmin(User.ADMIN_USER, firstFeedId);
+
+        //then
+        Optional<Feed> deletedFeed = feedRepository.findById(firstFeedId);
+        assertThat(deletedFeed).isNotPresent();
+    }
+
+    @DisplayName("어드민 유저가 아니라면 어드민 권한으로 피드 삭제할 수 없다")
+    @Test
+    void deleteFeedNotAsAdmin() {
+        //given
+        EMPTY_TECH_FEED_REQUEST.setStep(Step.COMPLETE.name());
+        SPRING_JAVA_FEED_REQUEST.setStep(Step.COMPLETE.name());
+        REACT_FEED_REQUEST.setStep(Step.PROGRESS.name());
+
+        Long firstFeedId = feedService.create(찰리, EMPTY_TECH_FEED_REQUEST);
+        feedRepository.flush();
+        Long secondFeedId = feedService.create(찰리, SPRING_JAVA_FEED_REQUEST);
+        feedRepository.flush();
+        Long thirdFeedId = feedService.create(찰리, REACT_FEED_REQUEST);
+        feedRepository.flush();
+
+        //when & then
+        assertThatThrownBy(() -> feedService.deleteFeedAsAdmin(찰리, firstFeedId))
                 .isInstanceOf(UnauthorizedException.class)
                 .hasMessage(ErrorType.ADMIN_ONLY.getMessage());
     }

@@ -27,7 +27,7 @@
 
 - [x] 피드 전체 조회 /admin/feeds
 - [ ] 피드 단일 수정 /admin/feeds/:id
-- [ ] 피드 단일 삭제 /admin/feeds/:id
+- [x] 피드 단일 삭제 /admin/feeds/:id
 
 - [ ] 댓글 전체 조회 /admin/comments
 - [ ] 댓글 단일 삭제 /admin/comments/:id
