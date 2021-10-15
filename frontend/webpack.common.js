@@ -1,10 +1,14 @@
 const path = require('path');
-const HtmlWebPackPlugin = require('html-webpack-plugin');
 const { DefinePlugin } = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const LoadablePlugin = require('@loadable/webpack-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+
+const isDevelopment = process.env.NODE_ENV !== 'production';
 
 module.exports = {
+  mode: isDevelopment ? 'development' : 'production',
+  target: isDevelopment ? 'web' : 'browserslist',
   entry: './src/index.tsx',
   output: {
     path: path.resolve(__dirname, './dist'),
@@ -12,7 +16,6 @@ module.exports = {
     publicPath: '/',
     clean: true,
   },
-  target: 'browserslist',
   module: {
     rules: [
       {
@@ -23,10 +26,11 @@ module.exports = {
             options: {
               presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
               plugins: [
+                isDevelopment && 'react-refresh/babel',
                 '@babel/plugin-transform-runtime',
                 'babel-plugin-styled-components',
                 '@loadable/babel-plugin',
-              ],
+              ].filter(Boolean),
             },
           },
         ],
@@ -50,10 +54,6 @@ module.exports = {
     modules: [path.resolve(__dirname, 'src'), 'node_modules'],
   },
   plugins: [
-    new HtmlWebPackPlugin({
-      template: './public/index.html',
-      inject: false,
-    }),
     new CopyPlugin({
       patterns: [
         {
@@ -69,7 +69,8 @@ module.exports = {
       'process.env.BASE_URL': JSON.stringify(process.env.BASE_URL),
     }),
     new LoadablePlugin(),
-  ],
+    isDevelopment && new ReactRefreshWebpackPlugin(),
+  ].filter(Boolean),
   optimization: {
     splitChunks: {
       chunks: 'async',
