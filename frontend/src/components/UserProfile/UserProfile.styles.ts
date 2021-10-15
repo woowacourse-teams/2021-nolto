@@ -6,7 +6,7 @@ import { MEDIA_QUERY } from 'constants/mediaQuery';
 import { FONT_SIZE } from 'constants/styles';
 import { hoverLayer } from 'commonStyles';
 import IconButton from 'components/@common/IconButton/IconButton';
-import FeedThumbnail from 'components/FeedThumbnail/FeedThumbnail';
+import Thumbnail from 'components/Thumbnail/Thumbnail';
 
 const open = keyframes`
   from {
@@ -55,7 +55,7 @@ const NotiAlert = styled.div`
   }
 `;
 
-const Image = styled(FeedThumbnail)`
+const Image = styled(Thumbnail)`
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;

@@ -7,7 +7,7 @@ export const STEP_CONVERTER: { [index: string]: string } = {
   [FeedStep.COMPLETE]: '전시중',
 };
 
-export const THUMBNAIL_EXTENSION = [
+export const THUMBNAIL_IMG_EXTENSION = [
   'image/apng',
   'image/bmp',
   'image/gif',
