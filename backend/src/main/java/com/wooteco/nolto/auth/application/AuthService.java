@@ -2,7 +2,7 @@ package com.wooteco.nolto.auth.application;
 
 import com.wooteco.nolto.auth.domain.*;
 import com.wooteco.nolto.auth.infrastructure.JwtTokenProvider;
-import com.wooteco.nolto.auth.infrastructure.RedisUtil;
+import com.wooteco.nolto.auth.infrastructure.RedisRepository;
 import com.wooteco.nolto.auth.ui.dto.*;
 import com.wooteco.nolto.exception.BadRequestException;
 import com.wooteco.nolto.exception.ErrorType;
@@ -31,7 +31,7 @@ public class AuthService {
     private final OAuthClientProvider oAuthClientProvider;
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
-    private final RedisUtil redisUtil;
+    private final RedisRepository redisUtil;
 
     public OAuthRedirectResponse requestSocialRedirect(String socialTypeName) {
         SocialType socialType = SocialType.findBy(socialTypeName);
@@ -62,13 +62,13 @@ public class AuthService {
 
     private TokenResponse getTokenResponse(long userId, String clientIP) {
         String accessToken = jwtTokenProvider.createToken(String.valueOf(userId));
-        RefreshTokenResponse refreshTokenResponse = getRefreshTokenResponse(clientIP);
+        RefreshTokenResponse refreshTokenResponse = getRefreshTokenResponse(userId, clientIP);
         return TokenResponse.of(accessToken, refreshTokenResponse);
     }
 
-    private RefreshTokenResponse getRefreshTokenResponse(String clientIP) {
+    private RefreshTokenResponse getRefreshTokenResponse(long userId, String clientIP) {
         RefreshTokenResponse refreshTokenResponse = jwtTokenProvider.createRefreshToken(UUID.randomUUID().toString());
-        redisUtil.set(refreshTokenResponse.getToken(), clientIP, refreshTokenResponse.getExpiredIn());
+        redisUtil.set(refreshTokenResponse.getToken(), clientIP, String.valueOf(userId), refreshTokenResponse.getExpiredIn());
         return refreshTokenResponse;
     }
 
@@ -104,18 +104,17 @@ public class AuthService {
     }
 
     public TokenResponse refreshToken(RefreshTokenRequest request) {
-        if (redisUtil.get(request.getRefreshToken()) == null) {
+        if (redisUtil.exist(request.getRefreshToken())) {
             log.info("redis doesn't have the refresh token.");
             throw new BadRequestException(ErrorType.INVALID_TOKEN);
         }
 
-        if (!redisUtil.get(request.getRefreshToken()).equals(request.getClientIP())) {
+        if (!redisUtil.leftPop(request.getRefreshToken()).equals(request.getClientIP())) {
             log.info("invalid request client ip for refresh token. request client : " + request.getClientIP());
-            redisUtil.delete(request.getRefreshToken());
             throw new UnauthorizedException(ErrorType.INVALID_CLIENT);
         }
 
-        redisUtil.delete(request.getRefreshToken());
-        return getTokenResponse(request.getUserId(), request.getClientIP());
+        String userId = redisUtil.leftPop(request.getRefreshToken());
+        return getTokenResponse(Long.parseLong(userId), request.getClientIP());
     }
 }

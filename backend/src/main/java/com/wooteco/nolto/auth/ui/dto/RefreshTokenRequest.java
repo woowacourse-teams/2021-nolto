@@ -7,12 +7,10 @@ import lombok.Setter;
 @Setter
 public class RefreshTokenRequest {
 
-    private long userId;
     private String refreshToken;
     private String clientIP;
 
-    public RefreshTokenRequest(long userId, String refreshToken, String clientIP) {
-        this.userId = userId;
+    public RefreshTokenRequest(String refreshToken, String clientIP) {
         this.refreshToken = refreshToken;
         this.clientIP = clientIP;
     }

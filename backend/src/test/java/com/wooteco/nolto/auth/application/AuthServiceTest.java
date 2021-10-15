@@ -2,7 +2,7 @@ package com.wooteco.nolto.auth.application;
 
 import com.wooteco.nolto.auth.domain.OAuthClientProvider;
 import com.wooteco.nolto.auth.domain.SocialType;
-import com.wooteco.nolto.auth.infrastructure.RedisUtil;
+import com.wooteco.nolto.auth.infrastructure.RedisRepository;
 import com.wooteco.nolto.auth.infrastructure.oauth.GithubClient;
 import com.wooteco.nolto.auth.infrastructure.oauth.GoogleClient;
 import com.wooteco.nolto.auth.ui.dto.OAuthRedirectResponse;
@@ -55,7 +55,7 @@ class AuthServiceTest {
     private GoogleClient googleClient;
 
     @MockBean
-    private RedisUtil redisUtil;
+    private RedisRepository redisUtil;
 
     @DisplayName("깃허브 로그인의 code를 얻기위한 파라미터들을 요청한다.")
     @Test
@@ -164,10 +164,11 @@ class AuthServiceTest {
     @Test
     void refreshToken() {
         // given
-        given(redisUtil.get("refresh token")).willReturn("client IP");
+        given(redisUtil.leftPop("refresh token")).willReturn("client IP").willReturn("1");
 
         // when
-        TokenResponse tokenResponse = authService.refreshToken(new RefreshTokenRequest(1L, "refresh token", "client IP"));
+        RefreshTokenRequest request = new RefreshTokenRequest("refresh token", "client IP");
+        TokenResponse tokenResponse = authService.refreshToken(request);
 
         // then
         assertThat(tokenResponse.getRefreshToken()).isNotNull();
