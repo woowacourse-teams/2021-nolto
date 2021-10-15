@@ -6,7 +6,6 @@ import Tooltip from 'components/@common/Tooltip/Tooltip';
 import { FONT_SIZE } from 'constants/styles';
 import ToyboxIcon from 'assets/toybox.svg';
 import { defaultShadow } from 'commonStyles';
-import Markdown from 'components/@common/Markdown/MarkDown';
 
 export const Form = styled.form`
   margin-bottom: 5rem;
