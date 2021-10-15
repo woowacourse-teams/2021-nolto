@@ -1,4 +1,4 @@
-import React, { createContext, useMemo, useState } from 'react';
+import React, { createContext, useEffect, useMemo, useState } from 'react';
 import { QueryObserverResult, RefetchOptions, useQueryClient } from 'react-query';
 import axios from 'axios';
 
@@ -6,6 +6,7 @@ import LoginModal from 'components/LoginModal/LoginModal';
 import api from 'constants/api';
 import QUERY_KEYS from 'constants/queryKeys';
 import { ALERT_MSG } from 'constants/message';
+import hasWindow from 'constants/windowDetector';
 import useDialog from 'contexts/dialog/useDialog';
 import useModal from 'contexts/modal/useModal';
 import { AuthData, UserInfo } from 'types';
@@ -35,25 +36,8 @@ const MemberProvider = ({ children, initialUserInfo }: Props) => {
   const modal = useModal();
   const dialog = useDialog();
 
-  const [accessToken, setAccessToken] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(initialUserInfo ? true : false);
-
-  const logout = () => {
-    // TODO: common 부분 api.ts로 추상화
-    queryClient.resetQueries(QUERY_KEYS.MEMBER);
-    setAccessToken('');
-    setIsLoggedIn(false);
-    api.defaults.headers.common['Authorization'] = '';
-  };
-
-  const login = (authData: AuthData) => {
-    setAccessToken(authData?.accessToken);
-    setIsLoggedIn(true);
-
-    axios.post('/auth', authData, {
-      withCredentials: true,
-    });
-  };
+  const [accessToken, setAccessToken] = useState(hasWindow ? window.__accessToken__ : '');
+  const [isLoggedIn, setIsLoggedIn] = useState(!!initialUserInfo);
 
   const { data: userInfo, refetch: refetchMember } = useMyInfo({
     accessToken,
@@ -68,6 +52,34 @@ const MemberProvider = ({ children, initialUserInfo }: Props) => {
     useErrorBoundary: false,
     placeholderData: initialUserInfo,
   });
+
+  const logout = () => {
+    // TODO: common 부분 api.ts로 추상화
+    queryClient.removeQueries(QUERY_KEYS.MEMBER);
+    setAccessToken('');
+    setIsLoggedIn(false);
+    api.defaults.headers.common['Authorization'] = '';
+
+    axios.post('/auth/logout', null, {
+      withCredentials: true,
+    });
+  };
+
+  const login = async (authData: AuthData) => {
+    setAccessToken(authData?.accessToken);
+    setIsLoggedIn(true);
+
+    axios.post('/auth/login', authData, {
+      withCredentials: true,
+    });
+  };
+
+  useEffect(() => {
+    if (!accessToken) return;
+
+    queryClient.cancelQueries(QUERY_KEYS.MEMBER);
+    refetchMember();
+  }, [accessToken]);
 
   const contextValue: ContextValue = useMemo(
     () => ({

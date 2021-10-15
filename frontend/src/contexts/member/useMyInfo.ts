@@ -12,7 +12,7 @@ interface CustomQueryOption extends UseQueryOptions<UserInfo, HttpError> {
   errorHandler?: ErrorHandler;
 }
 
-const getMember = async ({ accessToken, errorHandler }: CustomQueryOption) => {
+export const getMember = async ({ accessToken, errorHandler }: CustomQueryOption) => {
   if (!accessToken) {
     throw new CustomError('로그아웃 상태입니다.');
   }

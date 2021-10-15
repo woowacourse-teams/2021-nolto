@@ -6,20 +6,25 @@ import { ServerStyleSheet, StyleSheetManager } from 'styled-components';
 import { ChunkExtractor } from '@loadable/server';
 import serialize from 'serialize-javascript';
 import { FilledContext, HelmetProvider } from 'react-helmet-async';
+import axios from 'axios';
 
 import express from 'express';
 import path from 'path';
 import fs from 'fs';
+import cookieParser from 'cookie-parser';
 
 import App from '../src/App';
 import QUERY_KEYS from 'constants/queryKeys';
+import { RECENT_FEEDS_PER_PAGE } from 'constants/common';
+import api from 'constants/api';
+import { getMember } from 'contexts/member/useMyInfo';
 import { getFeedDetail } from 'hooks/queries/feed/useFeedDetail';
 import { loadHotFeeds } from 'hooks/queries/feed/useHotFeedsLoad';
-import { RECENT_FEEDS_PER_PAGE } from 'constants/common';
 import { loadRecentFeeds } from 'hooks/queries/feed/useRecentFeedsLoad';
 import { isFeedStep } from 'utils/typeGuard';
+import { AuthData } from 'types';
 
-const PORT = process.env.PORT || 9000;
+const PORT = Number(process.env.PORT) || 9000;
 const app = express();
 const sheet = new ServerStyleSheet();
 
@@ -27,17 +32,45 @@ app.use(express.json());
 
 app.use(express.static(path.resolve(__dirname, '../dist'), { index: false }));
 
+app.use(cookieParser());
+
 const statsFile = path.resolve(__dirname, '../dist/loadable-stats.json');
 
 const extractor = new ChunkExtractor({ statsFile });
 
 type PrefetchCallback = (queryClient: QueryClient) => Promise<void>;
 
+const getNewAuthToken = async (req: express.Request): Promise<AuthData> => {
+  if (!req.cookies.refreshToken) return;
+
+  const { refreshToken } = req.cookies;
+
+  let clientIP = req.ip;
+
+  if (process.env.NODE_ENV !== 'production') {
+    const { data: publicIP } = await axios.get('https://api.ipify.org/?format=text');
+    clientIP = publicIP;
+  }
+
+  try {
+    const { data: authData } = await api.post<AuthData>('/login/oauth/refreshToken', {
+      refreshToken,
+      clientIP,
+    });
+
+    return authData;
+  } catch (error) {
+    console.error(error.response);
+  }
+};
+
 const generateResponse = async (
   req: express.Request,
   res: express.Response,
   prefetchCallback?: PrefetchCallback,
 ) => {
+  const newAuthData = await getNewAuthToken(req);
+
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -48,6 +81,17 @@ const generateResponse = async (
       },
     },
   });
+
+  if (newAuthData) {
+    res.cookie('refreshToken', newAuthData.refreshToken, {
+      httpOnly: true,
+      maxAge: newAuthData.expiredIn,
+    });
+
+    await queryClient.prefetchQuery(QUERY_KEYS.MEMBER, () =>
+      getMember({ accessToken: newAuthData.accessToken }),
+    );
+  }
 
   if (typeof prefetchCallback === 'function') {
     await prefetchCallback(queryClient);
@@ -83,6 +127,10 @@ const generateResponse = async (
     isJSON: true,
   })}</script>`;
 
+  const accessTokenScript = newAuthData
+    ? `<script>window.__accessToken__ = "${newAuthData.accessToken}"</script>`
+    : '';
+
   const indexFile = path.resolve(__dirname, '../dist/index.html');
 
   fs.readFile(indexFile, 'utf8', (err, data) => {
@@ -96,7 +144,7 @@ const generateResponse = async (
       .replace(
         /<head>(.+)<\/head>/s,
         `<head>$1 
-          ${styleTags} ${scriptTags} ${reactQueryState} 
+          ${styleTags} ${scriptTags} ${reactQueryState} ${accessTokenScript}
           ${helmet.title.toString()} 
           ${helmet.link.toString()} 
         </head>`,
@@ -142,7 +190,7 @@ app.get('/*', (req, res) => {
   generateResponse(req, res);
 });
 
-app.post('/auth', (req, res) => {
+app.post('/auth/login', (req, res) => {
   const { body } = req;
   const isAuthRequest = body?.accessToken && body?.refreshToken && body?.expiredIn;
 
@@ -161,6 +209,10 @@ app.post('/auth', (req, res) => {
     .send('true');
 });
 
-app.listen(PORT, () => {
+app.post('/auth/logout', (_, res) => {
+  res.clearCookie('refreshToken').status(200).send('true');
+});
+
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server is listening on port ${PORT}`);
 });

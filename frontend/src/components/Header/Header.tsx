@@ -99,7 +99,7 @@ const Header = ({ isFolded = false }: Props) => {
         </ul>
       </Styled.NavContainer>
       <Styled.UserContainer>
-        {member.userData ? (
+        {member.userInfo ? (
           <UserProfile />
         ) : (
           <>
