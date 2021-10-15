@@ -31,7 +31,7 @@ public class AuthService {
     private final OAuthClientProvider oAuthClientProvider;
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
-    private final RedisRepository redisUtil;
+    private final RedisRepository redisRepository;
 
     public OAuthRedirectResponse requestSocialRedirect(String socialTypeName) {
         SocialType socialType = SocialType.findBy(socialTypeName);
@@ -68,7 +68,7 @@ public class AuthService {
 
     private RefreshTokenResponse getRefreshTokenResponse(long userId, String clientIP) {
         RefreshTokenResponse refreshTokenResponse = jwtTokenProvider.createRefreshToken(UUID.randomUUID().toString());
-        redisUtil.set(refreshTokenResponse.getToken(), clientIP, String.valueOf(userId), refreshTokenResponse.getExpiredIn());
+        redisRepository.set(refreshTokenResponse.getToken(), clientIP, String.valueOf(userId), refreshTokenResponse.getExpiredIn());
         return refreshTokenResponse;
     }
 
@@ -104,17 +104,17 @@ public class AuthService {
     }
 
     public TokenResponse refreshToken(RefreshTokenRequest request) {
-        if (!redisUtil.exist(request.getRefreshToken())) {
+        if (!redisRepository.exist(request.getRefreshToken())) {
             log.info("redis doesn't have the refresh token.");
             throw new BadRequestException(ErrorType.INVALID_TOKEN);
         }
 
-        if (!redisUtil.leftPop(request.getRefreshToken()).equals(request.getClientIP())) {
+        if (!redisRepository.leftPop(request.getRefreshToken()).equals(request.getClientIP())) {
             log.info("invalid request client ip for refresh token. request client : " + request.getClientIP());
             throw new UnauthorizedException(ErrorType.INVALID_CLIENT);
         }
 
-        String userId = redisUtil.leftPop(request.getRefreshToken());
+        String userId = redisRepository.leftPop(request.getRefreshToken());
         return getTokenResponse(Long.parseLong(userId), request.getClientIP());
     }
 }
