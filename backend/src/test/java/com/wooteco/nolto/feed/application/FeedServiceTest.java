@@ -416,100 +416,6 @@ class FeedServiceTest {
         피드_정보가_같은지_조회(EMPTY_TECH_FEED_REQUEST, hotFeeds.get(2));
     }
 
-    @DisplayName("모든 피드를 조회한다. (최신 등록된 날짜 순)")
-    @Test
-    void findAllWithAllFilter() throws InterruptedException {
-        // given
-        String defaultFilter = "all";
-        feedService.create(찰리, EMPTY_TECH_FEED_REQUEST);
-        feedRepository.flush();
-        feedService.create(찰리, SPRING_JAVA_FEED_REQUEST);
-        feedRepository.flush();
-        feedService.create(찰리, REACT_FEED_REQUEST);
-        feedRepository.flush();
-
-        // when
-        List<FeedCardResponse> allFeeds = feedService.findAll(defaultFilter);
-
-        // then
-        assertThat(allFeeds.size()).isEqualTo(3);
-        피드_정보가_같은지_조회(EMPTY_TECH_FEED_REQUEST, allFeeds.get(2));
-        피드_정보가_같은지_조회(SPRING_JAVA_FEED_REQUEST, allFeeds.get(1));
-        피드_정보가_같은지_조회(REACT_FEED_REQUEST, allFeeds.get(0));
-    }
-
-    @DisplayName("SOS 피드를 조회한다. (최신 등록된 날짜 순)")
-    @Test
-    void findAllWithFilterSOS() throws InterruptedException {
-        // given
-        EMPTY_TECH_FEED_REQUEST.setSos(true);
-        SPRING_JAVA_FEED_REQUEST.setSos(false);
-        REACT_FEED_REQUEST.setSos(true);
-
-        String defaultFilter = "sos";
-        feedService.create(찰리, EMPTY_TECH_FEED_REQUEST);
-        feedRepository.flush();
-        feedService.create(찰리, SPRING_JAVA_FEED_REQUEST);
-        feedRepository.flush();
-        feedService.create(찰리, REACT_FEED_REQUEST);
-        feedRepository.flush();
-
-        // when
-        List<FeedCardResponse> allFeeds = feedService.findAll(defaultFilter);
-
-        // then
-        assertThat(allFeeds.size()).isEqualTo(2);
-        피드_정보가_같은지_조회(EMPTY_TECH_FEED_REQUEST, allFeeds.get(1));
-        피드_정보가_같은지_조회(REACT_FEED_REQUEST, allFeeds.get(0));
-    }
-
-    @DisplayName("PROGRESS 피드를 조회한다. (최신 등록된 날짜 순)")
-    @Test
-    void findAllWithFilterProgress() throws InterruptedException {
-        // given
-        EMPTY_TECH_FEED_REQUEST.setStep(Step.COMPLETE.name());
-        SPRING_JAVA_FEED_REQUEST.setStep(Step.PROGRESS.name());
-        REACT_FEED_REQUEST.setStep(Step.PROGRESS.name());
-
-        feedService.create(찰리, EMPTY_TECH_FEED_REQUEST);
-        feedRepository.flush();
-        feedService.create(찰리, SPRING_JAVA_FEED_REQUEST);
-        feedRepository.flush();
-        feedService.create(찰리, REACT_FEED_REQUEST);
-        feedRepository.flush();
-
-        // when
-        List<FeedCardResponse> allFeeds = feedService.findAll(Step.PROGRESS.name());
-
-        // then
-        assertThat(allFeeds.size()).isEqualTo(2);
-        피드_정보가_같은지_조회(REACT_FEED_REQUEST, allFeeds.get(0));
-        피드_정보가_같은지_조회(SPRING_JAVA_FEED_REQUEST, allFeeds.get(1));
-    }
-
-    @DisplayName("COMPLETE 피드를 조회한다. (최신 등록된 날짜 순)")
-    @Test
-    void findAllWithFilterComplete() throws InterruptedException {
-        // given
-        EMPTY_TECH_FEED_REQUEST.setStep(Step.COMPLETE.name());
-        SPRING_JAVA_FEED_REQUEST.setStep(Step.COMPLETE.name());
-        REACT_FEED_REQUEST.setStep(Step.PROGRESS.name());
-
-        feedService.create(찰리, EMPTY_TECH_FEED_REQUEST);
-        feedRepository.flush();
-        feedService.create(찰리, SPRING_JAVA_FEED_REQUEST);
-        feedRepository.flush();
-        feedService.create(찰리, REACT_FEED_REQUEST);
-        feedRepository.flush();
-
-        // when
-        List<FeedCardResponse> allFeeds = feedService.findAll(Step.COMPLETE.name());
-
-        // then
-        피드_정보가_같은지_조회(SPRING_JAVA_FEED_REQUEST, allFeeds.get(0));
-        피드_정보가_같은지_조회(EMPTY_TECH_FEED_REQUEST, allFeeds.get(1));
-    }
-
     @DisplayName("제목과 내용에 특정 query('content')가 포함된 피드를 검색한다. [step=상관 없음, help=상관 없음, nextFeedId=10000L, countPerPage=15]")
     @Test
     void searchByQuery_content() {
@@ -892,6 +798,12 @@ class FeedServiceTest {
         assertThat(responses.getFeeds().get(0).getTitle()).isEqualTo(REACT_FEED_REQUEST.getTitle());
         assertThat(responses.getFeeds().get(1).getTitle()).isEqualTo(SPRING_JAVA_FEED_REQUEST.getTitle());
         assertThat(responses.getNextFeedId()).isEqualTo(firstFeedId);
+    }
+
+    @DisplayName("어드민 유저는 전체 피드 조회를 할 수 있다")
+    @Test
+    void findAllAsAdmin() {
+
     }
 
     private void 피드_정보가_같은지_조회(FeedRequest request, Feed feed) {
