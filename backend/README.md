@@ -14,13 +14,18 @@
 
 - [ ] login/admin 으로 마스터 jwt 토큰을 발급해주기. 
 - [ ] 만약 해당 토큰이 masterPayload가 있다면 masterUser를 아규먼트 리졸버에서 반환해주기
+    - 이거 패키지 어디로 두는게 좋을까?
 - [ ] masterUser를 반환받았다면 이게 수정/삭제/조회 싹다 가능
 	- `@MasterAuthenticationPrincipal` 만들어야할듯
+
+- 전반적으로 기존 비즈니스 로직 코드에 영향을 안줬으면 하는 바람
+    - admin 패키지를 삭제해도 굉장히 영향이 적게 갔으면 하는 바람
+    - 로직을 짜긴해야하니 Service 단에서 몇가지 로직이 추가는 되겠지만,,, 쉽게 걷어낼수 있도록
 
 ## 필요한 API
 - [x] 어드민 로그인 /admin/login
 
-- [ ] 피드 전체 조회 /admin/feeds
+- [x] 피드 전체 조회 /admin/feeds
 - [ ] 피드 단일 수정 /admin/feeds/:id
 - [ ] 피드 단일 삭제 /admin/feeds/:id
 
