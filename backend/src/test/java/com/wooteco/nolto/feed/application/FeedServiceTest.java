@@ -803,7 +803,48 @@ class FeedServiceTest {
     @DisplayName("어드민 유저는 전체 피드 조회를 할 수 있다")
     @Test
     void findAllAsAdmin() {
+        //given
+        EMPTY_TECH_FEED_REQUEST.setStep(Step.COMPLETE.name());
+        SPRING_JAVA_FEED_REQUEST.setStep(Step.COMPLETE.name());
+        REACT_FEED_REQUEST.setStep(Step.PROGRESS.name());
 
+        feedService.create(찰리, EMPTY_TECH_FEED_REQUEST);
+        feedRepository.flush();
+        feedService.create(찰리, SPRING_JAVA_FEED_REQUEST);
+        feedRepository.flush();
+        feedService.create(찰리, REACT_FEED_REQUEST);
+        feedRepository.flush();
+
+        //when
+        final List<FeedCardResponse> allFeeds = feedService.findAllAsAdmin(User.ADMIN_USER);
+
+        //then
+        assertThat(allFeeds).hasSize(3);
+    }
+
+    @DisplayName("어드민 유저가 아니라면 전체 피드 조회를 할 수 없다")
+    @Test
+    void findAllNotAsAdmin() {
+        //given
+        EMPTY_TECH_FEED_REQUEST.setStep(Step.COMPLETE.name());
+        SPRING_JAVA_FEED_REQUEST.setStep(Step.COMPLETE.name());
+        REACT_FEED_REQUEST.setStep(Step.PROGRESS.name());
+
+        feedService.create(찰리, EMPTY_TECH_FEED_REQUEST);
+        feedRepository.flush();
+        feedService.create(찰리, SPRING_JAVA_FEED_REQUEST);
+        feedRepository.flush();
+        feedService.create(찰리, REACT_FEED_REQUEST);
+        feedRepository.flush();
+
+        //when & then
+        assertThatThrownBy(() -> feedService.findAllAsAdmin(찰리))
+                .isInstanceOf(UnauthorizedException.class)
+                .hasMessage(ErrorType.ADMIN_ONLY.getMessage());
+
+        assertThatThrownBy(() -> feedService.findAllAsAdmin(User.GUEST_USER))
+                .isInstanceOf(UnauthorizedException.class)
+                .hasMessage(ErrorType.ADMIN_ONLY.getMessage());
     }
 
     private void 피드_정보가_같은지_조회(FeedRequest request, Feed feed) {

@@ -137,4 +137,12 @@ public class FeedService {
         List<Feed> findFeeds = searchStrategy.searchWithCondition(query, techs, help, nextFeedId, steps, pageable);
         return generateFeedCardPaginationResponse(countPerPage, findFeeds);
     }
+
+    public List<FeedCardResponse> findAllAsAdmin(User user) {
+        if (user.isAdmin()) {
+            List<Feed> allFeeds = feedRepository.findAll();
+            return FeedCardResponse.toList(allFeeds);
+        }
+        throw new UnauthorizedException(ErrorType.ADMIN_ONLY);
+    }
 }
