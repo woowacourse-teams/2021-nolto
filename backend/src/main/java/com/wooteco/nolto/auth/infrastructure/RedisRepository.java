@@ -26,9 +26,9 @@ public class RedisRepository {
 
     public void set(String key, String value, String value2, long expiredIn) {
         log.info("[ value1 : " + value + "] Save Redis Value.");
-        template.opsForList().leftPush(key, value);
+        template.opsForList().rightPush(key, value);
         log.info("[ value2 : " + value2 + "] Save Redis Value.");
-        template.opsForList().leftPush(key, value2);
+        template.opsForList().rightPush(key, value2);
         template.expire(key, expiredIn, TimeUnit.SECONDS);
     }
 
