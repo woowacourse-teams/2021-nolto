@@ -104,7 +104,7 @@ public class AuthService {
     }
 
     public TokenResponse refreshToken(RefreshTokenRequest request) {
-        if (redisUtil.exist(request.getRefreshToken())) {
+        if (!redisUtil.exist(request.getRefreshToken())) {
             log.info("redis doesn't have the refresh token.");
             throw new BadRequestException(ErrorType.INVALID_TOKEN);
         }
