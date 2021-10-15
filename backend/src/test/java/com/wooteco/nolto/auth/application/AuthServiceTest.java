@@ -55,7 +55,7 @@ class AuthServiceTest {
     private GoogleClient googleClient;
 
     @MockBean
-    private RedisRepository redisUtil;
+    private RedisRepository redisRepository;
 
     @DisplayName("깃허브 로그인의 code를 얻기위한 파라미터들을 요청한다.")
     @Test
@@ -164,7 +164,8 @@ class AuthServiceTest {
     @Test
     void refreshToken() {
         // given
-        given(redisUtil.leftPop("refresh token")).willReturn("client IP").willReturn("1");
+        given(redisRepository.exist("refresh token")).willReturn(true);
+        given(redisRepository.leftPop("refresh token")).willReturn("client IP").willReturn("1");
 
         // when
         RefreshTokenRequest request = new RefreshTokenRequest("refresh token", "client IP");
