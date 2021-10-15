@@ -97,6 +97,10 @@ oauth:
     client:
       id: localCilentId
       secret: localCilentSecret
+admin:
+  id: test
+  password: test
+  payload: test
 ---
 spring:
   config:
@@ -125,6 +129,10 @@ oauth:
     client:
       id: testCilentId
       secret: testCilentSecret
+admin:
+  id: test
+  password: test
+  payload: test
 ---
 spring:
   config:
