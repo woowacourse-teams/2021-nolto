@@ -12,7 +12,7 @@ interface Props extends RouteProps {
 }
 
 const PrivateRoute = ({ children, ...props }: Props) => {
-  const { isLoggedIn } = useMember();
+  const { userInfo } = useMember();
   const modal = useModal();
   const dialog = useDialog();
 
@@ -24,7 +24,7 @@ const PrivateRoute = ({ children, ...props }: Props) => {
     <Route
       {...props}
       render={({ location }) => {
-        if (isLoggedIn) {
+        if (userInfo) {
           return children;
         } else {
           openLoginModal();

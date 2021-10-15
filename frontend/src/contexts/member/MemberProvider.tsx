@@ -15,29 +15,23 @@ import useMyInfo from './useMyInfo';
 
 interface ContextValue {
   userInfo: UserInfo;
-  isLoggedIn: boolean;
   login: (authData: AuthData) => void;
   logout: () => void;
   refetchMember: (options?: RefetchOptions) => Promise<QueryObserverResult<UserInfo, unknown>>;
 }
 
+export const Context = createContext<ContextValue | null>(null);
+
 interface Props {
   children: React.ReactNode;
 }
 
-export const Context = createContext<ContextValue | null>(null);
-
-interface Props {
-  initialUserInfo?: UserInfo;
-}
-
-const MemberProvider = ({ children, initialUserInfo }: Props) => {
+const MemberProvider = ({ children }: Props) => {
   const queryClient = useQueryClient();
   const modal = useModal();
   const dialog = useDialog();
 
   const [accessToken, setAccessToken] = useState(hasWindow ? window.__accessToken__ : '');
-  const [isLoggedIn, setIsLoggedIn] = useState(!!initialUserInfo);
 
   const { data: userInfo, refetch: refetchMember } = useMyInfo({
     accessToken,
@@ -50,14 +44,12 @@ const MemberProvider = ({ children, initialUserInfo }: Props) => {
     },
     suspense: false,
     useErrorBoundary: false,
-    placeholderData: initialUserInfo,
   });
 
   const logout = () => {
     // TODO: common 부분 api.ts로 추상화
     queryClient.removeQueries(QUERY_KEYS.MEMBER);
     setAccessToken('');
-    setIsLoggedIn(false);
     api.defaults.headers.common['Authorization'] = '';
 
     axios.post('/auth/logout', null, {
@@ -67,7 +59,6 @@ const MemberProvider = ({ children, initialUserInfo }: Props) => {
 
   const login = async (authData: AuthData) => {
     setAccessToken(authData?.accessToken);
-    setIsLoggedIn(true);
 
     axios.post('/auth/login', authData, {
       withCredentials: true,
@@ -84,12 +75,11 @@ const MemberProvider = ({ children, initialUserInfo }: Props) => {
   const contextValue: ContextValue = useMemo(
     () => ({
       userInfo,
-      isLoggedIn,
       login,
       logout,
       refetchMember,
     }),
-    [userInfo, isLoggedIn],
+    [userInfo],
   );
 
   return <Context.Provider value={contextValue}>{children}</Context.Provider>;

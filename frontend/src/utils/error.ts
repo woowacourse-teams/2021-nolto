@@ -28,6 +28,10 @@ export const resolveHttpError = ({
 
   console.error(data.message);
 
+  if (errorResponse.data.errorCode === 'auth-001') {
+    window.location.reload();
+  }
+
   throw new HttpError(
     data.errorCode,
     ERROR_CODE[data.errorCode] || defaultErrorMessage,
