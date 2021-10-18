@@ -83,7 +83,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
     });
   };
 
-  const isMyFeed = member.userData?.id === feedDetail.author.id;
+  const isMyFeed = member.userInfo?.id === feedDetail.author.id;
 
   const thumbnailElement: React.ReactNode = (
     <>

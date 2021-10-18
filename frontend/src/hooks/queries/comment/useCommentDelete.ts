@@ -1,7 +1,7 @@
 import { useMutation, UseMutationOptions } from 'react-query';
 import { AxiosResponse } from 'axios';
 
-import api from 'constants/api';
+import { backendApi } from 'constants/api';
 import HttpError from 'utils/HttpError';
 import { resolveHttpError } from 'utils/error';
 
@@ -12,7 +12,7 @@ interface Args {
 
 const deleteComment = async ({ feedId, commentId }: Args) => {
   try {
-    const { data } = await api.delete(`/feeds/${feedId}/comments/${commentId}`);
+    const { data } = await backendApi.delete(`/feeds/${feedId}/comments/${commentId}`);
 
     return data;
   } catch (error) {

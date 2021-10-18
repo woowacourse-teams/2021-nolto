@@ -1,6 +1,6 @@
 import { useQuery, UseQueryOptions } from 'react-query';
 
-import api from 'constants/api';
+import { backendApi } from 'constants/api';
 import QUERY_KEYS from 'constants/queryKeys';
 import { ErrorHandler, Tech } from 'types';
 import HttpError from 'utils/HttpError';
@@ -13,7 +13,7 @@ interface CustomQueryOption extends UseQueryOptions<Tech[], HttpError> {
 
 const getTechs = async (autoComplete: string, errorHandler: ErrorHandler) => {
   try {
-    const { data } = await api.get(`/tags/techs?auto_complete=${autoComplete}`);
+    const { data } = await backendApi.get(`/tags/techs?auto_complete=${autoComplete}`);
     return data;
   } catch (error) {
     resolveHttpError({

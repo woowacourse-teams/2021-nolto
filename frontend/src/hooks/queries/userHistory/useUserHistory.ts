@@ -1,6 +1,6 @@
 import { useQuery, UseQueryOptions } from 'react-query';
 
-import api from 'constants/api';
+import { backendApi } from 'constants/api';
 import QUERY_KEYS from 'constants/queryKeys';
 import { ErrorHandler, UserHistory } from 'types';
 import HttpError from 'utils/HttpError';
@@ -12,7 +12,7 @@ interface CustomQueryOption extends UseQueryOptions<UserHistory, HttpError> {
 
 const getHistory = async (errorHandler?: ErrorHandler) => {
   try {
-    const { data } = await api.get('/members/me/history');
+    const { data } = await backendApi.get('/members/me/history');
 
     return data;
   } catch (error) {

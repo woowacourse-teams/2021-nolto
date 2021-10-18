@@ -1,6 +1,6 @@
 import { useInfiniteQuery, UseInfiniteQueryOptions } from 'react-query';
 
-import api from 'constants/api';
+import { backendApi } from 'constants/api';
 import QUERY_KEYS from 'constants/queryKeys';
 import { ErrorHandler, Feed, FeedStep, SearchParams } from 'types';
 import HttpError from 'utils/HttpError';
@@ -31,8 +31,7 @@ const getSearchResult = async ({
   const { query, techs } = searchParams;
 
   try {
-    console.log(query, techs);
-    const { data } = await api.get('/feeds/search', {
+    const { data } = await backendApi.get('/feeds/search', {
       params: { query, techs, step: step || '', help, nextFeedId, countPerPage },
     });
 

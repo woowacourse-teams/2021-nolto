@@ -64,7 +64,7 @@ const LikeButton = ({ feedDetail }: Props) => {
   });
 
   const handleToggleLike = () => {
-    if (!member.userData) {
+    if (!member.userInfo) {
       snackbar.addSnackbar('error', '로그인이 필요한 서비스입니다.');
       return;
     }
