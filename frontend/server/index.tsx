@@ -16,7 +16,7 @@ import cookieParser from 'cookie-parser';
 import App from '../src/App';
 import QUERY_KEYS from 'constants/queryKeys';
 import { RECENT_FEEDS_PER_PAGE } from 'constants/common';
-import api from 'constants/api';
+import { backendApi } from 'constants/api';
 import { getMember } from 'contexts/member/useMyInfo';
 import { getFeedDetail } from 'hooks/queries/feed/useFeedDetail';
 import { loadHotFeeds } from 'hooks/queries/feed/useHotFeedsLoad';
@@ -54,7 +54,7 @@ const getNewAuthToken = async (req: express.Request): Promise<AuthData> => {
   }
 
   try {
-    const { data: authData } = await api.post<AuthData>('/login/oauth/refreshToken', {
+    const { data: authData } = await backendApi.post<AuthData>('/login/oauth/refreshToken', {
       refreshToken,
       clientIP,
     });

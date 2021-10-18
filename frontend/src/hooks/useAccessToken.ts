@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 
 import hasWindow from 'constants/windowDetector';
-import api from 'constants/api';
+import { backendApi, frontendApi } from 'constants/api';
 
 const EXPIRED_IN = 71400000;
 
@@ -13,11 +12,11 @@ const useAccessToken = () => {
     const timerId = setTimeout(async () => {
       const {
         data: { accessToken },
-      } = await axios.post<{ accessToken: string }>('/auth/renewToken');
+      } = await frontendApi.post<{ accessToken: string }>('/auth/renewToken');
 
       setAccessToken(accessToken);
 
-      api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+      backendApi.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
     }, EXPIRED_IN);
 
     return () => clearTimeout(timerId);

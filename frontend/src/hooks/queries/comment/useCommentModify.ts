@@ -1,7 +1,7 @@
 import { useMutation, UseMutationOptions } from 'react-query';
 import { AxiosResponse } from 'axios';
 
-import api from 'constants/api';
+import { backendApi } from 'constants/api';
 import HttpError from 'utils/HttpError';
 import { resolveHttpError } from 'utils/error';
 import { CommentRequest, CommentType } from 'types';
@@ -15,7 +15,7 @@ const modifyComment =
   ({ feedId, commentId }: Args) =>
   async ({ content, helper }: CommentRequest) => {
     try {
-      const { data } = await api.patch(`/feeds/${feedId}/comments/${commentId}`, {
+      const { data } = await backendApi.patch(`/feeds/${feedId}/comments/${commentId}`, {
         content,
         helper,
       });

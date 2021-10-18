@@ -1,6 +1,6 @@
 import { useQuery, UseQueryOptions } from 'react-query';
 
-import api from 'constants/api';
+import { backendApi } from 'constants/api';
 import QUERY_KEYS from 'constants/queryKeys';
 import HttpError from 'utils/HttpError';
 import { CommentType, ErrorHandler } from 'types';
@@ -18,7 +18,7 @@ const loadSubComments = async (
   errorHandler?: ErrorHandler,
 ) => {
   try {
-    const { data } = await api.get(`/feeds/${feedId}/comments/${parentCommentId}/replies`);
+    const { data } = await backendApi.get(`/feeds/${feedId}/comments/${parentCommentId}/replies`);
 
     return data;
   } catch (error) {

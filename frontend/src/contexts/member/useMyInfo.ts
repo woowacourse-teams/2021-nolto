@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useQuery, useQueryClient, UseQueryOptions } from 'react-query';
 
-import api from 'constants/api';
+import { backendApi } from 'constants/api';
 import QUERY_KEYS from 'constants/queryKeys';
 import CustomError from 'utils/CustomError';
 import { resolveHttpError } from 'utils/error';
@@ -18,10 +18,10 @@ export const getMember = async ({ accessToken, errorHandler }: CustomQueryOption
     throw new CustomError('로그아웃 상태입니다.');
   }
 
-  api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+  backendApi.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
 
   try {
-    const { data } = await api.get('/members/me');
+    const { data } = await backendApi.get('/members/me');
 
     return data;
   } catch (error) {

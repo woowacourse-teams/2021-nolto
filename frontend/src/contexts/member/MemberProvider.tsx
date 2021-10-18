@@ -1,9 +1,8 @@
 import React, { createContext, useMemo } from 'react';
 import { QueryObserverResult, RefetchOptions, useQueryClient } from 'react-query';
-import axios from 'axios';
 
 import LoginModal from 'components/LoginModal/LoginModal';
-import api from 'constants/api';
+import { backendApi, frontendApi } from 'constants/api';
 import QUERY_KEYS from 'constants/queryKeys';
 import { ALERT_MSG } from 'constants/message';
 import useDialog from 'contexts/dialog/useDialog';
@@ -49,16 +48,16 @@ const MemberProvider = ({ children }: Props) => {
   const login = async (authData: AuthData) => {
     setAccessToken(authData.accessToken);
 
-    axios.post('/auth/login', authData);
+    frontendApi.post('/auth/login', authData);
   };
 
   const logout = () => {
-    // TODO: common 부분 api.ts로 추상화
+    // TODO: common 부분 backendApi.ts로 추상화
     queryClient.removeQueries(QUERY_KEYS.MEMBER);
     setAccessToken('');
-    api.defaults.headers.common['Authorization'] = '';
+    backendApi.defaults.headers.common['Authorization'] = '';
 
-    axios.post('/auth/logout');
+    frontendApi.post('/auth/logout');
   };
 
   const contextValue: ContextValue = useMemo(
