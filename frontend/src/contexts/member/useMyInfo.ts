@@ -1,4 +1,5 @@
-import { useQuery, UseQueryOptions } from 'react-query';
+import { useEffect } from 'react';
+import { useQuery, useQueryClient, UseQueryOptions } from 'react-query';
 
 import api from 'constants/api';
 import QUERY_KEYS from 'constants/queryKeys';
@@ -33,11 +34,22 @@ export const getMember = async ({ accessToken, errorHandler }: CustomQueryOption
 };
 
 const useMyInfo = ({ accessToken, errorHandler, ...option }: CustomQueryOption) => {
-  return useQuery<UserInfo>(
+  const queryClient = useQueryClient();
+
+  const { data, refetch } = useQuery<UserInfo>(
     QUERY_KEYS.MEMBER,
     () => getMember({ accessToken, errorHandler }),
     option,
   );
+
+  useEffect(() => {
+    if (!accessToken) return;
+
+    queryClient.cancelQueries(QUERY_KEYS.MEMBER);
+    refetch();
+  }, [accessToken]);
+
+  return { data, refetch };
 };
 
 export default useMyInfo;

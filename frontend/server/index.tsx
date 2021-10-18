@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import { dehydrate, Hydrate, QueryClient, QueryClientProvider } from 'react-query';
+import { dehydrate, Hydrate, QueryClient, QueryClientProvider, useQuery } from 'react-query';
 import { StaticRouter } from 'react-router';
 import { ServerStyleSheet, StyleSheetManager } from 'styled-components';
 import { ChunkExtractor } from '@loadable/server';
@@ -25,6 +25,7 @@ import { isFeedStep } from 'utils/typeGuard';
 import { AuthData } from 'types';
 
 const PORT = Number(process.env.PORT) || 9000;
+const PUBLIC_IP_API = 'https://api.ipify.org/?format=text';
 const app = express();
 const sheet = new ServerStyleSheet();
 
@@ -48,7 +49,7 @@ const getNewAuthToken = async (req: express.Request): Promise<AuthData> => {
   let clientIP = req.ip;
 
   if (process.env.NODE_ENV !== 'production') {
-    const { data: publicIP } = await axios.get('https://api.ipify.org/?format=text');
+    const { data: publicIP } = await axios.get(PUBLIC_IP_API);
     clientIP = publicIP;
   }
 
@@ -211,6 +212,18 @@ app.post('/auth/login', (req, res) => {
 
 app.post('/auth/logout', (_, res) => {
   res.clearCookie('refreshToken').status(200).send('true');
+});
+
+app.post('/auth/renewToken', async (req, res) => {
+  const { accessToken, refreshToken, expiredIn } = await getNewAuthToken(req);
+
+  res
+    .cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      maxAge: expiredIn,
+    })
+    .status(200)
+    .json({ accessToken });
 });
 
 app.listen(PORT, '0.0.0.0', () => {
