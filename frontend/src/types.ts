@@ -146,3 +146,9 @@ export interface NotificationType {
   };
   type: NotiType;
 }
+
+export interface AuthData {
+  accessToken: string;
+  refreshToken: string;
+  expiredIn: number;
+}

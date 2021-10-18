@@ -7,7 +7,7 @@ import LikeButton from './LikeButton';
 
 jest.mock('hooks/queries/useMember', () => {
   return () => ({
-    userData: MOCK_USER.ZIG,
+    userInfo: MOCK_USER.ZIG,
     isLogin: true,
     logout: () => console.log('logout'),
   });

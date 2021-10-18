@@ -1,7 +1,7 @@
 import { useMutation, UseMutationOptions } from 'react-query';
 import { AxiosResponse } from 'axios';
 
-import api from 'constants/api';
+import { backendApi } from 'constants/api';
 import HttpError from 'utils/HttpError';
 import { resolveHttpError } from 'utils/error';
 
@@ -19,7 +19,7 @@ const postLike =
   ({ feedId, commentId }: Args) =>
   async () => {
     try {
-      const { data } = await api.post(`/feeds/${feedId}/comments/${commentId}/like`);
+      const { data } = await backendApi.post(`/feeds/${feedId}/comments/${commentId}/like`);
 
       return data;
     } catch (error) {

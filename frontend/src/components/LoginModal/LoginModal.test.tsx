@@ -3,7 +3,7 @@ import React from 'react';
 import { customRender, fireEvent } from 'test-util';
 import LoginModal from './LoginModal';
 import Header from '../Header/Header';
-import api from 'constants/api';
+import { backendApi } from 'constants/api';
 
 const assignMock = jest.fn();
 
@@ -42,8 +42,8 @@ describe('LoginModal 테스트', () => {
 
     fireEvent.click(githubButton);
 
-    (api.get as jest.Mock).mockResolvedValueOnce({});
-    expect(api.get).toHaveBeenCalledWith('/login/oauth/github');
+    (backendApi.get as jest.Mock).mockResolvedValueOnce({});
+    expect(backendApi.get).toHaveBeenCalledWith('/login/oauth/github');
   });
 
   it('google 계정으로 로그인 시 google oauth에서 정보를 받아온다.', async () => {
@@ -52,7 +52,7 @@ describe('LoginModal 테스트', () => {
 
     fireEvent.click(googleButton);
 
-    (api.get as jest.Mock).mockResolvedValueOnce({});
-    expect(api.get).toHaveBeenCalledWith('/login/oauth/google');
+    (backendApi.get as jest.Mock).mockResolvedValueOnce({});
+    expect(backendApi.get).toHaveBeenCalledWith('/login/oauth/google');
   });
 });

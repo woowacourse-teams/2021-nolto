@@ -1,7 +1,7 @@
 import { useMutation, UseMutationOptions } from 'react-query';
 import { AxiosResponse } from 'axios';
 
-import api from 'constants/api';
+import { backendApi } from 'constants/api';
 import HttpError from 'utils/HttpError';
 import { resolveHttpError } from 'utils/error';
 import { CommentRequest } from 'types';
@@ -10,7 +10,7 @@ const writeComment =
   (feedId: number) =>
   async ({ content, helper }: CommentRequest) => {
     try {
-      const { data } = await api.post(`/feeds/${feedId}/comments`, {
+      const { data } = await backendApi.post(`/feeds/${feedId}/comments`, {
         content,
         helper,
       });

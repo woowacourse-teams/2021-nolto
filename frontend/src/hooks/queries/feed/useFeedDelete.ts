@@ -1,7 +1,7 @@
 import { useMutation } from 'react-query';
 import { AxiosResponse } from 'axios';
 
-import api from 'constants/api';
+import { backendApi } from 'constants/api';
 import HttpError from 'utils/HttpError';
 import { resolveHttpError } from 'utils/error';
 
@@ -11,7 +11,7 @@ interface Args {
 
 const deleteFeed = async ({ feedId }: Args) => {
   try {
-    const { data } = await api.delete(`/feeds/${feedId}`);
+    const { data } = await backendApi.delete(`/feeds/${feedId}`);
 
     return data;
   } catch (error) {

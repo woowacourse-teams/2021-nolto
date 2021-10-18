@@ -30,13 +30,13 @@ const useLike = ({ initialIsLiked, likeCount }: Props) => {
   }, [likeCount]);
 
   useEffect(() => {
-    if (member.isLoggedIn) {
+    if (member.userInfo) {
       setIsLiked(initialIsLiked);
       return;
     }
 
     setIsLiked(false);
-  }, [member.isLoggedIn]);
+  }, [member.userInfo]);
 
   return {
     likeCount: count,

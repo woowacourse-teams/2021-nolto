@@ -1,6 +1,6 @@
 import { useQuery, UseQueryOptions } from 'react-query';
 
-import api from 'constants/api';
+import { backendApi } from 'constants/api';
 import QUERY_KEYS from 'constants/queryKeys';
 import { ErrorHandler } from 'types';
 import HttpError from 'utils/HttpError';
@@ -13,7 +13,7 @@ interface CustomQueryOption extends UseQueryOptions<{ isUsable: boolean }, HttpE
 
 const checkNicknameUsable = async (nickname: string, errorHandler: ErrorHandler) => {
   try {
-    const { data } = await api.get(`/members/me/profile/validation?nickname=${nickname}`);
+    const { data } = await backendApi.get(`/members/me/profile/validation?nickname=${nickname}`);
 
     return data;
   } catch (error) {

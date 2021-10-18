@@ -18,11 +18,11 @@ interface Props {
 const CommentForm = ({ onSubmit, isRootComment = false }: Props) => {
   const [content, setContent] = useState('');
   const [isHelper, setIsHelper] = useState(false);
-  const { userData, isLoggedIn } = useMember();
+  const { userInfo } = useMember();
   const { feedId } = useContext(CommentModuleContext);
   const { data: feedDetail } = useFeedDetail({ feedId, suspense: false });
 
-  const isMyComment = userData?.id === feedDetail?.author.id;
+  const isMyComment = userInfo?.id === feedDetail?.author.id;
 
   const handleSubmitComment = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -44,19 +44,19 @@ const CommentForm = ({ onSubmit, isRootComment = false }: Props) => {
 
   return (
     <div>
-      {isLoggedIn && (
+      {userInfo && (
         <Styled.Author>
-          <Avatar user={userData} />
+          <Avatar user={userInfo} />
         </Styled.Author>
       )}
       <Form onSubmit={handleSubmitComment}>
         <Styled.FormInputWrapper>
-          {isLoggedIn ? (
+          {userInfo ? (
             <CommentFormInput value={content} disabled={false} onChange={handleChangeContent} />
           ) : (
             <CommentFormInput value={MESSAGES.NEED_LOGIN} disabled={true} />
           )}
-          <SendButton size="1.5rem" hasShadow={false} disabled={!isLoggedIn}>
+          <SendButton size="1.5rem" hasShadow={false} disabled={!userInfo}>
             <SendIcon width="21px" height="21px" />
           </SendButton>
         </Styled.FormInputWrapper>
