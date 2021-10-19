@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import { UserHistoryType } from 'types';
-import FeedThumbnailComponent from 'components/FeedThumbnail/FeedThumbnail';
+import FeedThumbnailComponent from 'components/Thumbnail/Thumbnail';
 import { PALETTE } from 'constants/palette';
 import { MEDIA_QUERY } from 'constants/mediaQuery';
 import { hoverLayer, defaultShadow } from 'commonStyles';
