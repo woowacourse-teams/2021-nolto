@@ -20,7 +20,7 @@ import CommentModule from 'components/CommentModule/CommentModule';
 import AsyncBoundary from 'components/AsyncBoundary';
 import ErrorFallback from 'components/ErrorFallback/ErrorFallback';
 import StepChip from 'components/StepChip/StepChip';
-import FeedThumbnail from 'components/FeedThumbnail/FeedThumbnail';
+import Thumbnail from 'components/Thumbnail/Thumbnail';
 import Markdown from 'components/@common/Markdown/Markdown';
 import Styled, { Tag, SOSFlag } from './FeedDetailContent.styles';
 
@@ -88,12 +88,9 @@ const FeedDetailContent = ({ feedId }: Props) => {
   const thumbnailElement: React.ReactNode = (
     <>
       {feedDetail.sos && <SOSFlag />}
-      <Styled.Thumbnail>
-        <FeedThumbnail
-          thumbnailUrl={feedDetail.thumbnailUrl}
-          alt={`${feedDetail.content} 이미지`}
-        />
-      </Styled.Thumbnail>
+      <Styled.ThumbnailWrapper>
+        <Thumbnail thumbnailUrl={feedDetail.thumbnailUrl} alt={`${feedDetail.content} 이미지`} />
+      </Styled.ThumbnailWrapper>
       <Styled.IconsContainer>
         <Styled.IconWrapper>
           <LikeButton feedDetail={feedDetail} />
@@ -145,7 +142,10 @@ const FeedDetailContent = ({ feedId }: Props) => {
 
             <Styled.UserWrapper>
               <Styled.UserName>{feedDetail.author.nickname}</Styled.UserName>
-              <Styled.UserImage src={feedDetail.author.imageUrl} alt={feedDetail.author.nickname} />
+              <Styled.UserThumbnail
+                thumbnailUrl={feedDetail.author.imageUrl}
+                alt={feedDetail.author.nickname}
+              />
               {isMyFeed && <FeedDropdown feedDetail={feedDetail} />}
             </Styled.UserWrapper>
           </Styled.TitleContainer>

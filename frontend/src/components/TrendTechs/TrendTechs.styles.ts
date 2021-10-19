@@ -9,6 +9,8 @@ const Root = styled.div`
   align-items: center;
   width: 100%;
   color: ${PALETTE.WHITE_400};
+  overflow-x: auto;
+  overflow-y: hidden;
 
   & span {
     color: ${({ theme }) => theme.highLightedText};

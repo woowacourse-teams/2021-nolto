@@ -85,6 +85,14 @@ const ContentArea = styled.div`
   align-items: center;
   gap: 2rem;
   margin-top: 8rem;
+
+  @media ${MEDIA_QUERY.TABLET} {
+    margin-top: 6rem;
+  }
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    margin-top: 3rem;
+  }
 `;
 
 const TitleWrapper = styled.div`
