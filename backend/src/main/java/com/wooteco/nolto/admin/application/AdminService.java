@@ -7,7 +7,9 @@ import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.UnauthorizedException;
 import com.wooteco.nolto.feed.application.FeedService;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
+import com.wooteco.nolto.user.application.MemberService;
 import com.wooteco.nolto.user.domain.User;
+import com.wooteco.nolto.user.ui.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ public class AdminService {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final FeedService feedService;
+    private final MemberService memberService;
 
     @Value("${admin.id}")
     private String adminId;
@@ -47,11 +50,19 @@ public class AdminService {
         throw new UnauthorizedException(ErrorType.ADMIN_ONLY);
     }
 
-    public List<FeedCardResponse> findAllFeeds(User user) {
-        return feedService.findAllAsAdmin(user);
+    public List<FeedCardResponse> findAllFeeds(User adminUser) {
+        return feedService.findAllAsAdmin(adminUser);
     }
 
-    public void deleteFeed(User user, Long feedId) {
-        feedService.deleteFeedAsAdmin(user, feedId);
+    public void deleteFeed(User adminUser, Long feedId) {
+        feedService.deleteFeedAsAdmin(adminUser, feedId);
+    }
+
+    public List<UserResponse> findAllUsers(User adminUser) {
+        return memberService.findAllAsAdmin(adminUser);
+    }
+
+    public void deleteUser(User adminUser, Long userId) {
+        memberService.deleteUserAsAdmin(adminUser, userId);
     }
 }

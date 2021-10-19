@@ -2,6 +2,7 @@ package com.wooteco.nolto.user.application;
 
 import com.wooteco.nolto.exception.BadRequestException;
 import com.wooteco.nolto.exception.ErrorType;
+import com.wooteco.nolto.exception.UnauthorizedException;
 import com.wooteco.nolto.feed.domain.Comment;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.Like;
@@ -25,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.wooteco.nolto.FeedFixture.진행중_단계의_피드_생성;
@@ -154,6 +156,43 @@ class MemberServiceTest {
         assertThatThrownBy(() -> memberService.updateProfile(아마찌, 존재하는_닉네임으로_프로필_수정_요청))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage(ErrorType.ALREADY_EXIST_NICKNAME.getMessage());
+    }
+
+    @DisplayName("어드민 권한으로는 모든 유저를 받아올 수 있다.")
+    @Test
+    void findAllUsersAsAdmin() {
+        List<UserResponse> allUsers = memberService.findAllAsAdmin(User.ADMIN_USER);
+        assertThat(allUsers).hasSize(2);
+    }
+
+    @DisplayName("어드민 권한이 아니라면 모든 유저를 받아올 수 없다.")
+    @Test
+    void findAllUsersWithoutAdmin() {
+        assertThatThrownBy(() -> memberService.findAllAsAdmin(영상이))
+                .isInstanceOf(UnauthorizedException.class)
+                .hasMessage(ErrorType.ADMIN_ONLY.getMessage());
+    }
+
+    @DisplayName("어드민 권한으로 어떠한 유저라도 삭제할 수 있다.")
+    @Test
+    void deleteUsersAsAdmin() {
+        //given
+        Long userId = 영상이.getId();
+        memberService.deleteUserAsAdmin(User.ADMIN_USER, userId);
+
+        //when
+        Optional<User> user = userRepository.findById(userId);
+
+        //then
+        assertThat(user).isNotPresent();
+    }
+
+    @DisplayName("어드민 권한이 아니라면 유저 삭제는 불가능하다.")
+    @Test
+    void deleteUsersWithoutAdmin() {
+        assertThatThrownBy(() -> memberService.deleteUserAsAdmin(영상이, 영상이.getId()))
+                .isInstanceOf(UnauthorizedException.class)
+                .hasMessage(ErrorType.ADMIN_ONLY.getMessage());
     }
 
     private void 멤버_프로필_정보가_같은지_확인(User user, ProfileResponse response) {

@@ -83,4 +83,14 @@ public class MemberService {
         long notificationCount = notificationService.findNotificationCount(user);
         return MemberResponse.of(user, notificationCount);
     }
+
+    public List<UserResponse> findAllAsAdmin(User user) {
+        user.validateAdmin();
+        return UserResponse.toList(userRepository.findAll());
+    }
+
+    public void deleteUserAsAdmin(User user, Long userId) {
+        user.validateAdmin();
+        userRepository.deleteById(userId);
+    }
 }

@@ -32,8 +32,8 @@
 - [ ] 댓글 전체 조회 /admin/comments
 - [ ] 댓글 단일 삭제 /admin/comments/:id
 
-- [ ] 회원 전체 조회 /admin/users
-- [ ] 회원 단일 삭제 /admin/users/:id
+- [x] 회원 전체 조회 /admin/users
+- [x] 회원 단일 삭제 /admin/users/:id
 
 ## 설계
 - admin 이라는 패키지를 따로 빼자

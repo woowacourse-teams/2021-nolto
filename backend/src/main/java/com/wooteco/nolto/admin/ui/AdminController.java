@@ -7,6 +7,7 @@ import com.wooteco.nolto.admin.ui.dto.AdminLoginResponse;
 import com.wooteco.nolto.auth.ValidTokenRequired;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.user.domain.User;
+import com.wooteco.nolto.user.ui.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -30,15 +31,29 @@ public class AdminController {
 
     @ValidTokenRequired
     @GetMapping("/feeds")
-    public ResponseEntity<List<FeedCardResponse>> getAllFeeds(@AdminAuthenticationPrincipal User user) {
-        List<FeedCardResponse> feedCardResponses = adminService.findAllFeeds(user);
+    public ResponseEntity<List<FeedCardResponse>> getAllFeeds(@AdminAuthenticationPrincipal User adminUser) {
+        List<FeedCardResponse> feedCardResponses = adminService.findAllFeeds(adminUser);
         return ResponseEntity.ok(feedCardResponses);
     }
 
     @ValidTokenRequired
     @DeleteMapping("/feeds/{feedId:[\\d]+}")
-    public ResponseEntity<Void> deleteFeed(@AdminAuthenticationPrincipal User user, @PathVariable Long feedId) {
-        adminService.deleteFeed(user, feedId);
+    public ResponseEntity<Void> deleteFeed(@AdminAuthenticationPrincipal User adminUser, @PathVariable Long feedId) {
+        adminService.deleteFeed(adminUser, feedId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @ValidTokenRequired
+    @GetMapping("/users")
+    public ResponseEntity<List<UserResponse>> getAllUsers(@AdminAuthenticationPrincipal User adminUser) {
+        List<UserResponse> userResponses = adminService.findAllUsers(adminUser);
+        return ResponseEntity.ok(userResponses);
+    }
+
+    @ValidTokenRequired
+    @DeleteMapping("/users/{userId:[\\d]+}")
+    public ResponseEntity<Void> deleteUser(@AdminAuthenticationPrincipal User adminUser, @PathVariable Long userId) {
+        adminService.deleteUser(adminUser, userId);
         return ResponseEntity.noContent().build();
     }
 }

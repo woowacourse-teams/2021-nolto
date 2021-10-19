@@ -157,6 +157,12 @@ public class User extends BaseEntity {
         this.comments.remove(comment);
     }
 
+    public void validateAdmin() {
+        if (!this.isAdmin()) {
+            throw new UnauthorizedException(ErrorType.ADMIN_ONLY);
+        }
+    }
+
     public boolean isAdmin() {
         return this.equals(ADMIN_USER);
     }
