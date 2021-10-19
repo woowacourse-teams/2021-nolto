@@ -3,13 +3,11 @@ package com.wooteco.nolto.feed.application;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.NotFoundException;
 import com.wooteco.nolto.exception.UnauthorizedException;
+import com.wooteco.nolto.feed.domain.Comment;
 import com.wooteco.nolto.feed.domain.Feed;
-import com.wooteco.nolto.feed.domain.Step;
+import com.wooteco.nolto.feed.domain.repository.CommentRepository;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
-import com.wooteco.nolto.feed.ui.dto.FeedCardPaginationResponse;
-import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
-import com.wooteco.nolto.feed.ui.dto.FeedRequest;
-import com.wooteco.nolto.feed.ui.dto.FeedResponse;
+import com.wooteco.nolto.feed.ui.dto.*;
 import com.wooteco.nolto.image.application.ImageService;
 import com.wooteco.nolto.tech.domain.Tech;
 import com.wooteco.nolto.tech.domain.TechRepository;
@@ -31,6 +29,7 @@ import javax.transaction.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.wooteco.nolto.FeedFixture.진행중_단계의_피드_생성;
 import static com.wooteco.nolto.TechFixture.*;
 import static com.wooteco.nolto.UserFixture.조엘_생성;
 import static com.wooteco.nolto.UserFixture.찰리_생성;
@@ -77,6 +76,9 @@ class FeedServiceTest {
 
     @Autowired
     private TechRepository techRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
 
     @Autowired
     private EntityManager em;
@@ -801,19 +803,15 @@ class FeedServiceTest {
     @Test
     void findAllAsAdmin() {
         //given
-        EMPTY_TECH_FEED_REQUEST.setStep(Step.COMPLETE.name());
-        SPRING_JAVA_FEED_REQUEST.setStep(Step.COMPLETE.name());
-        REACT_FEED_REQUEST.setStep(Step.PROGRESS.name());
-
-        feedService.create(찰리, EMPTY_TECH_FEED_REQUEST);
-        feedRepository.flush();
-        feedService.create(찰리, SPRING_JAVA_FEED_REQUEST);
-        feedRepository.flush();
-        feedService.create(찰리, REACT_FEED_REQUEST);
-        feedRepository.flush();
+        Feed 피드1 = 진행중_단계의_피드_생성("피드1", "피드1").writtenBy(조엘);
+        feedRepository.save(피드1);
+        Feed 피드2 = 진행중_단계의_피드_생성("피드2", "피드2").writtenBy(조엘);
+        feedRepository.save(피드2);
+        Feed 피드3 = 진행중_단계의_피드_생성("피드3", "피드3").writtenBy(조엘);
+        feedRepository.save(피드3);
 
         //when
-        final List<FeedCardResponse> allFeeds = feedService.findAllAsAdmin(User.ADMIN_USER);
+        List<FeedCardResponse> allFeeds = feedService.findAllFeedsAsAdmin(User.ADMIN_USER);
 
         //then
         assertThat(allFeeds).hasSize(3);
@@ -823,23 +821,19 @@ class FeedServiceTest {
     @Test
     void findAllNotAsAdmin() {
         //given
-        EMPTY_TECH_FEED_REQUEST.setStep(Step.COMPLETE.name());
-        SPRING_JAVA_FEED_REQUEST.setStep(Step.COMPLETE.name());
-        REACT_FEED_REQUEST.setStep(Step.PROGRESS.name());
-
-        feedService.create(찰리, EMPTY_TECH_FEED_REQUEST);
-        feedRepository.flush();
-        feedService.create(찰리, SPRING_JAVA_FEED_REQUEST);
-        feedRepository.flush();
-        feedService.create(찰리, REACT_FEED_REQUEST);
-        feedRepository.flush();
+        Feed 피드1 = 진행중_단계의_피드_생성("피드1", "피드1").writtenBy(조엘);
+        feedRepository.save(피드1);
+        Feed 피드2 = 진행중_단계의_피드_생성("피드2", "피드2").writtenBy(조엘);
+        feedRepository.save(피드2);
+        Feed 피드3 = 진행중_단계의_피드_생성("피드3", "피드3").writtenBy(조엘);
+        feedRepository.save(피드3);
 
         //when & then
-        assertThatThrownBy(() -> feedService.findAllAsAdmin(찰리))
+        assertThatThrownBy(() -> feedService.findAllFeedsAsAdmin(찰리))
                 .isInstanceOf(UnauthorizedException.class)
                 .hasMessage(ErrorType.ADMIN_ONLY.getMessage());
 
-        assertThatThrownBy(() -> feedService.findAllAsAdmin(User.GUEST_USER))
+        assertThatThrownBy(() -> feedService.findAllFeedsAsAdmin(User.GUEST_USER))
                 .isInstanceOf(UnauthorizedException.class)
                 .hasMessage(ErrorType.ADMIN_ONLY.getMessage());
     }
@@ -848,22 +842,18 @@ class FeedServiceTest {
     @Test
     void deleteFeedAsAdmin() {
         //given
-        EMPTY_TECH_FEED_REQUEST.setStep(Step.COMPLETE.name());
-        SPRING_JAVA_FEED_REQUEST.setStep(Step.COMPLETE.name());
-        REACT_FEED_REQUEST.setStep(Step.PROGRESS.name());
-
-        Long firstFeedId = feedService.create(찰리, EMPTY_TECH_FEED_REQUEST);
-        feedRepository.flush();
-        Long secondFeedId = feedService.create(찰리, SPRING_JAVA_FEED_REQUEST);
-        feedRepository.flush();
-        Long thirdFeedId = feedService.create(찰리, REACT_FEED_REQUEST);
-        feedRepository.flush();
+        Feed 피드1 = 진행중_단계의_피드_생성("피드1", "피드1").writtenBy(조엘);
+        feedRepository.save(피드1);
+        Feed 피드2 = 진행중_단계의_피드_생성("피드2", "피드2").writtenBy(조엘);
+        feedRepository.save(피드2);
+        Feed 피드3 = 진행중_단계의_피드_생성("피드3", "피드3").writtenBy(조엘);
+        feedRepository.save(피드3);
 
         //when
-        feedService.deleteFeedAsAdmin(User.ADMIN_USER, firstFeedId);
+        feedService.deleteFeedAsAdmin(User.ADMIN_USER, 피드1.getId());
 
         //then
-        Optional<Feed> deletedFeed = feedRepository.findById(firstFeedId);
+        Optional<Feed> deletedFeed = feedRepository.findById(피드1.getId());
         assertThat(deletedFeed).isNotPresent();
     }
 
@@ -871,21 +861,51 @@ class FeedServiceTest {
     @Test
     void deleteFeedNotAsAdmin() {
         //given
-        EMPTY_TECH_FEED_REQUEST.setStep(Step.COMPLETE.name());
-        SPRING_JAVA_FEED_REQUEST.setStep(Step.COMPLETE.name());
-        REACT_FEED_REQUEST.setStep(Step.PROGRESS.name());
-
-        Long firstFeedId = feedService.create(찰리, EMPTY_TECH_FEED_REQUEST);
-        feedRepository.flush();
-        Long secondFeedId = feedService.create(찰리, SPRING_JAVA_FEED_REQUEST);
-        feedRepository.flush();
-        Long thirdFeedId = feedService.create(찰리, REACT_FEED_REQUEST);
-        feedRepository.flush();
+        Feed 피드1 = 진행중_단계의_피드_생성("피드1", "피드1").writtenBy(조엘);
+        feedRepository.save(피드1);
+        Feed 피드2 = 진행중_단계의_피드_생성("피드2", "피드2").writtenBy(조엘);
+        feedRepository.save(피드2);
+        Feed 피드3 = 진행중_단계의_피드_생성("피드3", "피드3").writtenBy(조엘);
+        feedRepository.save(피드3);
 
         //when & then
-        assertThatThrownBy(() -> feedService.deleteFeedAsAdmin(찰리, firstFeedId))
+        assertThatThrownBy(() -> feedService.deleteFeedAsAdmin(조엘, 피드1.getId()))
                 .isInstanceOf(UnauthorizedException.class)
                 .hasMessage(ErrorType.ADMIN_ONLY.getMessage());
+    }
+
+    @DisplayName("어드민 유저라면 댓글이 달려있는 피드들을 받아올 수 있다.")
+    @Test
+    void findAllCommentsByFeedAsAdmin() {
+        //given
+        Feed 피드1 = 진행중_단계의_피드_생성("피드1", "피드1").writtenBy(조엘);
+        feedRepository.saveAndFlush(피드1);
+        Feed 피드2 = 진행중_단계의_피드_생성("피드2", "피드2").writtenBy(조엘);
+        feedRepository.saveAndFlush(피드2);
+        Feed 피드3 = 진행중_단계의_피드_생성("피드3", "피드3").writtenBy(조엘);
+        feedRepository.saveAndFlush(피드3);
+
+        final Comment 피드1_댓글1 = new Comment("피드1_댓글1", false).writtenBy(찰리, 피드1);
+        commentRepository.saveAndFlush(피드1_댓글1);
+        final Comment 피드1_댓글2 = new Comment("피드1_댓글2", false).writtenBy(찰리, 피드1);
+        commentRepository.saveAndFlush(피드1_댓글2);
+        final Comment 피드1_댓글3 = new Comment("피드1_댓글3", false).writtenBy(찰리, 피드1);
+        commentRepository.saveAndFlush(피드1_댓글3);
+
+        final Comment 피드2_댓글1 = new Comment("피드2_댓글1", false).writtenBy(찰리, 피드2);
+        commentRepository.saveAndFlush(피드2_댓글1);
+        final Comment 피드2_댓글2 = new Comment("피드2_댓글2", false).writtenBy(찰리, 피드2);
+        commentRepository.saveAndFlush(피드2_댓글2);
+
+        //when
+        List<CommentsByFeedResponse> allCommentsByFeed = feedService.findAllCommentsByFeedAsAdmin(User.ADMIN_USER);
+
+        //then
+        assertThat(allCommentsByFeed).hasSize(2);
+        assertThat(allCommentsByFeed.get(0).getFeed().getId()).isEqualTo(피드1.getId());
+        assertThat(allCommentsByFeed.get(0).getComments()).hasSize(3);
+        assertThat(allCommentsByFeed.get(1).getFeed().getId()).isEqualTo(피드2.getId());
+        assertThat(allCommentsByFeed.get(1).getComments()).hasSize(2);
     }
 
     private void 피드_정보가_같은지_조회(FeedRequest request, Feed feed) {

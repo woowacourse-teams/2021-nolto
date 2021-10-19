@@ -8,6 +8,7 @@ import com.wooteco.nolto.user.domain.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "parent_id")
     private Comment parentComment;
 
+    @BatchSize(size = 5000)
     @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<CommentLike> likes = new ArrayList<>();
 

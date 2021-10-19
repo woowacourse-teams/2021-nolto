@@ -6,6 +6,7 @@ import com.wooteco.nolto.auth.infrastructure.JwtTokenProvider;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.UnauthorizedException;
 import com.wooteco.nolto.feed.application.FeedService;
+import com.wooteco.nolto.feed.ui.dto.CommentsByFeedResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.user.application.MemberService;
 import com.wooteco.nolto.user.domain.User;
@@ -51,7 +52,7 @@ public class AdminService {
     }
 
     public List<FeedCardResponse> findAllFeeds(User adminUser) {
-        return feedService.findAllAsAdmin(adminUser);
+        return feedService.findAllFeedsAsAdmin(adminUser);
     }
 
     public void deleteFeed(User adminUser, Long feedId) {
@@ -59,10 +60,14 @@ public class AdminService {
     }
 
     public List<UserResponse> findAllUsers(User adminUser) {
-        return memberService.findAllAsAdmin(adminUser);
+        return memberService.findAllUsersAsAdmin(adminUser);
     }
 
     public void deleteUser(User adminUser, Long userId) {
         memberService.deleteUserAsAdmin(adminUser, userId);
+    }
+
+    public List<CommentsByFeedResponse> findAllComments(User adminUser) {
+        return feedService.findAllCommentsByFeedAsAdmin(adminUser);
     }
 }

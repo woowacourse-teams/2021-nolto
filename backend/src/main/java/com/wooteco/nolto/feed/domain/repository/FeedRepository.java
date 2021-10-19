@@ -55,4 +55,10 @@ public interface FeedRepository extends JpaRepository<Feed, Long> {
             "where feed.id <= :feedId and feed.step in :steps and feed.isSos = :help " +
             "order by feed.createdDate desc, feed.id desc")
     List<Feed> findWithHelp(@Param("steps") EnumSet<Step> steps, @Param("help") Boolean help, @Param("feedId") Long feedId, Pageable pageable);
+
+    @Query(value = "select distinct feed " +
+            "from Feed as feed " +
+            "join fetch feed.author " +
+            "join fetch feed.comments")
+    List<Feed> findAllFeedsHavingComments();
 }

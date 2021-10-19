@@ -1,0 +1,32 @@
+package com.wooteco.nolto.feed.ui.dto;
+
+import com.wooteco.nolto.feed.domain.Feed;
+import lombok.Getter;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Getter
+public class CommentsByFeedResponse {
+
+    private final FeedCardResponse feed;
+    private final List<CommentResponse> comments;
+
+    public CommentsByFeedResponse(FeedCardResponse feed, List<CommentResponse> comments) {
+        this.feed = feed;
+        this.comments = comments;
+    }
+
+    public static CommentsByFeedResponse of(Feed feed) {
+        return new CommentsByFeedResponse(
+                FeedCardResponse.of(feed),
+                CommentResponse.toList(feed.getComments())
+        );
+    }
+
+    public static List<CommentsByFeedResponse> toList(List<Feed> feeds) {
+        return feeds.stream()
+                .map(CommentsByFeedResponse::of)
+                .collect(Collectors.toList());
+    }
+}

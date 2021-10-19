@@ -6,7 +6,6 @@ import com.wooteco.nolto.exception.UnauthorizedException;
 import com.wooteco.nolto.feed.domain.Comment;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.Like;
-import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.domain.repository.CommentRepository;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.feed.domain.repository.LikeRepository;
@@ -161,14 +160,14 @@ class MemberServiceTest {
     @DisplayName("어드민 권한으로는 모든 유저를 받아올 수 있다.")
     @Test
     void findAllUsersAsAdmin() {
-        List<UserResponse> allUsers = memberService.findAllAsAdmin(User.ADMIN_USER);
-        assertThat(allUsers).hasSize(2);
+        List<UserResponse> allUsers = memberService.findAllUsersAsAdmin(User.ADMIN_USER);
+        assertThat(allUsers).isNotEmpty();
     }
 
     @DisplayName("어드민 권한이 아니라면 모든 유저를 받아올 수 없다.")
     @Test
     void findAllUsersWithoutAdmin() {
-        assertThatThrownBy(() -> memberService.findAllAsAdmin(영상이))
+        assertThatThrownBy(() -> memberService.findAllUsersAsAdmin(영상이))
                 .isInstanceOf(UnauthorizedException.class)
                 .hasMessage(ErrorType.ADMIN_ONLY.getMessage());
     }

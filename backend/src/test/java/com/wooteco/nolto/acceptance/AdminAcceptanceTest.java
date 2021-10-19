@@ -2,6 +2,7 @@ package com.wooteco.nolto.acceptance;
 
 import com.wooteco.nolto.admin.ui.dto.AdminLoginRequest;
 import com.wooteco.nolto.admin.ui.dto.AdminLoginResponse;
+import com.wooteco.nolto.feed.ui.dto.CommentsByFeedResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.ui.dto.UserResponse;
@@ -17,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 import static com.wooteco.nolto.UserFixture.*;
+import static com.wooteco.nolto.acceptance.CommentAcceptanceTest.*;
 import static com.wooteco.nolto.acceptance.FeedAcceptanceTest.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -51,6 +53,10 @@ class AdminAcceptanceTest extends AcceptanceTest {
         회원_등록되어_있음(조엘);
         회원_등록되어_있음(찰리);
         회원_등록되어_있음(포모);
+
+        댓글을_작성한다(일반_댓글_작성요청, 유저의_토큰을_받는다(조엘).getAccessToken(), 두번째_피드_ID);
+        댓글을_작성한다(도와줄게요_댓글_작성요청, 유저의_토큰을_받는다(조엘).getAccessToken(), 세번째_피드_ID);
+        댓글을_작성한다(도와줄게요_댓글_작성요청, 유저의_토큰을_받는다(조엘).getAccessToken(), 네번째_피드_ID);
     }
 
     @AfterEach
@@ -140,6 +146,16 @@ class AdminAcceptanceTest extends AcceptanceTest {
         어드민_삭제_응답_받음(response);
     }
 
+    @DisplayName("어드민 유저로 피드 별 댓글을 가져올 수 있다")
+    @Test
+    void getAllComments() {
+        //when
+        ExtractableResponse<Response> response = 어드민_댓글_조회_요청(어드민_토큰_발급());
+
+        //then
+        어드민_댓글_조회_응답_받음(response);
+    }
+
     private ExtractableResponse<Response> 어드민_로그인_요청(AdminLoginRequest 어드민_로그인_양식) {
         return RestAssured.given().log().all()
                 .body(어드민_로그인_양식)
@@ -189,6 +205,16 @@ class AdminAcceptanceTest extends AcceptanceTest {
                 .extract();
     }
 
+    private ExtractableResponse<Response> 어드민_댓글_조회_요청(String 어드민_토큰) {
+        return RestAssured.given().log().all()
+                .when()
+                .auth().oauth2(어드민_토큰)
+                .get("/admin/comments")
+                .then()
+                .log().all()
+                .extract();
+    }
+
     private String 어드민_토큰_발급() {
         ExtractableResponse<Response> response = 어드민_로그인_요청(어드민_로그인_양식);
         AdminLoginResponse adminLoginResponse = response.as(AdminLoginResponse.class);
@@ -216,6 +242,12 @@ class AdminAcceptanceTest extends AcceptanceTest {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         UserResponse[] userResponses = response.as(UserResponse[].class);
         assertThat(userResponses).isNotEmpty();
+    }
+
+    private void 어드민_댓글_조회_응답_받음(ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        CommentsByFeedResponse[] commentsByFeedResponse = response.as(CommentsByFeedResponse[].class);
+        assertThat(commentsByFeedResponse).isNotEmpty();
     }
 
     private void 어드민_삭제_응답_받음(ExtractableResponse<Response> response) {

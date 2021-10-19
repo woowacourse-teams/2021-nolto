@@ -52,4 +52,10 @@ public class CommentResponse {
                 .map(comment -> CommentResponse.of(comment, user.isCommentLiked(comment)))
                 .collect(Collectors.toList());
     }
+
+    public static List<CommentResponse> toList(List<Comment> comments) {
+        return comments.stream()
+                .map(comment -> CommentResponse.of(comment, false))
+                .collect(Collectors.toList());
+    }
 }

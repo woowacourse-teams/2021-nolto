@@ -8,10 +8,7 @@ import com.wooteco.nolto.feed.application.searchstrategy.SearchStrategyFactory;
 import com.wooteco.nolto.feed.domain.*;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.feed.domain.repository.FeedTechRepository;
-import com.wooteco.nolto.feed.ui.dto.FeedCardPaginationResponse;
-import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
-import com.wooteco.nolto.feed.ui.dto.FeedRequest;
-import com.wooteco.nolto.feed.ui.dto.FeedResponse;
+import com.wooteco.nolto.feed.ui.dto.*;
 import com.wooteco.nolto.image.application.ImageKind;
 import com.wooteco.nolto.image.application.ImageService;
 import com.wooteco.nolto.notification.application.NotificationFeedDeleteEvent;
@@ -138,7 +135,7 @@ public class FeedService {
         return generateFeedCardPaginationResponse(countPerPage, findFeeds);
     }
 
-    public List<FeedCardResponse> findAllAsAdmin(User user) {
+    public List<FeedCardResponse> findAllFeedsAsAdmin(User user) {
         user.validateAdmin();
         List<Feed> allFeeds = feedRepository.findAll();
         return FeedCardResponse.toList(allFeeds);
@@ -148,5 +145,11 @@ public class FeedService {
         user.validateAdmin();
         Feed findFeed = findEntityById(feedId);
         feedRepository.delete(findFeed);
+    }
+
+    public List<CommentsByFeedResponse> findAllCommentsByFeedAsAdmin(User user) {
+        user.validateAdmin();
+        List<Feed> allFeedHavingComments = feedRepository.findAllFeedsHavingComments();
+        return CommentsByFeedResponse.toList(allFeedHavingComments);
     }
 }

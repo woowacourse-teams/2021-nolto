@@ -5,6 +5,7 @@ import com.wooteco.nolto.admin.application.AdminService;
 import com.wooteco.nolto.admin.ui.dto.AdminLoginRequest;
 import com.wooteco.nolto.admin.ui.dto.AdminLoginResponse;
 import com.wooteco.nolto.auth.ValidTokenRequired;
+import com.wooteco.nolto.feed.ui.dto.CommentsByFeedResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.ui.dto.UserResponse;
@@ -55,5 +56,12 @@ public class AdminController {
     public ResponseEntity<Void> deleteUser(@AdminAuthenticationPrincipal User adminUser, @PathVariable Long userId) {
         adminService.deleteUser(adminUser, userId);
         return ResponseEntity.noContent().build();
+    }
+
+    @ValidTokenRequired
+    @GetMapping("/comments")
+    public ResponseEntity<List<CommentsByFeedResponse>> getAllComments(@AdminAuthenticationPrincipal User adminUser) {
+        List<CommentsByFeedResponse> commentsByFeedResponse = adminService.findAllComments(adminUser);
+        return ResponseEntity.ok(commentsByFeedResponse);
     }
 }

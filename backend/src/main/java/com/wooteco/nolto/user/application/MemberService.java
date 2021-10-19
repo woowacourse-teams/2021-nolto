@@ -84,7 +84,7 @@ public class MemberService {
         return MemberResponse.of(user, notificationCount);
     }
 
-    public List<UserResponse> findAllAsAdmin(User user) {
+    public List<UserResponse> findAllUsersAsAdmin(User user) {
         user.validateAdmin();
         return UserResponse.toList(userRepository.findAll());
     }
