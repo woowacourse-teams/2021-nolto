@@ -89,10 +89,6 @@ const ContentArea = styled.div`
   @media ${MEDIA_QUERY.TABLET} {
     margin-top: 6rem;
   }
-
-  @media ${MEDIA_QUERY.MOBILE} {
-    margin-top: 3rem;
-  }
 `;
 
 const TitleWrapper = styled.div`
