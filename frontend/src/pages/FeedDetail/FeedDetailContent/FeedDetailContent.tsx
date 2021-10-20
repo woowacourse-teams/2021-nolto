@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 import { ButtonStyle } from 'types';
 import ViewCountIcon from 'assets/viewCount.svg';
@@ -22,6 +23,7 @@ import StepChip from 'components/StepChip/StepChip';
 import Thumbnail from 'components/Thumbnail/Thumbnail';
 import Markdown from 'components/@common/Markdown/Markdown';
 import Styled, { Tag, SOSFlag } from './FeedDetailContent.styles';
+import { removeMarkdown } from 'utils/common';
 
 interface Props {
   feedId: number;
@@ -122,6 +124,14 @@ const FeedDetailContent = ({ feedId }: Props) => {
   // TODO: 댓글 로딩 부분 스켈레톤으로 리팩토링
   return (
     <Styled.Root>
+      <Helmet>
+        <title>놀토: 토이프로젝트 피드</title>
+        <link rel="canonical" href="https://www.nolto.app/feeds" />
+        <meta
+          name="description"
+          content={removeMarkdown(feedDetail.content).replace(/\n+/g, ' ')}
+        />
+      </Helmet>
       <Styled.IntroContainer>
         <Styled.ThumbnailContainer>{thumbnailElement}</Styled.ThumbnailContainer>
         <Styled.FeedSummaryContainer>
