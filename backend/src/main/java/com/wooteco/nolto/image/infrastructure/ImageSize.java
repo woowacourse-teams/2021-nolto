@@ -1,5 +1,6 @@
 package com.wooteco.nolto.image.infrastructure;
 
+import com.madgag.gif.fmsware.GifDecoder;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.InternalServerErrorException;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +40,12 @@ public class ImageSize {
             log.error("이미지 파일을 읽는데 실패했습니다.", e);
             throw new InternalServerErrorException(ErrorType.IMAGE_RESIZING_FAIL);
         }
+    }
 
+    public static ImageSize ofGif(String gifFilePath) {
+        GifDecoder gifDecoder = new GifDecoder();
+        gifDecoder.read(gifFilePath);
+        return of(gifDecoder.getImage());
     }
 
     public static ImageSize of(BufferedImage image) {
