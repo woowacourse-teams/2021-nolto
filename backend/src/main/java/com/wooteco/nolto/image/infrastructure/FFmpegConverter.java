@@ -37,6 +37,7 @@ public class FFmpegConverter {
                     .addOutput(mp4FilePath)
                     .addExtraArgs(DELETE_SOUND_OPTION)
                     .setVideoMovFlags("faststart")
+                    .setVideoCodec("h264")
                     .setVideoPixelFormat("yuv420p")
                     .setVideoFilter("scale=trunc(iw/2)*2:trunc(ih/2)*2")
                     .setVideoWidth(resizedGifImage.getWidthOnesRounded())
