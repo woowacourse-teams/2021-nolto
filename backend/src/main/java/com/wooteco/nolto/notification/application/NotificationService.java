@@ -45,7 +45,7 @@ public class NotificationService {
         notificationRepository.delete(notification);
     }
 
-    public void deleteAll(User user) {
+    public void deleteAllByListener(User user) {
         notificationRepository.deleteAllByListener(user);
     }
 
@@ -61,5 +61,10 @@ public class NotificationService {
     public void deleteNotificationRelatedToComment(NotificationCommentDeleteEvent notificationCommentDeleteEvent) {
         Comment comment = notificationCommentDeleteEvent.getComment();
         notificationRepository.deleteAllByComment(comment);
+    }
+
+    public void deleteAllByUser(User user) {
+        notificationRepository.deleteAllByListener(user);
+        notificationRepository.deleteAllByPublisher(user);
     }
 }

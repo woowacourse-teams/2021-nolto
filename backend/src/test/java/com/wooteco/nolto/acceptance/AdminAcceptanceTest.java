@@ -199,7 +199,7 @@ class AdminAcceptanceTest extends AcceptanceTest {
         return RestAssured.given().log().all()
                 .when()
                 .auth().oauth2(어드민_토큰)
-                .delete("/admin/users/{feedId}", 유저_ID)
+                .delete("/admin/users/{userId}", 유저_ID)
                 .then()
                 .log().all()
                 .extract();
