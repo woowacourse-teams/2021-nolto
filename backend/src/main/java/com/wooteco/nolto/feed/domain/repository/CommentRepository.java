@@ -22,6 +22,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
             "from Comment as com " +
             "join fetch com.author " +
             "join fetch com.feed " +
+            "join fetch com.likes " +
             "where com.feed.id = :feedId and com.parentComment.id is null " +
             "order by com.createdDate desc, com.id desc")
     List<Comment> findAllByFeedIdAndParentCommentIdIsNull(@Param("feedId") Long feedId);
@@ -30,6 +31,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
             "from Comment as com " +
             "join fetch com.author " +
             "join fetch com.feed " +
+            "join fetch com.likes " +
             "where com.feed.id = :feedId and com.parentComment.id = :parentCommentId " +
             "order by com.createdDate desc, com.id desc")
     List<Comment> findAllByFeedIdAndParentCommentIdWithFetchJoin(@Param("feedId") Long feedId, @Param("parentCommentId") Long parentCommentId);
