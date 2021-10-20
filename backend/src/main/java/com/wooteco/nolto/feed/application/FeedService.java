@@ -144,6 +144,7 @@ public class FeedService {
     public void deleteFeedAsAdmin(User user, Long feedId) {
         user.validateAdmin();
         Feed findFeed = findEntityById(feedId);
+        applicationEventPublisher.publishEvent(new NotificationFeedDeleteEvent(findFeed));
         feedRepository.delete(findFeed);
     }
 

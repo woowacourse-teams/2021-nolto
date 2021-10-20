@@ -115,7 +115,7 @@ class AdminAcceptanceTest extends AcceptanceTest {
         어드민_삭제_응답_받음(response);
     }
 
-    @DisplayName("어드민 유저로 피드를 삭제할 수 있다.")
+    @DisplayName("어드민 유저가 아니면 피드를 삭제할 수 없다.")
     @Test
     void deleteFeedAsNotAdmin() {
         //when
@@ -154,6 +154,16 @@ class AdminAcceptanceTest extends AcceptanceTest {
 
         //then
         어드민_댓글_조회_응답_받음(response);
+    }
+
+    @DisplayName("어드민 유저로 댓글을 삭제할 수 있다")
+    @Test
+    void deleteCommentAsAdmin() {
+        //when
+        ExtractableResponse<Response> response = 어드민_댓글_삭제_요청(어드민_토큰_발급(), 1L);
+
+        //then
+        어드민_삭제_응답_받음(response);
     }
 
     private ExtractableResponse<Response> 어드민_로그인_요청(AdminLoginRequest 어드민_로그인_양식) {
@@ -195,6 +205,16 @@ class AdminAcceptanceTest extends AcceptanceTest {
                 .extract();
     }
 
+    private ExtractableResponse<Response> 어드민_댓글_삭제_요청(String 어드민_토큰, Long 댓글_ID) {
+        return RestAssured.given().log().all()
+                .when()
+                .auth().oauth2(어드민_토큰)
+                .delete("/admin/comments/{commentId}", 댓글_ID)
+                .then()
+                .log().all()
+                .extract();
+    }
+
     private ExtractableResponse<Response> 어드민_유저_삭제_요청(String 어드민_토큰, Long 유저_ID) {
         return RestAssured.given().log().all()
                 .when()
@@ -223,7 +243,6 @@ class AdminAcceptanceTest extends AcceptanceTest {
 
     private void 어드민_로그인_요청_성공(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-
         AdminLoginResponse adminLoginResponse = response.as(AdminLoginResponse.class);
         assertThat(adminLoginResponse.getAdminAccessToken()).isNotNull();
     }
