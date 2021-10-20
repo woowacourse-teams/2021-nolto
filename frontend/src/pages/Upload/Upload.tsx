@@ -1,5 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 import HighLightedText from 'components/@common/HighlightedText/HighlightedText';
 import FeedUploadForm from 'components/FeedUploadForm/FeedUploadForm';
@@ -10,7 +11,6 @@ import { ALERT_MSG } from 'constants/message';
 import ROUTE from 'constants/routes';
 import { FONT_SIZE } from 'constants/styles';
 import Styled from './Upload.styles';
-import { Helmet } from 'react-helmet-async';
 
 const Upload = () => {
   const uploadMutation = useFeedUpload();

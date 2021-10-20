@@ -1,5 +1,6 @@
 import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 import HighLightedText from 'components/@common/HighlightedText/HighlightedText';
 import FeedUploadForm from 'components/FeedUploadForm/FeedUploadForm';
@@ -12,7 +13,6 @@ import useSnackbar from 'contexts/snackbar/useSnackbar';
 import useFeedModify from 'hooks/queries/feed/useFeedModify';
 import { FeedDetail } from 'types';
 import Styled from './Modify.styles';
-import { Helmet } from 'react-helmet-async';
 
 const Modify = () => {
   const location = useLocation<{ feedDetail: FeedDetail }>();

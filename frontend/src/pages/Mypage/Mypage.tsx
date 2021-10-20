@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 
 import Intro from './Intro/Intro';
 import Notification from './Notification/Notification';
@@ -8,13 +9,12 @@ import ErrorFallback from 'components/ErrorFallback/ErrorFallback';
 import BaseLayout from 'components/BaseLayout/BaseLayout';
 import { ERROR_MSG } from 'constants/message';
 import Styled from './Mypage.styles';
-import { Helmet } from 'react-helmet-async';
 
 const Mypage = () => {
   return (
     <BaseLayout>
       <Helmet>
-        <title>놀토: 마이 페이지</title>
+        <title>놀토: 마이페이지</title>
       </Helmet>
       <Styled.Root>
         <AsyncBoundary rejectedFallback={<ErrorFallback message={ERROR_MSG.LOAD_USER_DATA} />}>

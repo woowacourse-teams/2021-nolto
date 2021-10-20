@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import hasWindow from 'constants/windowDetector';
 import { backendApi, frontendApi } from 'constants/api';
 
-const EXPIRED_IN = 2 * 60 * 60 * 1000 - 60 * 1000;
+const EXPIRED_IN = 2 * 60 * 60 * 1000 - 5 * 60 * 1000;
 
 const useAccessToken = () => {
   const [accessToken, setAccessToken] = useState(hasWindow ? window.__accessToken__ : '');
