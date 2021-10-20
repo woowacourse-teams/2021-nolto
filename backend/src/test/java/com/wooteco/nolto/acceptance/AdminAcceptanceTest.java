@@ -3,7 +3,9 @@ package com.wooteco.nolto.acceptance;
 import com.wooteco.nolto.admin.ui.dto.AdminLoginRequest;
 import com.wooteco.nolto.admin.ui.dto.AdminLoginResponse;
 import com.wooteco.nolto.feed.ui.dto.CommentsByFeedResponse;
+import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
+import com.wooteco.nolto.tech.domain.Tech;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.ui.dto.UserResponse;
 import io.restassured.RestAssured;
@@ -17,6 +19,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
+import java.util.Arrays;
+
+import static com.wooteco.nolto.TechFixture.리액트_생성;
+import static com.wooteco.nolto.TechFixture.스프링_생성;
 import static com.wooteco.nolto.UserFixture.*;
 import static com.wooteco.nolto.acceptance.CommentAcceptanceTest.*;
 import static com.wooteco.nolto.acceptance.FeedAcceptanceTest.*;
@@ -32,10 +38,13 @@ class AdminAcceptanceTest extends AcceptanceTest {
     private Long 세번째_피드_ID;
     private Long 네번째_피드_ID;
 
-    private User 아마찌 = 아마찌_생성();
-    private User 조엘 = 조엘_생성();
-    private User 찰리 = 찰리_생성();
-    private User 포모 = 포모_생성();
+    private final User 아마찌 = 아마찌_생성();
+    private final User 조엘 = 조엘_생성();
+    private final User 찰리 = 찰리_생성();
+    private final User 포모 = 포모_생성();
+
+    private final Tech 스프링 = 스프링_생성();
+    private final Tech 리액트 = 리액트_생성();
 
     @Autowired
     private DatabaseCleanup databaseCleanup;
@@ -43,6 +52,7 @@ class AdminAcceptanceTest extends AcceptanceTest {
     @BeforeEach
     void setUpOnFeedAcceptance() {
         super.setUp();
+        techRepository.saveAll(Arrays.asList(스프링, 리액트));
 
         첫번째_피드_ID = 피드_업로드되어_있음(진행중_단계의_피드_요청);
         두번째_피드_ID = 피드_업로드되어_있음(전시중_단계의_피드_요청);
@@ -103,6 +113,16 @@ class AdminAcceptanceTest extends AcceptanceTest {
 
         //then
         어드민_관련_요청_실패(response);
+    }
+
+    @DisplayName("어드민 유저로 피드를 삭제할 수 있다.")
+    @Test
+    void updateFeedAsAdmin() {
+        //when
+        ExtractableResponse<Response> response = 어드민_피드_수정_요청(어드민_토큰_발급(), 첫번째_피드_ID, 전시중_단계의_SOS_피드_요청);
+
+        //then
+        어드민_수정_응답_받음(response);
     }
 
     @DisplayName("어드민 유저로 피드를 삭제할 수 있다.")
@@ -180,6 +200,26 @@ class AdminAcceptanceTest extends AcceptanceTest {
                 .when()
                 .auth().oauth2(어드민_토큰)
                 .get("/admin/feeds")
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    private ExtractableResponse<Response> 어드민_피드_수정_요청(String 어드민_토큰, Long 피드_ID, FeedRequest 피드_요청) {
+        return RestAssured.given().log().all()
+                .when()
+                .auth().oauth2(어드민_토큰)
+                .formParam("title", 피드_요청.getTitle())
+                .formParam("techs", String.valueOf(스프링.getId()))
+                .formParam("techs", String.valueOf(리액트.getId()))
+                .formParam("content", 피드_요청.getContent())
+                .formParam("step", 피드_요청.getStep())
+                .formParam("sos", 피드_요청.isSos())
+                .formParam("StorageUrl", 피드_요청.getStorageUrl())
+                .formParam("DeployedUrl", 피드_요청.getDeployedUrl())
+                .multiPart("thumbnailImage", THUMBNAIL_IMAGE)
+                .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
+                .put("/admin/feeds/{feedId}", 피드_ID)
                 .then()
                 .log().all()
                 .extract();
@@ -267,6 +307,10 @@ class AdminAcceptanceTest extends AcceptanceTest {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         CommentsByFeedResponse[] commentsByFeedResponse = response.as(CommentsByFeedResponse[].class);
         assertThat(commentsByFeedResponse).isNotEmpty();
+    }
+
+    private void 어드민_수정_응답_받음(ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 
     private void 어드민_삭제_응답_받음(ExtractableResponse<Response> response) {

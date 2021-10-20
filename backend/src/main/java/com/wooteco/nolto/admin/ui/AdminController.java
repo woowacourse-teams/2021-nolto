@@ -44,7 +44,7 @@ public class AdminController {
     public ResponseEntity<Void> updateFeed(@AdminAuthenticationPrincipal User adminUser, @PathVariable Long feedId,
                                            @ModelAttribute @Valid FeedRequest request) {
         adminService.updateFeed(adminUser, feedId, request);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     @ValidTokenRequired

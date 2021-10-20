@@ -838,6 +838,23 @@ class FeedServiceTest {
                 .hasMessage(ErrorType.ADMIN_ONLY.getMessage());
     }
 
+    @DisplayName("어드민 사용자는 피드를 수정할 수 있다.")
+    @Test
+    void updateFeedAsAdmin() {
+        // given
+        Long feedId1 = feedService.create(찰리, SPRING_JAVA_FEED_REQUEST);
+        FeedRequest request = EMPTY_TECH_FEED_REQUEST;
+
+        // when
+        feedService.updateFeedAsAdmin(User.ADMIN_USER, feedId1, request);
+        em.flush();
+        em.clear();
+
+        // then
+        FeedResponse updateFeed = feedService.viewFeed(찰리, feedId1, true);
+        피드_정보가_같은지_조회(request, updateFeed);
+    }
+
     @DisplayName("어드민 유저는 누구의 피드라도 삭제할 수 있다")
     @Test
     void deleteFeedAsAdmin() {
