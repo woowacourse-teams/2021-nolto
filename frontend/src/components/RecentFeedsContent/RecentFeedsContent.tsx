@@ -11,10 +11,10 @@ import useSnackbar from 'contexts/snackbar/useSnackbar';
 import useRecentFeedsLoad from 'hooks/queries/feed/useRecentFeedsLoad';
 import useIntersectionObserver from 'hooks/@common/useIntersectionObserver';
 import { FONT_SIZE } from 'constants/styles';
+import { RECENT_FEEDS_PER_PAGE } from 'constants/common';
+import { isFeedStep } from 'utils/typeGuard';
 import { FeedStep } from 'types';
 import Styled from './RecentFeedsContent.styles';
-import { isFeedStep } from 'utils/typeGuard';
-import { RECENT_FEEDS_PER_PAGE } from 'constants/common';
 
 const RecentFeedsContent = () => {
   const location = useLocation();

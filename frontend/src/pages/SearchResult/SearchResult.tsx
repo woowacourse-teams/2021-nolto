@@ -6,6 +6,7 @@ import AsyncBoundary from 'components/AsyncBoundary';
 import BaseLayout from 'components/BaseLayout/BaseLayout';
 import StepChip from 'components/StepChip/StepChip';
 import Toggle from 'components/@common/Toggle/Toggle';
+import HighLightedText from 'components/@common/HighlightedText/HighlightedText';
 import SearchResultContent from 'pages/SearchResult/SearchResultContent/SearchResultContent';
 import SearchResultHeader from 'pages/SearchResult/SearchResultHeader/SearchResultHeader';
 import { FONT_SIZE } from 'constants/styles';
@@ -38,9 +39,7 @@ const SearchResult = () => {
       </Helmet>
       <Styled.TopContainer>
         <h2>
-          <Styled.SectionTitle fontSize={FONT_SIZE.X_LARGE}>
-            토이 프로젝트 검색 결과
-          </Styled.SectionTitle>
+          <HighLightedText fontSize={FONT_SIZE.X_LARGE}>🔍 토이 프로젝트 검색 결과</HighLightedText>
         </h2>
         <AsyncBoundary rejectedFallback={<div>게시물 검색에 실패했습니다.</div>}>
           <SearchResultHeader
