@@ -4,7 +4,7 @@ import { useHistory, useLocation } from 'react-router';
 import { FlexContainer } from 'commonStyles';
 import RegularFeedCard from 'components/RegularFeedCard/RegularFeedCard';
 import StepChip from 'components/StepChip/StepChip';
-import { HighLightedText } from 'components/TeamMember/TeamMember.styles';
+import HighLightedText from 'components/@common/HighlightedText/HighlightedText';
 import RegularSkeleton from 'components/RegularSkeleton/RegularSkeleton';
 import Toggle from 'components/@common/Toggle/Toggle';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
