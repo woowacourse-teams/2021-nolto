@@ -7,6 +7,7 @@ import com.wooteco.nolto.admin.ui.dto.AdminLoginResponse;
 import com.wooteco.nolto.auth.ValidTokenRequired;
 import com.wooteco.nolto.feed.ui.dto.CommentsByFeedResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
+import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.ui.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -36,6 +38,14 @@ public class AdminController {
         List<FeedCardResponse> feedCardResponses = adminService.findAllFeeds(adminUser);
         return ResponseEntity.ok(feedCardResponses);
     }
+
+//    @ValidTokenRequired
+//    @PutMapping("/feeds/{feedId:[\\d]+}")
+//    public ResponseEntity<Void> updateFeed(@AdminAuthenticationPrincipal User adminUser, @PathVariable Long feedId,
+//                                           @ModelAttribute @Valid FeedRequest request) {
+//        adminService.updateFeed(adminUser, feedId);
+//        return ResponseEntity.noContent().build();
+//    }
 
     @ValidTokenRequired
     @DeleteMapping("/feeds/{feedId:[\\d]+}")

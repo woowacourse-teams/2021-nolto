@@ -34,7 +34,12 @@ class FFmpegConverterTest {
     private void 변환_후_생성된_파일삭제() throws IOException {
         URL resource = getClass().getClassLoader().getResource("static/" + mp4FileName);
         if (Objects.nonNull(resource)) {
-            Files.delete(Paths.get(resource.getPath()));
+            String resourcePath = resource.getPath();
+            String osName = System.getProperty("os.name");
+            if (osName.contains("Windows")) {
+                resourcePath = resourcePath.substring(1);
+            }
+            Files.delete(Paths.get(resourcePath));
         }
     }
 
@@ -44,6 +49,11 @@ class FFmpegConverterTest {
         // given
         URL resource = getClass().getClassLoader().getResource("static/" + gifFileName);
         String gifFilePath = resource.getPath();
+        String osName = System.getProperty("os.name");
+        if (osName.contains("Windows")) {
+            gifFilePath = gifFilePath.substring(1);
+        }
+
         int indexOfExtensionDot = gifFilePath.lastIndexOf(".");
         String filePathWithoutExtension = gifFilePath.substring(0, indexOfExtensionDot);
         String mp4FilePath = filePathWithoutExtension + ".mp4";
@@ -53,7 +63,11 @@ class FFmpegConverterTest {
 
         // then
         URL mp4URL = getClass().getClassLoader().getResource("static/" + mp4FileName);
-        assertThat(mp4URL.getPath()).isEqualTo(mp4FilePath);
+        String convertedMp4FileName = mp4URL.getPath();
+        if (osName.contains("Windows")) {
+            convertedMp4FileName = convertedMp4FileName.substring(1);
+        }
+        assertThat(convertedMp4FileName).isEqualTo(mp4FilePath);
     }
 
     @DisplayName("gif파일이 파일 경로에 존재하지 않으면 예외가 발생한다. ")
