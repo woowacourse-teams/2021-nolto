@@ -811,7 +811,7 @@ class FeedServiceTest {
         feedRepository.save(피드3);
 
         //when
-        List<FeedCardResponse> allFeeds = feedService.findAllFeedsAsAdmin(User.ADMIN_USER);
+        List<FeedResponse> allFeeds = feedService.findAllFeedsAsAdmin(User.ADMIN_USER);
 
         //then
         assertThat(allFeeds).hasSize(3);

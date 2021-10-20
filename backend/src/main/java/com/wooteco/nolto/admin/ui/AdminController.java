@@ -6,8 +6,8 @@ import com.wooteco.nolto.admin.ui.dto.AdminLoginRequest;
 import com.wooteco.nolto.admin.ui.dto.AdminLoginResponse;
 import com.wooteco.nolto.auth.ValidTokenRequired;
 import com.wooteco.nolto.feed.ui.dto.CommentsByFeedResponse;
-import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
+import com.wooteco.nolto.feed.ui.dto.FeedResponse;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.ui.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
@@ -34,18 +34,18 @@ public class AdminController {
 
     @ValidTokenRequired
     @GetMapping("/feeds")
-    public ResponseEntity<List<FeedCardResponse>> getAllFeeds(@AdminAuthenticationPrincipal User adminUser) {
-        List<FeedCardResponse> feedCardResponses = adminService.findAllFeeds(adminUser);
-        return ResponseEntity.ok(feedCardResponses);
+    public ResponseEntity<List<FeedResponse>> getAllFeeds(@AdminAuthenticationPrincipal User adminUser) {
+        List<FeedResponse> feedResponses = adminService.findAllFeeds(adminUser);
+        return ResponseEntity.ok(feedResponses);
     }
 
-//    @ValidTokenRequired
-//    @PutMapping("/feeds/{feedId:[\\d]+}")
-//    public ResponseEntity<Void> updateFeed(@AdminAuthenticationPrincipal User adminUser, @PathVariable Long feedId,
-//                                           @ModelAttribute @Valid FeedRequest request) {
-//        adminService.updateFeed(adminUser, feedId);
-//        return ResponseEntity.noContent().build();
-//    }
+    @ValidTokenRequired
+    @PutMapping("/feeds/{feedId:[\\d]+}")
+    public ResponseEntity<Void> updateFeed(@AdminAuthenticationPrincipal User adminUser, @PathVariable Long feedId,
+                                           @ModelAttribute @Valid FeedRequest request) {
+        adminService.updateFeed(adminUser, feedId, request);
+        return ResponseEntity.noContent().build();
+    }
 
     @ValidTokenRequired
     @DeleteMapping("/feeds/{feedId:[\\d]+}")

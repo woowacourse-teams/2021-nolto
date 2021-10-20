@@ -8,7 +8,8 @@ import com.wooteco.nolto.exception.UnauthorizedException;
 import com.wooteco.nolto.feed.application.CommentService;
 import com.wooteco.nolto.feed.application.FeedService;
 import com.wooteco.nolto.feed.ui.dto.CommentsByFeedResponse;
-import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
+import com.wooteco.nolto.feed.ui.dto.FeedRequest;
+import com.wooteco.nolto.feed.ui.dto.FeedResponse;
 import com.wooteco.nolto.user.application.MemberService;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.ui.dto.UserResponse;
@@ -53,8 +54,12 @@ public class AdminService {
         throw new UnauthorizedException(ErrorType.ADMIN_ONLY);
     }
 
-    public List<FeedCardResponse> findAllFeeds(User adminUser) {
+    public List<FeedResponse> findAllFeeds(User adminUser) {
         return feedService.findAllFeedsAsAdmin(adminUser);
+    }
+
+    public void updateFeed(User adminUser, Long feedId, FeedRequest request) {
+        feedService.updateFeedAsAdmin(adminUser, feedId, request);
     }
 
     public void deleteFeed(User adminUser, Long feedId) {

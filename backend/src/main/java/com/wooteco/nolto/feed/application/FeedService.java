@@ -5,7 +5,10 @@ import com.wooteco.nolto.exception.NotFoundException;
 import com.wooteco.nolto.exception.UnauthorizedException;
 import com.wooteco.nolto.feed.application.searchstrategy.SearchStrategy;
 import com.wooteco.nolto.feed.application.searchstrategy.SearchStrategyFactory;
-import com.wooteco.nolto.feed.domain.*;
+import com.wooteco.nolto.feed.domain.Feed;
+import com.wooteco.nolto.feed.domain.FeedTech;
+import com.wooteco.nolto.feed.domain.Feeds;
+import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.feed.domain.repository.FeedTechRepository;
 import com.wooteco.nolto.feed.ui.dto.*;
@@ -135,10 +138,19 @@ public class FeedService {
         return generateFeedCardPaginationResponse(countPerPage, findFeeds);
     }
 
-    public List<FeedCardResponse> findAllFeedsAsAdmin(User user) {
+    public List<FeedResponse> findAllFeedsAsAdmin(User user) {
         user.validateAdmin();
-        List<Feed> allFeeds = feedRepository.findAll();
-        return FeedCardResponse.toList(allFeeds);
+        List<Feed> allFeeds = feedRepository.findAllWithFetchJoin();
+        return FeedResponse.toList(allFeeds);
+    }
+
+    public void updateFeedAsAdmin(User user, Long feedId, FeedRequest request) {
+        user.validateAdmin();
+        Feed findFeed = findEntityById(feedId);
+        List<FeedTech> feedTechs = findFeed.getFeedTechs();
+        feedTechRepository.deleteAll(feedTechs);
+        feedTechs.clear();
+        updateFeed(request, findFeed);
     }
 
     public void deleteFeedAsAdmin(User user, Long feedId) {

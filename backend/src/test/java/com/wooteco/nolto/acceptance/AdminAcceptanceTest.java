@@ -3,7 +3,7 @@ package com.wooteco.nolto.acceptance;
 import com.wooteco.nolto.admin.ui.dto.AdminLoginRequest;
 import com.wooteco.nolto.admin.ui.dto.AdminLoginResponse;
 import com.wooteco.nolto.feed.ui.dto.CommentsByFeedResponse;
-import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
+import com.wooteco.nolto.feed.ui.dto.FeedResponse;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.ui.dto.UserResponse;
 import io.restassured.RestAssured;
@@ -253,8 +253,8 @@ class AdminAcceptanceTest extends AcceptanceTest {
 
     private void 어드민_피드_조회_응답_받음(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-        FeedCardResponse[] feedCardResponses = response.as(FeedCardResponse[].class);
-        assertThat(feedCardResponses).isNotEmpty();
+        FeedResponse[] feedResponses = response.as(FeedResponse[].class);
+        assertThat(feedResponses).isNotEmpty();
     }
 
     private void 어드민_유저_조회_응답_받음(ExtractableResponse<Response> response) {
