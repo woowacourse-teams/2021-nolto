@@ -10,6 +10,7 @@ import { ALERT_MSG } from 'constants/message';
 import ROUTE from 'constants/routes';
 import { FONT_SIZE } from 'constants/styles';
 import Styled from './Upload.styles';
+import { Helmet } from 'react-helmet-async';
 
 const Upload = () => {
   const uploadMutation = useFeedUpload();
@@ -27,6 +28,9 @@ const Upload = () => {
 
   return (
     <BaseLayout>
+      <Helmet>
+        <title>놀토: 토이 프로젝트 등록</title>
+      </Helmet>
       <Styled.Root>
         <Styled.TitleWrapper>
           <HighLightedText fontSize={FONT_SIZE.X_LARGE}>🦄 토이 프로젝트 등록</HighLightedText>

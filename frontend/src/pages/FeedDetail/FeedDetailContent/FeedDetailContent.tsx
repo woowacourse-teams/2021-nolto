@@ -125,7 +125,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
   return (
     <Styled.Root>
       <Helmet>
-        <title>놀토: 토이프로젝트 피드</title>
+        <title>놀토: 토이프로젝트 - {feedDetail.title}</title>
         <link rel="canonical" href="https://www.nolto.app/feeds" />
         <meta
           name="description"

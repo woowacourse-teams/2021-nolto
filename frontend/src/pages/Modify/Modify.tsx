@@ -12,6 +12,7 @@ import useSnackbar from 'contexts/snackbar/useSnackbar';
 import useFeedModify from 'hooks/queries/feed/useFeedModify';
 import { FeedDetail } from 'types';
 import Styled from './Modify.styles';
+import { Helmet } from 'react-helmet-async';
 
 const Modify = () => {
   const location = useLocation<{ feedDetail: FeedDetail }>();
@@ -55,6 +56,9 @@ const Modify = () => {
 
   return (
     <BaseLayout>
+      <Helmet>
+        <title>놀토: 토이 프로젝트 수정</title>
+      </Helmet>
       <Styled.Root>
         <Styled.TitleWrapper>
           <HighLightedText fontSize={FONT_SIZE.X_LARGE}>🔧 토이 프로젝트 수정</HighLightedText>
