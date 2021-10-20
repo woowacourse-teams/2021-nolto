@@ -28,7 +28,7 @@ export const getNewAuthToken = async (req: express.Request): Promise<AuthData> =
 
   const { refreshToken } = req.cookies;
 
-  let clientIP = req.ip;
+  let clientIP = req.headers['x-forwarded-for'];
 
   if (process.env.NODE_ENV !== 'production') {
     const { data: publicIP } = await axios.get(PUBLIC_IP_API);
