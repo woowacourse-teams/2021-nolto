@@ -6,6 +6,7 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Getter
 public class CommentAndReplyResponse {
@@ -22,13 +23,10 @@ public class CommentAndReplyResponse {
         return new CommentAndReplyResponse(CommentResponse.of(comment), CommentResponse.toList(replies));
     }
 
-    public static List<CommentAndReplyResponse> toList(Map<Comment, List<Comment>> mapByCommentAndReplies) {
-        List<CommentAndReplyResponse> commentAndReplyResponses = new ArrayList<>();
-        for (Map.Entry<Comment, List<Comment>> commentAndRepliesEntry : mapByCommentAndReplies.entrySet()) {
-            Comment comment = commentAndRepliesEntry.getKey();
-            List<Comment> replies = commentAndRepliesEntry.getValue();
-            commentAndReplyResponses.add(CommentAndReplyResponse.of(comment, replies));
-        }
-        return commentAndReplyResponses;
+    public static List<CommentAndReplyResponse> toList(Map<Comment, List<Comment>> commentAndReplies) {
+        return commentAndReplies.entrySet()
+                .stream()
+                .map(comment -> CommentAndReplyResponse.of(comment.getKey(), comment.getValue()))
+                .collect(Collectors.toList());
     }
 }

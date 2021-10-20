@@ -94,7 +94,7 @@ public class MemberService {
         user.validateAdmin();
         User userToDelete = userRepository.findById(userId)
                 .orElseThrow(() -> new BadRequestException(ErrorType.USER_NOT_FOUND));
-        notificationService.deleteAllByUser(userToDelete);
+        notificationService.deleteAllOfUser(userToDelete);
         userRepository.delete(userToDelete);
     }
 }

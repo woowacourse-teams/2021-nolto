@@ -63,7 +63,7 @@ public class NotificationService {
         notificationRepository.deleteAllByComment(comment);
     }
 
-    public void deleteAllByUser(User user) {
+    public void deleteAllOfUser(User user) {
         notificationRepository.deleteAllByListener(user);
         notificationRepository.deleteAllByPublisher(user);
     }
