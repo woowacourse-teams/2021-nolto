@@ -43,7 +43,7 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "parent_id")
     private Comment parentComment;
 
-    @BatchSize(size = 5000)
+    @BatchSize(size = 200)
     @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<CommentLike> likes = new ArrayList<>();
 
@@ -123,6 +123,10 @@ public class Comment extends BaseEntity {
 
     public boolean isReply() {
         return Objects.nonNull(this.parentComment);
+    }
+
+    public boolean isParentComment() {
+        return Objects.isNull(this.parentComment);
     }
 
     @Override

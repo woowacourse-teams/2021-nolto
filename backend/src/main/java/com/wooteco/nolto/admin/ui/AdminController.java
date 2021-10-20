@@ -64,4 +64,11 @@ public class AdminController {
         List<CommentsByFeedResponse> commentsByFeedResponse = adminService.findAllComments(adminUser);
         return ResponseEntity.ok(commentsByFeedResponse);
     }
+
+    @ValidTokenRequired
+    @DeleteMapping("/comments/{commentId:[\\d]+}")
+    public ResponseEntity<Void> deleteComment(@AdminAuthenticationPrincipal User adminUser, @PathVariable Long commentId) {
+        adminService.deleteComment(adminUser, commentId);
+        return ResponseEntity.noContent().build();
+    }
 }
