@@ -63,9 +63,9 @@ public class AuthService {
 
     private AllTokenResponse getTokenResponse(long userId, String clientIP) {
         TokenResponse accessToken = jwtTokenProvider.createToken(String.valueOf(userId));
-        TokenResponse refreshTokenResponse = jwtTokenProvider.createRefreshToken(UUID.randomUUID().toString());
-        redisRepository.set(refreshTokenResponse.getValue(), clientIP, String.valueOf(userId), refreshTokenResponse.getExpiredIn());
-        return new AllTokenResponse(accessToken, refreshTokenResponse);
+        TokenResponse refreshToken = jwtTokenProvider.createRefreshToken(UUID.randomUUID().toString());
+        redisRepository.set(refreshToken.getValue(), clientIP, String.valueOf(userId), refreshToken.getExpiredIn());
+        return new AllTokenResponse(accessToken, refreshToken);
     }
 
     private User signUp(User user) {
