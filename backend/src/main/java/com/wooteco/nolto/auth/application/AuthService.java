@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -55,8 +54,10 @@ public class AuthService {
     }
 
     private AllTokenResponse createToken(User user, String clientIP) {
-        Optional<User> userOptional = userRepository.findBySocialIdAndSocialType(user.getSocialId(), user.getSocialType());
-        User findUser = userOptional.orElseGet(() -> signUp(user));
+        User findUser = userRepository.findBySocialIdAndSocialType(
+                        user.getSocialId(),
+                        user.getSocialType()
+                ).orElseGet(() -> signUp(user));
         return getTokenResponse(findUser.getId(), clientIP);
     }
 
