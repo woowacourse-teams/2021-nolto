@@ -1,5 +1,5 @@
 import { CommentType } from 'types';
-import { MOCK_USER } from './User';
+import { MOCK_USER } from './user';
 
 export const MOCK_SUB_COMMENTS: CommentType[] = [
   {
