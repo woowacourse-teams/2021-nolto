@@ -1,4 +1,4 @@
-package com.wooteco.nolto.user.ui.dto;
+package com.wooteco.nolto.admin.ui.dto;
 
 import com.wooteco.nolto.user.domain.User;
 import lombok.Getter;

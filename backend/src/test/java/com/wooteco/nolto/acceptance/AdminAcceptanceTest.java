@@ -2,12 +2,12 @@ package com.wooteco.nolto.acceptance;
 
 import com.wooteco.nolto.admin.ui.dto.AdminLoginRequest;
 import com.wooteco.nolto.admin.ui.dto.AdminLoginResponse;
-import com.wooteco.nolto.feed.ui.dto.CommentsByFeedResponse;
+import com.wooteco.nolto.admin.ui.dto.CommentsByFeedResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
 import com.wooteco.nolto.tech.domain.Tech;
 import com.wooteco.nolto.user.domain.User;
-import com.wooteco.nolto.user.ui.dto.UserResponse;
+import com.wooteco.nolto.admin.ui.dto.UserResponse;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;

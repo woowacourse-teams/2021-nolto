@@ -1,6 +1,8 @@
-package com.wooteco.nolto.feed.ui.dto;
+package com.wooteco.nolto.admin.ui.dto;
 
 import com.wooteco.nolto.feed.domain.Feed;
+import com.wooteco.nolto.feed.ui.dto.CommentAndReplyResponse;
+import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
 import lombok.Getter;
 
 import java.util.List;

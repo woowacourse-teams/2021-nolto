@@ -1,5 +1,6 @@
 package com.wooteco.nolto.user.application;
 
+import com.wooteco.nolto.admin.ui.dto.UserResponse;
 import com.wooteco.nolto.exception.BadRequestException;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.feed.domain.Comment;
