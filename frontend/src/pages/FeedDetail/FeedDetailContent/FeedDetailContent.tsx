@@ -192,13 +192,15 @@ const FeedDetailContent = ({ feedId }: Props) => {
                   <Styled.DetailsKey>기술스택</Styled.DetailsKey>
                 </Styled.DetailsKeyWrapper>
                 <Styled.DetailsValue>
-                  {feedDetail.techs.map((tech) => (
-                    <li key={tech.id}>
-                      <Tag buttonStyle={ButtonStyle.SOLID} onClick={() => searchByTag(tech.text)}>
-                        {tech.text}
-                      </Tag>
-                    </li>
-                  ))}
+                  <ul>
+                    {feedDetail.techs.map((tech) => (
+                      <li key={tech.id}>
+                        <Tag buttonStyle={ButtonStyle.SOLID} onClick={() => searchByTag(tech.text)}>
+                          {tech.text}
+                        </Tag>
+                      </li>
+                    ))}
+                  </ul>
                 </Styled.DetailsValue>
               </Styled.DetailsPair>
             )}

@@ -61,14 +61,6 @@ const LogoWrapper = styled.div`
     gap: 0.5rem;
   }
 
-  & h1.visually-hidden {
-    width: 1px;
-    height: 1px;
-    clip: rect(0 0 0 0);
-    overflow: hidden;
-    position: absolute;
-  }
-
   @media ${MEDIA_QUERY.MOBILE} {
     width: 40px;
     height: 40px;

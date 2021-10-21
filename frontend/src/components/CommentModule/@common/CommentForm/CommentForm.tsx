@@ -52,11 +52,17 @@ const CommentForm = ({ onSubmit, isRootComment = false }: Props) => {
       <Form onSubmit={handleSubmitComment}>
         <Styled.FormInputWrapper>
           {userInfo ? (
-            <CommentFormInput value={content} disabled={false} onChange={handleChangeContent} />
+            <CommentFormInput
+              aria-label="댓글 작성"
+              value={content}
+              disabled={false}
+              onChange={handleChangeContent}
+            />
           ) : (
-            <CommentFormInput value={MESSAGES.NEED_LOGIN} disabled={true} />
+            <CommentFormInput aria-label="댓글 작성" value={MESSAGES.NEED_LOGIN} disabled={true} />
           )}
           <SendButton size="1.5rem" hasShadow={false} disabled={!userInfo}>
+            <span className="visually-hidden">댓글 입력</span>
             <SendIcon width="21px" height="21px" />
           </SendButton>
         </Styled.FormInputWrapper>

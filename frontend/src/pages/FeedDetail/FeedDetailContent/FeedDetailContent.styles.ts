@@ -176,15 +176,20 @@ const DetailsKey = styled(HighlightedText)`
 const DetailsValue = styled.span`
   display: flex;
   font-size: 1rem;
-  align-items: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  overflow: hidden;
 
   & > a {
     &:hover {
       text-decoration: underline;
     }
+  }
+
+  & ul {
+    display: flex;
+    font-size: 1rem;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    overflow: hidden;
   }
 `;
 
