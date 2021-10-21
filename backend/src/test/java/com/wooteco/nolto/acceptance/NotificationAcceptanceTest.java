@@ -1,7 +1,6 @@
 package com.wooteco.nolto.acceptance;
 
 import com.wooteco.nolto.notification.domain.NotificationType;
-import com.wooteco.nolto.tech.domain.Tech;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.user.ui.dto.NotificationResponse;
 import io.restassured.RestAssured;
@@ -14,10 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
-import java.util.Arrays;
 import java.util.List;
 
-import static com.wooteco.nolto.TechFixture.자바_생성;
 import static com.wooteco.nolto.UserFixture.찰리_생성;
 import static com.wooteco.nolto.UserFixture.포모_생성;
 import static com.wooteco.nolto.acceptance.CommentAcceptanceTest.*;

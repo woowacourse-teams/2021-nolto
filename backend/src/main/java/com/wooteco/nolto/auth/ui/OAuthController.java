@@ -1,9 +1,9 @@
 package com.wooteco.nolto.auth.ui;
 
 import com.wooteco.nolto.auth.application.AuthService;
+import com.wooteco.nolto.auth.ui.dto.AllTokenResponse;
 import com.wooteco.nolto.auth.ui.dto.OAuthRedirectResponse;
 import com.wooteco.nolto.auth.ui.dto.RefreshTokenRequest;
-import com.wooteco.nolto.auth.ui.dto.AllTokenResponse;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;

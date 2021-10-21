@@ -1,9 +1,9 @@
 package com.wooteco.nolto.api;
 
 import com.wooteco.nolto.auth.ui.OAuthController;
+import com.wooteco.nolto.auth.ui.dto.AllTokenResponse;
 import com.wooteco.nolto.auth.ui.dto.OAuthRedirectResponse;
 import com.wooteco.nolto.auth.ui.dto.RefreshTokenRequest;
-import com.wooteco.nolto.auth.ui.dto.AllTokenResponse;
 import com.wooteco.nolto.auth.ui.dto.TokenResponse;
 import com.wooteco.nolto.exception.BadRequestException;
 import com.wooteco.nolto.exception.ErrorType;
