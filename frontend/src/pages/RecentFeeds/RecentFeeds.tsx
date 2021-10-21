@@ -28,6 +28,7 @@ const RecentFeeds = () => {
       </AsyncBoundary>
       <ScrollUpButton size="3rem" onClick={scrollTop}>
         <Styled.ArrowUp width="14px" fill={PALETTE.PRIMARY_400} />
+        <span className="visually-hidden">상단으로 이동하기</span>
       </ScrollUpButton>
     </BaseLayout>
   );
