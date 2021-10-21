@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { customRender, fireEvent, waitFor } from 'test-util';
-import { MOCK_FEED_DETAIL } from '__mocks__/fixture/Feeds';
-import { MOCK_USER } from '__mocks__/fixture/User';
+import { MOCK_FEED_DETAIL } from '__mocks__/fixture/feeds';
+import { MOCK_USER } from '__mocks__/fixture/user';
 import LikeButton from './LikeButton';
 
 jest.mock('hooks/queries/useMember', () => {
