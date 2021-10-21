@@ -54,10 +54,14 @@ public class FeedService {
 
     public void update(User user, Long feedId, FeedRequest request) {
         Feed findFeed = user.findMyFeed(feedId);
+        removeFeedTechs(findFeed);
+        updateFeed(request, findFeed);
+    }
+
+    private void removeFeedTechs(Feed findFeed) {
         List<FeedTech> feedTechs = findFeed.getFeedTechs();
         feedTechRepository.deleteAll(feedTechs);
         feedTechs.clear();
-        updateFeed(request, findFeed);
     }
 
     private void updateFeed(FeedRequest request, Feed findFeed) {
@@ -104,6 +108,10 @@ public class FeedService {
         if (findFeed.notSameAuthor(user)) {
             throw new UnauthorizedException(ErrorType.UNAUTHORIZED_DELETE_FEED);
         }
+        deleteFeed(findFeed);
+    }
+
+    private void deleteFeed(Feed findFeed) {
         applicationEventPublisher.publishEvent(new NotificationFeedDeleteEvent(findFeed));
         feedRepository.delete(findFeed);
     }
@@ -148,17 +156,14 @@ public class FeedService {
     public void updateFeedAsAdmin(User user, Long feedId, FeedRequest request) {
         user.validateAdmin();
         Feed findFeed = findEntityById(feedId);
-        List<FeedTech> feedTechs = findFeed.getFeedTechs();
-        feedTechRepository.deleteAll(feedTechs);
-        feedTechs.clear();
+        removeFeedTechs(findFeed);
         updateFeed(request, findFeed);
     }
 
     public void deleteFeedAsAdmin(User user, Long feedId) {
         user.validateAdmin();
         Feed findFeed = findEntityById(feedId);
-        applicationEventPublisher.publishEvent(new NotificationFeedDeleteEvent(findFeed));
-        feedRepository.delete(findFeed);
+        deleteFeed(findFeed);
     }
 
     public List<CommentsByFeedResponse> findAllCommentsByFeedAsAdmin(User user) {
