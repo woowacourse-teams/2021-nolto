@@ -32,6 +32,10 @@ const TagsContainer = styled.div`
   color: inherit;
   gap: 1rem;
 
+  & * {
+    color: ${({ theme }) => theme.highLightedText};
+  }
+
   & ul {
     display: flex;
     gap: 1rem;
@@ -42,7 +46,6 @@ const TagsContainer = styled.div`
 
     & > *::after {
       content: '|';
-      color: ${PALETTE.WHITE_400};
       margin-left: 1rem;
 
       @media ${MEDIA_QUERY.MOBILE} {
@@ -58,13 +61,13 @@ const TagsContainer = styled.div`
 
 const Title = styled.div`
   white-space: nowrap;
-  color: inherit;
   font-weight: 700;
+  color: ${({ theme }) => theme.highLightedText};
 
   &::after {
     content: '|';
-    color: ${PALETTE.WHITE_400};
     margin-left: 1rem;
+    color: inherit;
 
     @media ${MEDIA_QUERY.MOBILE} {
       display: none;
