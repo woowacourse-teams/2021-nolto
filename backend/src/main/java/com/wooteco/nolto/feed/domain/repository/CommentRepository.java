@@ -2,7 +2,6 @@ package com.wooteco.nolto.feed.domain.repository;
 
 import com.wooteco.nolto.feed.domain.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
