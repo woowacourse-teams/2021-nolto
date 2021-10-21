@@ -15,11 +15,11 @@ import ROUTE from 'constants/routes';
 import { ERROR_MSG } from 'constants/message';
 import useTheme from 'hooks/useTheme';
 import GlobalStyle from './Global.styles';
-import { defaultTheme, thanksgivingTheme } from '../themes';
+import { defaultTheme, halloweenTheme } from '../themes';
 
 const App = () => {
   const [themeMode, toggleThemeMode] = useTheme();
-  const theme = themeMode === 'default' ? defaultTheme : thanksgivingTheme;
+  const theme = themeMode === 'default' ? defaultTheme : halloweenTheme;
 
   return (
     <ErrorBoundary fallback={<ErrorFallback message={ERROR_MSG.UNKNOWN_ERROR} />}>

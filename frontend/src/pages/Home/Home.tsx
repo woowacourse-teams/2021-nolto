@@ -36,7 +36,8 @@ const Home = ({ toggleTheme }: Props) => {
 
   const localSettingTheme = hasWindow && localStorage.getItem('theme');
 
-  const searchTitle = localSettingTheme === 'default' ? 'Search for Ideas?' : '🌝 Happy Chuseok ❣️';
+  const searchTitle =
+    localSettingTheme === 'default' ? 'Search for Ideas?' : '🎃 Trick or Treat! 👻';
 
   useEffect(() => {
     if (!hasWindow) {
