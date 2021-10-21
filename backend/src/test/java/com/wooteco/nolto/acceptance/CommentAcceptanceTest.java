@@ -1,7 +1,7 @@
 package com.wooteco.nolto.acceptance;
 
 import com.wooteco.nolto.auth.domain.SocialType;
-import com.wooteco.nolto.auth.ui.dto.TokenResponse;
+import com.wooteco.nolto.auth.ui.dto.AllTokenResponse;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.dto.ExceptionResponse;
 import com.wooteco.nolto.feed.ui.dto.CommentRequest;
@@ -34,14 +34,14 @@ class CommentAcceptanceTest extends AcceptanceTest {
 
     private User 댓글_작성자 = 찰리_생성();
     private Long 업로드한_피드의_ID;
-    private TokenResponse 로그인된_댓글_작성자의_토큰;
-    private TokenResponse 현재_로그인된_댓글_작성자의_토큰;
+    private AllTokenResponse 로그인된_댓글_작성자의_토큰;
+    private AllTokenResponse 현재_로그인된_댓글_작성자의_토큰;
 
     @BeforeEach
     void setUpOnCommentAcceptanceTest() {
         super.setUp();
         로그인된_댓글_작성자의_토큰 = 댓글_작성자_로그인_되어있음();
-        업로드한_피드의_ID = 피드_업로드되어_있음(진행중_단계의_피드_요청, 로그인된_댓글_작성자의_토큰.getAccessToken());
+        업로드한_피드의_ID = 피드_업로드되어_있음(진행중_단계의_피드_요청, 로그인된_댓글_작성자의_토큰.getAccessToken().getValue());
     }
 
     @AfterEach
@@ -83,7 +83,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         CommentRequest 일반_댓글_작성요청 = new CommentRequest("와 너무 멋진 프로젝트네요", false);
 
         // when
-        ExtractableResponse<Response> 일반_댓글_작성_응답 = 댓글을_작성한다(일반_댓글_작성요청, 현재_로그인된_댓글_작성자의_토큰.getAccessToken(), 업로드한_피드의_ID);
+        ExtractableResponse<Response> 일반_댓글_작성_응답 = 댓글을_작성한다(일반_댓글_작성요청, 현재_로그인된_댓글_작성자의_토큰.getAccessToken().getValue(), 업로드한_피드의_ID);
 
         // then
         댓글_작성_성공함(일반_댓글_작성_응답, 일반_댓글_작성요청);
@@ -96,8 +96,8 @@ class CommentAcceptanceTest extends AcceptanceTest {
         현재_로그인된_댓글_작성자의_토큰 = 댓글_작성자_로그인_되어있음();
 
         // when
-        ExtractableResponse<Response> 도와줄게요_댓글_작성_응답 = 댓글을_작성한다(도와줄게요_댓글_작성요청, 현재_로그인된_댓글_작성자의_토큰.getAccessToken(), 업로드한_피드의_ID);
-        ExtractableResponse<Response> 댓글내용이_비어있어_작성_실패한_응답 = 댓글을_작성한다(내용이_비어있는_댓글_작성요청, 현재_로그인된_댓글_작성자의_토큰.getAccessToken(), 업로드한_피드의_ID);
+        ExtractableResponse<Response> 도와줄게요_댓글_작성_응답 = 댓글을_작성한다(도와줄게요_댓글_작성요청, 현재_로그인된_댓글_작성자의_토큰.getAccessToken().getValue(), 업로드한_피드의_ID);
+        ExtractableResponse<Response> 댓글내용이_비어있어_작성_실패한_응답 = 댓글을_작성한다(내용이_비어있는_댓글_작성요청, 현재_로그인된_댓글_작성자의_토큰.getAccessToken().getValue(), 업로드한_피드의_ID);
 
         // then
         댓글_작성_성공함(도와줄게요_댓글_작성_응답, 도와줄게요_댓글_작성요청);
@@ -132,7 +132,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         현재_로그인된_댓글_작성자의_토큰 = 댓글_작성자_로그인_되어있음();
 
         // when
-        ExtractableResponse<Response> response = 로그인_하고_댓글_목록_조회한다(현재_로그인된_댓글_작성자의_토큰.getAccessToken(), 업로드한_피드의_ID);
+        ExtractableResponse<Response> response = 로그인_하고_댓글_목록_조회한다(현재_로그인된_댓글_작성자의_토큰.getAccessToken().getValue(), 업로드한_피드의_ID);
 
         // then
         로그인하고_댓글_목록_조회_성공(response, 2, commentResponse1, 1);
@@ -149,8 +149,8 @@ class CommentAcceptanceTest extends AcceptanceTest {
         final CommentRequest 댓글내용_빈값으로_수정_요청 = new CommentRequest("", true);
 
         // when
-        ExtractableResponse<Response> 댓글_수정_응답 = 댓글을_수정한다(댓글_수정_요청, 현재_로그인된_댓글_작성자의_토큰.getAccessToken(), 업로드한_피드의_ID, 등록된_댓글.getId());
-        ExtractableResponse<Response> 댓글내용_빈값으로_수정_응답 = 댓글을_수정한다(댓글내용_빈값으로_수정_요청, 현재_로그인된_댓글_작성자의_토큰.getAccessToken(), 업로드한_피드의_ID, 등록된_댓글.getId());
+        ExtractableResponse<Response> 댓글_수정_응답 = 댓글을_수정한다(댓글_수정_요청, 현재_로그인된_댓글_작성자의_토큰.getAccessToken().getValue(), 업로드한_피드의_ID, 등록된_댓글.getId());
+        ExtractableResponse<Response> 댓글내용_빈값으로_수정_응답 = 댓글을_수정한다(댓글내용_빈값으로_수정_요청, 현재_로그인된_댓글_작성자의_토큰.getAccessToken().getValue(), 업로드한_피드의_ID, 등록된_댓글.getId());
 
         // then
         댓글_수정_성공함(댓글_수정_응답, 댓글_수정_요청);
@@ -163,10 +163,10 @@ class CommentAcceptanceTest extends AcceptanceTest {
         // given
         final CommentRequest 댓글_수정_요청 = new CommentRequest("천천히 보다보니 수정할 부분이 보이네요", true);
         CommentResponse 등록된_댓글 = 댓글_등록되어_있음(일반_댓글_작성요청);
-        TokenResponse 댓글_작성자가_아닌_유저의_토큰 = 댓글_작성자가_아닌_유저_로그인_되어있음();
+        AllTokenResponse 댓글_작성자가_아닌_유저의_토큰 = 댓글_작성자가_아닌_유저_로그인_되어있음();
 
         // when
-        ExtractableResponse<Response> 댓글_작성자가_아닌_유저의_댓글_수정_응답 = 댓글을_수정한다(댓글_수정_요청, 댓글_작성자가_아닌_유저의_토큰.getAccessToken(), 업로드한_피드의_ID, 등록된_댓글.getId());
+        ExtractableResponse<Response> 댓글_작성자가_아닌_유저의_댓글_수정_응답 = 댓글을_수정한다(댓글_수정_요청, 댓글_작성자가_아닌_유저의_토큰.getAccessToken().getValue(), 업로드한_피드의_ID, 등록된_댓글.getId());
 
         // then
         요청_실패함(댓글_작성자가_아닌_유저의_댓글_수정_응답, HttpStatus.UNAUTHORIZED, ErrorType.UNAUTHORIZED_UPDATE_COMMENT);
@@ -183,7 +183,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         CommentRequest 대댓글_수정_요청 = new CommentRequest("대댓글도 수정이 되나요?", false);
 
         // when
-        ExtractableResponse<Response> 대댓글_수정_응답 = 댓글을_수정한다(대댓글_수정_요청, 현재_로그인된_댓글_작성자의_토큰.getAccessToken(), 업로드한_피드의_ID, 등록된_대댓글.getId());
+        ExtractableResponse<Response> 대댓글_수정_응답 = 댓글을_수정한다(대댓글_수정_요청, 현재_로그인된_댓글_작성자의_토큰.getAccessToken().getValue(), 업로드한_피드의_ID, 등록된_대댓글.getId());
 
         // then
         댓글_수정_성공함(대댓글_수정_응답, 대댓글_수정_요청);
@@ -200,7 +200,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         CommentRequest 대댓글_도와드릴게요로_수정_요청 = new CommentRequest("대댓글도 수정이 되나요?", true);
 
         // when
-        ExtractableResponse<Response> 도와드릴게요로_대댓글_수정_응답 = 댓글을_수정한다(대댓글_도와드릴게요로_수정_요청, 현재_로그인된_댓글_작성자의_토큰.getAccessToken(), 업로드한_피드의_ID, 등록된_대댓글.getId());
+        ExtractableResponse<Response> 도와드릴게요로_대댓글_수정_응답 = 댓글을_수정한다(대댓글_도와드릴게요로_수정_요청, 현재_로그인된_댓글_작성자의_토큰.getAccessToken().getValue(), 업로드한_피드의_ID, 등록된_대댓글.getId());
 
         // then
         요청_실패함(도와드릴게요로_대댓글_수정_응답, HttpStatus.BAD_REQUEST, ErrorType.REPLY_NOT_SUPPORTED_HELPER);
@@ -215,7 +215,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         현재_로그인된_댓글_작성자의_토큰 = 댓글_작성자_로그인_되어있음();
 
         // when
-        ExtractableResponse<Response> 댓글_삭제_응답 = 댓글을_삭제한다(현재_로그인된_댓글_작성자의_토큰.getAccessToken(), 업로드한_피드의_ID, 등록된_댓글.getId());
+        ExtractableResponse<Response> 댓글_삭제_응답 = 댓글을_삭제한다(현재_로그인된_댓글_작성자의_토큰.getAccessToken().getValue(), 업로드한_피드의_ID, 등록된_댓글.getId());
 
         // then
         댓글_삭제_성공함(댓글_삭제_응답);
@@ -231,7 +231,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         현재_로그인된_댓글_작성자의_토큰 = 댓글_작성자_로그인_되어있음();
 
         // when
-        ExtractableResponse<Response> 대댓글_삭제_응답 = 댓글을_삭제한다(현재_로그인된_댓글_작성자의_토큰.getAccessToken(), 업로드한_피드의_ID, 등록된_대댓글.getId());
+        ExtractableResponse<Response> 대댓글_삭제_응답 = 댓글을_삭제한다(현재_로그인된_댓글_작성자의_토큰.getAccessToken().getValue(), 업로드한_피드의_ID, 등록된_대댓글.getId());
 
         // then
         댓글_삭제_성공함(대댓글_삭제_응답);
@@ -243,10 +243,10 @@ class CommentAcceptanceTest extends AcceptanceTest {
         // given
         CommentResponse 등록된_댓글 = 댓글_등록되어_있음(일반_댓글_작성요청);
 
-        TokenResponse 댓글_작성자가_아닌_유저의_토큰 = 댓글_작성자가_아닌_유저_로그인_되어있음();
+        AllTokenResponse 댓글_작성자가_아닌_유저의_토큰 = 댓글_작성자가_아닌_유저_로그인_되어있음();
 
         // when
-        ExtractableResponse<Response> 댓글_삭제_응답 = 댓글을_삭제한다(댓글_작성자가_아닌_유저의_토큰.getAccessToken(), 업로드한_피드의_ID, 등록된_댓글.getId());
+        ExtractableResponse<Response> 댓글_삭제_응답 = 댓글을_삭제한다(댓글_작성자가_아닌_유저의_토큰.getAccessToken().getValue(), 업로드한_피드의_ID, 등록된_댓글.getId());
 
         // then
         요청_실패함(댓글_삭제_응답, HttpStatus.UNAUTHORIZED, ErrorType.UNAUTHORIZED_DELETE_COMMENT);
@@ -261,7 +261,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         현재_로그인된_댓글_작성자의_토큰 = 댓글_작성자_로그인_되어있음();
 
         // when
-        ExtractableResponse<Response> 댓글_좋아요_추가_응답 = 댓글에_좋아요를_추가한다(현재_로그인된_댓글_작성자의_토큰.getAccessToken(), 업로드한_피드의_ID, 등록된_댓글.getId());
+        ExtractableResponse<Response> 댓글_좋아요_추가_응답 = 댓글에_좋아요를_추가한다(현재_로그인된_댓글_작성자의_토큰.getAccessToken().getValue(), 업로드한_피드의_ID, 등록된_댓글.getId());
 
         // then
         댓글에_좋아요_추가_성공(댓글_좋아요_추가_응답);
@@ -277,7 +277,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         현재_로그인된_댓글_작성자의_토큰 = 댓글_작성자_로그인_되어있음();
 
         // when
-        ExtractableResponse<Response> 이미_좋아요_누른_댓글에_댓글_좋아요_추가_응답 = 댓글에_좋아요를_추가한다(현재_로그인된_댓글_작성자의_토큰.getAccessToken(), 업로드한_피드의_ID, 등록된_댓글.getId());
+        ExtractableResponse<Response> 이미_좋아요_누른_댓글에_댓글_좋아요_추가_응답 = 댓글에_좋아요를_추가한다(현재_로그인된_댓글_작성자의_토큰.getAccessToken().getValue(), 업로드한_피드의_ID, 등록된_댓글.getId());
 
         // then
         요청_실패함(이미_좋아요_누른_댓글에_댓글_좋아요_추가_응답, HttpStatus.BAD_REQUEST, ErrorType.ALREADY_LIKED_COMMENT);
@@ -306,7 +306,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         현재_로그인된_댓글_작성자의_토큰 = 댓글_작성자_로그인_되어있음();
 
         // when
-        ExtractableResponse<Response> 댓글에_좋아요_취소_응답 = 댓글에_좋아요를_취소한다(현재_로그인된_댓글_작성자의_토큰.getAccessToken(), 업로드한_피드의_ID, 등록된_댓글.getId());
+        ExtractableResponse<Response> 댓글에_좋아요_취소_응답 = 댓글에_좋아요를_취소한다(현재_로그인된_댓글_작성자의_토큰.getAccessToken().getValue(), 업로드한_피드의_ID, 등록된_댓글.getId());
 
         // then
         댓글에_좋아요_취소_성공(댓글에_좋아요_취소_응답);
@@ -335,7 +335,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         현재_로그인된_댓글_작성자의_토큰 = 댓글_작성자_로그인_되어있음();
 
         // when
-        ExtractableResponse<Response> 댓글에_좋아요_취소_응답 = 댓글에_좋아요를_취소한다(현재_로그인된_댓글_작성자의_토큰.getAccessToken(), 업로드한_피드의_ID, 등록된_댓글.getId());
+        ExtractableResponse<Response> 댓글에_좋아요_취소_응답 = 댓글에_좋아요를_취소한다(현재_로그인된_댓글_작성자의_토큰.getAccessToken().getValue(), 업로드한_피드의_ID, 등록된_댓글.getId());
 
         // then
         요청_실패함(댓글에_좋아요_취소_응답, HttpStatus.BAD_REQUEST, ErrorType.NOT_LIKED_COMMENT);
@@ -365,8 +365,8 @@ class CommentAcceptanceTest extends AcceptanceTest {
         CommentRequest 대댓글_내용이_빈_값인_작성요청 = new CommentRequest("", false);
 
         // when
-        ExtractableResponse<Response> 대댓글_작성_응답 = 대댓글을_작성한다(대댓글_작성요청, 현재_로그인된_댓글_작성자의_토큰.getAccessToken(), 업로드한_피드의_ID, 등록된_댓글.getId());
-        ExtractableResponse<Response> 대댓글_내용이_빈_값인_작성 = 대댓글을_작성한다(대댓글_내용이_빈_값인_작성요청, 현재_로그인된_댓글_작성자의_토큰.getAccessToken(), 업로드한_피드의_ID, 등록된_댓글.getId());
+        ExtractableResponse<Response> 대댓글_작성_응답 = 대댓글을_작성한다(대댓글_작성요청, 현재_로그인된_댓글_작성자의_토큰.getAccessToken().getValue(), 업로드한_피드의_ID, 등록된_댓글.getId());
+        ExtractableResponse<Response> 대댓글_내용이_빈_값인_작성 = 대댓글을_작성한다(대댓글_내용이_빈_값인_작성요청, 현재_로그인된_댓글_작성자의_토큰.getAccessToken().getValue(), 업로드한_피드의_ID, 등록된_댓글.getId());
 
         // then
         대댓글_작성_성공함(대댓글_작성_응답, 대댓글_작성요청);
@@ -401,7 +401,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         현재_로그인된_댓글_작성자의_토큰 = 댓글_작성자_로그인_되어있음();
 
         // when
-        ExtractableResponse<Response> 대댓글_목록_조회_응답 = 로그인_하고_대댓글_목록_조회한다(현재_로그인된_댓글_작성자의_토큰.getAccessToken(), 업로드한_피드의_ID, 등록된_댓글.getId());
+        ExtractableResponse<Response> 대댓글_목록_조회_응답 = 로그인_하고_대댓글_목록_조회한다(현재_로그인된_댓글_작성자의_토큰.getAccessToken().getValue(), 업로드한_피드의_ID, 등록된_댓글.getId());
 
         // then
         로그인_하고_대댓글_목록_조회_성공(대댓글_목록_조회_응답, 2, 등록된_대댓글2, 등록된_대댓글1);
@@ -654,7 +654,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
     }
 
     private CommentResponse 댓글_등록되어_있음(CommentRequest request) {
-        return 댓글을_작성한다(request, 로그인된_댓글_작성자의_토큰.getAccessToken(), 업로드한_피드의_ID).as(CommentResponse.class);
+        return 댓글을_작성한다(request, 로그인된_댓글_작성자의_토큰.getAccessToken().getValue(), 업로드한_피드의_ID).as(CommentResponse.class);
     }
 
     public static CommentResponse 댓글_등록되어_있음(CommentRequest request, String token, Long feedId) {
@@ -662,23 +662,23 @@ class CommentAcceptanceTest extends AcceptanceTest {
     }
 
     private void 댓글에_좋아요_추가_되어있음(Long 등록된_댓글_ID) {
-        댓글에_좋아요를_추가한다(로그인된_댓글_작성자의_토큰.getAccessToken(), 업로드한_피드의_ID, 등록된_댓글_ID);
+        댓글에_좋아요를_추가한다(로그인된_댓글_작성자의_토큰.getAccessToken().getValue(), 업로드한_피드의_ID, 등록된_댓글_ID);
     }
 
     private void 대댓글에_좋아요_추가_되어있음(Long 등록된_댓글_ID) {
-        댓글에_좋아요를_추가한다(로그인된_댓글_작성자의_토큰.getAccessToken(), 업로드한_피드의_ID, 등록된_댓글_ID);
+        댓글에_좋아요를_추가한다(로그인된_댓글_작성자의_토큰.getAccessToken().getValue(), 업로드한_피드의_ID, 등록된_댓글_ID);
     }
 
     private CommentResponse 대댓글_등록되어_있음(CommentRequest request, Long commentId) {
-        return 대댓글을_작성한다(request, 로그인된_댓글_작성자의_토큰.getAccessToken(), 업로드한_피드의_ID, commentId).as(CommentResponse.class);
+        return 대댓글을_작성한다(request, 로그인된_댓글_작성자의_토큰.getAccessToken().getValue(), 업로드한_피드의_ID, commentId).as(CommentResponse.class);
     }
 
-    private TokenResponse 댓글_작성자_로그인_되어있음() {
+    private AllTokenResponse 댓글_작성자_로그인_되어있음() {
         User 회원_등록된_댓글_작성자 = 회원_등록되어_있음(댓글_작성자);
         return 유저의_토큰을_받는다(회원_등록된_댓글_작성자);
     }
 
-    private TokenResponse 댓글_작성자가_아닌_유저_로그인_되어있음() {
+    private AllTokenResponse 댓글_작성자가_아닌_유저_로그인_되어있음() {
         User 댓글_작성자가_아닌_유저 = 회원_등록되어_있음(new User("악마같은 GITHUB ID", SocialType.GITHUB, "김악질", "사탄.jpg"));
         return 유저의_토큰을_받는다(댓글_작성자가_아닌_유저);
     }
