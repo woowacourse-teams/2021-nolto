@@ -49,6 +49,10 @@ const Home = ({ toggleTheme }: Props) => {
       <Helmet>
         <title>놀토: 놀러오세요 토이프로젝트</title>
         <link rel="canonical" href="https://www.nolto.app" />
+        <meta
+          name="description"
+          content="모두의 작고 소중한 토이프로젝트를 한눈에, 놀러오세요 토이프로젝트!"
+        />
       </Helmet>
       <Styled.EllipseWrapper ref={ellipseRef}>
         <CroppedEllipse toggleTheme={toggleTheme} />
