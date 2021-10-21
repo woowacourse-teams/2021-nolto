@@ -1,6 +1,6 @@
 package com.wooteco.nolto.auth.infrastructure;
 
-import com.wooteco.nolto.auth.ui.dto.RefreshTokenResponse;
+import com.wooteco.nolto.auth.ui.dto.TokenResponse;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -9,27 +9,28 @@ import java.util.Date;
 
 @Component
 public class JwtTokenProvider {
-    @Value("${security.jwt.token.secret-key}")
+    @Value("${security.jwt.access-token.secret-key}")
     private String secretKey;
-    @Value("${security.jwt.token.expire-length}")
-    private long validityInMilliseconds;
-
-    private static final long REFRESH_TOKEN_VALIDATION_SECONDS = 24 * 60 * 60 * 14L;
+    @Value("${security.jwt.access-token.expire-length}")
+    private long accessTokenExpiredInMilliseconds;
+    @Value("${security.jwt.refresh-token.expire-length}")
+    private long refreshTokenExpiredInMilliseconds;
 
     private JwtTokenProvider() {
     }
 
-    public String createToken(String payload) {
+    public TokenResponse createToken(String payload) {
         Claims claims = Jwts.claims().setSubject(payload);
         Date now = new Date();
-        Date validity = new Date(now.getTime() + validityInMilliseconds);
+        Date validity = new Date(now.getTime() + accessTokenExpiredInMilliseconds);
 
-        return Jwts.builder()
+        String accessToken = Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(validity)
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
+        return new TokenResponse(accessToken, accessTokenExpiredInMilliseconds);
     }
 
     public String getPayload(String token) {
@@ -46,16 +47,16 @@ public class JwtTokenProvider {
         }
     }
 
-    public RefreshTokenResponse createRefreshToken(String payload) {
+    public TokenResponse createRefreshToken(String payload) {
         Claims claims = Jwts.claims().setSubject(payload);
         Date now = new Date();
-        Date validity = new Date(now.getTime() + REFRESH_TOKEN_VALIDATION_SECONDS);
+        Date validity = new Date(now.getTime() + refreshTokenExpiredInMilliseconds);
         String refreshToken = Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(validity)
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
-        return new RefreshTokenResponse(refreshToken, REFRESH_TOKEN_VALIDATION_SECONDS);
+        return new TokenResponse(refreshToken, refreshTokenExpiredInMilliseconds);
     }
 }

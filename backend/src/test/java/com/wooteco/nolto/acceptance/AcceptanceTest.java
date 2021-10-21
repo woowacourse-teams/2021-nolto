@@ -1,7 +1,7 @@
 package com.wooteco.nolto.acceptance;
 
 import com.wooteco.nolto.auth.infrastructure.JwtTokenProvider;
-import com.wooteco.nolto.auth.ui.dto.RefreshTokenResponse;
+import com.wooteco.nolto.auth.ui.dto.AllTokenResponse;
 import com.wooteco.nolto.auth.ui.dto.TokenResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.image.application.ImageKind;
@@ -66,16 +66,16 @@ public abstract class AcceptanceTest {
         databaseCleanup.execute();
     }
 
-    public TokenResponse 가입된_유저의_토큰을_받는다() {
+    public AllTokenResponse 가입된_유저의_토큰을_받는다() {
         return 유저의_토큰을_받는다(가입된_유저);
     }
 
-    public TokenResponse 유저의_토큰을_받는다(User user) {
+    public AllTokenResponse 유저의_토큰을_받는다(User user) {
         User 저장된_엄청난_유저 = 회원_등록되어_있음(user);
 
-        String token = jwtTokenProvider.createToken(String.valueOf(저장된_엄청난_유저.getId()));
-        RefreshTokenResponse refreshTokenResponse = jwtTokenProvider.createRefreshToken(UUID.randomUUID().toString());
-        return TokenResponse.of(token, refreshTokenResponse);
+        TokenResponse token = jwtTokenProvider.createToken(String.valueOf(저장된_엄청난_유저.getId()));
+        TokenResponse refreshTokenResponse = jwtTokenProvider.createRefreshToken(UUID.randomUUID().toString());
+        return new AllTokenResponse(token, refreshTokenResponse);
     }
 
     public User 회원_등록되어_있음(User user) {
@@ -83,8 +83,8 @@ public abstract class AcceptanceTest {
     }
 
     Long 피드_업로드되어_있음(FeedRequest request) {
-        TokenResponse tokenResponse = 가입된_유저의_토큰을_받는다();
-        return Long.valueOf(피드_작성_요청(request, tokenResponse.getAccessToken()).header("Location").replace("/feeds/", ""));
+        AllTokenResponse allTokenResponse = 가입된_유저의_토큰을_받는다();
+        return Long.valueOf(피드_작성_요청(request, allTokenResponse.getAccessToken().getValue()).header("Location").replace("/feeds/", ""));
     }
 
     Long 피드_업로드되어_있음(FeedRequest request, String token) {

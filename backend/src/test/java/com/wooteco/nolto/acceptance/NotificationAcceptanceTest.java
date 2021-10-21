@@ -38,7 +38,7 @@ class NotificationAcceptanceTest extends AcceptanceTest {
     void setUpOnNotificationAcceptanceTest() {
         super.setUp();
 
-        피드_작성자의_토큰 = 가입된_유저의_토큰을_받는다().getAccessToken();
+        피드_작성자의_토큰 = 가입된_유저의_토큰을_받는다().getAccessToken().getValue();
         엄청난_유저의_1번째_피드_ID = 피드_업로드되어_있음(진행중_단계의_피드_요청);
         좋아요_1개_누를_유저 = 회원_등록되어_있음(찰리_생성());
         댓글을_남긴_유저 = 회원_등록되어_있음(포모_생성());
@@ -53,7 +53,7 @@ class NotificationAcceptanceTest extends AcceptanceTest {
     @Test
     void notifyWhenFeedLike() {
         // given
-        String 좋아요를_누를_유저의_토큰 = 유저의_토큰을_받는다(좋아요_1개_누를_유저).getAccessToken();
+        String 좋아요를_누를_유저의_토큰 = 유저의_토큰을_받는다(좋아요_1개_누를_유저).getAccessToken().getValue();
         좋아요_요청(좋아요를_누를_유저의_토큰, 엄청난_유저의_1번째_피드_ID);
 
         // when
@@ -71,7 +71,7 @@ class NotificationAcceptanceTest extends AcceptanceTest {
     @Test
     void notifyWhenComment() {
         // given
-        String 댓글을_남길_유저의_토큰 = 유저의_토큰을_받는다(댓글을_남긴_유저).getAccessToken();
+        String 댓글을_남길_유저의_토큰 = 유저의_토큰을_받는다(댓글을_남긴_유저).getAccessToken().getValue();
         댓글_등록되어_있음(일반_댓글_작성요청, 댓글을_남길_유저의_토큰, 엄청난_유저의_1번째_피드_ID);
 
         // when
@@ -87,7 +87,7 @@ class NotificationAcceptanceTest extends AcceptanceTest {
     @Test
     void notifyWhenCommentWithHelp() {
         // given
-        String 댓글을_남길_유저의_토큰 = 유저의_토큰을_받는다(댓글을_남긴_유저).getAccessToken();
+        String 댓글을_남길_유저의_토큰 = 유저의_토큰을_받는다(댓글을_남긴_유저).getAccessToken().getValue();
         댓글_등록되어_있음(도와줄게요_댓글_작성요청, 댓글을_남길_유저의_토큰, 엄청난_유저의_1번째_피드_ID);
 
         // when
@@ -103,10 +103,10 @@ class NotificationAcceptanceTest extends AcceptanceTest {
     @Test
     void deleteNotification() {
         // given
-        String 댓글을_남길_유저의_토큰 = 유저의_토큰을_받는다(댓글을_남긴_유저).getAccessToken();
+        String 댓글을_남길_유저의_토큰 = 유저의_토큰을_받는다(댓글을_남긴_유저).getAccessToken().getValue();
         댓글_등록되어_있음(일반_댓글_작성요청, 댓글을_남길_유저의_토큰, 엄청난_유저의_1번째_피드_ID);
 
-        String 좋아요를_누를_유저의_토큰 = 유저의_토큰을_받는다(좋아요_1개_누를_유저).getAccessToken();
+        String 좋아요를_누를_유저의_토큰 = 유저의_토큰을_받는다(좋아요_1개_누를_유저).getAccessToken().getValue();
         좋아요_요청(좋아요를_누를_유저의_토큰, 엄청난_유저의_1번째_피드_ID);
 
         // when
@@ -124,10 +124,10 @@ class NotificationAcceptanceTest extends AcceptanceTest {
     @Test
     void deleteAllNotification() {
         // given
-        String 댓글을_남길_유저의_토큰 = 유저의_토큰을_받는다(댓글을_남긴_유저).getAccessToken();
+        String 댓글을_남길_유저의_토큰 = 유저의_토큰을_받는다(댓글을_남긴_유저).getAccessToken().getValue();
         댓글_등록되어_있음(일반_댓글_작성요청, 댓글을_남길_유저의_토큰, 엄청난_유저의_1번째_피드_ID);
 
-        String 좋아요를_누를_유저의_토큰 = 유저의_토큰을_받는다(좋아요_1개_누를_유저).getAccessToken();
+        String 좋아요를_누를_유저의_토큰 = 유저의_토큰을_받는다(좋아요_1개_누를_유저).getAccessToken().getValue();
         좋아요_요청(좋아요를_누를_유저의_토큰, 엄청난_유저의_1번째_피드_ID);
 
         // when
