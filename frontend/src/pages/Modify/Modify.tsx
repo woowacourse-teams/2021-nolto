@@ -1,5 +1,6 @@
 import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 import HighLightedText from 'components/@common/HighlightedText/HighlightedText';
 import FeedUploadForm from 'components/FeedUploadForm/FeedUploadForm';
@@ -55,6 +56,9 @@ const Modify = () => {
 
   return (
     <BaseLayout>
+      <Helmet>
+        <title>놀토: 토이 프로젝트 수정</title>
+      </Helmet>
       <Styled.Root>
         <Styled.TitleWrapper>
           <HighLightedText fontSize={FONT_SIZE.X_LARGE}>🔧 토이 프로젝트 수정</HighLightedText>

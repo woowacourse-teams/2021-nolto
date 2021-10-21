@@ -37,6 +37,7 @@ const SearchResult = () => {
         <title>놀토: 피드 검색</title>
         <link rel="canonical" href="https://www.nolto.app/search" />
       </Helmet>
+      <meta name="description" content="토이프로젝트 검색 결과입니다." />
       <Styled.TopContainer>
         <h2>
           <HighLightedText fontSize={FONT_SIZE.X_LARGE}>🔍 토이 프로젝트 검색 결과</HighLightedText>
