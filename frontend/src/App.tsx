@@ -15,7 +15,7 @@ import ROUTE from 'constants/routes';
 import { ERROR_MSG } from 'constants/message';
 import useTheme from 'hooks/useTheme';
 import GlobalStyle from './Global.styles';
-import { defaultTheme, halloweenTheme } from '../themes';
+import { defaultTheme, halloweenTheme } from './themes';
 
 const App = () => {
   const [themeMode, toggleThemeMode] = useTheme();
