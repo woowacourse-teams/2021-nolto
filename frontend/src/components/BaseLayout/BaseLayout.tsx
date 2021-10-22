@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Header from 'components/Header/Header';
+import Footer from 'components/Footer/Footer';
 import Styled, { BaseLayoutMain } from './BaseLayout.styles';
 
 interface Props {
@@ -13,6 +14,7 @@ const BaseLayout = ({ header = <Header />, children }: Props) => {
     <Styled.Root>
       {header}
       <BaseLayoutMain>{children}</BaseLayoutMain>
+      <Footer />
     </Styled.Root>
   );
 };
