@@ -85,14 +85,4 @@ public class CommentService {
         List<Comment> replies = commentRepository.findAllByFeedIdAndParentCommentIdWithFetchJoin(feedId, commentId);
         return ReplyResponse.toList(replies, user);
     }
-
-    public void deleteCommentAsAdmin(User user, Long commentId) {
-        user.validateAdmin();
-        Comment findComment = findEntityById(commentId);
-        if (findComment.isParentComment()) {
-            applicationEventPublisher.publishEvent(new NotificationCommentDeleteEvent(findComment));
-        }
-        User author = findComment.getAuthor();
-        author.deleteComment(findComment);
-    }
 }

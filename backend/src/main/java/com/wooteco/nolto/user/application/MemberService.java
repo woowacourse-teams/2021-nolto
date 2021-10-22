@@ -1,8 +1,6 @@
 package com.wooteco.nolto.user.application;
 
-import com.wooteco.nolto.admin.ui.dto.UserResponse;
 import com.wooteco.nolto.exception.BadRequestException;
-import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.feed.domain.Comment;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.image.application.ImageKind;
@@ -84,18 +82,5 @@ public class MemberService {
     public MemberResponse findMemberOfMine(User user) {
         long notificationCount = notificationService.findNotificationCount(user);
         return MemberResponse.of(user, notificationCount);
-    }
-
-    public List<UserResponse> findAllUsersAsAdmin(User user) {
-        user.validateAdmin();
-        return UserResponse.toList(userRepository.findAll());
-    }
-
-    public void deleteUserAsAdmin(User user, Long userId) {
-        user.validateAdmin();
-        User userToDelete = userRepository.findById(userId)
-                .orElseThrow(() -> new BadRequestException(ErrorType.USER_NOT_FOUND));
-        notificationService.deleteAllOfUser(userToDelete);
-        userRepository.delete(userToDelete);
     }
 }

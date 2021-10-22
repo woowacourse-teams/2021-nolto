@@ -61,9 +61,6 @@ class FeedServiceTest {
     private Tech 리액트 = 리액트_생성();
 
     @Autowired
-    private FeedRepository feedRepository;
-
-    @Autowired
     private FeedService feedService;
 
     @Autowired
@@ -77,9 +74,6 @@ class FeedServiceTest {
 
     @Autowired
     private TechRepository techRepository;
-
-    @Autowired
-    private CommentRepository commentRepository;
 
     @Autowired
     private EntityManager em;
@@ -799,46 +793,7 @@ class FeedServiceTest {
         assertThat(responses.getFeeds().get(1).getTitle()).isEqualTo(SPRING_JAVA_FEED_REQUEST.getTitle());
         assertThat(responses.getNextFeedId()).isEqualTo(firstFeedId);
     }
-
-    @DisplayName("어드민 유저는 전체 피드 조회를 할 수 있다")
-    @Test
-    void findAllAsAdmin() {
-        //given
-        Feed 피드1 = 진행중_단계의_피드_생성("피드1", "피드1").writtenBy(조엘);
-        feedRepository.save(피드1);
-        Feed 피드2 = 진행중_단계의_피드_생성("피드2", "피드2").writtenBy(조엘);
-        feedRepository.save(피드2);
-        Feed 피드3 = 진행중_단계의_피드_생성("피드3", "피드3").writtenBy(조엘);
-        feedRepository.save(피드3);
-
-        //when
-        List<FeedResponse> allFeeds = feedService.findAllFeedsAsAdmin(User.ADMIN_USER);
-
-        //then
-        assertThat(allFeeds).hasSize(3);
-    }
-
-    @DisplayName("어드민 유저가 아니라면 전체 피드 조회를 할 수 없다")
-    @Test
-    void findAllNotAsAdmin() {
-        //given
-        Feed 피드1 = 진행중_단계의_피드_생성("피드1", "피드1").writtenBy(조엘);
-        feedRepository.save(피드1);
-        Feed 피드2 = 진행중_단계의_피드_생성("피드2", "피드2").writtenBy(조엘);
-        feedRepository.save(피드2);
-        Feed 피드3 = 진행중_단계의_피드_생성("피드3", "피드3").writtenBy(조엘);
-        feedRepository.save(피드3);
-
-        //when & then
-        assertThatThrownBy(() -> feedService.findAllFeedsAsAdmin(찰리))
-                .isInstanceOf(UnauthorizedException.class)
-                .hasMessage(ErrorType.ADMIN_ONLY.getMessage());
-
-        assertThatThrownBy(() -> feedService.findAllFeedsAsAdmin(User.GUEST_USER))
-                .isInstanceOf(UnauthorizedException.class)
-                .hasMessage(ErrorType.ADMIN_ONLY.getMessage());
-    }
-
+/*
     @DisplayName("어드민 사용자는 피드를 수정할 수 있다.")
     @Test
     void updateFeedAsAdmin() {
@@ -855,77 +810,7 @@ class FeedServiceTest {
         FeedResponse updateFeed = feedService.viewFeed(찰리, feedId1, true);
         피드_정보가_같은지_조회(request, updateFeed);
     }
-
-    @DisplayName("어드민 유저는 누구의 피드라도 삭제할 수 있다")
-    @Test
-    void deleteFeedAsAdmin() {
-        //given
-        Feed 피드1 = 진행중_단계의_피드_생성("피드1", "피드1").writtenBy(조엘);
-        feedRepository.save(피드1);
-        Feed 피드2 = 진행중_단계의_피드_생성("피드2", "피드2").writtenBy(조엘);
-        feedRepository.save(피드2);
-        Feed 피드3 = 진행중_단계의_피드_생성("피드3", "피드3").writtenBy(조엘);
-        feedRepository.save(피드3);
-
-        //when
-        feedService.deleteFeedAsAdmin(User.ADMIN_USER, 피드1.getId());
-
-        //then
-        Optional<Feed> deletedFeed = feedRepository.findById(피드1.getId());
-        assertThat(deletedFeed).isNotPresent();
-    }
-
-    @DisplayName("어드민 유저가 아니라면 어드민 권한으로 피드 삭제할 수 없다")
-    @Test
-    void deleteFeedNotAsAdmin() {
-        //given
-        Feed 피드1 = 진행중_단계의_피드_생성("피드1", "피드1").writtenBy(조엘);
-        feedRepository.save(피드1);
-        Feed 피드2 = 진행중_단계의_피드_생성("피드2", "피드2").writtenBy(조엘);
-        feedRepository.save(피드2);
-        Feed 피드3 = 진행중_단계의_피드_생성("피드3", "피드3").writtenBy(조엘);
-        feedRepository.save(피드3);
-
-        //when & then
-        assertThatThrownBy(() -> feedService.deleteFeedAsAdmin(조엘, 피드1.getId()))
-                .isInstanceOf(UnauthorizedException.class)
-                .hasMessage(ErrorType.ADMIN_ONLY.getMessage());
-    }
-
-    @DisplayName("어드민 유저라면 댓글이 달려있는 피드들을 받아올 수 있다.")
-    @Test
-    void findAllCommentsByFeedAsAdmin() {
-        //given
-        Feed 피드1 = 진행중_단계의_피드_생성("피드1", "피드1").writtenBy(조엘);
-        feedRepository.saveAndFlush(피드1);
-        Feed 피드2 = 진행중_단계의_피드_생성("피드2", "피드2").writtenBy(조엘);
-        feedRepository.saveAndFlush(피드2);
-        Feed 피드3 = 진행중_단계의_피드_생성("피드3", "피드3").writtenBy(조엘);
-        feedRepository.saveAndFlush(피드3);
-
-        final Comment 피드1_댓글1 = new Comment("피드1_댓글1", false).writtenBy(찰리, 피드1);
-        commentRepository.saveAndFlush(피드1_댓글1);
-        final Comment 피드1_댓글2 = new Comment("피드1_댓글2", false).writtenBy(찰리, 피드1);
-        commentRepository.saveAndFlush(피드1_댓글2);
-        final Comment 피드1_댓글3 = new Comment("피드1_댓글3", false).writtenBy(찰리, 피드1);
-        commentRepository.saveAndFlush(피드1_댓글3);
-
-        final Comment 피드2_댓글1 = new Comment("피드2_댓글1", false).writtenBy(찰리, 피드2);
-        commentRepository.saveAndFlush(피드2_댓글1);
-        final Comment 피드2_댓글2 = new Comment("피드2_댓글2", false).writtenBy(찰리, 피드2);
-        commentRepository.saveAndFlush(피드2_댓글2);
-
-        //when
-        List<CommentsByFeedResponse> allCommentsByFeed = feedService.findAllCommentsByFeedAsAdmin(User.ADMIN_USER);
-
-        //then
-        assertThat(allCommentsByFeed).hasSize(2);
-        assertThat(allCommentsByFeed.get(0).getFeed().getId()).isEqualTo(피드1.getId());
-        assertThat(allCommentsByFeed.get(0).getComments()).hasSize(3);
-        assertThat(allCommentsByFeed.get(1).getFeed().getId()).isEqualTo(피드2.getId());
-        assertThat(allCommentsByFeed.get(1).getComments()).hasSize(2);
-    }
-
+*/
     private void 피드_정보가_같은지_조회(FeedRequest request, Feed feed) {
         List<Long> techIds = feed.getTechs().stream()
                 .map(Tech::getId)

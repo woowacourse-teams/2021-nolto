@@ -62,9 +62,4 @@ public class NotificationService {
         Comment comment = notificationCommentDeleteEvent.getComment();
         notificationRepository.deleteAllByComment(comment);
     }
-
-    public void deleteAllOfUser(User user) {
-        notificationRepository.deleteAllByListener(user);
-        notificationRepository.deleteAllByPublisher(user);
-    }
 }

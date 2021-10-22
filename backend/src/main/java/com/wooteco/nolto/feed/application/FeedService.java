@@ -1,6 +1,5 @@
 package com.wooteco.nolto.feed.application;
 
-import com.wooteco.nolto.admin.ui.dto.CommentsByFeedResponse;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.NotFoundException;
 import com.wooteco.nolto.exception.UnauthorizedException;
@@ -12,7 +11,10 @@ import com.wooteco.nolto.feed.domain.Feeds;
 import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.feed.domain.repository.FeedTechRepository;
-import com.wooteco.nolto.feed.ui.dto.*;
+import com.wooteco.nolto.feed.ui.dto.FeedCardPaginationResponse;
+import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
+import com.wooteco.nolto.feed.ui.dto.FeedRequest;
+import com.wooteco.nolto.feed.ui.dto.FeedResponse;
 import com.wooteco.nolto.image.application.ImageKind;
 import com.wooteco.nolto.image.application.ImageService;
 import com.wooteco.nolto.notification.application.NotificationFeedDeleteEvent;
@@ -108,10 +110,6 @@ public class FeedService {
         if (findFeed.notSameAuthor(user)) {
             throw new UnauthorizedException(ErrorType.UNAUTHORIZED_DELETE_FEED);
         }
-        deleteFeed(findFeed);
-    }
-
-    private void deleteFeed(Feed findFeed) {
         applicationEventPublisher.publishEvent(new NotificationFeedDeleteEvent(findFeed));
         feedRepository.delete(findFeed);
     }
@@ -145,30 +143,5 @@ public class FeedService {
         SearchStrategy searchStrategy = SearchStrategyFactory.of(query, techs).findStrategy();
         List<Feed> findFeeds = searchStrategy.searchWithCondition(query, techs, help, nextFeedId, steps, pageable);
         return generateFeedCardPaginationResponse(countPerPage, findFeeds);
-    }
-
-    public List<FeedResponse> findAllFeedsAsAdmin(User user) {
-        user.validateAdmin();
-        List<Feed> allFeeds = feedRepository.findAllWithFetchJoin();
-        return FeedResponse.toList(allFeeds);
-    }
-
-    public void updateFeedAsAdmin(User user, Long feedId, FeedRequest request) {
-        user.validateAdmin();
-        Feed findFeed = findEntityById(feedId);
-        removeFeedTechs(findFeed);
-        updateFeed(request, findFeed);
-    }
-
-    public void deleteFeedAsAdmin(User user, Long feedId) {
-        user.validateAdmin();
-        Feed findFeed = findEntityById(feedId);
-        deleteFeed(findFeed);
-    }
-
-    public List<CommentsByFeedResponse> findAllCommentsByFeedAsAdmin(User user) {
-        user.validateAdmin();
-        List<Feed> allFeedHavingComments = feedRepository.findAllFeedsHavingComments();
-        return CommentsByFeedResponse.toList(allFeedHavingComments);
     }
 }
