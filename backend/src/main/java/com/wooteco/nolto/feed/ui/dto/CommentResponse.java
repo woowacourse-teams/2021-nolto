@@ -47,9 +47,19 @@ public class CommentResponse {
         );
     }
 
+    public static CommentResponse of(Comment comment) {
+        return of(comment, false);
+    }
+
     public static List<CommentResponse> toList(List<Comment> comments, User user) {
         return comments.stream()
                 .map(comment -> CommentResponse.of(comment, user.isCommentLiked(comment)))
+                .collect(Collectors.toList());
+    }
+
+    public static List<CommentResponse> toList(List<Comment> comments) {
+        return comments.stream()
+                .map(comment -> CommentResponse.of(comment, false))
                 .collect(Collectors.toList());
     }
 }

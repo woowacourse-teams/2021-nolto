@@ -7,9 +7,11 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 public class FeedResponse {
+
     private final AuthorResponse author;
     private final Long id;
     private final String title;
@@ -46,5 +48,11 @@ public class FeedResponse {
         return new FeedResponse(AuthorResponse.of(author), feed.getId(), feed.getTitle(), TechResponse.toList(feed.getTechs()),
                 feed.getContent(), feed.getStep().name(), feed.isSos(), feed.getStorageUrl(), feed.getDeployedUrl(),
                 feed.getThumbnailUrl(), feed.getLikes().size(), feed.getViews(), liked, feed.getCreatedDate());
+    }
+
+    public static List<FeedResponse> toList(List<Feed> feeds) {
+        return feeds.stream()
+                .map(feed -> of(feed.getAuthor(), feed, false))
+                .collect(Collectors.toList());
     }
 }
