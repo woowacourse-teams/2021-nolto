@@ -8,6 +8,7 @@ import com.wooteco.nolto.auth.ValidTokenRequired;
 import com.wooteco.nolto.admin.ui.dto.CommentsByFeedResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
+import com.wooteco.nolto.tech.ui.dto.TechResponse;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.admin.ui.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
@@ -79,6 +80,20 @@ public class AdminController {
     @DeleteMapping("/comments/{commentId:[\\d]+}")
     public ResponseEntity<Void> deleteComment(@AdminAuthenticationPrincipal User adminUser, @PathVariable Long commentId) {
         adminService.deleteComment(adminUser, commentId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @ValidTokenRequired
+    @GetMapping("/techs")
+    public ResponseEntity<List<TechResponse>> findAllTechs(@AdminAuthenticationPrincipal User adminUser) {
+        List<TechResponse> allTechs = adminService.findAllTechs(adminUser);
+        return ResponseEntity.ok(allTechs);
+    }
+
+    @ValidTokenRequired
+    @DeleteMapping("/techs/{techId:[\\d]+}")
+    public ResponseEntity<Void> deleteTech(@AdminAuthenticationPrincipal User adminUser, @PathVariable Long techId) {
+        adminService.deleteTech(adminUser, techId);
         return ResponseEntity.noContent().build();
     }
 }

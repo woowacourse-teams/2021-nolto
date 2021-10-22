@@ -55,6 +55,13 @@ public class DataLoader implements ApplicationRunner {
         Tech tech2 = new Tech("WebGL");
         Tech saveTech1 = techRepository.save(tech1);
         Tech saveTech2 = techRepository.save(tech2);
+        techRepository.save(new Tech("Spring Boot"));
+        techRepository.save(new Tech("Spring"));
+        techRepository.save(new Tech("Java"));
+        techRepository.save(new Tech("JavaScript"));
+        techRepository.save(new Tech("Kotlin"));
+        techRepository.save(new Tech("vue.js"));
+        techRepository.save(new Tech("Caffe(Convolutional Architecture for Fast Feature Embedding)"));
 
         Feed feed1 = Feed.builder()
                 .title("title1")

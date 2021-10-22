@@ -2,17 +2,20 @@ package com.wooteco.nolto.admin.application;
 
 import com.wooteco.nolto.admin.ui.dto.AdminLoginRequest;
 import com.wooteco.nolto.admin.ui.dto.AdminLoginResponse;
+import com.wooteco.nolto.admin.ui.dto.CommentsByFeedResponse;
+import com.wooteco.nolto.admin.ui.dto.UserResponse;
 import com.wooteco.nolto.auth.infrastructure.JwtTokenProvider;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.UnauthorizedException;
 import com.wooteco.nolto.feed.application.CommentService;
 import com.wooteco.nolto.feed.application.FeedService;
-import com.wooteco.nolto.admin.ui.dto.CommentsByFeedResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
+import com.wooteco.nolto.tech.domain.Tech;
+import com.wooteco.nolto.tech.domain.TechRepository;
+import com.wooteco.nolto.tech.ui.dto.TechResponse;
 import com.wooteco.nolto.user.application.MemberService;
 import com.wooteco.nolto.user.domain.User;
-import com.wooteco.nolto.admin.ui.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -27,6 +30,7 @@ public class AdminService {
     private final FeedService feedService;
     private final MemberService memberService;
     private final CommentService commentService;
+    private final TechRepository techRepository;
 
     @Value("${admin.id}")
     private String adminId;
@@ -80,5 +84,16 @@ public class AdminService {
 
     public void deleteComment(User adminUser, Long commentId) {
         commentService.deleteCommentAsAdmin(adminUser, commentId);
+    }
+
+    public List<TechResponse> findAllTechs(User adminUser) {
+        adminUser.validateAdmin();
+        List<Tech> allTechs = techRepository.findAll();
+        return TechResponse.toList(allTechs);
+    }
+
+    public void deleteTech(User adminUser, Long techId) {
+        adminUser.validateAdmin();
+        techRepository.deleteById(techId);
     }
 }

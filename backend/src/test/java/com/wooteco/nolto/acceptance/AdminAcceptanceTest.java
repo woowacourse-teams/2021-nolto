@@ -6,6 +6,7 @@ import com.wooteco.nolto.admin.ui.dto.CommentsByFeedResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedRequest;
 import com.wooteco.nolto.feed.ui.dto.FeedResponse;
 import com.wooteco.nolto.tech.domain.Tech;
+import com.wooteco.nolto.tech.ui.dto.TechResponse;
 import com.wooteco.nolto.user.domain.User;
 import com.wooteco.nolto.admin.ui.dto.UserResponse;
 import io.restassured.RestAssured;
@@ -115,7 +116,7 @@ class AdminAcceptanceTest extends AcceptanceTest {
         어드민_관련_요청_실패(response);
     }
 
-    @DisplayName("어드민 유저로 피드를 삭제할 수 있다.")
+    @DisplayName("어드민 유저로 피드를 수정할 수 있다.")
     @Test
     void updateFeedAsAdmin() {
         //when
@@ -184,6 +185,45 @@ class AdminAcceptanceTest extends AcceptanceTest {
 
         //then
         어드민_삭제_응답_받음(response);
+    }
+
+    @DisplayName("어드민 유저로 기술 스택을 모두 조회할 수 있다")
+    @Test
+    void getAllTechs() {
+        //when
+        ExtractableResponse<Response> response = 어드민_기술_스택_조회_요청(어드민_토큰_발급());
+
+        //then
+        어드민_기술_스택_조회_응답_받음(response);
+    }
+
+    @DisplayName("어드민 유저로 기술 스택을 삭제할 수 있다")
+    @Test
+    void deleteTechAsAdmin() {
+        //when
+        ExtractableResponse<Response> response = 어드민_기술_스택_삭제_요청(어드민_토큰_발급(), 스프링.getId());
+
+        //then
+        어드민_삭제_응답_받음(response);
+    }
+
+    @DisplayName("어드민 유저로 기술 스택 삭제 시, 해당 기술 스택을 사용하는 피드에서 삭제된다")
+    @Test
+    void deleteTechThenFeedTechBeDeletedAsAdmin() {
+        //given
+        어드민_피드_수정_요청(어드민_토큰_발급(), 첫번째_피드_ID, 전시중_단계의_SOS_피드_요청);
+        FeedResponse 기술_스택_삭제_전 = 피드_조회_요청(첫번째_피드_ID).as(FeedResponse.class);
+        assertThat(기술_스택_삭제_전.getTechs()).hasSize(2);
+        assertThat(기술_스택_삭제_전.getTechs().get(0).getId()).isEqualTo(스프링.getId());
+        assertThat(기술_스택_삭제_전.getTechs().get(1).getId()).isEqualTo(리액트.getId());
+
+        //when
+        ExtractableResponse<Response> response = 어드민_기술_스택_삭제_요청(어드민_토큰_발급(), 스프링.getId());
+
+        //then
+        FeedResponse 기술_스택_삭제_후 = 피드_조회_요청(첫번째_피드_ID).as(FeedResponse.class);
+        assertThat(기술_스택_삭제_후.getTechs()).hasSize(1);
+        assertThat(기술_스택_삭제_후.getTechs().get(0).getId()).isEqualTo(리액트.getId());
     }
 
     private ExtractableResponse<Response> 어드민_로그인_요청(AdminLoginRequest 어드민_로그인_양식) {
@@ -275,6 +315,26 @@ class AdminAcceptanceTest extends AcceptanceTest {
                 .extract();
     }
 
+    private ExtractableResponse<Response> 어드민_기술_스택_조회_요청(String 어드민_토큰) {
+        return RestAssured.given().log().all()
+                .when()
+                .auth().oauth2(어드민_토큰)
+                .get("/admin/techs")
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    private ExtractableResponse<Response> 어드민_기술_스택_삭제_요청(String 어드민_토큰, Long 테크_ID) {
+        return RestAssured.given().log().all()
+                .when()
+                .auth().oauth2(어드민_토큰)
+                .delete("/admin/techs/{techId}", 테크_ID)
+                .then()
+                .log().all()
+                .extract();
+    }
+
     private String 어드민_토큰_발급() {
         ExtractableResponse<Response> response = 어드민_로그인_요청(어드민_로그인_양식);
         AdminLoginResponse adminLoginResponse = response.as(AdminLoginResponse.class);
@@ -311,6 +371,12 @@ class AdminAcceptanceTest extends AcceptanceTest {
 
     private void 어드민_수정_응답_받음(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    private void 어드민_기술_스택_조회_응답_받음(ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        TechResponse[] techResponses = response.as(TechResponse[].class);
+        assertThat(techResponses).isNotEmpty();
     }
 
     private void 어드민_삭제_응답_받음(ExtractableResponse<Response> response) {

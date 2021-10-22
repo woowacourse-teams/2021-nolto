@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 @Getter
 public class FeedResponse {
+
     private final AuthorResponse author;
     private final Long id;
     private final String title;
