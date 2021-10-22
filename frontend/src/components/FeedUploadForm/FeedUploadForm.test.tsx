@@ -5,7 +5,7 @@ import { customRender, fireEvent, waitFor } from 'test-util';
 import { UPLOAD_VALIDATION_MSG } from 'constants/message';
 import ROUTE from 'constants/routes';
 import FeedUploadForm from './FeedUploadForm';
-import { MOCK_FEED_TO_UPLOAD } from '__mocks__/fixture/Feeds';
+import { MOCK_FEED_TO_UPLOAD } from '__mocks__/fixture/feeds';
 
 const submitMock = jest.fn();
 

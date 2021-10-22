@@ -11,7 +11,7 @@ import ErrorMessage from 'components/@common/ErrorMessage/ErrorMessage';
 import Markdown from 'components/@common/Markdown/Markdown';
 import { FlexContainer } from 'commonStyles';
 import REGEX from 'constants/regex';
-import { THUMBNAIL_EXTENSION } from 'constants/common';
+import { THUMBNAIL_IMG_EXTENSION } from 'constants/common';
 import { CONFIRM_MSG, UPLOAD_VALIDATION_MSG } from 'constants/message';
 import TechInput from 'contexts/techTag/input/TechInput';
 import TechTagProvider from 'contexts/techTag/TechTagProvider';
@@ -59,7 +59,7 @@ const FeedUploadForm = ({ onFeedSubmit, initialFormValue }: Props) => {
   const dialog = useDialog();
 
   const setFileInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!THUMBNAIL_EXTENSION.includes(event.currentTarget.files[0].type)) {
+    if (!THUMBNAIL_IMG_EXTENSION.includes(event.currentTarget.files[0].type)) {
       dialog.alert('잘못된 확장자입니다.');
 
       return;
@@ -237,7 +237,7 @@ const FeedUploadForm = ({ onFeedSubmit, initialFormValue }: Props) => {
               id="thumbnail-image"
               fileName={watchThumbnailImage?.name}
               onChange={setFileInput}
-              accept={THUMBNAIL_EXTENSION.join(',')}
+              accept={THUMBNAIL_IMG_EXTENSION.join(',')}
             />
             <Styled.InputCaption>최대 10MB의 이미지를 업로드할 수 있습니다</Styled.InputCaption>
           </div>

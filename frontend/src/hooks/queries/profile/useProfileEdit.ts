@@ -1,7 +1,7 @@
 import { useMutation } from 'react-query';
 import { AxiosResponse } from 'axios';
 
-import api from 'constants/api';
+import { backendApi } from 'constants/api';
 import HttpError from 'utils/HttpError';
 import { resolveHttpError } from 'utils/error';
 
@@ -11,7 +11,7 @@ interface Args {
 
 const editProfile = async ({ formData }: Args) => {
   try {
-    const { data } = await api.put('/members/me/profile', formData);
+    const { data } = await backendApi.put('/members/me/profile', formData);
 
     return data;
   } catch (error) {

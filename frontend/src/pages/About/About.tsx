@@ -13,8 +13,9 @@ const About = () => {
   return (
     <BaseLayout>
       <Helmet>
-        <title>놀토: 놀토 팀 소개</title>
+        <title>놀토: 팀 소개</title>
         <link rel="canonical" href="https://www.nolto.app/about" />
+        <meta name="description" content="놀토 팀을 소개합니다~!" />
       </Helmet>
       <DefaultPageRoot>
         <h2>

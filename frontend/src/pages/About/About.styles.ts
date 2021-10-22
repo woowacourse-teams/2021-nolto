@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
 const MembersContainer = styled.div`
-  width: 60rem;
+  max-width: 60rem;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 2rem;

@@ -123,3 +123,11 @@ export const Divider = styled.hr`
   background-color: ${PALETTE.BLACK_200};
   border: none;
 `;
+
+export const visuallyHidden = css`
+  width: 1px;
+  height: 1px;
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+  position: absolute;
+`;

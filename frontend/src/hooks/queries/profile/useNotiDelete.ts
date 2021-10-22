@@ -1,7 +1,7 @@
 import { useMutation } from 'react-query';
 import { AxiosResponse } from 'axios';
 
-import api from 'constants/api';
+import { backendApi } from 'constants/api';
 import HttpError from 'utils/HttpError';
 import { resolveHttpError } from 'utils/error';
 
@@ -15,7 +15,7 @@ const deleteNoti = async ({ notificationId }: Args) => {
       ? `/members/me/notifications/${notificationId}`
       : '/members/me/notifications';
 
-    const { data } = await api.delete(endpoint);
+    const { data } = await backendApi.delete(endpoint);
 
     return data;
   } catch (error) {

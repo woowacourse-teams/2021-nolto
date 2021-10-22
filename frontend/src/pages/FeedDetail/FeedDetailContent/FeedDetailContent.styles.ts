@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import HighlightedText from 'components/@common/HighlightedText/HighlightedText';
 import TextButton from 'components/@common/TextButton/TextButton';
 import SOSFlagComponent from 'components/@common/SOSFlag/SOSFlag';
+import Thumbnail from 'components/Thumbnail/Thumbnail';
 import { MEDIA_QUERY } from 'constants/mediaQuery';
 import { PALETTE } from 'constants/palette';
 import StacksMoreIcon from 'assets/stacksMore.svg';
@@ -67,7 +68,7 @@ const MobileThumbnailContainer = styled(ThumbnailContainer)`
   }
 `;
 
-const Thumbnail = styled.div`
+const ThumbnailWrapper = styled.div`
   position: relative;
   border-radius: 0.5rem;
   ${defaultShadow}
@@ -134,7 +135,7 @@ const UserName = styled.span`
   font-size: 1rem;
 `;
 
-const UserImage = styled.img`
+const UserThumbnail = styled(Thumbnail)`
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
@@ -175,15 +176,20 @@ const DetailsKey = styled(HighlightedText)`
 const DetailsValue = styled.span`
   display: flex;
   font-size: 1rem;
-  align-items: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  overflow: hidden;
 
   & > a {
     &:hover {
       text-decoration: underline;
     }
+  }
+
+  & ul {
+    display: flex;
+    font-size: 1rem;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    overflow: hidden;
   }
 `;
 
@@ -226,13 +232,13 @@ export default {
   IconWrapper,
   ThumbnailContainer,
   MobileThumbnailContainer,
-  Thumbnail,
+  ThumbnailWrapper,
   FeedSummaryContainer,
   TitleContainer,
   TitleWrapper,
   UserWrapper,
   UserName,
-  UserImage,
+  UserThumbnail,
   DetailsContent,
   DetailsPair,
   DetailsKeyWrapper,

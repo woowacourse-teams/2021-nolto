@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import Avatar from 'components/@common/Avatar/Avatar';
 import SOSFlag from 'components/@common/SOSFlag/SOSFlag';
-import FeedThumbnail from 'components/FeedThumbnail/FeedThumbnail';
+import Thumbnail from 'components/Thumbnail/Thumbnail';
 import { removeMarkdown } from 'utils/common';
 import { Feed } from 'types';
 import Styled from './RegularFeedCard.styles';
@@ -19,7 +19,7 @@ const RegularFeedCard = ({ feed }: Props) => {
       {feed.sos && <SOSFlag className="sos" />}
       <Link className="link" to={`feeds/${feed.id}`}>
         <Styled.RegularCardImgWrapper>
-          <FeedThumbnail thumbnailUrl={feed.thumbnailUrl} alt={feed.title} />
+          <Thumbnail thumbnailUrl={feed.thumbnailUrl} alt={feed.title} />
         </Styled.RegularCardImgWrapper>
         <Styled.Content>
           <h3>{feed.title}</h3>

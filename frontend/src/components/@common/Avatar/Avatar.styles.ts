@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import FeedThumbnail from 'components/FeedThumbnail/FeedThumbnail';
+import Thumbnail from 'components/Thumbnail/Thumbnail';
 
 const Root = styled.div`
   display: flex;
@@ -9,7 +9,7 @@ const Root = styled.div`
   width: 100%;
 `;
 
-const Image = styled(FeedThumbnail)`
+const Image = styled(Thumbnail)`
   width: 1.5rem;
   height: 1.5rem;
   border-radius: 50%;

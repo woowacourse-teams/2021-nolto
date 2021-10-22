@@ -1,2 +1,8 @@
 User-agent: *
 Allow: /
+Disallow: /upload
+Disallow: /modify
+Disallow: /mypage
+Disallow: /github
+Disallow: /google
+

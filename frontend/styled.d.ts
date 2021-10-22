@@ -8,7 +8,7 @@ declare module 'styled-components' {
     headerStartColor: string;
     headerEndColor: string;
     headerShadow: string;
-    moonRabbit: string;
+    pumpkin: string;
     titleWeight: number;
   }
 }

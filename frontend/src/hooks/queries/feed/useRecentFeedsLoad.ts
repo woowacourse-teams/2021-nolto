@@ -1,6 +1,6 @@
 import { useInfiniteQuery, UseInfiniteQueryOptions } from 'react-query';
 
-import api from 'constants/api';
+import { backendApi } from 'constants/api';
 import QUERY_KEYS from 'constants/queryKeys';
 import HttpError from 'utils/HttpError';
 import { resolveHttpError } from 'utils/error';
@@ -27,7 +27,7 @@ export const loadRecentFeeds = async ({
   errorHandler,
 }: CustomQueryOption) => {
   try {
-    const { data } = await api.get('/feeds/recent', {
+    const { data } = await backendApi.get('/feeds/recent', {
       params: { step, help, nextFeedId, countPerPage },
     });
 

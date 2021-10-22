@@ -3,7 +3,7 @@ import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 
 import { customRender, fireEvent, waitFor } from 'test-util';
-import { MOCK_FEED_DETAIL } from '__mocks__/fixture/Feeds';
+import { MOCK_FEED_DETAIL } from '__mocks__/fixture/feeds';
 import FeedDropdown from './FeedDropdown';
 
 describe('FeedDropdown 테스트', () => {

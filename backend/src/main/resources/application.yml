@@ -152,9 +152,11 @@ spring:
 ---
 security:
   jwt:
-    token:
+    access-token:
       secret-key: my_secret_is_secret
-      expire-length: 3600000
+      expire-length: 7200000
+    refresh-token:
+      expire-length: 1209600000
 logging:
   file:
     path: /home/ubuntu/nolto2021

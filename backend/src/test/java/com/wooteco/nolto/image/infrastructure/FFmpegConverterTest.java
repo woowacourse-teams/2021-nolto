@@ -20,8 +20,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @SpringBootTest(classes = {FFmpegConverter.class, FFmpegConfig.class})
 class FFmpegConverterTest {
 
-    private final String gifFileName = "jjv1FK.gif";
-    private final String mp4FileName = "jjv1FK.mp4";
+    private final String gifFileName = "asdf.gif";
+    private final String mp4FileName = "asdf.mp4";
 
     @Autowired
     private FFmpegConverter ffmpegConverter;

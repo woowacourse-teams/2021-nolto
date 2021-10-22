@@ -4,14 +4,13 @@ const common = require('./webpack.common.js');
 const { merge } = require('webpack-merge');
 
 module.exports = merge(common, {
+  target: 'node',
   entry: './server/index.tsx',
   output: {
     path: path.resolve(__dirname, 'dist-server'),
     filename: '[name].js',
   },
   devtool: 'eval-source-map',
-  target: 'node',
-  mode: 'production',
   externals: [
     nodeExternals({
       allowlist: [

@@ -1,6 +1,6 @@
 package com.wooteco.nolto.acceptance;
 
-import com.wooteco.nolto.auth.ui.dto.TokenResponse;
+import com.wooteco.nolto.auth.ui.dto.AllTokenResponse;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.dto.ExceptionResponse;
 import com.wooteco.nolto.user.domain.User;
@@ -37,7 +37,7 @@ class UserAcceptanceTest extends AcceptanceTest {
     @BeforeEach
     void setUpOnUserAcceptance() {
         super.setUp();
-        존재하는_유저의_토큰 = 가입된_유저의_토큰을_받는다().getAccessToken();
+        존재하는_유저의_토큰 = 가입된_유저의_토큰을_받는다().getAccessToken().getValue();
     }
 
     @AfterEach
@@ -123,7 +123,7 @@ class UserAcceptanceTest extends AcceptanceTest {
         좋아요_요청(존재하는_유저의_토큰, 작성과_좋아요한_피드_ID);
         String 등록한_댓글_내용 = 댓글_등록되어_있음(일반_댓글_작성요청, 존재하는_유저의_토큰, 작성과_좋아요한_피드_ID).getContent();
 
-        TokenResponse userToken = 유저의_토큰을_받는다(가입된_유저);
+        AllTokenResponse userToken = 유저의_토큰을_받는다(가입된_유저);
 
         //when
         ExtractableResponse<Response> response = 내_히스토리_조회_요청(userToken);
@@ -250,9 +250,9 @@ class UserAcceptanceTest extends AcceptanceTest {
         assertThat(profileResponse.getImageUrl()).isEqualTo(DEFAULT_IMAGE_URL);
     }
 
-    private static ExtractableResponse<Response> 내_히스토리_조회_요청(TokenResponse tokenResponse) {
+    private static ExtractableResponse<Response> 내_히스토리_조회_요청(AllTokenResponse allTokenResponse) {
         return RestAssured.given().log().all()
-                .auth().oauth2(tokenResponse.getAccessToken())
+                .auth().oauth2(allTokenResponse.getAccessToken().getValue())
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .when()
                 .get("/members/me/history")

@@ -8,4 +8,4 @@ export default {
   argTypes: {},
 };
 
-export const Default = () => <CroppedEllipse />;
+export const Default = () => <CroppedEllipse toggleTheme={() => {}} />;

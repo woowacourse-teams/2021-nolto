@@ -1,7 +1,7 @@
 import { useMutation } from 'react-query';
 import { AxiosResponse } from 'axios';
 
-import api from 'constants/api';
+import { backendApi } from 'constants/api';
 import HttpError from 'utils/HttpError';
 import { resolveHttpError } from 'utils/error';
 
@@ -12,7 +12,7 @@ interface Args {
 
 const uploadFeed = async ({ feedId, formData }: Args) => {
   try {
-    const { data } = await api.put(`/feeds/${feedId}`, formData);
+    const { data } = await backendApi.put(`/feeds/${feedId}`, formData);
 
     return data;
   } catch (error) {

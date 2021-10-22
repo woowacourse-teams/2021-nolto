@@ -64,7 +64,7 @@ const LikeButton = ({ feedDetail }: Props) => {
   });
 
   const handleToggleLike = () => {
-    if (!member.userData) {
+    if (!member.userInfo) {
       snackbar.addSnackbar('error', '로그인이 필요한 서비스입니다.');
       return;
     }
@@ -80,6 +80,7 @@ const LikeButton = ({ feedDetail }: Props) => {
   return (
     <Styled.Root>
       <Button onClick={handleToggleLike}>
+        <span className="visually-hidden">좋아요</span>
         {isLiked ? (
           <FilledLikeHeart width="18px" fill={PALETTE.PRIMARY_400} />
         ) : (

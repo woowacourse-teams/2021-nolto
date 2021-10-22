@@ -74,7 +74,7 @@ public class User extends BaseEntity {
         this.imageUrl = imageUrl;
         this.bio = bio;
         this.feeds = new ArrayList<>();
-        this.likes  = new ArrayList<>();
+        this.likes = new ArrayList<>();
         this.comments = new ArrayList<>();
         this.commentLikes = new ArrayList<>();
     }

@@ -1,5 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 
+import { visuallyHidden } from 'commonStyles';
+
 const GlobalStyle = createGlobalStyle`  
   html, body {
     overflow: auto;
@@ -33,6 +35,10 @@ const GlobalStyle = createGlobalStyle`
 
   input, textarea {
     outline: none;
+  }
+
+  .visually-hidden {
+    ${visuallyHidden};
   }
 
   .query-dev-tools * {

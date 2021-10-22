@@ -1,5 +1,5 @@
-const api = {
-  get: (url: string) => {
+const backendApi = {
+  get: () => {
     return {
       data: {
         accessToken: '액세스 토큰~',
@@ -8,4 +8,4 @@ const api = {
   },
 };
 
-export default api;
+export default backendApi;

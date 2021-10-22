@@ -1,6 +1,5 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
 
 import FeedDetailContent from 'pages/FeedDetail/FeedDetailContent/FeedDetailContent';
 import AsyncBoundary from 'components/AsyncBoundary';
@@ -16,10 +15,6 @@ const FeedDetail = () => {
 
   return (
     <BaseLayout>
-      <Helmet>
-        <title>놀토: 토이프로젝트 피드</title>
-        <link rel="canonical" href="https://www.nolto.app/feeds" />
-      </Helmet>
       <DefaultPageRoot>
         <AsyncBoundary
           rejectedFallback={

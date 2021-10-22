@@ -11,7 +11,7 @@ import useDialog from 'contexts/dialog/useDialog';
 import { ALERT_MSG } from 'constants/message';
 import Camera from 'assets/camera.svg';
 import NoteEdit from 'assets/noteEdit.svg';
-import { THUMBNAIL_EXTENSION } from 'constants/common';
+import { THUMBNAIL_IMG_EXTENSION } from 'constants/common';
 import Styled from './Intro.styles';
 
 type ProfileToUpload = {
@@ -53,7 +53,7 @@ const Intro = () => {
   const setFileInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.currentTarget.files[0];
 
-    if (!THUMBNAIL_EXTENSION.includes(file.type)) {
+    if (!THUMBNAIL_IMG_EXTENSION.includes(file.type)) {
       dialog.alert('잘못된 확장자입니다.');
 
       return;
@@ -132,14 +132,24 @@ const Intro = () => {
       <Styled.ImageWrapper>
         {isEditing ? (
           <>
-            <Styled.EditingImage src={previewImage} alt={`${profile.nickname}-profile-image`} />
+            <Styled.UserImage
+              thumbnailUrl={previewImage}
+              alt={`${profile.nickname}-profile-image`}
+            />
             <Styled.CameraLabel>
-              <input type="file" onChange={setFileInput} accept={THUMBNAIL_EXTENSION.join(',')} />
+              <input
+                type="file"
+                onChange={setFileInput}
+                accept={THUMBNAIL_IMG_EXTENSION.join(',')}
+              />
               <Camera width="14px" />
             </Styled.CameraLabel>
           </>
         ) : (
-          <Styled.Image thumbnailUrl={profile.imageUrl} alt={`${profile.nickname} 프로필 이미지`} />
+          <Styled.UserImage
+            thumbnailUrl={profile.imageUrl}
+            alt={`${profile.nickname} 프로필 이미지`}
+          />
         )}
       </Styled.ImageWrapper>
 

@@ -1,6 +1,6 @@
 import { useQuery, UseQueryOptions } from 'react-query';
 
-import api from 'constants/api';
+import { backendApi } from 'constants/api';
 import QUERY_KEYS from 'constants/queryKeys';
 import HttpError from 'utils/HttpError';
 import { Feed, ErrorHandler } from 'types';
@@ -12,7 +12,7 @@ interface CustomQueryOption extends UseQueryOptions<Feed[], HttpError> {
 
 export const loadHotFeeds = async (errorHandler?: ErrorHandler) => {
   try {
-    const { data } = await api.get('/feeds/hot');
+    const { data } = await backendApi.get('/feeds/hot');
 
     return data;
   } catch (error) {
