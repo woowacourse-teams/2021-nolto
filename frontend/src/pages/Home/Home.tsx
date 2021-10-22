@@ -98,7 +98,7 @@ const Home = ({ toggleTheme }: Props) => {
               onMouseOver={() => Page.RecentFeeds.preload()}
             >
               MORE&nbsp;
-              <span className="visually-hidden">More Progress Feeds</span>
+              <span className="visually-hidden">진행중 프로젝트 더보기</span>
               <MoreArrow width="10px" />
             </MoreButton>
           </Styled.TitleWrapper>
@@ -128,7 +128,7 @@ const Home = ({ toggleTheme }: Props) => {
               onMouseOver={() => Page.RecentFeeds.preload()}
             >
               MORE&nbsp;
-              <span className="visually-hidden">More Complete Feeds</span>
+              <span className="visually-hidden">완성된 프로젝트 더보기</span>
               <MoreArrow width="10px" />
             </MoreButton>
           </Styled.TitleWrapper>

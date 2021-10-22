@@ -136,9 +136,11 @@ const Comment = ({ commentBody, parentCommentId, isFocused }: Props) => {
       {isMyComment && (
         <Styled.EditDeleteContainer>
           <IconButton size="1.5rem" onClick={handleClickModifyMode} hasShadow={false}>
+            <span className="visually-hidden">댓글 수정</span>
             <PencilIcon width="20px" fill={PALETTE.BLACK_200} />
           </IconButton>
           <IconButton size="1.5rem" onClick={handleClickDelete} hasShadow={false}>
+            <span className="visually-hidden">댓글 삭제</span>
             <TrashIcon width="20px" />
           </IconButton>
         </Styled.EditDeleteContainer>
@@ -164,6 +166,7 @@ const Comment = ({ commentBody, parentCommentId, isFocused }: Props) => {
             <span>{refineDate(commentBody.createdAt)}</span>
             <Styled.ThumbUpWrapper>
               <IconButton size="1.5rem" onClick={handleToggleLiked} hasShadow={false}>
+                <span className="visually-hidden">댓글 좋아요</span>
                 <ThumbIcon fill={isLiked ? PALETTE.GRAY_500 : 'none'} width="20px" />
               </IconButton>
               <span>{likeCount}</span>
