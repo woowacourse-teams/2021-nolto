@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class AdminLoginResponse {
+
     private String adminAccessToken;
 
     public AdminLoginResponse(String adminAccessToken) {

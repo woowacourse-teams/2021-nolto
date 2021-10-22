@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 @Getter
 public class UserResponse {
+
     private Long id;
     private String nickname;
     private String bio;

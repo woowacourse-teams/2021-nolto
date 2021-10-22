@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-    @Query(value = "select distinct com " +
+    @Query("select distinct com " +
             "from Comment as com " +
             "join fetch com.author " +
             "join fetch com.feed " +
@@ -19,7 +19,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
             "order by com.createdDate desc, com.id desc")
     List<Comment> findAllByFeedIdAndParentCommentIdIsNull(@Param("feedId") Long feedId);
 
-    @Query(value = "select distinct com " +
+    @Query("select distinct com " +
             "from Comment as com " +
             "join fetch com.author " +
             "join fetch com.feed " +
