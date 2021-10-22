@@ -1,6 +1,7 @@
 import { configure, addDecorator } from '@storybook/react';
 import { MemoryRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { ThemeProvider } from 'styled-components';
 
 import GlobalStyle from '../src/Global.styles';
 import AsyncBoundary from '../src/components/AsyncBoundary';
@@ -8,6 +9,7 @@ import ModalProvider from '../src/contexts/modal/ModalProvider';
 import DialogProvider from '../src/contexts/dialog/DialogProvider';
 import SnackbarProvider from '../src/contexts/snackbar/SnackbarProvider';
 import { CommentModuleContext } from '../src/components/CommentModule/CommentModule';
+import { defaultTheme } from '../src/themes';
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
@@ -29,8 +31,8 @@ const queryClient = new QueryClient({
 });
 
 addDecorator((story) => (
-  <>
-    <QueryClientProvider client={queryClient}>
+  <QueryClientProvider client={queryClient}>
+    <ThemeProvider theme={defaultTheme}>
       <MemoryRouter initialEntries={['/']}>
         <GlobalStyle />
         <DialogProvider>
@@ -45,8 +47,8 @@ addDecorator((story) => (
           </SnackbarProvider>
         </DialogProvider>
       </MemoryRouter>
-    </QueryClientProvider>
-  </>
+    </ThemeProvider>
+  </QueryClientProvider>
 ));
 
 configure(require.context('../src', true, /\.stories\.js?$/), module);
