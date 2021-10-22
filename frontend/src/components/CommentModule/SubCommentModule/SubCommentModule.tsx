@@ -42,6 +42,7 @@ const SubCommentModule = ({ parentCommentId }: Props) => {
   return (
     <Styled.Root>
       <ReplyIconButton size="20px" onClick={handleClickReply} hasShadow={false}>
+        <span className="visually-hidden">답글 작성</span>
         <ReplyIcon />
       </ReplyIconButton>
       {isSubCommentExist && (
