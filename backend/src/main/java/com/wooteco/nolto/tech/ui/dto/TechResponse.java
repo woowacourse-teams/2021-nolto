@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 @Getter
 public class TechResponse {
+
     private final Long id;
     private final String text;
 

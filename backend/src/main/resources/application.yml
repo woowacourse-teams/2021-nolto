@@ -19,6 +19,7 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.H2Dialect
+        default_batch_fetch_size: 100
     show-sql: true
   output:
     ansi:
@@ -97,6 +98,10 @@ oauth:
     client:
       id: localCilentId
       secret: localCilentSecret
+admin:
+  id: test
+  password: test
+  payload: test
 ---
 spring:
   config:
@@ -125,6 +130,10 @@ oauth:
     client:
       id: testCilentId
       secret: testCilentSecret
+admin:
+  id: test
+  password: test
+  payload: test
 ---
 spring:
   config:

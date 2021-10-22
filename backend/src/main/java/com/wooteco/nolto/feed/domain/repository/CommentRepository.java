@@ -9,26 +9,20 @@ import java.util.List;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-    @Query(value = "select com " +
+    @Query("select distinct com " +
             "from Comment as com " +
             "join fetch com.author " +
             "join fetch com.feed " +
-            "where com.feed.id = :feedId and com.parentComment.id is null " +
-            "order by com.likes.size desc , com.createdDate desc")
-    List<Comment> findAllByFeedIdOrderByLike(@Param("feedId") Long feedId);
-
-    @Query(value = "select com " +
-            "from Comment as com " +
-            "join fetch com.author " +
-            "join fetch com.feed " +
+            "left join fetch com.likes " +
             "where com.feed.id = :feedId and com.parentComment.id is null " +
             "order by com.createdDate desc, com.id desc")
     List<Comment> findAllByFeedIdAndParentCommentIdIsNull(@Param("feedId") Long feedId);
 
-    @Query(value = "select com " +
+    @Query("select distinct com " +
             "from Comment as com " +
             "join fetch com.author " +
             "join fetch com.feed " +
+            "left join fetch com.likes " +
             "where com.feed.id = :feedId and com.parentComment.id = :parentCommentId " +
             "order by com.createdDate desc, com.id desc")
     List<Comment> findAllByFeedIdAndParentCommentIdWithFetchJoin(@Param("feedId") Long feedId, @Param("parentCommentId") Long parentCommentId);

@@ -224,4 +224,18 @@ class FeedRepositoryTest {
         assertThat(progressStepNoHelpConditionUsingJavaOrPythonProperQuery).containsExactly(진행중_단계의_피드1);
         assertThat(completeStepNoHelpConditionUsingJavaOrPythonProperQuery).isEmpty();
     }
+
+    @DisplayName("findAllFeedsHavingComments 메서드는 커멘트가 달려있는 피드만 가져온다")
+    @Test
+    void findAllWithFetchJoin() {
+        //given
+        진행중_단계의_피드1 = 진행중_단계의_SOS_피드_생성("제목1", "컨텐츠1").writtenBy(아마찌);
+        진행중_단계의_피드2 = 진행중_단계의_SOS_피드_생성("제목2", "컨텐츠2").writtenBy(아마찌);
+        전시중_단계의_피드3 = 전시중_단계의_피드_생성("이름3", "컨텐츠3").writtenBy(아마찌);
+        feedRepository.saveAllAndFlush(Arrays.asList(진행중_단계의_피드1, 진행중_단계의_피드2, 전시중_단계의_피드3));
+
+        //when
+        final List<Feed> allWithFetchJoin = feedRepository.findAllFeedsHavingComments();
+        assertThat(allWithFetchJoin).isEmpty();
+    }
 }

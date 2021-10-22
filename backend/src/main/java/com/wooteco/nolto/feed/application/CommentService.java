@@ -59,7 +59,7 @@ public class CommentService {
     public void deleteComment(User user, Long commentId) {
         Comment findComment = findEntityById(commentId);
         findComment.checkAuthority(user, ErrorType.UNAUTHORIZED_DELETE_COMMENT);
-        if (!findComment.isReply()) {
+        if (findComment.isParentComment()) {
             applicationEventPublisher.publishEvent(new NotificationCommentDeleteEvent(findComment));
         }
         user.deleteComment(findComment);

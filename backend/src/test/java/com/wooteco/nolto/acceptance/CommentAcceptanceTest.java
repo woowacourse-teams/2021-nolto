@@ -476,7 +476,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         assertThat(commentResponse.isHelper()).isEqualTo(request.isHelper());
     }
 
-    private static ExtractableResponse<Response> 댓글을_작성한다(CommentRequest request, String accessToken, Long 피드ID) {
+    public static ExtractableResponse<Response> 댓글을_작성한다(CommentRequest request, String accessToken, Long 피드ID) {
         return RestAssured.given().log().all()
                 .auth().oauth2(accessToken)
                 .body(request)

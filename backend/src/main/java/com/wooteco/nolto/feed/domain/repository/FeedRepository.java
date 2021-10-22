@@ -42,17 +42,29 @@ public interface FeedRepository extends JpaRepository<Feed, Long> {
             "order by feed.createdDate desc, feed.id desc")
     List<Feed> findByQueryAndTechs(@Param("query") String query, @Param("techNames") List<String> techNames, @Param("help") Set<Boolean> helpCondition, @Param("feedId") Long feedId, @Param("steps") EnumSet<Step> steps, Pageable pageable);
 
-    @Query(value = "select distinct feed " +
+    @Query("select distinct feed " +
             "from Feed as feed " +
             "join fetch feed.author " +
             "where feed.id <= :feedId and feed.step in :steps " +
             "order by feed.createdDate desc, feed.id desc")
     List<Feed> findWithoutHelp(@Param("steps") EnumSet<Step> steps, @Param("feedId") Long feedId, Pageable pageable);
 
-    @Query(value = "select distinct feed " +
+    @Query("select distinct feed " +
             "from Feed as feed " +
             "join fetch feed.author " +
             "where feed.id <= :feedId and feed.step in :steps and feed.isSos = :help " +
             "order by feed.createdDate desc, feed.id desc")
     List<Feed> findWithHelp(@Param("steps") EnumSet<Step> steps, @Param("help") Boolean help, @Param("feedId") Long feedId, Pageable pageable);
+
+    @Query("select distinct feed " +
+            "from Feed as feed " +
+            "join fetch feed.author " +
+            "left join fetch feed.feedTechs")
+    List<Feed> findAllWithFetchJoin();
+
+    @Query("select distinct feed " +
+            "from Feed as feed " +
+            "join fetch feed.author " +
+            "join fetch feed.comments")
+    List<Feed> findAllFeedsHavingComments();
 }

@@ -512,7 +512,7 @@ class FeedAcceptanceTest extends AcceptanceTest {
         assertThat(request.getDeployedUrl()).isEqualTo(feedResponse.getDeployedUrl());
     }
 
-    private ExtractableResponse<Response> 피드_조회_요청(Long 업로드되어_있는_피드_ID) {
+    public static ExtractableResponse<Response> 피드_조회_요청(Long 업로드되어_있는_피드_ID) {
         return RestAssured.given().log().all()
                 .when()
                 .get("/feeds/{feedId}", 업로드되어_있는_피드_ID)
