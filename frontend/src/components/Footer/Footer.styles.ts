@@ -1,19 +1,20 @@
 import styled from 'styled-components';
 
-import { PALETTE } from 'constants/palette';
-
 const Root = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: ${PALETTE.PRIMARY_400};
+  background: ${({ theme }) =>
+    `linear-gradient(90deg, ${theme.headerStartColor}, ${theme.headerEndColor})`};
   width: 100%;
-  height: 300px;
+  height: 250px;
   gap: 30px;
+  margin-top: 50px;
+  transition: background 0.3s ease;
 
   * {
-    color: ${PALETTE.WHITE_400};
+    color: ${({ theme }) => theme.highLightedText};
   }
 `;
 
