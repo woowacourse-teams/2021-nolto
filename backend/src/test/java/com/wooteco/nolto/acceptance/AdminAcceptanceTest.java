@@ -65,9 +65,9 @@ class AdminAcceptanceTest extends AcceptanceTest {
         회원_등록되어_있음(찰리);
         회원_등록되어_있음(포모);
 
-        댓글을_작성한다(일반_댓글_작성요청, 유저의_토큰을_받는다(조엘).getAccessToken(), 두번째_피드_ID);
-        댓글을_작성한다(도와줄게요_댓글_작성요청, 유저의_토큰을_받는다(조엘).getAccessToken(), 세번째_피드_ID);
-        댓글을_작성한다(도와줄게요_댓글_작성요청, 유저의_토큰을_받는다(조엘).getAccessToken(), 네번째_피드_ID);
+        댓글을_작성한다(일반_댓글_작성요청, 유저의_토큰을_받는다(조엘).getAccessToken().getValue(), 두번째_피드_ID);
+        댓글을_작성한다(도와줄게요_댓글_작성요청, 유저의_토큰을_받는다(조엘).getAccessToken().getValue(), 세번째_피드_ID);
+        댓글을_작성한다(도와줄게요_댓글_작성요청, 유저의_토큰을_받는다(조엘).getAccessToken().getValue(), 네번째_피드_ID);
     }
 
     @AfterEach
@@ -109,7 +109,7 @@ class AdminAcceptanceTest extends AcceptanceTest {
     @Test
     void findAllFeedNotAdmin() {
         //when
-        String userAccessToken = 유저의_토큰을_받는다(조엘).getAccessToken();
+        String userAccessToken = 유저의_토큰을_받는다(조엘).getAccessToken().getValue();
         ExtractableResponse<Response> response = 어드민_피드_전체_조회_요청(userAccessToken);
 
         //then
@@ -140,7 +140,7 @@ class AdminAcceptanceTest extends AcceptanceTest {
     @Test
     void deleteFeedAsNotAdmin() {
         //when
-        String userAccessToken = 유저의_토큰을_받는다(조엘).getAccessToken();
+        String userAccessToken = 유저의_토큰을_받는다(조엘).getAccessToken().getValue();
         ExtractableResponse<Response> response = 어드민_피드_삭제_요청(userAccessToken, 첫번째_피드_ID);
 
         //then

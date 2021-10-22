@@ -63,7 +63,7 @@ public class AdminService {
         String id = adminLoginRequest.getId();
         String password = adminLoginRequest.getPassword();
         if (adminId.equals(id) && adminPassword.equals(password)) {
-            return new AdminLoginResponse(jwtTokenProvider.createToken(adminPayload));
+            return new AdminLoginResponse(jwtTokenProvider.createToken(adminPayload).getValue());
         }
         throw new UnauthorizedException(ErrorType.ADMIN_ONLY);
     }
