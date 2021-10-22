@@ -147,8 +147,12 @@ export interface NotificationType {
   type: NotiType;
 }
 
-export interface AuthData {
-  accessToken: string;
-  refreshToken: string;
+export interface Token {
+  value: string;
   expiredIn: number;
+}
+
+export interface AuthData {
+  accessToken: Token;
+  refreshToken: Token;
 }

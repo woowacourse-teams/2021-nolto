@@ -1,5 +1,5 @@
 import { customRenderHook } from 'test-util';
-import { MOCK_HISTORY } from '__mocks__/fixture/histories';
+import { MOCK_HISTORY } from '__mocks__/fixture/history';
 
 import useUserHistory from '../useUserHistory';
 

@@ -13,7 +13,7 @@ import HttpError from 'utils/HttpError';
 import useMyInfo from './useMyInfo';
 
 interface ContextValue {
-  userInfo: UserInfo;
+  userInfo: UserInfo | undefined;
   login: (authData: AuthData) => void;
   logout: () => void;
   refetchMember: (options?: RefetchOptions) => Promise<QueryObserverResult<UserInfo, unknown>>;
@@ -33,7 +33,7 @@ const MemberProvider = ({ children }: Props) => {
   const [accessToken, setAccessToken] = useAccessToken();
 
   const { data: userInfo, refetch: refetchMember } = useMyInfo({
-    accessToken,
+    accessTokenValue: accessToken ? accessToken.value : '',
     errorHandler: (error) => {
       if (error instanceof HttpError) {
         dialog.alert(ALERT_MSG.SESSION_EXPIRED);
@@ -54,7 +54,7 @@ const MemberProvider = ({ children }: Props) => {
   const logout = () => {
     // TODO: common 부분 backendApi.ts로 추상화
     queryClient.removeQueries(QUERY_KEYS.MEMBER);
-    setAccessToken('');
+    setAccessToken(null);
     backendApi.defaults.headers.common['Authorization'] = '';
 
     frontendApi.post('/auth/logout');
