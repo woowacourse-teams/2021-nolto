@@ -4,17 +4,17 @@ import { Link, NavLink } from 'react-router-dom';
 import Pencil from 'assets/pencil.svg';
 import Search from 'assets/search.svg';
 import SignIn from 'assets/signin.svg';
-import Page from 'pages';
 import LoginModal from 'components/LoginModal/LoginModal';
-import { PALETTE } from 'constants/palette';
-import ROUTE from 'constants/routes';
-import useModal from 'contexts/modal/useModal';
-import useMember from 'contexts/member/useMember';
-import { ButtonStyle } from 'types';
-import Styled, { Logo, LogoText, Searchbar } from './Header.styles';
 import IconButton from 'components/@common/IconButton/IconButton';
 import UserProfile from 'components/UserProfile/UserProfile';
+import { PALETTE } from 'constants/palette';
+import ROUTE from 'constants/routes';
 import useFocusOut from 'hooks/@common/useFocusOut';
+import useModal from 'contexts/modal/useModal';
+import useMember from 'contexts/member/useMember';
+import Page from 'pages';
+import { ButtonStyle } from 'types';
+import Styled, { Logo, LogoText, Searchbar } from './Header.styles';
 
 interface Props {
   isFolded?: boolean;
