@@ -62,7 +62,6 @@ export const generateResponse = async (
         suspense: true,
         useErrorBoundary: true,
         retry: 1,
-        staleTime: Infinity,
       },
     },
   });

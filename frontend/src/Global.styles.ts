@@ -5,6 +5,9 @@ import { visuallyHidden } from 'commonStyles';
 const GlobalStyle = createGlobalStyle`  
   html, body {
     overflow: auto;
+  }
+  
+  #root {
     background: ${({ theme }) => theme.background};
     transition: background 0.2s ease;
   }
