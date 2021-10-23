@@ -20,8 +20,6 @@ import { AuthData } from 'types';
 
 const statsFile = path.resolve(__dirname, '../dist/loadable-stats.json');
 const PUBLIC_IP_API = 'https://api.ipify.org/?format=text';
-const sheet = new ServerStyleSheet();
-const extractor = new ChunkExtractor({ statsFile });
 
 export const getNewAuthToken = async (req: express.Request): Promise<AuthData> => {
   if (!req.cookies.refreshToken) return;
@@ -54,6 +52,8 @@ export const generateResponse = async (
   res: express.Response,
   prefetchCallback?: PrefetchCallback,
 ) => {
+  const sheet = new ServerStyleSheet();
+  const extractor = new ChunkExtractor({ statsFile });
   const newAuthData = await getNewAuthToken(req);
 
   const queryClient = new QueryClient({
@@ -105,7 +105,7 @@ export const generateResponse = async (
 
   const styleTags = sheet.getStyleTags();
 
-  const scriptTags = extractor.getScriptTags();
+  const chunkScriptTags = extractor.getScriptTags();
 
   const reactQueryState = `<script>window.__REACT_QUERY_STATE__ = ${serialize(dehydratedState, {
     isJSON: true,
@@ -133,7 +133,7 @@ export const generateResponse = async (
       .replace(
         /<head>(.+)<\/head>/s,
         `<head>$1 
-          ${styleTags} ${scriptTags} ${reactQueryState} ${accessTokenScript}
+          ${styleTags} ${chunkScriptTags} ${reactQueryState} ${accessTokenScript}
           ${helmet.title.toString()} 
           ${helmet.link.toString()} 
         </head>`,

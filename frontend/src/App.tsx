@@ -22,49 +22,51 @@ const App = () => {
   const theme = themeMode === 'default' ? defaultTheme : halloweenTheme;
 
   return (
-    <ErrorBoundary fallback={<ErrorFallback message={ERROR_MSG.UNKNOWN_ERROR} />}>
-      <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <Switch>
-          <SnackbarProvider>
-            <DialogProvider>
-              <ModalProvider>
-                <MemberProvider>
-                  <Route exact path={ROUTE.HOME}>
-                    <Page.Home toggleTheme={toggleThemeMode} />
-                  </Route>
-                  <Route exact path={ROUTE.ABOUT}>
-                    <Page.About />
-                  </Route>
-                  <PrivateRoute path={ROUTE.UPLOAD}>
-                    <Page.Upload />
-                  </PrivateRoute>
-                  <PrivateRoute path={ROUTE.MODIFY}>
-                    <Page.Modify />
-                  </PrivateRoute>
-                  <Route exact path={ROUTE.RECENT}>
-                    <Page.RecentFeeds />
-                  </Route>
-                  <Route path={`${ROUTE.FEEDS}/:id`}>
-                    <Page.FeedDetail />
-                  </Route>
-                  <Route path={ROUTE.SEARCH}>
-                    <Page.SearchResult />
-                  </Route>
-                  <Route path={ROUTE.MYPAGE}>
-                    <Page.Mypage />
-                  </Route>
-                  <Route path="/:oauth/callback">
-                    <Page.OAuth />
-                  </Route>
-                </MemberProvider>
-              </ModalProvider>
-            </DialogProvider>
-          </SnackbarProvider>
-        </Switch>
-      </ThemeProvider>
-      <ReactQueryDevtools panelProps={{ className: 'query-dev-tools' }} initialIsOpen={false} />
-    </ErrorBoundary>
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <React.StrictMode>
+        <ErrorBoundary fallback={<ErrorFallback message={ERROR_MSG.UNKNOWN_ERROR} />}>
+          <Switch>
+            <SnackbarProvider>
+              <DialogProvider>
+                <ModalProvider>
+                  <MemberProvider>
+                    <Route exact path={ROUTE.HOME}>
+                      <Page.Home toggleTheme={toggleThemeMode} />
+                    </Route>
+                    <Route exact path={ROUTE.ABOUT}>
+                      <Page.About />
+                    </Route>
+                    <PrivateRoute path={ROUTE.UPLOAD}>
+                      <Page.Upload />
+                    </PrivateRoute>
+                    <PrivateRoute path={ROUTE.MODIFY}>
+                      <Page.Modify />
+                    </PrivateRoute>
+                    <Route exact path={ROUTE.RECENT}>
+                      <Page.RecentFeeds />
+                    </Route>
+                    <Route path={`${ROUTE.FEEDS}/:id`}>
+                      <Page.FeedDetail />
+                    </Route>
+                    <Route path={ROUTE.SEARCH}>
+                      <Page.SearchResult />
+                    </Route>
+                    <Route path={ROUTE.MYPAGE}>
+                      <Page.Mypage />
+                    </Route>
+                    <Route path="/:oauth/callback">
+                      <Page.OAuth />
+                    </Route>
+                  </MemberProvider>
+                </ModalProvider>
+              </DialogProvider>
+            </SnackbarProvider>
+          </Switch>
+          <ReactQueryDevtools panelProps={{ className: 'query-dev-tools' }} initialIsOpen={false} />
+        </ErrorBoundary>
+      </React.StrictMode>
+    </ThemeProvider>
   );
 };
 
