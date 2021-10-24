@@ -1,7 +1,8 @@
 import { BASE_URL } from 'constants/api';
 import { rest } from 'msw';
 
-import { CommentType, FeedDetail, Tech, UserInfo } from 'types';
+import { CommentType, FeedDetail, Tech, UserInfo, AuthData } from 'types';
+import { MOCK_TOKEN } from '__mocks__/fixture/auth';
 import { MOCK_COMMENTS, MOCK_SUB_COMMENTS } from '__mocks__/fixture/comments';
 import { MOCK_FEED_DETAIL, MOCK_HOT_FEEDS, MOCK_RECENT_FEEDS } from '__mocks__/fixture/feeds';
 import { MOCK_HISTORY } from '__mocks__/fixture/history';
@@ -9,6 +10,8 @@ import { MOCK_NOTI } from '__mocks__/fixture/noti';
 import { MOCK_PROFILE } from '__mocks__/fixture/profile';
 import { MOCK_TECHS } from '__mocks__/fixture/tags';
 import { MOCK_USER } from '__mocks__/fixture/user';
+
+const LOCAL_URL = 'http://localhost';
 
 export const handlers = [
   rest.get(`${BASE_URL.development}/login/oauth/:type/token`, (req, res, ctx) => {
@@ -20,7 +23,7 @@ export const handlers = [
     );
   }),
 
-  //feeds
+  // feeds
   rest.get(`${BASE_URL.development}/feeds/hot`, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(MOCK_HOT_FEEDS));
   }),
@@ -46,7 +49,7 @@ export const handlers = [
     return res(ctx.status(200));
   }),
 
-  //members
+  // members
   rest.get(`${BASE_URL.development}/members/me`, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json<UserInfo>(MOCK_USER.MAZZI));
   }),
@@ -84,7 +87,7 @@ export const handlers = [
     return res(ctx.status(200));
   }),
 
-  //tags
+  // tags
   rest.get(`${BASE_URL.development}/tags/techs`, (req, res, ctx) => {
     const query = req.url.searchParams;
     const auto_complete = query.get('auto_complete');
@@ -100,5 +103,10 @@ export const handlers = [
   }),
   rest.get(`${BASE_URL.development}/tags/techs/trend`, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json<Tech[]>(MOCK_TECHS));
+  }),
+
+  // accessToken
+  rest.post(`${LOCAL_URL}/auth/renewToken`, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json<AuthData>(MOCK_TOKEN));
   }),
 ];
