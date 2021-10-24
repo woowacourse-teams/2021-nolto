@@ -50,6 +50,7 @@ const IconWrapper = styled.div`
 const ThumbnailContainer = styled.div`
   position: relative;
   display: flex;
+  justify-content: center;
   flex-direction: column;
   flex: 1;
   flex-shrink: 1;
@@ -178,12 +179,15 @@ const DetailsValue = styled.span`
   font-size: 1rem;
 
   & > a {
+    word-break: break-all;
+
     &:hover {
       text-decoration: underline;
     }
   }
 
   & ul {
+    position: relative;
     display: flex;
     font-size: 1rem;
     align-items: center;
@@ -194,9 +198,13 @@ const DetailsValue = styled.span`
 `;
 
 export const Tag = styled(TextButton.Rounded)`
+  max-width: 200px;
   width: fit-content;
   height: 1.5rem;
   padding: 0 0.75rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 `;
 
 export const StacksMoreButton = styled(StacksMoreIcon)`
