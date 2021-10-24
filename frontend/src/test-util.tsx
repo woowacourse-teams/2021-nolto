@@ -9,6 +9,7 @@ import { RenderHookOptions } from '@testing-library/react-hooks/lib/types';
 import DialogProvider from 'contexts/dialog/DialogProvider';
 import ModalProvider from 'contexts/modal/ModalProvider';
 import SnackbarProvider from 'contexts/snackbar/SnackbarProvider';
+import MemberProvider from 'contexts/member/MemberProvider';
 import AsyncBoundary from 'components/AsyncBoundary';
 import ErrorFallback from 'components/ErrorFallback/ErrorFallback';
 
@@ -19,6 +20,7 @@ interface WrapperProps {
 setLogger({
   log: console.log,
   warn: console.warn,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   error: () => {},
 });
 
@@ -26,8 +28,6 @@ const Wrapper = ({ children }: WrapperProps) => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        useErrorBoundary: true,
-        suspense: true,
         retry: false,
       },
     },
@@ -38,11 +38,13 @@ const Wrapper = ({ children }: WrapperProps) => {
       <SnackbarProvider>
         <DialogProvider>
           <ModalProvider>
-            <MemoryRouter>
-              <AsyncBoundary rejectedFallback={<ErrorFallback message="테스트 에러" />}>
-                {children}
-              </AsyncBoundary>
-            </MemoryRouter>
+            <MemberProvider>
+              <MemoryRouter initialEntries={['/']}>
+                <AsyncBoundary rejectedFallback={<ErrorFallback message="테스트 에러" />}>
+                  {children}
+                </AsyncBoundary>
+              </MemoryRouter>
+            </MemberProvider>
           </ModalProvider>
         </DialogProvider>
       </SnackbarProvider>
