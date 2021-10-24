@@ -34,7 +34,7 @@ const Home = ({ toggleTheme }: Props) => {
     }
   };
 
-  const localSettingTheme = hasWindow && localStorage.getItem('theme');
+  const localSettingTheme = hasWindow ? localStorage.getItem('theme') : 'default';
 
   const searchTitle =
     localSettingTheme === 'default' ? 'Search for Ideas?' : '🎃 Trick or Treat! 👻';
