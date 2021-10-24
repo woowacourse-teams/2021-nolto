@@ -30,7 +30,7 @@ const RecentFeedsContainer = styled.div`
     grid-template-columns: repeat(4, 1fr);
   }
 
-  @media ${MEDIA_QUERY.MOBILE} {
+  @media ${MEDIA_QUERY.TABLET_SMALL} {
     grid-template-columns: repeat(2, 1fr);
   }
 `;
