@@ -17,7 +17,9 @@ const Root = styled.div<{ reverse: boolean }>`
   border-radius: 25px;
   ${defaultShadow};
 
-  @media ${MEDIA_QUERY.MOBILE} {
+  @media ${MEDIA_QUERY.TABLET_SMALL} {
+    max-width: 500px;
+    margin: 0 auto;
     flex-direction: column;
     align-items: center;
     gap: 0;
@@ -27,8 +29,9 @@ const Root = styled.div<{ reverse: boolean }>`
 const Picture = styled.picture`
   max-width: 180px;
   width: 100%;
+  flex-shrink: 0;
 
-  @media ${MEDIA_QUERY.MOBILE} {
+  @media ${MEDIA_QUERY.TABLET_SMALL} {
     width: 100px;
   }
 
@@ -54,7 +57,7 @@ const TextWrapper = styled.div<{ reverse: boolean }>`
   align-items: ${({ reverse }) => (reverse ? 'flex-end' : 'flex-start')};
   color: ${PALETTE.GRAY_500};
 
-  @media ${MEDIA_QUERY.MOBILE} {
+  @media ${MEDIA_QUERY.TABLET_SMALL} {
     align-items: center;
   }
 `;
@@ -70,7 +73,7 @@ const Intro = styled.p`
   white-space: nowrap;
   text-overflow: ellipsis;
 
-  @media ${MEDIA_QUERY.MOBILE} {
+  @media ${MEDIA_QUERY.TABLET_SMALL} {
     width: 100%;
     text-align: center;
   }
@@ -83,7 +86,7 @@ const UrlContainer = styled.div<{ reverse: boolean }>`
   gap: 0.75rem;
   margin-top: 1.5rem;
 
-  @media ${MEDIA_QUERY.MOBILE} {
+  @media ${MEDIA_QUERY.TABLET_SMALL} {
     margin-top: 0;
   }
 `;
@@ -94,7 +97,7 @@ const UrlBar = styled.div`
   background-color: ${PALETTE.GRAY_500};
   display: flex;
 
-  @media ${MEDIA_QUERY.MOBILE} {
+  @media ${MEDIA_QUERY.TABLET_SMALL} {
     display: none;
   }
 `;
@@ -119,7 +122,7 @@ const UrlWrapper = styled.div<{ reverse: boolean }>`
     }
   }
 
-  @media ${MEDIA_QUERY.MOBILE} {
+  @media ${MEDIA_QUERY.TABLET_SMALL} {
     align-items: center;
   }
 `;
