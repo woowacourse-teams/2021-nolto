@@ -145,7 +145,7 @@ const AuthButton = styled(TextButton.Rounded)`
   font-size: inherit;
   line-height: inherit;
 
-  @media ${MEDIA_QUERY.MOBILE} {
+  @media ${MEDIA_QUERY.TABLET_SMALL} {
     display: none;
   }
 `;
@@ -176,14 +176,14 @@ const UserContainer = styled.div`
   flex-shrink: 0;
   margin-left: 1rem;
 
-  @media ${MEDIA_QUERY.MOBILE} {
+  @media ${MEDIA_QUERY.TABLET_SMALL} {
     margin-left: 0.5rem;
   }
 
   & .signin {
     display: none;
 
-    @media ${MEDIA_QUERY.MOBILE} {
+    @media ${MEDIA_QUERY.TABLET_SMALL} {
       display: inline-block;
     }
   }
