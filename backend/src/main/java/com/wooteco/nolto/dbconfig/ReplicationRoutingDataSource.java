@@ -31,7 +31,7 @@ public class ReplicationRoutingDataSource extends AbstractRoutingDataSource {
 
     public static class ReplicaDataSourceNames {
 
-        private List<String> values;
+        private final List<String> values;
         private int counter = 0;
 
         public ReplicaDataSourceNames(List<String> values) {

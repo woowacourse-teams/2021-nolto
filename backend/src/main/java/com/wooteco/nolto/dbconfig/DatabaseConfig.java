@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static com.wooteco.nolto.dbconfig.ReplicationRoutingDataSource.*;
 
@@ -41,12 +40,14 @@ public class DatabaseConfig {
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource.hikari.source")
     public DataSource sourceDataSource() {
-        return DataSourceBuilder.create().type(HikariDataSource.class).build();
+        return DataSourceBuilder.create()
+                .type(HikariDataSource.class)
+                .build();
     }
 
     @Bean
     public Map<String, DataSource> replicaDataSources() {
-        return replicas.replicaDataSources(HikariDataSource.class);
+        return replicas.createDataSources(HikariDataSource.class);
     }
 
     @Bean
@@ -60,6 +61,7 @@ public class DatabaseConfig {
 
         routingDataSource.setTargetDataSources(dataSources);
         routingDataSource.setDefaultTargetDataSource(source);
+
         List<String> replicaDataSourceNames = new ArrayList<>(replicas.keySet());
         routingDataSource.setReplicaDataSourceNames(replicaDataSourceNames);
 
