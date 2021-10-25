@@ -16,7 +16,7 @@ public class Replicas {
 
     List<Replica> replicaList = new ArrayList<>();
 
-    public <D extends DataSource> Map<String, DataSource> replicaDataSources(Class<D> type) {
+    public <D extends DataSource> Map<String, DataSource> createDataSources(Class<D> type) {
         return this.replicaList.stream()
                 .collect(Collectors.toMap(Replica::getName, replica -> replica.createDataSource(type)));
     }
