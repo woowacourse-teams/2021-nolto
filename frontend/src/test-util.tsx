@@ -58,7 +58,7 @@ const customRender = <T extends unknown>(
     RenderOptions<typeof import('@testing-library/dom/types/queries'), HTMLElement>,
     'queries'
   >,
-) => render(ui, { wrapper: Wrapper, ...options });
+) => render(ui, { wrapper: Wrapper, hydrate: true, ...options });
 
 const customRenderHook = <T extends unknown>(ui: (props: T) => T, options?: RenderHookOptions<T>) =>
   renderHook(ui, { wrapper: Wrapper, ...options });

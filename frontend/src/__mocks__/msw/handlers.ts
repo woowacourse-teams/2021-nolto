@@ -79,14 +79,6 @@ export const handlers = [
     return res(ctx.status(200), ctx.json<CommentType[]>(MOCK_SUB_COMMENTS));
   }),
 
-  // OAuth
-  rest.get(`${BASE_URL.development}/login/oauth/github`, (req, res, ctx) => {
-    return res(ctx.status(200));
-  }),
-  rest.get(`${BASE_URL.development}/login/oauth/google`, (req, res, ctx) => {
-    return res(ctx.status(200));
-  }),
-
   // tags
   rest.get(`${BASE_URL.development}/tags/techs`, (req, res, ctx) => {
     const query = req.url.searchParams;
