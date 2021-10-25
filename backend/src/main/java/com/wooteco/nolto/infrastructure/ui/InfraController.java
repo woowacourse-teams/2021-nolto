@@ -13,11 +13,6 @@ public class InfraController {
 
     private final Environment env;
 
-    @GetMapping("/port")
-    public String getPort() {
-        return env.getProperty("local.server.port");
-    }
-
     @GetMapping("/health")
     public String health() {
         return "UP";
