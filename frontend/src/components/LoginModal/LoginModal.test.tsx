@@ -16,13 +16,15 @@ afterEach(() => {
 
 jest.mock('constants/api', () => {
   return {
-    get: jest.fn(),
-    create: jest.fn(() => ({
-      interceptors: {
-        request: { use: jest.fn() },
-        response: { use: jest.fn() },
-      },
-    })),
+    backendApi: {
+      get: jest.fn(),
+      create: jest.fn(() => ({
+        interceptors: {
+          request: { use: jest.fn() },
+          response: { use: jest.fn() },
+        },
+      })),
+    },
   };
 });
 

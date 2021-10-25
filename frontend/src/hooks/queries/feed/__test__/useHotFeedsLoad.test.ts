@@ -1,6 +1,6 @@
 import useHotFeedsLoad from 'hooks/queries/feed/useHotFeedsLoad';
 import { customRenderHook } from 'test-util';
-import { MOCK_FEED_DETAIL, MOCK_HOT_FEEDS } from '__mocks__/fixture/feeds';
+import { MOCK_HOT_FEEDS } from '__mocks__/fixture/feeds';
 
 describe('useHotFeedsLoad 테스트', () => {
   beforeEach(() => {
