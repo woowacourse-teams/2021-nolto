@@ -3,5 +3,6 @@
 interface Window {
   Kakao: any;
   __REACT_QUERY_STATE__: any;
-  __accessToken__: string;
+  __accessTokenValue__: string;
+  __accessTokenExpiredIn__: number;
 }

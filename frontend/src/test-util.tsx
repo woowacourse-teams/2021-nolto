@@ -1,5 +1,5 @@
 import React from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClient, QueryClientProvider, setLogger } from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
 
 import { render, RenderOptions } from '@testing-library/react';
@@ -9,6 +9,7 @@ import { RenderHookOptions } from '@testing-library/react-hooks/lib/types';
 import DialogProvider from 'contexts/dialog/DialogProvider';
 import ModalProvider from 'contexts/modal/ModalProvider';
 import SnackbarProvider from 'contexts/snackbar/SnackbarProvider';
+import MemberProvider from 'contexts/member/MemberProvider';
 import AsyncBoundary from 'components/AsyncBoundary';
 import ErrorFallback from 'components/ErrorFallback/ErrorFallback';
 
@@ -16,27 +17,34 @@ interface WrapperProps {
   children?: React.ReactNode;
 }
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      useErrorBoundary: true,
-      suspense: true,
-      retry: false,
-    },
-  },
+setLogger({
+  log: console.log,
+  warn: console.warn,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  error: () => {},
 });
 
 const Wrapper = ({ children }: WrapperProps) => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+      },
+    },
+  });
+
   return (
     <QueryClientProvider client={queryClient}>
       <SnackbarProvider>
         <DialogProvider>
           <ModalProvider>
-            <MemoryRouter>
-              <AsyncBoundary rejectedFallback={<ErrorFallback message="테스트 에러" />}>
-                {children}
-              </AsyncBoundary>
-            </MemoryRouter>
+            <MemberProvider>
+              <MemoryRouter initialEntries={['/']}>
+                <AsyncBoundary rejectedFallback={<ErrorFallback message="테스트 에러" />}>
+                  {children}
+                </AsyncBoundary>
+              </MemoryRouter>
+            </MemberProvider>
           </ModalProvider>
         </DialogProvider>
       </SnackbarProvider>
@@ -50,7 +58,7 @@ const customRender = <T extends unknown>(
     RenderOptions<typeof import('@testing-library/dom/types/queries'), HTMLElement>,
     'queries'
   >,
-) => render(ui, { wrapper: Wrapper, ...options });
+) => render(ui, { wrapper: Wrapper, hydrate: true, ...options });
 
 const customRenderHook = <T extends unknown>(ui: (props: T) => T, options?: RenderHookOptions<T>) =>
   renderHook(ui, { wrapper: Wrapper, ...options });

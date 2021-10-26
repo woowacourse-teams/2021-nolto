@@ -1,8 +1,13 @@
 import { createGlobalStyle } from 'styled-components';
 
+import { visuallyHidden } from 'commonStyles';
+
 const GlobalStyle = createGlobalStyle`  
   html, body {
     overflow: auto;
+  }
+  
+  #root {
     background: ${({ theme }) => theme.background};
     transition: background 0.2s ease;
   }
@@ -33,6 +38,10 @@ const GlobalStyle = createGlobalStyle`
 
   input, textarea {
     outline: none;
+  }
+
+  .visually-hidden {
+    ${visuallyHidden};
   }
 
   .query-dev-tools * {

@@ -12,16 +12,25 @@ const useOAuthLogin = (type: 'google' | 'github') => {
   const { login } = useMember();
 
   const getAccessToken = async (code: string) => {
-    const { data } = await backendApi.get<AuthData>(`/login/oauth/${type}/token?code=${code}`);
+    const { data: authData } = await backendApi.get<AuthData>(
+      `/login/oauth/${type}/token?code=${code}`,
+    );
 
-    login(data);
+    login(authData);
     history.push(ROUTE.HOME);
   };
 
   useEffect(() => {
     const query = new URLSearchParams(location.search);
 
-    getAccessToken(query.get('code'));
+    const code = query.get('code');
+
+    if (!code) {
+      alert('잘못된 접근입니다.');
+      return;
+    }
+
+    getAccessToken(code);
   }, []);
 };
 

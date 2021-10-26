@@ -20,8 +20,6 @@ import { AuthData } from 'types';
 
 const statsFile = path.resolve(__dirname, '../dist/loadable-stats.json');
 const PUBLIC_IP_API = 'https://api.ipify.org/?format=text';
-const sheet = new ServerStyleSheet();
-const extractor = new ChunkExtractor({ statsFile });
 
 export const getNewAuthToken = async (req: express.Request): Promise<AuthData> => {
   if (!req.cookies.refreshToken) return;
@@ -54,6 +52,8 @@ export const generateResponse = async (
   res: express.Response,
   prefetchCallback?: PrefetchCallback,
 ) => {
+  const sheet = new ServerStyleSheet();
+  const extractor = new ChunkExtractor({ statsFile });
   const newAuthData = await getNewAuthToken(req);
 
   const queryClient = new QueryClient({
@@ -62,19 +62,18 @@ export const generateResponse = async (
         suspense: true,
         useErrorBoundary: true,
         retry: 1,
-        staleTime: Infinity,
       },
     },
   });
 
   if (newAuthData) {
-    res.cookie('refreshToken', newAuthData.refreshToken, {
+    res.cookie('refreshToken', newAuthData.refreshToken.value, {
       httpOnly: true,
-      maxAge: newAuthData.expiredIn,
+      maxAge: newAuthData.refreshToken.expiredIn,
     });
 
     await queryClient.prefetchQuery(QUERY_KEYS.MEMBER, () =>
-      getMember({ accessToken: newAuthData.accessToken }),
+      getMember({ accessTokenValue: newAuthData.accessToken.value }),
     );
   }
 
@@ -106,14 +105,19 @@ export const generateResponse = async (
 
   const styleTags = sheet.getStyleTags();
 
-  const scriptTags = extractor.getScriptTags();
+  const chunkScriptTags = extractor.getScriptTags();
 
   const reactQueryState = `<script>window.__REACT_QUERY_STATE__ = ${serialize(dehydratedState, {
     isJSON: true,
   })}</script>`;
 
   const accessTokenScript = newAuthData
-    ? `<script>window.__accessToken__ = "${newAuthData.accessToken}"</script>`
+    ? `
+    <script>
+      window.__accessTokenValue__ = "${newAuthData.accessToken.value}";
+      window.__accessTokenExpiredIn__ = ${newAuthData.accessToken.expiredIn};
+    </script>
+    `
     : '';
 
   const indexFile = path.resolve(__dirname, '../dist/index.html');
@@ -129,7 +133,7 @@ export const generateResponse = async (
       .replace(
         /<head>(.+)<\/head>/s,
         `<head>$1 
-          ${styleTags} ${scriptTags} ${reactQueryState} ${accessTokenScript}
+          ${styleTags} ${chunkScriptTags} ${reactQueryState} ${accessTokenScript}
           ${helmet.title.toString()} 
           ${helmet.link.toString()} 
         </head>`,

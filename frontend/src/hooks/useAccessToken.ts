@@ -1,23 +1,28 @@
 import { useEffect, useState } from 'react';
 
 import hasWindow from 'constants/windowDetector';
-import { backendApi, frontendApi } from 'constants/api';
+import { frontendApi } from 'constants/api';
+import { AuthData, Token } from 'types';
 
-const EXPIRED_IN = 2 * 60 * 60 * 1000 - 60 * 1000;
+const TOKEN_RENEW_BUFFER = 5 * 60 * 1000;
 
 const useAccessToken = () => {
-  const [accessToken, setAccessToken] = useState(hasWindow ? window.__accessToken__ : '');
+  const [accessToken, setAccessToken] = useState<Token | null>(
+    hasWindow
+      ? { value: window.__accessTokenValue__, expiredIn: window.__accessTokenExpiredIn__ }
+      : null,
+  );
 
   useEffect(() => {
+    if (!accessToken?.value) {
+      return;
+    }
+
     const timerId = setTimeout(async () => {
-      const {
-        data: { accessToken },
-      } = await frontendApi.post<{ accessToken: string }>('/auth/renewToken');
+      const { data: authData } = await frontendApi.post<AuthData>('/auth/renewToken');
 
-      setAccessToken(accessToken);
-
-      backendApi.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-    }, EXPIRED_IN);
+      setAccessToken(authData.accessToken);
+    }, accessToken.expiredIn - TOKEN_RENEW_BUFFER);
 
     return () => clearTimeout(timerId);
   }, [accessToken]);

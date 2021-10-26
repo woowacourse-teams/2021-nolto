@@ -5,7 +5,10 @@ import com.wooteco.nolto.exception.NotFoundException;
 import com.wooteco.nolto.exception.UnauthorizedException;
 import com.wooteco.nolto.feed.application.searchstrategy.SearchStrategy;
 import com.wooteco.nolto.feed.application.searchstrategy.SearchStrategyFactory;
-import com.wooteco.nolto.feed.domain.*;
+import com.wooteco.nolto.feed.domain.Feed;
+import com.wooteco.nolto.feed.domain.FeedTech;
+import com.wooteco.nolto.feed.domain.Feeds;
+import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.feed.domain.repository.FeedTechRepository;
 import com.wooteco.nolto.feed.ui.dto.FeedCardPaginationResponse;
@@ -53,10 +56,14 @@ public class FeedService {
 
     public void update(User user, Long feedId, FeedRequest request) {
         Feed findFeed = user.findMyFeed(feedId);
+        removeFeedTechs(findFeed);
+        updateFeed(request, findFeed);
+    }
+
+    private void removeFeedTechs(Feed findFeed) {
         List<FeedTech> feedTechs = findFeed.getFeedTechs();
         feedTechRepository.deleteAll(feedTechs);
         feedTechs.clear();
-        updateFeed(request, findFeed);
     }
 
     private void updateFeed(FeedRequest request, Feed findFeed) {
@@ -80,15 +87,6 @@ public class FeedService {
         findFeed.changeThumbnailUrl(updateThumbnailUrl);
     }
 
-    public void delete(User user, Long feedId) {
-        Feed findFeed = findEntityById(feedId);
-        if (findFeed.notSameAuthor(user)) {
-            throw new UnauthorizedException(ErrorType.UNAUTHORIZED_DELETE_FEED);
-        }
-        applicationEventPublisher.publishEvent(new NotificationFeedDeleteEvent(findFeed));
-        feedRepository.delete(findFeed);
-    }
-
     public FeedResponse viewFeed(User user, Long feedId, boolean alreadyView) {
         Feed feed = findEntityById(feedId);
         User author = feed.getAuthor();
@@ -109,11 +107,13 @@ public class FeedService {
         return FeedCardResponse.toList(feeds.sortedByLikeCount(10));
     }
 
-    @Transactional(readOnly = true)
-    public List<FeedCardResponse> findAll(String filter) {
-        FilterStrategy strategy = FilterStrategy.of(filter);
-        Feeds feeds = new Feeds(feedRepository.findAll(Sort.by(Sort.Direction.DESC, "createdDate")));
-        return FeedCardResponse.toList(feeds.filter(strategy));
+    public void delete(User user, Long feedId) {
+        Feed findFeed = findEntityById(feedId);
+        if (findFeed.notSameAuthor(user)) {
+            throw new UnauthorizedException(ErrorType.UNAUTHORIZED_DELETE_FEED);
+        }
+        applicationEventPublisher.publishEvent(new NotificationFeedDeleteEvent(findFeed));
+        feedRepository.delete(findFeed);
     }
 
     public FeedCardPaginationResponse findRecentFeeds(String step, boolean help, long nextFeedId, int countPerPage) {

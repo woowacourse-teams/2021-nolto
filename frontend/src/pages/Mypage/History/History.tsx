@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import useUserHistory from 'hooks/queries/userHistory/useUserHistory';
+import useUserHistory from 'hooks/queries/profile/useUserHistory';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
 import ROUTE from 'constants/routes';
 import ReturnArrow from 'assets/arrowReturnRight.svg';

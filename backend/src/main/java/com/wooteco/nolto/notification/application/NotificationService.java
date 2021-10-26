@@ -39,7 +39,7 @@ public class NotificationService {
         notificationRepository.delete(notification);
     }
 
-    public void deleteAll(User user) {
+    public void deleteAllByListener(User user) {
         notificationRepository.deleteAllByListener(user);
     }
 

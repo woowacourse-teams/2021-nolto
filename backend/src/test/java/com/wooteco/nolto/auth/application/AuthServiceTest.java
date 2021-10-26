@@ -5,10 +5,10 @@ import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.auth.infrastructure.RedisRepository;
 import com.wooteco.nolto.auth.infrastructure.oauth.GithubClient;
 import com.wooteco.nolto.auth.infrastructure.oauth.GoogleClient;
+import com.wooteco.nolto.auth.ui.dto.AllTokenResponse;
 import com.wooteco.nolto.auth.ui.dto.OAuthRedirectResponse;
 import com.wooteco.nolto.auth.ui.dto.OAuthTokenResponse;
 import com.wooteco.nolto.auth.ui.dto.RefreshTokenRequest;
-import com.wooteco.nolto.auth.ui.dto.TokenResponse;
 import com.wooteco.nolto.exception.BadRequestException;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.user.domain.User;
@@ -93,8 +93,8 @@ class AuthServiceTest {
         given(githubClient.generateAccessToken("code")).willReturn(OAUTH_TOKEN_RESPONSE1);
         given(githubClient.generateUserInfo(OAUTH_TOKEN_RESPONSE1)).willReturn(USER1);
 
-        TokenResponse tokenResponse = authService.oAuthSignIn("github", "code", CLIENT_IP_V6);
-        assertThat(tokenResponse).isNotNull();
+        AllTokenResponse allTokenResponse = authService.oAuthSignIn("github", "code", CLIENT_IP_V6);
+        assertThat(allTokenResponse).isNotNull();
     }
 
     @DisplayName("구글 로그인으로 로그인에 성공하면 토큰을 반환해준다.")
@@ -104,8 +104,8 @@ class AuthServiceTest {
         given(githubClient.generateAccessToken("code")).willReturn(OAUTH_TOKEN_RESPONSE1);
         given(githubClient.generateUserInfo(OAUTH_TOKEN_RESPONSE1)).willReturn(USER1);
 
-        TokenResponse tokenResponse = authService.oAuthSignIn("google", "code", CLIENT_IP_V6);
-        assertThat(tokenResponse).isNotNull();
+        AllTokenResponse allTokenResponse = authService.oAuthSignIn("google", "code", CLIENT_IP_V6);
+        assertThat(allTokenResponse).isNotNull();
     }
 
     @DisplayName("code 요청값이 null이거나 빈값이면 예외가 발생한다.")
@@ -169,11 +169,10 @@ class AuthServiceTest {
 
         // when
         RefreshTokenRequest request = new RefreshTokenRequest("refresh token", "client IP");
-        TokenResponse tokenResponse = authService.refreshToken(request);
+        AllTokenResponse allTokenResponse = authService.refreshToken(request);
 
         // then
-        assertThat(tokenResponse.getRefreshToken()).isNotNull();
-        assertThat(tokenResponse.getAccessToken()).isNotNull();
-        assertThat(tokenResponse.getExpiredIn()).isNotNull();
+        assertThat(allTokenResponse.getRefreshToken()).isNotNull();
+        assertThat(allTokenResponse.getAccessToken()).isNotNull();
     }
 }

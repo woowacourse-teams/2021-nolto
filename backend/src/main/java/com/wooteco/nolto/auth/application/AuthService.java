@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
-import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -39,7 +38,7 @@ public class AuthService {
         return OAuthRedirectResponse.of(socialOauthInfo);
     }
 
-    public TokenResponse oAuthSignIn(String socialTypeName, String code, String clientIP) {
+    public AllTokenResponse oAuthSignIn(String socialTypeName, String code, String clientIP) {
         this.validateCode(code);
         SocialType socialType = SocialType.findBy(socialTypeName);
         OAuthClient oAuthClient = oAuthClientProvider.provideOAuthClientBy(socialType);
@@ -54,22 +53,19 @@ public class AuthService {
         }
     }
 
-    private TokenResponse createToken(User user, String clientIP) {
-        Optional<User> userOptional = userRepository.findBySocialIdAndSocialType(user.getSocialId(), user.getSocialType());
-        User findUser = userOptional.orElseGet(() -> signUp(user));
+    private AllTokenResponse createToken(User user, String clientIP) {
+        User findUser = userRepository.findBySocialIdAndSocialType(
+                        user.getSocialId(),
+                        user.getSocialType()
+                ).orElseGet(() -> signUp(user));
         return getTokenResponse(findUser.getId(), clientIP);
     }
 
-    private TokenResponse getTokenResponse(long userId, String clientIP) {
-        String accessToken = jwtTokenProvider.createToken(String.valueOf(userId));
-        RefreshTokenResponse refreshTokenResponse = getRefreshTokenResponse(userId, clientIP);
-        return TokenResponse.of(accessToken, refreshTokenResponse);
-    }
-
-    private RefreshTokenResponse getRefreshTokenResponse(long userId, String clientIP) {
-        RefreshTokenResponse refreshTokenResponse = jwtTokenProvider.createRefreshToken(UUID.randomUUID().toString());
-        redisRepository.set(refreshTokenResponse.getToken(), clientIP, String.valueOf(userId), refreshTokenResponse.getExpiredIn());
-        return refreshTokenResponse;
+    private AllTokenResponse getTokenResponse(long userId, String clientIP) {
+        TokenResponse accessToken = jwtTokenProvider.createToken(String.valueOf(userId));
+        TokenResponse refreshToken = jwtTokenProvider.createRefreshToken(UUID.randomUUID().toString());
+        redisRepository.set(refreshToken.getValue(), clientIP, String.valueOf(userId), refreshToken.getExpiredIn());
+        return new AllTokenResponse(accessToken, refreshToken);
     }
 
     private User signUp(User user) {
@@ -104,7 +100,7 @@ public class AuthService {
         }
     }
 
-    public TokenResponse refreshToken(RefreshTokenRequest request) {
+    public AllTokenResponse refreshToken(RefreshTokenRequest request) {
         if (!redisRepository.exist(request.getRefreshToken())) {
             log.info("redis doesn't have the refresh token.");
             throw new BadRequestException(ErrorType.INVALID_TOKEN);

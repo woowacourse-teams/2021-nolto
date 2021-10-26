@@ -55,6 +55,13 @@ public class DataLoader implements ApplicationRunner {
         Tech tech2 = new Tech("WebGL");
         Tech saveTech1 = techRepository.save(tech1);
         Tech saveTech2 = techRepository.save(tech2);
+        techRepository.save(new Tech("Spring Boot"));
+        techRepository.save(new Tech("Spring"));
+        techRepository.save(new Tech("Java"));
+        techRepository.save(new Tech("JavaScript"));
+        techRepository.save(new Tech("Kotlin"));
+        techRepository.save(new Tech("vue.js"));
+        techRepository.save(new Tech("Caffe(Convolutional Architecture for Fast Feature Embedding)"));
 
         Feed feed1 = Feed.builder()
                 .title("title1")
@@ -104,6 +111,29 @@ public class DataLoader implements ApplicationRunner {
 
         comment2.addReply(comment6);
         commentRepository.save(comment6);
+
+        Comment comment7 = new Comment("피드2 첫 댓글", false).writtenBy(mickey, feed2);
+        Comment comment8 = new Comment("피드2 두번째 댓글", false).writtenBy(mickey, feed2);
+        Comment comment9 = new Comment("피드2 첫 댓글의 대댓글1", false).writtenBy(mickey, feed2);
+        Comment comment10 = new Comment("피드2 첫 댓글의 대댓글2", false).writtenBy(mickey, feed2);
+        Comment comment11 = new Comment("피드2 첫 댓글의 대댓글3", false).writtenBy(mickey, feed2);
+        Comment comment12 = new Comment("피드2 두번째 댓글의 대댓글", false).writtenBy(mickey, feed2);
+
+        commentRepository.save(comment7);
+
+        commentRepository.save(comment8);
+
+        comment7.addReply(comment9);
+        commentRepository.save(comment9);
+
+        comment7.addReply(comment10);
+        commentRepository.save(comment10);
+
+        comment7.addReply(comment11);
+        commentRepository.save(comment11);
+
+        comment8.addReply(comment12);
+        commentRepository.save(comment12);
 
         likeRepository.save(new Like(mickey, saveFeed1));
     }

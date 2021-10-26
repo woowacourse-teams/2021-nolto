@@ -1,6 +1,6 @@
 import React from 'react';
 import { Feed, FeedStep } from 'types';
-import { MOCK_USER } from '__mocks__/fixture/User';
+import { MOCK_USER } from '__mocks__/fixture/user';
 
 import RegularFeedCard from './RegularFeedCard';
 

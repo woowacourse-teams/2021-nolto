@@ -34,9 +34,10 @@ const Home = ({ toggleTheme }: Props) => {
     }
   };
 
-  const localSettingTheme = hasWindow && localStorage.getItem('theme');
+  const localSettingTheme = hasWindow ? localStorage.getItem('theme') : 'default';
 
-  const searchTitle = localSettingTheme === 'default' ? 'Search for Ideas?' : '🌝 Happy Chuseok ❣️';
+  const searchTitle =
+    localSettingTheme === 'default' ? 'Search for Ideas?' : '🎃 Trick or Treat! 👻';
 
   useEffect(() => {
     if (!hasWindow) {
@@ -49,6 +50,10 @@ const Home = ({ toggleTheme }: Props) => {
       <Helmet>
         <title>놀토: 놀러오세요 토이프로젝트</title>
         <link rel="canonical" href="https://www.nolto.app" />
+        <meta
+          name="description"
+          content="모두의 작고 소중한 토이프로젝트를 한눈에, 놀러오세요 토이프로젝트!"
+        />
       </Helmet>
       <Styled.EllipseWrapper ref={ellipseRef}>
         <CroppedEllipse toggleTheme={toggleTheme} />
@@ -93,7 +98,7 @@ const Home = ({ toggleTheme }: Props) => {
               onMouseOver={() => Page.RecentFeeds.preload()}
             >
               MORE&nbsp;
-              <span className="visually-hidden">More Progress Feeds</span>
+              <span className="visually-hidden">진행중 프로젝트 더보기</span>
               <MoreArrow width="10px" />
             </MoreButton>
           </Styled.TitleWrapper>
@@ -123,7 +128,7 @@ const Home = ({ toggleTheme }: Props) => {
               onMouseOver={() => Page.RecentFeeds.preload()}
             >
               MORE&nbsp;
-              <span className="visually-hidden">More Complete Feeds</span>
+              <span className="visually-hidden">완성된 프로젝트 더보기</span>
               <MoreArrow width="10px" />
             </MoreButton>
           </Styled.TitleWrapper>

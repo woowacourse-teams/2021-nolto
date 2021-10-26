@@ -50,6 +50,7 @@ const IconWrapper = styled.div`
 const ThumbnailContainer = styled.div`
   position: relative;
   display: flex;
+  justify-content: center;
   flex-direction: column;
   flex: 1;
   flex-shrink: 1;
@@ -124,6 +125,11 @@ const TitleWrapper = styled.div`
   * {
     vertical-align: middle;
   }
+
+  & > .step-chip {
+    box-shadow: none;
+    pointer-events: none;
+  }
 `;
 
 const UserWrapper = styled.div`
@@ -176,22 +182,34 @@ const DetailsKey = styled(HighlightedText)`
 const DetailsValue = styled.span`
   display: flex;
   font-size: 1rem;
-  align-items: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  overflow: hidden;
 
   & > a {
+    word-break: break-all;
+
     &:hover {
       text-decoration: underline;
     }
   }
+
+  & ul {
+    position: relative;
+    display: flex;
+    font-size: 1rem;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    overflow: hidden;
+  }
 `;
 
 export const Tag = styled(TextButton.Rounded)`
+  max-width: 200px;
   width: fit-content;
   height: 1.5rem;
   padding: 0 0.75rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 `;
 
 export const StacksMoreButton = styled(StacksMoreIcon)`

@@ -90,9 +90,9 @@ class MemberControllerTest extends ControllerTest {
         given(memberService.findMemberOfMine(LOGIN_USER)).willReturn(MEMBER_RESPONSE);
 
         mockMvc.perform(
-                get("/members/me")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization", "Bearer " + ACCESS_TOKEN))
+                        get("/members/me")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header("Authorization", "Bearer " + ACCESS_TOKEN))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(MEMBER_RESPONSE)))
                 .andDo(document("member-findMe",
@@ -115,9 +115,9 @@ class MemberControllerTest extends ControllerTest {
         given(memberService.validateDuplicated(검증할_닉네임)).willReturn(NICKNAME_VALIDATION_RESPONSE);
 
         mockMvc.perform(
-                get("/members/me/profile/validation").param("nickname", 검증할_닉네임)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization", "Bearer " + ACCESS_TOKEN))
+                        get("/members/me/profile/validation").param("nickname", 검증할_닉네임)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header("Authorization", "Bearer " + ACCESS_TOKEN))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(NICKNAME_VALIDATION_RESPONSE)))
                 .andDo(document("member-validateDuplicatedNickname",
@@ -140,9 +140,9 @@ class MemberControllerTest extends ControllerTest {
         given(memberService.findProfile(LOGIN_USER)).willReturn(PROFILE_RESPONSE);
 
         mockMvc.perform(
-                get("/members/me/profile")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization", "Bearer " + ACCESS_TOKEN))
+                        get("/members/me/profile")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header("Authorization", "Bearer " + ACCESS_TOKEN))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(PROFILE_RESPONSE)))
                 .andDo(document("member-findProfileOfMine",
@@ -209,9 +209,9 @@ class MemberControllerTest extends ControllerTest {
         given(memberService.findHistory(LOGIN_USER)).willReturn(memberHistoryResponse);
 
         mockMvc.perform(
-                get("/members/me/history")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization", BEARER + ACCESS_TOKEN))
+                        get("/members/me/history")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header("Authorization", BEARER + ACCESS_TOKEN))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(memberHistoryResponse)))
                 .andDo(document("member-findHistory",
@@ -244,9 +244,9 @@ class MemberControllerTest extends ControllerTest {
         given(memberService.findNotifications(LOGIN_USER)).willReturn(notificationResponses);
 
         mockMvc.perform(
-                get("/members/me/notifications")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization", BEARER + ACCESS_TOKEN))
+                        get("/members/me/notifications")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header("Authorization", BEARER + ACCESS_TOKEN))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(notificationResponses)))
                 .andDo(document("member-findNotification",
@@ -273,8 +273,8 @@ class MemberControllerTest extends ControllerTest {
         given(authService.findUserByToken(ACCESS_TOKEN)).willReturn(LOGIN_USER);
 
         mockMvc.perform(
-                delete("/members/me/notifications/{notificationId}", NOTIFICATION_ID)
-                        .header("Authorization", BEARER + ACCESS_TOKEN))
+                        delete("/members/me/notifications/{notificationId}", NOTIFICATION_ID)
+                                .header("Authorization", BEARER + ACCESS_TOKEN))
                 .andExpect(status().isNoContent())
                 .andDo(document("member-deleteNotification",
                         getDocumentRequest(),
@@ -291,8 +291,8 @@ class MemberControllerTest extends ControllerTest {
         given(authService.findUserByToken(ACCESS_TOKEN)).willReturn(LOGIN_USER);
 
         mockMvc.perform(
-                delete("/members/me/notifications")
-                        .header("Authorization", BEARER + ACCESS_TOKEN))
+                        delete("/members/me/notifications")
+                                .header("Authorization", BEARER + ACCESS_TOKEN))
                 .andExpect(status().isNoContent())
                 .andDo(document("member-deleteAllNotifications",
                         getDocumentRequest(),

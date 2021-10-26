@@ -123,6 +123,10 @@ public class Comment extends BaseEntity {
         return Objects.nonNull(this.parentComment);
     }
 
+    public boolean isParentComment() {
+        return Objects.isNull(this.parentComment);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

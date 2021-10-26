@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 import { ButtonStyle } from 'types';
 import ViewCountIcon from 'assets/viewCount.svg';
@@ -13,7 +14,6 @@ import ROUTE from 'constants/routes';
 import QUERY_KEYS from 'constants/queryKeys';
 import { ERROR_MSG } from 'constants/message';
 import { Divider } from 'commonStyles';
-import ToggleList from 'components/@common/ToggleList/ToggleList';
 import FeedDropdown from 'components/FeedDropdown/FeedDropdown';
 import LikeButton from 'components/LikeButton/LikeButton';
 import CommentModule from 'components/CommentModule/CommentModule';
@@ -23,6 +23,7 @@ import StepChip from 'components/StepChip/StepChip';
 import Thumbnail from 'components/Thumbnail/Thumbnail';
 import Markdown from 'components/@common/Markdown/Markdown';
 import Styled, { Tag, SOSFlag } from './FeedDetailContent.styles';
+import { removeMarkdown } from 'utils/common';
 
 interface Props {
   feedId: number;
@@ -123,13 +124,21 @@ const FeedDetailContent = ({ feedId }: Props) => {
   // TODO: 댓글 로딩 부분 스켈레톤으로 리팩토링
   return (
     <Styled.Root>
+      <Helmet>
+        <title>놀토: 토이프로젝트 - {feedDetail.title}</title>
+        <link rel="canonical" href="https://www.nolto.app/feeds" />
+        <meta
+          name="description"
+          content={removeMarkdown(feedDetail.content).replace(/\n+/g, ' ')}
+        />
+      </Helmet>
       <Styled.IntroContainer>
         <Styled.ThumbnailContainer>{thumbnailElement}</Styled.ThumbnailContainer>
         <Styled.FeedSummaryContainer>
           <Styled.TitleContainer>
             <Styled.TitleWrapper>
               <h2>{feedDetail.title}</h2>
-              <StepChip step={feedDetail.step} />
+              <StepChip className="step-chip" step={feedDetail.step} />
               <ShareIcon width="20px" />
               <a id="create-kakao-link-btn" onClick={handleKakaoShare}>
                 <img
@@ -183,7 +192,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
                   <Styled.DetailsKey>기술스택</Styled.DetailsKey>
                 </Styled.DetailsKeyWrapper>
                 <Styled.DetailsValue>
-                  <ToggleList width="100%" height="1.75rem">
+                  <ul>
                     {feedDetail.techs.map((tech) => (
                       <li key={tech.id}>
                         <Tag buttonStyle={ButtonStyle.SOLID} onClick={() => searchByTag(tech.text)}>
@@ -191,7 +200,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
                         </Tag>
                       </li>
                     ))}
-                  </ToggleList>
+                  </ul>
                 </Styled.DetailsValue>
               </Styled.DetailsPair>
             )}

@@ -80,6 +80,7 @@ const LikeButton = ({ feedDetail }: Props) => {
   return (
     <Styled.Root>
       <Button onClick={handleToggleLike}>
+        <span className="visually-hidden">좋아요</span>
         {isLiked ? (
           <FilledLikeHeart width="18px" fill={PALETTE.PRIMARY_400} />
         ) : (

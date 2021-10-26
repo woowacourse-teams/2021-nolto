@@ -8,6 +8,7 @@ const Root = styled.div`
   min-width: 9rem;
   width: 100%;
   gap: 0.5rem;
+  opacity: 0.99;
 
   & img,
   video {

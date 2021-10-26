@@ -1,6 +1,6 @@
 package com.wooteco.nolto.acceptance;
 
-import com.wooteco.nolto.auth.ui.dto.TokenResponse;
+import com.wooteco.nolto.auth.ui.dto.AllTokenResponse;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.dto.ExceptionResponse;
 import com.wooteco.nolto.feed.ui.dto.FeedCardPaginationResponse;
@@ -69,7 +69,7 @@ class FeedAcceptanceTest extends AcceptanceTest {
         super.setUp();
         techRepository.saveAll(Arrays.asList(자바, 스프링, 리액트));
 
-        멤버의_토큰 = 가입된_유저의_토큰을_받는다().getAccessToken();
+        멤버의_토큰 = 가입된_유저의_토큰을_받는다().getAccessToken().getValue();
 
         진행중_좋아요3개_1번째_피드_ID = 피드_업로드되어_있음(진행중_단계의_피드_요청);
         전시중_좋아요2개_2번째_피드_ID = 피드_업로드되어_있음(전시중_단계의_피드_요청);
@@ -238,15 +238,15 @@ class FeedAcceptanceTest extends AcceptanceTest {
     @Test
     void hotResponse() {
         // given
-        TokenResponse 좋아요_1개_누를_유저_토큰 = 유저의_토큰을_받는다(좋아요_1개_누를_유저);
-        TokenResponse 좋아요_2개_누를_유저_토큰 = 유저의_토큰을_받는다(좋아요_2개_누를_유저);
-        TokenResponse 좋아요_3개_누를_유저_토큰 = 유저의_토큰을_받는다(좋아요_3개_누를_유저);
-        좋아요_요청(좋아요_1개_누를_유저_토큰.getAccessToken(), 진행중_좋아요3개_1번째_피드_ID);
-        좋아요_요청(좋아요_2개_누를_유저_토큰.getAccessToken(), 진행중_좋아요3개_1번째_피드_ID);
-        좋아요_요청(좋아요_3개_누를_유저_토큰.getAccessToken(), 진행중_좋아요3개_1번째_피드_ID);
-        좋아요_요청(좋아요_2개_누를_유저_토큰.getAccessToken(), 전시중_좋아요2개_2번째_피드_ID);
-        좋아요_요청(좋아요_3개_누를_유저_토큰.getAccessToken(), 전시중_좋아요2개_2번째_피드_ID);
-        좋아요_요청(좋아요_3개_누를_유저_토큰.getAccessToken(), 진행중_SOS_좋아요1개_3번째_피드_ID);
+        AllTokenResponse 좋아요_1개_누를_유저_토큰 = 유저의_토큰을_받는다(좋아요_1개_누를_유저);
+        AllTokenResponse 좋아요_2개_누를_유저_토큰 = 유저의_토큰을_받는다(좋아요_2개_누를_유저);
+        AllTokenResponse 좋아요_3개_누를_유저_토큰 = 유저의_토큰을_받는다(좋아요_3개_누를_유저);
+        좋아요_요청(좋아요_1개_누를_유저_토큰.getAccessToken().getValue(), 진행중_좋아요3개_1번째_피드_ID);
+        좋아요_요청(좋아요_2개_누를_유저_토큰.getAccessToken().getValue(), 진행중_좋아요3개_1번째_피드_ID);
+        좋아요_요청(좋아요_3개_누를_유저_토큰.getAccessToken().getValue(), 진행중_좋아요3개_1번째_피드_ID);
+        좋아요_요청(좋아요_2개_누를_유저_토큰.getAccessToken().getValue(), 전시중_좋아요2개_2번째_피드_ID);
+        좋아요_요청(좋아요_3개_누를_유저_토큰.getAccessToken().getValue(), 전시중_좋아요2개_2번째_피드_ID);
+        좋아요_요청(좋아요_3개_누를_유저_토큰.getAccessToken().getValue(), 진행중_SOS_좋아요1개_3번째_피드_ID);
 
         // when
         ExtractableResponse<Response> response = 인기순_피드_목록_조회_요청();
@@ -512,7 +512,7 @@ class FeedAcceptanceTest extends AcceptanceTest {
         assertThat(request.getDeployedUrl()).isEqualTo(feedResponse.getDeployedUrl());
     }
 
-    private ExtractableResponse<Response> 피드_조회_요청(Long 업로드되어_있는_피드_ID) {
+    public static ExtractableResponse<Response> 피드_조회_요청(Long 업로드되어_있는_피드_ID) {
         return RestAssured.given().log().all()
                 .when()
                 .get("/feeds/{feedId}", 업로드되어_있는_피드_ID)

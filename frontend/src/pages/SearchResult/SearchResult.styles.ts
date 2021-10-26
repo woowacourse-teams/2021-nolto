@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-import HighLightedText from 'components/@common/HighlightedText/HighlightedText';
-
 const TopContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -9,10 +7,7 @@ const TopContainer = styled.div`
   width: 100%;
   margin-bottom: 2rem;
   z-index: 10;
-`;
-
-const SectionTitle = styled(HighLightedText)`
-  margin-bottom: 1rem;
+  gap: 0.5rem;
 `;
 
 const StepChipsContainer = styled.div`
@@ -28,7 +23,6 @@ const Button = styled.button`
 
 export default {
   TopContainer,
-  SectionTitle,
   StepChipsContainer,
   Button,
 };

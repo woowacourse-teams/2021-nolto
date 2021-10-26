@@ -71,7 +71,7 @@ public class MemberService {
     }
 
     public void deleteAllNotifications(User user) {
-        notificationService.deleteAll(user);
+        notificationService.deleteAllByListener(user);
     }
 
     @Transactional(readOnly = true)

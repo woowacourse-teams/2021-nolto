@@ -1,12 +1,13 @@
 import express from 'express';
 
 import { getNewAuthToken } from './utils';
+import { AuthData } from 'types';
 
 const router = express.Router();
 
 router.post('/login', (req, res) => {
   const { body } = req;
-  const isAuthRequest = body?.accessToken && body?.refreshToken && body?.expiredIn;
+  const isAuthRequest = body?.accessToken && body?.refreshToken;
 
   if (!isAuthRequest) {
     res.status(400).send('올바른 요청 양식이 아닙니다.');
@@ -14,10 +15,12 @@ router.post('/login', (req, res) => {
     return;
   }
 
+  const refreshToken = (body as AuthData).refreshToken;
+
   res
-    .cookie('refreshToken', body.refreshToken, {
+    .cookie('refreshToken', refreshToken.value, {
       httpOnly: true,
-      maxAge: body.expiredIn,
+      maxAge: refreshToken.expiredIn,
     })
     .status(200)
     .send('true');
@@ -28,15 +31,15 @@ router.post('/logout', (_, res) => {
 });
 
 router.post('/renewToken', async (req, res) => {
-  const { accessToken, refreshToken, expiredIn } = await getNewAuthToken(req);
+  const authData = await getNewAuthToken(req);
 
   res
-    .cookie('refreshToken', refreshToken, {
+    .cookie('refreshToken', authData.refreshToken.value, {
       httpOnly: true,
-      maxAge: expiredIn,
+      maxAge: authData.refreshToken.expiredIn,
     })
     .status(200)
-    .json({ accessToken });
+    .json(authData);
 });
 
 export default router;

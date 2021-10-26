@@ -43,7 +43,9 @@ const FeedDropdown = ({ feedDetail }: Props) => {
   return (
     <Styled.Root>
       <Dropdown>
-        <button onClick={handleModify}>수정</button>
+        <button onClick={handleModify} className="modify-button">
+          수정
+        </button>
         <button onClick={handleDelete} className="delete-button">
           삭제
         </button>

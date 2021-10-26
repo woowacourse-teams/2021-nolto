@@ -24,7 +24,9 @@ import java.util.stream.Collectors;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseEntity {
+
     public static final GuestUser GUEST_USER = new GuestUser();
+    public static final AdminUser ADMIN_USER = new AdminUser();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -72,7 +74,7 @@ public class User extends BaseEntity {
         this.imageUrl = imageUrl;
         this.bio = bio;
         this.feeds = new ArrayList<>();
-        this.likes  = new ArrayList<>();
+        this.likes = new ArrayList<>();
         this.comments = new ArrayList<>();
         this.commentLikes = new ArrayList<>();
     }
@@ -155,6 +157,16 @@ public class User extends BaseEntity {
         this.comments.remove(comment);
     }
 
+    public void validateAdmin() {
+        if (!this.isAdmin()) {
+            throw new UnauthorizedException(ErrorType.ADMIN_ONLY);
+        }
+    }
+
+    public boolean isAdmin() {
+        return this.equals(ADMIN_USER);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -178,5 +190,8 @@ public class User extends BaseEntity {
         public boolean isCommentLiked(Comment comment) {
             return false;
         }
+    }
+
+    private static class AdminUser extends User {
     }
 }
