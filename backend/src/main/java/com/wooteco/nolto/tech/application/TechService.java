@@ -7,8 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,11 +22,13 @@ public class TechService {
 
     private final TechRepository techRepository;
 
+    @Transactional(readOnly = true)
     public List<TechResponse> findByTechsContains(String searchWord) {
         List<Tech> findTechs = techRepository.findByNameStartsWithIgnoreCase(searchWord);
         return TechResponse.toList(findTechs);
     }
 
+    @Transactional(readOnly = true)
     public List<TechResponse> findAllByNameInIgnoreCase(String searchWord) {
         List<String> techNames = Arrays.stream(searchWord.split(TECH_SEARCH_DELIMITER))
                 .map(String::trim)
@@ -35,6 +37,7 @@ public class TechService {
         return TechResponse.toList(findTechs);
     }
 
+    @Transactional(readOnly = true)
     public List<TechResponse> findTrendTechs() {
         Pageable pageable = PageRequest.of(0, 4);
         List<Tech> trendTech = techRepository.findTrendTech(pageable);

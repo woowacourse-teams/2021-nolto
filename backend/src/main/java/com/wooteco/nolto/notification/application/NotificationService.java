@@ -30,27 +30,17 @@ public class NotificationService {
         }
     }
 
-    public List<Notification> findAllByUser(User user) {
-        return notificationRepository.findAllByListener(user);
-    }
-
     public void delete(User user, Long notificationId) {
         Notification notification = notificationRepository.findById(notificationId)
                 .orElseThrow(() -> new NotFoundException(ErrorType.NOTIFICATION_NOT_FOUND));
-
         if (!notification.isListener(user)) {
             throw new BadRequestException(ErrorType.UNAUTHORIZED_DELETE_NOTIFICATION);
         }
-
         notificationRepository.delete(notification);
     }
 
     public void deleteAllByListener(User user) {
         notificationRepository.deleteAllByListener(user);
-    }
-
-    public long findNotificationCount(User user) {
-        return notificationRepository.countByListener(user);
     }
 
     public void deleteNotificationRelatedToFeed(NotificationFeedDeleteEvent notificationFeedDeleteEvent) {
@@ -61,5 +51,15 @@ public class NotificationService {
     public void deleteNotificationRelatedToComment(NotificationCommentDeleteEvent notificationCommentDeleteEvent) {
         Comment comment = notificationCommentDeleteEvent.getComment();
         notificationRepository.deleteAllByComment(comment);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Notification> findAllByUser(User user) {
+        return notificationRepository.findAllByListener(user);
+    }
+
+    @Transactional(readOnly = true)
+    public long findNotificationCount(User user) {
+        return notificationRepository.countByListener(user);
     }
 }
