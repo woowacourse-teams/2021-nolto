@@ -7,11 +7,12 @@ import Styled from './StepChip.styles';
 interface Props {
   step: FeedStep;
   selected?: boolean;
+  className?: string;
 }
 
-const StepChip = ({ step, selected }: Props) => {
+const StepChip = ({ step, selected, className }: Props) => {
   return (
-    <Styled.Root step={step} selected={selected}>
+    <Styled.Root className={className} step={step} selected={selected}>
       {STEP_CONVERTER[step]}
     </Styled.Root>
   );

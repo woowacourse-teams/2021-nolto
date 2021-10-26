@@ -125,6 +125,11 @@ const TitleWrapper = styled.div`
   * {
     vertical-align: middle;
   }
+
+  & > .step-chip {
+    box-shadow: none;
+    pointer-events: none;
+  }
 `;
 
 const UserWrapper = styled.div`

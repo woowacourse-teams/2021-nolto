@@ -138,7 +138,7 @@ const FeedDetailContent = ({ feedId }: Props) => {
           <Styled.TitleContainer>
             <Styled.TitleWrapper>
               <h2>{feedDetail.title}</h2>
-              <StepChip step={feedDetail.step} />
+              <StepChip className="step-chip" step={feedDetail.step} />
               <ShareIcon width="20px" />
               <a id="create-kakao-link-btn" onClick={handleKakaoShare}>
                 <img
