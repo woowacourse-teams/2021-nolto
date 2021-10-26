@@ -13,8 +13,8 @@ import com.wooteco.nolto.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -88,7 +88,8 @@ public class AuthService {
         return getFindUser(Long.valueOf(payload));
     }
 
-    private User getFindUser(Long id) {
+    @Transactional(readOnly = true)
+    public User getFindUser(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(ErrorType.USER_NOT_FOUND));
     }

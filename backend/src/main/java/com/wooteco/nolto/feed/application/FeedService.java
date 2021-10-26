@@ -26,8 +26,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.EnumSet;
 import java.util.List;
 
@@ -95,11 +95,13 @@ public class FeedService {
         return FeedResponse.of(author, feed, liked);
     }
 
+    @Transactional(readOnly = true)
     public Feed findEntityById(Long feedId) {
         return feedRepository.findById(feedId)
                 .orElseThrow(() -> new NotFoundException(ErrorType.FEED_NOT_FOUND));
     }
 
+    @Transactional(readOnly = true)
     public List<FeedCardResponse> findHotFeeds() {
         Feeds feeds = new Feeds(feedRepository.findAll(Sort.by(Sort.Direction.DESC, "createdDate")));
         return FeedCardResponse.toList(feeds.sortedByLikeCount(10));
@@ -121,7 +123,8 @@ public class FeedService {
         return generateFeedCardPaginationResponse(countPerPage, findFeeds);
     }
 
-    private List<Feed> findRecentFeedsWithCondition(boolean help, long nextFeedId, EnumSet<Step> steps, Pageable pageable) {
+    @Transactional(readOnly = true)
+    public List<Feed> findRecentFeedsWithCondition(boolean help, long nextFeedId, EnumSet<Step> steps, Pageable pageable) {
         if (help) {
             return feedRepository.findWithHelp(steps, true, nextFeedId, pageable);
         }
@@ -137,6 +140,7 @@ public class FeedService {
         return FeedCardPaginationResponse.of(findFeeds, null);
     }
 
+    @Transactional(readOnly = true)
     public FeedCardPaginationResponse search(String query, String techs, String step, boolean help, long nextFeedId, int countPerPage) {
         EnumSet<Step> steps = Step.asEnumSet(step);
         Pageable pageable = PageRequest.of(0, countPerPage + NEXT_FEED_COUNT);
