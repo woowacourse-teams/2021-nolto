@@ -20,8 +20,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @SpringBootTest(classes = {FFmpegConverter.class, FFmpegConfig.class})
 class FFmpegConverterTest {
 
-    private final String gifFileName = "jjv1FK.gif";
-    private final String mp4FileName = "jjv1FK.mp4";
+    private final String gifFileName = "asdf.gif";
+    private final String mp4FileName = "asdf.mp4";
 
     @Autowired
     private FFmpegConverter ffmpegConverter;
@@ -34,6 +34,11 @@ class FFmpegConverterTest {
     private void 변환_후_생성된_파일삭제() throws IOException {
         URL resource = getClass().getClassLoader().getResource("static/" + mp4FileName);
         if (Objects.nonNull(resource)) {
+            if (System.getProperty("os.name").contains("Windows")) {
+                Files.delete(Paths.get(resource.getPath().substring(1)));
+                return;
+            }
+
             Files.delete(Paths.get(resource.getPath()));
         }
     }
@@ -47,13 +52,20 @@ class FFmpegConverterTest {
         int indexOfExtensionDot = gifFilePath.lastIndexOf(".");
         String filePathWithoutExtension = gifFilePath.substring(0, indexOfExtensionDot);
         String mp4FilePath = filePathWithoutExtension + ".mp4";
+        if (System.getProperty("os.name").contains("Windows")) {
+            gifFilePath = gifFilePath.replaceAll("/", "\\\\").substring(1);
+            mp4FilePath = mp4FilePath.replaceAll("/", "\\\\").substring(1);
+        }
 
         // when
         ffmpegConverter.convertGifToMp4(gifFilePath, mp4FilePath);
 
         // then
-        URL mp4URL = getClass().getClassLoader().getResource("static/" + mp4FileName);
-        assertThat(mp4URL.getPath()).isEqualTo(mp4FilePath);
+        String mp4Path = getClass().getClassLoader().getResource("static/" + mp4FileName).getPath();
+        if (System.getProperty("os.name").contains("Windows")) {
+            mp4Path = mp4Path.replaceAll("/", "\\\\").substring(1);
+        }
+        assertThat(mp4Path).isEqualTo(mp4FilePath);
     }
 
     @DisplayName("gif파일이 파일 경로에 존재하지 않으면 예외가 발생한다. ")

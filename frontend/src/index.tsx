@@ -37,17 +37,15 @@ const queryClient = new QueryClient({
 
 loadableReady(() => {
   ReactDOM.hydrate(
-    <React.StrictMode>
-      <BrowserRouter>
-        <QueryClientProvider client={queryClient}>
-          <HelmetProvider>
-            <Hydrate state={dehydratedState}>
-              <App />
-            </Hydrate>
-          </HelmetProvider>
-        </QueryClientProvider>
-      </BrowserRouter>
-    </React.StrictMode>,
+    <BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <HelmetProvider>
+          <Hydrate state={dehydratedState}>
+            <App />
+          </Hydrate>
+        </HelmetProvider>
+      </QueryClientProvider>
+    </BrowserRouter>,
     document.getElementById('root'),
   );
 });

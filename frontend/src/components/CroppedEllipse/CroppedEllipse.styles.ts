@@ -77,12 +77,12 @@ const Horse = styled(HorseIcon)`
   }
 `;
 
-const LuckyBag = styled.img`
-  width: 104px;
+const Pumpkin = styled.img`
+  width: 120px;
   height: auto;
   position: absolute;
-  right: 10%;
-  bottom: 16%;
+  right: 8%;
+  bottom: 20%;
   cursor: pointer;
   transform: rotate(-12deg);
   transition: transform 0.3s ease;
@@ -96,19 +96,25 @@ const LuckyBag = styled.img`
   }
 `;
 
-const Video = styled.video`
-  position: absolute;
-  left: 4%;
-  bottom: 24%;
-  transform: rotate(12deg);
+const bounce = keyframes`
+  0%, 100% {
+    transform: translateY(-10%);
+  }
+
+  50% {
+    transform: translateY(10%);
+  }
 `;
 
-const MoonRabbit = styled.img`
+const Witch = styled.img`
+  width: 180px;
   position: absolute;
-  left: 2%;
-  bottom: 3%;
+  left: 6%;
+  bottom: 15%;
   transform: rotate(12deg);
-  visibility: ${({ theme }) => theme.moonRabbit};
+  visibility: ${({ theme }) => theme.pumpkin};
+
+  animation: ${bounce} 2s linear infinite;
 `;
 
-export default { Root, SvgRoot, Horse, LuckyBag, Video, MoonRabbit };
+export default { Root, SvgRoot, Horse, Witch, Pumpkin };

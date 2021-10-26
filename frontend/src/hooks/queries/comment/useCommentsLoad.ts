@@ -1,6 +1,6 @@
 import { useQuery, UseQueryOptions } from 'react-query';
 
-import api from 'constants/api';
+import { backendApi } from 'constants/api';
 import QUERY_KEYS from 'constants/queryKeys';
 import HttpError from 'utils/HttpError';
 import { ErrorHandler, CommentType } from 'types';
@@ -13,7 +13,7 @@ interface CustomQueryOption extends UseQueryOptions<CommentType[], HttpError> {
 
 const loadComments = async (feedId: number, errorHandler?: ErrorHandler) => {
   try {
-    const { data } = await api.get(`/feeds/${feedId}/comments`);
+    const { data } = await backendApi.get(`/feeds/${feedId}/comments`);
 
     return data;
   } catch (error) {

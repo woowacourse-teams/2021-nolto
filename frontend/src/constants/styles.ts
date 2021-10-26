@@ -8,7 +8,7 @@ export const Z_INDEX = {
   MODAL: 110,
   DIALOG: 120,
   SNACKBAR: 120,
-};
+} as const;
 
 export const FONT_SIZE = {
   SMALL: '14px',

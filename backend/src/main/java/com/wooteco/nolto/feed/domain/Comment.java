@@ -1,6 +1,6 @@
 package com.wooteco.nolto.feed.domain;
 
-import com.wooteco.nolto.support.BaseEntity;
+import com.wooteco.nolto.BaseEntity;
 import com.wooteco.nolto.exception.BadRequestException;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.UnauthorizedException;
@@ -121,6 +121,10 @@ public class Comment extends BaseEntity {
 
     public boolean isReply() {
         return Objects.nonNull(this.parentComment);
+    }
+
+    public boolean isParentComment() {
+        return Objects.isNull(this.parentComment);
     }
 
     @Override

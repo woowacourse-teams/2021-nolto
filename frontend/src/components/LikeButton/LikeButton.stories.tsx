@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { MOCK_FEED_DETAIL } from '__mocks__/fixture/Feeds';
+import { MOCK_FEED_DETAIL } from '__mocks__/fixture/feeds';
 import LikeButton from './LikeButton';
 
 export default {

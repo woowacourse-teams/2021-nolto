@@ -1,12 +1,12 @@
 import styled, { keyframes, css } from 'styled-components';
 import { Link as LinkElement } from 'react-router-dom';
 
+import IconButton from 'components/@common/IconButton/IconButton';
+import Thumbnail from 'components/Thumbnail/Thumbnail';
 import { PALETTE } from 'constants/palette';
 import { MEDIA_QUERY } from 'constants/mediaQuery';
 import { FONT_SIZE } from 'constants/styles';
 import { hoverLayer } from 'commonStyles';
-import IconButton from 'components/@common/IconButton/IconButton';
-import FeedThumbnail from 'components/FeedThumbnail/FeedThumbnail';
 
 const open = keyframes`
   from {
@@ -55,10 +55,15 @@ const NotiAlert = styled.div`
   }
 `;
 
-const Image = styled(FeedThumbnail)`
+const Image = styled(Thumbnail)`
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    width: 2rem;
+    height: 2rem;
+  }
 `;
 
 const MoreProfileButton = styled(IconButton)`

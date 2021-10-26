@@ -1,18 +1,18 @@
 package com.wooteco.nolto.auth.ui;
 
 import com.wooteco.nolto.auth.application.AuthService;
-import com.wooteco.nolto.auth.ui.dto.AccessTokenResponse;
+import com.wooteco.nolto.auth.ui.dto.AllTokenResponse;
 import com.wooteco.nolto.auth.ui.dto.OAuthRedirectResponse;
 import com.wooteco.nolto.auth.ui.dto.RefreshTokenRequest;
-import com.wooteco.nolto.auth.ui.dto.TokenResponse;
-import com.wooteco.nolto.util.cookie.RefreshTokenCookieManager;
+import com.wooteco.nolto.exception.ErrorType;
+import com.wooteco.nolto.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.Objects;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,21 +26,26 @@ public class OAuthController {
     }
 
     @GetMapping("login/oauth/{socialType}/token")
-    public ResponseEntity<AccessTokenResponse> signInOAuth(@PathVariable String socialType,
-                                                           @RequestParam String code,
-                                                           HttpServletRequest request,
-                                                           HttpServletResponse response) {
-        log.info("Remote Address : {}", request.getLocalAddr());
-        TokenResponse tokenResponse = authService.oAuthSignIn(socialType, code, request.getRemoteAddr());
-        RefreshTokenCookieManager.setRefreshToken(response, tokenResponse);
-        return ResponseEntity.ok(tokenResponse.getAccessTokenResponse());
+    public ResponseEntity<AllTokenResponse> signInOAuth(@PathVariable String socialType,
+                                                        @RequestParam String code,
+                                                        HttpServletRequest request) {
+        AllTokenResponse allTokenResponse = authService.oAuthSignIn(socialType, code, getRemoteAddress(request));
+        return ResponseEntity.ok(allTokenResponse);
     }
 
+    private String getRemoteAddress(HttpServletRequest request) {
+        String ip = request.getHeader("X-Forwarded-For");
+        if (Objects.isNull(ip)) {
+            throw new NotFoundException(ErrorType.ADDRESS_NOT_FOUND);
+        }
+        log.info("Remote Address : {}", ip);
+        return ip;
+    }
+
+
     @PostMapping("login/oauth/refreshToken")
-    public ResponseEntity<AccessTokenResponse> generateRefreshToken(@RequestBody RefreshTokenRequest request,
-                                                                    HttpServletResponse response) {
-        TokenResponse tokenResponse = authService.reissueToken(request);
-        RefreshTokenCookieManager.setRefreshToken(response, tokenResponse);
-        return ResponseEntity.ok(tokenResponse.getAccessTokenResponse());
+    public ResponseEntity<AllTokenResponse> generateRefreshToken(@RequestBody RefreshTokenRequest request) {
+        AllTokenResponse allTokenResponse = authService.refreshToken(request);
+        return ResponseEntity.ok(allTokenResponse);
     }
 }

@@ -54,6 +54,9 @@ dependencies {
     implementation 'org.bytedeco:javacpp:1.5.6'
     implementation 'org.bytedeco:javacv-platform:1.5.6'
 
+    // gif Decoder
+    implementation 'com.madgag:animated-gif-lib:1.4'
+
     // Testcontainers
     implementation("com.amazonaws:aws-java-sdk-s3")
     testImplementation "org.testcontainers:testcontainers:1.15.3"

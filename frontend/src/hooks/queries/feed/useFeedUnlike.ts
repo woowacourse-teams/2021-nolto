@@ -1,7 +1,7 @@
 import { useMutation, UseMutationOptions } from 'react-query';
 import { AxiosResponse } from 'axios';
 
-import api from 'constants/api';
+import { backendApi } from 'constants/api';
 import HttpError from 'utils/HttpError';
 import { resolveHttpError } from 'utils/error';
 
@@ -11,7 +11,7 @@ interface Args {
 
 const postUnlike = async ({ feedId }: Args) => {
   try {
-    const { data } = await api.post(`/feeds/${feedId}/unlike `);
+    const { data } = await backendApi.post(`/feeds/${feedId}/unlike `);
 
     return data;
   } catch (error) {

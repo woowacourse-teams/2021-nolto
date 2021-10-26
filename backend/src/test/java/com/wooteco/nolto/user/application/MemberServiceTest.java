@@ -5,7 +5,6 @@ import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.feed.domain.Comment;
 import com.wooteco.nolto.feed.domain.Feed;
 import com.wooteco.nolto.feed.domain.Like;
-import com.wooteco.nolto.feed.domain.Step;
 import com.wooteco.nolto.feed.domain.repository.CommentRepository;
 import com.wooteco.nolto.feed.domain.repository.FeedRepository;
 import com.wooteco.nolto.feed.domain.repository.LikeRepository;

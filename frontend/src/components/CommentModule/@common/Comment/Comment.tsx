@@ -43,11 +43,11 @@ const Comment = ({ commentBody, parentCommentId, isFocused }: Props) => {
 
   //TODO: 지금 commentBody.feedAuthor가 로그인된 사용자 정보랑 댓글 작성자랑 같을 때 true가 되고있음
   //로그인된 사용자 정보와 관계없이 피드 작성자 기준으로 feedAuthor가 설정되어야함
-  const isMyComment = member.userData?.id === commentBody.author.id;
+  const isMyComment = member.userInfo?.id === commentBody.author.id;
   const isRootComment = parentCommentId === undefined ? true : false;
 
   const handleToggleLiked = () => {
-    if (!member.userData) {
+    if (!member.userInfo) {
       snackbar.addSnackbar('error', '로그인이 필요한 서비스입니다.');
       return;
     }
@@ -136,9 +136,11 @@ const Comment = ({ commentBody, parentCommentId, isFocused }: Props) => {
       {isMyComment && (
         <Styled.EditDeleteContainer>
           <IconButton size="1.5rem" onClick={handleClickModifyMode} hasShadow={false}>
+            <span className="visually-hidden">댓글 수정</span>
             <PencilIcon width="20px" fill={PALETTE.BLACK_200} />
           </IconButton>
           <IconButton size="1.5rem" onClick={handleClickDelete} hasShadow={false}>
+            <span className="visually-hidden">댓글 삭제</span>
             <TrashIcon width="20px" />
           </IconButton>
         </Styled.EditDeleteContainer>
@@ -164,6 +166,7 @@ const Comment = ({ commentBody, parentCommentId, isFocused }: Props) => {
             <span>{refineDate(commentBody.createdAt)}</span>
             <Styled.ThumbUpWrapper>
               <IconButton size="1.5rem" onClick={handleToggleLiked} hasShadow={false}>
+                <span className="visually-hidden">댓글 좋아요</span>
                 <ThumbIcon fill={isLiked ? PALETTE.GRAY_500 : 'none'} width="20px" />
               </IconButton>
               <span>{likeCount}</span>

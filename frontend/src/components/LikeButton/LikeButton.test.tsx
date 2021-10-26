@@ -1,13 +1,13 @@
 import React from 'react';
 
 import { customRender, fireEvent, waitFor } from 'test-util';
-import { MOCK_FEED_DETAIL } from '__mocks__/fixture/Feeds';
-import { MOCK_USER } from '__mocks__/fixture/User';
+import { MOCK_FEED_DETAIL } from '__mocks__/fixture/feeds';
+import { MOCK_USER } from '__mocks__/fixture/user';
 import LikeButton from './LikeButton';
 
-jest.mock('hooks/queries/useMember', () => {
+jest.mock('contexts/member/useMember', () => {
   return () => ({
-    userData: MOCK_USER.ZIG,
+    userInfo: MOCK_USER.ZIG,
     isLogin: true,
     logout: () => console.log('logout'),
   });
@@ -18,13 +18,13 @@ describe('LikeButton 테스트', () => {
     const { getByRole, container } = customRender(<LikeButton feedDetail={MOCK_FEED_DETAIL} />);
 
     const likeButton = getByRole('button');
-    const likeCountBefore = container.querySelector('span');
+    const likeCountBefore = container.querySelector('span:not(.visually-hidden)');
 
     expect(likeCountBefore).toHaveTextContent(MOCK_FEED_DETAIL.likes.toString());
 
     fireEvent.click(likeButton);
 
-    const likeCountAfter = container.querySelector('span');
+    const likeCountAfter = container.querySelector('span:not(.visually-hidden)');
 
     await waitFor(() => {
       expect(likeCountAfter).toHaveTextContent((MOCK_FEED_DETAIL.likes + 1).toString());
@@ -37,13 +37,13 @@ describe('LikeButton 테스트', () => {
     );
 
     const likeButton = getByRole('button');
-    const likeCountBefore = container.querySelector('span');
+    const likeCountBefore = container.querySelector('span:not(.visually-hidden)');
 
     expect(likeCountBefore).toHaveTextContent(MOCK_FEED_DETAIL.likes.toString());
 
     fireEvent.click(likeButton);
 
-    const likeCountAfter = container.querySelector('span');
+    const likeCountAfter = container.querySelector('span:not(.visually-hidden)');
 
     await waitFor(() => {
       expect(likeCountAfter).toHaveTextContent((MOCK_FEED_DETAIL.likes - 1).toString());

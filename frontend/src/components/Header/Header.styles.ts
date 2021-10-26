@@ -61,14 +61,6 @@ const LogoWrapper = styled.div`
     gap: 0.5rem;
   }
 
-  & h1.visually-hidden {
-    width: 1px;
-    height: 1px;
-    clip: rect(0 0 0 0);
-    overflow: hidden;
-    position: absolute;
-  }
-
   @media ${MEDIA_QUERY.MOBILE} {
     width: 40px;
     height: 40px;
@@ -153,7 +145,7 @@ const AuthButton = styled(TextButton.Rounded)`
   font-size: inherit;
   line-height: inherit;
 
-  @media ${MEDIA_QUERY.MOBILE} {
+  @media ${MEDIA_QUERY.TABLET_SMALL} {
     display: none;
   }
 `;
@@ -184,14 +176,14 @@ const UserContainer = styled.div`
   flex-shrink: 0;
   margin-left: 1rem;
 
-  @media ${MEDIA_QUERY.MOBILE} {
+  @media ${MEDIA_QUERY.TABLET_SMALL} {
     margin-left: 0.5rem;
   }
 
   & .signin {
     display: none;
 
-    @media ${MEDIA_QUERY.MOBILE} {
+    @media ${MEDIA_QUERY.TABLET_SMALL} {
       display: inline-block;
     }
   }

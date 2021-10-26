@@ -5,10 +5,10 @@ import com.wooteco.nolto.auth.domain.SocialType;
 import com.wooteco.nolto.auth.infrastructure.RedisRepository;
 import com.wooteco.nolto.auth.infrastructure.oauth.GithubClient;
 import com.wooteco.nolto.auth.infrastructure.oauth.GoogleClient;
+import com.wooteco.nolto.auth.ui.dto.AllTokenResponse;
 import com.wooteco.nolto.auth.ui.dto.OAuthRedirectResponse;
 import com.wooteco.nolto.auth.ui.dto.OAuthTokenResponse;
 import com.wooteco.nolto.auth.ui.dto.RefreshTokenRequest;
-import com.wooteco.nolto.auth.ui.dto.TokenResponse;
 import com.wooteco.nolto.exception.BadRequestException;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.user.domain.User;
@@ -55,7 +55,7 @@ class AuthServiceTest {
     private GoogleClient googleClient;
 
     @MockBean
-    private RedisRepository redisUtil;
+    private RedisRepository redisRepository;
 
     @DisplayName("깃허브 로그인의 code를 얻기위한 파라미터들을 요청한다.")
     @Test
@@ -93,10 +93,8 @@ class AuthServiceTest {
         given(githubClient.generateAccessToken("code")).willReturn(OAUTH_TOKEN_RESPONSE1);
         given(githubClient.generateUserInfo(OAUTH_TOKEN_RESPONSE1)).willReturn(USER1);
 
-        TokenResponse tokenResponse = authService.oAuthSignIn("github", "code", CLIENT_IP_V6);
-        assertThat(tokenResponse.getAccessToken()).isNotNull();
-        assertThat(tokenResponse.getRefreshToken()).isNotNull();
-        assertThat(tokenResponse.getExpiredIn()).isNotZero();
+        AllTokenResponse allTokenResponse = authService.oAuthSignIn("github", "code", CLIENT_IP_V6);
+        assertThat(allTokenResponse).isNotNull();
     }
 
     @DisplayName("구글 로그인으로 로그인에 성공하면 토큰을 반환해준다.")
@@ -106,10 +104,8 @@ class AuthServiceTest {
         given(githubClient.generateAccessToken("code")).willReturn(OAUTH_TOKEN_RESPONSE1);
         given(githubClient.generateUserInfo(OAUTH_TOKEN_RESPONSE1)).willReturn(USER1);
 
-        TokenResponse tokenResponse = authService.oAuthSignIn("google", "code", CLIENT_IP_V6);
-        assertThat(tokenResponse.getAccessToken()).isNotNull();
-        assertThat(tokenResponse.getRefreshToken()).isNotNull();
-        assertThat(tokenResponse.getExpiredIn()).isNotZero();
+        AllTokenResponse allTokenResponse = authService.oAuthSignIn("google", "code", CLIENT_IP_V6);
+        assertThat(allTokenResponse).isNotNull();
     }
 
     @DisplayName("code 요청값이 null이거나 빈값이면 예외가 발생한다.")
@@ -168,14 +164,15 @@ class AuthServiceTest {
     @Test
     void refreshToken() {
         // given
-        given(redisUtil.get("refresh token")).willReturn("client IP");
+        given(redisRepository.exist("refresh token")).willReturn(true);
+        given(redisRepository.leftPop("refresh token")).willReturn("client IP").willReturn("1");
 
         // when
-        TokenResponse tokenResponse = authService.reissueToken(new RefreshTokenRequest(1L, "refresh token", "client IP"));
+        RefreshTokenRequest request = new RefreshTokenRequest("refresh token", "client IP");
+        AllTokenResponse allTokenResponse = authService.refreshToken(request);
 
         // then
-        assertThat(tokenResponse.getAccessToken()).isNotNull();
-        assertThat(tokenResponse.getRefreshToken()).isNotNull();
-        assertThat(tokenResponse.getExpiredIn()).isNotZero();
+        assertThat(allTokenResponse.getRefreshToken()).isNotNull();
+        assertThat(allTokenResponse.getAccessToken()).isNotNull();
     }
 }

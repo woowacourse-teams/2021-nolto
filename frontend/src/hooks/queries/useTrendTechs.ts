@@ -1,6 +1,6 @@
 import { useQuery, UseQueryOptions } from 'react-query';
 
-import api from 'constants/api';
+import { backendApi } from 'constants/api';
 import QUERY_KEYS from 'constants/queryKeys';
 import { ErrorHandler, Tech } from 'types';
 import HttpError from 'utils/HttpError';
@@ -12,7 +12,7 @@ interface CustomQueryOption extends UseQueryOptions<Tech[], HttpError> {
 
 const getTrendTechs = async (errorHandler: ErrorHandler) => {
   try {
-    const { data } = await api.get('tags/techs/trend');
+    const { data } = await backendApi.get('tags/techs/trend');
 
     return data;
   } catch (error) {

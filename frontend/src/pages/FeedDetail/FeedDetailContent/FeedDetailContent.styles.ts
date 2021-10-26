@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import HighlightedText from 'components/@common/HighlightedText/HighlightedText';
 import TextButton from 'components/@common/TextButton/TextButton';
 import SOSFlagComponent from 'components/@common/SOSFlag/SOSFlag';
+import Thumbnail from 'components/Thumbnail/Thumbnail';
 import { MEDIA_QUERY } from 'constants/mediaQuery';
 import { PALETTE } from 'constants/palette';
 import StacksMoreIcon from 'assets/stacksMore.svg';
@@ -49,6 +50,7 @@ const IconWrapper = styled.div`
 const ThumbnailContainer = styled.div`
   position: relative;
   display: flex;
+  justify-content: center;
   flex-direction: column;
   flex: 1;
   flex-shrink: 1;
@@ -67,7 +69,7 @@ const MobileThumbnailContainer = styled(ThumbnailContainer)`
   }
 `;
 
-const Thumbnail = styled.div`
+const ThumbnailWrapper = styled.div`
   position: relative;
   border-radius: 0.5rem;
   ${defaultShadow}
@@ -123,6 +125,11 @@ const TitleWrapper = styled.div`
   * {
     vertical-align: middle;
   }
+
+  & > .step-chip {
+    box-shadow: none;
+    pointer-events: none;
+  }
 `;
 
 const UserWrapper = styled.div`
@@ -134,7 +141,7 @@ const UserName = styled.span`
   font-size: 1rem;
 `;
 
-const UserImage = styled.img`
+const UserThumbnail = styled(Thumbnail)`
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
@@ -175,22 +182,34 @@ const DetailsKey = styled(HighlightedText)`
 const DetailsValue = styled.span`
   display: flex;
   font-size: 1rem;
-  align-items: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  overflow: hidden;
 
   & > a {
+    word-break: break-all;
+
     &:hover {
       text-decoration: underline;
     }
   }
+
+  & ul {
+    position: relative;
+    display: flex;
+    font-size: 1rem;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    overflow: hidden;
+  }
 `;
 
 export const Tag = styled(TextButton.Rounded)`
+  max-width: 200px;
   width: fit-content;
   height: 1.5rem;
   padding: 0 0.75rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 `;
 
 export const StacksMoreButton = styled(StacksMoreIcon)`
@@ -226,13 +245,13 @@ export default {
   IconWrapper,
   ThumbnailContainer,
   MobileThumbnailContainer,
-  Thumbnail,
+  ThumbnailWrapper,
   FeedSummaryContainer,
   TitleContainer,
   TitleWrapper,
   UserWrapper,
   UserName,
-  UserImage,
+  UserThumbnail,
   DetailsContent,
   DetailsPair,
   DetailsKeyWrapper,

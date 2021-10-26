@@ -8,4 +8,4 @@ export default {
   argTypes: {},
 };
 
-export const Default = () => <Home />;
+export const Default = () => <Home toggleTheme={() => {}} />;

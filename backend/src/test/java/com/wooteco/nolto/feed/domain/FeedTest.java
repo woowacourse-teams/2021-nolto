@@ -2,11 +2,16 @@ package com.wooteco.nolto.feed.domain;
 
 import com.wooteco.nolto.exception.BadRequestException;
 import com.wooteco.nolto.exception.ErrorType;
+import com.wooteco.nolto.user.domain.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+import java.util.Map;
+
 import static com.wooteco.nolto.UserFixture.아마찌_생성;
+import static com.wooteco.nolto.UserFixture.조엘_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -73,5 +78,26 @@ class FeedTest {
                         .build())
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage(ErrorType.MISSING_DEPLOY_URL.getMessage());
+    }
+
+    @DisplayName("피드의 댓글과 대댓글을 Map으로 분류할 수 있다.")
+    @Test
+    void sortByCommentAndReplies() {
+        User 조엘 = 조엘_생성();
+
+        Comment 댓글1 = new Comment(1L, "댓글1", false).writtenBy(조엘, feed);
+        Comment 댓글1_답글1 = new Comment(2L, "댓글1_답글1", false).writtenBy(조엘, feed);
+        Comment 댓글1_답글2 = new Comment(3L, "댓글1_답글2", false).writtenBy(조엘, feed);
+        댓글1.addReply(댓글1_답글1);
+        댓글1.addReply(댓글1_답글2);
+
+        Comment 댓글2 = new Comment(4L, "댓글2", false).writtenBy(조엘, feed);
+        Comment 댓글2_답글1 = new Comment(5L, "댓글2_답글1", false).writtenBy(조엘, feed);
+        댓글2.addReply(댓글2_답글1);
+
+        Map<Comment, List<Comment>> commentAndReplies = feed.mapByCommentAndReplies();
+        assertThat(commentAndReplies).containsKeys(댓글1, 댓글2);
+        assertThat(commentAndReplies.get(댓글1)).containsExactly(댓글1_답글1, 댓글1_답글2);
+        assertThat(commentAndReplies.get(댓글2)).containsExactly(댓글2_답글1);
     }
 }

@@ -15,7 +15,7 @@ const useTheme = () => {
 
   const toggleTheme = () => {
     // TODO: setTimeoutId 삭제 리팩토링
-    setMode('thanksgiving');
+    setMode('halloween');
 
     setTimeout(() => {
       setMode('default');

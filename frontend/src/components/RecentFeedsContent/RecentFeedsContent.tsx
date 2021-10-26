@@ -4,17 +4,17 @@ import { useHistory, useLocation } from 'react-router';
 import { FlexContainer } from 'commonStyles';
 import RegularFeedCard from 'components/RegularFeedCard/RegularFeedCard';
 import StepChip from 'components/StepChip/StepChip';
-import { HighLightedText } from 'components/TeamMember/TeamMember.styles';
+import HighLightedText from 'components/@common/HighlightedText/HighlightedText';
 import RegularSkeleton from 'components/RegularSkeleton/RegularSkeleton';
 import Toggle from 'components/@common/Toggle/Toggle';
 import useSnackbar from 'contexts/snackbar/useSnackbar';
 import useRecentFeedsLoad from 'hooks/queries/feed/useRecentFeedsLoad';
 import useIntersectionObserver from 'hooks/@common/useIntersectionObserver';
 import { FONT_SIZE } from 'constants/styles';
+import { RECENT_FEEDS_PER_PAGE } from 'constants/common';
+import { isFeedStep } from 'utils/typeGuard';
 import { FeedStep } from 'types';
 import Styled from './RecentFeedsContent.styles';
-import { isFeedStep } from 'utils/typeGuard';
-import { RECENT_FEEDS_PER_PAGE } from 'constants/common';
 
 const RecentFeedsContent = () => {
   const location = useLocation();

@@ -1,6 +1,8 @@
-import DownPolygon from 'assets/downPolygon.svg';
-import { PALETTE } from 'constants/palette';
 import styled from 'styled-components';
+
+import DownPolygon from 'assets/downPolygon.svg';
+import { MEDIA_QUERY } from 'constants/mediaQuery';
+import { PALETTE } from 'constants/palette';
 
 const Root = styled.div`
   display: flex;
@@ -23,6 +25,14 @@ const RecentFeedsContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-gap: 1rem;
+
+  @media ${MEDIA_QUERY.TABLET} {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @media ${MEDIA_QUERY.TABLET_SMALL} {
+    grid-template-columns: repeat(2, 1fr);
+  }
 `;
 
 export const MoreFeedsArrow = styled(DownPolygon)`

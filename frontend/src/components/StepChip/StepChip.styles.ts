@@ -29,7 +29,7 @@ const chipStyleMap = {
 const Root = styled(Chip.Solid)<{ step: FeedStep; selected: boolean }>`
   color: ${PALETTE.BLACK_400};
   ${({ step }) => chipStyleMap[step]};
-  box-shadow: ${({ selected }) => selected && 'inset'} 1px 1px 2px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: ${({ selected }) => selected && 'inset'} 1px 1px 2px 1px rgba(0, 0, 0, 0.4);
 
   ${hoverLayer({})};
 `;

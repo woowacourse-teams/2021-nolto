@@ -1,11 +1,11 @@
 import { useMutation } from 'react-query';
 
-import api from 'constants/api';
+import { backendApi } from 'constants/api';
 import { resolveHttpError } from 'utils/error';
 
 const uploadFeed = async (formData: FormData) => {
   try {
-    const { data } = await api.post('/feeds', formData);
+    const { data } = await backendApi.post('/feeds', formData);
 
     return data;
   } catch (error) {

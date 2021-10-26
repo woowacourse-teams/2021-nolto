@@ -1,7 +1,7 @@
 package com.wooteco.nolto.feed.domain;
 
 import com.amazonaws.util.StringUtils;
-import com.wooteco.nolto.support.BaseEntity;
+import com.wooteco.nolto.BaseEntity;
 import com.wooteco.nolto.exception.BadRequestException;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.tech.domain.Tech;
@@ -14,10 +14,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
@@ -155,6 +152,16 @@ public class Feed extends BaseEntity {
 
     public void deleteComment(Comment comment) {
         this.comments.remove(comment);
+    }
+
+    public Map<Comment, List<Comment>> mapByCommentAndReplies() {
+        Map<Comment, List<Comment>> commentAndReplies = new HashMap<>();
+        for (Comment comment : comments) {
+            if (comment.isParentComment()) {
+                commentAndReplies.put(comment, comment.getReplies());
+            }
+        }
+        return commentAndReplies;
     }
 
     @Override
