@@ -36,6 +36,7 @@ router.post('/renewToken', async (req, res) => {
   res
     .cookie('refreshToken', authData.refreshToken.value, {
       httpOnly: true,
+      secure: true,
       maxAge: authData.refreshToken.expiredIn,
     })
     .status(200)
