@@ -8,9 +8,9 @@ const Root = styled.section`
   background: ${({ theme }) =>
     `linear-gradient(90deg, ${theme.headerStartColor}, ${theme.headerEndColor})`};
   width: 100%;
-  height: 250px;
-  gap: 30px;
-  margin-top: 50px;
+  height: 248px;
+  gap: 32px;
+  margin-top: 48px;
   transition: background 0.3s ease;
 
   * {

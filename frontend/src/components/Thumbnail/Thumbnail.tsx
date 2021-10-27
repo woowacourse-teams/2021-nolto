@@ -19,7 +19,7 @@ const isVideoType = (url: string) => {
 
 const Thumbnail = ({ thumbnailUrl, alt, className }: Props) => {
   return isVideoType(thumbnailUrl) ? (
-    <video className={className} autoPlay muted loop>
+    <video className={className} autoPlay muted loop playsInline>
       <source src={thumbnailUrl} type="video/mp4" />
       <Styled.Image src={DEFAULT_IMG.FEED} alt="기본 이미지" fallbackSrc={DEFAULT_IMG.FEED} />
     </video>
