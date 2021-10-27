@@ -1,5 +1,6 @@
 package com.wooteco.nolto.feed.ui;
 
+import com.wooteco.nolto.ViewHistoryManager;
 import com.wooteco.nolto.auth.MemberAuthenticationPrincipal;
 import com.wooteco.nolto.auth.UserAuthenticationPrincipal;
 import com.wooteco.nolto.auth.ValidTokenRequired;
@@ -8,19 +9,19 @@ import com.wooteco.nolto.feed.application.LikeService;
 import com.wooteco.nolto.feed.ui.dto.*;
 import com.wooteco.nolto.user.domain.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
-import static com.wooteco.nolto.ViewHistoryManager.isAlreadyView;
-import static com.wooteco.nolto.ViewHistoryManager.setCookieByReadHistory;
-
+@Slf4j
 @RestController
 @RequestMapping("/feeds")
 @Validated
@@ -29,6 +30,7 @@ public class FeedController {
 
     private final FeedService feedService;
     private final LikeService likeService;
+    private final ViewHistoryManager historyManager;
 
     @ValidTokenRequired
     @PostMapping
@@ -39,11 +41,13 @@ public class FeedController {
 
     @GetMapping(value = "/{feedId:[\\d]+}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<FeedResponse> findById(@UserAuthenticationPrincipal User user, @PathVariable Long feedId,
-                                                 HttpServletResponse response,
+                                                 HttpServletRequest request, HttpServletResponse response,
                                                  @CookieValue(name = "view", required = false, defaultValue = "/") String cookieValue) {
         String feedIdAsString = String.valueOf(feedId);
-        boolean alreadyView = isAlreadyView(cookieValue, feedIdAsString);
-        setCookieByReadHistory(alreadyView, cookieValue, feedIdAsString, response);
+        String ipAddress = request.getHeader("X-FORWARDED-FOR");
+        log.info("View feedId: {}, ip: {}", feedId, ipAddress);
+        boolean alreadyView = historyManager.isAlreadyView(ipAddress, cookieValue, feedIdAsString);
+        historyManager.setCookieByReadHistory(alreadyView, cookieValue, feedIdAsString, response);
         FeedResponse feedResponse = feedService.viewFeed(user, feedId, alreadyView);
         return ResponseEntity.ok(feedResponse);
     }
