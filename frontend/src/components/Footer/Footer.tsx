@@ -17,20 +17,20 @@ const Footer = () => {
     <Styled.Root>
       <FlexContainer gap="16px">
         <a href={NOLTO_GITHUB} target="_blank">
-          <span className="visually-hidden">놀토 깃헙 페이지로 이동</span>
           <IconButton size="44px">
+            <span className="visually-hidden">놀토 깃헙 페이지로 이동</span>
             <GithubLogo />
           </IconButton>
         </a>
         <a href={NOLTO_MAIL}>
-          <span className="visually-hidden">놀토에 메일 보내기</span>
           <IconButton size="44px">
+            <span className="visually-hidden">놀토에 메일 보내기</span>
             <Mail />
           </IconButton>
         </a>
         <a href={NOLTO_INTRO_SITE} target="_blank">
-          <span className="visually-hidden">놀토 소개 페이지로 이동</span>
           <IconButton size="44px">
+            <span className="visually-hidden">놀토 소개 페이지로 이동</span>
             <Laptop />
           </IconButton>
         </a>
