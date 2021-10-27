@@ -9,6 +9,7 @@ import { defaultShadow } from 'commonStyles';
 
 export const Form = styled.form`
   margin-bottom: 5rem;
+  min-width: 540px;
 `;
 
 const FormContainer = styled.div`
