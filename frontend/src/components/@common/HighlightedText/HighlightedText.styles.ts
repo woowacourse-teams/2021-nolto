@@ -9,8 +9,9 @@ const Root = styled.span<{ fontSize: string }>`
   font-size: ${({ fontSize }) => fontSize};
   font-weight: 700;
   height: fit-content;
+  opacity: 0.99;
 
-  &::after {
+  &::before {
     content: '';
     position: absolute;
     display: block;
