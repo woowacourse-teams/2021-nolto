@@ -28,6 +28,7 @@ import Styled, {
   SOSTooltip,
   Toybox,
 } from './FeedUploadForm.styles';
+import hasWindow from 'constants/windowDetector';
 
 type FeedToUploadPartial = Omit<FeedToUpload, 'techs'>;
 
@@ -125,7 +126,7 @@ const FeedUploadForm = ({ onFeedSubmit, initialFormValue }: Props) => {
               {...register('content', { required: UPLOAD_VALIDATION_MSG.CONTENT_REQUIRED })}
             />
             <Styled.MarkdownWrapper>
-              <Markdown children={watchContent} />
+              {hasWindow && <Markdown children={watchContent} />}
             </Styled.MarkdownWrapper>
           </Styled.MarkdownContainer>
           <ErrorMessage targetError={errors.content} />
