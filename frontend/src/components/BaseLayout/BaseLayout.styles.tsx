@@ -12,7 +12,7 @@ export const BaseLayoutMain = styled.main`
   margin: 0 auto;
   overflow: auto;
   width: 100%;
-  min-height: 100vh;
+  min-height: calc(100vh - 248px);
 
   @media ${MEDIA_QUERY.MOBILE} {
     padding: 1rem;

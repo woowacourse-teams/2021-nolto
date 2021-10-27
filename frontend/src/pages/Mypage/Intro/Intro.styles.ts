@@ -90,6 +90,7 @@ const TopContainer = styled.div`
 const nameStyle = css`
   font-size: 18px;
   line-height: 18px;
+  padding-left: 2px;
   font-weight: 700;
   width: 100%;
 `;
@@ -135,9 +136,11 @@ const DetailContainer = styled.div`
 `;
 
 const detailStyle = css`
+  width: 100%;
   font-size: 0.85rem;
   color: ${PALETTE.BLACK_200};
-  padding-bottom: 0.25rem;
+  padding-left: 2px;
+  padding-bottom: 4px;
 `;
 
 const DetailText = styled.div`
