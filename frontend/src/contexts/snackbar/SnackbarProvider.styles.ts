@@ -2,6 +2,7 @@ import styled, { css, keyframes } from 'styled-components';
 
 import { PALETTE } from 'constants/palette';
 import { Z_INDEX } from 'constants/styles';
+import { MEDIA_QUERY } from 'constants/mediaQuery';
 import { SnackbarType } from 'types';
 
 const show = keyframes`
@@ -47,6 +48,11 @@ const Snackbar = styled.div<{ type: SnackbarType }>`
 
   & span {
     color: ${PALETTE.WHITE_400};
+  }
+
+  @media ${MEDIA_QUERY.MOBILE} {
+    width: 21.25rem;
+    margin: 0 auto;
   }
 `;
 
