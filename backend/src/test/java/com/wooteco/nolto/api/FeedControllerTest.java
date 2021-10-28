@@ -1,5 +1,6 @@
 package com.wooteco.nolto.api;
 
+import com.wooteco.nolto.ViewHistoryManager;
 import com.wooteco.nolto.feed.application.FeedService;
 import com.wooteco.nolto.feed.application.LikeService;
 import com.wooteco.nolto.feed.domain.Feed;
@@ -39,6 +40,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(controllers = FeedController.class)
 class FeedControllerTest extends ControllerTest {
+
+    @MockBean
+    private ViewHistoryManager historyManager;
 
     private static final MockMultipartFile MOCK_MULTIPART_FILE =
             new MockMultipartFile("thumbnailImage", "thumbnailImage.png", "image/png", "<<png data>>".getBytes());

@@ -31,7 +31,7 @@ const History = () => {
   const idGenerator = genNewId();
 
   useEffect(() => {
-    selectedTab.current.scrollIntoView();
+    selectedTab.current.scrollIntoView({ block: 'nearest' });
   }, [tab]);
 
   const feedWithContent = (feed: Omit<Feed, 'author'>): React.ReactNode => (
