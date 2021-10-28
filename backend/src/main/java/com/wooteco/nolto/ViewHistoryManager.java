@@ -13,7 +13,7 @@ import java.util.Objects;
 @Component
 public class ViewHistoryManager {
 
-    @Value("application.rendering.server.ip")
+    @Value("${application.rendering.server.ip}")
     private String renderingServerIp;
 
     public ResponseCookie generateCookie(String name, String value) {
