@@ -1,24 +1,32 @@
 
 <p align="center">  
-<h1 align="middle"> ✨ 놀토: 놀러오세요 토이프로젝트 ✨</h1>
+<h1 align="middle"> 🧸 놀토: 놀러오세요 토이프로젝트 🎈 </h1>
+<p align="center">
+<img src="https://user-images.githubusercontent.com/44080404/139180406-eed179d2-f176-43ea-acc8-3b6165c60fc9.png" />
+</p>
 
-<img src="https://user-images.githubusercontent.com/44080404/133540773-763e7766-def4-42b6-bcfe-e1eac5fbb00f.png" width="100%" >
 
 </p>
 
 <p align="middle">부담없이 자랑하는 작고 소중한 내 토이프로젝트</p>
 <p align="center"> 서툰 프로젝트라도 누구나 뿌듯하게 자랑하고 공유하는 공간,</p>
-<p align="center"> 여기는 <b>놀토</b>입니다! </p>
-<br>
-<br>
+<h3 align="center"> 여기는 <b>놀토</b>입니다! </h3>
 
-<h2 align="middle"> 🙋‍♀️ 팀원 소개 🙋‍♂️</h2>
+<h2 align="middle">🎥 놀토 소개 영상 </h2>
+
+<p align="center">
+  <a href="https://youtu.be/WsGyO4k2Kv0">
+    <img src="http://img.youtube.com/vi/WsGyO4k2Kv0/0.jpg" alt="nolto video ">
+  </a>
+</p>
+
+
+<h2 align="middle"> 🙋‍♀️ 놀토를 만든 사람들 🙋‍♂️</h2>
 <p align="center">
   
 | [아마찌](https://github.com/NewWisdom)   |  [조엘](https://github.com/PapimonLikelion)  |   [포모](https://github.com/bosl95)      |  [미키](https://github.com/0307kwon)  | [지그](https://github.com/zigsong)   | [찰리](https://github.com/Gomding)   |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | 
 | <img src="https://user-images.githubusercontent.com/43840561/129164013-2a88c2e7-1a93-4cc7-bbd8-c5818f5152c7.png"/> | <img src="https://user-images.githubusercontent.com/44080404/133540314-639cc580-1aa5-4bf4-8d54-b435bfe5e5f8.png" /> | <img src="https://user-images.githubusercontent.com/44080404/133540309-ae1e774e-4404-4801-bb5c-0037eab41818.PNG" /> | <img src="https://user-images.githubusercontent.com/44080404/133540317-20da5664-aa3d-4afb-809b-a7d4780a5a17.png" /> |  <img src="https://user-images.githubusercontent.com/44080404/133540321-7f8f4215-3e01-4f21-88e3-90d608377aab.png" /> | <img src="https://user-images.githubusercontent.com/44080404/133540503-22c158d4-1042-4e7c-9ee5-79c694bf5841.png" /> |
-
 
 </p>
 
