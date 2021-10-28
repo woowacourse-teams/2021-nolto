@@ -48,6 +48,9 @@ server:
 application:
   cors:
     allow-origin: "*"
+  rendering:
+    server:
+      ip: localhost
 ---
 spring:
   config:

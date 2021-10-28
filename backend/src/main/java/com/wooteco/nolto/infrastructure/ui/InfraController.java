@@ -17,4 +17,9 @@ public class InfraController {
     public String health() {
         return "UP";
     }
+
+    @GetMapping("/port")
+    public String port() {
+        return env.getProperty("local.server.port");
+    }
 }
