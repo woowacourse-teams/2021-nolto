@@ -41,6 +41,7 @@ const bounce = keyframes`
   0%, 100% {
     transform: translateY(-10%);
   }
+  //제발 되어줘
 
   50% {
     transform: translateY(10%);
