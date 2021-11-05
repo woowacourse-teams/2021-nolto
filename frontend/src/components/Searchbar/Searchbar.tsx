@@ -25,7 +25,6 @@ const Searchbar = ({ className, selectable = false, ...options }: Props) => {
   const search = (event: React.FormEvent) => {
     event.preventDefault();
 
-    // 아무것도 검색하지 않았을 때
     if (
       (searchType === SearchType.CONTENT && query === '') ||
       (searchType === SearchType.TECH && techs.length === 0)
@@ -58,7 +57,6 @@ const Searchbar = ({ className, selectable = false, ...options }: Props) => {
     </Styled.SelectedChips>
   );
 
-  //TODO: Styled.Root가 가장 바깥에 있어야할듯
   return (
     <TechTagProvider>
       {searchType === SearchType.TECH && selectedTags}

@@ -26,7 +26,7 @@ const SearchResultHeader = ({ searchParams, query, setQuery, techs, setTechs }: 
   const [queryValue, setQueryValue] = useState('');
 
   const snackbar = useSnackbar();
-  // TODO: 네이밍 고려하기
+
   const { data: techsData } = useTechsLoad({
     techs,
     errorHandler: (error) => snackbar.addSnackbar('error', error.message),
