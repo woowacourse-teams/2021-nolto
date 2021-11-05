@@ -52,7 +52,6 @@ const MemberProvider = ({ children }: Props) => {
   };
 
   const logout = () => {
-    // TODO: common 부분 backendApi.ts로 추상화
     queryClient.removeQueries(QUERY_KEYS.MEMBER);
     setAccessToken(null);
     backendApi.defaults.headers.common['Authorization'] = '';
