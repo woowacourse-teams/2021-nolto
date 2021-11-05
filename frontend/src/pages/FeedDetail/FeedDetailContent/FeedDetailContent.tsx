@@ -121,7 +121,6 @@ const FeedDetailContent = ({ feedId }: Props) => {
     return () => setKakaoLoaded(false);
   }, []);
 
-  // TODO: 댓글 로딩 부분 스켈레톤으로 리팩토링
   return (
     <Styled.Root>
       <Helmet>

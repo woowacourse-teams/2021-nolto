@@ -41,8 +41,6 @@ const Comment = ({ commentBody, parentCommentId, isFocused }: Props) => {
     likeCount: commentBody.likes,
   });
 
-  //TODO: 지금 commentBody.feedAuthor가 로그인된 사용자 정보랑 댓글 작성자랑 같을 때 true가 되고있음
-  //로그인된 사용자 정보와 관계없이 피드 작성자 기준으로 feedAuthor가 설정되어야함
   const isMyComment = member.userInfo?.id === commentBody.author.id;
   const isRootComment = parentCommentId === undefined ? true : false;
 
@@ -53,7 +51,6 @@ const Comment = ({ commentBody, parentCommentId, isFocused }: Props) => {
     }
 
     if (isLiked) {
-      //TODO: 첫번째 인자로 null 넣는 것이 어색함
       comment.unlike(null, {
         onSuccess: () => {
           setLiked(false);

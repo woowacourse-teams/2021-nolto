@@ -24,7 +24,6 @@ const writeComment =
     }
   };
 
-//TODO: feedId도 option으로 한번에 받기
 const useCommentWrite = (
   feedId: number,
   option?: UseMutationOptions<AxiosResponse<unknown>, HttpError, CommentRequest>,
