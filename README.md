@@ -33,6 +33,22 @@
 <br>
 <br>
 
+<p align="center">
+<h2 align="middle"> 놀토에 사용된 기술 스택들 👨‍💻 </h2>
+<img src="./img/tech.png">
+<br>
+
+<h2 align="middle"> 놀토 인프라 구성 🎡 </h2>
+<img src="./img/infra.jpg">
+<br>
+
+<h2 align="middle"> 놀토 CI/CD 프로세스 🎯 </h2>
+<img src="./img/ci_cd.jpg">
+</p>
+
+<br>
+<br>
+
 <h2 align="middle"> ⚙️ 기술 스택 ⚙️ </h2>
 
 <p align="center">
