@@ -155,8 +155,7 @@ public class AdminService {
         if (findComment.isParentComment()) {
             applicationEventPublisher.publishEvent(new NotificationCommentDeleteEvent(findComment));
         }
-        User author = findComment.getAuthor();
-        author.deleteComment(findComment);
+        commentRepository.delete(findComment);
     }
 
     private Comment getComment(Long commentId) {

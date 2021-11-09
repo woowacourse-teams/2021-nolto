@@ -249,23 +249,25 @@ class AdminServiceTest {
     void deleteComment() {
         //given
         Feed 피드1 = 진행중_단계의_피드_생성("피드1", "피드1").writtenBy(조엘);
-        feedRepository.saveAndFlush(피드1);
+        feedRepository.save(피드1);
         Feed 피드2 = 진행중_단계의_피드_생성("피드2", "피드2").writtenBy(조엘);
-        feedRepository.saveAndFlush(피드2);
+        feedRepository.save(피드2);
         Feed 피드3 = 진행중_단계의_피드_생성("피드3", "피드3").writtenBy(조엘);
-        feedRepository.saveAndFlush(피드3);
+        feedRepository.save(피드3);
 
         final Comment 피드1_댓글1 = new Comment("피드1_댓글1", false).writtenBy(찰리, 피드1);
-        commentRepository.saveAndFlush(피드1_댓글1);
+        commentRepository.save(피드1_댓글1);
         final Comment 피드1_댓글2 = new Comment("피드1_댓글2", false).writtenBy(찰리, 피드1);
-        commentRepository.saveAndFlush(피드1_댓글2);
+        commentRepository.save(피드1_댓글2);
         final Comment 피드1_댓글3 = new Comment("피드1_댓글3", false).writtenBy(찰리, 피드1);
-        commentRepository.saveAndFlush(피드1_댓글3);
+        commentRepository.save(피드1_댓글3);
 
         final Comment 피드2_댓글1 = new Comment("피드2_댓글1", false).writtenBy(찰리, 피드2);
-        commentRepository.saveAndFlush(피드2_댓글1);
+        commentRepository.save(피드2_댓글1);
         final Comment 피드2_댓글2 = new Comment("피드2_댓글2", false).writtenBy(찰리, 피드2);
-        commentRepository.saveAndFlush(피드2_댓글2);
+        commentRepository.save(피드2_댓글2);
+        em.flush();
+        em.clear();
 
         //when
         adminService.deleteComment(User.ADMIN_USER, 피드1_댓글1.getId());

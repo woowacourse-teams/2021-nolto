@@ -305,6 +305,7 @@ class CommentServiceTest extends CommentServiceFixture {
         assertThat(구글_유저.getComments().size()).isOne();
         assertThat(아마찌.getComments().size()).isOne();
         em.flush();
+        em.clear();
 
         // when
         Comment 아마찌_대댓글 = commentService.findEntityById(아마찌_대댓글_생성_응답.getId());
@@ -333,6 +334,7 @@ class CommentServiceTest extends CommentServiceFixture {
         commentLikeService.addCommentLike(포모_댓글_생성_응답.getId(), 구글_유저);
         commentLikeService.addCommentLike(아마찌_대댓글_생성_응답.getId(), 아마찌);
         em.flush();
+        em.clear();
 
         // when
         Comment 포모_댓글 = commentService.findEntityById(포모_댓글_생성_응답.getId());
