@@ -108,6 +108,7 @@ public class AuthService {
 
         if (!redisRepository.leftPop(request.getRefreshToken()).equals(request.getClientIP())) {
             log.info("invalid request client ip for refresh token. request client : " + request.getClientIP());
+            redisRepository.delete(request.getRefreshToken());
             throw new UnauthorizedException(ErrorType.INVALID_CLIENT);
         }
 
