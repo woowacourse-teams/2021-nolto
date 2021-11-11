@@ -11,7 +11,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     @Query("select distinct com " +
             "from Comment as com " +
-            "join fetch com.author " +
+            "join com.author " +
             "join fetch com.feed " +
             "left join fetch com.likes " +
             "where com.feed.id = :feedId and com.parentComment.id is null " +
@@ -20,7 +20,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     @Query("select distinct com " +
             "from Comment as com " +
-            "join fetch com.author " +
+            "join com.author " +
             "join fetch com.feed " +
             "left join fetch com.likes " +
             "where com.feed.id = :feedId and com.parentComment.id = :parentCommentId " +

@@ -58,13 +58,13 @@ public interface FeedRepository extends JpaRepository<Feed, Long> {
 
     @Query("select distinct feed " +
             "from Feed as feed " +
-            "join fetch feed.author " +
+            "join feed.author " +
             "left join fetch feed.feedTechs")
     List<Feed> findAllWithFetchJoin();
 
     @Query("select distinct feed " +
             "from Feed as feed " +
-            "join fetch feed.author " +
+            "join feed.author " +
             "join fetch feed.comments")
     List<Feed> findAllFeedsHavingComments();
 }
