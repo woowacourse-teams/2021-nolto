@@ -282,6 +282,7 @@ class FeedServiceTest {
         em.clear();
 
         // when
+        조엘 = userRepository.getById(조엘.getId());
         FeedResponse feedResponse = feedService.viewFeed(조엘, feedId1, true);
 
         // then
@@ -332,12 +333,15 @@ class FeedServiceTest {
         em.clear();
 
         // when
+        조엘 = userRepository.getById(조엘.getId());
         userRepository.delete(조엘);
         em.flush();
         em.clear();
         Feed findFeed = feedService.findEntityById(feedId1);
 
         // then
+        조엘 = userRepository.getById(조엘.getId());
+
         assertThat(findFeed.findLikeBy(조엘)).isEmpty();
     }
 

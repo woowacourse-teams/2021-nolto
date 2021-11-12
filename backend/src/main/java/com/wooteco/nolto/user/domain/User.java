@@ -49,10 +49,10 @@ public class User extends BaseEntity {
 
     private String bio = "";
 
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE)
     private List<Feed> feeds = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Like> likes = new ArrayList<>();
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE)

@@ -27,7 +27,7 @@ public class LikeService {
         if (user.isLiked(findFeed)) {
             throw new BadRequestException(ErrorType.ALREADY_LIKED);
         }
-        user.addLike(new Like(user, findFeed));
+        likeRepository.save(new Like(user, findFeed));
         applicationEventPublisher.publishEvent(NotificationEvent.likeOf(findFeed, user));
     }
 
@@ -35,7 +35,6 @@ public class LikeService {
         Feed findFeed = feedService.findEntityById(feedId);
         Like findLike = findFeed.findLikeBy(user)
                 .orElseThrow(() -> new BadRequestException(ErrorType.NOT_LIKED));
-        user.delete(findLike);
         likeRepository.delete(findLike);
     }
 }
