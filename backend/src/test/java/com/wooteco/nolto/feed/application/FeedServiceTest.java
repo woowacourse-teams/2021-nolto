@@ -1,14 +1,13 @@
 package com.wooteco.nolto.feed.application;
 
-import com.wooteco.nolto.admin.ui.dto.CommentsByFeedResponse;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.NotFoundException;
 import com.wooteco.nolto.exception.UnauthorizedException;
-import com.wooteco.nolto.feed.domain.Comment;
 import com.wooteco.nolto.feed.domain.Feed;
-import com.wooteco.nolto.feed.domain.repository.CommentRepository;
-import com.wooteco.nolto.feed.domain.repository.FeedRepository;
-import com.wooteco.nolto.feed.ui.dto.*;
+import com.wooteco.nolto.feed.ui.dto.FeedCardPaginationResponse;
+import com.wooteco.nolto.feed.ui.dto.FeedCardResponse;
+import com.wooteco.nolto.feed.ui.dto.FeedRequest;
+import com.wooteco.nolto.feed.ui.dto.FeedResponse;
 import com.wooteco.nolto.image.application.ImageService;
 import com.wooteco.nolto.tech.domain.Tech;
 import com.wooteco.nolto.tech.domain.TechRepository;
@@ -27,10 +26,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.wooteco.nolto.FeedFixture.진행중_단계의_피드_생성;
 import static com.wooteco.nolto.TechFixture.*;
 import static com.wooteco.nolto.UserFixture.조엘_생성;
 import static com.wooteco.nolto.UserFixture.찰리_생성;
@@ -280,9 +281,9 @@ class FeedServiceTest {
         likeService.addLike(조엘, feedId1);
         em.flush();
         em.clear();
+        조엘 = userRepository.getById(조엘.getId());
 
         // when
-        조엘 = userRepository.getById(조엘.getId());
         FeedResponse feedResponse = feedService.viewFeed(조엘, feedId1, true);
 
         // then
@@ -296,6 +297,7 @@ class FeedServiceTest {
         Long feedId1 = feedService.create(찰리, EMPTY_TECH_FEED_REQUEST);
         em.flush();
         em.clear();
+        조엘 = userRepository.getById(조엘.getId());
 
         // when
         FeedResponse feedResponse = feedService.viewFeed(조엘, feedId1, true);
@@ -317,6 +319,7 @@ class FeedServiceTest {
         likeService.deleteLike(조엘, feedId1);
         em.flush();
         em.clear();
+        조엘 = userRepository.getById(조엘.getId());
         FeedResponse feedResponse = feedService.viewFeed(조엘, feedId1, true);
 
         // then
