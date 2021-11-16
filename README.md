@@ -39,7 +39,7 @@
 <br>
 
 <h2 align="middle"> 놀토 인프라 구성 🎡 </h2>
-<img src="./img/before_infra.jpg">
+<img src="./img/before_infra.png">
 
 - 21.11.08 이전 인프라 구조
 
