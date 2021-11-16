@@ -40,6 +40,9 @@
 
 <h2 align="middle"> 놀토 인프라 구성 🎡 </h2>
 <img src="./img/infra.jpg">
+  
+- 21.11.08 기준 
+  
 <br>
 
 <h2 align="middle"> 놀토 CI/CD 프로세스 🎯 </h2>
