@@ -4,23 +4,34 @@ import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.NotFoundException;
 import com.wooteco.nolto.image.domain.ProcessedImage;
 import com.wooteco.nolto.image.domain.repository.ImageRepository;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 
 @Repository
 public class LocalImageRepository implements ImageRepository {
+
+    @Value("${image.url}")
+    private String imageUrl;
 
     @Value("${image.path}")
     private String path;
 
     @Override
     public String save(ProcessedImage processedImage) {
-        return null;
+        String imageName = processedImage.getImageName();
+        File processedFile = processedImage.getFile();
+        File serverSaveFile = new File(path + imageName);
+        try {
+            FileUtils.copyFile(processedFile, serverSaveFile);
+            serverSaveFile.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return imageUrl + imageName;
     }
 
     public byte[] findFile(String fileName) {

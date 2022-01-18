@@ -7,7 +7,6 @@ import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.InternalServerErrorException;
 import com.wooteco.nolto.image.application.adapter.ImageHandlerAdapter;
 import com.wooteco.nolto.image.domain.ProcessedImage;
-import com.wooteco.nolto.image.infrastructure.AwsS3Repository;
 import com.wooteco.nolto.image.infrastructure.LocalImageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,19 +35,21 @@ public class ImageService {
     @Value("${application.cloudfront.url}")
     private String cloudfrontUrl;
 
+    @Value("${image.url}")
+    private String imageUrl;
+
     private final AmazonS3 amazonS3Client;
-    private final AwsS3Repository awsS3Repository;
     private final List<ImageHandlerAdapter> imageHandlerAdapters;
     private final LocalImageRepository localImageRepository;
 
     public String upload(MultipartFile multipartFile, ImageKind imageKind) {
         if (isEmpty(multipartFile)) {
-            return cloudfrontUrl + imageKind.defaultName();
+            return imageUrl + imageKind.defaultName();
         }
         File file = convertToFile(multipartFile);
         ImageHandlerAdapter imageHandlerAdapter = findImageHandlerAdapter(file);
         ProcessedImage processedImage = imageHandlerAdapter.handle(file);
-        String savedFileName = awsS3Repository.save(processedImage);
+        String savedFileName = localImageRepository.save(processedImage);
         deleteFilesAfterWork(file, processedImage);
         return savedFileName;
     }
