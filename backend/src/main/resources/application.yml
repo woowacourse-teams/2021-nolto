@@ -105,6 +105,8 @@ admin:
   id: test
   password: test
   payload: test
+image:
+  path: C:\\Users\\joel6\\Desktop\\nolto\\images\\
 ---
 spring:
   config:
@@ -152,6 +154,8 @@ spring:
   flyway:
     enabled: true
     baseline-on-migrate: true
+image:
+  path: /home/ubuntu/images/
 ---
 security:
   jwt:
