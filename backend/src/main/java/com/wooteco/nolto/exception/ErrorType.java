@@ -33,6 +33,7 @@ public enum ErrorType {
     NOT_SUPPORTED_IMAGE("image-001", "지원하지 않는 이미지 입니다."),
     IMAGE_NOT_FOUND("image-002", "존재하지 않는 이미지 입니다."),
     IMAGE_FORMAT_NOT_SUPPORTED("image-003", "지원하지 않는 이미지 양식입니다."),
+    IMAGE_DELETION_FAILED("image-004", "이미지 삭제에 실패했습니다."),
 
     ALREADY_LIKED("like-001", "이미 좋아요 누른 글 입니다."),
     NOT_LIKED("like-002", "좋아요를 누르지 않았습니다."),

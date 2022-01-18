@@ -1,7 +1,5 @@
 package com.wooteco.nolto.image.application;
 
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.wooteco.nolto.exception.BadRequestException;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.InternalServerErrorException;
@@ -29,16 +27,9 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class ImageService {
 
-    @Value("${application.bucket.name}")
-    private String bucketName;
-
-    @Value("${application.cloudfront.url}")
-    private String cloudfrontUrl;
-
     @Value("${image.url}")
     private String imageUrl;
 
-    private final AmazonS3 amazonS3Client;
     private final List<ImageHandlerAdapter> imageHandlerAdapters;
     private final LocalImageRepository localImageRepository;
 
@@ -91,9 +82,9 @@ public class ImageService {
     }
 
     public String update(String oldImageUrl, MultipartFile updateImage, ImageKind imageKind) {
-        String imageName = oldImageUrl.replace(cloudfrontUrl, "");
-        if (ImageKind.isDefault(imageName) && amazonS3Client.doesObjectExist(bucketName, imageName)) {
-            amazonS3Client.deleteObject(new DeleteObjectRequest(bucketName, imageName));
+        String imageName = oldImageUrl.replace(imageUrl, "");
+        if (!ImageKind.isDefault(imageName)) {
+            localImageRepository.deleteFile(imageName);
         }
         return upload(updateImage, imageKind);
     }
