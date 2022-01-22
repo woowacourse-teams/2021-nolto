@@ -1,6 +1,7 @@
 package com.wooteco.nolto.image.infrastructure;
 
 import com.wooteco.nolto.image.domain.ProcessedImage;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -19,6 +20,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest(classes = {LocalImageRepository.class})
 @ActiveProfiles("local")
+@Disabled
 class LocalImageRepositoryTest {
 
     private static final String fileName = "test-mickey.png";
