@@ -1,13 +1,11 @@
 package com.wooteco.nolto.image.application;
 
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.wooteco.nolto.exception.BadRequestException;
 import com.wooteco.nolto.exception.ErrorType;
 import com.wooteco.nolto.exception.InternalServerErrorException;
 import com.wooteco.nolto.image.application.adapter.ImageHandlerAdapter;
 import com.wooteco.nolto.image.domain.ProcessedImage;
-import com.wooteco.nolto.image.domain.repository.ImageRepository;
+import com.wooteco.nolto.image.infrastructure.LocalImageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,24 +27,20 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class ImageService {
 
-    @Value("${application.bucket.name}")
-    private String bucketName;
+    @Value("${image.url}")
+    private String imageUrl;
 
-    @Value("${application.cloudfront.url}")
-    private String cloudfrontUrl;
-
-    private final AmazonS3 amazonS3Client;
-    private final ImageRepository imageRepository;
     private final List<ImageHandlerAdapter> imageHandlerAdapters;
+    private final LocalImageRepository localImageRepository;
 
     public String upload(MultipartFile multipartFile, ImageKind imageKind) {
         if (isEmpty(multipartFile)) {
-            return cloudfrontUrl + imageKind.defaultName();
+            return imageUrl + imageKind.defaultName();
         }
         File file = convertToFile(multipartFile);
         ImageHandlerAdapter imageHandlerAdapter = findImageHandlerAdapter(file);
         ProcessedImage processedImage = imageHandlerAdapter.handle(file);
-        String savedFileName = imageRepository.save(processedImage);
+        String savedFileName = localImageRepository.save(processedImage);
         deleteFilesAfterWork(file, processedImage);
         return savedFileName;
     }
@@ -88,11 +82,14 @@ public class ImageService {
     }
 
     public String update(String oldImageUrl, MultipartFile updateImage, ImageKind imageKind) {
-        String imageName = oldImageUrl.replace(cloudfrontUrl, "");
-        if (ImageKind.isDefault(imageName) && amazonS3Client.doesObjectExist(bucketName, imageName)) {
-            amazonS3Client.deleteObject(new DeleteObjectRequest(bucketName, imageName));
+        String imageName = oldImageUrl.replace(imageUrl, "");
+        if (!ImageKind.isDefault(imageName)) {
+            localImageRepository.deleteFile(imageName);
         }
         return upload(updateImage, imageKind);
     }
-}
 
+    public byte[] getFile(String fileName) {
+        return localImageRepository.findFile(fileName);
+    }
+}

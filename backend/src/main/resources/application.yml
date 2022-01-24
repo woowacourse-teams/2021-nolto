@@ -105,6 +105,9 @@ admin:
   id: test
   password: test
   payload: test
+image:
+  path: C:\\Users\\joel6\\Desktop\\nolto\\images\\
+  url: http://localhost:8080/images/
 ---
 spring:
   config:
@@ -137,6 +140,9 @@ admin:
   id: test
   password: test
   payload: test
+image:
+  path: C:\\Users\\joel6\\Desktop\\nolto\\images\\
+  url: http://localhost:8080/images/
 ---
 spring:
   config:
@@ -152,6 +158,9 @@ spring:
   flyway:
     enabled: true
     baseline-on-migrate: true
+image:
+  path: /home/ubuntu/images/
+  url: https://nolto.kro.kr/images/
 ---
 security:
   jwt:
