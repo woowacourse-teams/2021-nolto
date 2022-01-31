@@ -1,6 +1,6 @@
 
 <p align="center">  
-<h1 align="middle"> 🧸 놀토: 놀러오세요 토이프로젝트 🎈 </h1>
+<h1 align="middle">🧸 놀토: 놀러오세요 토이프로젝트 🎈</h1>
 <p align="center">
 <img src="https://user-images.githubusercontent.com/44080404/139180406-eed179d2-f176-43ea-acc8-3b6165c60fc9.png" />
 </p>
