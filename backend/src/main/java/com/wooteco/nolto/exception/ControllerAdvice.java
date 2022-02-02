@@ -1,6 +1,8 @@
 package com.wooteco.nolto.exception;
 
 import com.wooteco.nolto.exception.dto.ExceptionResponse;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -33,6 +36,16 @@ public class ControllerAdvice {
         ExceptionResponse errorResponse = new ExceptionResponse(ErrorType.DATA_BINDING_ERROR.getErrorCode(), getExceptionMessage(e));
         log.info(e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+
+    @ExceptionHandler(IOException.class)
+    public void socketClosedException(IOException e) {
+        String rootCauseMessage = ExceptionUtils.getRootCauseMessage(e);
+        if (StringUtils.containsIgnoreCase(rootCauseMessage, "Broken pipe") ||
+                StringUtils.containsIgnoreCase(ExceptionUtils.getRootCauseMessage(e), "Connection reset by peer")) {
+            return;
+        }
+        throw new RuntimeException(e);
     }
 
     private String getExceptionMessage(BindException e) {
