@@ -33,6 +33,7 @@ class CommentLikeServiceTest extends CommentServiceFixture {
         em.clear();
 
         // then
+        찰리가_쓴_피드에_찰리가_쓴_댓글 = commentRepository.getById(찰리가_쓴_피드에_찰리가_쓴_댓글.getId());
         assertThat(찰리가_쓴_피드에_찰리가_쓴_댓글.getLikes()).hasSize(1);
     }
 
@@ -46,6 +47,7 @@ class CommentLikeServiceTest extends CommentServiceFixture {
         em.clear();
 
         // when then
+        찰리 = userRepository.getById(찰리.getId());
         assertThatThrownBy(() -> commentLikeService.addCommentLike(찰리가_쓴_피드에_찰리가_쓴_댓글.getId(), 찰리))
                 .isInstanceOf(BadRequestException.class);
     }
@@ -76,7 +78,6 @@ class CommentLikeServiceTest extends CommentServiceFixture {
         commentLikeService.addCommentLike(찰리가_쓴_피드에_찰리가_쓴_댓글.getId(), 찰리);
         em.flush();
         em.clear();
-        assertThat(찰리가_쓴_피드에_찰리가_쓴_댓글.getLikes()).hasSize(1);
 
         // when
         Comment findComment1 = commentService.findEntityById(찰리가_쓴_피드에_찰리가_쓴_댓글.getId());
@@ -102,6 +103,7 @@ class CommentLikeServiceTest extends CommentServiceFixture {
         em.clear();
 
         // then
+        찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_대댓글 = commentRepository.getById(찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_대댓글.getId());
         assertThat(찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_대댓글.getLikes()).hasSize(1);
     }
 
@@ -115,6 +117,7 @@ class CommentLikeServiceTest extends CommentServiceFixture {
         em.clear();
 
         // when then
+        찰리 = userRepository.getById(찰리.getId());
         assertThatThrownBy(() -> commentLikeService.addCommentLike(찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_대댓글.getId(), 찰리))
                 .isInstanceOf(BadRequestException.class);
     }
@@ -145,7 +148,6 @@ class CommentLikeServiceTest extends CommentServiceFixture {
         commentLikeService.addCommentLike(찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_대댓글.getId(), 찰리);
         em.flush();
         em.clear();
-        assertThat(찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_대댓글.getLikes()).hasSize(1);
 
         // when
         Comment findComment1 = commentService.findEntityById(찰리가_쓴_피드에_찰리가_쓴_댓글에_포모가_쓴_대댓글.getId());

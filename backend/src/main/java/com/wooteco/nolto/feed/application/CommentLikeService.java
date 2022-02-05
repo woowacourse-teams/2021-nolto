@@ -24,7 +24,6 @@ public class CommentLikeService {
             throw new BadRequestException(ErrorType.ALREADY_LIKED_COMMENT);
         }
         CommentLike commentLike = new CommentLike(user, findComment);
-        user.addCommentLike(commentLike);
         commentLikeRepository.save(commentLike);
     }
 
@@ -32,7 +31,6 @@ public class CommentLikeService {
         Comment findComment = commentService.findEntityById(commentId);
         CommentLike findCommentLike = findComment.findLikeBy(user)
                 .orElseThrow(() -> new BadRequestException(ErrorType.NOT_LIKED_COMMENT));
-        user.delete(findCommentLike);
         commentLikeRepository.delete(findCommentLike);
     }
 }
