@@ -88,6 +88,8 @@ class AdminServiceTest {
         feedRepository.save(피드2);
         Feed 피드3 = 진행중_단계의_피드_생성("피드3", "피드3").writtenBy(조엘);
         feedRepository.save(피드3);
+        em.flush();
+        em.clear();
 
         //when
         List<FeedResponse> allFeeds = adminService.findAllFeeds(User.ADMIN_USER);
@@ -232,6 +234,7 @@ class AdminServiceTest {
         commentRepository.saveAndFlush(피드2_댓글1);
         final Comment 피드2_댓글2 = new Comment("피드2_댓글2", false).writtenBy(찰리, 피드2);
         commentRepository.saveAndFlush(피드2_댓글2);
+        em.clear();
 
         //when
         List<CommentsByFeedResponse> allCommentsByFeed = adminService.findAllComments(User.ADMIN_USER);

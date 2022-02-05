@@ -66,6 +66,8 @@ class CommentServiceTest extends CommentServiceFixture {
     void findAllByFeedId2() {
         // when
         commentLikeService.addCommentLike(찰리가_쓴_피드에_찰리가_쓴_댓글.getId(), 찰리);
+        em.flush();
+        em.clear();
 
         List<CommentResponse> allByFeedId = commentService.findAllByFeedId(찰리가_쓴_피드.getId(), 찰리);
 
@@ -257,6 +259,7 @@ class CommentServiceTest extends CommentServiceFixture {
         Comment 아마찌_대댓글 = 댓글_생성("내 글에서 광고하지마!!!", false, 아마찌, 아마찌의_개쩌는_지하철_미션);
         아마찌_대댓글.addParentComment(찰리_댓글);
         commentRepository.saveAndFlush(아마찌_대댓글);
+        em.clear();
 
         // when
         List<ReplyResponse> findReplies = commentService.findAllRepliesById(깃헙_유저, 아마찌의_개쩌는_지하철_미션.getId(), 찰리_댓글.getId());
