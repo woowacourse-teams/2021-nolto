@@ -57,7 +57,7 @@ public class CommentService {
         if (findComment.isParentComment()) {
             applicationEventPublisher.publishEvent(new NotificationCommentDeleteEvent(findComment));
         }
-        user.deleteComment(findComment);
+        commentRepository.delete(findComment);
     }
 
     public CommentResponse createReply(User user, Long feedId, Long commentId, CommentRequest request) {
